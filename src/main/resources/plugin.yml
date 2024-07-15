@@ -1,5 +1,5 @@
-name: IndustrialRevolution
+name: IndustrialRevival
 version: '${project.version}'
-main: org.inr.industrialrevolution.IndustrialRevolution
+main: org.inr.IndustrialRevival.core.IndustrialRevival
 api-version: '1.20'
-authors: [mmmjjkx and INR community]
+authors: [mmmjjkx and IR community]

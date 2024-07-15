@@ -1,8 +1,8 @@
-package org.irmc.industrialrehabilitation;
+package org.irmc.industrialrevival.core;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class IndustrialRehabilitation extends JavaPlugin {
+public final class IndustrialRevival extends JavaPlugin {
 
     @Override
     public void onEnable() {

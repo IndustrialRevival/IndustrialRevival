@@ -5,11 +5,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.inr</groupId>
-  <artifactId>IndustrialRehabilitation</artifactId>
+  <artifactId>IndustrialRevival</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>IIndustrialRehabilitation</name>
+  <name>IndustrialRevival</name>
 
   <properties>
     <java.version>17</java.version>
