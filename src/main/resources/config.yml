@@ -1,0 +1,9 @@
+# the language to use for default messages
+# you don't need to type .yml extension in the end!
+language: zh-CN
+
+# whether to detect the player's language and use the appropriate messages
+detectPlayerLanguage: false
+
+# the prefix to use for all messages
+message-prefix: "&7[&c&lIndustrialRevival&7]"
