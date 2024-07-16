@@ -1,5 +1,6 @@
-package org.irmc.industrialrevival.api.objects;
+package org.irmc.industrialrevival.api.objects.enums;
 
+import net.kyori.adventure.text.Component;
 import org.irmc.industrialrevival.core.IndustrialRevival;
 
 public enum RadiationLevel {
@@ -21,7 +22,7 @@ public enum RadiationLevel {
         return value;
     }
 
-    public String getTranslation() {
-        return IndustrialRevival.getInstance().getLanguageManager().getMsg(null, translationKey);
+    public Component getTranslation() {
+        return IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(null, translationKey);
     }
 }

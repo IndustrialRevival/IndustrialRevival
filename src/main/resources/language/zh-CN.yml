@@ -1,0 +1,9 @@
+radiation:
+  level:
+    low: ""
+    medium: ""
+    high: ""
+    extreme: ""
+    deadly: ""
+guide:
+  title: "<gray>工业复兴指南</gray>"

@@ -91,12 +91,17 @@ public final class LanguageManager {
         return parseToComponentList(getMsgList(null, "item." + id + ".lore"));
     }
 
-    public Component parseToComponent(String msg) {
+    public static Component parseToComponent(String msg) {
         return MiniMessage.miniMessage().deserialize(msg);
     }
 
-    public List<Component> parseToComponentList(List<String> msgList) {
-        return msgList.stream().map(this::parseToComponent).toList();
+    public static List<Component> parseToComponentList(List<String> msgList) {
+        return msgList.stream().map(LanguageManager::parseToComponent).toList();
+    }
+
+    @SafeVarargs
+    public final Component getMsgComponent(@Nullable Player player, String key, Pair<String, String>... args) {
+        return parseToComponent(getMsg(player, key, args));
     }
 
     @SafeVarargs

@@ -1,5 +1,6 @@
 package org.irmc.industrialrevival.api.objects;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -14,14 +15,6 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class CustomItemStack extends ItemStack {
-    public CustomItemStack(ItemStack item) {
-        super(item);
-    }
-
-    public CustomItemStack(Material type) {
-        super(type);
-    }
-
     public CustomItemStack(ItemStack item, Consumer<ItemMeta> meta) {
         super(item);
         ItemMeta im = getItemMeta();
@@ -98,21 +91,18 @@ public class CustomItemStack extends ItemStack {
         this(new ItemStack(type), name, lore.toArray(new String[0]));
     }
 
-    public CustomItemStack(ItemStack item, List<String> list) {
-        this(item, list.get(0), list.subList(1, list.size()).toArray(new String[0]));
-    }
-
-    public CustomItemStack(Material type, List<String> list) {
-        this(new ItemStack(type), list);
-    }
-
     public CustomItemStack(ItemStack item, int amount) {
         super(item);
         setAmount(amount);
     }
 
-    public CustomItemStack(ItemStack item, Material type) {
-        super(item);
-        setType(type);
+    public CustomItemStack(Material type, Component name, List<Component> lore) {
+        this(new ItemStack(type), im -> {
+            im.displayName(name);
+
+            if (!lore.isEmpty()) {
+                im.lore(lore);
+            }
+        });
     }
 }

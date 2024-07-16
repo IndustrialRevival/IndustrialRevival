@@ -1,10 +1,11 @@
-package org.irmc.industrialrevival.api.objects;
+package org.irmc.industrialrevival.api.items;
 
 import com.google.common.base.Preconditions;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
+import org.bukkit.material.MaterialData;
+import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -69,7 +70,17 @@ public class IndustrialRevivalItemStack extends ItemStack {
         super.setType(type);
     }
 
-    public void register(IndustrialRevivalAddon addon) {
+    @Deprecated
+    @Override
+    public void setData(@Nullable MaterialData data) {
+        if (locked) {
+            throw new IllegalStateException("Item is not mutable");
+        }
 
+        super.setData(data);
+    }
+
+    void lock() {
+        this.locked = true;
     }
 }

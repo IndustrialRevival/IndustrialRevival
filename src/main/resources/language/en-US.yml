@@ -1,1 +1,9 @@
-
+radiation:
+  level:
+    low: ""
+    medium: ""
+    high: ""
+    extreme: ""
+    deadly: ""
+guide:
+  title: "<gray>Industrial Revival Guide</gray>"
