@@ -7,3 +7,9 @@ radiation:
     deadly: ""
 guide:
   title: "<gray>工业复兴指南</gray>"
+  cheat_title: "<gray>工业复兴指南<dark_red>(作弊模式)"
+recipe_type:
+  grindstone:
+    name: "<green>磨石</green>"
+    lore:
+       - ""

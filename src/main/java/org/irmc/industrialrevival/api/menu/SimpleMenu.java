@@ -1,6 +1,10 @@
 package org.irmc.industrialrevival.api.menu;
 
 import com.google.common.base.Preconditions;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.IntStream;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -8,214 +12,231 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.irmc.industrialrevival.core.utils.LanguageManager;
+import org.irmc.industrialrevival.core.message.LanguageManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.IntStream;
-
 public class SimpleMenu implements IRInventoryHolder {
-    private final Map<Integer, ItemStack> slots;
-    private final Map<Integer, ClickHandler> clickHandlers;
+  private final Map<Integer, ItemStack> slots;
+  private final Map<Integer, ClickHandler> clickHandlers;
 
-    private int dirty = 0;
+  private int dirty = 0;
 
-    private int size = -1;
-    private Component title;
-    private Inventory inventory;
+  private int size = -1;
+  private Component title;
+  private Inventory inventory;
 
-    private MenuCloseHandler closeHandler = (player) -> {};
-    private MenuOpenHandler openHandler = (player, menu) -> {};
+  private MenuCloseHandler closeHandler = (player) -> {};
+  private MenuOpenHandler openHandler = (player, menu) -> {};
 
-    public SimpleMenu(Component title) {
-        this.title = title;
+  public SimpleMenu(Component title) {
+    this.title = title;
 
-        this.slots = new HashMap<>();
-        this.clickHandlers = new HashMap<>();
-    }
+    this.slots = new HashMap<>();
+    this.clickHandlers = new HashMap<>();
+  }
 
-    public Component getTitle() {
-        return this.title;
-    }
+  public Component getTitle() {
+    return this.title;
+  }
 
-    public void setItem(int slot, ItemStack itemStack) {
-        setItem(slot, itemStack, ClickHandler.DEFAULT);
-    }
+  public void setItem(int slot, ItemStack itemStack) {
+    setItem(slot, itemStack, ClickHandler.DEFAULT);
+  }
 
-    public void setItem(int slot, ItemStack itemStack, ClickHandler clickHandler) {
-        this.slots.put(slot, itemStack);
-        this.clickHandlers.put(slot, clickHandler);
+  public void setItem(int slot, ItemStack itemStack, ClickHandler clickHandler) {
+    this.slots.put(slot, itemStack);
+    this.clickHandlers.put(slot, clickHandler);
 
-        markDirty();
-    }
+    markDirty();
+  }
 
-    public void setTitle(Component title) {
-        this.title = title;
+  public void setTitle(Component title) {
+    this.title = title;
 
-        markDirty();
-    }
+    markDirty();
+  }
 
-    public void setTitle(String title) {
-        setTitle(LanguageManager.parseToComponent(title));
-    }
+  public void setTitle(String title) {
+    setTitle(LanguageManager.parseToComponent(title));
+  }
 
-    public int getSize() {
-        setupInventory();
-        return this.inventory.getSize();
-    }
+  public int getSize() {
+    setupInventory();
+    return this.inventory.getSize();
+  }
 
-    public void setSize(int size) {
-        Preconditions.checkArgument(size > 0, "Size must be greater than 0");
-        Preconditions.checkArgument(size <= 54, "Size must be less than or equal to 54");
-        Preconditions.checkArgument(size % 9 == 0, "Size must be a multiple of 9");
+  public void setSize(int size) {
+    Preconditions.checkArgument(size > 0, "Size must be greater than 0");
+    Preconditions.checkArgument(size <= 54, "Size must be less than or equal to 54");
+    Preconditions.checkArgument(size % 9 == 0, "Size must be a multiple of 9");
 
-        this.size = size;
-        markDirty();
-    }
+    this.size = size;
+    markDirty();
+  }
 
-    private void setupInventory() {
-        if (this.inventory == null || this.dirty == 1) {
-            if (this.size == -1) {
-                this.size = calculateInventorySize();
-            }
+  private void setupInventory() {
+    if (this.inventory == null || this.dirty == 1) {
+      if (this.size == -1) {
+        this.size = calculateInventorySize();
+      }
 
-            this.inventory = Bukkit.createInventory(null, getSize(), getTitle());
-            for (int i = 0; i < getSize(); i++) {
-                ItemStack item = getItem(i);
-                if (item == null) {
-                    continue;
-                }
-                this.inventory.setItem(i, item);
-            }
-
-            this.dirty = 0;
+      this.inventory = Bukkit.createInventory(null, getSize(), getTitle());
+      for (int i = 0; i < getSize(); i++) {
+        ItemStack item = getItem(i);
+        if (item == null) {
+          continue;
         }
+        this.inventory.setItem(i, item);
+      }
+
+      this.dirty = 0;
+    }
+  }
+
+  @Nullable public ItemStack getItem(int slot) {
+    return this.slots.get(slot);
+  }
+
+  /**
+   * Gets the contents of the machine menu as an array of ItemStacks.(Not the actual inventory's
+   * contents)
+   *
+   * @return the contents of the machine menu as an array of ItemStacks
+   */
+  public ItemStack[] getMenuContents() {
+    return this.slots.values().toArray(new ItemStack[0]);
+  }
+
+  public int[] getSelectedSlots() {
+    return this.slots.keySet().stream().mapToInt(i -> i).toArray();
+  }
+
+  public int[] getEmptySlots() {
+    return IntStream.range(0, getSize())
+        .filter(
+            i ->
+                !this.slots.containsKey(i)
+                    && (!clickHandlers.containsKey(i)
+                        || clickHandlers.get(i) == ClickHandler.NO_ACTION))
+        .toArray();
+  }
+
+  public ClickHandler getClickHandler(int slot) {
+    return this.clickHandlers.getOrDefault(slot, ClickHandler.DEFAULT);
+  }
+
+  public void setClickHandler(int slot, ClickHandler clickHandler) {
+    this.clickHandlers.put(slot, clickHandler);
+  }
+
+  private void markDirty() {
+    this.dirty = 1;
+  }
+
+  @Override
+  public @NotNull Inventory getInventory() {
+    if (this.inventory == null || this.dirty == 1) {
+      setupInventory();
     }
 
-    @Nullable
-    public ItemStack getItem(int slot) {
-        return this.slots.get(slot);
+    return this.inventory;
+  }
+
+  private int calculateInventorySize() {
+    Set<Integer> slots = this.slots.keySet();
+    int maxValue = slots.stream().sorted().findFirst().orElse(0);
+
+    return ((maxValue - 1) / 9 + 1) * 9;
+  }
+
+  public void setCloseHandler(@NotNull MenuCloseHandler closeHandler) {
+    Preconditions.checkNotNull(closeHandler, "Close handler cannot be null");
+
+    this.closeHandler = closeHandler;
+  }
+
+  public void setOpenHandler(@NotNull MenuOpenHandler openHandler) {
+    Preconditions.checkNotNull(openHandler, "Open handler cannot be null");
+
+    this.openHandler = openHandler;
+  }
+
+  public MenuOpenHandler getOpenHandler() {
+    return this.openHandler;
+  }
+
+  public MenuCloseHandler getCloseHandler() {
+    return this.closeHandler;
+  }
+
+  public void open(@NotNull Player... players) {
+    for (Player p : players) {
+      p.closeInventory();
+
+      p.openInventory(getInventory());
     }
+  }
+
+  @FunctionalInterface
+  public interface ClickHandler {
+    ClickHandler DEFAULT = (slot, player, item, menu, clickType) -> false;
+    ClickHandler NO_ACTION = (slot, player, item, menu, clickType) -> true;
 
     /**
-     * Gets the contents of the machine menu as an array of ItemStacks.(Not the actual inventory's contents)
-     * @return the contents of the machine menu as an array of ItemStacks
+     * Called when an item in the machine menu is clicked.
+     *
+     * @param slot the slot of the clicked item
+     * @param player the player who clicked the item
+     * @param item the clicked item
+     * @param menu the machine menu
+     * @param clickType the click type
+     * @return false if the click should be canceled, true otherwise
      */
-    public ItemStack[] getMenuContents() {
-        return this.slots.values().toArray(new ItemStack[0]);
-    }
+    boolean onClick(
+        int slot,
+        @NotNull Player player,
+        @Nullable ItemStack item,
+        @NotNull SimpleMenu menu,
+        @NotNull ClickType clickType);
+  }
 
-    public int[] getSelectedSlots() {
-        return this.slots.keySet().stream().mapToInt(i -> i).toArray();
-    }
-
-    public int[] getEmptySlots() {
-        return IntStream.range(0, getSize()).filter(
-                i -> !this.slots.containsKey(i) && (!clickHandlers.containsKey(i) || clickHandlers.get(i) == ClickHandler.NO_ACTION)
-        ).toArray();
-    }
-
-    public ClickHandler getClickHandler(int slot) {
-        return this.clickHandlers.getOrDefault(slot, ClickHandler.DEFAULT);
-    }
-
-    public void setClickHandler(int slot, ClickHandler clickHandler) {
-        this.clickHandlers.put(slot, clickHandler);
-    }
-
-    private void markDirty() {
-        this.dirty = 1;
-    }
-
+  public interface AdvancedClickHandler extends ClickHandler {
+    /**
+     * Called when an item in the machine menu is clicked.
+     *
+     * @param slot the slot of the clicked item
+     * @param item the clicked item
+     * @param menu the machine menu
+     * @param clickType the click type
+     * @return always false because there's another method for advanced click handling
+     */
     @Override
-    public @NotNull Inventory getInventory() {
-        if (this.inventory == null || this.dirty == 1) {
-            setupInventory();
-        }
-
-        return this.inventory;
+    default boolean onClick(
+        int slot,
+        @NotNull Player player,
+        @Nullable ItemStack item,
+        @NotNull SimpleMenu menu,
+        @NotNull ClickType clickType) {
+      return false;
     }
 
-    private int calculateInventorySize() {
-        Set<Integer> slots = this.slots.keySet();
-        int maxValue = slots.stream().sorted().findFirst().orElse(0);
+    boolean onClick(
+        int slot,
+        @NotNull Player player,
+        @Nullable ItemStack item,
+        SimpleMenu menu,
+        ClickType clickType,
+        InventoryClickEvent event);
+  }
 
-        return ((maxValue - 1) / 9 + 1) * 9;
-    }
+  @FunctionalInterface
+  public interface MenuCloseHandler {
+    void onClose(Player player);
+  }
 
-    public void setCloseHandler(@NotNull MenuCloseHandler closeHandler) {
-        Preconditions.checkNotNull(closeHandler, "Close handler cannot be null");
-
-        this.closeHandler = closeHandler;
-    }
-
-    public void setOpenHandler(@NotNull MenuOpenHandler openHandler) {
-        Preconditions.checkNotNull(openHandler, "Open handler cannot be null");
-
-        this.openHandler = openHandler;
-    }
-
-    public MenuOpenHandler getOpenHandler() {
-        return this.openHandler;
-    }
-
-    public MenuCloseHandler getCloseHandler() {
-        return this.closeHandler;
-    }
-
-    public void open(@NotNull Player... players) {
-        for (Player p : players) {
-            p.closeInventory();
-
-            p.openInventory(getInventory());
-        }
-    }
-
-    @FunctionalInterface
-    public interface ClickHandler {
-        ClickHandler DEFAULT = (slot, player, item, menu, clickType) -> false;
-        ClickHandler NO_ACTION = (slot, player, item, menu, clickType) -> true;
-
-        /**
-         * Called when an item in the machine menu is clicked.
-         * @param slot the slot of the clicked item
-         * @param player the player who clicked the item
-         * @param item the clicked item
-         * @param menu the machine menu
-         * @param clickType the click type
-         * @return false if the click should be canceled, true otherwise
-         */
-        boolean onClick(int slot, @NotNull Player player, @Nullable ItemStack item, @NotNull SimpleMenu menu, @NotNull ClickType clickType);
-    }
-
-
-    public interface AdvancedClickHandler extends ClickHandler {
-        /**
-         * Called when an item in the machine menu is clicked.
-         * @param slot the slot of the clicked item
-         * @param item the clicked item
-         * @param menu the machine menu
-         * @param clickType the click type
-         * @return always false because there's another method for advanced click handling
-         */
-        @Override
-        default boolean onClick(int slot, @NotNull Player player, @Nullable ItemStack item, @NotNull SimpleMenu menu, @NotNull ClickType clickType) {
-            return false;
-        }
-
-        boolean onClick(int slot, @NotNull Player player, @Nullable ItemStack item, SimpleMenu menu, ClickType clickType, InventoryClickEvent event);
-    }
-
-    @FunctionalInterface
-    public interface MenuCloseHandler {
-        void onClose(Player player);
-    }
-
-    @FunctionalInterface
-    public interface MenuOpenHandler {
-        void onOpen(Player player, SimpleMenu menu);
-    }
+  @FunctionalInterface
+  public interface MenuOpenHandler {
+    void onOpen(Player player, SimpleMenu menu);
+  }
 }

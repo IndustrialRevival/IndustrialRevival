@@ -7,3 +7,9 @@ radiation:
     deadly: ""
 guide:
   title: "<gray>Industrial Revival Guide</gray>"
+  cheat_title: "<gray>Industrial Revival Guide<dark_red>(Cheat Mode)"
+recipe_type:
+  grindstone:
+    name: "<green>Grindstone</green>"
+    lore:
+      - ""
