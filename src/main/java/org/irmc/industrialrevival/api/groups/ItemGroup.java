@@ -11,77 +11,78 @@ import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.core.IndustrialRevival;
 import org.irmc.industrialrevival.core.guide.IRGuideImplementation;
+import org.irmc.industrialrevival.core.utils.Constants;
 
 public class ItemGroup {
-  @Getter private final NamespacedKey key;
-  @Getter private final ItemStack icon;
-  @Getter private int tier;
+    @Getter
+    private final NamespacedKey key;
 
-  private boolean locked = false;
+    @Getter
+    private final ItemStack icon;
 
-  private final List<IndustrialRevivalItem> items = new LinkedList<>();
+    @Getter
+    private int tier;
 
-  public ItemGroup(NamespacedKey key, ItemStack icon) {
-    this.key = key;
-    this.icon = icon;
-    this.tier = 3;
-  }
+    private boolean locked = false;
 
-  public ItemGroup(NamespacedKey key, ItemStack icon, int tier) {
-    this.key = key;
-    this.icon = icon;
-    this.tier = tier;
-  }
+    @Getter
+    private final List<IndustrialRevivalItem> items = new LinkedList<>();
 
-  public void onClick(
-      Player player, int page, SimpleMenu menu, IRGuideImplementation currentGuide) {
-    int startIndex = 9;
-
-    List<List<IndustrialRevivalItem>> parts = Lists.partition(items, 36);
-    List<IndustrialRevivalItem> thePart = parts.get(page);
-
-    for (IndustrialRevivalItem item : thePart) {
-      menu.setItem(
-          startIndex,
-          item.getItem(),
-          ((slot, player1, item1, menu1, clickType) -> {
-            currentGuide.onItemClicked(player1, item);
-            return false;
-          }));
+    public ItemGroup(NamespacedKey key, ItemStack icon) {
+        this.key = key;
+        this.icon = icon;
+        this.tier = 3;
     }
 
-    menu.open(player);
-  }
-
-  public void addItem(IndustrialRevivalItem item) {
-    if (locked) {
-      throw new IllegalStateException("ItemGroup is locked");
+    public ItemGroup(NamespacedKey key, ItemStack icon, int tier) {
+        this.key = key;
+        this.icon = icon;
+        this.tier = tier;
     }
 
-    this.items.add(item);
-  }
+    public void onClick(Player player, int page, IRGuideImplementation currentGuide) {
+        int startIndex = 9;
 
-  public List<IndustrialRevivalItem> getItems() {
-    if (locked) {
-      throw new IllegalStateException("ItemGroup is locked");
+        List<List<IndustrialRevivalItem>> parts = Lists.partition(items, 36);
+        List<IndustrialRevivalItem> thePart = parts.get(page);
+
+        SimpleMenu menu = new SimpleMenu(IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(player, Constants.GUIDE_TITLE_KEY));
+
+        for (IndustrialRevivalItem item : thePart) {
+            menu.setItem(startIndex, item.getItem(), ((slot, player1, item1, menu1, clickType) -> {
+                currentGuide.onItemClicked(player1, item);
+                return false;
+            }));
+        }
+
+        menu.open(player);
     }
 
-    return items;
-  }
+    public void addItem(IndustrialRevivalItem item) {
+        if (locked) {
+            throw new IllegalStateException("ItemGroup is locked");
+        }
 
-  public void register() {
-    this.locked = true;
-  }
+        this.items.add(item);
+    }
 
-  public final boolean isRegistered() {
-    return IndustrialRevival.getInstance().getRegistry().getItemGroups().containsKey(key);
-  }
+    public void register() {
+        this.locked = true;
 
-  public void setTier(int tier) {
-    this.tier = tier;
+        IndustrialRevival.getInstance().getRegistry().getItemGroups().put(key, this);
+    }
 
-    resort();
-  }
+    public final boolean isRegistered() {
+        return IndustrialRevival.getInstance().getRegistry().getItemGroups().containsKey(key);
+    }
 
-  private void resort() {}
+    public void setTier(int tier) {
+        this.tier = tier;
+
+        resort();
+    }
+
+    private void resort() {
+        IndustrialRevival.getInstance().getRegistry().resortItemGroups();
+    }
 }

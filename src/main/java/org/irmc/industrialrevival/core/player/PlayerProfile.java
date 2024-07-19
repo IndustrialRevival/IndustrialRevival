@@ -11,42 +11,50 @@ import org.irmc.industrialrevival.core.IndustrialRevival;
 import org.irmc.industrialrevival.core.guide.GuideHistory;
 import org.irmc.industrialrevival.core.guide.GuideSettings;
 import org.irmc.industrialrevival.core.message.MessageReplacement;
+import org.jetbrains.annotations.Nullable;
 
 @RequiredArgsConstructor
 public class PlayerProfile {
-  @Getter private final Player player;
-  @Getter private final GuideHistory guideHistory;
-  @Getter private final GuideSettings guideSettings;
+    @Getter
+    private final Player player;
 
-  private final Map<NamespacedKey, Boolean> researchStatus = new HashMap<>();
+    @Getter
+    private final GuideHistory guideHistory;
 
-  public boolean hasResearched(NamespacedKey key) {
-    return researchStatus.getOrDefault(key, false);
-  }
+    @Getter
+    private final GuideSettings guideSettings;
 
-  public void research(NamespacedKey key) {
-    if (hasResearched(key)) {
-      return;
+    private final Map<NamespacedKey, Boolean> researchStatus = new HashMap<>();
+
+    public boolean hasResearched(NamespacedKey key) {
+        return researchStatus.getOrDefault(key, false);
     }
 
-    Research research = Research.getResearch(key);
-    if (research == null) {
-      return;
+    public void research(NamespacedKey key) {
+        if (hasResearched(key)) {
+            return;
+        }
+
+        Research research = Research.getResearch(key);
+        if (research == null) {
+            return;
+        }
+
+        if (player.getExpToLevel() < research.getRequiredExpLevel()) {
+            IndustrialRevival.getInstance().getLanguageManager().sendMessage(player, "research.not_enough_exp");
+            return;
+        }
+
+        player.giveExpLevels(-research.getRequiredExpLevel());
+        researchStatus.put(key, true);
+
+        IndustrialRevival.getInstance()
+                .getLanguageManager()
+                .sendMessage(player, "research.success", new MessageReplacement("%name%", research.getName()));
     }
 
-    if (player.getExpToLevel() < research.getRequiredExpLevel()) {
-      IndustrialRevival.getInstance()
-          .getLanguageManager()
-          .sendMessage(player, "research.not_enough_exp");
-      return;
+    @Nullable
+    public static PlayerProfile getProfile(Player player) {
+        return null;
     }
-
-    player.giveExpLevels(-research.getRequiredExpLevel());
-    researchStatus.put(key, true);
-
-    IndustrialRevival.getInstance()
-        .getLanguageManager()
-        .sendMessage(
-            player, "research.success", new MessageReplacement("%name%", research.getName()));
-  }
 }

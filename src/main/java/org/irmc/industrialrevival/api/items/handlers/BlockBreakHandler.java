@@ -7,5 +7,5 @@ import org.jetbrains.annotations.Nullable;
 
 @FunctionalInterface
 public interface BlockBreakHandler extends ItemHandler {
-  void onBlockBreak(@Nullable Player player, Block block, boolean breakByBreakers);
+    void onBlockBreak(@Nullable Player player, Block block, boolean breakByBreakers);
 }

@@ -12,76 +12,78 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class IndustrialRevivalItemStack extends ItemStack {
-  @Getter private final String id;
-  private boolean locked;
+    @Getter
+    private final String id;
 
-  public IndustrialRevivalItemStack(String id, ItemStack itemStack) {
-    super(itemStack);
+    private boolean locked;
 
-    Preconditions.checkArgument(id.equals(id.toUpperCase()), "ID must be uppercase");
+    public IndustrialRevivalItemStack(String id, ItemStack itemStack) {
+        super(itemStack);
 
-    this.id = id;
-  }
+        Preconditions.checkArgument(id.equals(id.toUpperCase()), "ID must be uppercase");
 
-  public IndustrialRevivalItemStack(String id, Material material, String name, String... lore) {
-    this(id, new CustomItemStack(material, name, lore));
-  }
-
-  public IndustrialRevivalItemStack(String id, ItemStack itemStack, String name, String... lore) {
-    this(id, new CustomItemStack(itemStack, name, lore));
-  }
-
-  public IndustrialRevivalItemStack(String id, Material material, Consumer<ItemMeta> consumer) {
-    this(id, new CustomItemStack(material, consumer));
-  }
-
-  public IndustrialRevivalItemStack(String id, ItemStack itemStack, Consumer<ItemMeta> consumer) {
-    this(id, new CustomItemStack(itemStack, consumer));
-  }
-
-  @Override
-  public boolean setItemMeta(@Nullable ItemMeta itemMeta) {
-    if (locked) {
-      throw new IllegalStateException("Item is not mutable");
+        this.id = id;
     }
 
-    return super.setItemMeta(itemMeta);
-  }
-
-  @Override
-  public void setAmount(int amount) {
-    if (locked) {
-      throw new IllegalStateException("Item is not mutable");
+    public IndustrialRevivalItemStack(String id, Material material, String name, String... lore) {
+        this(id, new CustomItemStack(material, name, lore));
     }
 
-    super.setAmount(amount);
-  }
-
-  @Override
-  public void setType(@NotNull Material type) {
-    if (locked) {
-      throw new IllegalStateException("Item is not mutable");
+    public IndustrialRevivalItemStack(String id, ItemStack itemStack, String name, String... lore) {
+        this(id, new CustomItemStack(itemStack, name, lore));
     }
 
-    super.setType(type);
-  }
-
-  @Deprecated
-  @Override
-  public void setData(@Nullable MaterialData data) {
-    if (locked) {
-      throw new IllegalStateException("Item is not mutable");
+    public IndustrialRevivalItemStack(String id, Material material, Consumer<ItemMeta> consumer) {
+        this(id, new CustomItemStack(material, consumer));
     }
 
-    super.setData(data);
-  }
+    public IndustrialRevivalItemStack(String id, ItemStack itemStack, Consumer<ItemMeta> consumer) {
+        this(id, new CustomItemStack(itemStack, consumer));
+    }
 
-  @Override
-  public @NotNull ItemStack clone() {
-    return new IndustrialRevivalItemStack(this.id, this);
-  }
+    @Override
+    public boolean setItemMeta(@Nullable ItemMeta itemMeta) {
+        if (locked) {
+            throw new IllegalStateException("Item is not mutable");
+        }
 
-  void lock() {
-    this.locked = true;
-  }
+        return super.setItemMeta(itemMeta);
+    }
+
+    @Override
+    public void setAmount(int amount) {
+        if (locked) {
+            throw new IllegalStateException("Item is not mutable");
+        }
+
+        super.setAmount(amount);
+    }
+
+    @Override
+    public void setType(@NotNull Material type) {
+        if (locked) {
+            throw new IllegalStateException("Item is not mutable");
+        }
+
+        super.setType(type);
+    }
+
+    @Deprecated
+    @Override
+    public void setData(@Nullable MaterialData data) {
+        if (locked) {
+            throw new IllegalStateException("Item is not mutable");
+        }
+
+        super.setData(data);
+    }
+
+    @Override
+    public @NotNull ItemStack clone() {
+        return new IndustrialRevivalItemStack(this.id, this);
+    }
+
+    void lock() {
+        this.locked = true;
+    }
 }

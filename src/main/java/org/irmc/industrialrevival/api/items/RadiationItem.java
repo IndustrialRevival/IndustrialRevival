@@ -7,21 +7,21 @@ import org.irmc.industrialrevival.api.objects.enums.RadiationLevel;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 
 public class RadiationItem extends IndustrialRevivalItem implements Radiation {
-  private final RadiationLevel level;
+    private final RadiationLevel level;
 
-  public RadiationItem(
-      ItemGroup group,
-      IndustrialRevivalItemStack itemStack,
-      RecipeType recipeType,
-      ItemStack[] recipe,
-      RadiationLevel level) {
-    super(group, itemStack, recipeType, recipe);
+    public RadiationItem(
+            ItemGroup group,
+            IndustrialRevivalItemStack itemStack,
+            RecipeType recipeType,
+            ItemStack[] recipe,
+            RadiationLevel level) {
+        super(group, itemStack, recipeType, recipe);
 
-    this.level = level;
-  }
+        this.level = level;
+    }
 
-  @Override
-  public RadiationLevel getRadiationLevel() {
-    return level;
-  }
+    @Override
+    public RadiationLevel getRadiationLevel() {
+        return level;
+    }
 }

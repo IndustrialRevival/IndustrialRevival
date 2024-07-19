@@ -45,21 +45,12 @@
                 <artifactId>spotless-maven-plugin</artifactId>
                 <version>2.43.0</version>
                 <configuration>
-                    <formats>
-                        <format>
-                            <includes>
-                                <include>.gitattributes</include>
-                                <include>.gitignore</include>
-                            </includes>
-                            <trimTrailingWhitespace/>
-                            <indent>
-                                <tabs>true</tabs>
-                                <spacesPerTab>4</spacesPerTab>
-                            </indent>
-                        </format>
-                    </formats>
                     <java>
-                        <googleJavaFormat/>
+                        <palantirJavaFormat>
+                            <version>2.38.0</version>
+                            <style>PALANTIR</style>
+                        </palantirJavaFormat>
+
                         <formatAnnotations/>
                         <removeUnusedImports/>
                     </java>

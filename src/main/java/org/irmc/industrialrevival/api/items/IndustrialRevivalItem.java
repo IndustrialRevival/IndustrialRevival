@@ -11,75 +11,80 @@ import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.core.IndustrialRevival;
 
 public class IndustrialRevivalItem implements Placeable {
-  @Getter private final ItemGroup group;
-  private final IndustrialRevivalItemStack itemStack;
-  @Getter private final RecipeType recipeType;
-  @Getter private final ItemStack[] recipe;
+    @Getter
+    private final ItemGroup group;
 
-  @Getter private boolean usableInWorkbench = false;
-  private boolean locked = false;
+    private final IndustrialRevivalItemStack itemStack;
 
-  public IndustrialRevivalItem(
-      ItemGroup group,
-      IndustrialRevivalItemStack itemStack,
-      RecipeType recipeType,
-      ItemStack[] recipe) {
-    this.group = group;
-    this.itemStack = itemStack;
-    this.recipeType = recipeType;
+    @Getter
+    private final RecipeType recipeType;
 
-    if (recipe == null) {
-      recipe = new ItemStack[9];
+    @Getter
+    private final ItemStack[] recipe;
+
+    @Getter
+    private boolean usableInWorkbench = false;
+
+    private boolean locked = false;
+
+    public IndustrialRevivalItem(
+            ItemGroup group, IndustrialRevivalItemStack itemStack, RecipeType recipeType, ItemStack[] recipe) {
+        this.group = group;
+        this.itemStack = itemStack;
+        this.recipeType = recipeType;
+
+        if (recipe == null) {
+            recipe = new ItemStack[9];
+        }
+
+        if (recipe.length > 9) {
+            recipe = Arrays.copyOfRange(recipe, 0, 9);
+        }
+
+        if (recipe.length < 9) {
+            ItemStack[] newRecipe = new ItemStack[9];
+            System.arraycopy(recipe, 0, newRecipe, 0, recipe.length);
+            recipe = newRecipe;
+        }
+
+        this.recipe = recipe;
     }
 
-    if (recipe.length > 9) {
-      recipe = Arrays.copyOfRange(recipe, 0, 9);
+    public IndustrialRevivalItemStack getItem() {
+        return itemStack;
     }
 
-    if (recipe.length < 9) {
-      ItemStack[] newRecipe = new ItemStack[9];
-      System.arraycopy(recipe, 0, newRecipe, 0, recipe.length);
-      recipe = newRecipe;
+    public void setUsableInWorkbench(boolean usableInWorkbench) {
+        if (locked) {
+            throw new IllegalStateException("Item is locked and cannot be modified");
+        }
+
+        this.usableInWorkbench = usableInWorkbench;
     }
 
-    this.recipe = recipe;
-  }
-
-  public IndustrialRevivalItemStack getItem() {
-    return itemStack;
-  }
-
-  public void setUsableInWorkbench(boolean usableInWorkbench) {
-    if (locked) {
-      throw new IllegalStateException("Item is locked and cannot be modified");
+    public String getId() {
+        return itemStack.getId();
     }
 
-    this.usableInWorkbench = usableInWorkbench;
-  }
+    public IndustrialRevivalItem register() {
+        itemStack.lock();
+        this.locked = true;
 
-  public String getId() {
-    return itemStack.getId();
-  }
+        IndustrialRevival.getInstance().getRegistry().getItems().put(getId(), this);
 
-  public IndustrialRevivalItem register() {
-    itemStack.lock();
-    this.locked = true;
-
-    IndustrialRevival.getInstance().getRegistry().getItems().put(getId(), this);
-
-    return this;
-  }
-
-  public Component getItemName() {
-    ItemMeta meta = itemStack.getItemMeta();
-    if (meta.hasDisplayName()) {
-      return meta.displayName();
-    } else {
-      return Component.translatable(itemStack.getType().getTranslationKey());
+        return this;
     }
-  }
 
-  public static IndustrialRevivalItem getById(String id) {
-    return IndustrialRevival.getInstance().getRegistry().getItems().get(id);
-  }
+    public Component getItemName() {
+        ItemMeta meta = itemStack.getItemMeta();
+        if (meta.hasDisplayName()) {
+            return meta.displayName();
+        } else {
+            return Component.translatable(itemStack.getType().getTranslationKey());
+        }
+    }
+
+    public static IndustrialRevivalItem getById(String id) {
+        return IndustrialRevival.getInstance().getRegistry().getItems().get(id);
+    }
 }

@@ -14,99 +14,93 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 
 public class CustomItemStack extends ItemStack {
-  public CustomItemStack(ItemStack item, Consumer<ItemMeta> meta) {
-    super(item);
-    ItemMeta im = getItemMeta();
-    meta.accept(im);
-    setItemMeta(im);
-  }
+    public CustomItemStack(ItemStack item, Consumer<ItemMeta> meta) {
+        super(item);
+        ItemMeta im = getItemMeta();
+        meta.accept(im);
+        setItemMeta(im);
+    }
 
-  public CustomItemStack(Material type, Consumer<ItemMeta> meta) {
-    this(new ItemStack(type), meta);
-  }
+    public CustomItemStack(Material type, Consumer<ItemMeta> meta) {
+        this(new ItemStack(type), meta);
+    }
 
-  public CustomItemStack(ItemStack item, String name, String... lore) {
-    this(
-        item,
-        im -> {
-          if (name != null) {
-            im.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
-          }
-
-          if (lore.length > 0) {
-            List<String> lines = new ArrayList<>();
-
-            for (String line : lore) {
-              lines.add(ChatColor.translateAlternateColorCodes('&', line));
+    public CustomItemStack(ItemStack item, String name, String... lore) {
+        this(item, im -> {
+            if (name != null) {
+                im.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
             }
-            im.setLore(lines);
-          }
-        });
-  }
 
-  public CustomItemStack(ItemStack item, Color color, String name, String... lore) {
-    this(
-        item,
-        im -> {
-          if (name != null) {
-            im.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
-          }
+            if (lore.length > 0) {
+                List<String> lines = new ArrayList<>();
 
-          if (lore.length > 0) {
-            List<String> lines = new ArrayList<>();
-
-            for (String line : lore) {
-              lines.add(ChatColor.translateAlternateColorCodes('&', line));
+                for (String line : lore) {
+                    lines.add(ChatColor.translateAlternateColorCodes('&', line));
+                }
+                im.setLore(lines);
             }
-            im.setLore(lines);
-          }
-
-          if (im instanceof LeatherArmorMeta) {
-            ((LeatherArmorMeta) im).setColor(color);
-          } else if (im instanceof PotionMeta) {
-            ((PotionMeta) im).setColor(color);
-          }
         });
-  }
+    }
 
-  public CustomItemStack addFlags(ItemFlag... flags) {
-    ItemMeta im = getItemMeta();
-    im.addItemFlags(flags);
-    setItemMeta(im);
+    public CustomItemStack(ItemStack item, Color color, String name, String... lore) {
+        this(item, im -> {
+            if (name != null) {
+                im.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+            }
 
-    return this;
-  }
+            if (lore.length > 0) {
+                List<String> lines = new ArrayList<>();
 
-  public CustomItemStack setCustomModel(int data) {
-    ItemMeta im = getItemMeta();
-    im.setCustomModelData(data == 0 ? null : data);
-    setItemMeta(im);
+                for (String line : lore) {
+                    lines.add(ChatColor.translateAlternateColorCodes('&', line));
+                }
+                im.setLore(lines);
+            }
 
-    return this;
-  }
-
-  public CustomItemStack(Material type, String name, String... lore) {
-    this(new ItemStack(type), name, lore);
-  }
-
-  public CustomItemStack(Material type, String name, List<String> lore) {
-    this(new ItemStack(type), name, lore.toArray(new String[0]));
-  }
-
-  public CustomItemStack(ItemStack item, int amount) {
-    super(item);
-    setAmount(amount);
-  }
-
-  public CustomItemStack(Material type, Component name, List<Component> lore) {
-    this(
-        new ItemStack(type),
-        im -> {
-          im.displayName(name);
-
-          if (!lore.isEmpty()) {
-            im.lore(lore);
-          }
+            if (im instanceof LeatherArmorMeta) {
+                ((LeatherArmorMeta) im).setColor(color);
+            } else if (im instanceof PotionMeta) {
+                ((PotionMeta) im).setColor(color);
+            }
         });
-  }
+    }
+
+    public CustomItemStack addFlags(ItemFlag... flags) {
+        ItemMeta im = getItemMeta();
+        im.addItemFlags(flags);
+        setItemMeta(im);
+
+        return this;
+    }
+
+    public CustomItemStack setCustomModel(int data) {
+        ItemMeta im = getItemMeta();
+        im.setCustomModelData(data == 0 ? null : data);
+        setItemMeta(im);
+
+        return this;
+    }
+
+    public CustomItemStack(Material type, String name, String... lore) {
+        this(new ItemStack(type), name, lore);
+    }
+
+    public CustomItemStack(Material type, String name, List<String> lore) {
+        this(new ItemStack(type), name, lore.toArray(new String[0]));
+    }
+
+    public CustomItemStack(ItemStack item, int amount) {
+        super(item);
+        setAmount(amount);
+    }
+
+    public CustomItemStack(Material type, Component name, List<Component> lore) {
+        this(new ItemStack(type), im -> {
+            im.displayName(name);
+
+            if (!lore.isEmpty()) {
+                im.lore(lore);
+            }
+        });
+    }
 }

@@ -5,5 +5,5 @@ import org.irmc.industrialrevival.api.items.ItemHandler;
 
 @FunctionalInterface
 public interface UseItemInteractHandler extends ItemHandler {
-  void onInteract(PlayerInteractEvent e);
+    void onInteract(PlayerInteractEvent e);
 }

@@ -8,24 +8,29 @@ import org.irmc.industrialrevival.core.registry.IRRegistry;
 import org.irmc.industrialrevival.core.utils.FileUtil;
 
 public final class IndustrialRevival extends JavaPlugin {
-  @Getter private static IndustrialRevival instance;
-  @Getter private IRRegistry registry;
-  @Getter private LanguageManager languageManager;
+    @Getter
+    private static IndustrialRevival instance;
 
-  @Override
-  public void onEnable() {
-    instance = this;
+    @Getter
+    private IRRegistry registry;
 
-    FileUtil.completeFile(this, "config.yml");
+    @Getter
+    private LanguageManager languageManager;
 
-    // objects
-    languageManager = new LanguageManager(this);
-    registry = new IRRegistry();
+    @Override
+    public void onEnable() {
+        instance = this;
 
-    // listeners
-    new MachineMenuListener().register();
-  }
+        FileUtil.completeFile(this, "config.yml");
 
-  @Override
-  public void onDisable() {}
+        // objects
+        languageManager = new LanguageManager(this);
+        registry = new IRRegistry();
+
+        // listeners
+        new MachineMenuListener().register();
+    }
+
+    @Override
+    public void onDisable() {}
 }

@@ -1,7 +1,7 @@
 package org.irmc.industrialrevival.core.registry;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 import lombok.Getter;
 import org.bukkit.NamespacedKey;
 import org.irmc.industrialrevival.api.groups.ItemGroup;
@@ -11,8 +11,15 @@ import org.irmc.industrialrevival.api.items.Research;
 
 @Getter
 public class IRRegistry {
-  public Map<NamespacedKey, ItemGroup> itemGroups;
-  public Map<NamespacedKey, Research> researches;
-  public Map<String, IndustrialRevivalItem> items;
-  public List<IndustrialRevivalOre> ores;
+    private Map<NamespacedKey, ItemGroup> itemGroups;
+    private Map<NamespacedKey, Research> researches;
+    private Map<String, IndustrialRevivalItem> items;
+    private List<IndustrialRevivalOre> ores;
+
+    public void resortItemGroups() {
+        Map<NamespacedKey, ItemGroup> newItemGroups = new LinkedHashMap<>();
+        Set<Map.Entry<NamespacedKey, ItemGroup>> entries = itemGroups.entrySet();
+        entries.stream().sorted(Comparator.comparingInt(i -> i.getValue().getTier())).forEach(p -> newItemGroups.put(p.getKey(), p.getValue()));
+        itemGroups = newItemGroups;
+    }
 }

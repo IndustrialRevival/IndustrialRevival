@@ -5,6 +5,6 @@ import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.NotNull;
 
 public interface IRInventoryHolder extends InventoryHolder {
-  @Override
-  @NotNull Inventory getInventory();
+    @Override
+    @NotNull Inventory getInventory();
 }

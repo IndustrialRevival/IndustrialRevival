@@ -9,15 +9,15 @@ import org.irmc.industrialrevival.core.player.PlayerProfile;
 @Getter
 @AllArgsConstructor
 public class Research {
-  private final int requiredExpLevel;
-  private final NamespacedKey key;
-  private final String name;
+    private final int requiredExpLevel;
+    private final NamespacedKey key;
+    private final String name;
 
-  public static Research getResearch(NamespacedKey key) {
-    return IndustrialRevival.getInstance().getRegistry().getResearches().get(key);
-  }
+    public static Research getResearch(NamespacedKey key) {
+        return IndustrialRevival.getInstance().getRegistry().getResearches().get(key);
+    }
 
-  public boolean isPlayerResearched(PlayerProfile profile) {
-    return profile.hasResearched(key);
-  }
+    public boolean isPlayerResearched(PlayerProfile profile) {
+        return profile.hasResearched(key);
+    }
 }

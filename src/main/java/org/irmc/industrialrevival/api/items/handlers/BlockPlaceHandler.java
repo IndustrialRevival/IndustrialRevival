@@ -8,6 +8,5 @@ import org.jetbrains.annotations.Nullable;
 
 @FunctionalInterface
 public interface BlockPlaceHandler extends ItemHandler {
-  void onBlockPlace(
-      @Nullable Player player, Block block, IRBlockData blockData, boolean placeByPlacers);
+    void onBlockPlace(@Nullable Player player, Block block, IRBlockData blockData, boolean placeByPlacers);
 }
