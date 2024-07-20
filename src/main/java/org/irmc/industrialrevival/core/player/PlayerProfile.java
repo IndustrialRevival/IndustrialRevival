@@ -13,7 +13,6 @@ import org.irmc.industrialrevival.core.guide.GuideSettings;
 import org.irmc.industrialrevival.core.message.MessageReplacement;
 import org.jetbrains.annotations.Nullable;
 
-@RequiredArgsConstructor
 public class PlayerProfile {
     @Getter
     private final Player player;
@@ -23,6 +22,12 @@ public class PlayerProfile {
 
     @Getter
     private final GuideSettings guideSettings;
+
+    public PlayerProfile(Player player, GuideSettings guideSettings) {
+        this.player = player;
+        this.guideHistory = new GuideHistory(player);
+        this.guideSettings = guideSettings;
+    }
 
     private final Map<NamespacedKey, Boolean> researchStatus = new HashMap<>();
 

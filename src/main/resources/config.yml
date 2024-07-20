@@ -7,3 +7,20 @@ detectPlayerLanguage: false
 
 # the prefix to use for all messages
 message-prefix: "&7[&c&lIndustrialRevival&7]"
+
+storage:
+  # the type of storage to use
+  # usable types: sqlite, mysql
+  # sqlite db file location: server_root/irstorage/database.db
+  type: sqlite
+  mysql:
+    # the host of the mysql server
+    host: localhost
+    # the port of the mysql server
+    port: 3306
+    # the username to use to connect to the mysql server
+    username: root
+    # the password to use to connect to the mysql server
+    password: password
+    # the name of the database to use
+    database: irstorage
