@@ -2,6 +2,7 @@ package org.irmc.industrialrevival.core.data;
 
 import org.apache.ibatis.session.SqlSession;
 import org.irmc.industrialrevival.core.guide.GuideSettings;
+import org.jetbrains.annotations.NotNull;
 
 public class MysqlDataManager implements IDataManager {
 
@@ -22,12 +23,12 @@ public class MysqlDataManager implements IDataManager {
     }
 
     @Override
-    public GuideSettings getGuideSettings(String playerName) {
+    public GuideSettings getGuideSettings(@NotNull String playerName) {
         return null;
     }
 
     @Override
-    public void saveGuideSettings(String playerName, GuideSettings settings) {
+    public void saveGuideSettings(@NotNull String playerName, @NotNull GuideSettings settings) {
 
     }
 }

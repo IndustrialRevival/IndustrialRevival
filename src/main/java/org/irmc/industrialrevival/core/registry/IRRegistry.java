@@ -14,7 +14,6 @@ public class IRRegistry {
     private Map<NamespacedKey, ItemGroup> itemGroups;
     private Map<NamespacedKey, Research> researches;
     private Map<String, IndustrialRevivalItem> items;
-    private List<IndustrialRevivalOre> ores;
 
     public void resortItemGroups() {
         Map<NamespacedKey, ItemGroup> newItemGroups = new LinkedHashMap<>();

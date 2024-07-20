@@ -1,21 +1,22 @@
-package org.irmc.industrialrevival.core.player;
+package org.irmc.industrialrevival.api.player;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
-import org.irmc.industrialrevival.api.items.Research;
-import org.irmc.industrialrevival.core.IndustrialRevival;
 import org.irmc.industrialrevival.core.guide.GuideHistory;
 import org.irmc.industrialrevival.core.guide.GuideSettings;
-import org.irmc.industrialrevival.core.message.MessageReplacement;
 import org.jetbrains.annotations.Nullable;
 
 public class PlayerProfile {
     @Getter
-    private final Player player;
+    private final String playerName;
+
+    @Getter
+    private final UUID playerUUID;
 
     @Getter
     private final GuideHistory guideHistory;
@@ -23,9 +24,10 @@ public class PlayerProfile {
     @Getter
     private final GuideSettings guideSettings;
 
-    public PlayerProfile(Player player, GuideSettings guideSettings) {
-        this.player = player;
-        this.guideHistory = new GuideHistory(player);
+    protected PlayerProfile(String playerName, UUID playerUUID, GuideSettings guideSettings) {
+        this.playerName = playerName;
+        this.playerUUID = playerUUID;
+        this.guideHistory = new GuideHistory();
         this.guideSettings = guideSettings;
     }
 
@@ -35,6 +37,7 @@ public class PlayerProfile {
         return researchStatus.getOrDefault(key, false);
     }
 
+    /*
     public void research(NamespacedKey key) {
         if (hasResearched(key)) {
             return;
@@ -57,6 +60,7 @@ public class PlayerProfile {
                 .getLanguageManager()
                 .sendMessage(player, "research.success", new MessageReplacement("%name%", research.getName()));
     }
+     */
 
     @Nullable
     public static PlayerProfile getProfile(Player player) {

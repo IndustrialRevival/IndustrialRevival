@@ -8,18 +8,16 @@ import org.irmc.industrialrevival.core.guide.impl.SurvivalGuideImplementation;
 import java.util.List;
 
 public class GuideHistory {
-    private final Player player;
     private List<GuideEntry<?>> entries;
 
-    public GuideHistory(Player player) {
-        this.player = player;
-    }
+    public GuideHistory() {}
 
-    public void recordItemGroup(ItemGroup itemGroup, int page) {
+    public void recordItemGroup(Player player, ItemGroup itemGroup, int page) {
         //TODO implement
+
     }
 
-    public void goBack() {
+    public void goBack(Player player) {
         if (entries.isEmpty()) {
             return;
         }
@@ -30,11 +28,13 @@ public class GuideHistory {
         if (lastEntry != null) {
             if (lastEntry.isGroup()) {
                 GuideEntry<ItemGroup> theGroupEntry = (GuideEntry<ItemGroup>) lastEntry;
-                guide.onGroupClicked(player, theGroupEntry.content());
+                guide.onGroupClicked(player, theGroupEntry.getContent());
             } else if (lastEntry.isItem()) {
                 GuideEntry<IndustrialRevivalItem> theItemEntry = (GuideEntry<IndustrialRevivalItem>) lastEntry;
-                guide.onItemClicked(player, theItemEntry.content());
+                guide.onItemClicked(player, theItemEntry.getContent());
             }
+
+            entries.add(new GuideEntry<>(lastEntry.getContent()));
         }
     }
 }

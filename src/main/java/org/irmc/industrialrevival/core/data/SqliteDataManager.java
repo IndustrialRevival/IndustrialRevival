@@ -9,8 +9,9 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.irmc.industrialrevival.core.IndustrialRevival;
-import org.irmc.industrialrevival.core.data.mapper.GuideSettingsMapper;
+import org.irmc.industrialrevival.core.data.mapper.SqliteGuideSettingsMapper;
 import org.irmc.industrialrevival.core.guide.GuideSettings;
+import org.jetbrains.annotations.NotNull;
 
 import javax.sql.DataSource;
 import java.io.File;
@@ -41,7 +42,7 @@ public class SqliteDataManager implements IDataManager {
         TransactionFactory transactionFactory = new JdbcTransactionFactory();
         Environment environment = new Environment("default", transactionFactory, dataSource);
         Configuration configuration = new Configuration(environment);
-        configuration.addMapper(GuideSettingsMapper.class);
+        configuration.addMapper(SqliteGuideSettingsMapper.class);
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
         session = sqlSessionFactory.openSession();
     }
@@ -54,13 +55,13 @@ public class SqliteDataManager implements IDataManager {
     }
 
     @Override
-    public GuideSettings getGuideSettings(String playerName) {
-        return session.getMapper(GuideSettingsMapper.class).get(playerName);
+    public GuideSettings getGuideSettings(@NotNull String playerName) {
+        return session.getMapper(SqliteGuideSettingsMapper.class).get(playerName);
     }
 
     @Override
-    public void saveGuideSettings(String playerName, GuideSettings settings) {
-        session.getMapper(GuideSettingsMapper.class).save(playerName, settings);
+    public void saveGuideSettings(@NotNull String playerName, @NotNull GuideSettings settings) {
+        session.getMapper(SqliteGuideSettingsMapper.class).save(playerName, settings);
     }
 
     private String getUrl() {

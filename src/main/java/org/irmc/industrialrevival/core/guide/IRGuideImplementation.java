@@ -5,7 +5,7 @@ import org.irmc.industrialrevival.api.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 
 public interface IRGuideImplementation {
-    void open(Player p);
+    void open(Player player);
 
     void onItemClicked(Player player, IndustrialRevivalItem item);
 

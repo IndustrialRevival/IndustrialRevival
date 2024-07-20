@@ -1,9 +1,19 @@
 package org.irmc.industrialrevival.core.guide;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.irmc.industrialrevival.api.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 
-record GuideEntry<T>(T content) {
+@Getter
+@RequiredArgsConstructor
+class GuideEntry<T> {
+    private final T content;
+
+    @Setter
+    private int page;
+
     public boolean isGroup() {
         return content instanceof ItemGroup;
     }

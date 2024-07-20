@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.NamespacedKey;
 import org.irmc.industrialrevival.core.IndustrialRevival;
-import org.irmc.industrialrevival.core.player.PlayerProfile;
+import org.irmc.industrialrevival.api.player.PlayerProfile;
 
 @Getter
 @AllArgsConstructor

@@ -7,6 +7,7 @@ public class DataType<T> {
     public static final DataType<Integer> INTEGER = new DataType<>(Integer::parseInt, Object::toString);
     public static final DataType<Double> DOUBLE = new DataType<>(Double::parseDouble, Object::toString);
     public static final DataType<Boolean> BOOLEAN = new DataType<>(Boolean::parseBoolean, Object::toString);
+    public static final DataType<Long> LONG = new DataType<>(Long::parseLong, Object::toString);
 
     private final Function<String, T> converter;
     private final Function<T, String> backConverter;
