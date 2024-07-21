@@ -8,9 +8,7 @@ import org.irmc.industrialrevival.core.guide.IRGuideImplementation;
 
 public class CheatGuideImplementation implements IRGuideImplementation {
     @Override
-    public void open(Player p) {
-
-    }
+    public void open(Player p) {}
 
     @Override
     public void onItemClicked(Player player, IndustrialRevivalItem item) {
@@ -19,12 +17,8 @@ public class CheatGuideImplementation implements IRGuideImplementation {
     }
 
     @Override
-    public void onGroupClicked(Player player, ItemGroup group) {
-
-    }
+    public void onGroupClicked(Player player, ItemGroup group) {}
 
     @Override
-    public void goBack(Player player) {
-
-    }
+    public void goBack(Player player) {}
 }

@@ -10,11 +10,12 @@ import org.jetbrains.annotations.Nullable;
 
 @Mapper
 public interface SqliteGuideSettingsMapper {
-    @Insert("INSERT INTO guide_settings (username, fireWorksEnabled, learningAnimationEnabled, language) " +
-            "VALUES (#{username}, #{settings.fireWorksEnabled}, #{settings.learningAnimationEnabled}, #{settings.language})")
+    @Insert(
+            "INSERT INTO guide_settings (username, fireWorksEnabled, learningAnimationEnabled, language) "
+                    + "VALUES (#{username}, #{settings.fireWorksEnabled}, #{settings.learningAnimationEnabled}, #{settings.language})")
     void save(@NotNull String username, @NotNull @Param("settings") GuideSettings settings);
 
-    @Nullable
-    @Select("SELECT fireWorksEnabled, learningAnimationEnabled, language FROM guide_settings WHERE username = #{username}")
+    @Nullable @Select(
+            "SELECT fireWorksEnabled, learningAnimationEnabled, language FROM guide_settings WHERE username = #{username}")
     GuideSettings get(@NotNull @Param("username") String username);
 }

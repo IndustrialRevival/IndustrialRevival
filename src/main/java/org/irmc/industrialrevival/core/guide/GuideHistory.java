@@ -1,30 +1,47 @@
 package org.irmc.industrialrevival.core.guide;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.irmc.industrialrevival.api.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.core.guide.impl.SurvivalGuideImplementation;
 
-import java.util.List;
-
 public class GuideHistory {
-    private List<GuideEntry<?>> entries;
+    private final String playerName;
+    private final List<GuideEntry<?>> entries;
 
-    public GuideHistory() {}
-
-    public void recordItemGroup(Player player, ItemGroup itemGroup, int page) {
-        //TODO implement
-
+    public GuideHistory(String playerName) {
+        this.entries = new ArrayList<>();
+        this.playerName = playerName;
     }
 
-    public void goBack(Player player) {
+    public void openItemGroup(ItemGroup itemGroup, int page) {
+        GuideEntry<ItemGroup> entry = new GuideEntry<>(itemGroup);
+        entry.setPage(page);
+        entries.add(entry);
+    }
+
+    public void goBack() {
+        Player player = Bukkit.getPlayer(playerName);
+        if (player == null) {
+            return;
+        }
+
         if (entries.isEmpty()) {
             return;
         }
 
         SurvivalGuideImplementation guide = SurvivalGuideImplementation.INSTANCE;
 
-        GuideEntry<?> lastEntry = entries.get(entries.size() - 2);
+        int index = entries.size() - 2;
+        if (index < 0) {
+            return;
+        }
+
+        GuideEntry<?> lastEntry = entries.get(index);
         if (lastEntry != null) {
             if (lastEntry.isGroup()) {
                 GuideEntry<ItemGroup> theGroupEntry = (GuideEntry<ItemGroup>) lastEntry;

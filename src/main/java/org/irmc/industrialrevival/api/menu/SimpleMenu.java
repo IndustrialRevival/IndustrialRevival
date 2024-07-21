@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.IntStream;
-
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -14,7 +13,6 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.irmc.industrialrevival.core.message.LanguageManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,12 +23,15 @@ public class SimpleMenu implements IRInventoryHolder {
     private int dirty = 0;
 
     private int size = -1;
+
     @Getter
     private Component title;
+
     private Inventory inventory;
 
     @Getter
     private MenuCloseHandler closeHandler = (player) -> {};
+
     @Getter
     private MenuOpenHandler openHandler = (player, menu) -> {};
 

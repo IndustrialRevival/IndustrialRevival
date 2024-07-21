@@ -46,7 +46,9 @@ public class ItemGroup {
         List<List<IndustrialRevivalItem>> parts = Lists.partition(items, 36);
         List<IndustrialRevivalItem> thePart = parts.get(page);
 
-        SimpleMenu menu = new SimpleMenu(IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(player, Constants.GUIDE_TITLE_KEY));
+        SimpleMenu menu = new SimpleMenu(IndustrialRevival.getInstance()
+                .getLanguageManager()
+                .getMsgComponent(player, Constants.GUIDE_TITLE_KEY));
 
         for (IndustrialRevivalItem item : thePart) {
             menu.setItem(startIndex, item.getItem(), ((slot, player1, item1, menu1, clickType) -> {

@@ -5,9 +5,6 @@ language: zh-CN
 # whether to detect the player's language and use the appropriate messages
 detectPlayerLanguage: false
 
-# the prefix to use for all messages
-message-prefix: "&7[&c&lIndustrialRevival&7]"
-
 storage:
   # the type of storage to use
   # usable types: sqlite, mysql
@@ -22,5 +19,3 @@ storage:
     username: root
     # the password to use to connect to the mysql server
     password: password
-    # the name of the database to use
-    database: irstorage
