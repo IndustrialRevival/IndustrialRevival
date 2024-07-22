@@ -188,6 +188,7 @@ public class SimpleMenu implements IRInventoryHolder {
                 @NotNull ClickType clickType);
     }
 
+    @FunctionalInterface
     public interface AdvancedClickHandler extends ClickHandler {
         /**
          * Called when an item in the machine menu is clicked.

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @Mapper
-public interface SqliteGuideSettingsMapper {
+public interface GuideSettingsMapper {
     @Insert(
             "INSERT INTO guide_settings (username, fireWorksEnabled, learningAnimationEnabled, language) "
                     + "VALUES (#{username}, #{settings.fireWorksEnabled}, #{settings.learningAnimationEnabled}, #{settings.language})")

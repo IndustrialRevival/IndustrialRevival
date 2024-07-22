@@ -8,6 +8,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
+import org.irmc.industrialrevival.core.utils.Constants;
+import org.irmc.industrialrevival.utils.PersistentDataAPI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,6 +25,8 @@ public class IndustrialRevivalItemStack extends ItemStack {
         Preconditions.checkArgument(id.equals(id.toUpperCase()), "ID must be uppercase");
 
         this.id = id;
+
+        editMeta(m -> PersistentDataAPI.setString(m, Constants.ITEM_ID_KEY, id));
     }
 
     public IndustrialRevivalItemStack(String id, Material material, String name, String... lore) {

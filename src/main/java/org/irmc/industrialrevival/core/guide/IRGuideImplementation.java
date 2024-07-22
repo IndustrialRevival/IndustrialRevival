@@ -11,5 +11,7 @@ public interface IRGuideImplementation {
 
     void onGroupClicked(Player player, ItemGroup group);
 
+    void onGroupClicked(Player player, ItemGroup group, int page);
+
     void goBack(Player player);
 }

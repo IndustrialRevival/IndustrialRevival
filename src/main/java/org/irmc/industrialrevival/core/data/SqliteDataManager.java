@@ -1,7 +1,9 @@
 package org.irmc.industrialrevival.core.data;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.io.File;
-import java.sql.PreparedStatement;
+import java.sql.Connection;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.apache.ibatis.datasource.unpooled.UnpooledDataSource;
@@ -12,7 +14,8 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
-import org.irmc.industrialrevival.core.data.mapper.SqliteGuideSettingsMapper;
+import org.irmc.industrialrevival.core.data.mapper.GuideSettingsMapper;
+import org.irmc.industrialrevival.core.data.mapper.ResearchStatusMapper;
 import org.irmc.industrialrevival.core.guide.GuideSettings;
 import org.irmc.industrialrevival.core.utils.Constants;
 import org.jetbrains.annotations.NotNull;
@@ -44,7 +47,6 @@ public class SqliteDataManager implements IDataManager {
         TransactionFactory transactionFactory = new JdbcTransactionFactory();
         Environment environment = new Environment("default", transactionFactory, dataSource);
         Configuration configuration = newMybatisConfiguration(environment);
-        configuration.addMapper(SqliteGuideSettingsMapper.class);
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
         session = sqlSessionFactory.openSession(true);
 
@@ -60,12 +62,28 @@ public class SqliteDataManager implements IDataManager {
 
     @Override
     public GuideSettings getGuideSettings(@NotNull String playerName) {
-        return session.getMapper(SqliteGuideSettingsMapper.class).get(playerName);
+        return session.getMapper(GuideSettingsMapper.class).get(playerName);
     }
 
     @Override
     public void saveGuideSettings(@NotNull String playerName, @NotNull GuideSettings settings) {
-        session.getMapper(SqliteGuideSettingsMapper.class).save(playerName, settings);
+        session.getMapper(GuideSettingsMapper.class).save(playerName, settings);
+    }
+
+    @Override
+    public @NotNull JsonObject getResearchStatus(String playerName) {
+        String json = session.getMapper(ResearchStatusMapper.class).getResearchStatusJson(playerName);
+        if (json == null) {
+            return new JsonObject();
+        } else {
+            return JsonParser.parseString(json).getAsJsonObject();
+        }
+    }
+
+    @Override
+    public void saveResearchStatus(String playerName, JsonObject researchStatus) {
+        String json = researchStatus.toString();
+        session.getMapper(ResearchStatusMapper.class).insertResearchStatus(playerName, json);
     }
 
     private String getUrl() {
@@ -73,12 +91,16 @@ public class SqliteDataManager implements IDataManager {
     }
 
     private void createTables() throws SQLException {
-        try (PreparedStatement statement = session.getConnection()
-                .prepareStatement("CREATE TABLE IF NOT EXISTS guide_settings (" + "    username TEXT NOT NULL,"
-                        + "    fireWorksEnabled INTEGER NOT NULL,"
-                        + "    learningAnimationEnabled INTEGER NOT NULL,"
-                        + "    language TEXT NOT NULL);")) {
-            statement.execute();
+        try (Connection conn = session.getConnection()) {
+            conn.prepareStatement("CREATE TABLE IF NOT EXISTS guide_settings (" + "    username TEXT NOT NULL,"
+                            + "    fireWorksEnabled BOOLEAN NOT NULL,"
+                            + "    learningAnimationEnabled BOOLEAN NOT NULL,"
+                            + "    language TEXT NOT NULL);")
+                    .execute();
+
+            conn.prepareStatement(
+                            "CREATE TABLE IF NOT EXISTS research_status (username TEXT NOT NULL, researchStatusJson TEXT NOT NULL)")
+                    .execute();
         }
     }
 }

@@ -1,6 +1,8 @@
 package org.irmc.industrialrevival.api.items;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.inventory.ItemStack;
@@ -11,6 +13,8 @@ import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.core.IndustrialRevival;
 
 public class IndustrialRevivalItem implements Placeable {
+    private final Map<Class<? extends ItemHandler>, ItemHandler> itemHandlers = new HashMap<>();
+
     @Getter
     private final ItemGroup group;
 
@@ -75,12 +79,19 @@ public class IndustrialRevivalItem implements Placeable {
         return this;
     }
 
+    @SuppressWarnings("removal")
     public Component getItemName() {
         ItemMeta meta = itemStack.getItemMeta();
         if (meta.hasDisplayName()) {
             return meta.displayName();
         } else {
             return Component.translatable(itemStack.getType().getTranslationKey());
+        }
+    }
+
+    protected void addItemHandlers(ItemHandler... handlers) {
+        for (ItemHandler handler : handlers) {
+            itemHandlers.put(handler.getClass(), handler);
         }
     }
 

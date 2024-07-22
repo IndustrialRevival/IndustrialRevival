@@ -13,17 +13,21 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.irmc.industrialrevival.core.IndustrialRevival;
+import org.bukkit.plugin.Plugin;
 import org.irmc.industrialrevival.core.utils.FileUtil;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * A class to manage language files and messages.
+ * You can create a new instance of this class by passing a reference to your plugin.
+ */
 public final class LanguageManager {
-    private final IndustrialRevival plugin;
+    private final Plugin plugin;
 
     private final Map<String, YamlConfiguration> configurations = new HashMap<>();
     private YamlConfiguration defaultConfiguration;
 
-    public LanguageManager(IndustrialRevival plugin) {
+    public LanguageManager(Plugin plugin) {
         this.plugin = plugin;
 
         loadLanguages();

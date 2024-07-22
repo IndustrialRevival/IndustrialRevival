@@ -65,6 +65,10 @@ public class CustomItemStack extends ItemStack {
         });
     }
 
+    public CustomItemStack(Material material, Component name) {
+        this(material, name, new ArrayList<>());
+    }
+
     public CustomItemStack addFlags(ItemFlag... flags) {
         ItemMeta im = getItemMeta();
         im.addItemFlags(flags);

@@ -40,7 +40,7 @@ public class ItemGroup {
         this.tier = tier;
     }
 
-    public void onClick(Player player, int page, IRGuideImplementation currentGuide) {
+    public void onClick(Player player, IRGuideImplementation currentGuide, int page) {
         int startIndex = 9;
 
         List<List<IndustrialRevivalItem>> parts = Lists.partition(items, 36);

@@ -2,7 +2,6 @@ package org.irmc.industrialrevival.core.guide;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.irmc.industrialrevival.api.groups.ItemGroup;
@@ -18,7 +17,7 @@ public class GuideHistory {
         this.playerName = playerName;
     }
 
-    public void openItemGroup(ItemGroup itemGroup, int page) {
+    public void addItemGroup(ItemGroup itemGroup, int page) {
         GuideEntry<ItemGroup> entry = new GuideEntry<>(itemGroup);
         entry.setPage(page);
         entries.add(entry);
@@ -44,6 +43,7 @@ public class GuideHistory {
         GuideEntry<?> lastEntry = entries.get(index);
         if (lastEntry != null) {
             if (lastEntry.isGroup()) {
+                int page = lastEntry.getPage();
                 GuideEntry<ItemGroup> theGroupEntry = (GuideEntry<ItemGroup>) lastEntry;
                 guide.onGroupClicked(player, theGroupEntry.getContent());
             } else if (lastEntry.isItem()) {
