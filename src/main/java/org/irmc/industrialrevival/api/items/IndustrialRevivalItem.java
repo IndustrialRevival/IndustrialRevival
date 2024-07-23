@@ -7,6 +7,7 @@ import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.attributes.Placeable;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
@@ -30,6 +31,9 @@ public class IndustrialRevivalItem implements Placeable {
 
     @Getter
     private boolean usableInWorkbench = false;
+
+    @Getter
+    private IndustrialRevivalAddon addon;
 
     private boolean locked = false;
 
@@ -76,9 +80,11 @@ public class IndustrialRevivalItem implements Placeable {
      * Registers the item in the registry.
      * @return WILL RETURN NULL IF THE ITEM IS NOT REGISTERED SUCCESSFULLY!!
      */
-    public IndustrialRevivalItem register() {
+    public IndustrialRevivalItem register(IndustrialRevivalAddon addon) {
         itemStack.lock();
         this.locked = true;
+
+        this.addon = addon;
 
         try {
             preRegister();

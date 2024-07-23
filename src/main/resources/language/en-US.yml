@@ -8,6 +8,11 @@ radiation:
 guide:
   title: "<gray>Industrial Revival Guide</gray>"
   cheat_title: "<gray>Industrial Revival Guide<dark_red>(Cheat Mode)"
+  back: ""
+  settings: ""
+  next: ""
+  previous: ""
+  bookmarks: ""
 recipe_type:
   grindstone:
     name: "<green>Grindstone</green>"

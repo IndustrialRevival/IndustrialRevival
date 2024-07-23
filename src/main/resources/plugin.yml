@@ -1,6 +1,6 @@
 name: IndustrialRevival
 version: '${project.version}'
-main: org.inr.IndustrialRevival.core.IndustrialRevival
+main: org.irmc.industrialrevival.core.IndustrialRevival
 api-version: '1.20'
 authors: [mmmjjkx and IndustrialRevival community]
 libraries:

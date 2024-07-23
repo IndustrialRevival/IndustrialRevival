@@ -45,7 +45,7 @@ public class GuideHistory {
             if (lastEntry.isGroup()) {
                 int page = lastEntry.getPage();
                 GuideEntry<ItemGroup> theGroupEntry = (GuideEntry<ItemGroup>) lastEntry;
-                guide.onGroupClicked(player, theGroupEntry.getContent());
+                guide.onGroupClicked(player, theGroupEntry.getContent(), page);
             } else if (lastEntry.isItem()) {
                 GuideEntry<IndustrialRevivalItem> theItemEntry = (GuideEntry<IndustrialRevivalItem>) lastEntry;
                 guide.onItemClicked(player, theItemEntry.getContent());

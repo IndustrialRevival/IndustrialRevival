@@ -40,6 +40,7 @@ public class ItemGroup {
         this.tier = tier;
     }
 
+    /*
     public void onClick(Player player, IRGuideImplementation currentGuide, int page) {
         int startIndex = 9;
 
@@ -59,6 +60,8 @@ public class ItemGroup {
 
         menu.open(player);
     }
+
+     */
 
     public void addItem(IndustrialRevivalItem item) {
         if (locked) {

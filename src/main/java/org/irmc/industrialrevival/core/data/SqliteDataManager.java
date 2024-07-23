@@ -102,7 +102,7 @@ public class SqliteDataManager implements IDataManager {
                     .execute();
 
             conn.prepareStatement(
-                            "CREATE TABLE IF NOT EXISTS research_status (username TEXT NOT NULL, researchStatusJson TEXT NOT NULL)")
+                            "CREATE TABLE IF NOT EXISTS research_status (username TEXT NOT NULL, researchStatus TEXT NOT NULL)")
                     .execute();
         }
     }

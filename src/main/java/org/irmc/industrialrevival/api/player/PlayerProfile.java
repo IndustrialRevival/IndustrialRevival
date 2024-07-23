@@ -92,12 +92,12 @@ public class PlayerProfile {
                 IndustrialRevival.getInstance().getDataManager().getGuideSettings(name);
 
         Map<NamespacedKey, Boolean> researchStatus = new HashMap<>();
-        @NotNull ConfigurationSection researchStatusYml =
+        ConfigurationSection researchStatusYml =
                 IndustrialRevival.getInstance().getDataManager().getResearchStatus(name);
 
         researchStatusYml.getKeys(false).forEach(entry -> {
-            NamespacedKey key = NamespacedKey.fromString(entry.getKey());
-            boolean value = entry.getValue().getAsBoolean();
+            NamespacedKey key = NamespacedKey.fromString(entry);
+            boolean value = researchStatusYml.getBoolean(entry);
             researchStatus.put(key, value);
         });
 

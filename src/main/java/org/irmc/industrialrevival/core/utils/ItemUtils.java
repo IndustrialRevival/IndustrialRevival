@@ -80,15 +80,15 @@ public class ItemUtils {
             return false;
         }
 
-        if (meta1.hasCustomModelData()
-                && meta2.hasCustomModelData()
-                && meta1.getCustomModelData() != meta2.getCustomModelData()) {
+        if (meta1.hasCustomModelData() != meta2.hasCustomModelData()) {
             return false;
+        } else {
+            if (meta1.getCustomModelData() != meta2.getCustomModelData()) {
+                return false;
+            }
         }
 
-        if (!item1.getEnchantments().isEmpty()
-                && !item2.getEnchantments().isEmpty()
-                && !item1.getEnchantments().equals(item2.getEnchantments())) {
+        if (!item1.getEnchantments().equals(item2.getEnchantments())) {
             return false;
         }
 

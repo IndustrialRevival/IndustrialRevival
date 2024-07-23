@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Nullable;
 
 @Mapper
 public interface ResearchStatusMapper {
-    @Insert("INSERT INTO research_status (username, researchStatusJson) VALUES (#{playerName}, #{researchStatus})")
+    @Insert("INSERT INTO research_status (username, researchStatus) VALUES (#{playerName}, #{researchStatus})")
     void insertResearchStatus(String playerName, String researchStatus);
 
     @Nullable @Select("SELECT * FROM research_status WHERE username = #{playerName}")
