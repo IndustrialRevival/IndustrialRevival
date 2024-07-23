@@ -11,6 +11,8 @@ import org.irmc.industrialrevival.core.listeners.ItemHandlerListener;
 import org.irmc.industrialrevival.core.listeners.MachineMenuListener;
 import org.irmc.industrialrevival.core.message.LanguageManager;
 import org.irmc.industrialrevival.core.registry.IRRegistry;
+import org.irmc.industrialrevival.core.services.BlockDataService;
+import org.irmc.industrialrevival.core.services.ItemTextureService;
 import org.irmc.industrialrevival.core.utils.FileUtil;
 
 public final class IndustrialRevival extends JavaPlugin {
@@ -26,6 +28,11 @@ public final class IndustrialRevival extends JavaPlugin {
     @Getter
     private IDataManager dataManager;
 
+    @Getter
+    private ItemTextureService itemTextureService;
+
+    private @Getter BlockDataService blockDataService;
+
     @Override
     public void onEnable() {
         instance = this;
@@ -36,11 +43,20 @@ public final class IndustrialRevival extends JavaPlugin {
         languageManager = new LanguageManager(this);
         registry = new IRRegistry();
 
-        // listeners
-        new MachineMenuListener().register();
-        new ItemHandlerListener().register();
+        setupServices();
+        setupListeners();
 
         setupDataManager();
+    }
+
+    private void setupServices() {
+        itemTextureService = new ItemTextureService();
+        blockDataService = new BlockDataService();
+    }
+
+    private void setupListeners() {
+        new MachineMenuListener().register();
+        new ItemHandlerListener().register();
     }
 
     private void setupDataManager() {

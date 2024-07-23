@@ -1,16 +1,40 @@
 package org.irmc.industrialrevival.core.services;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.entity.ItemDisplay;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+import org.irmc.industrialrevival.api.objects.IRBlockData;
 
 public class ItemTextureService {
     private final Map<Material, Integer> customModelDataMap;
+    private final Map<Location, BlockModel> blockModelMap;
 
     public ItemTextureService() {
         customModelDataMap = new HashMap<>();
+        blockModelMap = new HashMap<>();
+    }
+
+    public void setup(List<IRBlockData> blockData) {
+        for (IRBlockData data : blockData) {
+            String id = data.getId();
+            IndustrialRevivalItem item = IndustrialRevivalItem.getById(id);
+            if (item == null) {
+                // just ignore
+                return;
+            }
+
+            Location location = data.getLocation();
+            blockModelMap.put(location, new BlockModel(location, item.getItem()));
+        }
     }
 
     public void setUpTexture(ItemStack itemStack) {
@@ -24,18 +48,55 @@ public class ItemTextureService {
         customModelDataMap.put(material, customModelDataId);
     }
 
-    /*
     public void blockPlacing(BlockPlaceEvent e) {
-        Block block = e.getBlockPlaced();
+        Location location = e.getBlockPlaced().getLocation();
         ItemStack itemStack = e.getItemInHand();
-        ItemMeta meta = itemStack.getItemMeta();
-        int customModelData = meta.getCustomModelData();
-        ArmorStand armorStand = block.getWorld().spawn(block.getLocation(), ArmorStand.class);
-        armorStand.setInvisible(true);
-        armorStand.setCanMove(false);
-        armorStand.setCanTick(false);
-        armorStand.setInvulnerable(true);
-        armorStand.set
+
+        blockModelMap.put(location, new BlockModel(location, itemStack));
     }
-     */
+
+    public void blockBreaking(BlockBreakEvent e) {
+        Location location = e.getBlock().getLocation();
+        BlockModel model = blockModelMap.remove(location);
+        model.breakBlock();
+    }
+
+    private static class BlockModel {
+        private final Material BROKEN_MATERIAL = Material.AIR;
+
+        private final Location loc;
+        private ItemDisplay entity;
+
+        public BlockModel(Location loc, ItemStack item) {
+            this.loc = loc;
+
+            placeBlock(loc, item);
+        }
+
+        private void placeBlock(Location loc, ItemStack item) {
+            World world = loc.getWorld();
+
+            Location entityLoc = loc.clone().add(0.5, 0.5, 0.5);
+
+            world.spawn(entityLoc, ItemDisplay.class, i -> {
+                i.setItemStack(item);
+                i.setPersistent(true);
+                i.setInvulnerable(true);
+                i.setGravity(false);
+                i.setSilent(true);
+
+                this.entity = i;
+            });
+        }
+
+        public void breakBlock() {
+            if (entity != null) {
+                entity.remove();
+                entity = null;
+            }
+
+            World world = loc.getWorld();
+            world.setBlockData(loc, BROKEN_MATERIAL.createBlockData());
+        }
+    }
 }

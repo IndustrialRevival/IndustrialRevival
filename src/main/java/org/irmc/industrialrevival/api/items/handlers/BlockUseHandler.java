@@ -12,7 +12,8 @@ public interface BlockUseHandler extends ItemHandler {
     @Override
     default IncompatibleItemHandlerException isCompatible(IndustrialRevivalItem item) {
         if (!item.getItem().getType().isBlock()) {
-            return new IncompatibleItemHandlerException("Only materials that are blocks can have a block use handler", item.getId());
+            return new IncompatibleItemHandlerException(
+                    "Only materials that are blocks can have a block use handler", item.getId());
         }
 
         return null;

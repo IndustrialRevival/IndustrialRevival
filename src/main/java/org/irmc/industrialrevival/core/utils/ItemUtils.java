@@ -27,7 +27,9 @@ public class ItemUtils {
         ItemMeta meta = baseItem.getItemMeta();
 
         ItemMeta originalMeta = item.getItemMeta();
+
         meta.setCustomModelData(originalMeta.getCustomModelData());
+
         if (originalMeta.hasDisplayName()) {
             meta.displayName(originalMeta.displayName());
         }

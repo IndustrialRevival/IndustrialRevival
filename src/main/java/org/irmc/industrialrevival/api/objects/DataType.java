@@ -1,27 +1,46 @@
 package org.irmc.industrialrevival.api.objects;
 
-import java.util.function.Function;
+import org.bukkit.configuration.MemorySection;
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import java.util.List;
 
 public class DataType<T> {
-    public static final DataType<String> STRING = new DataType<>(s -> s, s -> s);
-    public static final DataType<Integer> INTEGER = new DataType<>(Integer::parseInt, Object::toString);
-    public static final DataType<Double> DOUBLE = new DataType<>(Double::parseDouble, Object::toString);
-    public static final DataType<Boolean> BOOLEAN = new DataType<>(Boolean::parseBoolean, Object::toString);
-    public static final DataType<Long> LONG = new DataType<>(Long::parseLong, Object::toString);
+    public static final DataType<String> STRING = new DataType<>(MemorySection::set, MemorySection::getString);
+    public static final DataType<Integer> INTEGER = new DataType<>(MemorySection::set, MemorySection::getInt);
+    public static final DataType<Double> DOUBLE = new DataType<>(MemorySection::set, MemorySection::getDouble);
+    public static final DataType<Boolean> BOOLEAN = new DataType<>(MemorySection::set, MemorySection::getBoolean);
+    public static final DataType<Long> LONG = new DataType<>(MemorySection::set, MemorySection::getLong);
+    public static final DataType<Float> FLOAT = new DataType<>(MemorySection::set, ((config, key) -> (float) config.getDouble(key)));
+    public static final DataType<List<String>> STRING_LIST = new DataType<>(MemorySection::set, MemorySection::getStringList);
+    public static final DataType<List<Integer>> INTEGER_LIST = new DataType<>(MemorySection::set, MemorySection::getIntegerList);
+    public static final DataType<List<Double>> DOUBLE_LIST = new DataType<>(MemorySection::set, MemorySection::getDoubleList);
+    public static final DataType<List<Boolean>> BOOLEAN_LIST = new DataType<>(MemorySection::set, MemorySection::getBooleanList);
+    public static final DataType<List<Long>> LONG_LIST = new DataType<>(MemorySection::set, MemorySection::getLongList);
 
-    private final Function<String, T> converter;
-    private final Function<T, String> backConverter;
+    private final DataSetterConsumer<T> setter;
+    private final DataGetterFunction<T> getter;
 
-    private DataType(Function<String, T> converter, Function<T, String> backConverter) {
-        this.converter = converter;
-        this.backConverter = backConverter;
+    private DataType(DataSetterConsumer<T> setter, DataGetterFunction<T> getter) {
+        this.setter = setter;
+        this.getter = getter;
     }
 
-    public T convert(String value) {
-        return converter.apply(value);
+    public void set(YamlConfiguration config, String key, T value) {
+        setter.accept(config, key, value);
     }
 
-    public String convertBack(T value) {
-        return backConverter.apply(value);
+    public T get(YamlConfiguration config, String key) {
+        return getter.apply(config, key);
+    }
+
+    @FunctionalInterface
+    public interface DataSetterConsumer<T> {
+        void accept(YamlConfiguration config, String key, T value);
+    }
+
+    @FunctionalInterface
+    public interface DataGetterFunction<T> {
+        T apply(YamlConfiguration config, String key);
     }
 }

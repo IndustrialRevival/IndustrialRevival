@@ -1,7 +1,6 @@
 package org.irmc.industrialrevival.api.player;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.gson.JsonObject;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -9,6 +8,7 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.ConfigurationSection;
 import org.irmc.industrialrevival.core.IndustrialRevival;
 import org.irmc.industrialrevival.core.guide.GuideHistory;
 import org.irmc.industrialrevival.core.guide.GuideSettings;
@@ -92,10 +92,10 @@ public class PlayerProfile {
                 IndustrialRevival.getInstance().getDataManager().getGuideSettings(name);
 
         Map<NamespacedKey, Boolean> researchStatus = new HashMap<>();
-        JsonObject jsonResearchStatus =
+        @NotNull ConfigurationSection researchStatusYml =
                 IndustrialRevival.getInstance().getDataManager().getResearchStatus(name);
 
-        jsonResearchStatus.entrySet().forEach(entry -> {
+        researchStatusYml.getKeys(false).forEach(entry -> {
             NamespacedKey key = NamespacedKey.fromString(entry.getKey());
             boolean value = entry.getValue().getAsBoolean();
             researchStatus.put(key, value);

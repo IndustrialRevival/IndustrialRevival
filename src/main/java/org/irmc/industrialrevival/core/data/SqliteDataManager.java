@@ -1,10 +1,10 @@
 package org.irmc.industrialrevival.core.data;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import java.io.File;
+import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Base64;
 import javax.sql.DataSource;
 import org.apache.ibatis.datasource.unpooled.UnpooledDataSource;
 import org.apache.ibatis.mapping.Environment;
@@ -14,6 +14,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.irmc.industrialrevival.core.data.mapper.GuideSettingsMapper;
 import org.irmc.industrialrevival.core.data.mapper.ResearchStatusMapper;
 import org.irmc.industrialrevival.core.guide.GuideSettings;
@@ -71,19 +72,21 @@ public class SqliteDataManager implements IDataManager {
     }
 
     @Override
-    public @NotNull JsonObject getResearchStatus(String playerName) {
-        String json = session.getMapper(ResearchStatusMapper.class).getResearchStatusJson(playerName);
-        if (json == null) {
-            return new JsonObject();
+    public @NotNull YamlConfiguration getResearchStatus(String playerName) {
+        String yaml = session.getMapper(ResearchStatusMapper.class).getResearchStatus(playerName);
+        if (yaml == null) {
+            return new YamlConfiguration();
         } else {
-            return JsonParser.parseString(json).getAsJsonObject();
+            yaml = new String(Base64.getDecoder().decode(yaml));
+            return YamlConfiguration.loadConfiguration(new StringReader(yaml));
         }
     }
 
     @Override
-    public void saveResearchStatus(String playerName, JsonObject researchStatus) {
-        String json = researchStatus.toString();
-        session.getMapper(ResearchStatusMapper.class).insertResearchStatus(playerName, json);
+    public void saveResearchStatus(String playerName, YamlConfiguration researchStatus) {
+        String yaml = researchStatus.saveToString();
+        String b64 = Base64.getEncoder().encodeToString(yaml.getBytes());
+        session.getMapper(ResearchStatusMapper.class).insertResearchStatus(playerName, b64);
     }
 
     private String getUrl() {

@@ -107,8 +107,7 @@ public class IndustrialRevivalItem implements Placeable {
         }
     }
 
-    @Nullable
-    public <T extends ItemHandler> T getItemHandler(Class<T> clazz) {
+    @Nullable public <T extends ItemHandler> T getItemHandler(Class<T> clazz) {
         return (T) itemHandlers.get(clazz);
     }
 

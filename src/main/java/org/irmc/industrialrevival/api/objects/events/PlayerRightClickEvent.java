@@ -8,7 +8,13 @@ import org.jetbrains.annotations.NotNull;
 @Getter
 public class PlayerRightClickEvent extends PlayerInteractEvent {
     public PlayerRightClickEvent(PlayerInteractEvent originalEvent) {
-        super(originalEvent.getPlayer(), originalEvent.getAction(), originalEvent.getItem(), originalEvent.getClickedBlock(), originalEvent.getBlockFace(), originalEvent.getHand());
+        super(
+                originalEvent.getPlayer(),
+                originalEvent.getAction(),
+                originalEvent.getItem(),
+                originalEvent.getClickedBlock(),
+                originalEvent.getBlockFace(),
+                originalEvent.getHand());
     }
 
     @Override
