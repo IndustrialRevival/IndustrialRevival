@@ -1,5 +1,7 @@
 package org.irmc.industrialrevival.core.utils;
 
+import java.util.List;
+import java.util.Objects;
 import net.kyori.adventure.text.Component;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -10,9 +12,6 @@ import org.irmc.industrialrevival.core.IndustrialRevival;
 import org.irmc.industrialrevival.utils.PersistentDataAPI;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
-import java.util.Objects;
 
 public class ItemUtils {
 
@@ -35,6 +34,7 @@ public class ItemUtils {
         if (originalMeta.hasLore()) {
             meta.lore(originalMeta.lore());
         }
+
         originalMeta.getItemFlags().forEach(meta::addItemFlags);
 
         meta.setUnbreakable(originalMeta.isUnbreakable());
@@ -43,7 +43,8 @@ public class ItemUtils {
         if (item instanceof IndustrialRevivalItemStack iris) {
             // Tag the item to verify that is an IR item
             // Useful in recipe click?
-            PersistentDataAPI.setString(meta, new NamespacedKey(IndustrialRevival.getInstance(), "cleaned_ir_item_id"), iris.getId());
+            PersistentDataAPI.setString(
+                    meta, new NamespacedKey(IndustrialRevival.getInstance(), "cleaned_ir_item_id"), iris.getId());
         }
 
         baseItem.setItemMeta(meta);
@@ -71,15 +72,21 @@ public class ItemUtils {
         ItemMeta meta1 = item1.getItemMeta();
         ItemMeta meta2 = item2.getItemMeta();
 
-        if (meta1.hasDisplayName() && meta2.hasDisplayName() && !Objects.equals(meta1.displayName(), meta2.displayName())) {
+        if (meta1.hasDisplayName()
+                && meta2.hasDisplayName()
+                && !Objects.equals(meta1.displayName(), meta2.displayName())) {
             return false;
         }
 
-        if (meta1.hasCustomModelData() && meta2.hasCustomModelData() && meta1.getCustomModelData() != meta2.getCustomModelData()) {
+        if (meta1.hasCustomModelData()
+                && meta2.hasCustomModelData()
+                && meta1.getCustomModelData() != meta2.getCustomModelData()) {
             return false;
         }
 
-        if (!item1.getEnchantments().isEmpty() && !item2.getEnchantments().isEmpty() && !item1.getEnchantments().equals(item2.getEnchantments())) {
+        if (!item1.getEnchantments().isEmpty()
+                && !item2.getEnchantments().isEmpty()
+                && !item1.getEnchantments().equals(item2.getEnchantments())) {
             return false;
         }
 
@@ -138,8 +145,7 @@ public class ItemUtils {
                 return true;
             }
 
-            if(!instanceOne.hasVariant() || !instanceTwo.hasVariant())
-                return true;
+            if (!instanceOne.hasVariant() || !instanceTwo.hasVariant()) return true;
 
             if (instanceOne.getVariant() != instanceTwo.getVariant()) {
                 return true;
@@ -190,7 +196,8 @@ public class ItemUtils {
         }
 
         // Enchantment Storage
-        if (meta1 instanceof EnchantmentStorageMeta instanceOne && meta2 instanceof EnchantmentStorageMeta instanceTwo) {
+        if (meta1 instanceof EnchantmentStorageMeta instanceOne
+                && meta2 instanceof EnchantmentStorageMeta instanceTwo) {
             if (instanceOne.hasStoredEnchants() != instanceTwo.hasStoredEnchants()) {
                 return true;
             }
@@ -282,7 +289,8 @@ public class ItemUtils {
         }
 
         // Fish Bucket
-        if (meta1 instanceof TropicalFishBucketMeta instanceOne && meta2 instanceof TropicalFishBucketMeta instanceTwo) {
+        if (meta1 instanceof TropicalFishBucketMeta instanceOne
+                && meta2 instanceof TropicalFishBucketMeta instanceTwo) {
             if (instanceOne.hasVariant() != instanceTwo.hasVariant()) {
                 return true;
             }
@@ -295,7 +303,6 @@ public class ItemUtils {
             return !instanceOne.getPatternColor().equals(instanceTwo.getPatternColor());
         }
 
-        // We don't care about the bundle, it's already deprecated.
         // Bundle
         if (meta1 instanceof BundleMeta instanceOne && meta2 instanceof BundleMeta instanceTwo) {
             if (instanceOne.hasItems() != instanceTwo.hasItems()) {

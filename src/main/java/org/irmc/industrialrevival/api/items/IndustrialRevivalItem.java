@@ -9,8 +9,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.irmc.industrialrevival.api.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.attributes.Placeable;
+import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.core.IndustrialRevival;
+import org.jetbrains.annotations.Nullable;
 
 public class IndustrialRevivalItem implements Placeable {
     private final Map<Class<? extends ItemHandler>, ItemHandler> itemHandlers = new HashMap<>();
@@ -70,9 +72,19 @@ public class IndustrialRevivalItem implements Placeable {
         return itemStack.getId();
     }
 
+    /**
+     * Registers the item in the registry.
+     * @return WILL RETURN NULL IF THE ITEM IS NOT REGISTERED SUCCESSFULLY!!
+     */
     public IndustrialRevivalItem register() {
         itemStack.lock();
         this.locked = true;
+
+        try {
+            preRegister();
+        } catch (Exception e) {
+            return null;
+        }
 
         IndustrialRevival.getInstance().getRegistry().getItems().put(getId(), this);
 
@@ -92,6 +104,20 @@ public class IndustrialRevivalItem implements Placeable {
     protected void addItemHandlers(ItemHandler... handlers) {
         for (ItemHandler handler : handlers) {
             itemHandlers.put(handler.getClass(), handler);
+        }
+    }
+
+    @Nullable
+    public <T extends ItemHandler> T getItemHandler(Class<T> clazz) {
+        return (T) itemHandlers.get(clazz);
+    }
+
+    private void preRegister() throws Exception {
+        for (ItemHandler handler : itemHandlers.values()) {
+            IncompatibleItemHandlerException ex = handler.isCompatible(this);
+            if (ex != null) {
+                throw ex;
+            }
         }
     }
 
