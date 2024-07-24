@@ -113,9 +113,13 @@ public final class SqliteDataManager implements IDataManager {
     public void insertOrUpdateBlockData(@NotNull Location location, @NotNull YamlConfiguration blockData) {
         BlockDataMapper mapper = session.getMapper(BlockDataMapper.class);
         if (getBlockData(location).getKeys(false).isEmpty()) {
-            mapper.insertBlockData(location, Base64.getEncoder().encodeToString(blockData.saveToString().getBytes()));
+            mapper.insertBlockData(
+                    location,
+                    Base64.getEncoder().encodeToString(blockData.saveToString().getBytes()));
         } else {
-            mapper.updateBlockData(location, Base64.getEncoder().encodeToString(blockData.saveToString().getBytes()));
+            mapper.updateBlockData(
+                    location,
+                    Base64.getEncoder().encodeToString(blockData.saveToString().getBytes()));
         }
     }
 
@@ -125,17 +129,20 @@ public final class SqliteDataManager implements IDataManager {
 
     private void createTables() throws SQLException {
         try (Connection conn = session.getConnection()) {
-            conn.prepareStatement("CREATE TABLE IF NOT EXISTS guide_settings (username TEXT NOT NULL,fireWorksEnabled BOOLEAN NOT NULL,learningAnimationEnabled BOOLEAN NOT NULL,language TEXT NOT NULL);")
+            conn.prepareStatement(
+                            "CREATE TABLE IF NOT EXISTS guide_settings (username TEXT NOT NULL,fireWorksEnabled BOOLEAN NOT NULL,learningAnimationEnabled BOOLEAN NOT NULL,language TEXT NOT NULL);")
                     .execute();
 
             conn.prepareStatement(
                             "CREATE TABLE IF NOT EXISTS research_status (username TEXT NOT NULL, researchStatus TEXT NOT NULL)")
                     .execute();
 
-            conn.prepareStatement("CREATE TABLE IF NOT EXISTS block_record (world TEXT NOT NULL, x INT NOT NULL, y INT NOT NULL, z INT NOT NULL, machine_id TEXT NOT NULL, PRIMARY KEY (world, x, y, z, machine_id))")
+            conn.prepareStatement(
+                            "CREATE TABLE IF NOT EXISTS block_record (world TEXT NOT NULL, x INT NOT NULL, y INT NOT NULL, z INT NOT NULL, machine_id TEXT NOT NULL, PRIMARY KEY (world, x, y, z, machine_id))")
                     .execute();
 
-            conn.prepareStatement("CREATE TABLE IF NOT EXISTS block_data (world TEXT NOT NULL, x INT NOT NULL, y INT NOT NULL, z INT NOT NULL, data TEXT NOT NULL, PRIMARY KEY (world, x, y, z))")
+            conn.prepareStatement(
+                            "CREATE TABLE IF NOT EXISTS block_data (world TEXT NOT NULL, x INT NOT NULL, y INT NOT NULL, z INT NOT NULL, data TEXT NOT NULL, PRIMARY KEY (world, x, y, z))")
                     .execute();
         }
     }

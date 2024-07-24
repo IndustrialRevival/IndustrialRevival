@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 @Getter
 @AllArgsConstructor
 public class Research {
-    //private final int requiredExpLevel;
+    // private final int requiredExpLevel;
     private final NamespacedKey key;
     private final String name;
 
@@ -33,7 +33,8 @@ public class Research {
     public void register(IndustrialRevivalAddon addon) {
         Research mayConflicting = getResearch(key);
         if (mayConflicting != null) {
-            throw new RuntimeException(new IdConflictException(key.asString() + "(research)", addon, mayConflicting.getAddon()));
+            throw new RuntimeException(
+                    new IdConflictException(key.asString() + "(research)", addon, mayConflicting.getAddon()));
         }
 
         this.addon = addon;

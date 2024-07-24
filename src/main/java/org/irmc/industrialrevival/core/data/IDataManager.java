@@ -30,11 +30,9 @@ public sealed interface IDataManager permits MysqlDataManager, SqliteDataManager
 
     void saveResearchStatus(String playerName, YamlConfiguration researchStatus);
 
-    @NotNull
-    YamlConfiguration getBlockData(@NotNull Location location);
+    @NotNull YamlConfiguration getBlockData(@NotNull Location location);
 
-    @Nullable
-    String getBlockId(@NotNull Location location);
+    @Nullable String getBlockId(@NotNull Location location);
 
     void insertOrUpdateBlockData(@NotNull Location location, @NotNull YamlConfiguration blockData);
 

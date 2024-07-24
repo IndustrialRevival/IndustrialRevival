@@ -9,14 +9,17 @@ public class IdConflictException extends Exception {
     private final IndustrialRevivalAddon conflictingAddon;
 
     public IdConflictException(String id, IndustrialRevivalAddon origin, IndustrialRevivalAddon conflictingAddon) {
-        super("""
+        super(
+                """
                 Item id conflict detected:
                 Item id: %s
                 Original addon: %s
                 Conflicting addon: %s
                 """
-                .formatted(id, origin.getPlugin().getName(), conflictingAddon.getPlugin().getName()));
-
+                        .formatted(
+                                id,
+                                origin.getPlugin().getName(),
+                                conflictingAddon.getPlugin().getName()));
 
         this.originalAddon = origin;
         this.conflictingAddon = conflictingAddon;

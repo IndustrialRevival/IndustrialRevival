@@ -48,7 +48,9 @@ public class ItemHandlerListener extends AbstractIRListener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
         Player player = e.getPlayer();
-        IRBlockData blockData = IndustrialRevival.getInstance().getBlockDataService().getBlockData(e.getBlock().getLocation());
+        IRBlockData blockData = IndustrialRevival.getInstance()
+                .getBlockDataService()
+                .getBlockData(e.getBlock().getLocation());
         if (blockData != null) {
             String id = blockData.getId();
             IndustrialRevivalItem iritem = IndustrialRevivalItem.getById(id);

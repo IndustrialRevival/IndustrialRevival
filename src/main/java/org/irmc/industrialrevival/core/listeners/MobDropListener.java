@@ -1,5 +1,7 @@
 package org.irmc.industrialrevival.core.listeners;
 
+import java.util.List;
+import java.util.Random;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
@@ -9,16 +11,14 @@ import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.attributes.MobDropItem;
 import org.irmc.industrialrevival.core.IndustrialRevival;
 
-import java.util.List;
-import java.util.Random;
-
 public class MobDropListener extends AbstractIRListener {
     @EventHandler
     public void onMobDrop(EntityDeathEvent e) {
         Entity entity = e.getEntity();
         Location location = entity.getLocation();
         World world = location.getWorld();
-        List<MobDropItem> drops = IndustrialRevival.getInstance().getRegistry().getMobDrops().get(entity.getType());
+        List<MobDropItem> drops =
+                IndustrialRevival.getInstance().getRegistry().getMobDrops().get(entity.getType());
         if (drops != null) {
             Random random = new Random();
             for (MobDropItem drop : drops) {

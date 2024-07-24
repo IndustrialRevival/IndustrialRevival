@@ -28,38 +28,32 @@ public class RecipeType {
     }
 
     static {
-        NamespacedKey grindstoneKey = new NamespacedKey(IndustrialRevival.getInstance(), "grindstone");
-        NamespacedKey smeltingKey = new NamespacedKey(IndustrialRevival.getInstance(), "smelting");
-        NamespacedKey mineKey = new NamespacedKey(IndustrialRevival.getInstance(), "mine");
-        NamespacedKey killMobKey = new NamespacedKey(IndustrialRevival.getInstance(), "kill_mob");
-
         GRINDSTONE = new RecipeType(
-                grindstoneKey,
+                new NamespacedKey(IndustrialRevival.getInstance(), "grindstone"),
                 new CustomItemStack(
                         Material.DISPENSER,
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(grindstoneKey),
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(grindstoneKey)));
+                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName("grindstone"),
+                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore("grindstone")));
 
         SMELTING = new RecipeType(
-                smeltingKey,
+                new NamespacedKey(IndustrialRevival.getInstance(), "smelting"),
                 new CustomItemStack(
                         Material.BLAST_FURNACE,
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(smeltingKey),
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(smeltingKey)));
+                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName("smelting"),
+                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore("smelting")));
 
         MINE = new RecipeType(
-                mineKey,
+                new NamespacedKey(IndustrialRevival.getInstance(), "mine"),
                 new CustomItemStack(
                         Material.IRON_PICKAXE,
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(mineKey),
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(mineKey)));
+                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName("mine"),
+                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore("mine")));
 
         KILL_MOB = new RecipeType(
-                killMobKey,
+                new NamespacedKey(IndustrialRevival.getInstance(), "kill_mob"),
                 new CustomItemStack(
                         Material.DIAMOND_SWORD,
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(killMobKey),
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(killMobKey)));
-
+                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName("kill_mob"),
+                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore("kill_mob")));
     }
 }

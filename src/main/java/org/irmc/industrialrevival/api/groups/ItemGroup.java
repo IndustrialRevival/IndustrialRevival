@@ -1,17 +1,12 @@
 package org.irmc.industrialrevival.api.groups;
 
-import com.google.common.collect.Lists;
 import java.util.LinkedList;
 import java.util.List;
 import lombok.Getter;
 import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
-import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.core.IndustrialRevival;
-import org.irmc.industrialrevival.core.guide.IRGuideImplementation;
-import org.irmc.industrialrevival.core.utils.Constants;
 
 public class ItemGroup {
     @Getter

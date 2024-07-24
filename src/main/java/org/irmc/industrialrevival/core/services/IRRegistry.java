@@ -1,4 +1,4 @@
-package org.irmc.industrialrevival.core.registry;
+package org.irmc.industrialrevival.core.services;
 
 import java.util.*;
 import lombok.Getter;
@@ -7,9 +7,9 @@ import org.bukkit.entity.EntityType;
 import org.irmc.industrialrevival.api.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.MobDropItem;
-import org.irmc.industrialrevival.api.researches.Research;
 import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
+import org.irmc.industrialrevival.api.researches.Research;
 
 @Getter
 public final class IRRegistry {
@@ -19,7 +19,7 @@ public final class IRRegistry {
     private final Map<String, PlayerProfile> playerProfiles;
     private final Map<String, MachineMenuPreset> menuPresets;
     private final Map<EntityType, List<MobDropItem>> mobDrops;
-    
+
     public IRRegistry() {
         itemGroups = new HashMap<>();
         researches = new HashMap<>();
@@ -39,6 +39,7 @@ public final class IRRegistry {
     }
 
     public void registerMobDrop(MobDropItem mobDropItem) {
-        mobDrops.computeIfAbsent(mobDropItem.getMobType(), k -> new ArrayList<>()).add(mobDropItem);
+        mobDrops.computeIfAbsent(mobDropItem.getMobType(), k -> new ArrayList<>())
+                .add(mobDropItem);
     }
 }

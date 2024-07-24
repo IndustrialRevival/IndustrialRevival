@@ -11,10 +11,12 @@ public class IRBlockData {
 
     @Getter
     private final String id;
+
     private final YamlConfiguration config;
+
     @Getter
-    @Nullable
-    private final MachineMenu machineMenu;
+    @Nullable private final MachineMenu machineMenu;
+
     @Getter
     private final Location location;
 
@@ -29,8 +31,7 @@ public class IRBlockData {
         type.set(config, key, value);
     }
 
-    @Nullable
-    public <T> T getData(String key, DataType<T> type) {
+    @Nullable public <T> T getData(String key, DataType<T> type) {
         return type.get(config, key);
     }
 }
