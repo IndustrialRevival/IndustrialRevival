@@ -10,6 +10,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.attributes.Placeable;
+import org.irmc.industrialrevival.api.items.handlers.ItemHandler;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.core.IndustrialRevival;
@@ -89,7 +90,7 @@ public class IndustrialRevivalItem implements Placeable {
         try {
             preRegister();
         } catch (Exception e) {
-            return null;
+            throw new RuntimeException(e);
         }
 
         IndustrialRevival.getInstance().getRegistry().getItems().put(getId(), this);

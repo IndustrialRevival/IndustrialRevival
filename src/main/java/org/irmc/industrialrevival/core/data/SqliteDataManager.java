@@ -14,14 +14,16 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
+import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.irmc.industrialrevival.core.data.mapper.BlockDataMapper;
 import org.irmc.industrialrevival.core.data.mapper.GuideSettingsMapper;
 import org.irmc.industrialrevival.core.data.mapper.ResearchStatusMapper;
 import org.irmc.industrialrevival.core.guide.GuideSettings;
 import org.irmc.industrialrevival.core.utils.Constants;
 import org.jetbrains.annotations.NotNull;
 
-public class SqliteDataManager implements IDataManager {
+public final class SqliteDataManager implements IDataManager {
     private final File databaseFile = new File(Constants.STORAGE_FOLDER, "database.db");
 
     private SqlSession session;
@@ -33,7 +35,9 @@ public class SqliteDataManager implements IDataManager {
 
         if (!databaseFile.exists()) {
             try {
-                databaseFile.createNewFile();
+                if (!databaseFile.createNewFile()) {
+                    throw new SQLException("Failed to create database file");
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -89,20 +93,49 @@ public class SqliteDataManager implements IDataManager {
         session.getMapper(ResearchStatusMapper.class).insertResearchStatus(playerName, b64);
     }
 
+    @Override
+    public @NotNull YamlConfiguration getBlockData(@NotNull Location location) {
+        String b64 = session.getMapper(BlockDataMapper.class).getBlockData(location);
+        if (b64 == null) {
+            return new YamlConfiguration();
+        } else {
+            b64 = new String(Base64.getDecoder().decode(b64));
+            return YamlConfiguration.loadConfiguration(new StringReader(b64));
+        }
+    }
+
+    @Override
+    public String getBlockId(@NotNull Location location) {
+        return session.getMapper(BlockDataMapper.class).getBlockId(location);
+    }
+
+    @Override
+    public void insertOrUpdateBlockData(@NotNull Location location, @NotNull YamlConfiguration blockData) {
+        BlockDataMapper mapper = session.getMapper(BlockDataMapper.class);
+        if (getBlockData(location).getKeys(false).isEmpty()) {
+            mapper.insertBlockData(location, Base64.getEncoder().encodeToString(blockData.saveToString().getBytes()));
+        } else {
+            mapper.updateBlockData(location, Base64.getEncoder().encodeToString(blockData.saveToString().getBytes()));
+        }
+    }
+
     private String getUrl() {
         return "jdbc:sqlite:" + databaseFile.getAbsolutePath();
     }
 
     private void createTables() throws SQLException {
         try (Connection conn = session.getConnection()) {
-            conn.prepareStatement("CREATE TABLE IF NOT EXISTS guide_settings (" + "    username TEXT NOT NULL,"
-                            + "    fireWorksEnabled BOOLEAN NOT NULL,"
-                            + "    learningAnimationEnabled BOOLEAN NOT NULL,"
-                            + "    language TEXT NOT NULL);")
+            conn.prepareStatement("CREATE TABLE IF NOT EXISTS guide_settings (username TEXT NOT NULL,fireWorksEnabled BOOLEAN NOT NULL,learningAnimationEnabled BOOLEAN NOT NULL,language TEXT NOT NULL);")
                     .execute();
 
             conn.prepareStatement(
                             "CREATE TABLE IF NOT EXISTS research_status (username TEXT NOT NULL, researchStatus TEXT NOT NULL)")
+                    .execute();
+
+            conn.prepareStatement("CREATE TABLE IF NOT EXISTS block_record (world TEXT NOT NULL, x INT NOT NULL, y INT NOT NULL, z INT NOT NULL, machine_id TEXT NOT NULL, PRIMARY KEY (world, x, y, z, machine_id))")
+                    .execute();
+
+            conn.prepareStatement("CREATE TABLE IF NOT EXISTS block_data (world TEXT NOT NULL, x INT NOT NULL, y INT NOT NULL, z INT NOT NULL, data TEXT NOT NULL, PRIMARY KEY (world, x, y, z))")
                     .execute();
         }
     }

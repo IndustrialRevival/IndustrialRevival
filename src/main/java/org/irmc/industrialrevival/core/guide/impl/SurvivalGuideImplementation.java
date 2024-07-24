@@ -169,6 +169,7 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
         }
     }
 
+    //TODO: Add items to 书签/bookmarks group
     private static class BookMarkGroup extends ItemGroup {
         public BookMarkGroup(NamespacedKey key, Player p) {
             super(key, Constants.BOOKMARK_BUTTON.apply(p));
