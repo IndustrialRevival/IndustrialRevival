@@ -4,7 +4,9 @@ import com.google.common.base.Preconditions;
 import java.util.function.Consumer;
 import lombok.Getter;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
@@ -74,12 +76,51 @@ public class IndustrialRevivalItemStack extends ItemStack {
 
     @Deprecated
     @Override
+    @SuppressWarnings("deprecation")
     public void setData(@Nullable MaterialData data) {
         if (locked) {
             throw new IllegalStateException("Item is not mutable");
         }
 
         super.setData(data);
+    }
+
+    @Deprecated
+    @Override
+    @SuppressWarnings("deprecation")
+    public void setDurability(short durability) {
+        if (locked) {
+            throw new IllegalStateException("Item is not mutable");
+        }
+
+        super.setDurability(durability);
+    }
+
+    @Override
+    public void addEnchantment(@NotNull Enchantment ench, int level) {
+        if (locked) {
+            throw new IllegalStateException("Item is not mutable");
+        }
+
+        super.addEnchantment(ench, level);
+    }
+
+    @Override
+    public boolean editMeta(@NotNull Consumer<? super ItemMeta> consumer) {
+        if (locked) {
+            throw new IllegalStateException("Item is not mutable");
+        }
+
+        return super.editMeta(consumer);
+    }
+
+    @Override
+    public <M extends ItemMeta> boolean editMeta(@NotNull Class<M> metaClass, @NotNull Consumer<? super M> consumer) {
+        if (locked) {
+            throw new IllegalStateException("Item is not mutable");
+        }
+
+        return super.editMeta(metaClass, consumer);
     }
 
     @Override

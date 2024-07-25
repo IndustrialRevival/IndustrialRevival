@@ -52,6 +52,8 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         setupListeners();
 
         IRCommandGenerator.registerCommand(this);
+
+        //new Metrics(this, ??);
     }
 
     private void setupServices() {

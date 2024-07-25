@@ -9,9 +9,11 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.core.IndustrialRevival;
 import org.irmc.industrialrevival.core.guide.impl.CheatGuideImplementation;
@@ -151,13 +153,41 @@ public class IRCommandGenerator {
         Component msg =
                 IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(sender, "command.info.header");
         msg = msg.append(Component.newline());
+
         MessageReplacement ver = new MessageReplacement(
                 "%version%", IndustrialRevival.getInstance().getPluginMeta().getVersion());
+
         msg = msg.append(IndustrialRevival.getInstance()
                 .getLanguageManager()
                 .getMsgComponent(sender, "command.info.version", ver));
 
-        // TODO: add more info messages
+        msg = msg.append(Component.newline());
+
+        MessageReplacement author = new MessageReplacement(
+                "%server_version%", Bukkit.getVersion());
+
+        msg = msg.append(IndustrialRevival.getInstance()
+                .getLanguageManager()
+                .getMsgComponent(sender, "command.info.server_version", author));
+
+        for (Plugin addon : findAllAddons()) {
+            MessageReplacement name = new MessageReplacement(
+                    "%addon_name%", addon.getName());
+            MessageReplacement version = new MessageReplacement(
+                    "%addon_version%", addon.getDescription().getVersion());
+            msg = msg.append(Component.newline());
+            msg = msg.append(IndustrialRevival.getInstance()
+                    .getLanguageManager()
+                    .getMsgComponent(sender, "command.info.addon_item", name, version));
+        }
+
         sender.sendMessage(msg);
+    }
+
+    private static List<Plugin> findAllAddons() {
+        List<Plugin> plugins = List.of(Bukkit.getPluginManager().getPlugins());
+        return plugins.stream()
+                .filter(p -> p.getPluginMeta().getPluginDependencies().contains("IndustrialRevival"))
+                .toList();
     }
 }

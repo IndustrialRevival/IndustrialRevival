@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
+import org.irmc.industrialrevival.api.items.attributes.NotPlaceable;
 import org.irmc.industrialrevival.api.items.handlers.BlockBreakHandler;
 import org.irmc.industrialrevival.api.items.handlers.BlockPlaceHandler;
 import org.irmc.industrialrevival.api.items.handlers.BlockUseHandler;
@@ -38,6 +39,11 @@ public class ItemHandlerListener extends AbstractIRListener {
         if (item instanceof IndustrialRevivalItemStack iris) {
             String id = iris.getId();
             IndustrialRevivalItem iritem = IndustrialRevivalItem.getById(id);
+
+            if (iritem instanceof NotPlaceable) {
+                return;
+            }
+
             BlockPlaceHandler handler = iritem.getItemHandler(BlockPlaceHandler.class);
             if (handler != null) {
                 handler.onBlockPlace(player, e.getBlockPlaced(), false);
@@ -57,6 +63,7 @@ public class ItemHandlerListener extends AbstractIRListener {
             String id = blockData.getId();
             IndustrialRevivalItem iritem = IndustrialRevivalItem.getById(id);
             BlockBreakHandler handler = iritem.getItemHandler(BlockBreakHandler.class);
+
             if (handler != null) {
                 handler.onBlockBreak(player, e.getBlock(), false);
             }

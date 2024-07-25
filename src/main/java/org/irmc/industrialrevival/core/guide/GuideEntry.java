@@ -3,7 +3,7 @@ package org.irmc.industrialrevival.core.guide;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.irmc.industrialrevival.api.groups.ItemGroup;
+import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 
 @Getter
