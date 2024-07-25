@@ -9,6 +9,7 @@ import org.irmc.industrialrevival.core.command.IRCommandGenerator;
 import org.irmc.industrialrevival.core.data.IDataManager;
 import org.irmc.industrialrevival.core.data.MysqlDataManager;
 import org.irmc.industrialrevival.core.data.SqliteDataManager;
+import org.irmc.industrialrevival.core.listeners.GuideListener;
 import org.irmc.industrialrevival.core.listeners.ItemHandlerListener;
 import org.irmc.industrialrevival.core.listeners.MachineMenuListener;
 import org.irmc.industrialrevival.core.listeners.MobDropListener;
@@ -55,11 +56,12 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
 
     private void setupServices() {
         registry = new IRRegistry();
-        itemTextureService = new ItemTextureService();
         blockDataService = new BlockDataService();
+        itemTextureService = new ItemTextureService();
     }
 
     private void setupListeners() {
+        new GuideListener().register();
         new MachineMenuListener().register();
         new ItemHandlerListener().register();
         new MobDropListener().register();
@@ -90,6 +92,8 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
 
     @Override
     public void onDisable() {
+        getLogger().info("IndustrialRevival is saving data and shutting down...");
+        blockDataService.saveAllData();
         dataManager.close();
     }
 

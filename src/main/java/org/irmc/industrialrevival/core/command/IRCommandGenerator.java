@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.core.IndustrialRevival;
+import org.irmc.industrialrevival.core.guide.impl.CheatGuideImplementation;
 import org.irmc.industrialrevival.core.message.MessageReplacement;
 import org.irmc.industrialrevival.core.utils.Constants;
 
@@ -36,11 +37,23 @@ public class IRCommandGenerator {
                             Player player = executionInfo.sender();
                             player.getInventory().addItem(Constants.GUIDE_BOOK_ITEM.clone());
                         }))
+                .withSubcommand(new CommandAPICommand("reload")
+                        .withPermission("industrialrevival.cmd.reload")
+                        .executes(executionInfo -> {
+                            IndustrialRevival.getInstance().reloadConfig();
+                            IndustrialRevival.getInstance().getLanguageManager().sendMessage(executionInfo.sender(), "command.reload");
+                        }))
                 .withSubcommand(new CommandAPICommand("info")
                         .withPermission("industrialrevival.cmd.info")
                         .executes(executionInfo -> {
                             CommandSender sender = executionInfo.sender();
                             sendInfoMessage(sender);
+                        }))
+                .withSubcommand(new CommandAPICommand("cheat")
+                        .withPermission("industrialrevival.cmd.cheat")
+                        .executesPlayer(executionInfo -> {
+                            Player player = executionInfo.sender();
+                            CheatGuideImplementation.INSTANCE.open(player);
                         }))
                 .withSubcommand(new CommandAPICommand("give")
                         .withPermission("industrialrevival.cmd.give")

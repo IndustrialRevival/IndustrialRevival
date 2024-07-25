@@ -5,6 +5,7 @@ import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Base64;
+import java.util.List;
 import javax.sql.DataSource;
 import org.apache.ibatis.datasource.unpooled.UnpooledDataSource;
 import org.apache.ibatis.mapping.Environment;
@@ -19,6 +20,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.irmc.industrialrevival.core.data.mapper.BlockDataMapper;
 import org.irmc.industrialrevival.core.data.mapper.GuideSettingsMapper;
 import org.irmc.industrialrevival.core.data.mapper.ResearchStatusMapper;
+import org.irmc.industrialrevival.core.data.object.BlockRecord;
 import org.irmc.industrialrevival.core.guide.GuideSettings;
 import org.irmc.industrialrevival.core.utils.Constants;
 import org.jetbrains.annotations.NotNull;
@@ -110,17 +112,18 @@ public final class SqliteDataManager implements IDataManager {
     }
 
     @Override
-    public void insertOrUpdateBlockData(@NotNull Location location, @NotNull YamlConfiguration blockData) {
+    public void updateBlockData(@NotNull Location location, @NotNull BlockRecord blockRecord) {
         BlockDataMapper mapper = session.getMapper(BlockDataMapper.class);
-        if (getBlockData(location).getKeys(false).isEmpty()) {
-            mapper.insertBlockData(
+        if (!getBlockData(location).getKeys(true).isEmpty()) {
+            mapper.saveBlockData(
                     location,
-                    Base64.getEncoder().encodeToString(blockData.saveToString().getBytes()));
-        } else {
-            mapper.updateBlockData(
-                    location,
-                    Base64.getEncoder().encodeToString(blockData.saveToString().getBytes()));
+                    Base64.getEncoder().encodeToString(blockRecord.getData().getBytes()));
         }
+    }
+
+    @Override
+    public List<BlockRecord> getAllBlockRecords() {
+        return session.getMapper(BlockDataMapper.class).getAllBlockRecords();
     }
 
     private String getUrl() {
@@ -138,11 +141,7 @@ public final class SqliteDataManager implements IDataManager {
                     .execute();
 
             conn.prepareStatement(
-                            "CREATE TABLE IF NOT EXISTS block_record (world TEXT NOT NULL, x INT NOT NULL, y INT NOT NULL, z INT NOT NULL, machine_id TEXT NOT NULL, PRIMARY KEY (world, x, y, z, machine_id))")
-                    .execute();
-
-            conn.prepareStatement(
-                            "CREATE TABLE IF NOT EXISTS block_data (world TEXT NOT NULL, x INT NOT NULL, y INT NOT NULL, z INT NOT NULL, data TEXT NOT NULL, PRIMARY KEY (world, x, y, z))")
+                            "CREATE TABLE IF NOT EXISTS block_record (world TEXT NOT NULL, x INT NOT NULL, y INT NOT NULL, z INT NOT NULL, machine_id TEXT NOT NULL, data TEXT DEFAULT NULL, PRIMARY KEY (world, x, y, z))")
                     .execute();
         }
     }

@@ -104,7 +104,7 @@ public final class LanguageManager {
         return parseToComponentList(getMsgList(null, "recipe_type." + key + ".lore"));
     }
 
-    public void sendMessage(Player player, String key, MessageReplacement... args) {
+    public void sendMessage(CommandSender player, String key, MessageReplacement... args) {
         player.sendMessage(parseToComponent(getMsg(player, key, args)));
     }
 

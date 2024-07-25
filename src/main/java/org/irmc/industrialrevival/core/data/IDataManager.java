@@ -1,6 +1,8 @@
 package org.irmc.industrialrevival.core.data;
 
 import java.sql.SQLException;
+import java.util.List;
+
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.session.Configuration;
 import org.bukkit.Location;
@@ -8,6 +10,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.irmc.industrialrevival.core.data.mapper.BlockDataMapper;
 import org.irmc.industrialrevival.core.data.mapper.GuideSettingsMapper;
 import org.irmc.industrialrevival.core.data.mapper.ResearchStatusMapper;
+import org.irmc.industrialrevival.core.data.object.BlockRecord;
 import org.irmc.industrialrevival.core.guide.GuideSettings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -34,7 +37,9 @@ public sealed interface IDataManager permits MysqlDataManager, SqliteDataManager
 
     @Nullable String getBlockId(@NotNull Location location);
 
-    void insertOrUpdateBlockData(@NotNull Location location, @NotNull YamlConfiguration blockData);
+    void updateBlockData(@NotNull Location location, @NotNull BlockRecord r);
+
+    List<BlockRecord> getAllBlockRecords();
 
     default Configuration newMybatisConfiguration(Environment environment) {
         Configuration configuration = new Configuration(environment);
