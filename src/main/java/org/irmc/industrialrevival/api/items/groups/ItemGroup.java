@@ -23,13 +23,13 @@ public abstract class ItemGroup {
     @Getter
     private final List<IndustrialRevivalItem> items = new LinkedList<>();
 
-    ItemGroup(NamespacedKey key, ItemStack icon) {
+    protected ItemGroup(NamespacedKey key, ItemStack icon) {
         this.key = key;
         this.icon = icon;
         this.tier = 3;
     }
 
-    ItemGroup(NamespacedKey key, ItemStack icon, int tier) {
+    protected ItemGroup(NamespacedKey key, ItemStack icon, int tier) {
         this.key = key;
         this.icon = icon;
         this.tier = tier;

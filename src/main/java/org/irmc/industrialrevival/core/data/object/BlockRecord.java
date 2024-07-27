@@ -15,10 +15,6 @@ public class BlockRecord {
     private int y;
     private int z;
     private String id;
-    /**
-     * The data value of the block.
-     * WARNING: This value is encoded using base64 and not a YamlConfiguration object, DON'T TRY TO USE IT!
-     */
     private String data;
 
     public Location getLocation() {

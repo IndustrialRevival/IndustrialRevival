@@ -1,12 +1,11 @@
 package org.irmc.industrialrevival.api.objects;
 
+import java.util.Set;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Set;
 
 @Getter
 public class IRBlockData {
