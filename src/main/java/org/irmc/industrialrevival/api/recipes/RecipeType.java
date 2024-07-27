@@ -6,12 +6,14 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.core.IndustrialRevival;
+import org.irmc.industrialrevival.core.utils.Keys;
 
 @Getter
 public class RecipeType {
     public static final RecipeType GRINDSTONE;
     public static final RecipeType SMELTING;
     public static final RecipeType MINE;
+    public static final RecipeType NULL;
 
     private final NamespacedKey key;
     private final ItemStack icon;
@@ -22,29 +24,29 @@ public class RecipeType {
     }
 
     static {
-        NamespacedKey grindstoneKey = new NamespacedKey(IndustrialRevival.getInstance(), "grindstone");
-        NamespacedKey smeltingKey = new NamespacedKey(IndustrialRevival.getInstance(), "smelting");
-        NamespacedKey mineKey = new NamespacedKey(IndustrialRevival.getInstance(), "mine");
-
         GRINDSTONE = new RecipeType(
-                grindstoneKey,
+                Keys.RECIPE_TYPE_GRIDSTONE,
                 new CustomItemStack(
                         Material.DISPENSER,
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(grindstoneKey),
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(grindstoneKey)));
+                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(Keys.RECIPE_TYPE_GRIDSTONE),
+                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(Keys.RECIPE_TYPE_GRIDSTONE)));
 
         SMELTING = new RecipeType(
-                smeltingKey,
+                Keys.RECIPE_TYPE_SMELTING,
                 new CustomItemStack(
                         Material.BLAST_FURNACE,
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(smeltingKey),
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(smeltingKey)));
+                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(Keys.RECIPE_TYPE_SMELTING),
+                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(Keys.RECIPE_TYPE_SMELTING)));
 
         MINE = new RecipeType(
-                mineKey,
+                Keys.RECIPE_TYPE_MINE,
                 new CustomItemStack(
                         Material.IRON_PICKAXE,
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(mineKey),
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(mineKey)));
+                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(Keys.RECIPE_TYPE_MINE),
+                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(Keys.RECIPE_TYPE_MINE)));
+
+        NULL = new RecipeType(
+                Keys.RECIPE_TYPE_NULL,
+                new CustomItemStack(Material.AIR));
     }
 }

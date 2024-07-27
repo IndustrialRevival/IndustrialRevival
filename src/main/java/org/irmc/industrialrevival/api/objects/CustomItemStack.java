@@ -21,6 +21,10 @@ public class CustomItemStack extends ItemStack {
         setItemMeta(im);
     }
 
+    public CustomItemStack(Material type) {
+        super(type);
+    }
+
     public CustomItemStack(Material type, Consumer<ItemMeta> meta) {
         this(new ItemStack(type), meta);
     }

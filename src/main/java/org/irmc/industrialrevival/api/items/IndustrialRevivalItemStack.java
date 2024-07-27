@@ -26,7 +26,7 @@ public class IndustrialRevivalItemStack extends ItemStack {
 
         this.id = id;
 
-        editMeta(m -> PersistentDataAPI.setString(m, Constants.ITEM_ID_KEY, id));
+        editMeta(meta -> PersistentDataAPI.setString(meta, Constants.ITEM_ID_KEY, id));
     }
 
     public IndustrialRevivalItemStack(String id, Material material, String name, String... lore) {
@@ -70,6 +70,10 @@ public class IndustrialRevivalItemStack extends ItemStack {
         }
 
         super.setType(type);
+    }
+
+    String getId() {
+        return id;
     }
 
     @Deprecated

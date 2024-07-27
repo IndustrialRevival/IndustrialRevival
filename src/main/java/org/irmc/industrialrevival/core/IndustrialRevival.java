@@ -8,6 +8,8 @@ import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.core.data.IDataManager;
 import org.irmc.industrialrevival.core.data.MysqlDataManager;
 import org.irmc.industrialrevival.core.data.SqliteDataManager;
+import org.irmc.industrialrevival.core.implemention.groups.IRItemGroups;
+import org.irmc.industrialrevival.core.implemention.items.IRItems;
 import org.irmc.industrialrevival.core.listeners.ItemHandlerListener;
 import org.irmc.industrialrevival.core.listeners.MachineMenuListener;
 import org.irmc.industrialrevival.core.message.LanguageManager;
@@ -45,9 +47,14 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         registry = new IRRegistry();
 
         setupDataManager();
-
+        setupIndustrialRevivalItems();
         setupServices();
         setupListeners();
+    }
+
+    private void setupIndustrialRevivalItems() {
+        IRItemGroups.setup();
+        IRItems.setup();
     }
 
     private void setupServices() {
