@@ -78,9 +78,8 @@ public class ItemHandlerListener extends AbstractIRListener {
             Block block = e.getClickedBlock();
             if (block != null) {
                 Location location = block.getLocation();
-                IRBlockData blockData = IndustrialRevival.getInstance()
-                        .getBlockDataService()
-                        .getBlockData(location);
+                IRBlockData blockData =
+                        IndustrialRevival.getInstance().getBlockDataService().getBlockData(location);
                 if (blockData != null) {
                     String id = blockData.getId();
                     IndustrialRevivalItem iritem = IndustrialRevivalItem.getById(id);

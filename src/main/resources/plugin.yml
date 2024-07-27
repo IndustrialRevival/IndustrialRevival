@@ -3,5 +3,3 @@ version: '${project.version}'
 main: org.irmc.industrialrevival.core.IndustrialRevival
 api-version: '1.20'
 authors: [mmmjjkx and IndustrialRevival community]
-libraries:
-  - org.mybatis:mybatis:3.5.16

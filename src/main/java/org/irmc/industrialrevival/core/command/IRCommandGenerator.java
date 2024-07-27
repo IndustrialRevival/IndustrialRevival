@@ -43,7 +43,9 @@ public class IRCommandGenerator {
                         .withPermission("industrialrevival.cmd.reload")
                         .executes(executionInfo -> {
                             IndustrialRevival.getInstance().reloadConfig();
-                            IndustrialRevival.getInstance().getLanguageManager().sendMessage(executionInfo.sender(), "command.reload");
+                            IndustrialRevival.getInstance()
+                                    .getLanguageManager()
+                                    .sendMessage(executionInfo.sender(), "command.reload");
                         }))
                 .withSubcommand(new CommandAPICommand("info")
                         .withPermission("industrialrevival.cmd.info")
@@ -163,16 +165,14 @@ public class IRCommandGenerator {
 
         msg = msg.append(Component.newline());
 
-        MessageReplacement author = new MessageReplacement(
-                "%server_version%", Bukkit.getVersion());
+        MessageReplacement author = new MessageReplacement("%server_version%", Bukkit.getVersion());
 
         msg = msg.append(IndustrialRevival.getInstance()
                 .getLanguageManager()
                 .getMsgComponent(sender, "command.info.server_version", author));
 
         for (Plugin addon : findAllAddons()) {
-            MessageReplacement name = new MessageReplacement(
-                    "%addon_name%", addon.getName());
+            MessageReplacement name = new MessageReplacement("%addon_name%", addon.getName());
             MessageReplacement version = new MessageReplacement(
                     "%addon_version%", addon.getDescription().getVersion());
             msg = msg.append(Component.newline());

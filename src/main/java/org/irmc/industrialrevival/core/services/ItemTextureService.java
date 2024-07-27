@@ -1,7 +1,6 @@
 package org.irmc.industrialrevival.core.services;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -27,7 +26,8 @@ public class ItemTextureService {
     }
 
     private void setup() {
-        for (IRBlockData data : IndustrialRevival.getInstance().getBlockDataService().getAllBlockData()) {
+        for (IRBlockData data :
+                IndustrialRevival.getInstance().getBlockDataService().getAllBlockData()) {
             String id = data.getId();
             IndustrialRevivalItem item = IndustrialRevivalItem.getById(id);
             if (item == null) {

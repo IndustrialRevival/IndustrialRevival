@@ -20,10 +20,12 @@ public class BlockDataService {
     }
 
     private void loadData() {
-        List<BlockRecord> records = IndustrialRevival.getInstance().getDataManager().getAllBlockRecords();
+        List<BlockRecord> records =
+                IndustrialRevival.getInstance().getDataManager().getAllBlockRecords();
         for (BlockRecord record : records) {
             Location loc = record.getLocation();
-            YamlConfiguration config = IndustrialRevival.getInstance().getDataManager().getBlockData(loc);
+            YamlConfiguration config =
+                    IndustrialRevival.getInstance().getDataManager().getBlockData(loc);
             blockData.put(loc, new IRBlockData(record.getId(), record.getLocation(), config, null));
         }
     }
@@ -35,7 +37,13 @@ public class BlockDataService {
     public void saveAllData() {
         for (IRBlockData data : blockData.values()) {
             Location loc = data.getLocation();
-            BlockRecord record = new BlockRecord(loc.getWorld().getName(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ(), data.getId(), data.getConfig().saveToString());
+            BlockRecord record = new BlockRecord(
+                    loc.getWorld().getName(),
+                    loc.getBlockX(),
+                    loc.getBlockY(),
+                    loc.getBlockZ(),
+                    data.getId(),
+                    data.getConfig().saveToString());
             IndustrialRevival.getInstance().getDataManager().updateBlockData(loc, record);
         }
     }

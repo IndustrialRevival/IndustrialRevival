@@ -1,13 +1,12 @@
 package org.irmc.industrialrevival.api.items.groups;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import lombok.Getter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 @Getter
 public class NestedItemGroup extends ItemGroup {
@@ -36,7 +35,9 @@ public class NestedItemGroup extends ItemGroup {
     }
 
     private void tryResort() {
-        List<SubItemGroup> sorted = subItemGroups.stream().sorted(Comparator.comparingInt(ItemGroup::getTier)).toList();
+        List<SubItemGroup> sorted = subItemGroups.stream()
+                .sorted(Comparator.comparingInt(ItemGroup::getTier))
+                .toList();
         subItemGroups.clear();
         subItemGroups.addAll(sorted);
     }

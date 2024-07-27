@@ -17,6 +17,7 @@ import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.core.data.mapper.BlockDataMapper;
 import org.irmc.industrialrevival.core.data.mapper.GuideSettingsMapper;
 import org.irmc.industrialrevival.core.data.mapper.ResearchStatusMapper;
@@ -97,33 +98,45 @@ public final class SqliteDataManager implements IDataManager {
 
     @Override
     public @NotNull YamlConfiguration getBlockData(@NotNull Location location) {
-        String b64 = session.getMapper(BlockDataMapper.class).getBlockData(location);
-        if (b64 == null) {
+        String str = session.getMapper(BlockDataMapper.class).getBlockData(location);
+        if (str == null) {
             return new YamlConfiguration();
         } else {
-            b64 = new String(Base64.getDecoder().decode(b64));
-            return YamlConfiguration.loadConfiguration(new StringReader(b64));
+            return YamlConfiguration.loadConfiguration(new StringReader(str));
         }
     }
 
     @Override
-    public String getBlockId(@NotNull Location location) {
-        return session.getMapper(BlockDataMapper.class).getBlockId(location);
+    public void handleBlockPlacing(Location loc, String machineId) {
+        session.getMapper(BlockDataMapper.class).blockPlacing(loc, machineId);
+    }
+
+    @Override
+    public void handleBlockBreaking(Location loc) {
+        BlockDataMapper mapper = session.getMapper(BlockDataMapper.class);
+        String id = mapper.getBlockId(loc);
+        mapper.blockRemoving(loc, id);
+        mapper.deleteMenuItems(loc);
     }
 
     @Override
     public void updateBlockData(@NotNull Location location, @NotNull BlockRecord blockRecord) {
         BlockDataMapper mapper = session.getMapper(BlockDataMapper.class);
         if (!getBlockData(location).getKeys(true).isEmpty()) {
-            mapper.saveBlockData(
-                    location,
-                    Base64.getEncoder().encodeToString(blockRecord.getData().getBytes()));
+            mapper.saveBlockData(location, blockRecord.getData());
         }
     }
 
     @Override
     public List<BlockRecord> getAllBlockRecords() {
         return session.getMapper(BlockDataMapper.class).getAllBlockRecords();
+    }
+
+    @Override
+    public ItemStack getMenuItem(Location location, int slot) {
+        return session.getMapper(BlockDataMapper.class)
+                .getMenuItem(location, slot)
+                .getItemStack();
     }
 
     private String getUrl() {
@@ -142,6 +155,10 @@ public final class SqliteDataManager implements IDataManager {
 
             conn.prepareStatement(
                             "CREATE TABLE IF NOT EXISTS block_record (world TEXT NOT NULL, x INT NOT NULL, y INT NOT NULL, z INT NOT NULL, machine_id TEXT NOT NULL, data TEXT DEFAULT NULL, PRIMARY KEY (world, x, y, z))")
+                    .execute();
+
+            conn.prepareStatement(
+                            "CREATE TABLE IF NOT EXISTS menu_items(world TEXT NOT NULL, x INT NOT NULL, y INT NOT NULL, z INT NOT NULL, slot INT NOT NULL, item_json TEXT NOT NULL, itemClass TEXT NOT NULL, PRIMARY KEY (world, x, y, z));")
                     .execute();
         }
     }
