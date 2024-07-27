@@ -8,8 +8,12 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
-import org.irmc.industrialrevival.api.groups.ItemGroup;
+import org.irmc.industrialrevival.api.items.attributes.ChancedItem;
+import org.irmc.industrialrevival.api.items.attributes.ItemAttribute;
+import org.irmc.industrialrevival.api.items.attributes.MobDropItem;
+import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.attributes.Placeable;
+import org.irmc.industrialrevival.api.items.handlers.ItemHandler;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.core.IndustrialRevival;
@@ -89,7 +93,7 @@ public class IndustrialRevivalItem implements Placeable {
         try {
             preRegister();
         } catch (Exception e) {
-            return null;
+            throw new RuntimeException(e);
         }
 
         IndustrialRevival.getInstance().getRegistry().getItems().put(getId(), this);
@@ -123,6 +127,10 @@ public class IndustrialRevivalItem implements Placeable {
             if (ex != null) {
                 throw ex;
             }
+        }
+
+        if (this instanceof MobDropItem) {
+            IndustrialRevival.getInstance().getRegistry().registerMobDrop(this);
         }
     }
 

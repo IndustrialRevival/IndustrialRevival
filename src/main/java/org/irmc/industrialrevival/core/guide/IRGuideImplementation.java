@@ -1,7 +1,7 @@
 package org.irmc.industrialrevival.core.guide;
 
 import org.bukkit.entity.Player;
-import org.irmc.industrialrevival.api.groups.ItemGroup;
+import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 
 public interface IRGuideImplementation {

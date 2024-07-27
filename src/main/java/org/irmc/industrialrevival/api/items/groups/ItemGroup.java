@@ -1,19 +1,14 @@
-package org.irmc.industrialrevival.api.groups;
+package org.irmc.industrialrevival.api.items.groups;
 
-import com.google.common.collect.Lists;
 import java.util.LinkedList;
 import java.util.List;
 import lombok.Getter;
 import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
-import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.core.IndustrialRevival;
-import org.irmc.industrialrevival.core.guide.IRGuideImplementation;
-import org.irmc.industrialrevival.core.utils.Constants;
 
-public class ItemGroup {
+public abstract class ItemGroup {
     @Getter
     private final NamespacedKey key;
 
@@ -23,18 +18,18 @@ public class ItemGroup {
     @Getter
     private int tier;
 
-    private boolean locked = false;
+    boolean locked = false;
 
     @Getter
     private final List<IndustrialRevivalItem> items = new LinkedList<>();
 
-    public ItemGroup(NamespacedKey key, ItemStack icon) {
+    ItemGroup(NamespacedKey key, ItemStack icon) {
         this.key = key;
         this.icon = icon;
         this.tier = 3;
     }
 
-    public ItemGroup(NamespacedKey key, ItemStack icon, int tier) {
+    ItemGroup(NamespacedKey key, ItemStack icon, int tier) {
         this.key = key;
         this.icon = icon;
         this.tier = tier;
