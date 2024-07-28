@@ -174,7 +174,7 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
                         .getIcon());
 
         List<ItemGroup> groupList = partition.get(page - 1);
-        for (int i = 10; i < 36; i++) {
+        for (int i = 10; i < partSize + 9; i++) {
             int index = i - 10;
             ItemGroup group = index < groupList.size() ? groupList.get(index) : null;
             if (group != null) {
