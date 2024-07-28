@@ -10,6 +10,7 @@ import java.util.jar.JarFile;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.NamespacedKey;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -112,8 +113,8 @@ public final class LanguageManager {
         return parseToComponentList(getMsgList(null, "group." + id + ".lore"));
     }
 
-    public void sendMessage(Player player, String key, MessageReplacement... args) {
-        player.sendMessage(parseToComponent(getMsg(player, key, args)));
+    public void sendMessage(CommandSender CommandSender, String key, MessageReplacement... args) {
+        CommandSender.sendMessage(parseToComponent(getMsg(CommandSender, key, args)));
     }
 
     public static Component parseToComponent(String msg) {
@@ -124,12 +125,12 @@ public final class LanguageManager {
         return msgList.stream().map(LanguageManager::parseToComponent).toList();
     }
 
-    public Component getMsgComponent(@Nullable Player player, String key, MessageReplacement... args) {
-        return parseToComponent(getMsg(player, key, args));
+    public Component getMsgComponent(@Nullable CommandSender CommandSender, String key, MessageReplacement... args) {
+        return parseToComponent(getMsg(CommandSender, key, args));
     }
 
-    public String getMsg(@Nullable Player player, String key, MessageReplacement... args) {
-        String msg = getConfiguration(player).getString(key);
+    public String getMsg(@Nullable CommandSender CommandSender, String key, MessageReplacement... args) {
+        String msg = getConfiguration(CommandSender).getString(key);
         if (msg == null) {
             return key;
         }
@@ -141,8 +142,8 @@ public final class LanguageManager {
         return msg;
     }
 
-    public List<String> getMsgList(@Nullable Player player, String key, MessageReplacement... args) {
-        List<String> msgList = getConfiguration(player).getStringList(key);
+    public List<String> getMsgList(@Nullable CommandSender CommandSender, String key, MessageReplacement... args) {
+        List<String> msgList = getConfiguration(CommandSender).getStringList(key);
         for (MessageReplacement arg : args) {
             msgList.replaceAll(arg::parse);
         }
@@ -150,11 +151,11 @@ public final class LanguageManager {
         return msgList;
     }
 
-    private Configuration getConfiguration(Player p) {
-        if (p == null) {
+    private Configuration getConfiguration(CommandSender p) {
+        if (!(p instanceof Player pl)) {
             return defaultConfiguration;
         }
 
-        return configurations.getOrDefault(p.locale().toLanguageTag(), defaultConfiguration);
+        return configurations.getOrDefault(pl.locale().toLanguageTag(), defaultConfiguration);
     }
 }

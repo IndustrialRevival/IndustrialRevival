@@ -1,20 +1,25 @@
 package org.irmc.industrialrevival.core.listeners;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
-import org.irmc.industrialrevival.api.items.handlers.BlockBreakHandler;
-import org.irmc.industrialrevival.api.items.handlers.BlockPlaceHandler;
-import org.irmc.industrialrevival.api.items.handlers.UseItemInteractHandler;
+import org.irmc.industrialrevival.api.items.attributes.InventoryBlock;
+import org.irmc.industrialrevival.api.items.attributes.NotPlaceable;
+import org.irmc.industrialrevival.api.items.handlers.*;
+import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.core.IndustrialRevival;
+
+import java.util.ArrayList;
 
 public class ItemHandlerListener extends AbstractIRListener {
     @EventHandler
@@ -37,10 +42,21 @@ public class ItemHandlerListener extends AbstractIRListener {
         if (item instanceof IndustrialRevivalItemStack iris) {
             String id = iris.getId();
             IndustrialRevivalItem iritem = IndustrialRevivalItem.getById(id);
+
+            if (iritem instanceof NotPlaceable) {
+                e.setCancelled(true);
+                return;
+            }
+
+            Block block = e.getBlockPlaced();
+
+            IndustrialRevival.getInstance().getItemTextureService().blockPlacing(e);
+            IndustrialRevival.getInstance().getDataManager().handleBlockPlacing(block.getLocation(), id);
+
             BlockPlaceHandler handler = iritem.getItemHandler(BlockPlaceHandler.class);
+
             if (handler != null) {
-                IndustrialRevival.getInstance().getItemTextureService().blockPlacing(e);
-                handler.onBlockPlace(player, e.getBlockPlaced(), false);
+                handler.onBlockPlace(player, block, false);
             }
         }
     }
@@ -52,22 +68,65 @@ public class ItemHandlerListener extends AbstractIRListener {
         if (blockData != null) {
             String id = blockData.getId();
             IndustrialRevivalItem iritem = IndustrialRevivalItem.getById(id);
+            Block block = e.getBlock();
+
+            IndustrialRevival.getInstance().getItemTextureService().blockBreaking(e);
+            IndustrialRevival.getInstance().getDataManager().handleBlockBreaking(block.getLocation());
+
             BlockBreakHandler handler = iritem.getItemHandler(BlockBreakHandler.class);
             if (handler != null) {
-                IndustrialRevival.getInstance().getItemTextureService().blockBreaking(e);
-                handler.onBlockBreak(player, e.getBlock(), false);
+                handler.onBlockBreak(player, block, false);
             }
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOW)
     public void onBlockUse(PlayerInteractEvent e) {
         if (e.getAction().isRightClick()) {
             Block block = e.getClickedBlock();
             if (block != null) {
                 Location location = block.getLocation();
-                // TODO: block data storing
+                IRBlockData blockData = IndustrialRevival.getInstance().getBlockDataService().getBlockData(location);
+                if (blockData != null) {
+                    String id = blockData.getId();
+                    IndustrialRevivalItem iritem = IndustrialRevivalItem.getById(id);
+                    BlockUseHandler handler = iritem.getItemHandler(BlockUseHandler.class);
+                    if (handler != null) {
+                        handler.onRightClick(e);
+                    }
+
+                    if (iritem instanceof InventoryBlock) {
+                        MachineMenu menu = blockData.getMachineMenu();
+                        if (menu != null) {
+                            menu.open(e.getPlayer());
+                        }
+                    }
+                }
             }
         }
+    }
+
+    @EventHandler
+    public void onToolUse(BlockBreakEvent e) {
+        ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
+        if (item instanceof IndustrialRevivalItemStack iris) {
+            String id = iris.getId();
+            IndustrialRevivalItem iritem = IndustrialRevivalItem.getById(id);
+
+            if (!isTool(item)) {
+                return;
+            }
+
+            ToolUseHandler handler = iritem.getItemHandler(ToolUseHandler.class);
+            if (handler != null) {
+                handler.onToolUse(e, iris, new ArrayList<>(e.getBlock().getDrops()));
+            }
+        }
+    }
+
+    private boolean isTool(ItemStack item) {
+        Material material = item.getType();
+        String str = material.toString();
+        return str.endsWith("AXE") || str.endsWith("HOE") || str.endsWith("PICKAXE") || str.endsWith("SHOVEL");
     }
 }

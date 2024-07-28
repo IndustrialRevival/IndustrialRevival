@@ -6,6 +6,10 @@ import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
 
 public interface InventoryBlock extends ItemAttribute {
+    int[] getInputSlots();
+
+    int[] getOutputSlots();
+
     default void createMenu(IndustrialRevivalItem item, Consumer<MachineMenuPreset> consumer) {
         MachineMenuPreset menu = new MachineMenuPreset(item.getId(), item.getItemName());
         consumer.accept(menu);

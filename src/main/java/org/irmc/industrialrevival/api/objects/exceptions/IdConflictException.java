@@ -14,7 +14,9 @@ public class IdConflictException extends Exception {
                 Item id conflict detected:
                 Item id: %s
                 Original addon: %s
-                Conflicting addon: %s
+                Conflicting item's addon: %s
+                
+                The conflicting item will not be registered.
                 """
                         .formatted(
                                 id,

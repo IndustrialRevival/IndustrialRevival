@@ -32,54 +32,65 @@ public class IRRecipes {
             null, new CustomItemStack(Material.LAPIS_ORE), null,
             null, null, null
     };
+
     public static final ItemStack[] PETROLEUM = new ItemStack[] {
             null, null, null,
             null, new CustomItemStack(Material.WATER), null,
             null, null, null
     };
+
     public static final ItemStack[] FLAWED_QUARTZ = new ItemStack[] {
             null, null, null,
             null, new CustomItemStack(Material.NETHER_QUARTZ_ORE), null,
             null, null, null
     };
+
     public static final ItemStack[] FLAWLESS_QUARTZ = new ItemStack[] {
             IRItemStacks.FLAWED_QUARTZ, null, null,
             null, null, null,
             null, null, null
     };
+
     public static final ItemStack[] LIMESTONE = new ItemStack[] {
             null, null, null,
             new CustomItemStack(Material.ANDESITE), new CustomItemStack(Material.GRANITE), new CustomItemStack(Material.DIORITE),
             null, null, null
     };
+
     public static final ItemStack[] LIMEWATER = new ItemStack[] {
             IRItemStacks.LIMEWATER, new CustomItemStack(Material.WATER_BUCKET), null,
             null, null, null,
             null, null, null
     };
+
     public static final ItemStack[] SALT = new ItemStack[] {
             IRItemStacks.SALT_ORE, null, null,
             null, null, null,
             null, null, null
     };
+
     public static final ItemStack[] MAGIC_CRYSTAL = new ItemStack[] {
             null, null, null,
             null, new CustomItemStack(Material.BUDDING_AMETHYST), null,
             null, null, null
     };
+
     public static final ItemStack[] CHARGED_STONE = new ItemStack[] {
             null, null, null,
             null, new CustomItemStack(Material.REDSTONE_ORE), null,
             null, null, null
     };
+
     public static final ItemStack[] CARBON = new ItemStack[]{
             null, null, null,
             null, new CustomItemStack(Material.AMETHYST_CLUSTER), null,
             null, null, null
     };
+
     public static final ItemStack[] LED = EMPTY_RECIPE;
     public static final ItemStack[] GAS = EMPTY_RECIPE;
     public static final ItemStack[] BORAX = EMPTY_RECIPE;
+
     public static final ItemStack[] SILICA = new ItemStack[] {
             new CustomItemStack(Material.SAND), null, null,
             null, null, null,

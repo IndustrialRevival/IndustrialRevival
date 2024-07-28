@@ -20,7 +20,7 @@ public class SimpleMenu implements IRInventoryHolder {
     private final Map<Integer, ItemStack> slots;
     private final Map<Integer, ClickHandler> clickHandlers;
 
-    private int dirty = 0;
+    private boolean dirty;
 
     private int size = -1;
 
@@ -74,7 +74,7 @@ public class SimpleMenu implements IRInventoryHolder {
     }
 
     private void setupInventory() {
-        if (this.inventory == null || this.dirty == 1) {
+        if (this.inventory == null || this.dirty) {
             if (this.size == -1) {
                 this.size = calculateInventorySize();
             }
@@ -88,7 +88,7 @@ public class SimpleMenu implements IRInventoryHolder {
                 this.inventory.setItem(i, item);
             }
 
-            this.dirty = 0;
+            this.dirty = false;
         }
     }
 
@@ -126,12 +126,12 @@ public class SimpleMenu implements IRInventoryHolder {
     }
 
     private void markDirty() {
-        this.dirty = 1;
+        this.dirty = true;
     }
 
     @Override
     public @NotNull Inventory getInventory() {
-        if (this.inventory == null || this.dirty == 1) {
+        if (this.inventory == null || this.dirty) {
             setupInventory();
         }
 

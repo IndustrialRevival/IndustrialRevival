@@ -13,6 +13,7 @@ guide:
   next: ""
   previous: ""
   bookmarks: ""
+  search: ""
 recipe_type:
   grindstone:
     name: "<green>磨石</green>"

@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.core.IndustrialRevival;
 
@@ -57,4 +58,9 @@ public class Constants {
             Material.LIME_STAINED_GLASS_PANE,
             IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_NEXT_KEY)
     ).setCustomModel(19996);
+
+    public static final ItemStack GUIDE_BOOK_ITEM = new CustomItemStack(
+            Material.ENCHANTED_BOOK,
+            IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(null, "guide.book_item_name")
+    ).setCustomModel(19997);
 }
