@@ -7,7 +7,6 @@ import org.irmc.industrialrevival.core.implemention.groups.IRItemGroups;
 import org.irmc.industrialrevival.core.implemention.recipes.IRRecipes;
 
 public class IRItems {
-    public static final IndustrialRevivalItem TEST_ITEM;
     public static final IndustrialRevivalItem SLIVER_ORE;
     public static final IndustrialRevivalItem NICKEL_ORE;
     public static final IndustrialRevivalItem COBALT_ORE;
@@ -36,6 +35,7 @@ public class IRItems {
     public static final IndustrialRevivalItem GAS;
     public static final IndustrialRevivalItem BORAX;
     public static final IndustrialRevivalItem SILICA;
+
     static {
         SLIVER_ORE = new IndustrialRevivalItem(
                 IRItemGroups.ORES,
@@ -209,7 +209,7 @@ public class IRItems {
     }
     public static void setup() {
         IndustrialRevival INSTANCE = IndustrialRevival.getInstance();
-        TEST_ITEM.register(INSTANCE);
+
         SLIVER_ORE.register(INSTANCE);
         NICKEL_ORE.register(INSTANCE);
         COBALT_ORE.register(INSTANCE);

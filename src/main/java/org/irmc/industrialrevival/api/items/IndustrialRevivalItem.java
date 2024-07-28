@@ -3,13 +3,15 @@ package org.irmc.industrialrevival.api.items;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
-import org.irmc.industrialrevival.api.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.attributes.Placeable;
+import org.irmc.industrialrevival.api.items.groups.ItemGroup;
+import org.irmc.industrialrevival.api.items.handlers.ItemHandler;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.core.IndustrialRevival;

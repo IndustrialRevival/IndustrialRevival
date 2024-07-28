@@ -3,9 +3,9 @@ package org.irmc.industrialrevival.core.registry;
 import java.util.*;
 import lombok.Getter;
 import org.bukkit.NamespacedKey;
-import org.irmc.industrialrevival.api.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.Research;
+import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
 

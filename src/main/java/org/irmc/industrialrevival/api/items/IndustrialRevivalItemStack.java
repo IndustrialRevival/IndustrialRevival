@@ -86,6 +86,7 @@ public class IndustrialRevivalItemStack extends ItemStack {
 
     @Deprecated
     @Override
+    @SuppressWarnings("deprecation")
     public void setData(@Nullable MaterialData data) {
         if (locked) {
             throw new IllegalStateException("Item is not mutable");

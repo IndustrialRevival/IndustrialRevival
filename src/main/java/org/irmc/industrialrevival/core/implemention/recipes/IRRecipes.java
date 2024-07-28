@@ -11,7 +11,7 @@ public class IRRecipes {
             null, null, null,
             null, null, null
     };
-    public static final ItemStack[] IR_TEST_ITEM = EMPTY_RECIPE;
+
     public static final ItemStack[] SLIVER_ORE = EMPTY_RECIPE;
     public static final ItemStack[] NICKEL_ORE = EMPTY_RECIPE;
     public static final ItemStack[] COBALT_ORE = EMPTY_RECIPE;
@@ -26,6 +26,7 @@ public class IRRecipes {
     public static final ItemStack[] TUNGSTEN_ORE = EMPTY_RECIPE;
     public static final ItemStack[] MERCURY_ORE = EMPTY_RECIPE;
     public static final ItemStack[] SALT_ORE = EMPTY_RECIPE;
+
     public static final ItemStack[] SULFUR = new ItemStack[] {
             null, null, null,
             null, new CustomItemStack(Material.LAPIS_ORE), null,
