@@ -9,7 +9,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.bukkit.command.CommandSender;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -39,7 +39,7 @@ public final class LanguageManager {
 
         File pluginFolder = plugin.getDataFolder();
 
-        URL fileURL = Objects.requireNonNull(plugin.getClass().getClassLoader().getResource("language/"));
+        URL fileURL = Objects.requireNonNull(plugin.getClass().getClassLoader().getResource("lang/"));
         String jarPath = fileURL.toString().substring(0, fileURL.toString().indexOf("!/") + 2);
 
         try {
@@ -54,7 +54,7 @@ public final class LanguageManager {
                 if (name.startsWith("language/") && !entry.isDirectory()) {
                     String realName = name.replaceAll("language/", "");
                     try (InputStream stream = plugin.getClass().getClassLoader().getResourceAsStream(name)) {
-                        File destinationFile = new File(pluginFolder, "language/" + realName);
+                        File destinationFile = new File(pluginFolder, "lang/" + realName);
 
                         if (!destinationFile.exists() && stream != null) {
                             plugin.saveResource("language/" + realName, false);
@@ -96,15 +96,23 @@ public final class LanguageManager {
         return parseToComponentList(getMsgList(null, "item." + id + ".lore"));
     }
 
-    public Component getRecipeTypeName(String key) {
-        return parseToComponent(getMsg(null, "recipe_type." + key + ".name"));
+    public Component getRecipeTypeName(NamespacedKey key) {
+        return parseToComponent(getMsg(null, "recipe_type." + key.getKey() + ".name"));
     }
 
-    public List<Component> getRecipeTypeLore(String key) {
-        return parseToComponentList(getMsgList(null, "recipe_type." + key + ".lore"));
+    public List<Component> getRecipeTypeLore(NamespacedKey key) {
+        return parseToComponentList(getMsgList(null, "recipe_type." + key.getKey() + ".lore"));
     }
 
-    public void sendMessage(CommandSender player, String key, MessageReplacement... args) {
+    public Component getGroupName(String id) {
+        return parseToComponent(getMsg(null, "group." + id + ".name"));
+    }
+
+    public List<Component> getGroupLore(String id) {
+        return parseToComponentList(getMsgList(null, "group." + id + ".lore"));
+    }
+
+    public void sendMessage(Player player, String key, MessageReplacement... args) {
         player.sendMessage(parseToComponent(getMsg(player, key, args)));
     }
 
@@ -116,12 +124,12 @@ public final class LanguageManager {
         return msgList.stream().map(LanguageManager::parseToComponent).toList();
     }
 
-    public Component getMsgComponent(@Nullable CommandSender sender, String key, MessageReplacement... args) {
-        return parseToComponent(getMsg(sender, key, args));
+    public Component getMsgComponent(@Nullable Player player, String key, MessageReplacement... args) {
+        return parseToComponent(getMsg(player, key, args));
     }
 
-    public String getMsg(@Nullable CommandSender sender, String key, MessageReplacement... args) {
-        String msg = getConfiguration(sender).getString(key);
+    public String getMsg(@Nullable Player player, String key, MessageReplacement... args) {
+        String msg = getConfiguration(player).getString(key);
         if (msg == null) {
             return key;
         }
@@ -142,8 +150,8 @@ public final class LanguageManager {
         return msgList;
     }
 
-    private Configuration getConfiguration(CommandSender s) {
-        if (!(s instanceof Player p)) {
+    private Configuration getConfiguration(Player p) {
+        if (p == null) {
             return defaultConfiguration;
         }
 
