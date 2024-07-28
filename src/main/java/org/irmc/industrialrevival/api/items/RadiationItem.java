@@ -1,8 +1,8 @@
 package org.irmc.industrialrevival.api.items;
 
 import org.bukkit.inventory.ItemStack;
-import org.irmc.industrialrevival.api.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.attributes.Radiation;
+import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.objects.enums.RadiationLevel;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 
