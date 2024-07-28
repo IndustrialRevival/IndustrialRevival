@@ -1,12 +1,6 @@
 package org.irmc.industrialrevival.core.data.mapper;
 
-import java.util.List;
-import org.apache.ibatis.annotations.*;
-import org.bukkit.Location;
-import org.bukkit.inventory.ItemStack;
-import org.irmc.industrialrevival.core.data.object.BlockMenuItem;
-import org.irmc.industrialrevival.core.data.object.BlockRecord;
-import org.jetbrains.annotations.Nullable;
+import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface BlockDataMapper {

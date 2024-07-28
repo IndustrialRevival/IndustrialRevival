@@ -8,18 +8,18 @@ import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
-import org.irmc.industrialrevival.core.command.IRCommandGenerator;
 import org.irmc.industrialrevival.core.data.IDataManager;
 import org.irmc.industrialrevival.core.data.MysqlDataManager;
 import org.irmc.industrialrevival.core.data.SqliteDataManager;
 import org.irmc.industrialrevival.core.impl.IRGroups;
 import org.irmc.industrialrevival.core.listeners.GuideListener;
+import org.irmc.industrialrevival.core.implemention.groups.IRItemGroups;
+import org.irmc.industrialrevival.core.implemention.items.IRItems;
 import org.irmc.industrialrevival.core.listeners.ItemHandlerListener;
 import org.irmc.industrialrevival.core.listeners.MachineMenuListener;
-import org.irmc.industrialrevival.core.listeners.MobDropListener;
 import org.irmc.industrialrevival.core.message.LanguageManager;
+import org.irmc.industrialrevival.core.registry.IRRegistry;
 import org.irmc.industrialrevival.core.services.BlockDataService;
-import org.irmc.industrialrevival.core.services.IRRegistry;
 import org.irmc.industrialrevival.core.services.ItemTextureService;
 import org.irmc.industrialrevival.core.utils.FileUtil;
 import org.jetbrains.annotations.NotNull;
@@ -54,31 +54,32 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         FileUtil.completeFile(this, "config.yml");
 
         languageManager = new LanguageManager(this);
+        registry = new IRRegistry();
 
         registry = new IRRegistry();
 
         IRGroups.setup();
 
         setupDataManager();
+        setupDataManager();
         setupServices();
         setupListeners();
+    }
 
-        IRCommandGenerator.registerCommand(this);
-
-        // new Metrics(this, ??);
+    private void setupIndustrialRevivalItems() {
+        IRItemGroups.setup();
+        IRItems.setup();
     }
 
     private void setupServices() {
-
         blockDataService = new BlockDataService();
         itemTextureService = new ItemTextureService();
+        blockDataService = new BlockDataService();
     }
 
     private void setupListeners() {
-        new GuideListener().register();
         new MachineMenuListener().register();
         new ItemHandlerListener().register();
-        new MobDropListener().register();
     }
 
     private void setupDataManager() {
@@ -106,8 +107,6 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
 
     @Override
     public void onDisable() {
-        getLogger().info("IndustrialRevival is saving data and shutting down...");
-        blockDataService.saveAllData();
         dataManager.close();
     }
 
