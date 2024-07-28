@@ -3,6 +3,7 @@ package org.irmc.industrialrevival.api.player;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -38,7 +39,7 @@ public class PlayerProfile {
         this.playerName = playerName;
         this.playerUUID = playerUUID;
         this.guideHistory = new GuideHistory(playerName);
-        this.guideSettings = guideSettings;
+        this.guideSettings = Objects.requireNonNullElse(guideSettings, GuideSettings.DEFAULT_SETTINGS);
         this.researchStatus = researchStatus;
     }
 

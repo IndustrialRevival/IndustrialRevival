@@ -10,9 +10,9 @@ guide:
   cheat_title: "<gray>Industrial Revival Guide<dark_red>(Cheat Mode)"
   back: ""
   settings: ""
-  next: ""
-  previous: ""
-  bookmarks: ""
+  next: "<green>Next page</green>"
+  previous: "<green>Previous page</green>"
+  bookmarks: "<yellow>Bookmarks</yellow>"
   search: ""
 recipe_type:
   grindstone:

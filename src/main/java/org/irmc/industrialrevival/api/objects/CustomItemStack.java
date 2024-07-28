@@ -7,11 +7,14 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 public class CustomItemStack extends ItemStack {
     public CustomItemStack(ItemStack item, Consumer<ItemMeta> meta) {
@@ -110,5 +113,10 @@ public class CustomItemStack extends ItemStack {
                 im.lore(lore);
             }
         });
+    }
+
+    public <T, Z> CustomItemStack setPDCData(NamespacedKey key, PersistentDataType<T, Z> type, Z value) {
+        editMeta(m -> m.getPersistentDataContainer().set(key, type, value));
+        return this;
     }
 }

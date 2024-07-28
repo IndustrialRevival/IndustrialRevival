@@ -40,7 +40,7 @@ public final class LanguageManager {
 
         File pluginFolder = plugin.getDataFolder();
 
-        URL fileURL = Objects.requireNonNull(plugin.getClass().getClassLoader().getResource("lang/"));
+        URL fileURL = Objects.requireNonNull(plugin.getClass().getClassLoader().getResource("language/"));
         String jarPath = fileURL.toString().substring(0, fileURL.toString().indexOf("!/") + 2);
 
         try {
@@ -55,7 +55,7 @@ public final class LanguageManager {
                 if (name.startsWith("language/") && !entry.isDirectory()) {
                     String realName = name.replaceAll("language/", "");
                     try (InputStream stream = plugin.getClass().getClassLoader().getResourceAsStream(name)) {
-                        File destinationFile = new File(pluginFolder, "lang/" + realName);
+                        File destinationFile = new File(pluginFolder, "language/" + realName);
 
                         if (!destinationFile.exists() && stream != null) {
                             plugin.saveResource("language/" + realName, false);

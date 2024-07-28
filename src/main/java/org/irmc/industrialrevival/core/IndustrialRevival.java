@@ -8,6 +8,7 @@ import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
+import org.irmc.industrialrevival.core.command.IRCommandGenerator;
 import org.irmc.industrialrevival.core.data.IDataManager;
 import org.irmc.industrialrevival.core.data.MysqlDataManager;
 import org.irmc.industrialrevival.core.data.SqliteDataManager;
@@ -45,6 +46,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     @Override
     public void onLoad() {
         CommandAPI.onLoad(new CommandAPIBukkitConfig(this));
+        IRCommandGenerator.registerCommand(this);
     }
 
     @Override
@@ -65,8 +67,8 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     }
 
     private void setupIndustrialRevivalItems() {
-        IRItemGroups.setup();
         IRItems.setup();
+        IRItemGroups.setup();
     }
 
     private void setupServices() {

@@ -21,4 +21,8 @@ class GuideEntry<T> {
     public boolean isItem() {
         return content instanceof IndustrialRevivalItem;
     }
+
+    public boolean isGuide() {
+        return content instanceof IRGuideImplementation;
+    }
 }

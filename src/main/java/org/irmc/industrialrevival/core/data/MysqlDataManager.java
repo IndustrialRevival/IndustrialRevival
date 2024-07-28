@@ -41,7 +41,7 @@ public final class MysqlDataManager implements IDataManager {
 
     private void connect(String url, String username, String password) throws SQLException {
         DataSource dataSource = new UnpooledDataSource("com.mysql.cj.jdbc.Driver", getUrl(url), username, password);
-        dataSource.setLoginTimeout(5000);
+        dataSource.setLoginTimeout(5);
         TransactionFactory transactionFactory = new JdbcTransactionFactory();
         Environment environment = new Environment("default", transactionFactory, dataSource);
         Configuration configuration = newMybatisConfiguration(environment);

@@ -1,5 +1,6 @@
 package org.irmc.industrialrevival.api.items.groups;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import lombok.Getter;
@@ -20,7 +21,6 @@ public abstract class ItemGroup {
 
     boolean locked = false;
 
-    @Getter
     private final List<IndustrialRevivalItem> items = new LinkedList<>();
 
     protected ItemGroup(NamespacedKey key, ItemStack icon) {
@@ -58,9 +58,13 @@ public abstract class ItemGroup {
 
      */
 
+    public List<IndustrialRevivalItem> getItems() {
+        return new ArrayList<>(items);
+    }
+
     public void addItem(IndustrialRevivalItem item) {
         if (locked) {
-            throw new IllegalStateException("ItemGroup is locked");
+            throw new IllegalStateException("the item group is locked");
         }
 
         this.items.add(item);

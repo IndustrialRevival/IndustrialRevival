@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 
 import java.util.*;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -40,6 +41,8 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
                 IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Constants.GUIDE_TITLE_KEY));
         setupGuideMenu(p, sm);
         sm.open(p);
+
+        PlayerProfile.getOrRequestProfile(p.getName()).getGuideHistory().guideOpen(this, 1);
     }
 
     @Override
@@ -50,11 +53,16 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
         for (int i = 0; i < RECIPE_SLOT.length; i++) {
             sm.setItem(RECIPE_SLOT[i], ItemUtils.getCleanedItem(recipe[i]));
         }
+
         sm.setItem(0, Constants.BACK_BUTTON.apply(p), (slot, player, i, menu, clickType) -> {
             goBack(player);
             return false;
         });
+
         sm.setItem(16, item.getItem(), SimpleMenu.ClickHandler.DEFAULT);
+
+        sm.setSize(54);
+        sm.open(p);
     }
 
     @Override
@@ -66,14 +74,21 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
     public void onGroupClicked(Player p, ItemGroup group, int page) {
         SimpleMenu sm = new SimpleMenu(
                 IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Constants.GUIDE_TITLE_KEY));
-        List<List<IndustrialRevivalItem>> items =
-                Lists.partition(group.getItems().stream().toList(), 36);
-        List<IndustrialRevivalItem> itemList;
 
         if (!group.getItems().isEmpty()) {
-            itemList = items.get(page - 1);
-        } else {
-            itemList = new ArrayList<>();
+            List<List<IndustrialRevivalItem>> items =
+                    Lists.partition(group.getItems().stream().toList(), 36);
+            List<IndustrialRevivalItem> itemList = items.get(page - 1);
+
+            for (int i = 9; i < 36; i++) {
+                IndustrialRevivalItem item = itemList.get(i - 9);
+                if (item != null) {
+                    sm.setItem(i, ItemUtils.getCleanedItem(item.getItem()), (slot, player, item1, menu, clickType) -> {
+                        onItemClicked(player, item);
+                        return false;
+                    });
+                }
+            }
         }
 
         for (int b : BOARDER_SLOT) {
@@ -81,20 +96,20 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
         }
 
         ItemStack backButton = Constants.BACK_BUTTON.apply(p);
-        sm.setItem(2, backButton, SimpleMenu.ClickHandler.DEFAULT); // do nothing now
+        sm.setItem(2, backButton, ((slot, player, item, menu, clickType) -> {
+            goBack(player);
+            return false;
+        })); // do nothing now
 
         ItemStack searchButton = Constants.SEARCH_BUTTON.apply(p);
         sm.setItem(6, searchButton, SimpleMenu.ClickHandler.DEFAULT); // do nothing now
 
-        for (int i = 9; i < 36; i++) {
-            IndustrialRevivalItem item = itemList.get(i - 9);
-            sm.setItem(i, ItemUtils.getCleanedItem(item.getItem()), (slot, player, item1, menu, clickType) -> {
-                onItemClicked(player, item);
-                return false;
-            });
-        }
+        sm.setSize(54);
 
         sm.open(p);
+
+        GuideHistory history = PlayerProfile.getOrRequestProfile(p.getName()).getGuideHistory();
+        history.addItemGroup(group, page);
     }
 
     @Override
@@ -138,6 +153,7 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
 
         if (page == 1) {
             previousButton.setType(Material.BLACK_STAINED_GLASS_PANE);
+            previousButton.editMeta(m -> m.displayName(Component.space()));
             previousClickHandler = SimpleMenu.ClickHandler.DEFAULT;
         }
 
@@ -157,6 +173,7 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
 
         if (page == partition.size()) {
             nextButton.setType(Material.BLACK_STAINED_GLASS_PANE);
+            nextButton.editMeta(m -> m.displayName(Component.space()));
             nextClickHandler = SimpleMenu.ClickHandler.DEFAULT;
         }
 

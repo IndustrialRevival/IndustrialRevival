@@ -49,12 +49,15 @@ public final class SqliteDataManager implements IDataManager {
 
     private void connect() throws SQLException {
         DataSource dataSource = new UnpooledDataSource("org.sqlite.JDBC", getUrl(), null, null);
-        dataSource.getConnection();
+        dataSource.setLoginTimeout(5);
         TransactionFactory transactionFactory = new JdbcTransactionFactory();
         Environment environment = new Environment("default", transactionFactory, dataSource);
         Configuration configuration = newMybatisConfiguration(environment);
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
-        session = sqlSessionFactory.openSession(true);
+
+        try (SqlSession session = sqlSessionFactory.openSession(true)) {
+            this.session = session;
+        }
 
         createTables();
     }

@@ -1,6 +1,5 @@
 package org.irmc.industrialrevival.api.items;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,22 +45,11 @@ public class IndustrialRevivalItem implements Placeable {
         this.group = group;
         this.itemStack = itemStack;
         this.recipeType = recipeType;
+        this.recipe = recipeType.getRecipeConverter().apply(recipe);
 
-        if (recipe == null) {
-            recipe = new ItemStack[9];
+        if (this.recipe.length != 9) {
+            throw new IllegalArgumentException("Recipe must be a array of 9 items");
         }
-
-        if (recipe.length > 9) {
-            recipe = Arrays.copyOfRange(recipe, 0, 9);
-        }
-
-        if (recipe.length < 9) {
-            ItemStack[] newRecipe = new ItemStack[9];
-            System.arraycopy(recipe, 0, newRecipe, 0, recipe.length);
-            recipe = newRecipe;
-        }
-
-        this.recipe = recipe;
     }
 
     public IndustrialRevivalItemStack getItem() {
@@ -94,6 +82,12 @@ public class IndustrialRevivalItem implements Placeable {
             preRegister();
         } catch (Exception e) {
             return null;
+        }
+
+        postRegister();
+
+        if (!group.getItems().contains(this)) {
+            group.addItem(this);
         }
 
         IndustrialRevival.getInstance().getRegistry().getItems().put(getId(), this);

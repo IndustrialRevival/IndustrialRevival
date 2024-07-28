@@ -17,6 +17,12 @@ public class GuideHistory {
         this.playerName = playerName;
     }
 
+    public void guideOpen(SurvivalGuideImplementation guide, int page) {
+        GuideEntry<SurvivalGuideImplementation> entry = new GuideEntry<>(guide);
+        entry.setPage(page);
+        entries.add(entry);
+    }
+
     public void addItemGroup(ItemGroup itemGroup, int page) {
         GuideEntry<ItemGroup> entry = new GuideEntry<>(itemGroup);
         entry.setPage(page);
@@ -49,6 +55,9 @@ public class GuideHistory {
             } else if (lastEntry.isItem()) {
                 GuideEntry<IndustrialRevivalItem> theItemEntry = (GuideEntry<IndustrialRevivalItem>) lastEntry;
                 guide.onItemClicked(player, theItemEntry.getContent());
+            } else if (lastEntry.isGuide()) {
+                int page = lastEntry.getPage();
+                guide.open(player);
             }
 
             entries.add(new GuideEntry<>(lastEntry.getContent()));
