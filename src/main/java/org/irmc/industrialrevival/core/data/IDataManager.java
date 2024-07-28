@@ -10,9 +10,7 @@ import org.irmc.industrialrevival.core.guide.GuideSettings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public interface IDataManager {
-    void connect(String url, String username, String password) throws SQLException;
-
+public sealed interface IDataManager permits MysqlDataManager, SqliteDataManager {
     void close();
 
     @Nullable GuideSettings getGuideSettings(@NotNull String playerName);

@@ -1,5 +1,7 @@
 package org.irmc.industrialrevival.core.guide.impl;
 
+import com.google.common.collect.Lists;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -66,9 +68,17 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
 
     @Override
     public void onGroupClicked(Player p, ItemGroup group, int page) {
-        SimpleMenu sm = new SimpleMenu(IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Constants.GUIDE_TITLE_KEY));
-        List<List<IndustrialRevivalItem>> items = Lists.partition(group.getItems().stream().toList(), 36);
-        List<IndustrialRevivalItem> itemList = items.get(page - 1);
+        SimpleMenu sm = new SimpleMenu(
+                IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Constants.GUIDE_TITLE_KEY));
+        List<List<IndustrialRevivalItem>> items =
+                Lists.partition(group.getItems().stream().toList(), 36);
+        List<IndustrialRevivalItem> itemList;
+
+        if (!group.getItems().isEmpty()) {
+            itemList = items.get(page - 1);
+        } else {
+            itemList = new ArrayList<>();
+        }
 
         for (int b : BOARDER_SLOT) {
             sm.setItem(b, Constants.BACKGROUND_ITEM);
@@ -106,6 +116,8 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
     void setupGuideMenu(Player p, SimpleMenu sm) {
         Collection<ItemGroup> groups =
                 IndustrialRevival.getInstance().getRegistry().getItemGroups().values();
+
+        sm.setSize(54);
 
         for (int b : BOARDER_SLOT) {
             sm.setItem(b, Constants.BACKGROUND_ITEM);

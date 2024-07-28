@@ -79,8 +79,8 @@ public class SimpleMenu implements IRInventoryHolder {
                 this.size = calculateInventorySize();
             }
 
-            this.inventory = Bukkit.createInventory(this, getSize(), getTitle());
-            for (int i = 0; i < getSize(); i++) {
+            this.inventory = Bukkit.createInventory(this, this.size, getTitle());
+            for (int i = 0; i < this.size; i++) {
                 ItemStack item = getItem(i);
                 if (item == null) {
                     continue;

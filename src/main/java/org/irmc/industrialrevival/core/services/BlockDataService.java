@@ -14,7 +14,16 @@ public class BlockDataService {
         loadData();
     }
 
-    private void loadData() {}
+    private void loadData() {
+        List<BlockRecord> records = new ArrayList<>();
+                //IndustrialRevival.getInstance().getDataManager().getAllBlockRecords();
+        for (BlockRecord record : records) {
+            Location loc = record.getLocation();
+            YamlConfiguration config =
+                    IndustrialRevival.getInstance().getDataManager().getBlockData(loc);
+            blockData.put(loc, new IRBlockData(record.getMachineId(), record.getLocation(), config, null));
+        }
+    }
 
     public IRBlockData getBlockData(Location location) {
         return blockData.get(location);
