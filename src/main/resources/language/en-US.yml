@@ -18,21 +18,3 @@ recipe_type:
     name: "<green>Grindstone</green>"
     lore:
       - ""
-  kill_mob:
-    name: "<green>Kill specific mobs</green>"
-    lore:
-      - ""
-command:
-  give:
-    target_not_found: ""
-    item_not_found: ""
-    success: ""
-  help:
-    header: ""
-    help: ""
-    giveSilently: ""
-    guide: ""
-    give: ""
-  info:
-    header: ""
-    version: "Industrial Revival v%version%"

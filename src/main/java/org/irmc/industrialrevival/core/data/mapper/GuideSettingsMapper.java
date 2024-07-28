@@ -11,7 +11,8 @@ import org.jetbrains.annotations.Nullable;
 @Mapper
 public interface GuideSettingsMapper {
     @Insert(
-            "INSERT INTO guide_settings (username, fireWorksEnabled, learningAnimationEnabled, language) VALUES (#{username}, #{settings.fireWorksEnabled}, #{settings.learningAnimationEnabled}, #{settings.language})")
+            "INSERT INTO guide_settings (username, fireWorksEnabled, learningAnimationEnabled, language) "
+                    + "VALUES (#{username}, #{settings.fireWorksEnabled}, #{settings.learningAnimationEnabled}, #{settings.language})")
     void save(@NotNull String username, @NotNull @Param("settings") GuideSettings settings);
 
     @Nullable @Select(
