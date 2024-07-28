@@ -1,12 +1,11 @@
-package org.irmc.industrialrevival.core.utils;
+package org.irmc.industrialrevival.core.implemention.groups;
 
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.core.IndustrialRevival;
 
-public class Icons {
+public class GroupIcons {
     public static final ItemStack GROUP_ORE = new CustomItemStack(
             Material.GOLDEN_PICKAXE,
             IndustrialRevival.getInstance().getLanguageManager().getGroupName("ore")

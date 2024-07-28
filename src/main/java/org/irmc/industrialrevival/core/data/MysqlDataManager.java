@@ -4,6 +4,7 @@ import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Base64;
+import java.util.List;
 import javax.sql.DataSource;
 import org.apache.ibatis.datasource.unpooled.UnpooledDataSource;
 import org.apache.ibatis.mapping.Environment;
@@ -13,15 +14,19 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
+import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.core.IndustrialRevival;
+import org.irmc.industrialrevival.core.data.mapper.BlockDataMapper;
 import org.irmc.industrialrevival.core.data.mapper.GuideSettingsMapper;
 import org.irmc.industrialrevival.core.data.mapper.ResearchStatusMapper;
+import org.irmc.industrialrevival.core.data.object.BlockRecord;
 import org.irmc.industrialrevival.core.guide.GuideSettings;
 import org.jetbrains.annotations.NotNull;
 
-public class MysqlDataManager implements IDataManager {
+public final class MysqlDataManager implements IDataManager {
     private SqlSession session;
 
     public MysqlDataManager() throws SQLException {
@@ -51,6 +56,51 @@ public class MysqlDataManager implements IDataManager {
         if (session != null) {
             session.close();
         }
+    }
+
+    @Override
+    public void handleBlockPlacing(Location loc, String machineId) {
+        session.getMapper(BlockDataMapper.class).blockPlacing(loc, machineId);
+    }
+
+    @Override
+    public void handleBlockBreaking(Location loc) {
+        BlockDataMapper mapper = session.getMapper(BlockDataMapper.class);
+        String id = mapper.getBlockId(loc);
+        mapper.blockRemoving(loc, id);
+        mapper.deleteMenuItems(loc);
+    }
+
+    @Override
+    public @NotNull YamlConfiguration getBlockData(@NotNull Location location) {
+        String b64 = session.getMapper(BlockDataMapper.class).getBlockData(location);
+        if (b64 == null) {
+            return new YamlConfiguration();
+        } else {
+            return YamlConfiguration.loadConfiguration(new StringReader(b64));
+        }
+    }
+
+    @Override
+    public void updateBlockData(@NotNull Location location, @NotNull BlockRecord record) {
+        BlockDataMapper mapper = session.getMapper(BlockDataMapper.class);
+        if (!getBlockData(location).getKeys(true).isEmpty()) {
+            mapper.saveBlockData(
+                    location,
+                    record.getData());
+        }
+    }
+
+    @Override
+    public List<BlockRecord> getAllBlockRecords() {
+        return session.getMapper(BlockDataMapper.class).getAllBlockRecords();
+    }
+
+    @Override
+    public ItemStack getMenuItem(Location location, int slot) {
+        return session.getMapper(BlockDataMapper.class)
+                .getMenuItem(location, slot)
+                .getItemStack();
     }
 
     @Override

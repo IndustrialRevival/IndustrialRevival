@@ -23,6 +23,7 @@ public class Constants {
             IndustrialRevival.getInstance().getDataFolder().getParentFile().getParentFile(), "irstorage");
 
     public static final NamespacedKey ITEM_ID_KEY = new NamespacedKey(IndustrialRevival.getInstance(), "ir_item_id");
+    public static final NamespacedKey GUIDE_ITEM_KEY = new NamespacedKey(IndustrialRevival.getInstance(), "ir_guide_item");
 
     public static final ItemStack BACKGROUND_ITEM =
             new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " ").setCustomModel(19990);

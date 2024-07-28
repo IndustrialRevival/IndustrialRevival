@@ -2,10 +2,12 @@ package org.irmc.industrialrevival.core.services;
 
 import java.util.*;
 import lombok.Getter;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+import org.irmc.industrialrevival.api.items.attributes.BlockDropItem;
 import org.irmc.industrialrevival.api.items.attributes.MobDropItem;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
@@ -20,7 +22,9 @@ public final class IRRegistry {
     private final Map<String, IndustrialRevivalItem> items;
     private final Map<String, PlayerProfile> playerProfiles;
     private final Map<String, MachineMenuPreset> menuPresets;
+
     private final Map<EntityType, List<Pair<ItemStack, Double>>> mobDrops;
+    private final Map<Material, List<Pair<ItemStack, Double>>> blockDrops;
 
     public IRRegistry() {
         itemGroups = new HashMap<>();
@@ -29,6 +33,7 @@ public final class IRRegistry {
         playerProfiles = new HashMap<>();
         menuPresets = new HashMap<>();
         mobDrops = new HashMap<>();
+        blockDrops = new HashMap<>();
     }
 
     public void resortItemGroups() {
@@ -50,5 +55,17 @@ public final class IRRegistry {
         item.setAmount(mdi.dropAmount());
         drops.add(new Pair<>(item, mdi.getChance()));
         mobDrops.put(mdi.getMobType(), drops);
+    }
+
+    public void registerBlockDrop(IndustrialRevivalItem blockDropItem) {
+        if (!(blockDropItem instanceof BlockDropItem bdi)) {
+            throw new IllegalArgumentException("Item must implement BlockDropItem interface");
+        }
+
+        List<Pair<ItemStack, Double>> drops = blockDrops.getOrDefault(bdi.dropBlock(), new ArrayList<>());
+        ItemStack item = blockDropItem.getItem().clone();
+        item.setAmount(bdi.dropAmount());
+        drops.add(new Pair<>(item, bdi.getChance()));
+        blockDrops.put(bdi.dropBlock(), drops);
     }
 }
