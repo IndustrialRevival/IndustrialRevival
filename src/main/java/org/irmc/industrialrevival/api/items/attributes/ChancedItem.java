@@ -1,6 +1,5 @@
 package org.irmc.industrialrevival.api.items.attributes;
 
-import org.irmc.industrialrevival.api.items.ItemAttribute;
 import org.jetbrains.annotations.Range;
 
 public interface ChancedItem extends ItemAttribute {
