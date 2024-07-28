@@ -37,12 +37,6 @@ public class IRItems {
     public static final IndustrialRevivalItem BORAX;
     public static final IndustrialRevivalItem SILICA;
     static {
-        TEST_ITEM = new IndustrialRevivalItem(
-                IRItemGroups.MISC,
-                IRItemStacks.IR_TEST_ITEM,
-                RecipeType.NULL,
-                IRRecipes.IR_TEST_ITEM
-        );
         SLIVER_ORE = new IndustrialRevivalItem(
                 IRItemGroups.ORES,
                 IRItemStacks.SLIVER_ORE,

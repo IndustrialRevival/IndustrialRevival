@@ -3,9 +3,9 @@ package org.irmc.industrialrevival.core.implemention.items;
 import org.bukkit.Material;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
+import org.irmc.industrialrevival.core.message.LanguageManager;
 
 public class IRItemStacks {
-    public static final IndustrialRevivalItemStack IR_TEST_ITEM;
     public static final IndustrialRevivalItemStack SLIVER_ORE;
     public static final IndustrialRevivalItemStack NICKEL_ORE;
     public static final IndustrialRevivalItemStack COBALT_ORE;
@@ -36,239 +36,117 @@ public class IRItemStacks {
     public static final IndustrialRevivalItemStack SILICA;
 
     static {
-        IR_TEST_ITEM = new IndustrialRevivalItemStack(
-                "ir_test_item",
-                new CustomItemStack(
-                        Material.IRON_BLOCK,
-                        "IR Test Item",
-                        "Test lore",
-                        "This is a very long lore that i think it's length maybe is greater than 80 characters.",
-                        "汉字测试"
-                )
-        );
         SLIVER_ORE = new IndustrialRevivalItemStack(
-                "sliver_ore",
-                new CustomItemStack(
-                        Material.IRON_ORE,
-                        "Sliver Ore",
-                        "A sliver of iron ore."
-                )
+                "SLIVER_ORE",
+                Material.GRAY_CONCRETE_POWDER
         );
         NICKEL_ORE = new IndustrialRevivalItemStack(
-                "nickel_ore",
-                new CustomItemStack(
-                        Material.IRON_ORE,
-                        "Nickel Ore",
-                        "A nickel ore."
-                )
+                "NICKEL_ORE",
+                Material.GRAY_CONCRETE_POWDER
         );
         COBALT_ORE = new IndustrialRevivalItemStack(
-                "cobalt_ore",
-                new CustomItemStack(
-                        Material.IRON_ORE,
-                        "Cobalt Ore",
-                        "A cobalt ore."
-                )
+                "COBALT_ORE",
+                Material.GRAY_CONCRETE_POWDER
         );
         CHROMIUM_ORE = new IndustrialRevivalItemStack(
-                "chromium_ore",
-                new CustomItemStack(
-                        Material.IRON_ORE,
-                        "Chromium Ore",
-                        "A chromium ore."
-                )
+                "CHROMIUM_ORE",
+                Material.GRAY_CONCRETE_POWDER
         );
         MAGNET_ORE = new IndustrialRevivalItemStack(
-                "magnet_ore",
-                new CustomItemStack(
-                        Material.IRON_ORE,
-                        "Magnet Ore",
-                        "A magnet ore."
-                )
+                "MAGNET_ORE",
+                Material.GRAY_CONCRETE_POWDER
         );
         URANIUM_ORE = new IndustrialRevivalItemStack(
-                "uranium_ore",
-                new CustomItemStack(
-                        Material.IRON_ORE,
-                        "Uranium Ore",
-                        "A uranium ore."
-                )
+                "URANIUM_ORE",
+                Material.GRAY_CONCRETE_POWDER
         );
         ALUMINIUM_ORE = new IndustrialRevivalItemStack(
-                "aluminium_ore",
-                new CustomItemStack(
-                        Material.IRON_ORE,
-                        "Aluminium Ore",
-                        "An aluminium ore."
-                )
+                "ALUMINIUM_ORE",
+                Material.GRAY_CONCRETE_POWDER
         );
         TIN_ORE = new IndustrialRevivalItemStack(
-                "tin_ore",
-                new CustomItemStack(
-                        Material.IRON_ORE,
-                        "Tin Ore",
-                        "A tin ore."
-                )
+                "TIN_ORE",
+                Material.GRAY_CONCRETE_POWDER
         );
         MAGNESIUM_ORE = new IndustrialRevivalItemStack(
-                "magnesium_ore",
-                new CustomItemStack(
-                        Material.IRON_ORE,
-                        "Magnesium Ore",
-                        "A magnesium ore."
-                )
+                "MAGNESIUM_ORE",
+                Material.GRAY_CONCRETE_POWDER
         );
         LEAD_ORE = new IndustrialRevivalItemStack(
-                "lead_ore",
-                new CustomItemStack(
-                        Material.IRON_ORE,
-                        "Lead Ore",
-                        "A lead ore."
-                )
+                "LEAD_ORE",
+                Material.GRAY_CONCRETE_POWDER
         );
         ZINC_ORE = new IndustrialRevivalItemStack(
-                "zinc_ore",
-                new CustomItemStack(
-                        Material.IRON_ORE,
-                        "Zinc Ore",
-                        "A zinc ore."
-                )
+                "ZINC_ORE",
+                Material.GRAY_CONCRETE_POWDER
         );
         TUNGSTEN_ORE = new IndustrialRevivalItemStack(
-                "tungsten_ore",
-                new CustomItemStack(
-                        Material.IRON_ORE,
-                        "Tungsten Ore",
-                        "A tungsten ore."
-                )
+                "TUNGSTEN_ORE",
+                Material.BLACK_CONCRETE_POWDER
         );
         MERCURY_ORE = new IndustrialRevivalItemStack(
-                "mercury_ore",
-                new CustomItemStack(
-                        Material.IRON_ORE,
-                        "Mercury Ore",
-                        "A mercury ore."
-                )
+                "MERCURY_ORE",
+                Material.LIGHT_GRAY_CONCRETE_POWDER
         );
         SALT_ORE = new IndustrialRevivalItemStack(
-                "salt_ore",
-                new CustomItemStack(
-                        Material.IRON_ORE,
-                        "Salt Ore",
-                        "A salt ore."
-                )
+                "SALT_ORE",
+                Material.WHITE_CONCRETE_POWDER
         );
         SULFUR = new IndustrialRevivalItemStack(
-                "sulfur",
-                new CustomItemStack(
-                        Material.IRON_ORE,
-                        "Sulfur",
-                        "A sulfur."
-                )
+                "SULFUR",
+                Material.YELLOW_CONCRETE
         );
         PETROLEUM = new IndustrialRevivalItemStack(
-                "petroleum",
-                new CustomItemStack(
-                        Material.IRON_ORE,
-                        "Petroleum",
-                        "A petroleum."
-                )
+                "PETROLEUM",
+                Material.BLACK_CONCRETE
         );
         FLAWED_QUARTZ = new IndustrialRevivalItemStack(
-                "flawed_quartz",
-                new CustomItemStack(
-                        Material.IRON_ORE,
-                        "Flawed Quartz",
-                        "A flawed quartz."
-                )
+                "FLAWED_QUARTZ",
+                Material.QUARTZ
         );
         FLAWLESS_QUARTZ = new IndustrialRevivalItemStack(
-                "flawless_quartz",
-                new CustomItemStack(
-                        Material.IRON_ORE,
-                        "Flawless Quartz",
-                        "A flawless quartz."
-                )
+                "FLAWLESS_QUARTZ",
+                Material.QUARTZ
         );
         LIMESTONE = new IndustrialRevivalItemStack(
-                "limestone",
-                new CustomItemStack(
-                        Material.IRON_ORE,
-                        "Limestone",
-                        "A limestone."
-                )
+                "LIMESTONE",
+                Material.GRAY_CONCRETE
         );
         LIMEWATER = new IndustrialRevivalItemStack(
-                "limewater",
-                new CustomItemStack(
-                        Material.IRON_ORE,
-                        "Limewater",
-                        "A limewater."
-                )
+                "LIMEWATER",
+                Material.BUCKET
         );
         SALT = new IndustrialRevivalItemStack(
-                "salt",
-                new CustomItemStack(
-                        Material.IRON_ORE,
-                        "Salt",
-                        "A salt."
-                )
+                "SALT",
+                Material.SUGAR
         );
         MAGIC_CRYSTAL = new IndustrialRevivalItemStack(
-                "magic_crystal",
-                new CustomItemStack(
-                        Material.IRON_ORE,
-                        "Magic Crystal",
-                        "A magic crystal."
-                )
+                "MAGIC_CRYSTAL",
+                Material.IRON_ORE
         );
         CHARGED_STONE = new IndustrialRevivalItemStack(
-                "charged_stone",
-                new CustomItemStack(
-                        Material.IRON_ORE,
-                        "Charged Stone",
-                        "A charged stone."
-                )
+                "CHARGED_STONE",
+                Material.IRON_ORE
         );
         CARBON = new IndustrialRevivalItemStack(
-                "carbon",
-                new CustomItemStack(
-                        Material.IRON_ORE,
-                        "Carbon",
-                        "A carbon."
-                )
+                "CARBON",
+                Material.IRON_ORE
         );
         LED = new IndustrialRevivalItemStack(
-                "led",
-                new CustomItemStack(
-                        Material.IRON_ORE,
-                        "LED",
-                        "An LED."
-                )
+                "LED",
+                Material.IRON_ORE
         );
         GAS = new IndustrialRevivalItemStack(
-                "gas",
-                new CustomItemStack(
-                        Material.IRON_ORE,
-                        "Gas",
-                        "A gas."
-                )
+                "GAS",
+                Material.IRON_ORE
         );
         BORAX = new IndustrialRevivalItemStack(
-                "borax",
-                new CustomItemStack(
-                        Material.IRON_ORE,
-                        "Borax",
-                        "A borax."
-                )
+                "BORAX",
+                Material.IRON_ORE
         );
         SILICA = new IndustrialRevivalItemStack(
-                "silica",
-                new CustomItemStack(
-                        Material.IRON_ORE,
-                        "Silica",
-                        "A silica."
-                )
+                "SILICA",
+                Material.IRON_ORE
         );
     }
 }
