@@ -11,15 +11,15 @@ import org.jetbrains.annotations.Nullable;
 @Mapper
 public interface BlockDataMapper {
     @Insert(
-            "INSERT INTO block_record (world, x, y, z, machine_id, data) VALUES (#{loc.getWorld().getName()}, #{loc.getBlockX()}, #{loc.getBlockY()}, #{loc.getBlockZ()}, #{machineId}, NULL)")
+            "INSERT INTO block_record (world, x, y, z, machineId, data) VALUES (#{loc.getWorld().getName()}, #{loc.getBlockX()}, #{loc.getBlockY()}, #{loc.getBlockZ()}, #{machineId}, NULL)")
     void blockPlacing(@Param("loc") Location loc, String machineId);
 
     @Update(
-            "DELETE FROM block_record WHERE world = #{loc.getWorld().getName()} AND x = #{loc.getBlockX()} AND y = #{loc.getBlockY()} AND z = #{loc.getBlockZ()} AND machine_id = #{machineId}")
+            "DELETE FROM block_record WHERE world = #{loc.getWorld().getName()} AND x = #{loc.getBlockX()} AND y = #{loc.getBlockY()} AND z = #{loc.getBlockZ()} AND machineId = #{machineId}")
     void blockRemoving(@Param("loc") Location loc, String machineId);
 
     @Nullable @Select(
-            "SELECT machine_id FROM block_record WHERE world = #{loc.getWorld().getName()} AND x = #{loc.getBlockX()} AND y = #{loc.getBlockY()} AND z = #{loc.getBlockZ()}")
+            "SELECT machineId FROM block_record WHERE world = #{loc.getWorld().getName()} AND x = #{loc.getBlockX()} AND y = #{loc.getBlockY()} AND z = #{loc.getBlockZ()}")
     String getBlockId(@Param("loc") Location loc);
 
     @Nullable @Select(
@@ -34,11 +34,11 @@ public interface BlockDataMapper {
     void saveBlockData(@Param("loc") Location loc, String data);
 
     @Insert(
-            "INSERT INTO menu_items (world, x, y, z, slot, item_json, itemClass) VALUES (#{loc.getWorld().getName()}, #{loc.getBlockX()}, #{loc.getBlockY()}, #{loc.getBlockZ()}, #{slot}, #{itemJson}, #{itemClass})")
+            "INSERT INTO menu_items (world, x, y, z, slot, itemJson, itemClass) VALUES (#{loc.getWorld().getName()}, #{loc.getBlockX()}, #{loc.getBlockY()}, #{loc.getBlockZ()}, #{slot}, #{itemJson}, #{itemClass})")
     void insertMenuItem(@Param("loc") Location loc, int slot, String itemJson, Class<? extends ItemStack> itemClass);
 
     @Update(
-            "UPDATE menu_items SET item_json = #{itemJson} WHERE world = #{loc.getWorld().getName()} AND x = #{loc.getBlockX()} AND y = #{loc.getBlockY()} AND z = #{loc.getBlockZ()} AND slot = #{slot} AND itemClass = #{itemClass}")
+            "UPDATE menu_items SET itemJson = #{itemJson} WHERE world = #{loc.getWorld().getName()} AND x = #{loc.getBlockX()} AND y = #{loc.getBlockY()} AND z = #{loc.getBlockZ()} AND slot = #{slot} AND itemClass = #{itemClass}")
     void updateMenuItem(@Param("loc") Location loc, int slot, String itemJson, Class<? extends ItemStack> itemClass);
 
     @Delete(

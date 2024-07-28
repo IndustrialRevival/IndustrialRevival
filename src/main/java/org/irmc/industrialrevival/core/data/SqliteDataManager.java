@@ -46,12 +46,12 @@ public final class SqliteDataManager implements IDataManager {
             }
         }
 
-        connect("", "", "");
+        connect();
     }
 
-    @Override
-    public void connect(String url, String username, String password) throws SQLException {
-        DataSource dataSource = new UnpooledDataSource("org.sqlite.JDBC", getUrl(), "", "");
+    private void connect() throws SQLException {
+        DataSource dataSource = new UnpooledDataSource("org.sqlite.JDBC", getUrl(), null, null);
+        dataSource.getConnection();
         TransactionFactory transactionFactory = new JdbcTransactionFactory();
         Environment environment = new Environment("default", transactionFactory, dataSource);
         Configuration configuration = newMybatisConfiguration(environment);
@@ -154,11 +154,11 @@ public final class SqliteDataManager implements IDataManager {
                     .execute();
 
             conn.prepareStatement(
-                            "CREATE TABLE IF NOT EXISTS block_record (world TEXT NOT NULL, x INT NOT NULL, y INT NOT NULL, z INT NOT NULL, machine_id TEXT NOT NULL, data TEXT DEFAULT NULL, PRIMARY KEY (world, x, y, z))")
+                            "CREATE TABLE IF NOT EXISTS block_record (world TEXT NOT NULL, x INT NOT NULL, y INT NOT NULL, z INT NOT NULL, machineId TEXT NOT NULL, data TEXT DEFAULT NULL, PRIMARY KEY (world, x, y, z))")
                     .execute();
 
             conn.prepareStatement(
-                            "CREATE TABLE IF NOT EXISTS menu_items(world TEXT NOT NULL, x INT NOT NULL, y INT NOT NULL, z INT NOT NULL, slot INT NOT NULL, item_json TEXT NOT NULL, itemClass TEXT NOT NULL, PRIMARY KEY (world, x, y, z));")
+                            "CREATE TABLE IF NOT EXISTS menu_items(world TEXT NOT NULL, x INT NOT NULL, y INT NOT NULL, z INT NOT NULL, slot INT NOT NULL, itemJson TEXT NOT NULL, itemClass TEXT NOT NULL, PRIMARY KEY (world, x, y, z));")
                     .execute();
         }
     }

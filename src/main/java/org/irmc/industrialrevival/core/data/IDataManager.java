@@ -21,8 +21,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public sealed interface IDataManager permits MysqlDataManager, SqliteDataManager {
-    void connect(String url, String username, String password) throws SQLException;
-
     void close();
 
     @Nullable GuideSettings getGuideSettings(@NotNull String playerName);

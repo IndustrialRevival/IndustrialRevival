@@ -1,6 +1,7 @@
 package org.irmc.industrialrevival.api.menu;
 
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 
 @Getter
@@ -28,5 +29,9 @@ public class MachineMenu extends SimpleMenu {
 
     public void setSize(int size) {
         throw new UnsupportedOperationException("Cannot set size of a machine menu");
+    }
+
+    public void setTitle(Component title) {
+        throw new UnsupportedOperationException("Cannot set title of a machine menu");
     }
 }

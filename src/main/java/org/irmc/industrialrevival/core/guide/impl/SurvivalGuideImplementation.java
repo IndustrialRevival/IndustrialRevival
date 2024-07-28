@@ -1,10 +1,9 @@
 package org.irmc.industrialrevival.core.guide.impl;
 
 import com.google.common.collect.Lists;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
+
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -70,7 +69,13 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
                 IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Constants.GUIDE_TITLE_KEY));
         List<List<IndustrialRevivalItem>> items =
                 Lists.partition(group.getItems().stream().toList(), 36);
-        List<IndustrialRevivalItem> itemList = items.get(page - 1);
+        List<IndustrialRevivalItem> itemList;
+
+        if (!group.getItems().isEmpty()) {
+            itemList = items.get(page - 1);
+        } else {
+            itemList = new ArrayList<>();
+        }
 
         for (int b : BOARDER_SLOT) {
             sm.setItem(b, Constants.BACKGROUND_ITEM);
@@ -108,6 +113,8 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
     void setupGuideMenu(Player p, SimpleMenu sm) {
         Collection<ItemGroup> groups =
                 IndustrialRevival.getInstance().getRegistry().getItemGroups().values();
+
+        sm.setSize(54);
 
         for (int b : BOARDER_SLOT) {
             sm.setItem(b, Constants.BACKGROUND_ITEM);

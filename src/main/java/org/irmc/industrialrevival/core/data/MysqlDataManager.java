@@ -39,8 +39,7 @@ public final class MysqlDataManager implements IDataManager {
         connect(url, username, password);
     }
 
-    @Override
-    public void connect(String url, String username, String password) throws SQLException {
+    private void connect(String url, String username, String password) throws SQLException {
         DataSource dataSource = new UnpooledDataSource("com.mysql.cj.jdbc.Driver", getUrl(url), username, password);
         dataSource.setLoginTimeout(5000);
         TransactionFactory transactionFactory = new JdbcTransactionFactory();
@@ -148,11 +147,11 @@ public final class MysqlDataManager implements IDataManager {
                     .execute();
 
             conn.prepareStatement(
-                            "CREATE TABLE IF NOT EXISTS block_record (world TEXT NOT NULL, x INT NOT NULL, y INT NOT NULL, z INT NOT NULL, machine_id TEXT NOT NULL, data TEXT DEFAULT NULL, PRIMARY KEY (world, x, y, z));")
+                            "CREATE TABLE IF NOT EXISTS block_record (world TEXT NOT NULL, x INT NOT NULL, y INT NOT NULL, z INT NOT NULL, machineId TEXT NOT NULL, data TEXT DEFAULT NULL, PRIMARY KEY (world, x, y, z));")
                     .execute();
 
             conn.prepareStatement(
-                            "CREATE TABLE IF NOT EXISTS menu_items(world TEXT NOT NULL, x INT NOT NULL, y INT NOT NULL, z INT NOT NULL, slot INT NOT NULL, item_json TEXT NOT NULL, itemClass TEXT NOT NULL, PRIMARY KEY (world, x, y, z));")
+                            "CREATE TABLE IF NOT EXISTS menu_items(world TEXT NOT NULL, x INT NOT NULL, y INT NOT NULL, z INT NOT NULL, slot INT NOT NULL, itemJson TEXT NOT NULL, itemClass TEXT NOT NULL, PRIMARY KEY (world, x, y, z));")
                     .execute();
         }
     }

@@ -1,6 +1,9 @@
 package org.irmc.industrialrevival.core;
 
 import java.sql.SQLException;
+
+import dev.jorel.commandapi.CommandAPI;
+import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -9,6 +12,7 @@ import org.irmc.industrialrevival.core.command.IRCommandGenerator;
 import org.irmc.industrialrevival.core.data.IDataManager;
 import org.irmc.industrialrevival.core.data.MysqlDataManager;
 import org.irmc.industrialrevival.core.data.SqliteDataManager;
+import org.irmc.industrialrevival.core.impl.IRGroups;
 import org.irmc.industrialrevival.core.listeners.GuideListener;
 import org.irmc.industrialrevival.core.listeners.ItemHandlerListener;
 import org.irmc.industrialrevival.core.listeners.MachineMenuListener;
@@ -39,6 +43,11 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     private @Getter BlockDataService blockDataService;
 
     @Override
+    public void onLoad() {
+        CommandAPI.onLoad(new CommandAPIBukkitConfig(this));
+    }
+
+    @Override
     public void onEnable() {
         instance = this;
 
@@ -46,8 +55,11 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
 
         languageManager = new LanguageManager(this);
 
-        setupDataManager();
+        registry = new IRRegistry();
 
+        IRGroups.setup();
+
+        setupDataManager();
         setupServices();
         setupListeners();
 
@@ -57,7 +69,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     }
 
     private void setupServices() {
-        registry = new IRRegistry();
+
         blockDataService = new BlockDataService();
         itemTextureService = new ItemTextureService();
     }

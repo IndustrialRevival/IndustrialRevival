@@ -14,7 +14,7 @@ public class BlockRecord {
     private int x;
     private int y;
     private int z;
-    private String id;
+    private String machineId;
     private String data;
 
     public Location getLocation() {
