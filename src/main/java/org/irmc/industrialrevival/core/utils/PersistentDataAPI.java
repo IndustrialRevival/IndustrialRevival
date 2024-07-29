@@ -1,4 +1,4 @@
-package org.irmc.industrialrevival.utils;
+package org.irmc.industrialrevival.core.utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

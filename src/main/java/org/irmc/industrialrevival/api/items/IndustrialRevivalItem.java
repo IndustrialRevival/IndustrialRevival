@@ -2,10 +2,12 @@ package org.irmc.industrialrevival.api.items;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.items.attributes.BlockDropItem;
@@ -45,7 +47,20 @@ public class IndustrialRevivalItem implements Placeable {
         this.group = group;
         this.itemStack = itemStack;
         this.recipeType = recipeType;
-        this.recipe = recipeType.getRecipeConverter().apply(recipe);
+
+        if (recipe.length < 9) {
+            ItemStack[] newRecipe = new ItemStack[9];
+            System.arraycopy(recipe, 0, newRecipe, 0, recipe.length);
+            recipe = newRecipe;
+        }
+
+        if (recipe.length > 9) {
+            ItemStack[] newRecipe = new ItemStack[9];
+            System.arraycopy(recipe, 0, newRecipe, 0, 9);
+            recipe = newRecipe;
+        }
+
+        this.recipe = recipe;
 
         if (this.recipe.length != 9) {
             throw new IllegalArgumentException("Recipe must be a array of 9 items");
@@ -56,6 +71,7 @@ public class IndustrialRevivalItem implements Placeable {
         return itemStack;
     }
 
+    @Deprecated(forRemoval = true)
     public void setUsableInWorkbench(boolean usableInWorkbench) {
         if (locked) {
             throw new IllegalStateException("Item is locked and cannot be modified");
@@ -131,6 +147,20 @@ public class IndustrialRevivalItem implements Placeable {
 
         if (this instanceof BlockDropItem) {
             IndustrialRevival.getInstance().getRegistry().registerBlockDrop(this);
+        }
+
+        if (this.getRecipeType() == RecipeType.VANILLA_CRAFTING) {
+            NamespacedKey key = new NamespacedKey(addon.getPlugin(), getId().toLowerCase());
+            ShapedRecipe shapedRecipe = new ShapedRecipe(key, itemStack.clone());
+            shapedRecipe.shape("abc", "def", "ghi");
+            char[] chars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'};
+            for (int i = 0; i < 9; i++) {
+                if (recipe[i] != null) {
+                    shapedRecipe.setIngredient(chars[i], recipe[i]);
+                }
+            }
+
+            Bukkit.addRecipe(shapedRecipe);
         }
     }
 

@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.core.guide.impl.CheatGuideImplementation;
 import org.irmc.industrialrevival.core.guide.impl.SurvivalGuideImplementation;
 import org.irmc.industrialrevival.core.utils.Constants;
-import org.irmc.industrialrevival.utils.PersistentDataAPI;
+import org.irmc.industrialrevival.core.utils.PersistentDataAPI;
 
 public class GuideListener extends AbstractIRListener {
     @EventHandler

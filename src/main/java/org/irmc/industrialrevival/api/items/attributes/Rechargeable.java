@@ -1,7 +1,7 @@
 package org.irmc.industrialrevival.api.items.attributes;
 
 import org.bukkit.inventory.ItemStack;
-import org.irmc.industrialrevival.utils.EnergyUtil;
+import org.irmc.industrialrevival.core.utils.EnergyUtil;
 
 public interface Rechargeable extends ItemAttribute {
     double getEnergyCapacity();

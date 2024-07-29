@@ -1,7 +1,7 @@
 package org.irmc.industrialrevival.core.services;
 
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
+import org.irmc.industrialrevival.core.IndustrialRevival;
 
 public class ItemTextureService {
     private final Map<Material, Integer> customModelDataMap;
@@ -21,9 +22,11 @@ public class ItemTextureService {
     public ItemTextureService() {
         customModelDataMap = new HashMap<>();
         blockModelMap = new HashMap<>();
+
+        setup(IndustrialRevival.getInstance().getBlockDataService().getBlockData().values());
     }
 
-    public void setup(List<IRBlockData> blockData) {
+    private void setup(Collection<IRBlockData> blockData) {
         for (IRBlockData data : blockData) {
             String id = data.getId();
             IndustrialRevivalItem item = IndustrialRevivalItem.getById(id);

@@ -1,9 +1,7 @@
 package org.irmc.industrialrevival.core.guide.impl;
 
 import com.google.common.collect.Lists;
-
 import java.util.*;
-
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -22,10 +20,11 @@ import org.irmc.industrialrevival.core.utils.ItemUtils;
 public class SurvivalGuideImplementation implements IRGuideImplementation {
     public static final SurvivalGuideImplementation INSTANCE = new SurvivalGuideImplementation();
 
-    private static final int[] RECIPE_SLOT = {3, 4, 5, 12, 13, 14, 21, 22, 23};
+    public static final int[] RECIPE_SLOT = {3, 4, 5, 12, 13, 14, 21, 22, 23};
     private static final int[] BOARDER_SLOT = {0, 1, 3, 4, 5, 7, 8, 45, 46, 48, 49, 50, 52, 53};
 
-    private static final NamespacedKey BOOKMARK_KEY = new NamespacedKey(IndustrialRevival.getInstance(), "bookmark_group");
+    private static final NamespacedKey BOOKMARK_KEY =
+            new NamespacedKey(IndustrialRevival.getInstance(), "bookmark_group");
 
     private final Map<String, BookMarkGroup> bookmarks;
     private final Map<String, Integer> pageMap;
@@ -49,7 +48,14 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
     public void onItemClicked(Player p, IndustrialRevivalItem item) {
         SimpleMenu sm = new SimpleMenu(
                 IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Constants.GUIDE_TITLE_KEY));
+
+        item.getRecipeType().getRecipeDisplay().accept(p, sm);
+
+        sm.open(p);
+
+        /*
         ItemStack[] recipe = item.getRecipe();
+
         for (int i = 0; i < RECIPE_SLOT.length; i++) {
             sm.setItem(RECIPE_SLOT[i], ItemUtils.getCleanedItem(recipe[i]));
         }
@@ -63,6 +69,8 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
 
         sm.setSize(54);
         sm.open(p);
+
+         */
     }
 
     @Override
@@ -95,11 +103,13 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
             sm.setItem(b, Constants.BACKGROUND_ITEM);
         }
 
+        PlayerProfile profile = PlayerProfile.getOrRequestProfile(p.getName());
+
         ItemStack backButton = Constants.BACK_BUTTON.apply(p);
         sm.setItem(2, backButton, ((slot, player, item, menu, clickType) -> {
             goBack(player);
             return false;
-        })); // do nothing now
+        }));
 
         ItemStack searchButton = Constants.SEARCH_BUTTON.apply(p);
         sm.setItem(6, searchButton, SimpleMenu.ClickHandler.DEFAULT); // do nothing now
@@ -145,7 +155,9 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
         ItemStack previousButton = Constants.PREVIOUS_BUTTON.apply(p);
         SimpleMenu.ClickHandler previousClickHandler = (slot, player, item, menu, clickType) -> {
             pageMap.put(p.getName(), page - 1);
-            SimpleMenu previousPage = new SimpleMenu(IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(player, Constants.GUIDE_TITLE_KEY));
+            SimpleMenu previousPage = new SimpleMenu(IndustrialRevival.getInstance()
+                    .getLanguageManager()
+                    .getMsgComponent(player, Constants.GUIDE_TITLE_KEY));
             setupGuideMenu(player, previousPage);
             previousPage.open(player);
             return false;
@@ -165,7 +177,9 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
         ItemStack nextButton = Constants.NEXT_BUTTON.apply(p);
         SimpleMenu.ClickHandler nextClickHandler = (slot, player, item, menu, clickType) -> {
             pageMap.put(p.getName(), page + 1);
-            SimpleMenu nextPage = new SimpleMenu(IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(player, Constants.GUIDE_TITLE_KEY));
+            SimpleMenu nextPage = new SimpleMenu(IndustrialRevival.getInstance()
+                    .getLanguageManager()
+                    .getMsgComponent(player, Constants.GUIDE_TITLE_KEY));
             setupGuideMenu(player, nextPage);
             nextPage.open(player);
             return false;
@@ -179,7 +193,15 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
 
         sm.setItem(51, nextButton, nextClickHandler);
 
-        sm.setItem(9, bookmarks.computeIfAbsent(p.getName(), k -> new BookMarkGroup(BOOKMARK_KEY, p)).getIcon());
+        sm.setItem(
+                9,
+                bookmarks
+                        .computeIfAbsent(p.getName(), k -> new BookMarkGroup(BOOKMARK_KEY, p))
+                        .getIcon(),
+                (slot, player, item, menu, clickType) -> {
+                    onGroupClicked(player, bookmarks.get(p.getName()));
+                    return false;
+                });
 
         List<ItemGroup> groupList = partition.get(page - 1);
         for (int i = 10; i < partSize + 9; i++) {

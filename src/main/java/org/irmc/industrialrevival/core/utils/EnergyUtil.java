@@ -1,4 +1,4 @@
-package org.irmc.industrialrevival.utils;
+package org.irmc.industrialrevival.core.utils;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;

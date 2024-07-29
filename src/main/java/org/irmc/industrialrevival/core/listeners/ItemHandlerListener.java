@@ -1,5 +1,6 @@
 package org.irmc.industrialrevival.core.listeners;
 
+import java.util.ArrayList;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -18,8 +19,6 @@ import org.irmc.industrialrevival.api.items.handlers.*;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.core.IndustrialRevival;
-
-import java.util.ArrayList;
 
 public class ItemHandlerListener extends AbstractIRListener {
     @EventHandler
@@ -64,7 +63,9 @@ public class ItemHandlerListener extends AbstractIRListener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
         Player player = e.getPlayer();
-        IRBlockData blockData = IndustrialRevival.getInstance().getBlockDataService().getBlockData(e.getBlock().getLocation());
+        IRBlockData blockData = IndustrialRevival.getInstance()
+                .getBlockDataService()
+                .getBlockData(e.getBlock().getLocation());
         if (blockData != null) {
             String id = blockData.getId();
             IndustrialRevivalItem iritem = IndustrialRevivalItem.getById(id);
@@ -86,7 +87,8 @@ public class ItemHandlerListener extends AbstractIRListener {
             Block block = e.getClickedBlock();
             if (block != null) {
                 Location location = block.getLocation();
-                IRBlockData blockData = IndustrialRevival.getInstance().getBlockDataService().getBlockData(location);
+                IRBlockData blockData =
+                        IndustrialRevival.getInstance().getBlockDataService().getBlockData(location);
                 if (blockData != null) {
                     String id = blockData.getId();
                     IndustrialRevivalItem iritem = IndustrialRevivalItem.getById(id);

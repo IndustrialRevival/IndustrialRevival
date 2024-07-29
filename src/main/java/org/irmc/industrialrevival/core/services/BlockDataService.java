@@ -1,9 +1,11 @@
 package org.irmc.industrialrevival.core.services;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import lombok.AccessLevel;
+import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
@@ -11,6 +13,7 @@ import org.irmc.industrialrevival.core.IndustrialRevival;
 import org.irmc.industrialrevival.core.data.object.BlockRecord;
 
 public class BlockDataService {
+    @Getter(AccessLevel.PACKAGE)
     private final Map<Location, IRBlockData> blockData;
 
     public BlockDataService() {
@@ -20,8 +23,8 @@ public class BlockDataService {
     }
 
     private void loadData() {
-        List<BlockRecord> records = new ArrayList<>();
-                //IndustrialRevival.getInstance().getDataManager().getAllBlockRecords();
+        List<BlockRecord> records =
+                IndustrialRevival.getInstance().getDataManager().getAllBlockRecords();
         for (BlockRecord record : records) {
             Location loc = record.getLocation();
             YamlConfiguration config =
@@ -34,5 +37,12 @@ public class BlockDataService {
         return blockData.get(location);
     }
 
-    public void saveAllData() {}
+    public void saveAllData() {
+        for (IRBlockData data : blockData.values()) {
+            String dataString = data.getConfig().saveToString();
+            Location location = data.getLocation();
+            BlockRecord blockRecord = new BlockRecord(location.getWorld().getName(), location.getBlockX(), location.getBlockY(), location.getBlockZ(), data.getId(), dataString);
+            IndustrialRevival.getInstance().getDataManager().updateBlockData(data.getLocation(), blockRecord);
+        }
+    }
 }

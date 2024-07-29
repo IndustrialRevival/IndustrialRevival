@@ -6,16 +6,16 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.jetbrains.annotations.Nullable;
 
+@Getter
 public class IRBlockData {
     // TODO: implement this class(implement sqlite/mysql database first)
 
-    @Getter
     private final String id;
+
     private final YamlConfiguration config;
-    @Getter
-    @Nullable
-    private final MachineMenu machineMenu;
-    @Getter
+
+    @Nullable private final MachineMenu machineMenu;
+
     private final Location location;
 
     public IRBlockData(String id, Location location, YamlConfiguration config, @Nullable MachineMenu menu) {
@@ -29,8 +29,7 @@ public class IRBlockData {
         type.set(config, key, value);
     }
 
-    @Nullable
-    public <T> T getData(String key, DataType<T> type) {
+    @Nullable public <T> T getData(String key, DataType<T> type) {
         return type.get(config, key);
     }
 }

@@ -38,175 +38,57 @@ public class IRItems {
 
     static {
         SLIVER_ORE = new IndustrialRevivalItem(
-                IRItemGroups.ORES,
-                IRItemStacks.SLIVER_ORE,
-                RecipeType.MINE,
-                IRRecipes.SLIVER_ORE
-        );
+                IRItemGroups.ORES, IRItemStacks.SLIVER_ORE, RecipeType.MINE, IRRecipes.SLIVER_ORE);
         NICKEL_ORE = new IndustrialRevivalItem(
-                IRItemGroups.ORES,
-                IRItemStacks.NICKEL_ORE,
-                RecipeType.MINE,
-                IRRecipes.NICKEL_ORE
-        );
+                IRItemGroups.ORES, IRItemStacks.NICKEL_ORE, RecipeType.MINE, IRRecipes.NICKEL_ORE);
         COBALT_ORE = new IndustrialRevivalItem(
-                IRItemGroups.ORES,
-                IRItemStacks.COBALT_ORE,
-                RecipeType.MINE,
-                IRRecipes.COBALT_ORE
-        );
+                IRItemGroups.ORES, IRItemStacks.COBALT_ORE, RecipeType.MINE, IRRecipes.COBALT_ORE);
         CHROMIUM_ORE = new IndustrialRevivalItem(
-                IRItemGroups.ORES,
-                IRItemStacks.CHROMIUM_ORE,
-                RecipeType.MINE,
-                IRRecipes.CHROMIUM_ORE
-        );
+                IRItemGroups.ORES, IRItemStacks.CHROMIUM_ORE, RecipeType.MINE, IRRecipes.CHROMIUM_ORE);
         MAGNET_ORE = new IndustrialRevivalItem(
-                IRItemGroups.ORES,
-                IRItemStacks.MAGNET_ORE,
-                RecipeType.MINE,
-                IRRecipes.MAGNET_ORE
-        );
+                IRItemGroups.ORES, IRItemStacks.MAGNET_ORE, RecipeType.MINE, IRRecipes.MAGNET_ORE);
         URANIUM_ORE = new IndustrialRevivalItem(
-                IRItemGroups.ORES,
-                IRItemStacks.URANIUM_ORE,
-                RecipeType.MINE,
-                IRRecipes.URANIUM_ORE
-        );
+                IRItemGroups.ORES, IRItemStacks.URANIUM_ORE, RecipeType.MINE, IRRecipes.URANIUM_ORE);
         ALUMINIUM_ORE = new IndustrialRevivalItem(
-                IRItemGroups.ORES,
-                IRItemStacks.ALUMINIUM_ORE,
-                RecipeType.MINE,
-                IRRecipes.ALUMINIUM_ORE
-        );
-        TIN_ORE = new IndustrialRevivalItem(
-                IRItemGroups.ORES,
-                IRItemStacks.TIN_ORE,
-                RecipeType.MINE,
-                IRRecipes.TIN_ORE
-        );
+                IRItemGroups.ORES, IRItemStacks.ALUMINIUM_ORE, RecipeType.MINE, IRRecipes.ALUMINIUM_ORE);
+        TIN_ORE =
+                new IndustrialRevivalItem(IRItemGroups.ORES, IRItemStacks.TIN_ORE, RecipeType.MINE, IRRecipes.TIN_ORE);
         MAGNESIUM_ORE = new IndustrialRevivalItem(
-                IRItemGroups.ORES,
-                IRItemStacks.MAGNESIUM_ORE,
-                RecipeType.MINE,
-                IRRecipes.MAGNESIUM_ORE
-        );
+                IRItemGroups.ORES, IRItemStacks.MAGNESIUM_ORE, RecipeType.MINE, IRRecipes.MAGNESIUM_ORE);
         LEAD_ORE = new IndustrialRevivalItem(
-                IRItemGroups.ORES,
-                IRItemStacks.LEAD_ORE,
-                RecipeType.MINE,
-                IRRecipes.LEAD_ORE
-        );
+                IRItemGroups.ORES, IRItemStacks.LEAD_ORE, RecipeType.MINE, IRRecipes.LEAD_ORE);
         ZINC_ORE = new IndustrialRevivalItem(
-                IRItemGroups.ORES,
-                IRItemStacks.ZINC_ORE,
-                RecipeType.MINE,
-                IRRecipes.ZINC_ORE
-        );
+                IRItemGroups.ORES, IRItemStacks.ZINC_ORE, RecipeType.MINE, IRRecipes.ZINC_ORE);
         TUNGSTEN_ORE = new IndustrialRevivalItem(
-                IRItemGroups.ORES,
-                IRItemStacks.TUNGSTEN_ORE,
-                RecipeType.MINE,
-                IRRecipes.TUNGSTEN_ORE
-        );
+                IRItemGroups.ORES, IRItemStacks.TUNGSTEN_ORE, RecipeType.MINE, IRRecipes.TUNGSTEN_ORE);
         MERCURY_ORE = new IndustrialRevivalItem(
-                IRItemGroups.ORES,
-                IRItemStacks.MERCURY_ORE,
-                RecipeType.MINE,
-                IRRecipes.MERCURY_ORE
-        );
+                IRItemGroups.ORES, IRItemStacks.MERCURY_ORE, RecipeType.MINE, IRRecipes.MERCURY_ORE);
 
         SALT_ORE = new IndustrialRevivalItem(
-                IRItemGroups.ORES,
-                IRItemStacks.SALT_ORE,
-                RecipeType.MINE,
-                IRRecipes.SALT_ORE
-        );
-        SULFUR = new IndustrialRevivalItem(
-                IRItemGroups.ORES,
-                IRItemStacks.SULFUR,
-                RecipeType.MINE,
-                IRRecipes.SULFUR
-        );
+                IRItemGroups.ORES, IRItemStacks.SALT_ORE, RecipeType.MINE, IRRecipes.SALT_ORE);
+        SULFUR = new IndustrialRevivalItem(IRItemGroups.ORES, IRItemStacks.SULFUR, RecipeType.MINE, IRRecipes.SULFUR);
         PETROLEUM = new IndustrialRevivalItem(
-                IRItemGroups.ORES,
-                IRItemStacks.PETROLEUM,
-                RecipeType.MINE,
-                IRRecipes.PETROLEUM
-        );
+                IRItemGroups.ORES, IRItemStacks.PETROLEUM, RecipeType.MINE, IRRecipes.PETROLEUM);
         FLAWED_QUARTZ = new IndustrialRevivalItem(
-                IRItemGroups.ORES,
-                IRItemStacks.FLAWED_QUARTZ,
-                RecipeType.MINE,
-                IRRecipes.FLAWED_QUARTZ
-        );
+                IRItemGroups.ORES, IRItemStacks.FLAWED_QUARTZ, RecipeType.MINE, IRRecipes.FLAWED_QUARTZ);
         FLAWLESS_QUARTZ = new IndustrialRevivalItem(
-                IRItemGroups.ORES,
-                IRItemStacks.FLAWLESS_QUARTZ,
-                RecipeType.MINE,
-                IRRecipes.FLAWLESS_QUARTZ
-        );
+                IRItemGroups.ORES, IRItemStacks.FLAWLESS_QUARTZ, RecipeType.MINE, IRRecipes.FLAWLESS_QUARTZ);
         LIMESTONE = new IndustrialRevivalItem(
-                IRItemGroups.ORES,
-                IRItemStacks.LIMESTONE,
-                RecipeType.MINE,
-                IRRecipes.LIMESTONE
-        );
+                IRItemGroups.ORES, IRItemStacks.LIMESTONE, RecipeType.MINE, IRRecipes.LIMESTONE);
         LIMEWATER = new IndustrialRevivalItem(
-                IRItemGroups.ORES,
-                IRItemStacks.LIMEWATER,
-                RecipeType.MINE,
-                IRRecipes.LIMEWATER
-        );
-        SALT = new IndustrialRevivalItem(
-                IRItemGroups.ORES,
-                IRItemStacks.SALT,
-                RecipeType.MINE,
-                IRRecipes.SALT
-        );
+                IRItemGroups.ORES, IRItemStacks.LIMEWATER, RecipeType.MINE, IRRecipes.LIMEWATER);
+        SALT = new IndustrialRevivalItem(IRItemGroups.ORES, IRItemStacks.SALT, RecipeType.MINE, IRRecipes.SALT);
         MAGIC_CRYSTAL = new IndustrialRevivalItem(
-                IRItemGroups.ORES,
-                IRItemStacks.MAGIC_CRYSTAL,
-                RecipeType.MINE,
-                IRRecipes.MAGIC_CRYSTAL
-        );
+                IRItemGroups.ORES, IRItemStacks.MAGIC_CRYSTAL, RecipeType.MINE, IRRecipes.MAGIC_CRYSTAL);
         CHARGED_STONE = new IndustrialRevivalItem(
-                IRItemGroups.ORES,
-                IRItemStacks.CHARGED_STONE,
-                RecipeType.MINE,
-                IRRecipes.CHARGED_STONE
-        );
-        CARBON = new IndustrialRevivalItem(
-                IRItemGroups.ORES,
-                IRItemStacks.CARBON,
-                RecipeType.MINE,
-                IRRecipes.CARBON
-        );
-        LED = new IndustrialRevivalItem(
-                IRItemGroups.ORES,
-                IRItemStacks.LED,
-                RecipeType.MINE,
-                IRRecipes.LED
-        );
-        GAS = new IndustrialRevivalItem(
-                IRItemGroups.ORES,
-                IRItemStacks.GAS,
-                RecipeType.MINE,
-                IRRecipes.GAS
-        );
-        BORAX = new IndustrialRevivalItem(
-                IRItemGroups.ORES,
-                IRItemStacks.BORAX,
-                RecipeType.MINE,
-                IRRecipes.BORAX
-        );
-        SILICA = new IndustrialRevivalItem(
-                IRItemGroups.ORES,
-                IRItemStacks.SILICA,
-                RecipeType.MINE,
-                IRRecipes.SILICA
-        );
+                IRItemGroups.ORES, IRItemStacks.CHARGED_STONE, RecipeType.MINE, IRRecipes.CHARGED_STONE);
+        CARBON = new IndustrialRevivalItem(IRItemGroups.ORES, IRItemStacks.CARBON, RecipeType.MINE, IRRecipes.CARBON);
+        LED = new IndustrialRevivalItem(IRItemGroups.ORES, IRItemStacks.LED, RecipeType.MINE, IRRecipes.LED);
+        GAS = new IndustrialRevivalItem(IRItemGroups.ORES, IRItemStacks.GAS, RecipeType.MINE, IRRecipes.GAS);
+        BORAX = new IndustrialRevivalItem(IRItemGroups.ORES, IRItemStacks.BORAX, RecipeType.MINE, IRRecipes.BORAX);
+        SILICA = new IndustrialRevivalItem(IRItemGroups.ORES, IRItemStacks.SILICA, RecipeType.MINE, IRRecipes.SILICA);
     }
+
     public static void setup() {
         IndustrialRevival INSTANCE = IndustrialRevival.getInstance();
 

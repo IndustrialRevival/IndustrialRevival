@@ -1,9 +1,10 @@
 package org.irmc.industrialrevival.core;
 
-import java.sql.SQLException;
-
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
+import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
 import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -22,6 +23,7 @@ import org.irmc.industrialrevival.core.message.LanguageManager;
 import org.irmc.industrialrevival.core.services.BlockDataService;
 import org.irmc.industrialrevival.core.services.IRRegistry;
 import org.irmc.industrialrevival.core.services.ItemTextureService;
+import org.irmc.industrialrevival.core.utils.Constants;
 import org.irmc.industrialrevival.core.utils.FileUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -54,15 +56,17 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         instance = this;
 
         FileUtil.completeFile(this, "config.yml");
+        FileUtil.completeLangFile(this, "language/en-US.yml");
+        FileUtil.completeLangFile(this, "language/zh-CN.yml");
 
         languageManager = new LanguageManager(this);
         registry = new IRRegistry();
 
         setupDataManager();
+        setupServices();
 
         setupIndustrialRevivalItems();
 
-        setupServices();
         setupListeners();
     }
 
@@ -74,7 +78,6 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     private void setupServices() {
         blockDataService = new BlockDataService();
         itemTextureService = new ItemTextureService();
-        blockDataService = new BlockDataService();
     }
 
     private void setupListeners() {
@@ -87,19 +90,36 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     private void setupDataManager() {
         FileConfiguration config = getConfig();
         String storageType = config.getString("storage.type", "sqlite");
+        File sqliteDbFile = new File(Constants.STORAGE_FOLDER, "database.db");
         if (storageType.equalsIgnoreCase("sqlite")) {
+            if (!Constants.STORAGE_FOLDER.exists()) {
+                Constants.STORAGE_FOLDER.mkdirs();
+            }
+
+            if (!sqliteDbFile.exists()) {
+                try {
+                    sqliteDbFile.createNewFile();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
             try {
-                dataManager = new SqliteDataManager();
+                dataManager = new SqliteDataManager(sqliteDbFile);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         } else {
             try {
-                dataManager = new MysqlDataManager();
+                String host = config.getString("storage.mysql.host");
+                int port = config.getInt("storage.mysql.port");
+                String username = config.getString("storage.mysql.username");
+                String password = config.getString("storage.mysql.password");
+                dataManager = new MysqlDataManager(host + ":" + port, username, password);
             } catch (Exception e) {
                 getLogger().severe("Failed to connect to MySQL database, falling back to SQLite");
                 try {
-                    dataManager = new SqliteDataManager();
+                    dataManager = new SqliteDataManager(sqliteDbFile);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -109,6 +129,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
 
     @Override
     public void onDisable() {
+        blockDataService.saveAllData();
         dataManager.close();
     }
 

@@ -2,7 +2,6 @@ package org.irmc.industrialrevival.api.items;
 
 import com.google.common.base.Preconditions;
 import java.util.function.Consumer;
-
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -11,7 +10,7 @@ import org.bukkit.material.MaterialData;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.core.IndustrialRevival;
 import org.irmc.industrialrevival.core.utils.Constants;
-import org.irmc.industrialrevival.utils.PersistentDataAPI;
+import org.irmc.industrialrevival.core.utils.PersistentDataAPI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,11 +19,14 @@ public class IndustrialRevivalItemStack extends ItemStack {
     private final String id;
 
     private boolean locked;
+
     public IndustrialRevivalItemStack(String id, Material material) {
-        this(id, new CustomItemStack(
-                material,
-                IndustrialRevival.getInstance().getLanguageManager().getItemName(id),
-                IndustrialRevival.getInstance().getLanguageManager().getItemLore(id)));
+        this(
+                id,
+                new CustomItemStack(
+                        material,
+                        IndustrialRevival.getInstance().getLanguageManager().getItemName(id),
+                        IndustrialRevival.getInstance().getLanguageManager().getItemLore(id)));
     }
 
     public IndustrialRevivalItemStack(String id, ItemStack itemStack) {
@@ -35,6 +37,8 @@ public class IndustrialRevivalItemStack extends ItemStack {
         this.id = id;
 
         editMeta(meta -> PersistentDataAPI.setString(meta, Constants.ITEM_ID_KEY, id));
+
+        IndustrialRevival.getInstance().getItemTextureService().setUpTexture(this);
     }
 
     public IndustrialRevivalItemStack(String id, Material material, String name, String... lore) {

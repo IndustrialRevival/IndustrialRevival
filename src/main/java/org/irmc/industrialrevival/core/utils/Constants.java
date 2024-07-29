@@ -24,43 +24,46 @@ public class Constants {
             IndustrialRevival.getInstance().getDataFolder().getParentFile().getParentFile(), "irstorage");
 
     public static final NamespacedKey ITEM_ID_KEY = new NamespacedKey(IndustrialRevival.getInstance(), "ir_item_id");
-    public static final NamespacedKey GUIDE_ITEM_KEY = new NamespacedKey(IndustrialRevival.getInstance(), "ir_guide_item");
+    public static final NamespacedKey GUIDE_ITEM_KEY =
+            new NamespacedKey(IndustrialRevival.getInstance(), "ir_guide_item");
 
     public static final ItemStack BACKGROUND_ITEM =
             new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " ").setCustomModel(19990);
 
     public static final Function<Player, ItemStack> BACK_BUTTON = p -> new CustomItemStack(
-            Material.ENCHANTED_BOOK,
-            IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_BACK_KEY)
-    ).setCustomModel(19991);
+                    Material.ENCHANTED_BOOK,
+                    IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_BACK_KEY),
+                    IndustrialRevival.getInstance().getLanguageManager().getMsgComponentList(p, "guide.back_lore"))
+            .setCustomModel(19991);
 
     public static final Function<Player, ItemStack> SETTING_BUTTON = p -> new CustomItemStack(
-        Material.ENCHANTED_BOOK,
-        IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_SETTINGS_KEY)
-    ).setCustomModel(19992);
+                    Material.REPEATER,
+                    IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_SETTINGS_KEY))
+            .setCustomModel(19992);
 
     public static final Function<Player, ItemStack> BOOKMARK_BUTTON = p -> new CustomItemStack(
-        Material.WRITABLE_BOOK,
-        IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_BOOKMARKS_KEY)
-    ).setCustomModel(19993);
+                    Material.WRITABLE_BOOK,
+                    IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_BOOKMARKS_KEY))
+            .setCustomModel(19993);
 
     public static final Function<Player, ItemStack> SEARCH_BUTTON = p -> new CustomItemStack(
-        Material.COMPASS,
-        IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_SEARCH_KEY)
-    ).setCustomModel(19994);
+                    Material.COMPASS,
+                    IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_SEARCH_KEY))
+            .setCustomModel(19994);
 
     public static final Function<Player, ItemStack> PREVIOUS_BUTTON = p -> new CustomItemStack(
-            Material.LIME_STAINED_GLASS_PANE,
-            IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_PREVIOUS_KEY)
-    ).setCustomModel(19995);
+                    Material.LIME_STAINED_GLASS_PANE,
+                    IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_PREVIOUS_KEY))
+            .setCustomModel(19995);
 
     public static final Function<Player, ItemStack> NEXT_BUTTON = p -> new CustomItemStack(
-            Material.LIME_STAINED_GLASS_PANE,
-            IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_NEXT_KEY)
-    ).setCustomModel(19996);
+                    Material.LIME_STAINED_GLASS_PANE,
+                    IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_NEXT_KEY))
+            .setCustomModel(19996);
 
     public static final ItemStack GUIDE_BOOK_ITEM = new CustomItemStack(
-            Material.ENCHANTED_BOOK,
-            IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(null, "guide.book_item_name")
-    ).setCustomModel(19997).setPDCData(GUIDE_ITEM_KEY, PersistentDataType.INTEGER, 1);
+                    Material.ENCHANTED_BOOK,
+                    IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(null, "guide.book_item_name"))
+            .setCustomModel(19997)
+            .setPDCData(GUIDE_ITEM_KEY, PersistentDataType.INTEGER, 1);
 }

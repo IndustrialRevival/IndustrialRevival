@@ -20,7 +20,7 @@ import org.irmc.industrialrevival.core.guide.GuideSettings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public sealed interface IDataManager permits MysqlDataManager, SqliteDataManager {
+public sealed interface IDataManager permits AbstractDataManager {
     void close();
 
     @Nullable GuideSettings getGuideSettings(@NotNull String playerName);

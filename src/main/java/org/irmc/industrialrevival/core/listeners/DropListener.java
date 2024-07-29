@@ -2,7 +2,6 @@ package org.irmc.industrialrevival.core.listeners;
 
 import java.util.List;
 import java.util.Random;
-
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;

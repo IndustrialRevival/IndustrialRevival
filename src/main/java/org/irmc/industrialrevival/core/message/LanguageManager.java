@@ -129,6 +129,11 @@ public final class LanguageManager {
         return parseToComponent(getMsg(CommandSender, key, args));
     }
 
+    public List<Component> getMsgComponentList(
+            @Nullable CommandSender CommandSender, String key, MessageReplacement... args) {
+        return parseToComponentList(getMsgList(CommandSender, key, args));
+    }
+
     public String getMsg(@Nullable CommandSender CommandSender, String key, MessageReplacement... args) {
         String msg = getConfiguration(CommandSender).getString(key);
         if (msg == null) {

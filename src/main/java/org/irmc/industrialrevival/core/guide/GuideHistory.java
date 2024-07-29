@@ -56,7 +56,6 @@ public class GuideHistory {
                 GuideEntry<IndustrialRevivalItem> theItemEntry = (GuideEntry<IndustrialRevivalItem>) lastEntry;
                 guide.onItemClicked(player, theItemEntry.getContent());
             } else if (lastEntry.isGuide()) {
-                int page = lastEntry.getPage();
                 guide.open(player);
             }
 

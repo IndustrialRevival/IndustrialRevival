@@ -9,11 +9,11 @@ import org.bukkit.inventory.meta.*;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.core.IndustrialRevival;
-import org.irmc.industrialrevival.utils.PersistentDataAPI;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
 public class ItemUtils {
+    public static final NamespacedKey CLEANED_IR_ITEM_ID = new NamespacedKey(IndustrialRevival.getInstance(), "cleaned_ir_item_id");
 
     private ItemUtils() {}
 
@@ -47,8 +47,7 @@ public class ItemUtils {
         if (item instanceof IndustrialRevivalItemStack iris) {
             // Tag the item to verify that is an IR item
             // Useful in recipe click?
-            PersistentDataAPI.setString(
-                    meta, new NamespacedKey(IndustrialRevival.getInstance(), "cleaned_ir_item_id"), iris.getId());
+            PersistentDataAPI.setString(meta, CLEANED_IR_ITEM_ID, iris.getId());
         }
 
         baseItem.setItemMeta(meta);

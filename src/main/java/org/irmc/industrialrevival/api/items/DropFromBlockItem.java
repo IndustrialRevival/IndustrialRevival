@@ -12,7 +12,14 @@ public class DropFromBlockItem extends IndustrialRevivalItem implements BlockDro
     private final int dropAmount;
     private final double chance;
 
-    public DropFromBlockItem(ItemGroup group, IndustrialRevivalItemStack itemStack, RecipeType recipeType, ItemStack[] recipe, Material dropBlock, int dropAmount, double chance) {
+    public DropFromBlockItem(
+            ItemGroup group,
+            IndustrialRevivalItemStack itemStack,
+            RecipeType recipeType,
+            ItemStack[] recipe,
+            Material dropBlock,
+            int dropAmount,
+            double chance) {
         super(group, itemStack, recipeType, recipe);
 
         this.dropBlock = dropBlock;
