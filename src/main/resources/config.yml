@@ -2,9 +2,6 @@
 # you don't need to type .yml extension in the end!
 language: zh-CN
 
-# whether to detect the player's language and use the appropriate messages
-detectPlayerLanguage: false
-
 storage:
   # the type of storage to use
   # usable types: sqlite, mysql

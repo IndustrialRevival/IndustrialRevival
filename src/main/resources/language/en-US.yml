@@ -19,6 +19,10 @@ recipe_type:
     name: "<green>Grindstone</green>"
     lore:
       - ""
+  mine:
+    name: "<green>Mine block</green>"
+    lore:
+      - "<yellow>Mine specific blocks will get a chance to drop this item.</yellow>"
 misc:
   recipe_not_found: "<red><bold>No recipe found for this item.<bold></red>"
   wiki_page: "<yellow>Click here to go to the wiki page for this item</yellow>"

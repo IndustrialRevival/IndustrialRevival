@@ -19,6 +19,10 @@ recipe_type:
     name: "<green>磨石</green>"
     lore:
        - ""
+  mine:
+    name: "<green>采矿</green>"
+    lore:
+       - "<yellow>挖掉特定方块会有概率掉落此物品</yellow>"
 misc:
   recipe_not_found: "<red><bold>未找到配方</bold></red>"
   wiki_page: "<yellow>点击前往对应wiki页面</yellow>"

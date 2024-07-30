@@ -8,6 +8,7 @@ import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandSender;
@@ -118,7 +119,7 @@ public final class LanguageManager {
     }
 
     public static Component parseToComponent(String msg) {
-        return MiniMessage.miniMessage().deserialize("&r").append(MiniMessage.miniMessage().deserialize(msg));
+        return MiniMessage.miniMessage().deserialize(msg).decoration(TextDecoration.ITALIC, false);
     }
 
     public static List<Component> parseToComponentList(List<String> msgList) {

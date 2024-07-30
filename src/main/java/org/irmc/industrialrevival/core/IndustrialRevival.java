@@ -5,6 +5,7 @@ import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+
 import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -55,9 +56,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     public void onEnable() {
         instance = this;
 
-        FileUtil.completeFile(this, "config.yml");
-        FileUtil.completeLangFile(this, "language/en-US.yml");
-        FileUtil.completeLangFile(this, "language/zh-CN.yml");
+        completeFiles();
 
         languageManager = new LanguageManager(this);
         registry = new IRRegistry();
@@ -68,6 +67,12 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         setupIndustrialRevivalItems();
 
         setupListeners();
+    }
+
+    private void completeFiles() {
+        FileUtil.completeFile(this, "config.yml");
+        FileUtil.completeLangFile(this, "language/en-US.yml");
+        FileUtil.completeLangFile(this, "language/zh-CN.yml");
     }
 
     private void setupIndustrialRevivalItems() {
