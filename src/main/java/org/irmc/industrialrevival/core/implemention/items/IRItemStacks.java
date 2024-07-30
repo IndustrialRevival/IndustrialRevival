@@ -1,6 +1,7 @@
 package org.irmc.industrialrevival.core.implemention.items;
 
 import org.bukkit.Material;
+import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 
 public class IRItemStacks {
@@ -32,8 +33,60 @@ public class IRItemStacks {
     public static final IndustrialRevivalItemStack GAS;
     public static final IndustrialRevivalItemStack BORAX;
     public static final IndustrialRevivalItemStack SILICA;
+    public static final IndustrialRevivalItemStack LAVA_ALLOY;
+    public static final IndustrialRevivalItemStack ROCK_IRON_ALLOY;
+    public static final IndustrialRevivalItemStack ALUMINIUM_ALLOY;
+    public static final IndustrialRevivalItemStack COPPER_NICKEL_ALLOY;
+    public static final IndustrialRevivalItemStack NICHROM;
+    public static final IndustrialRevivalItemStack SILICON_STEEL;
+    public static final IndustrialRevivalItemStack WOLFRAM_STEEL;
+    public static final IndustrialRevivalItemStack SILICON;
+    public static final IndustrialRevivalItemStack RAW_SILICON;
+    public static final IndustrialRevivalItemStack SILICON_TETRACHLORIDE;
+    public static final IndustrialRevivalItemStack SLAG;
+    public static final IndustrialRevivalItemStack BRASS;
+    public static final IndustrialRevivalItemStack FINE_IRON;
+    public static final IndustrialRevivalItemStack FINE_GOLD;
+    public static final IndustrialRevivalItemStack SLIVER;
+    public static final IndustrialRevivalItemStack NICKEL;
+    public static final IndustrialRevivalItemStack COBALT;
+    public static final IndustrialRevivalItemStack CHROMIUM;
+    public static final IndustrialRevivalItemStack MAGNET;
+    public static final IndustrialRevivalItemStack URANIUM;
+    public static final IndustrialRevivalItemStack ALUMINIUM;
+    public static final IndustrialRevivalItemStack TIN;
+    public static final IndustrialRevivalItemStack MAGNESIUM;
+    public static final IndustrialRevivalItemStack LEAD;
+    public static final IndustrialRevivalItemStack ZINC;
+    public static final IndustrialRevivalItemStack TUNGSTEN;
 
     static {
+        LAVA_ALLOY              = new IndustrialRevivalItemStack("LAVA_ALLOY", Material.MAGMA_BLOCK);
+        ROCK_IRON_ALLOY         = new IndustrialRevivalItemStack("ROCK_IRON_ALLOY", Material.POLISHED_ANDESITE);
+        ALUMINIUM_ALLOY         = new IndustrialRevivalItemStack("ALUMINIUM_ALLOY", Material.IRON_INGOT);
+        COPPER_NICKEL_ALLOY     = new IndustrialRevivalItemStack("COPPER_NICKEL_ALLOY", Material.COPPER_INGOT);
+        NICHROM                 = new IndustrialRevivalItemStack("NICHROM", Material.IRON_INGOT);
+        SILICON_STEEL           = new IndustrialRevivalItemStack("SILICON_STEEL", Material.IRON_INGOT);
+        WOLFRAM_STEEL           = new IndustrialRevivalItemStack("WOLFRAM_STEEL", Material.NETHERITE_INGOT);
+        SILICON                 = new IndustrialRevivalItemStack("SILICON", Material.IRON_NUGGET);
+        RAW_SILICON             = new IndustrialRevivalItemStack("RAW_SILICON", Material.RAW_IRON);
+        SILICON_TETRACHLORIDE   = new IndustrialRevivalItemStack("SILICON_TETRACHLORIDE", Material.WATER_BUCKET);
+        SLAG                    = new IndustrialRevivalItemStack("SLAG", Material.GUNPOWDER);
+        BRASS                   = new IndustrialRevivalItemStack("BRASS", Material.GOLD_INGOT);
+        FINE_IRON               = new IndustrialRevivalItemStack("FINE_IRON", Material.IRON_INGOT);
+        FINE_GOLD               = new IndustrialRevivalItemStack("FINE_GOLD", Material.GOLD_INGOT);
+        TUNGSTEN                = new IndustrialRevivalItemStack("SLIVER", Material.IRON_INGOT);
+        SLIVER                  = new IndustrialRevivalItemStack("NICKEL", Material.IRON_INGOT);
+        NICKEL                  = new IndustrialRevivalItemStack("COBALT", Material.IRON_INGOT);
+        COBALT                  = new IndustrialRevivalItemStack("CHROMIUM", Material.IRON_INGOT);
+        CHROMIUM                = new IndustrialRevivalItemStack("MAGNET", Material.IRON_INGOT);
+        MAGNET                  = new IndustrialRevivalItemStack("URANIUM", Material.IRON_INGOT);
+        URANIUM                 = new IndustrialRevivalItemStack("ALUMINIUM", Material.IRON_INGOT);
+        ALUMINIUM               = new IndustrialRevivalItemStack("TIN", Material.IRON_INGOT);
+        TIN                     = new IndustrialRevivalItemStack("MAGNESIUM", Material.IRON_INGOT);
+        MAGNESIUM               = new IndustrialRevivalItemStack("LEAD", Material.IRON_INGOT);
+        LEAD                    = new IndustrialRevivalItemStack("ZINC", Material.IRON_INGOT);
+        ZINC                    = new IndustrialRevivalItemStack("TUNGSTEN", Material.IRON_INGOT);
         SLIVER_ORE = new IndustrialRevivalItemStack("SLIVER_ORE", Material.GRAY_CONCRETE_POWDER);
         NICKEL_ORE = new IndustrialRevivalItemStack("NICKEL_ORE", Material.GRAY_CONCRETE_POWDER);
         COBALT_ORE = new IndustrialRevivalItemStack("COBALT_ORE", Material.GRAY_CONCRETE_POWDER);
