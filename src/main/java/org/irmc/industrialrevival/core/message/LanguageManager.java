@@ -27,7 +27,9 @@ public final class LanguageManager {
     private final Plugin plugin;
 
     private final Map<String, YamlConfiguration> configurations = new HashMap<>();
+    private boolean detectPlayerLocale;
     private YamlConfiguration defaultConfiguration;
+
 
     public LanguageManager(Plugin plugin) {
         this.plugin = plugin;
@@ -36,8 +38,10 @@ public final class LanguageManager {
     }
 
     private void loadLanguages() {
+        detectPlayerLocale = plugin.getConfig().getBoolean("detect-player-locale", true);
+
         defaultConfiguration =
-                YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "language/en-US.yml"));
+                YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "language/zh-CN.yml"));
 
         File pluginFolder = plugin.getDataFolder();
 
@@ -126,8 +130,8 @@ public final class LanguageManager {
         return msgList.stream().map(LanguageManager::parseToComponent).toList();
     }
 
-    public Component getMsgComponent(@Nullable CommandSender CommandSender, String key, MessageReplacement... args) {
-        return parseToComponent(getMsg(CommandSender, key, args));
+    public Component getMsgComponent(@Nullable CommandSender commandSender, String key, MessageReplacement... args) {
+        return parseToComponent(getMsg(commandSender, key, args));
     }
 
     public List<Component> getMsgComponentList(
@@ -135,8 +139,8 @@ public final class LanguageManager {
         return parseToComponentList(getMsgList(CommandSender, key, args));
     }
 
-    public String getMsg(@Nullable CommandSender CommandSender, String key, MessageReplacement... args) {
-        String msg = getConfiguration(CommandSender).getString(key);
+    public String getMsg(@Nullable CommandSender commandSender, String key, MessageReplacement... args) {
+        String msg = getConfiguration(commandSender).getString(key);
         if (msg == null) {
             return key;
         }
@@ -148,8 +152,8 @@ public final class LanguageManager {
         return msg;
     }
 
-    public List<String> getMsgList(@Nullable CommandSender CommandSender, String key, MessageReplacement... args) {
-        List<String> msgList = getConfiguration(CommandSender).getStringList(key);
+    public List<String> getMsgList(@Nullable CommandSender commandSender, String key, MessageReplacement... args) {
+        List<String> msgList = getConfiguration(commandSender).getStringList(key);
         for (MessageReplacement arg : args) {
             msgList.replaceAll(arg::parse);
         }
@@ -158,8 +162,9 @@ public final class LanguageManager {
     }
 
     private Configuration getConfiguration(CommandSender p) {
-        if (!(p instanceof Player pl)) {
-            return defaultConfiguration;
+        if (!detectPlayerLocale || !(p instanceof Player pl)) {
+            String lang = plugin.getConfig().getString("language", "zh-CN");
+            return configurations.getOrDefault(lang, defaultConfiguration);
         }
 
         return configurations.getOrDefault(pl.locale().toLanguageTag(), defaultConfiguration);

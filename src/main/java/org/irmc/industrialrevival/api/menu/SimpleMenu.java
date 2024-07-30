@@ -184,9 +184,8 @@ public class SimpleMenu implements IRInventoryHolder {
 
     public void open(@NotNull Player... players) {
         for (Player p : players) {
-            p.closeInventory();
-
             p.openInventory(getInventory());
+            getOpenHandler().onOpen(p, this);
         }
     }
 

@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
@@ -122,6 +123,28 @@ public class ItemHandlerListener extends AbstractIRListener {
             ToolUseHandler handler = iritem.getItemHandler(ToolUseHandler.class);
             if (handler != null) {
                 handler.onToolUse(e, iris, new ArrayList<>(e.getBlock().getDrops()));
+            }
+        }
+    }
+
+    @EventHandler
+    public void onWeaponUse(EntityDamageByEntityEvent e) {
+        if (e.getDamager() instanceof Player p) {
+            ItemStack item = p.getInventory().getItemInMainHand();
+            if (item instanceof IndustrialRevivalItemStack iris) {
+                String id = iris.getId();
+                IndustrialRevivalItem iritem = IndustrialRevivalItem.getById(id);
+
+                Material material = item.getType();
+                String str = material.toString();
+                if (!str.endsWith("SWORD")) {
+                    return;
+                }
+
+                WeaponUseHandler handler = iritem.getItemHandler(WeaponUseHandler.class);
+                if (handler != null) {
+                    handler.onHit(e, p, iris);
+                }
             }
         }
     }

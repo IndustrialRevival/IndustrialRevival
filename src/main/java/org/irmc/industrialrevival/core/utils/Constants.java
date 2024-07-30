@@ -86,4 +86,10 @@ public class Constants {
                     IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(null, "guide.book_item_name"))
             .setCustomModel(19998)
             .setPDCData(GUIDE_ITEM_KEY, PersistentDataType.INTEGER, 1);
+
+    public static final ItemStack CHEAT_GUIDE_BOOK_ITEM = new CustomItemStack(
+            Material.ENCHANTED_BOOK,
+            IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(null, "guide.cheat_book_item_name"))
+            .setCustomModel(19998)
+            .setPDCData(GUIDE_ITEM_KEY, PersistentDataType.INTEGER, 2);
 }

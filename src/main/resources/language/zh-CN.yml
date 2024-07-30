@@ -14,6 +14,8 @@ guide:
   previous: "<green>上一页</green>"
   bookmarks: "<yellow>书签</yellow>"
   search: ""
+  book_item_name: "<gray>工业复兴</gray><green>指南</green>"
+  cheat_book_item_name: "<gray>工业复兴</gray><green>指南<dark_red>(作弊模式)"
 recipe_type:
   grindstone:
     name: "<green>磨石</green>"

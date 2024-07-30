@@ -4,6 +4,7 @@ import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.core.IndustrialRevival;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 public class MachineMenuPreset extends SimpleMenu {
@@ -62,5 +63,21 @@ public class MachineMenuPreset extends SimpleMenu {
         }
 
         super.setClickHandler(slot, clickHandler);
+    }
+
+    public void setCloseHandler(@NotNull MenuCloseHandler closeHandler) {
+        if (this.locked) {
+            throw new IllegalStateException("Cannot set close handler of locked machine menu!");
+        }
+
+        super.setCloseHandler(closeHandler);
+    }
+
+    public void setOpenHandler(@NotNull MenuOpenHandler openHandler) {
+        if (this.locked) {
+            throw new IllegalStateException("Cannot set open handler of locked machine menu!");
+        }
+
+        super.setOpenHandler(openHandler);
     }
 }

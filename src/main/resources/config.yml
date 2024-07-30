@@ -2,6 +2,10 @@
 # you don't need to type .yml extension in the end!
 language: zh-CN
 
+# whether to detect the player's locale and use the corresponding language file
+# if set to false, the default language file will be used
+detect-player-locale: false
+
 storage:
   # the type of storage to use
   # usable types: sqlite, mysql

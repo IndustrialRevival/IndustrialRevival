@@ -1,5 +1,7 @@
 package org.irmc.industrialrevival.core;
 
+import com.tcoded.folialib.FoliaLib;
+import com.tcoded.folialib.impl.ServerImplementation;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import java.io.File;
@@ -32,19 +34,12 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     @Getter
     private static IndustrialRevival instance;
 
-    @Getter
-    private IRRegistry registry;
-
-    @Getter
-    private LanguageManager languageManager;
-
-    @Getter
-    private IDataManager dataManager;
-
-    @Getter
-    private ItemTextureService itemTextureService;
-
+    private @Getter IRRegistry registry;
+    private @Getter LanguageManager languageManager;
+    private @Getter IDataManager dataManager;
+    private @Getter ItemTextureService itemTextureService;
     private @Getter BlockDataService blockDataService;
+    private @Getter ServerImplementation foliaLibImpl;
 
     @Override
     public void onLoad() {
@@ -58,6 +53,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
 
         completeFiles();
 
+        foliaLibImpl = new FoliaLib(this).getImpl();
         languageManager = new LanguageManager(this);
         registry = new IRRegistry();
 
@@ -146,5 +142,12 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     @Override
     public String getIssueTrackerURL() {
         return "https://github.com/IndustrialRevival/IndustrialRevival/issues";
+    }
+
+    @Override
+    public void reloadConfig() {
+        super.reloadConfig();
+
+        languageManager = new LanguageManager(this);
     }
 }

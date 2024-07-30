@@ -45,8 +45,6 @@ public class ItemUtils {
         item.getEnchantments().forEach(baseItem::addEnchantment);
 
         if (item instanceof IndustrialRevivalItemStack iris) {
-            // Tag the item to verify that is an IR item
-            // Useful in recipe click?
             PersistentDataAPI.setString(meta, CLEANED_IR_ITEM_ID, iris.getId());
         }
 

@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.inr</groupId>
+    <groupId>org.irmc</groupId>
     <artifactId>IndustrialRevival</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -45,6 +45,14 @@
                             <pattern>dev.jorel.commandapi</pattern>
                             <shadedPattern>org.irmc.industrialrevival.libraries.commandapi</shadedPattern>
                         </relocation>
+                        <relocation>
+                            <pattern>com.tcoded.folialib</pattern>
+                            <shadedPattern>org.irmc.industrialrevival.libraries.folialib</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.apache.ibatis</pattern>
+                            <shadedPattern>org.irmc.industrialrevival.libraries.mybatis</shadedPattern>
+                        </relocation>
                     </relocations>
                 </configuration>
             </plugin>
@@ -74,6 +82,10 @@
     </build>
 
     <repositories>
+        <repository>
+            <id>devmart-other</id>
+            <url>https://nexuslite.gcnt.net/repos/other/</url>
+        </repository>
         <repository>
             <id>papermc-repo</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>
@@ -107,6 +119,11 @@
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
             <version>3.5.16</version>
+        </dependency>
+        <dependency>
+            <groupId>com.tcoded</groupId>
+            <artifactId>FoliaLib</artifactId>
+            <version>0.3.4</version>
         </dependency>
     </dependencies>
 </project>

@@ -20,14 +20,14 @@ public class MachineMenuListener extends AbstractIRListener {
             ItemStack item = e.getCurrentItem();
             Player p = (Player) e.getWhoClicked();
             SimpleMenu.ClickHandler handler = menu.getClickHandler(slot);
-            boolean shouldBeCancelled;
+            boolean notShouldBeCancelled;
             if (handler instanceof SimpleMenu.AdvancedClickHandler ach) {
-                shouldBeCancelled = ach.onClick(slot, p, item, menu, clickType, e);
+                notShouldBeCancelled = ach.onClick(slot, p, item, menu, clickType, e);
             } else {
-                shouldBeCancelled = handler.onClick(slot, p, item, menu, clickType);
+                notShouldBeCancelled = handler.onClick(slot, p, item, menu, clickType);
             }
 
-            e.setCancelled(!shouldBeCancelled);
+            e.setCancelled(!notShouldBeCancelled);
         }
     }
 
@@ -38,16 +38,6 @@ public class MachineMenuListener extends AbstractIRListener {
             SimpleMenu menu = (SimpleMenu) irh;
             Player p = (Player) e.getWhoClicked();
             menu.getCloseHandler().onClose(p);
-        }
-    }
-
-    @EventHandler
-    public void onMenuOpen(InventoryClickEvent e) {
-        Inventory inv = e.getInventory();
-        if (inv.getHolder() instanceof IRInventoryHolder irh) {
-            SimpleMenu menu = (SimpleMenu) irh;
-            Player p = (Player) e.getWhoClicked();
-            menu.getOpenHandler().onOpen(p, menu);
         }
     }
 }

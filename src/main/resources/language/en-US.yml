@@ -14,6 +14,8 @@ guide:
   previous: "<green>Previous page</green>"
   bookmarks: "<yellow>Bookmarks</yellow>"
   search: ""
+  book_item_name: "<gray>Industrial Revival</gray> <green>Guide</green>"
+  cheat_book_item_name: "<gray>Industrial Revival</gray> <green>Guide<dark_red>(Cheat Mode)"
 recipe_type:
   grindstone:
     name: "<green>Grindstone</green>"
