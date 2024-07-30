@@ -314,9 +314,6 @@ public class ItemUtils {
 
         return false;
     }
-    public static ItemStack cloneItem(ItemStack it) {
-        return it.clone();
-    }
     public static ItemStack cloneItem(ItemStack it, int n) {
         ItemStack it1 = it.clone();
         it1.setAmount(n);
