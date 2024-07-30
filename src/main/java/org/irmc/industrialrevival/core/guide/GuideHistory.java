@@ -29,6 +29,11 @@ public class GuideHistory {
         entries.add(entry);
     }
 
+    public void addItem(IndustrialRevivalItem item) {
+        GuideEntry<IndustrialRevivalItem> entry = new GuideEntry<>(item);
+        entries.add(entry);
+    }
+
     public void goBack() {
         Player player = Bukkit.getPlayer(playerName);
         if (player == null) {
@@ -59,7 +64,7 @@ public class GuideHistory {
                 guide.open(player);
             }
 
-            entries.add(new GuideEntry<>(lastEntry.getContent()));
+            entries.add(lastEntry);
         }
     }
 }

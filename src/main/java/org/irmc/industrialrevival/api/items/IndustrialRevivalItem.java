@@ -2,7 +2,10 @@ package org.irmc.industrialrevival.api.items;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import com.google.common.base.Preconditions;
 import lombok.Getter;
+import lombok.Setter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -18,6 +21,8 @@ import org.irmc.industrialrevival.api.items.handlers.ItemHandler;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.core.IndustrialRevival;
+import org.irmc.industrialrevival.core.implemention.recipes.RecipeContent;
+import org.irmc.industrialrevival.core.implemention.recipes.RecipeContents;
 import org.jetbrains.annotations.Nullable;
 
 public class IndustrialRevivalItem implements Placeable {
@@ -40,10 +45,19 @@ public class IndustrialRevivalItem implements Placeable {
     @Getter
     private IndustrialRevivalAddon addon;
 
+    @Getter
+    @Setter
+    private String wikiText;
+
     private boolean locked = false;
 
     public IndustrialRevivalItem(
             ItemGroup group, IndustrialRevivalItemStack itemStack, RecipeType recipeType, ItemStack[] recipe) {
+        Preconditions.checkNotNull(group, "group cannot be null");
+        Preconditions.checkNotNull(itemStack, "itemStack cannot be null");
+        Preconditions.checkNotNull(recipeType, "recipeType cannot be null");
+        Preconditions.checkNotNull(recipe, "recipe cannot be null");
+
         this.group = group;
         this.itemStack = itemStack;
         this.recipeType = recipeType;
@@ -106,6 +120,7 @@ public class IndustrialRevivalItem implements Placeable {
             group.addItem(this);
         }
 
+        RecipeContents.addRecipeContent(this.getId(), new RecipeContent(recipeType, recipeType.getMakerItem(), recipe, this));
         IndustrialRevival.getInstance().getRegistry().getItems().put(getId(), this);
 
         return this;

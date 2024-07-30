@@ -11,14 +11,19 @@ import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.core.IndustrialRevival;
 
 public class Constants {
+    public static final String WIKI_URL = "https://ir.hiworldmc.com/";
+
     public static final String GUIDE_TITLE_KEY = "guide.title";
     public static final String GUIDE_BACK_KEY = "guide.back";
-    public static final String GUIDE_NEXT_KEY = "guide.next";
-    public static final String GUIDE_PREVIOUS_KEY = "guide.previous";
     public static final String GUIDE_CHEAT_KEY = "guide.cheat_title";
     public static final String GUIDE_SETTINGS_KEY = "guide.settings";
     public static final String GUIDE_BOOKMARKS_KEY = "guide.bookmarks";
     public static final String GUIDE_SEARCH_KEY = "guide.search";
+
+    public static final String GUIDE_PREVIOUS_KEY = "guide.previous";
+    public static final String GUIDE_NEXT_KEY = "guide.next";
+    public static final String GUIDE_PREVIOUS_ONE_KEY = "guide.previous_one";
+    public static final String GUIDE_NEXT_ONE_KEY = "guide.next_one";
 
     public static final File STORAGE_FOLDER = new File(
             IndustrialRevival.getInstance().getDataFolder().getParentFile().getParentFile(), "irstorage");
@@ -61,9 +66,24 @@ public class Constants {
                     IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_NEXT_KEY))
             .setCustomModel(19996);
 
+    public static final Function<Player, ItemStack> PREVIOUS_ONE_BUTTON = p -> new CustomItemStack(
+            Material.LIME_STAINED_GLASS_PANE,
+            IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_PREVIOUS_ONE_KEY))
+            .setCustomModel(19995);
+
+    public static final Function<Player, ItemStack> NEXT_ONE_BUTTON = p -> new CustomItemStack(
+            Material.LIME_STAINED_GLASS_PANE,
+            IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_NEXT_ONE_KEY))
+            .setCustomModel(19996);
+
+    public static final Function<Player, ItemStack> WIKI_PAGE_BUTTON = p -> new CustomItemStack(
+                    Material.BOOK,
+                    IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, "guide.wiki_page_button"))
+            .setCustomModel(19997);
+
     public static final ItemStack GUIDE_BOOK_ITEM = new CustomItemStack(
                     Material.ENCHANTED_BOOK,
                     IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(null, "guide.book_item_name"))
-            .setCustomModel(19997)
+            .setCustomModel(19998)
             .setPDCData(GUIDE_ITEM_KEY, PersistentDataType.INTEGER, 1);
 }

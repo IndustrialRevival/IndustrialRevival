@@ -165,11 +165,11 @@ public class IRCommandGenerator {
 
         msg = msg.append(Component.newline());
 
-        MessageReplacement author = new MessageReplacement("%server_version%", Bukkit.getVersion());
+        MessageReplacement serverVer = new MessageReplacement("%server_version%", Bukkit.getVersion());
 
         msg = msg.append(IndustrialRevival.getInstance()
                 .getLanguageManager()
-                .getMsgComponent(sender, "command.info.server_version", author));
+                .getMsgComponent(sender, "command.info.server_version", serverVer));
 
         for (Plugin addon : findAllAddons()) {
             MessageReplacement name = new MessageReplacement("%addon_name%", addon.getName());

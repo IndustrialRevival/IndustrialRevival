@@ -3,3 +3,7 @@ version: '${project.version}'
 main: org.irmc.industrialrevival.core.IndustrialRevival
 api-version: '1.20'
 authors: [mmmjjkx and IndustrialRevival community]
+permissions:
+  inductrialrevival.cmd.guide:
+    description: get the guide of IndustrialRevival
+    default: true

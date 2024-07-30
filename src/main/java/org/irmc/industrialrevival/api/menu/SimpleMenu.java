@@ -42,11 +42,36 @@ public class SimpleMenu implements IRInventoryHolder {
         this.clickHandlers = new HashMap<>();
     }
 
+    public void setItem(ItemStack item, ClickHandler clickHandler, int... slots) {
+        for (int slot : slots) {
+            setItem(slot, item, clickHandler);
+        }
+    }
+
     public void setItem(int slot, ItemStack itemStack) {
         setItem(slot, itemStack, ClickHandler.DEFAULT);
     }
 
     public void setItem(int slot, ItemStack itemStack, ClickHandler clickHandler) {
+        if (slot < 0 || slot >= 54) {
+            throw new IllegalArgumentException("Invalid slot: " + slot);
+        }
+
+        if (itemStack == null) {
+            if (this.slots.containsKey(slot)) {
+                this.slots.remove(slot);
+            }
+
+            if (this.clickHandlers.containsKey(slot)) {
+                this.clickHandlers.remove(slot);
+            }
+
+            if (this.slots.get(slot) == null && this.clickHandlers.get(slot) == null) {
+                markDirty();
+            }
+            return;
+        }
+
         this.slots.put(slot, itemStack);
         this.clickHandlers.put(slot, clickHandler);
 

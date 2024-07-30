@@ -1,5 +1,8 @@
 package org.irmc.industrialrevival.core.implemention.recipes;
 
+import org.irmc.industrialrevival.api.recipes.RecipeType;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +15,8 @@ public class RecipeContents {
         recipeContents.computeIfAbsent(itemId, k -> new ArrayList<>()).add(content);
     }
 
+    @NotNull
     public static List<RecipeContent> getRecipeContents(String itemId) {
-        return recipeContents.get(itemId);
+        return recipeContents.getOrDefault(itemId, new ArrayList<>()).stream().filter(i -> i.recipeType() != RecipeType.NULL).toList();
     }
 }

@@ -19,3 +19,7 @@ recipe_type:
     name: "<green>Grindstone</green>"
     lore:
       - ""
+misc:
+  recipe_not_found: "<red><bold>No recipe found for this item.<bold></red>"
+  wiki_page: "<yellow>Click here to go to the wiki page for this item</yellow>"
+  wiki_page_button: "<yellow>Get the wiki page for this item</yellow>"

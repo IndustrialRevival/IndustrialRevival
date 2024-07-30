@@ -19,3 +19,7 @@ recipe_type:
     name: "<green>磨石</green>"
     lore:
        - ""
+misc:
+  recipe_not_found: "<red><bold>未找到配方</bold></red>"
+  wiki_page: "<yellow>点击前往对应wiki页面</yellow>"
+  wiki_page_button: "<yellow>获取对应wiki页面</yellow>"

@@ -20,7 +20,7 @@ import org.irmc.industrialrevival.core.utils.ItemUtils;
 public class SurvivalGuideImplementation implements IRGuideImplementation {
     public static final SurvivalGuideImplementation INSTANCE = new SurvivalGuideImplementation();
 
-    public static final int[] RECIPE_SLOT = {3, 4, 5, 12, 13, 14, 21, 22, 23};
+    public static final int[] RECIPE_SLOT = {12, 13, 14, 21, 22, 23, 30, 31, 32};
     private static final int[] BOARDER_SLOT = {0, 1, 3, 4, 5, 7, 8, 45, 46, 48, 49, 50, 52, 53};
 
     private static final NamespacedKey BOOKMARK_KEY =
@@ -39,9 +39,10 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
         SimpleMenu sm = new SimpleMenu(
                 IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Constants.GUIDE_TITLE_KEY));
         setupGuideMenu(p, sm);
-        sm.open(p);
 
         PlayerProfile.getOrRequestProfile(p.getName()).getGuideHistory().guideOpen(this, 1);
+
+        sm.open(p);
     }
 
     @Override
@@ -49,9 +50,12 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
         SimpleMenu sm = new SimpleMenu(
                 IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Constants.GUIDE_TITLE_KEY));
 
-        item.getRecipeType().getRecipeDisplay().accept(p, sm);
+        item.getRecipeType().getRecipeDisplay().display(p, sm, item);
 
         sm.open(p);
+
+        PlayerProfile profile = PlayerProfile.getOrRequestProfile(p.getName());
+        profile.getGuideHistory().addItem(item);
 
         /*
         ItemStack[] recipe = item.getRecipe();
@@ -83,9 +87,12 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
         SimpleMenu sm = new SimpleMenu(
                 IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Constants.GUIDE_TITLE_KEY));
 
+        sm.setSize(54);
+
         if (!group.getItems().isEmpty()) {
             List<List<IndustrialRevivalItem>> items =
                     Lists.partition(group.getItems().stream().toList(), 36);
+
             List<IndustrialRevivalItem> itemList = items.get(page - 1);
 
             for (int i = 9; i < 36; i++) {
@@ -103,8 +110,6 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
             sm.setItem(b, Constants.BACKGROUND_ITEM);
         }
 
-        PlayerProfile profile = PlayerProfile.getOrRequestProfile(p.getName());
-
         ItemStack backButton = Constants.BACK_BUTTON.apply(p);
         sm.setItem(2, backButton, ((slot, player, item, menu, clickType) -> {
             goBack(player);
@@ -116,10 +121,10 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
 
         sm.setSize(54);
 
-        sm.open(p);
-
         GuideHistory history = PlayerProfile.getOrRequestProfile(p.getName()).getGuideHistory();
         history.addItemGroup(group, page);
+
+        sm.open(p);
     }
 
     @Override

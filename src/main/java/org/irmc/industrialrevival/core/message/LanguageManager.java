@@ -118,7 +118,7 @@ public final class LanguageManager {
     }
 
     public static Component parseToComponent(String msg) {
-        return MiniMessage.miniMessage().deserialize(msg);
+        return MiniMessage.miniMessage().deserialize("&r").append(MiniMessage.miniMessage().deserialize(msg));
     }
 
     public static List<Component> parseToComponentList(List<String> msgList) {
