@@ -14,8 +14,6 @@ guide:
   previous: "<green>上一页</green>"
   bookmarks: "<yellow>书签</yellow>"
   search: ""
-  book_item_name: "<gray>工业复兴</gray><green>指南</green>"
-  cheat_book_item_name: "<gray>工业复兴</gray><green>指南<dark_red>(作弊模式)"
 recipe_type:
   grindstone:
     name: "<green>磨石</green>"
@@ -29,3 +27,220 @@ misc:
   recipe_not_found: "<red><bold>未找到配方</bold></red>"
   wiki_page: "<yellow>点击前往对应wiki页面</yellow>"
   wiki_page_button: "<yellow>获取对应wiki页面</yellow>"
+item:
+  SLIVER_ORE:
+    name: "<white>银矿石</white>"
+    lore:
+      - "<gray>它在闪闪发光!</gray>"
+  NICKEL_ORE:
+    name: "<white>镍矿石</white>"
+    lore:
+      - ""
+  COBALT_ORE:
+    name: "<white>钴矿石</white>"
+    lore:
+      - ""
+  CHROMIUM_ORE:
+    name: "<white>铬矿石</white>"
+    lore:
+      - ""
+  MAGNET_ORE:
+    name: "<white>磁铁矿</white>"
+    lore:
+      - "<gray>一种含有天然磁铁的矿石</gray>"
+  URANIUM_ORE:
+    name: "<white>沥青铀矿</white>"
+    lore:
+      - ""
+  ALUMINIUM_ORE:
+    name: "<white>铝矿石</white>"
+    lore:
+      - ""
+  TIN_ORE:
+    name: "<white>锡矿石</white>"
+    lore:
+      - ""
+  MAGNESIUM_ORE:
+    name: "<white>镁矿石</white>"
+    lore:
+      - ""
+  LEAD_ORE:
+    name: "<white>铅矿石</white>"
+    lore:
+      - ""
+  ZINC_ORE:
+    name: "<white>锌矿石</white>"
+    lore:
+      - ""
+  TUNGSTEN_ORE:
+    name: "<white>钨矿石</white>"
+    lore:
+      - ""
+  MERCURY_ORE:
+    name: "<white>汞矿石</white>"
+    lore:
+      - ""
+  SALT_ORE:
+    name: "<white>盐矿</white>"
+    lore:
+      - ""
+  SULFUR:
+    name: "<yellow>硫磺</yellow>"
+    lore:
+      - ""
+  PETROLEUM:
+    name: "<gray>石油</gray>"
+    lore:
+      - "<gray>战略物资!</gray>"
+  FLAWED_QUARTZ:
+    name: "<white>粗石英</white>"
+    lore:
+      - ""
+  FLAWLESS_QUARTZ:
+    name: "<white>无暇石英</white>"
+    lore:
+      - "<gray>非常完美</gary>"
+  LIMESTONE:
+    name: "<white>石灰石</white>"
+    lore:
+      - ""
+  LIMEWATER:
+    name: "<white>石灰水</white>"
+    lore:
+      - ""
+  SALT:
+    name: "<white>盐</white>"
+    lore:
+      - "<gray>咸咸的</gray>"
+  MAGIC_CRYSTAL:
+    name: "<white>魔晶</white>"
+    lore:
+      - "<gray>它充满了魔力</gray>"
+  CHARGED_STONE:
+    name: "<white>充能石</white>"
+    lore:
+      - "<gray>一种富含丰富的能量的石头:D</gray>"
+  CARBON:
+    name: "<white>碳晶</white>"
+    lore:
+      - "<gray>黑糊糊的</gray>"
+  LED:
+    name: "<white>发光二极管</white>"
+    lore:
+      - ""
+  GAS:
+    name: "<white>天然气</white>"
+    lore:
+      - "<gray>高效能源!</gray>"
+  BORAX:
+    name: "<white>硼砂</white>"
+    lore:
+      - "<gray>或许冶炼的时候用的上</gray>"
+  SILICA:
+    name: "<white>二氧化硅</white>"
+    lore:
+      - "<gray>SiO2</gray>"
+  LAVA_ALLOY:
+    name: "<white>熔岩合金</white>"
+    lore:
+      - "<gray>烫烫烫</gray>"
+  ROCK_IRON_ALLOY:
+    name: "<white>岩铁合金</white>"
+    lore:
+      - "<gray>硬化材料</gray>"
+  ALUMINIUM_ALLOY:
+    name: "<white>铝合金</white>"
+    lore:
+      - "<gray>非常的耐腐蚀, 非常的轻</gray>"
+  COPPER_NICKEL_ALLOY:
+    name: "<white>白铜</white>"
+    lore:
+      - "<gray>多数运用于电力机器重...</gray>"
+  NICHROM:
+    name: "<white>镍铬合金</white>"
+    lore:
+      - "<gray>有着较高的电阻率, 在电器中作为加热元件</gray>"
+  SILICON_STEEL:
+    name: "<white>硅钢</white>"
+    lore:
+      - "<gray>电机的必备材料!</gray>"
+  WOLFRAM_STEEL:
+    name: "<white>钨钢</white>"
+    lore:
+      - "<gray>硬就对了</gray>"
+  SILICON:
+    name: "<white>硅</white>"
+    lore:
+      - ""
+  RAW_SILICON:
+    name: "<white>粗硅</white>"
+    lore:
+      - ""
+  SILICON_TETRACHLORIDE:
+    name: "<white>四氯化硅</white>"
+    lore:
+      - "<gray>SiCl4</gray>"
+  SLAG:
+    name: "<white>炉渣</white>"
+    lore:
+      - ""
+  BRASS:
+    name: "<white>黄铜</white>"
+    lore:
+      - "<gray>常用于制作管道</gray>"
+  FINE_IRON:
+    name: "<white>精铁</white>"
+    lore:
+      - "<gray>更加纯净</gray>"
+  FINE_GOLD:
+    name: "<white>精金</white>"
+    lore:
+      - "<gray>更加纯净!</gray>"
+  SLIVER:
+    name: "<white>银锭</white>"
+    lore:
+      - "<gray>Ag</gray>"
+  NICKEL:
+    name: "<white>镍锭</white>"
+    lore:
+      - "<gray>Ni</gray>"
+  COBALT:
+    name: "<white>钴锭</white>"
+    lore:
+      - "<gray>Co</gray>"
+  CHROMIUM:
+    name: "<white>铬锭</white>"
+    lore:
+      - "<gray>Cr</gray>"
+  MAGNET:
+    name: "<white>磁铁</white>"
+    lore:
+      - ""
+  URANIUM:
+    name: "<white>铀</white>"
+    lore:
+      - "<gray>U</gray>"
+  ALUMINIUM:
+    name: "<white>铝锭</white>"
+    lore:
+      - "<gray>Al</gray>"
+  TIN:
+    name: "<white>锡锭</white>"
+    lore:
+      - "<gray>Sn</gray>"
+  MAGNESIUM:
+    name: "<white>镁锭</white>"
+    lore:
+      - "<gray>Mg</gray>"
+  LEAD:
+    name: "<white>铅锭</white>"
+    lore:
+      - "<gray>Pb</gray>"
+  ZINC:
+    name: "<white>锌锭</white>"
+    lore:
+      - "<gray>Zn</gray>"
+  TUNGSTEN:
+    name: "<white>钨锭</white>"
+    lore:
+      - "<gray>W</gray>"
