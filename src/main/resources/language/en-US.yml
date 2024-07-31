@@ -29,3 +29,220 @@ misc:
   recipe_not_found: "<red><bold>No recipe found for this item.<bold></red>"
   wiki_page: "<yellow>Click here to go to the wiki page for this item</yellow>"
   wiki_page_button: "<yellow>Get the wiki page for this item</yellow>"
+item:
+  SLIVER_ORE:
+    name: "<white>Silver Ore</white>"
+    lore:
+      - "<gray>It's shining!</gray>"
+  NICKEL_ORE:
+    name: "<white>Nickel Ore</white>"
+    lore:
+      - ""
+  COBALT_ORE:
+    name: "<white>Cobalt Ore</white>"
+    lore:
+      - ""
+  CHROMIUM_ORE:
+    name: "<white>Chromium Ore</white>"
+    lore:
+      - ""
+  MAGNET_ORE:
+    name: "<white>Magnet Ore</white>"
+    lore:
+      - "<gray>A ore containing magnets</gray>"
+  URANIUM_ORE:
+    name: "<white>Uranium Ore</white>"
+    lore:
+      - ""
+  ALUMINIUM_ORE:
+    name: "<white>Aluminium Ore</white>"
+    lore:
+      - ""
+  TIN_ORE:
+    name: "<white>Tin Ore</white>"
+    lore:
+      - ""
+  MAGNESIUM_ORE:
+    name: "<white>Magnesium Ore</white>"
+    lore:
+      - ""
+  LEAD_ORE:
+    name: "<white>Lead Ore</white>"
+    lore:
+      - ""
+  ZINC_ORE:
+    name: "<white>Zinc Ore</white>"
+    lore:
+      - ""
+  TUNGSTEN_ORE:
+    name: "<white>Tungsten Ore</white>"
+    lore:
+      - ""
+  MERCURY_ORE:
+    name: "<white>Mercury Ore</white>"
+    lore:
+      - ""
+  SALT_ORE:
+    name: "<white>Salt Ore</white>"
+    lore:
+      - ""
+  SULFUR:
+    name: "<yellow>Sulfur</yellow>"
+    lore:
+      - ""
+  PETROLEUM:
+    name: "<gray>Petroleum</gray>"
+    lore:
+      - "<gray>Strategic Material!</gray>"
+  FLAWED_QUARTZ:
+    name: "<white>Raw Quartz</white>"
+    lore:
+      - ""
+  FLAWLESS_QUARTZ:
+    name: "<white>Flawless Quartz</white>"
+    lore:
+      - "<gray>Fantastic!</gary>"
+  LIMESTONE:
+    name: "<white>LimeStone</white>"
+    lore:
+      - ""
+  LIMEWATER:
+    name: "<white>White Wash</white>"
+    lore:
+      - ""
+  SALT:
+    name: "<white>Salt</white>"
+    lore:
+      - "<gray>Really Salty</gray>"
+  MAGIC_CRYSTAL:
+    name: "<white>Magic Crystal</white>"
+    lore:
+      - "<gray>It's full of magic!</gray>"
+  CHARGED_STONE:
+    name: "<white>Charged Stone</white>"
+    lore:
+      - "<gray>A kind of stone that full of energy:D</gray>"
+  CARBON:
+    name: "<white>Carbon Crystal</white>"
+    lore:
+      - "<gray>So Dark...</gray>"
+  LED:
+    name: "<white>LED</white>"
+    lore:
+      - "<gray>lol</gray>"
+  GAS:
+    name: "<white>Gas</white>"
+    lore:
+      - "<gray>Efficiently!!</gray>"
+  BORAX:
+    name: "<white>Borax</white>"
+    lore:
+      - "<gray>Maybe it's useful in smelting...</gray>"
+  SILICA:
+    name: "<white>Silica</white>"
+    lore:
+      - "<gray>SiO2</gray>"
+  LAVA_ALLOY:
+    name: "<white>Lava Alloy</white>"
+    lore:
+      - "<gray>SO HOT!!!</gray>"
+  ROCK_IRON_ALLOY:
+    name: "<white>Rock Alloy</white>"
+    lore:
+      - "<gray>Harder and Harder</gray>"
+  ALUMINIUM_ALLOY:
+    name: "<white>Aluminium Alloy</white>"
+    lore:
+      - "<gray>So Light!</gray>"
+  COPPER_NICKEL_ALLOY:
+    name: "<white>Copper Nickel Alloy</white>"
+    lore:
+      - "<gray>It's important in electric machine...</gray>"
+  NICHROM:
+    name: "<white>Nichrom</white>"
+    lore:
+      - "<gray>It's always used as a heating element</gray>"
+  SILICON_STEEL:
+    name: "<white>Silicon Steel</white>"
+    lore:
+      - "<gray>Necessary Material!</gray>"
+  WOLFRAM_STEEL:
+    name: "<white>Wolfram Steel</white>"
+    lore:
+      - "<gray>VERY HARD</gray>"
+  SILICON:
+    name: "<white>Silicon</white>"
+    lore:
+      - ""
+  RAW_SILICON:
+    name: "<white>Raw Silicon</white>"
+    lore:
+      - ""
+  SILICON_TETRACHLORIDE:
+    name: "<white>Silicon Tetrachloride</white>"
+    lore:
+      - "<gray>SiCl4</gray>"
+  SLAG:
+    name: "<white>Slag</white>"
+    lore:
+      - ""
+  BRASS:
+    name: "<white>Brass</white>"
+    lore:
+      - "<gray>It's useful in making pipes</gray>"
+  FINE_IRON:
+    name: "<white>Fine Iron</white>"
+    lore:
+      - "<gray>lol</gray>"
+  FINE_GOLD:
+    name: "<white>Fine Gold</white>"
+    lore:
+      - "<gray>lol</gray>"
+  SLIVER:
+    name: "<white>Silver Ingot</white>"
+    lore:
+      - "<gray>Ag</gray>"
+  NICKEL:
+    name: "<white>Nickel Ingot</white>"
+    lore:
+      - "<gray>Ni</gray>"
+  COBALT:
+    name: "<white>Cobalt Ingot</white>"
+    lore:
+      - "<gray>Co</gray>"
+  CHROMIUM:
+    name: "<white>Chromium Ingot</white>"
+    lore:
+      - "<gray>Cr</gray>"
+  MAGNET:
+    name: "<white>Magnet Ingot</white>"
+    lore:
+      - ""
+  URANIUM:
+    name: "<white>Uranium</white>"
+    lore:
+      - "<gray>U</gray>"
+  ALUMINIUM:
+    name: "<white>Aluminium Ingot</white>"
+    lore:
+      - "<gray>Al</gray>"
+  TIN:
+    name: "<white>Tin Ingot</white>"
+    lore:
+      - "<gray>Sn</gray>"
+  MAGNESIUM:
+    name: "<white>Magnesium</white>"
+    lore:
+      - "<gray>Mg</gray>"
+  LEAD:
+    name: "<white>Lead Ingot</white>"
+    lore:
+      - "<gray>Pb</gray>"
+  ZINC:
+    name: "<white>Zinc Ingot</white>"
+    lore:
+      - "<gray>Zn</gray>"
+  TUNGSTEN:
+    name: "<white>Tungsten Ingot</white>"
+    lore:
+      - "<gray>W</gray>"
