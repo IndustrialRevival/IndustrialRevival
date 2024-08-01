@@ -13,7 +13,8 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
 public class ItemUtils {
-    public static final NamespacedKey CLEANED_IR_ITEM_ID = new NamespacedKey(IndustrialRevival.getInstance(), "cleaned_ir_item_id");
+    public static final NamespacedKey CLEANED_IR_ITEM_ID =
+            new NamespacedKey(IndustrialRevival.getInstance(), "cleaned_ir_item_id");
 
     private ItemUtils() {}
 
@@ -314,11 +315,13 @@ public class ItemUtils {
 
         return false;
     }
+
     public static ItemStack cloneItem(ItemStack it, int n) {
         ItemStack it1 = it.clone();
         it1.setAmount(n);
         return it1;
     }
+
     public static ItemStack cloneItem(Material it, int n) {
         ItemStack it1 = new ItemStack(it);
         it1.setAmount(n);

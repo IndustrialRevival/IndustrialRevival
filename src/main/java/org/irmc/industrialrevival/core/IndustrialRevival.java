@@ -7,7 +7,6 @@ import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-
 import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;

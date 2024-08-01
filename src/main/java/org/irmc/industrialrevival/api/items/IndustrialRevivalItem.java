@@ -1,9 +1,8 @@
 package org.irmc.industrialrevival.api.items;
 
+import com.google.common.base.Preconditions;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.google.common.base.Preconditions;
 import lombok.Getter;
 import lombok.Setter;
 import net.kyori.adventure.text.Component;
@@ -120,7 +119,8 @@ public class IndustrialRevivalItem implements Placeable {
             group.addItem(this);
         }
 
-        RecipeContents.addRecipeContent(this.getId(), new RecipeContent(recipeType, recipeType.getMakerItem(), recipe, this));
+        RecipeContents.addRecipeContent(
+                this.getId(), new RecipeContent(recipeType, recipeType.getMakerItem(), recipe, this));
         IndustrialRevival.getInstance().getRegistry().getItems().put(getId(), this);
 
         return this;

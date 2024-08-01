@@ -30,7 +30,6 @@ public final class LanguageManager {
     private boolean detectPlayerLocale;
     private YamlConfiguration defaultConfiguration;
 
-
     public LanguageManager(Plugin plugin) {
         this.plugin = plugin;
 

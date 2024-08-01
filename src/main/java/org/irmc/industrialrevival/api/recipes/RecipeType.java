@@ -1,7 +1,6 @@
 package org.irmc.industrialrevival.api.recipes;
 
 import java.util.*;
-
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
@@ -80,12 +79,12 @@ public class RecipeType {
         this.makerId = makerId;
     }
 
-    public void setMaker(String makerId) {
+    public RecipeType setMaker(String makerId) {
         this.makerId = makerId;
+        return this;
     }
 
-    @Nullable
-    public ItemStack getMaker() {
+    @Nullable public ItemStack getMaker() {
         if (makerId != null) {
             return IndustrialRevivalItem.getById(makerId).getItem();
         }
@@ -120,11 +119,15 @@ public class RecipeType {
 
         List<RecipeContent> recipeContents = RecipeContents.getRecipeContents(item.getId());
         if (recipeContents.isEmpty()) {
-            sm.setItem(recipeSlots[4], new CustomItemStack(Material.BARRIER,
-                    IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, "misc.recipe_not_found")
-                    ));
+            sm.setItem(
+                    recipeSlots[4],
+                    new CustomItemStack(
+                            Material.BARRIER,
+                            IndustrialRevival.getInstance()
+                                    .getLanguageManager()
+                                    .getMsgComponent(p, "misc.recipe_not_found")));
 
-            sm.setItem(Constants.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT, 1,2,3,4,5,6,7,8);
+            sm.setItem(Constants.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT, 1, 2, 3, 4, 5, 6, 7, 8);
             sm.setItem(7, Constants.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT);
         } else {
             recipeContents = getRecipeContentsByPage(recipeContents, pageRecord.getOrDefault(p.getUniqueId(), 1));
@@ -136,7 +139,8 @@ public class RecipeType {
         sm.setSize(45);
     }
 
-    private static void showRecipeContent(Player p, SimpleMenu sm, RecipeContent rc, List<RecipeContent> recipeContents) {
+    private static void showRecipeContent(
+            Player p, SimpleMenu sm, RecipeContent rc, List<RecipeContent> recipeContents) {
         IRGuideImplementation guide = SurvivalGuideImplementation.INSTANCE;
         sm.setItem(0, Constants.BACK_BUTTON.apply(p), ((slot, player, item1, menu, clickType) -> {
             guide.goBack(player);
@@ -194,7 +198,8 @@ public class RecipeType {
         } else {
             String url = Constants.WIKI_URL + item.getWikiText();
             ClickEvent clickEvent = ClickEvent.openUrl(url);
-            Component text = IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, "misc.wiki_page");
+            Component text =
+                    IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, "misc.wiki_page");
             text = text.clickEvent(clickEvent);
 
             Component finalText = text;
@@ -216,7 +221,7 @@ public class RecipeType {
                     sm.setItem(i, recipeContentsByPage.get(i - 2).maker().getItem());
                 }
             }
-            //do nothing
+            // do nothing
             return false;
         };
         ItemStack previousOne = Constants.PREVIOUS_ONE_BUTTON.apply(p);
@@ -241,7 +246,7 @@ public class RecipeType {
                     sm.setItem(i, recipeContentsByPage.get(i - 2).maker().getItem());
                 }
             }
-            //do nothing
+            // do nothing
             return false;
         };
 

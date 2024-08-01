@@ -23,7 +23,10 @@ public class ItemTextureService {
         customModelDataMap = new HashMap<>();
         blockModelMap = new HashMap<>();
 
-        setup(IndustrialRevival.getInstance().getBlockDataService().getBlockData().values());
+        setup(IndustrialRevival.getInstance()
+                .getBlockDataService()
+                .getBlockDataMap()
+                .values());
     }
 
     private void setup(Collection<IRBlockData> blockData) {
