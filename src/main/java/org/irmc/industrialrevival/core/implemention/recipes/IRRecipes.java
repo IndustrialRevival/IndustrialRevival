@@ -152,7 +152,11 @@ public class IRRecipes {
     // 二氧化硅 --超热炉(碳晶+硼砂)--> 粗硅 --超热炉(4氯气)--> 四氯化硅 --电炉(2氢气+水)--> 硅 + 4HCl
     public static final ItemStack[] SLAG = new ItemStack[] {
         null, null, null,
-        null, new CustomItemStack(Material.PAPER, IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(null, "recipe.slag")), null,
+        null,
+                new CustomItemStack(
+                        Material.PAPER,
+                        IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(null, "recipe.slag")),
+                null,
         null, null, null
     };
     public static final ItemStack[] BRASS = new ItemStack[] {
@@ -167,11 +171,9 @@ public class IRRecipes {
         null
     }; // Output: Item x 3
     public static final ItemStack[] FINE_IRON =
-            new ItemStack[] {new ItemStack(Material.IRON_INGOT, 4), null, null, null, null, null, null, null, null
-            };
+            new ItemStack[] {new ItemStack(Material.IRON_INGOT, 4), null, null, null, null, null, null, null, null};
     public static final ItemStack[] FINE_GOLD =
-            new ItemStack[] {new ItemStack(Material.GOLD_INGOT, 8), null, null, null, null, null, null, null, null
-            };
+            new ItemStack[] {new ItemStack(Material.GOLD_INGOT, 8), null, null, null, null, null, null, null, null};
     public static final ItemStack[] TUNGSTEN =
             new ItemStack[] {IRItemStacks.TUNGSTEN_ORE, null, null, null, null, null, null, null, null};
     public static final ItemStack[] SLIVER =

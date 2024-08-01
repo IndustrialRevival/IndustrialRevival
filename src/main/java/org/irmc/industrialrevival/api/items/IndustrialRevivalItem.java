@@ -8,6 +8,7 @@ import lombok.Setter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -178,6 +179,18 @@ public class IndustrialRevivalItem implements Placeable {
             }
 
             Bukkit.addRecipe(shapedRecipe);
+        }
+
+        if (this.getRecipeType() == RecipeType.VANILLA_SMELTING) {
+            if (!(this instanceof VanillaSmeltingItem vsi)) {
+                throw new RuntimeException(new IllegalArgumentException("Item must be a VanillaSmeltingItem"));
+            }
+
+            NamespacedKey key = new NamespacedKey(addon.getPlugin(), getId().toLowerCase());
+            FurnaceRecipe fr = new FurnaceRecipe(
+                    key, vsi.getRecipeOutput(), vsi.getRecipeInput(), vsi.getExp(), vsi.getCookingTime());
+
+            Bukkit.addRecipe(fr);
         }
     }
 

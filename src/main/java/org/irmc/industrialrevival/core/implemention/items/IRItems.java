@@ -1,6 +1,7 @@
 package org.irmc.industrialrevival.core.implemention.items;
 
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+import org.irmc.industrialrevival.api.items.IndustrialRevivalOreBlock;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.core.IndustrialRevival;
 import org.irmc.industrialrevival.core.implemention.groups.IRItemGroups;
@@ -67,28 +68,29 @@ public class IRItems {
     static {
         // Metal and Other Materials
         SLIVER = new IndustrialRevivalItem(
-                IRItemGroups.MATERIALS, IRItemStacks.SLIVER, RecipeType.SMELTING, IRRecipes.SLIVER);
+                IRItemGroups.MATERIALS, IRItemStacks.SLIVER, RecipeType.VANILLA_SMELTING, IRRecipes.SLIVER);
         NICKEL = new IndustrialRevivalItem(
-                IRItemGroups.MATERIALS, IRItemStacks.NICKEL, RecipeType.SMELTING, IRRecipes.NICKEL);
+                IRItemGroups.MATERIALS, IRItemStacks.NICKEL, RecipeType.VANILLA_SMELTING, IRRecipes.NICKEL);
         COBALT = new IndustrialRevivalItem(
-                IRItemGroups.MATERIALS, IRItemStacks.COBALT, RecipeType.SMELTING, IRRecipes.COBALT);
+                IRItemGroups.MATERIALS, IRItemStacks.COBALT, RecipeType.VANILLA_SMELTING, IRRecipes.COBALT);
         CHROMIUM = new IndustrialRevivalItem(
-                IRItemGroups.MATERIALS, IRItemStacks.CHROMIUM, RecipeType.SMELTING, IRRecipes.CHROMIUM);
+                IRItemGroups.MATERIALS, IRItemStacks.CHROMIUM, RecipeType.VANILLA_SMELTING, IRRecipes.CHROMIUM);
         MAGNET = new IndustrialRevivalItem(
-                IRItemGroups.MATERIALS, IRItemStacks.MAGNET, RecipeType.SMELTING, IRRecipes.MAGNET);
+                IRItemGroups.MATERIALS, IRItemStacks.MAGNET, RecipeType.VANILLA_SMELTING, IRRecipes.MAGNET);
         URANIUM = new IndustrialRevivalItem(
-                IRItemGroups.MATERIALS, IRItemStacks.URANIUM, RecipeType.SMELTING, IRRecipes.URANIUM);
+                IRItemGroups.MATERIALS, IRItemStacks.URANIUM, RecipeType.VANILLA_SMELTING, IRRecipes.URANIUM);
         ALUMINIUM = new IndustrialRevivalItem(
-                IRItemGroups.MATERIALS, IRItemStacks.ALUMINIUM, RecipeType.SMELTING, IRRecipes.ALUMINIUM);
-        TIN = new IndustrialRevivalItem(IRItemGroups.MATERIALS, IRItemStacks.TIN, RecipeType.SMELTING, IRRecipes.TIN);
+                IRItemGroups.MATERIALS, IRItemStacks.ALUMINIUM, RecipeType.VANILLA_SMELTING, IRRecipes.ALUMINIUM);
+        TIN = new IndustrialRevivalItem(
+                IRItemGroups.MATERIALS, IRItemStacks.TIN, RecipeType.VANILLA_SMELTING, IRRecipes.TIN);
         MAGNESIUM = new IndustrialRevivalItem(
-                IRItemGroups.MATERIALS, IRItemStacks.MAGNESIUM, RecipeType.SMELTING, IRRecipes.MAGNESIUM);
+                IRItemGroups.MATERIALS, IRItemStacks.MAGNESIUM, RecipeType.VANILLA_SMELTING, IRRecipes.MAGNESIUM);
         LEAD = new IndustrialRevivalItem(
-                IRItemGroups.MATERIALS, IRItemStacks.LEAD, RecipeType.SMELTING, IRRecipes.LEAD);
+                IRItemGroups.MATERIALS, IRItemStacks.LEAD, RecipeType.VANILLA_SMELTING, IRRecipes.LEAD);
         ZINC = new IndustrialRevivalItem(
-                IRItemGroups.MATERIALS, IRItemStacks.ZINC, RecipeType.SMELTING, IRRecipes.ZINC);
+                IRItemGroups.MATERIALS, IRItemStacks.ZINC, RecipeType.VANILLA_SMELTING, IRRecipes.ZINC);
         TUNGSTEN = new IndustrialRevivalItem(
-                IRItemGroups.MATERIALS, IRItemStacks.TUNGSTEN, RecipeType.SMELTING, IRRecipes.TUNGSTEN);
+                IRItemGroups.MATERIALS, IRItemStacks.TUNGSTEN, RecipeType.VANILLA_SMELTING, IRRecipes.TUNGSTEN);
         LAVA_ALLOY = new IndustrialRevivalItem(
                 IRItemGroups.MATERIALS, IRItemStacks.LAVA_ALLOY, RecipeType.VANILLA_CRAFTING, IRRecipes.LAVA_ALLOY);
         ROCK_IRON_ALLOY = new IndustrialRevivalItem(
@@ -97,18 +99,27 @@ public class IRItems {
                 RecipeType.VANILLA_CRAFTING,
                 IRRecipes.ROCK_IRON_ALLOY);
         ALUMINIUM_ALLOY = new IndustrialRevivalItem(
-                IRItemGroups.MATERIALS, IRItemStacks.ALUMINIUM_ALLOY, RecipeType.SMELTING, IRRecipes.ALUMINIUM_ALLOY);
+                IRItemGroups.MATERIALS,
+                IRItemStacks.ALUMINIUM_ALLOY,
+                RecipeType.VANILLA_SMELTING,
+                IRRecipes.ALUMINIUM_ALLOY);
         COPPER_NICKEL_ALLOY = new IndustrialRevivalItem(
                 IRItemGroups.MATERIALS,
                 IRItemStacks.COPPER_NICKEL_ALLOY,
-                RecipeType.SMELTING,
+                RecipeType.VANILLA_SMELTING,
                 IRRecipes.COPPER_NICKEL_ALLOY);
         NICHROM = new IndustrialRevivalItem(
-                IRItemGroups.MATERIALS, IRItemStacks.NICHROM, RecipeType.SMELTING, IRRecipes.NICHROM);
+                IRItemGroups.MATERIALS, IRItemStacks.NICHROM, RecipeType.VANILLA_SMELTING, IRRecipes.NICHROM);
         SILICON_STEEL = new IndustrialRevivalItem(
-                IRItemGroups.MATERIALS, IRItemStacks.SILICON_STEEL, RecipeType.SMELTING, IRRecipes.SILICON_STEEL);
+                IRItemGroups.MATERIALS,
+                IRItemStacks.SILICON_STEEL,
+                RecipeType.VANILLA_SMELTING,
+                IRRecipes.SILICON_STEEL);
         WOLFRAM_STEEL = new IndustrialRevivalItem(
-                IRItemGroups.MATERIALS, IRItemStacks.WOLFRAM_STEEL, RecipeType.SMELTING, IRRecipes.WOLFRAM_STEEL);
+                IRItemGroups.MATERIALS,
+                IRItemStacks.WOLFRAM_STEEL,
+                RecipeType.VANILLA_SMELTING,
+                IRRecipes.WOLFRAM_STEEL);
         // Haven't Finished Yet...
         SILICON = new IndustrialRevivalItem(
                 IRItemGroups.MATERIALS, IRItemStacks.SILICON, RecipeType.NULL, IRRecipes.SILICON);
@@ -121,16 +132,22 @@ public class IRItems {
                 IRRecipes.SILICON_TETRACHLORIDE);
         //
         SLAG = new IndustrialRevivalItem(
-                IRItemGroups.MATERIALS, IRItemStacks.SLAG, RecipeType.SMELTING, IRRecipes.SLAG);
+                IRItemGroups.MATERIALS, IRItemStacks.SLAG, RecipeType.VANILLA_SMELTING, IRRecipes.SLAG);
         BRASS = new IndustrialRevivalItem(
-                IRItemGroups.MATERIALS, IRItemStacks.BRASS, RecipeType.SMELTING, IRRecipes.BRASS);
+                IRItemGroups.MATERIALS, IRItemStacks.BRASS, RecipeType.VANILLA_SMELTING, IRRecipes.BRASS);
         FINE_IRON = new IndustrialRevivalItem(
-                IRItemGroups.MATERIALS, IRItemStacks.FINE_IRON, RecipeType.SMELTING, IRRecipes.FINE_IRON);
+                IRItemGroups.MATERIALS, IRItemStacks.FINE_IRON, RecipeType.VANILLA_SMELTING, IRRecipes.FINE_IRON);
         FINE_GOLD = new IndustrialRevivalItem(
-                IRItemGroups.MATERIALS, IRItemStacks.FINE_GOLD, RecipeType.SMELTING, IRRecipes.FINE_GOLD);
+                IRItemGroups.MATERIALS, IRItemStacks.FINE_GOLD, RecipeType.VANILLA_SMELTING, IRRecipes.FINE_GOLD);
         // Ores and Other Natural Things
-        SLIVER_ORE = new IndustrialRevivalItem(
-                IRItemGroups.ORES, IRItemStacks.SLIVER_ORE, RecipeType.MINE, IRRecipes.SLIVER_ORE);
+        SLIVER_ORE = new IndustrialRevivalOreBlock(
+                IRItemGroups.ORES,
+                IRItemStacks.SLIVER_ORE,
+                RecipeType.MINE,
+                IRRecipes.SLIVER_ORE,
+                10f,
+                5 * 20,
+                IRItemStacks.SLIVER);
         NICKEL_ORE = new IndustrialRevivalItem(
                 IRItemGroups.ORES, IRItemStacks.NICKEL_ORE, RecipeType.MINE, IRRecipes.NICKEL_ORE);
         COBALT_ORE = new IndustrialRevivalItem(

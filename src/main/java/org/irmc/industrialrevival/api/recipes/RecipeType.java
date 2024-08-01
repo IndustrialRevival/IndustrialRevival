@@ -27,8 +27,8 @@ import org.jetbrains.annotations.Nullable;
 @Getter
 public class RecipeType {
 
-    public static final NamespacedKey RECIPE_TYPE_GRIDSTONE = Keys.customKey("gridstone");
-    public static final NamespacedKey RECIPE_TYPE_SMELTING = Keys.customKey("smelting");
+    public static final NamespacedKey RECIPE_TYPE_GRINDSTONE = Keys.customKey("grindstone");
+    public static final NamespacedKey RECIPE_TYPE_VANILLA_SMELTING = Keys.customKey("vanilla_smelting");
     public static final NamespacedKey RECIPE_TYPE_MINE = Keys.customKey("mine");
     public static final NamespacedKey RECIPE_TYPE_KILL_MOB = Keys.customKey("kill_mob");
     public static final NamespacedKey RECIPE_TYPE_INTERACT = Keys.customKey("interact");
@@ -37,7 +37,7 @@ public class RecipeType {
     public static final NamespacedKey RECIPE_TYPE_VANILLA_CRAFTING = Keys.customKey("vanilla_crafting");
 
     public static final RecipeType GRINDSTONE;
-    public static final RecipeType SMELTING;
+    public static final RecipeType VANILLA_SMELTING;
     public static final RecipeType MINE;
     public static final RecipeType KILL_MOB;
     public static final RecipeType INTERACT;
@@ -133,12 +133,11 @@ public class RecipeType {
 
             sm.setItem(Constants.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT, 1, 2, 3, 4, 5, 6, 7, 8);
             sm.setItem(7, Constants.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT);
+            sm.setItem(25, ItemUtils.getCleanedItem(item.getItem()));
         } else {
             recipeContents = getRecipeContentsByPage(recipeContents, pageRecord.getOrDefault(p.getUniqueId(), 1));
             showRecipeContent(p, sm, recipeContents.get(0), recipeContents);
         }
-
-        sm.setItem(25, ItemUtils.getCleanedItem(item.getItem()));
 
         sm.setSize(45);
     }
@@ -263,6 +262,8 @@ public class RecipeType {
         }
 
         sm.setItem(7, nextOne, nextHandler);
+
+        sm.setItem(25, rc.result().getItem());
     }
 
     private static List<RecipeContent> getRecipeContentsByPage(List<RecipeContent> allRecipeContents, int page) {
@@ -295,18 +296,24 @@ public class RecipeType {
 
     static {
         GRINDSTONE = new RecipeType(
-                RECIPE_TYPE_GRIDSTONE,
+                RECIPE_TYPE_GRINDSTONE,
                 new CustomItemStack(
                         Material.DISPENSER,
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(RECIPE_TYPE_GRIDSTONE),
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(RECIPE_TYPE_GRIDSTONE)));
+                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(RECIPE_TYPE_GRINDSTONE),
+                        IndustrialRevival.getInstance()
+                                .getLanguageManager()
+                                .getRecipeTypeLore(RECIPE_TYPE_GRINDSTONE)));
 
-        SMELTING = new RecipeType(
-                RECIPE_TYPE_SMELTING,
+        VANILLA_SMELTING = new RecipeType(
+                RECIPE_TYPE_VANILLA_SMELTING,
                 new CustomItemStack(
                         Material.BLAST_FURNACE,
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(RECIPE_TYPE_SMELTING),
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(RECIPE_TYPE_SMELTING)));
+                        IndustrialRevival.getInstance()
+                                .getLanguageManager()
+                                .getRecipeTypeName(RECIPE_TYPE_VANILLA_SMELTING),
+                        IndustrialRevival.getInstance()
+                                .getLanguageManager()
+                                .getRecipeTypeLore(RECIPE_TYPE_VANILLA_SMELTING)));
 
         MINE = new RecipeType(
                 RECIPE_TYPE_MINE,

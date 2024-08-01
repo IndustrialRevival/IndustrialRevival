@@ -8,8 +8,8 @@ radiation:
 guide:
   title: "<dark_gray>工业复兴指南</dark_gray>"
   cheat_title: "<dark_gray>工业复兴指南<dark_red>(作弊模式)"
-  back: ""
-  settings: ""
+  back: "<dark_gray>返回</dark_gray>"
+  settings: "<light_purple>设置</light_purple>"
   next: "<green>下一页</green>"
   previous: "<green>上一页</green>"
   bookmarks: "<yellow>书签</yellow>"
@@ -17,12 +17,14 @@ guide:
 recipe_type:
   grindstone:
     name: "<green>磨石</green>"
-    lore:
-       - ""
   mine:
     name: "<green>采矿</green>"
     lore:
        - "<yellow>挖掉特定方块会有概率掉落此物品</yellow>"
+  vanilla_crafting:
+    name: "<gold>使用原版工作台合成</gold>"
+  vanilla_smelting:
+    name: "<dark_gray><bold>使用原版熔炉炼制特定物品获得</bold></dark_gray>"
 misc:
   recipe_not_found: "<red><bold>未找到配方</bold></red>"
   wiki_page: "<yellow>点击前往对应wiki页面</yellow>"

@@ -8,8 +8,8 @@ radiation:
 guide:
   title: "<dark_gray>Industrial Revival Guide</dark_gray>"
   cheat_title: "<dark_gray>Industrial Revival Guide<dark_red>(Cheat Mode)"
-  back: ""
-  settings: ""
+  back: "<dark_gray>Back</dark_gray>"
+  settings: "<light_purple>Settings</light_purple>"
   next: "<green>Next page</green>"
   previous: "<green>Previous page</green>"
   bookmarks: "<yellow>Bookmarks</yellow>"
@@ -19,11 +19,14 @@ guide:
 recipe_type:
   grindstone:
     name: "<green>Grindstone</green>"
-
   mine:
     name: "<green>Mine block</green>"
     lore:
       - "<yellow>Mine specific blocks will get a chance to drop this item.</yellow>"
+  vanilla_crafting:
+    name: "<gold>Use a vanilla crafting table to craft this item</gold>"
+  vanilla_smelting:
+    name: "<dark_gray><bold>Smelting specific items in a vanilla furnace to get this item</bold></dark_gray>"
 misc:
   recipe_not_found: "<red><bold>No recipe found for this item.<bold></red>"
   wiki_page: "<yellow>Click here to go to the wiki page for this item</yellow>"

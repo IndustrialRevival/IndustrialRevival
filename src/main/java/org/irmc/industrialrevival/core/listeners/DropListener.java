@@ -62,8 +62,10 @@ public class DropListener extends AbstractIRListener {
 
         if (continueDrop) {
             Material material = e.getBlock().getType();
-            List<Pair<ItemStack, Double>> drops =
-                    IndustrialRevival.getInstance().getRegistry().getBlockDrops().get(material);
+            List<Pair<ItemStack, Double>> drops = IndustrialRevival.getInstance()
+                    .getRegistry()
+                    .getBlockDrops()
+                    .get(material);
             Player player = e.getPlayer();
 
             if (drops != null && !drops.isEmpty() && player.getGameMode() != GameMode.CREATIVE) {
