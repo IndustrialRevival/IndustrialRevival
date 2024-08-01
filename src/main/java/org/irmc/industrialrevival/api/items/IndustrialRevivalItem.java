@@ -23,7 +23,13 @@ import org.irmc.industrialrevival.core.implemention.recipes.RecipeContent;
 import org.irmc.industrialrevival.core.implemention.recipes.RecipeContents;
 import org.jetbrains.annotations.Nullable;
 
-public class IndustrialRevivalItem implements Placeable {
+/**
+ * An industrial revival item.<br>
+ * By default, the item is not registered in the game.<br>
+ * To register the item, use the register method.<br>
+ * The block is placeable by default if you want it to be unplaceable, please see {@link NotPlaceable}
+ */
+public class IndustrialRevivalItem {
     private final Map<Class<? extends ItemHandler>, ItemHandler> itemHandlers = new HashMap<>();
 
     @Getter
@@ -181,16 +187,14 @@ public class IndustrialRevivalItem implements Placeable {
             Bukkit.addRecipe(shapedRecipe);
         }
 
-        if (this.getRecipeType() == RecipeType.VANILLA_SMELTING) {
-            if (!(this instanceof VanillaSmeltingItem vsi)) {
-                throw new RuntimeException(new IllegalArgumentException("Item must be a VanillaSmeltingItem"));
+        if (this instanceof VanillaSmeltingItem vsi) {
+            if (!getItem().getType().isItem()) {
+                NamespacedKey key = new NamespacedKey(addon.getPlugin(), getId().toLowerCase());
+                FurnaceRecipe fr = new FurnaceRecipe(
+                        key, vsi.getRecipeOutput(), vsi.getRecipeInput(), vsi.getExp(), vsi.getCookingTime());
+
+                Bukkit.addRecipe(fr);
             }
-
-            NamespacedKey key = new NamespacedKey(addon.getPlugin(), getId().toLowerCase());
-            FurnaceRecipe fr = new FurnaceRecipe(
-                    key, vsi.getRecipeOutput(), vsi.getRecipeInput(), vsi.getExp(), vsi.getCookingTime());
-
-            Bukkit.addRecipe(fr);
         }
     }
 

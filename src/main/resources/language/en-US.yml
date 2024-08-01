@@ -24,9 +24,13 @@ recipe_type:
     lore:
       - "<yellow>Mine specific blocks will get a chance to drop this item.</yellow>"
   vanilla_crafting:
-    name: "<gold>Use a vanilla crafting table to craft this item</gold>"
+    name: "<green>Vanilla Crafting</green>"
+    lore:
+      - "<gold>Use a vanilla crafting table to craft this item</gold>"
   vanilla_smelting:
-    name: "<dark_gray><bold>Smelting specific items in a vanilla furnace to get this item</bold></dark_gray>"
+    name: "<green>Vanilla Smelting</green>"
+    lore:
+      - "<dark_gray><bold>Smelting specific items in a vanilla furnace to get this item</bold></dark_gray>"
 misc:
   recipe_not_found: "<red><bold>No recipe found for this item.<bold></red>"
   wiki_page: "<yellow>Click here to go to the wiki page for this item</yellow>"
@@ -38,10 +42,8 @@ item:
       - "<dark_gray>It's shining!</dark_gray>"
   NICKEL_ORE:
     name: "<white>Nickel Ore</white>"
-
   COBALT_ORE:
     name: "<white>Cobalt Ore</white>"
-
   CHROMIUM_ORE:
     name: "<white>Chromium Ore</white>"
   MAGNET_ORE:

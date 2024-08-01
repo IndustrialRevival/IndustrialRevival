@@ -35,6 +35,7 @@ public class RecipeType {
     public static final NamespacedKey RECIPE_TYPE_WAIT = Keys.customKey("wait");
     public static final NamespacedKey RECIPE_TYPE_NULL = Keys.customKey("null");
     public static final NamespacedKey RECIPE_TYPE_VANILLA_CRAFTING = Keys.customKey("vanilla_crafting");
+    public static final NamespacedKey RECIPE_TYPE_SMELTING = Keys.customKey("smelting");
 
     public static final RecipeType GRINDSTONE;
     public static final RecipeType VANILLA_SMELTING;
@@ -44,6 +45,7 @@ public class RecipeType {
     public static final RecipeType WAIT;
     public static final RecipeType NULL;
     public static final RecipeType VANILLA_CRAFTING;
+    public static final RecipeType SMELTING;
 
     private static final Map<UUID, Integer> pageRecord = new HashMap<>();
     private static final RecipeDisplay DEFAULT_RECIPE_DISPLAY = RecipeType::defaultRecipeDisplay;
@@ -355,5 +357,12 @@ public class RecipeType {
                         IndustrialRevival.getInstance()
                                 .getLanguageManager()
                                 .getRecipeTypeLore(RECIPE_TYPE_VANILLA_CRAFTING)));
+
+        SMELTING = new RecipeType(
+                RECIPE_TYPE_SMELTING,
+                new CustomItemStack(
+                        Material.FURNACE,
+                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(RECIPE_TYPE_SMELTING),
+                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(RECIPE_TYPE_SMELTING)));
     }
 }

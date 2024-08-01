@@ -22,9 +22,13 @@ recipe_type:
     lore:
        - "<yellow>挖掉特定方块会有概率掉落此物品</yellow>"
   vanilla_crafting:
-    name: "<gold>使用原版工作台合成</gold>"
+    name: "<green>原版合成</green>"
+    lore:
+      - "<gold>使用原版工作台合成</gold>"
   vanilla_smelting:
-    name: "<dark_gray><bold>使用原版熔炉炼制特定物品获得</bold></dark_gray>"
+    name: "<green>原版熔炼</green>"
+    lore:
+      - "<dark_gray><bold>使用原版熔炉炼制特定物品获得</bold></dark_gray>"
 misc:
   recipe_not_found: "<red><bold>未找到配方</bold></red>"
   wiki_page: "<yellow>点击前往对应wiki页面</yellow>"

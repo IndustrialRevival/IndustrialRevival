@@ -5,7 +5,6 @@ import org.bukkit.inventory.RecipeChoice;
 import org.irmc.industrialrevival.api.items.attributes.VanillaSmeltingItem;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
-import org.irmc.industrialrevival.core.utils.ItemUtils;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -31,22 +30,6 @@ public class IndustrialRevivalOreBlock extends IndustrialRevivalItem implements 
         this.output = output;
     }
 
-    public IndustrialRevivalOreBlock(
-            ItemGroup group,
-            IndustrialRevivalItemStack itemStack,
-            RecipeType recipeType,
-            ItemStack[] recipe,
-            float exp,
-            int cookingTime,
-            ItemStack output,
-            int amount) {
-        super(group, itemStack, recipeType, recipe);
-
-        this.exp = exp;
-        this.cookingTime = cookingTime;
-        this.output = ItemUtils.cloneItem(output, amount);
-    }
-
     @Override
     public float getExp() {
         return exp;
@@ -64,6 +47,6 @@ public class IndustrialRevivalOreBlock extends IndustrialRevivalItem implements 
 
     @Override
     public @NotNull RecipeChoice getRecipeInput() {
-        return new RecipeChoice.ExactChoice(ItemUtils.cloneItem(this.getItem(), 1));
+        return new RecipeChoice.ExactChoice(this.getItem());
     }
 }
