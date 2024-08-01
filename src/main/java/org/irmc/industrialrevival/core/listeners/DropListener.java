@@ -12,6 +12,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
+import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+import org.irmc.industrialrevival.api.items.attributes.ItemDroppable;
+import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.api.objects.Pair;
 import org.irmc.industrialrevival.core.IndustrialRevival;
 
@@ -38,18 +41,39 @@ public class DropListener extends AbstractIRListener {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
-        Material material = e.getBlock().getType();
-        List<Pair<ItemStack, Double>> drops =
-                IndustrialRevival.getInstance().getRegistry().getBlockDrops().get(material);
-        Player player = e.getPlayer();
+        Location loc = e.getBlock().getLocation();
+        IRBlockData data = IndustrialRevival.getInstance().getBlockDataService().getBlockData(loc);
+        boolean continueDrop = true;
+        if (data != null) {
+            IndustrialRevivalItem item = IndustrialRevivalItem.getById(data.getId());
+            if (item != null) {
+                if (item instanceof ItemDroppable id) {
+                    continueDrop = id.dropBlockDropItems();
+                    List<ItemStack> items = id.drops(e.getPlayer());
+                    if (items != null && !items.isEmpty()) {
+                        World world = e.getBlock().getWorld();
+                        for (ItemStack itemStack : items) {
+                            world.dropItemNaturally(loc, itemStack);
+                        }
+                    }
+                }
+            }
+        }
 
-        if (drops != null && !drops.isEmpty() && player.getGameMode() != GameMode.CREATIVE) {
-            Random random = new Random();
-            for (Pair<ItemStack, Double> drop : drops) {
-                double chance = random.nextDouble(100);
-                if (chance <= drop.getB()) {
-                    ItemStack item = drop.getA();
-                    e.getPlayer().getInventory().addItem(item);
+        if (continueDrop) {
+            Material material = e.getBlock().getType();
+            List<Pair<ItemStack, Double>> drops =
+                    IndustrialRevival.getInstance().getRegistry().getBlockDrops().get(material);
+            Player player = e.getPlayer();
+
+            if (drops != null && !drops.isEmpty() && player.getGameMode() != GameMode.CREATIVE) {
+                Random random = new Random();
+                for (Pair<ItemStack, Double> drop : drops) {
+                    double chance = random.nextDouble(100);
+                    if (chance <= drop.getB()) {
+                        ItemStack item = drop.getA();
+                        e.getPlayer().getInventory().addItem(item);
+                    }
                 }
             }
         }

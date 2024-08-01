@@ -93,6 +93,10 @@ public class RecipeType {
             makerId = iris.getId();
             return IndustrialRevivalItem.getById(makerId).getItem();
         } else {
+            if (icon == null || icon.getType() == Material.AIR) {
+                return null;
+            }
+
             String id = PersistentDataAPI.getString(icon.getItemMeta(), ItemUtils.CLEANED_IR_ITEM_ID, "");
             if (!id.isBlank()) {
                 makerId = id;

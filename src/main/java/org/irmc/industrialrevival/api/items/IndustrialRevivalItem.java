@@ -12,9 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
-import org.irmc.industrialrevival.api.items.attributes.BlockDropItem;
-import org.irmc.industrialrevival.api.items.attributes.MobDropItem;
-import org.irmc.industrialrevival.api.items.attributes.Placeable;
+import org.irmc.industrialrevival.api.items.attributes.*;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.handlers.ItemHandler;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
@@ -152,6 +150,10 @@ public class IndustrialRevivalItem implements Placeable {
             if (ex != null) {
                 throw ex;
             }
+        }
+
+        if (this instanceof ItemDroppable && !getItem().getType().isBlock()) {
+            throw new Exception("The item is not a block and cannot be drop items");
         }
     }
 

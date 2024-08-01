@@ -3,6 +3,7 @@ package org.irmc.industrialrevival.core.listeners;
 import java.util.ArrayList;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.api.items.attributes.InventoryBlock;
+import org.irmc.industrialrevival.api.items.attributes.ItemDroppable;
 import org.irmc.industrialrevival.api.items.attributes.NotPlaceable;
 import org.irmc.industrialrevival.api.items.handlers.*;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
@@ -78,6 +80,14 @@ public class ItemHandlerListener extends AbstractIRListener {
             BlockBreakHandler handler = iritem.getItemHandler(BlockBreakHandler.class);
             if (handler != null) {
                 handler.onBlockBreak(player, block, false);
+            }
+
+            e.setDropItems(false);
+            if (!(iritem instanceof ItemDroppable)) {
+                World world = block.getWorld();
+                for (ItemStack item : block.getDrops()) {
+                    world.dropItemNaturally(block.getLocation(), item);
+                }
             }
         }
     }

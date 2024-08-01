@@ -6,21 +6,20 @@ radiation:
     extreme: ""
     deadly: ""
 guide:
-  title: "<gray>Industrial Revival Guide</gray>"
-  cheat_title: "<gray>Industrial Revival Guide<dark_red>(Cheat Mode)"
+  title: "<dark_gray>Industrial Revival Guide</dark_gray>"
+  cheat_title: "<dark_gray>Industrial Revival Guide<dark_red>(Cheat Mode)"
   back: ""
   settings: ""
   next: "<green>Next page</green>"
   previous: "<green>Previous page</green>"
   bookmarks: "<yellow>Bookmarks</yellow>"
   search: ""
-  book_item_name: "<gray>Industrial Revival</gray> <green>Guide</green>"
-  cheat_book_item_name: "<gray>Industrial Revival</gray> <green>Guide<dark_red>(Cheat Mode)"
+  book_item_name: "<dark_gray>Industrial Revival</dark_gray> <green>Guide</green>"
+  cheat_book_item_name: "<dark_gray>Industrial Revival</dark_gray> <green>Guide<dark_red>(Cheat Mode)"
 recipe_type:
   grindstone:
     name: "<green>Grindstone</green>"
-    lore:
-      - ""
+
   mine:
     name: "<green>Mine block</green>"
     lore:
@@ -33,216 +32,178 @@ item:
   SLIVER_ORE:
     name: "<white>Silver Ore</white>"
     lore:
-      - "<gray>It's shining!</gray>"
+      - "<dark_gray>It's shining!</dark_gray>"
   NICKEL_ORE:
     name: "<white>Nickel Ore</white>"
-    lore:
-      - ""
+
   COBALT_ORE:
     name: "<white>Cobalt Ore</white>"
-    lore:
-      - ""
+
   CHROMIUM_ORE:
     name: "<white>Chromium Ore</white>"
-    lore:
-      - ""
   MAGNET_ORE:
     name: "<white>Magnet Ore</white>"
     lore:
-      - "<gray>A ore containing magnets</gray>"
+      - "<dark_gray>A ore containing magnets</dark_gray>"
   URANIUM_ORE:
     name: "<white>Uranium Ore</white>"
-    lore:
-      - ""
   ALUMINIUM_ORE:
     name: "<white>Aluminium Ore</white>"
-    lore:
-      - ""
   TIN_ORE:
     name: "<white>Tin Ore</white>"
-    lore:
-      - ""
   MAGNESIUM_ORE:
     name: "<white>Magnesium Ore</white>"
-    lore:
-      - ""
   LEAD_ORE:
     name: "<white>Lead Ore</white>"
-    lore:
-      - ""
   ZINC_ORE:
     name: "<white>Zinc Ore</white>"
-    lore:
-      - ""
   TUNGSTEN_ORE:
     name: "<white>Tungsten Ore</white>"
-    lore:
-      - ""
   MERCURY_ORE:
     name: "<white>Mercury Ore</white>"
-    lore:
-      - ""
   SALT_ORE:
     name: "<white>Salt Ore</white>"
-    lore:
-      - ""
   SULFUR:
     name: "<yellow>Sulfur</yellow>"
-    lore:
-      - ""
   PETROLEUM:
-    name: "<gray>Petroleum</gray>"
+    name: "<dark_gray>Petroleum</dark_gray>"
     lore:
-      - "<gray>Strategic Material!</gray>"
+      - "<dark_gray>Strategic Material!</dark_gray>"
   FLAWED_QUARTZ:
     name: "<white>Raw Quartz</white>"
-    lore:
-      - ""
   FLAWLESS_QUARTZ:
     name: "<white>Flawless Quartz</white>"
     lore:
-      - "<gray>Fantastic!</gary>"
+      - "<dark_gray>Fantastic!</gary>"
   LIMESTONE:
     name: "<white>LimeStone</white>"
-    lore:
-      - ""
   LIMEWATER:
     name: "<white>White Wash</white>"
-    lore:
-      - ""
   SALT:
     name: "<white>Salt</white>"
     lore:
-      - "<gray>Really Salty</gray>"
+      - "<dark_gray>Really Salty</dark_gray>"
   MAGIC_CRYSTAL:
     name: "<white>Magic Crystal</white>"
     lore:
-      - "<gray>It's full of magic!</gray>"
+      - "<dark_gray>It's full of magic!</dark_gray>"
   CHARGED_STONE:
     name: "<white>Charged Stone</white>"
     lore:
-      - "<gray>A kind of stone that full of energy:D</gray>"
+      - "<dark_gray>A kind of stone that full of energy:D</dark_gray>"
   CARBON:
     name: "<white>Carbon Crystal</white>"
     lore:
-      - "<gray>So Dark...</gray>"
+      - "<dark_gray>So Dark...</dark_gray>"
   LED:
     name: "<white>LED</white>"
     lore:
-      - "<gray>lol</gray>"
+      - "<dark_gray>lol</dark_gray>"
   GAS:
     name: "<white>Gas</white>"
     lore:
-      - "<gray>Efficiently!!</gray>"
+      - "<dark_gray>Efficiently!!</dark_gray>"
   BORAX:
     name: "<white>Borax</white>"
     lore:
-      - "<gray>Maybe it's useful in smelting...</gray>"
+      - "<dark_gray>Maybe it's useful in smelting...</dark_gray>"
   SILICA:
     name: "<white>Silica</white>"
     lore:
-      - "<gray>SiO2</gray>"
+      - "<dark_gray>SiO2</dark_gray>"
   LAVA_ALLOY:
     name: "<white>Lava Alloy</white>"
     lore:
-      - "<gray>SO HOT!!!</gray>"
+      - "<dark_gray>SO HOT!!!</dark_gray>"
   ROCK_IRON_ALLOY:
     name: "<white>Rock Alloy</white>"
     lore:
-      - "<gray>Harder and Harder</gray>"
+      - "<dark_gray>Harder and Harder</dark_gray>"
   ALUMINIUM_ALLOY:
     name: "<white>Aluminium Alloy</white>"
     lore:
-      - "<gray>So Light!</gray>"
+      - "<dark_gray>So Light!</dark_gray>"
   COPPER_NICKEL_ALLOY:
     name: "<white>Copper Nickel Alloy</white>"
     lore:
-      - "<gray>It's important in electric machine...</gray>"
+      - "<dark_gray>It's important in electric machine...</dark_gray>"
   NICHROM:
     name: "<white>Nichrom</white>"
     lore:
-      - "<gray>It's always used as a heating element</gray>"
+      - "<dark_gray>It's always used as a heating element</dark_gray>"
   SILICON_STEEL:
     name: "<white>Silicon Steel</white>"
     lore:
-      - "<gray>Necessary Material!</gray>"
+      - "<dark_gray>Necessary Material!</dark_gray>"
   WOLFRAM_STEEL:
     name: "<white>Wolfram Steel</white>"
     lore:
-      - "<gray>VERY HARD</gray>"
+      - "<dark_gray>VERY HARD</dark_gray>"
   SILICON:
     name: "<white>Silicon</white>"
-    lore:
-      - ""
   RAW_SILICON:
     name: "<white>Raw Silicon</white>"
-    lore:
-      - ""
   SILICON_TETRACHLORIDE:
     name: "<white>Silicon Tetrachloride</white>"
     lore:
-      - "<gray>SiCl4</gray>"
+      - "<dark_gray>SiCl4</dark_gray>"
   SLAG:
     name: "<white>Slag</white>"
-    lore:
-      - ""
   BRASS:
     name: "<white>Brass</white>"
     lore:
-      - "<gray>It's useful in making pipes</gray>"
+      - "<dark_gray>It's useful in making pipes</dark_gray>"
   FINE_IRON:
     name: "<white>Fine Iron</white>"
     lore:
-      - "<gray>lol</gray>"
+      - "<dark_gray>lol</dark_gray>"
   FINE_GOLD:
     name: "<white>Fine Gold</white>"
     lore:
-      - "<gray>lol</gray>"
+      - "<dark_gray>lol</dark_gray>"
   SLIVER:
     name: "<white>Silver Ingot</white>"
     lore:
-      - "<gray>Ag</gray>"
+      - "<dark_gray>Ag</dark_gray>"
   NICKEL:
     name: "<white>Nickel Ingot</white>"
     lore:
-      - "<gray>Ni</gray>"
+      - "<dark_gray>Ni</dark_gray>"
   COBALT:
     name: "<white>Cobalt Ingot</white>"
     lore:
-      - "<gray>Co</gray>"
+      - "<dark_gray>Co</dark_gray>"
   CHROMIUM:
     name: "<white>Chromium Ingot</white>"
     lore:
-      - "<gray>Cr</gray>"
+      - "<dark_gray>Cr</dark_gray>"
   MAGNET:
     name: "<white>Magnet Ingot</white>"
-    lore:
-      - ""
   URANIUM:
     name: "<white>Uranium</white>"
     lore:
-      - "<gray>U</gray>"
+      - "<dark_gray>U</dark_gray>"
   ALUMINIUM:
     name: "<white>Aluminium Ingot</white>"
     lore:
-      - "<gray>Al</gray>"
+      - "<dark_gray>Al</dark_gray>"
   TIN:
     name: "<white>Tin Ingot</white>"
     lore:
-      - "<gray>Sn</gray>"
+      - "<dark_gray>Sn</dark_gray>"
   MAGNESIUM:
     name: "<white>Magnesium</white>"
     lore:
-      - "<gray>Mg</gray>"
+      - "<dark_gray>Mg</dark_gray>"
   LEAD:
     name: "<white>Lead Ingot</white>"
     lore:
-      - "<gray>Pb</gray>"
+      - "<dark_gray>Pb</dark_gray>"
   ZINC:
     name: "<white>Zinc Ingot</white>"
     lore:
-      - "<gray>Zn</gray>"
+      - "<dark_gray>Zn</dark_gray>"
   TUNGSTEN:
     name: "<white>Tungsten Ingot</white>"
     lore:
-      - "<gray>W</gray>"
+      - "<dark_gray>W</dark_gray>"

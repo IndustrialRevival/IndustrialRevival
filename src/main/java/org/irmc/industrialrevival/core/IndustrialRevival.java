@@ -62,6 +62,8 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         setupIndustrialRevivalItems();
 
         setupListeners();
+
+        getComponentLogger().info(LanguageManager.parseToComponent("<green>Industrial Revival has been enabled!"));
     }
 
     private void completeFiles() {

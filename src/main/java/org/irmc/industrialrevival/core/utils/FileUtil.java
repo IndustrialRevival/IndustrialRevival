@@ -117,9 +117,9 @@ public class FileUtil {
             Set<String> keys = configuration.getKeys(true);
             for (String key : keys) {
                 Object value = configuration.get(key);
-                if (value instanceof List<?> list) {
+                if (value instanceof List<?>) {
                     List<?> list2 = configuration2.getList(key);
-                    if (list2 == null || !(list.size() == list2.size())) {
+                    if (list2 == null) {
                         configuration2.set(key, value);
                         continue;
                     }
