@@ -1,6 +1,7 @@
 package org.irmc.industrialrevival.core.implemention.items;
 
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalOreBlock;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.core.IndustrialRevival;
@@ -148,33 +149,108 @@ public class IRItems {
                 10f,
                 5 * 20,
                 IRItemStacks.SLIVER);
-        NICKEL_ORE = new IndustrialRevivalItem(
-                IRItemGroups.ORES, IRItemStacks.NICKEL_ORE, RecipeType.MINE, IRRecipes.NICKEL_ORE);
-        COBALT_ORE = new IndustrialRevivalItem(
-                IRItemGroups.ORES, IRItemStacks.COBALT_ORE, RecipeType.MINE, IRRecipes.COBALT_ORE);
-        CHROMIUM_ORE = new IndustrialRevivalItem(
-                IRItemGroups.ORES, IRItemStacks.CHROMIUM_ORE, RecipeType.MINE, IRRecipes.CHROMIUM_ORE);
-        MAGNET_ORE = new IndustrialRevivalItem(
-                IRItemGroups.ORES, IRItemStacks.MAGNET_ORE, RecipeType.MINE, IRRecipes.MAGNET_ORE);
-        URANIUM_ORE = new IndustrialRevivalItem(
-                IRItemGroups.ORES, IRItemStacks.URANIUM_ORE, RecipeType.MINE, IRRecipes.URANIUM_ORE);
-        ALUMINIUM_ORE = new IndustrialRevivalItem(
-                IRItemGroups.ORES, IRItemStacks.ALUMINIUM_ORE, RecipeType.MINE, IRRecipes.ALUMINIUM_ORE);
-        TIN_ORE =
-                new IndustrialRevivalItem(IRItemGroups.ORES, IRItemStacks.TIN_ORE, RecipeType.MINE, IRRecipes.TIN_ORE);
-        MAGNESIUM_ORE = new IndustrialRevivalItem(
-                IRItemGroups.ORES, IRItemStacks.MAGNESIUM_ORE, RecipeType.MINE, IRRecipes.MAGNESIUM_ORE);
-        LEAD_ORE = new IndustrialRevivalItem(
-                IRItemGroups.ORES, IRItemStacks.LEAD_ORE, RecipeType.MINE, IRRecipes.LEAD_ORE);
-        ZINC_ORE = new IndustrialRevivalItem(
-                IRItemGroups.ORES, IRItemStacks.ZINC_ORE, RecipeType.MINE, IRRecipes.ZINC_ORE);
-        TUNGSTEN_ORE = new IndustrialRevivalItem(
-                IRItemGroups.ORES, IRItemStacks.TUNGSTEN_ORE, RecipeType.MINE, IRRecipes.TUNGSTEN_ORE);
+        NICKEL_ORE = new IndustrialRevivalOreBlock(
+                IRItemGroups.ORES,
+                IRItemStacks.NICKEL_ORE,
+                RecipeType.MINE,
+                IRRecipes.NICKEL_ORE,
+                10f,
+                5 * 20,
+                IRItemStacks.NICKEL);
+        COBALT_ORE = new IndustrialRevivalOreBlock(
+                IRItemGroups.ORES,
+                IRItemStacks.COBALT_ORE,
+                RecipeType.MINE,
+                IRRecipes.COBALT_ORE,
+                10f,
+                5 * 20,
+                IRItemStacks.COBALT);
+        CHROMIUM_ORE = new IndustrialRevivalOreBlock(
+                IRItemGroups.ORES,
+                IRItemStacks.CHROMIUM_ORE,
+                RecipeType.MINE,
+                IRRecipes.CHROMIUM_ORE,
+                10f,
+                5 * 20,
+                IRItemStacks.CHROMIUM);
+        MAGNET_ORE = new IndustrialRevivalOreBlock(
+                IRItemGroups.ORES, 
+                IRItemStacks.MAGNET_ORE, 
+                RecipeType.MINE, 
+                IRRecipes.MAGNET_ORE,
+                10f,
+                10 * 20,
+                IRItemStacks.MAGNET);
+        URANIUM_ORE = new IndustrialRevivalOreBlock(
+                IRItemGroups.ORES, 
+                IRItemStacks.URANIUM_ORE, 
+                RecipeType.MINE, 
+                IRRecipes.URANIUM_ORE,
+                10f,
+                20 * 20,
+                IRItemStacks.URANIUM);
+        ALUMINIUM_ORE = new IndustrialRevivalOreBlock(
+                IRItemGroups.ORES, 
+                IRItemStacks.ALUMINIUM_ORE, 
+                RecipeType.MINE, 
+                IRRecipes.ALUMINIUM_ORE,
+                10f,
+                5 * 20,
+                IRItemStacks.ALUMINIUM);
+        TIN_ORE = new IndustrialRevivalOreBlock(
+                IRItemGroups.ORES, 
+                IRItemStacks.TIN_ORE,
+                RecipeType.MINE,
+                IRRecipes.TIN_ORE,
+                10f,
+                5 * 20,
+                IRItemStacks.TIN);
+        MAGNESIUM_ORE = new IndustrialRevivalOreBlock(
+                IRItemGroups.ORES, 
+                IRItemStacks.MAGNESIUM_ORE,
+                RecipeType.MINE,
+                IRRecipes.MAGNESIUM_ORE,
+                10f,
+                5 * 20,
+                IRItemStacks.MAGNESIUM);
+        LEAD_ORE = new IndustrialRevivalOreBlock(
+                IRItemGroups.ORES, 
+                IRItemStacks.LEAD_ORE,
+                RecipeType.MINE,
+                IRRecipes.LEAD_ORE,
+                10f,
+                5 * 20,
+                IRItemStacks.LEAD);
+        ZINC_ORE = new IndustrialRevivalOreBlock(
+                IRItemGroups.ORES,
+                IRItemStacks.ZINC_ORE,
+                RecipeType.MINE,
+                IRRecipes.ZINC_ORE,
+                10f,
+                5 * 20,
+                IRItemStacks.ZINC);
+        TUNGSTEN_ORE = new IndustrialRevivalOreBlock(
+                IRItemGroups.ORES, 
+                IRItemStacks.TUNGSTEN_ORE,
+                RecipeType.MINE,
+                IRRecipes.TUNGSTEN_ORE,
+                10f,
+                5 * 20,
+                IRItemStacks.TUNGSTEN);
         MERCURY_ORE = new IndustrialRevivalItem(
-                IRItemGroups.ORES, IRItemStacks.MERCURY_ORE, RecipeType.MINE, IRRecipes.MERCURY_ORE);
-
-        SALT_ORE = new IndustrialRevivalItem(
-                IRItemGroups.ORES, IRItemStacks.SALT_ORE, RecipeType.MINE, IRRecipes.SALT_ORE);
+                IRItemGroups.ORES, 
+                IRItemStacks.MERCURY_ORE,
+                RecipeType.MINE,
+                IRRecipes.MERCURY_ORE);
+        //DO NOT HAVE MERCURY INGOT!!
+        SALT_ORE = new IndustrialRevivalOreBlock(
+                IRItemGroups.ORES, 
+                IRItemStacks.SALT_ORE,
+                RecipeType.MINE,
+                IRRecipes.SALT_ORE,
+                10f,
+                5 * 20,
+                IRItemStacks.SALT);
         SULFUR = new IndustrialRevivalItem(IRItemGroups.ORES, IRItemStacks.SULFUR, RecipeType.MINE, IRRecipes.SULFUR);
         PETROLEUM = new IndustrialRevivalItem(
                 IRItemGroups.ORES, IRItemStacks.PETROLEUM, RecipeType.MINE, IRRecipes.PETROLEUM);
