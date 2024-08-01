@@ -9,7 +9,7 @@ import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.core.IndustrialRevival;
 
 public class IRTicker implements Consumer<WrappedTask> {
-    private Supplier<Map<Location, IRBlockData>> blockDataSupplier =
+    private final Supplier<Map<Location, IRBlockData>> blockDataSupplier =
             IndustrialRevival.getInstance().getBlockDataService()::getBlockDataMap;
 
     @Override

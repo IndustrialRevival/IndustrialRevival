@@ -321,10 +321,4 @@ public class ItemUtils {
         it1.setAmount(n);
         return it1;
     }
-
-    public static ItemStack cloneItem(Material it, int n) {
-        ItemStack it1 = new ItemStack(it);
-        it1.setAmount(n);
-        return it1;
-    }
 }

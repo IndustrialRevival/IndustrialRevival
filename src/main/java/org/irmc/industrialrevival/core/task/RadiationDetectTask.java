@@ -4,6 +4,7 @@ import com.tcoded.folialib.wrapper.task.WrappedTask;
 import java.util.function.Consumer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 
 public class RadiationDetectTask implements Consumer<WrappedTask> {
     @Override
@@ -13,6 +14,7 @@ public class RadiationDetectTask implements Consumer<WrappedTask> {
                 continue;
             }
 
+            Inventory inv = p.getInventory();
             // TODO implement radiation detection
         }
     }
