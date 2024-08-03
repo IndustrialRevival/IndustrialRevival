@@ -321,4 +321,18 @@ public class ItemUtils {
         it1.setAmount(n);
         return it1;
     }
+
+    public static void addLore(ItemStack item, Component lore, boolean appendEmptyLine) {
+        ItemMeta meta = item.getItemMeta();
+        if (meta.hasLore()) {
+            List<Component> loreList = meta.lore();
+            if (appendEmptyLine) {
+                loreList.add(Component.empty());
+            }
+            loreList.add(lore);
+            meta.lore(loreList);
+        } else {
+            meta.lore(List.of(lore));
+        }
+    }
 }

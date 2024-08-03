@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Unmodifiable;
 
 public class RecipeContents {
     private static final Map<String, List<RecipeContent>> recipeContents = new HashMap<>();
@@ -18,5 +22,9 @@ public class RecipeContents {
         return recipeContents.getOrDefault(itemId, new ArrayList<>()).stream()
                 .filter(i -> i.recipeType() != RecipeType.NULL)
                 .toList();
+    }
+
+    @Unmodifiable public static Map<String, List<RecipeContent>> getRecipeContents() {
+        return Object2ObjectMaps.unmodifiable(new Object2ObjectArrayMap<>(recipeContents));
     }
 }

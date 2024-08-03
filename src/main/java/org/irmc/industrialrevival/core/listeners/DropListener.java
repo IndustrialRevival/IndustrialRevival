@@ -67,6 +67,7 @@ public class DropListener extends AbstractIRListener {
                     .getBlockDrops()
                     .get(material);
             Player player = e.getPlayer();
+            World world = e.getBlock().getWorld();
 
             if (drops != null && !drops.isEmpty() && player.getGameMode() != GameMode.CREATIVE) {
                 Random random = new Random();
@@ -74,7 +75,7 @@ public class DropListener extends AbstractIRListener {
                     double chance = random.nextDouble(100);
                     if (chance <= drop.getB()) {
                         ItemStack item = drop.getA();
-                        e.getPlayer().getInventory().addItem(item);
+                        world.dropItemNaturally(loc, item);
                     }
                 }
             }

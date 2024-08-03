@@ -85,9 +85,7 @@ public class ItemHandlerListener extends AbstractIRListener {
             e.setDropItems(false);
             if (!(iritem instanceof ItemDroppable)) {
                 World world = block.getWorld();
-                for (ItemStack item : block.getDrops()) {
-                    world.dropItemNaturally(block.getLocation(), item);
-                }
+                world.dropItemNaturally(block.getLocation(), iritem.getItem().clone());
             }
         }
     }
