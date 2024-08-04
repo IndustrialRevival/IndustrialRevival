@@ -37,8 +37,6 @@ public class IndustrialRevivalItemStack extends ItemStack {
         this.id = id;
 
         editMeta(meta -> PersistentDataAPI.setString(meta, Constants.ITEM_ID_KEY, id));
-
-        IndustrialRevival.getInstance().getItemTextureService().setUpTexture(this);
     }
 
     public IndustrialRevivalItemStack(String id, Material material, String name, String... lore) {

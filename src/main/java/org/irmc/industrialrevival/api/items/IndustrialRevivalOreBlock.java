@@ -4,6 +4,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.irmc.industrialrevival.api.items.attributes.VanillaSmeltingItem;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
+import org.irmc.industrialrevival.api.objects.IRRecipeChoice;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.jetbrains.annotations.NotNull;
 
@@ -47,6 +48,6 @@ public class IndustrialRevivalOreBlock extends IndustrialRevivalItem implements 
 
     @Override
     public @NotNull RecipeChoice getRecipeInput() {
-        return new RecipeChoice.ExactChoice(this.getItem());
+        return new IRRecipeChoice(getItem());
     }
 }

@@ -1,5 +1,6 @@
 package org.irmc.industrialrevival.core.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import net.kyori.adventure.text.Component;
@@ -326,9 +327,11 @@ public class ItemUtils {
         ItemMeta meta = item.getItemMeta();
         if (meta.hasLore()) {
             List<Component> loreList = meta.lore();
+
             if (appendEmptyLine) {
                 loreList.add(Component.empty());
             }
+
             loreList.add(lore);
             meta.lore(loreList);
         } else {

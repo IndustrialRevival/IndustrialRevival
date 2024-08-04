@@ -107,9 +107,7 @@ public class IndustrialRevivalItem {
      * @return WILL RETURN NULL IF THE ITEM IS NOT REGISTERED SUCCESSFULLY!!
      */
     public IndustrialRevivalItem register(IndustrialRevivalAddon addon) {
-        itemStack.lock();
         this.locked = true;
-
         this.addon = addon;
 
         try {
@@ -120,6 +118,9 @@ public class IndustrialRevivalItem {
 
         postRegister();
 
+        IndustrialRevival.getInstance().getItemTextureService().setUpTexture(getItem());
+        itemStack.lock();
+
         if (!group.getItems().contains(this)) {
             group.addItem(this);
         }
@@ -127,6 +128,8 @@ public class IndustrialRevivalItem {
         RecipeContents.addRecipeContent(
                 this.getId(), new RecipeContent(recipeType, recipeType.getMakerItem(), recipe, this));
         IndustrialRevival.getInstance().getRegistry().getItems().put(getId(), this);
+
+
 
         return this;
     }
@@ -188,13 +191,11 @@ public class IndustrialRevivalItem {
         }
 
         if (this instanceof VanillaSmeltingItem vsi) {
-            if (!getItem().getType().isItem()) {
-                NamespacedKey key = new NamespacedKey(addon.getPlugin(), getId().toLowerCase());
-                FurnaceRecipe fr = new FurnaceRecipe(
-                        key, vsi.getRecipeOutput(), vsi.getRecipeInput(), vsi.getExp(), vsi.getCookingTime());
+            NamespacedKey key = new NamespacedKey(addon.getPlugin(), getId().toLowerCase());
+            FurnaceRecipe fr = new FurnaceRecipe(
+                    key, vsi.getRecipeOutput(), vsi.getRecipeInput(), vsi.getExp(), vsi.getCookingTime());
 
-                Bukkit.addRecipe(fr);
-            }
+            Bukkit.addRecipe(fr);
         }
     }
 
