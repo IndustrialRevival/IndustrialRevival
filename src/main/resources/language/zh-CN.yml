@@ -1,11 +1,21 @@
 radiation:
+  # 辐射等级
   level:
     low: ""
     medium: ""
     high: ""
     extreme: ""
     deadly: ""
+  # 受到辐射时快捷栏上方显示的文字
+  subtitle:
+    low: ""
+    medium: ""
+    high: ""
+    extreme: ""
+    deadly: ""
+
 guide:
+  # 指南
   title: "<dark_gray>工业复兴指南</dark_gray>"
   cheat_title: "<dark_gray>工业复兴指南<dark_red>(作弊模式)"
   back: "<dark_gray>返回</dark_gray>"
@@ -13,27 +23,47 @@ guide:
   next: "<green>下一页</green>"
   previous: "<green>上一页</green>"
   bookmarks: "<yellow>书签</yellow>"
-  search: ""
+  search: "<aqua>搜索...</aqua>"
+  book_item_name: "<dark_gray>工业复兴</dark_gray> <green>指南</green>"
+  cheat_book_item_name: "<dark_gray>工业复兴</dark_gray> <green>指南<dark_red>(作弊模式)"
+
 recipe_type:
+  # 配方类型
   grindstone:
     name: "<green>磨石</green>"
-  mine:
-    name: "<green>采矿</green>"
-    lore:
-       - "<yellow>挖掉特定方块会有概率掉落此物品</yellow>"
-  vanilla_crafting:
-    name: "<green>原版合成</green>"
-    lore:
-      - "<gold>使用原版工作台合成</gold>"
   vanilla_smelting:
     name: "<green>原版熔炼</green>"
     lore:
       - "<dark_gray><bold>使用原版熔炉炼制特定物品获得</bold></dark_gray>"
+  mine:
+    name: "<green>采矿</green>"
+    lore:
+      - "<yellow>挖掉特定方块会有概率掉落此物品</yellow>"
+  kill_mob:
+    name: "<green>杀死生物</green>"
+    lore:
+      - "<yellow>杀死特定生物会有概率获得此物品</yellow>"
+  interact:
+    name: "<green>交互</green>"
+  wait:
+    name: "<green>等待</green>"
+  vanilla_crafting:
+    name: "<green>原版合成</green>"
+    lore:
+      - "<gold>使用原版工作台合成</gold>"
+  smelting:
+    name : "<green>冶炼</green>"
+    lore:
+      - "<gold>使用冶炼炉熔炼特定物品获得</gold>"
+
 misc:
+  # 杂项
   recipe_not_found: "<red><bold>未找到配方</bold></red>"
-  wiki_page: "<yellow>点击前往对应wiki页面</yellow>"
-  wiki_page_button: "<yellow>获取对应wiki页面</yellow>"
+  wiki_page: "<yellow>点击前往对应 Wiki 页面</yellow>"
+  wiki_page_button: "<yellow>获取对应 Wiki 页面</yellow>"
+
 item:
+  # 物品
   SLIVER_ORE:
     name: "<white>银矿石</white>"
     lore:
@@ -100,6 +130,8 @@ item:
       - "<dark_gray>黑糊糊的</dark_gray>"
   LED:
     name: "<white>发光二极管</white>"
+    lore:
+      - "<dark_gray>只是个发光的东西</dark_gray>"
   GAS:
     name: "<white>天然气</white>"
     lore:

@@ -1,11 +1,21 @@
 radiation:
+  # Radiation level
   level:
     low: ""
     medium: ""
     high: ""
     extreme: ""
     deadly: ""
+  # Radiation subtitle
+  subtitle:
+    low: ""
+    medium: ""
+    high: ""
+    extreme: ""
+    deadly: ""
+
 guide:
+  # Guide
   title: "<dark_gray>Industrial Revival Guide</dark_gray>"
   cheat_title: "<dark_gray>Industrial Revival Guide<dark_red>(Cheat Mode)"
   back: "<dark_gray>Back</dark_gray>"
@@ -13,29 +23,47 @@ guide:
   next: "<green>Next page</green>"
   previous: "<green>Previous page</green>"
   bookmarks: "<yellow>Bookmarks</yellow>"
-  search: ""
+  search: "<aqua>Search for...</aqua>"
   book_item_name: "<dark_gray>Industrial Revival</dark_gray> <green>Guide</green>"
   cheat_book_item_name: "<dark_gray>Industrial Revival</dark_gray> <green>Guide<dark_red>(Cheat Mode)"
+
 recipe_type:
+  # Recipe type
   grindstone:
     name: "<green>Grindstone</green>"
-  mine:
-    name: "<green>Mine block</green>"
-    lore:
-      - "<yellow>Mine specific blocks will get a chance to drop this item.</yellow>"
-  vanilla_crafting:
-    name: "<green>Vanilla Crafting</green>"
-    lore:
-      - "<gold>Use a vanilla crafting table to craft this item</gold>"
   vanilla_smelting:
     name: "<green>Vanilla Smelting</green>"
     lore:
       - "<dark_gray><bold>Smelting specific items in a vanilla furnace to get this item</bold></dark_gray>"
+  mine:
+    name: "<green>Mine Block</green>"
+    lore:
+      - "<yellow>Mine specific blocks will get a chance to drop this item.</yellow>"
+  kill_mob:
+    name: "<green>Kill Mob</green>"
+    lore:
+      - "<yellow>Kill a specific mob to get this item.</yellow>"
+  interact:
+    name: "<green>Interact</green>"
+  wait:
+    name: "<green>Wait</green>"
+  vanilla_crafting:
+    name: "<green>Vanilla Crafting</green>"
+    lore:
+      - "<gold>Use a vanilla crafting table to craft this item</gold>"
+  smelting:
+    name: "<green>Smelting</green>"
+    lore:
+      - "<gold>Use a smelting table to smelt this item</gold>"
+
 misc:
+  # Misc
   recipe_not_found: "<red><bold>No recipe found for this item.<bold></red>"
   wiki_page: "<yellow>Click here to go to the wiki page for this item</yellow>"
   wiki_page_button: "<yellow>Get the wiki page for this item</yellow>"
+
 item:
+  # Items
   SLIVER_ORE:
     name: "<white>Silver Ore</white>"
     lore:

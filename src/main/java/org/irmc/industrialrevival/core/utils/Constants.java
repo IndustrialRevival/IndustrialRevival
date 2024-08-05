@@ -16,6 +16,7 @@ public class Constants {
     public static final String GUIDE_TITLE_KEY = "guide.title";
     public static final String GUIDE_BACK_KEY = "guide.back";
     public static final String GUIDE_CHEAT_KEY = "guide.cheat_title";
+    public static final String GUIDE_CHEAT_MODE_NO_PERMISSION_KEY = "guide.cheat_mode_no_permission";
     public static final String GUIDE_SETTINGS_KEY = "guide.settings";
     public static final String GUIDE_BOOKMARKS_KEY = "guide.bookmarks";
     public static final String GUIDE_SEARCH_KEY = "guide.search";

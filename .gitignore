@@ -7,7 +7,7 @@
 *.ipr
 *.iws
 
-# IntelliJ
+# IntelliJ IDEA
 /out/
 
 # Maven
