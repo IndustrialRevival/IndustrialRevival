@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * ElectricMenuLimitedConnector is a limited connector with menu.
  */
-public class ElectricMenuLimitedConnector extends IndustrialRevivalItem implements IRInventoryHolder, EnergyNetComponent {
+public class ElectricMenuLimitedConnector extends IndustrialRevivalItem implements EnergyNetComponent {
     private final MachineMenu menu;
     private final long limit;
     public ElectricMenuLimitedConnector(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, @NotNull MachineMenu menu, long limit) {
@@ -32,11 +32,5 @@ public class ElectricMenuLimitedConnector extends IndustrialRevivalItem implemen
     @Override
     public EnergyNetComponentType getComponentType() {
         return EnergyNetComponentType.CONNECTOR;
-    }
-
-    @Override
-    @NotNull
-    public Inventory getInventory() {
-        return menu.getInventory();
     }
 }

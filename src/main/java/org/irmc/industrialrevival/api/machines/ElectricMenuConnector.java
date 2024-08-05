@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * ElectricMenuConnector is a connector with menu.
  */
-public class ElectricMenuConnector extends IndustrialRevivalItem implements IRInventoryHolder, EnergyNetComponent {
+public class ElectricMenuConnector extends IndustrialRevivalItem implements EnergyNetComponent {
     private final MachineMenu menu;
     public ElectricMenuConnector(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, @NotNull MachineMenu menu) {
         super(group, itemStack, recipeType, recipe);
@@ -30,11 +30,5 @@ public class ElectricMenuConnector extends IndustrialRevivalItem implements IRIn
     @Override
     public EnergyNetComponentType getComponentType() {
         return EnergyNetComponentType.CONNECTOR;
-    }
-
-    @Override
-    @NotNull
-    public Inventory getInventory() {
-        return menu.getInventory();
     }
 }

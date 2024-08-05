@@ -22,7 +22,7 @@ import javax.annotation.Nonnull;
 /**
  * ElectricSolarGenerator is a generator that need light to generate energy.
  */
-public class ElectricSolarGenerator extends IndustrialRevivalItem implements IRInventoryHolder, EnergyNetComponent {
+public class ElectricSolarGenerator extends IndustrialRevivalItem implements EnergyNetComponent {
     final MachineMenu menu;
     private @Getter final long capacity;
     private @Getter final long energyPerTick;
@@ -38,12 +38,6 @@ public class ElectricSolarGenerator extends IndustrialRevivalItem implements IRI
     @Override
     public EnergyNetComponentType getComponentType() {
         return EnergyNetComponentType.GENERATOR;
-    }
-
-    @Override
-    @Nonnull
-    public Inventory getInventory() {
-        return menu.getInventory();
     }
 
     @Override

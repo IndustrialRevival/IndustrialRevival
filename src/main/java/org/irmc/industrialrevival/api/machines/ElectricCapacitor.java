@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * ElectricCapacitor is an item that can be used to store energy.
  */
-public class ElectricCapacitor extends IndustrialRevivalItem implements IRInventoryHolder, EnergyNetComponent {
+public class ElectricCapacitor extends IndustrialRevivalItem implements EnergyNetComponent {
     private @Getter final MachineMenu menu;
     private @Getter final long capacity;
     public ElectricCapacitor(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, MachineMenu menu, long capacity) {
@@ -28,10 +28,5 @@ public class ElectricCapacitor extends IndustrialRevivalItem implements IRInvent
     @Override
     public EnergyNetComponentType getComponentType() {
         return EnergyNetComponentType.CAPACITOR;
-    }
-
-    @Override
-    public @NotNull Inventory getInventory() {
-        return menu.getInventory();
     }
 }

@@ -21,7 +21,7 @@ import javax.annotation.Nonnull;
 /**
  * Abstract class for all IndustrialRevival machines.
  */
-public abstract class AbstractMachine extends IndustrialRevivalItem implements IRInventoryHolder {
+public abstract class AbstractMachine extends IndustrialRevivalItem {
     final MachineMenu menu;
     final MachineRecipes machineRecipes;
 
@@ -36,11 +36,5 @@ public abstract class AbstractMachine extends IndustrialRevivalItem implements I
         super(group, itemStack, recipeType, recipe);
         this.menu = menu;
         this.machineRecipes = machineRecipes;
-    }
-
-    @Override
-    @Nonnull
-    public Inventory getInventory() {
-        return menu.getInventory();
     }
 }
