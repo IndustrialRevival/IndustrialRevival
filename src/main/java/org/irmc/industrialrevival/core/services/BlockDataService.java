@@ -46,6 +46,7 @@ public class BlockDataService {
                     dataString);
             IndustrialRevival.getInstance().getDataManager().updateBlockData(data.getLocation(), blockRecord);
         }
+        blockDataMap.clear();
     }
 
     public Map<Location, IRBlockData> getBlockDataMap() {
