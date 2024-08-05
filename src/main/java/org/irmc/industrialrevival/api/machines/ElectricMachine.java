@@ -39,15 +39,15 @@ public class ElectricMachine extends BasicMachine implements EnergyNetComponent 
         addItemHandlers(
                 new BlockTicker() {
                     @Override
-                    public void onTick(Block block, MachineMenuPreset menu, IRBlockData data) {
-                        tick(block, data.getMachineMenu());
+                    public void onTick(Block block, MachineMenuPreset menuPreset, IRBlockData data) {
+                        tick(block, menuPreset, data.getMachineMenu());
                     }
                 }
         );
         super.preRegister();
     }
 
-    protected void tick(Block block, MachineMenu menu) {
-        // TODO: implement electric machine ticking
+    protected void tick(Block block, MachineMenuPreset menuPreset, MachineMenu menu) {
+        // TODO: implement tick logic
     }
 }

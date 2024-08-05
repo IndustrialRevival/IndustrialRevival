@@ -45,15 +45,15 @@ public class ElectricGenerator extends AbstractMachine implements EnergyNetCompo
         addItemHandlers(
                 new BlockTicker() {
                     @Override
-                    public void onTick(Block block, MachineMenuPreset preset, IRBlockData data) {
-                        tick(block, data.getMachineMenu());
+                    public void onTick(Block block, MachineMenuPreset menuPreset, IRBlockData data) {
+                        tick(block, menuPreset, data.getMachineMenu());
                     }
                 }
         );
         super.preRegister();
     }
 
-    protected void tick(Block block, MachineMenu menu) {
-        // TODO: implement generator logic here
+    protected void tick(Block block, MachineMenuPreset menuPreset, MachineMenu menu) {
+        // TODO: implement tick logic
     }
 }

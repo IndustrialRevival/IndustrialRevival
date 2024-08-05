@@ -43,15 +43,17 @@ public class ElectricSolarGenerator extends IndustrialRevivalItem implements Ene
         addItemHandlers(
                 new BlockTicker() {
                     @Override
-                    public void onTick(Block block, MachineMenuPreset menu, IRBlockData data) {
-                        tick(block, data.getMachineMenu());
+                    public void onTick(Block block, MachineMenuPreset menuPreset, IRBlockData data) {
+                        tick(block, menuPreset, data.getMachineMenu());
                     }
                 }
         );
         super.preRegister();
     }
 
-    protected void tick(Block block, MachineMenu menu) {
-        // TODO: implement electric solar generator ticking
+    protected void tick(Block block, MachineMenuPreset menuPreset, MachineMenu menu) {
+        if (block.getLightFromSky() >= lightLevel) {
+            // TODO: implement tick logic
+        }
     }
 }

@@ -18,7 +18,7 @@ public class MachineRecipe {
         this.outputs = outputs;
     }
 
-    boolean isMatch(Map<ItemStack, Integer> items) {
+    public boolean isMatch(Map<ItemStack, Integer> items) {
         for (ItemStack item : inputs.keySet()) {
             if (!items.containsKey(item) || items.get(item) < inputs.get(item)) {
                 return false;

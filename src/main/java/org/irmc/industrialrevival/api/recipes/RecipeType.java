@@ -2,40 +2,32 @@ package org.irmc.industrialrevival.api.recipes;
 
 import java.util.*;
 import lombok.Getter;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.event.ClickEvent;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
-import org.irmc.industrialrevival.api.items.attributes.RecipeDisplayItem;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.core.IndustrialRevival;
-import org.irmc.industrialrevival.core.guide.IRGuideImplementation;
-import org.irmc.industrialrevival.core.guide.impl.SurvivalGuideImplementation;
-import org.irmc.industrialrevival.core.implemention.recipes.RecipeContent;
-import org.irmc.industrialrevival.core.implemention.recipes.RecipeContents;
-import org.irmc.industrialrevival.core.utils.Constants;
 import org.irmc.industrialrevival.core.utils.ItemUtils;
-import org.irmc.industrialrevival.core.utils.Keys;
+import org.irmc.industrialrevival.core.utils.KeyUtil;
 import org.irmc.industrialrevival.core.utils.PersistentDataAPI;
 import org.jetbrains.annotations.Nullable;
 
 @Getter
 public class RecipeType {
 
-    public static final NamespacedKey RECIPE_TYPE_GRINDSTONE = Keys.customKey("grindstone");
-    public static final NamespacedKey RECIPE_TYPE_VANILLA_SMELTING = Keys.customKey("vanilla_smelting");
-    public static final NamespacedKey RECIPE_TYPE_MINE = Keys.customKey("mine");
-    public static final NamespacedKey RECIPE_TYPE_KILL_MOB = Keys.customKey("kill_mob");
-    public static final NamespacedKey RECIPE_TYPE_INTERACT = Keys.customKey("interact");
-    public static final NamespacedKey RECIPE_TYPE_WAIT = Keys.customKey("wait");
-    public static final NamespacedKey RECIPE_TYPE_NULL = Keys.customKey("null");
-    public static final NamespacedKey RECIPE_TYPE_VANILLA_CRAFTING = Keys.customKey("vanilla_crafting");
-    public static final NamespacedKey RECIPE_TYPE_SMELTING = Keys.customKey("smelting");
+    public static final NamespacedKey RECIPE_TYPE_GRINDSTONE = KeyUtil.customKey("grindstone");
+    public static final NamespacedKey RECIPE_TYPE_VANILLA_SMELTING = KeyUtil.customKey("vanilla_smelting");
+    public static final NamespacedKey RECIPE_TYPE_MINE = KeyUtil.customKey("mine");
+    public static final NamespacedKey RECIPE_TYPE_KILL_MOB = KeyUtil.customKey("kill_mob");
+    public static final NamespacedKey RECIPE_TYPE_INTERACT = KeyUtil.customKey("interact");
+    public static final NamespacedKey RECIPE_TYPE_WAIT = KeyUtil.customKey("wait");
+    public static final NamespacedKey RECIPE_TYPE_NULL = KeyUtil.customKey("null");
+    public static final NamespacedKey RECIPE_TYPE_VANILLA_CRAFTING = KeyUtil.customKey("vanilla_crafting");
+    public static final NamespacedKey RECIPE_TYPE_SMELTING = KeyUtil.customKey("smelting");
 
     public static final RecipeType GRINDSTONE;
     public static final RecipeType VANILLA_SMELTING;
