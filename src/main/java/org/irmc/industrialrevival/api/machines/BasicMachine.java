@@ -17,8 +17,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public class BasicMachine extends AbstractMachine {
 
-    public BasicMachine(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, @NotNull MachineMenu menu, @NotNull MachineRecipes machineRecipes) {
-        super(group, itemStack, recipeType, recipe, menu, machineRecipes);
+    public BasicMachine(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, @NotNull MachineRecipes machineRecipes) {
+        super(group, itemStack, recipeType, recipe, machineRecipes);
     }
 
     @Override

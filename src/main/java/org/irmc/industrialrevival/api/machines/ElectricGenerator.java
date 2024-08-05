@@ -20,8 +20,8 @@ import org.jetbrains.annotations.NotNull;
 public class ElectricGenerator extends AbstractMachine implements EnergyNetComponent {
     final long capacity;
     final long powerPerTick;
-    public ElectricGenerator(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, @NotNull MachineMenu menu, @NotNull MachineRecipes machineRecipes, long capacity, long powerPerTick) {
-        super(group, itemStack, recipeType, recipe, menu, machineRecipes);
+    public ElectricGenerator(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, @NotNull MachineRecipes machineRecipes, long capacity, long powerPerTick) {
+        super(group, itemStack, recipeType, recipe, machineRecipes);
         this.capacity = capacity;
         this.powerPerTick = powerPerTick;
     }

@@ -363,7 +363,7 @@ public class ItemUtils {
     @SuppressWarnings({"removal", "deprecation"})
     public static Component getDisplayName(@Nullable ItemStack item) {
         if (item == null) {
-            return null;
+            return Component.empty();
         }
         if (item.hasItemMeta()) {
             ItemMeta meta = item.getItemMeta();

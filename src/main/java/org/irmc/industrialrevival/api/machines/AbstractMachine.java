@@ -22,7 +22,6 @@ import javax.annotation.Nonnull;
  * Abstract class for all IndustrialRevival machines.
  */
 public abstract class AbstractMachine extends IndustrialRevivalItem {
-    final MachineMenu menu;
     final MachineRecipes machineRecipes;
 
     public AbstractMachine(
@@ -30,11 +29,9 @@ public abstract class AbstractMachine extends IndustrialRevivalItem {
             @Nonnull IndustrialRevivalItemStack itemStack,
             @Nonnull RecipeType recipeType,
             @Nonnull ItemStack[] recipe,
-            @Nonnull MachineMenu menu,
             @Nonnull MachineRecipes machineRecipes
     ) {
         super(group, itemStack, recipeType, recipe);
-        this.menu = menu;
         this.machineRecipes = machineRecipes;
     }
 }

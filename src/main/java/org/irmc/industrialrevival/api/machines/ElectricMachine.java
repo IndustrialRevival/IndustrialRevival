@@ -19,8 +19,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ElectricMachine extends BasicMachine implements EnergyNetComponent {
     final long capacity;
-    public ElectricMachine(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, @NotNull MachineMenu menu, @NotNull MachineRecipes machineRecipes, long capacity) {
-        super(group, itemStack, recipeType, recipe, menu, machineRecipes);
+    public ElectricMachine(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, @NotNull MachineRecipes machineRecipes, long capacity) {
+        super(group, itemStack, recipeType, recipe, machineRecipes);
         this.capacity = capacity;
     }
 

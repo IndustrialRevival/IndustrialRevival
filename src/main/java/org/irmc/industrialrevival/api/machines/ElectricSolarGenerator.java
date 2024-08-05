@@ -23,13 +23,11 @@ import javax.annotation.Nonnull;
  * ElectricSolarGenerator is a generator that need light to generate energy.
  */
 public class ElectricSolarGenerator extends IndustrialRevivalItem implements EnergyNetComponent {
-    final MachineMenu menu;
     private @Getter final long capacity;
     private @Getter final long energyPerTick;
     private @Getter final byte lightLevel;
-    public ElectricSolarGenerator(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, MachineMenu menu, long capacity, long energyPerTick, byte lightLevel) {
+    public ElectricSolarGenerator(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, long capacity, long energyPerTick, byte lightLevel) {
         super(group, itemStack, recipeType, recipe);
-        this.menu = menu;
         this.capacity = capacity;
         this.energyPerTick = energyPerTick;
         this.lightLevel = lightLevel;
