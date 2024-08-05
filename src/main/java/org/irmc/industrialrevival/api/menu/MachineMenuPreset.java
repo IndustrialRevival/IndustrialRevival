@@ -3,6 +3,7 @@ package org.irmc.industrialrevival.api.menu;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.inventory.ItemStack;
+import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
 import org.irmc.industrialrevival.core.IndustrialRevival;
 import org.jetbrains.annotations.NotNull;
 
@@ -79,5 +80,13 @@ public class MachineMenuPreset extends SimpleMenu {
         }
 
         super.setOpenHandler(openHandler);
+    }
+
+    private int[] getSlotsByItemFlow(ItemFlow itemFlow) {
+        return getSlotsByItemFlow(itemFlow, null);
+    }
+
+    private int[] getSlotsByItemFlow(ItemFlow itemFlow, ItemStack itemStack) {
+        return new int[0];
     }
 }

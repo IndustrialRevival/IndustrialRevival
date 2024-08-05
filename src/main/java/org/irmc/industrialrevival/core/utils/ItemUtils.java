@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
@@ -53,6 +54,22 @@ public class ItemUtils {
         baseItem.setItemMeta(meta);
 
         return item;
+    }
+
+    public static boolean unsafeIsItemSimilar(ItemStack item1, ItemStack item2) {
+        if (item1 == null || item2 == null) {
+            return item1 == item2;
+        }
+
+        return new ItemStack(item1).isSimilar(new ItemStack(item2));
+    }
+
+    public static boolean isItemSimilar(ItemStack item1, ItemStack item2) {
+        return isItemSimilar(item1, item2, true, false);
+    }
+
+    public static boolean isItemSimilar(ItemStack item1, ItemStack item2, boolean checkLore) {
+        return isItemSimilar(item1, item2, checkLore, false);
     }
 
     public static boolean isItemSimilar(ItemStack item1, ItemStack item2, boolean checkLore, boolean checkAmount) {
@@ -337,5 +354,31 @@ public class ItemUtils {
         } else {
             meta.lore(List.of(lore));
         }
+    }
+
+    public static boolean isBlock(Material material) {
+        return material.isBlock() && !material.isAir();
+    }
+
+    @SuppressWarnings({"removal", "deprecation"})
+    public static Component getDisplayName(@Nullable ItemStack item) {
+        if (item == null) {
+            return null;
+        }
+        if (item.hasItemMeta()) {
+            ItemMeta meta = item.getItemMeta();
+
+            if (meta.hasDisplayName()) {
+                return Component.text(meta.getDisplayName());
+            }
+
+            if ((item.getType() == Material.PLAYER_HEAD || item.getType() == Material.PLAYER_WALL_HEAD) && meta instanceof SkullMeta skull && skull.hasOwner()) {
+                return Component.text(skull.getOwningPlayer().getName());
+            }
+
+            return Component.translatable(item.getType().getTranslationKey());
+        }
+
+        return Component.translatable(item.getType().getTranslationKey());
     }
 }

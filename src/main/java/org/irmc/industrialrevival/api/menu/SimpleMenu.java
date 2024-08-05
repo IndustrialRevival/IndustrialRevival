@@ -138,7 +138,7 @@ public class SimpleMenu implements IRInventoryHolder {
     public int[] getEmptySlots() {
         return IntStream.range(0, getSize())
                 .filter(i -> !this.slots.containsKey(i)
-                        && (!clickHandlers.containsKey(i) || clickHandlers.get(i) == ClickHandler.NO_ACTION))
+                        && (!clickHandlers.containsKey(i) || clickHandlers.get(i) == ClickHandler.ACCEPT_ALL))
                 .toArray();
     }
 
@@ -192,7 +192,7 @@ public class SimpleMenu implements IRInventoryHolder {
     @FunctionalInterface
     public interface ClickHandler {
         ClickHandler DEFAULT = (slot, player, item, menu, clickType) -> false;
-        ClickHandler NO_ACTION = (slot, player, item, menu, clickType) -> true;
+        ClickHandler ACCEPT_ALL = (slot, player, item, menu, clickType) -> true;
 
         /**
          * Called when an item in the machine menu is clicked.
