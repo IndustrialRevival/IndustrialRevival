@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.core.guide.impl.SurvivalGuideImplementation;
@@ -59,7 +60,7 @@ public class GuideHistory {
                 guide.onGroupClicked(player, theGroupEntry.getContent(), page);
             } else if (lastEntry.isItem()) {
                 GuideEntry<IndustrialRevivalItem> theItemEntry = (GuideEntry<IndustrialRevivalItem>) lastEntry;
-                guide.onItemClicked(player, theItemEntry.getContent());
+                guide.onItemClicked(player, theItemEntry.getContent(), ClickType.UNKNOWN);
             } else if (lastEntry.isGuide()) {
                 guide.open(player);
             }
