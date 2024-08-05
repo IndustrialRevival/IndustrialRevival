@@ -6,6 +6,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
@@ -46,7 +47,7 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
     }
 
     @Override
-    public void onItemClicked(Player p, IndustrialRevivalItem item) {
+    public void onItemClicked(Player p, IndustrialRevivalItem item, ClickType clickType) {
         SimpleMenu sm = new SimpleMenu(
                 IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Constants.GUIDE_TITLE_KEY));
 
@@ -107,7 +108,7 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
                 IndustrialRevivalItem item = itemList.get(i - 9);
                 if (item != null) {
                     sm.setItem(i, ItemUtils.getCleanedItem(item.getItem()), (slot, player, item1, menu, clickType) -> {
-                        onItemClicked(player, item);
+                        onItemClicked(player, item, clickType);
                         return false;
                     });
                 }
