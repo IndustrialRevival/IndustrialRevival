@@ -43,12 +43,22 @@ public class ElectricGenerator extends AbstractMachine implements EnergyNetProvi
     @Override
     protected void preRegister() throws Exception {
         addItemHandlers(
+          // 找个时间在idea上面改，在这改不方便
+<<<<<< master
                 (BlockTicker) (block, menu, data) -> tick(block, menu)
+======
+                new BlockTicker() {
+                    @Override
+                    public void onTick(Block block, MachineMenuPreset menuPreset, IRBlockData data) {
+                        tick(block, menuPreset, data.getMachineMenu());
+                    }
+                }
+>>>>>> master
         );
         super.preRegister();
     }
 
-    protected void tick(Block block, MachineMenu menu) {
-        // TODO: implement generator logic here
+    protected void tick(Block block, MachineMenuPreset menuPreset, MachineMenu menu) {
+        // TODO: implement tick logic
     }
 }

@@ -18,11 +18,7 @@ public class MachineRecipes {
 
     public MachineRecipes() {}
 
-    private static MachineRecipe findNextRecipe(ItemStack... items) {
-        return findNextRecipe(List.of(items));
-    }
-
-    private static MachineRecipe findNextRecipe(List<ItemStack> items) {
+    public MachineRecipe findNextRecipe(List<ItemStack> items) {
         Map<ItemStack, Integer> itemsMap = new HashMap<>();
         for (ItemStack item : items) {
             itemsMap.put(item, item.getAmount());
@@ -30,7 +26,7 @@ public class MachineRecipes {
         return findNextRecipe(itemsMap);
     }
 
-    private static MachineRecipe findNextRecipe(Map<ItemStack, Integer> items) {
+    public MachineRecipe findNextRecipe(Map<ItemStack, Integer> items) {
         for (MachineRecipe recipe : recipes) {
             if (recipe.isMatch(items)) {
                 return recipe;

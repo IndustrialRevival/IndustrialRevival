@@ -86,11 +86,11 @@ public class MachineMenuPreset extends SimpleMenu {
         super.setOpenHandler(openHandler);
     }
 
-    private int[] getSlotsByItemFlow(ItemFlow itemFlow) {
+    public int[] getSlotsByItemFlow(ItemFlow itemFlow) {
         return getSlotsByItemFlow(itemFlow, null);
     }
 
-    private int[] getSlotsByItemFlow(ItemFlow itemFlow, ItemStack itemStack) {
+    public int[] getSlotsByItemFlow(ItemFlow itemFlow, ItemStack itemStack) {
         return new int[0];
     }
 }

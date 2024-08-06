@@ -2,14 +2,22 @@ package org.irmc.industrialrevival.api.menu;
 
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.irmc.industrialrevival.core.utils.ItemUtils;
 
+import javax.annotation.Nonnull;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
+@SuppressWarnings({"deprecation", "unused"})
 @Getter
 public class MachineMenu extends SimpleMenu {
     // private final IRBlockData blockData;
@@ -82,6 +90,85 @@ public class MachineMenu extends SimpleMenu {
         return consumeItem(item, IntStream.range(0, getSize()).toArray());
     }
 
+    public void setProgressItem(int slot, int remainingTicks, int totalTicks, ItemStack progressBarItem) {
+        if (!this.hasViewer()) {
+            return;
+        }
+
+        ItemStack item = progressBarItem.clone();
+        ItemMeta im = item.getItemMeta();
+        im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+
+        if (im instanceof Damageable damageable) {
+            damageable.setDamage(getDurability(item, remainingTicks, totalTicks));
+        }
+
+        im.setDisplayName(" ");
+        im.setLore(Arrays.asList(getProgressBar(remainingTicks, totalTicks), "", ChatColor.GRAY + getTimeLeft(remainingTicks / 2)));
+        item.setItemMeta(im);
+
+        setItem(slot, item);
+    }
+
+    @Nonnull
+    public static String getProgressBar(int remainingTicks, int total) {
+        StringBuilder sb = new StringBuilder();
+        float percentage = Math.round((total - remainingTicks) * 100.0F / total * 100.0F / 100.0F);
+
+        sb.append(getColorFromPercentage(percentage));
+
+        int rest = 16;
+        for (int i = (int) percentage; i >= 5; i = i - 5) {
+            sb.append(':');
+            rest--;
+        }
+
+        sb.append("&7");
+        sb.append(":".repeat(Math.max(0, rest)));
+
+        sb.append(" - ").append(percentage).append('%');
+        return ChatColor.translateAlternateColorCodes('&', sb.toString());
+    }
+
+    private static short getDurability(@Nonnull ItemStack item, int remainingTicks, int total) {
+        return (short) ((item.getType().getMaxDurability() / total) * remainingTicks);
+    }
+
+    @Nonnull
+    public static ChatColor getColorFromPercentage(float percentage) {
+        if (percentage < 16.0F) {
+            return ChatColor.DARK_RED;
+        }
+        if (percentage < 32.0F) {
+            return ChatColor.RED;
+        }
+        if (percentage < 48.0F) {
+            return ChatColor.GOLD;
+        }
+        if (percentage < 64.0F) {
+            return ChatColor.YELLOW;
+        }
+        if (percentage < 80.0F) {
+            return ChatColor.DARK_GREEN;
+        }
+
+        return ChatColor.GREEN;
+    }
+
+    @Nonnull
+    public static String getTimeLeft(int seconds) {
+        String timeleft = "";
+
+        int minutes = (int) (seconds / 60L);
+
+        if (minutes > 0) {
+            timeleft += minutes + "m ";
+        }
+
+        seconds -= minutes * 60;
+        return timeleft + seconds + "s";
+    }
+
     public ItemStack pushItem(ItemStack item, int... slots) {
         if (item == null || item.getType().isAir()) {
             return null;
@@ -111,5 +198,9 @@ public class MachineMenu extends SimpleMenu {
         }
 
         return item;
+    }
+
+    public Block getBlock() {
+        return location.getBlock();
     }
 }

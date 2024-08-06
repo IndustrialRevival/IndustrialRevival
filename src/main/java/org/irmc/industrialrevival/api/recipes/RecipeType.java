@@ -12,13 +12,15 @@ import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.core.IndustrialRevival;
 import org.irmc.industrialrevival.core.utils.ItemUtils;
-import org.irmc.industrialrevival.core.utils.Keys;
+import org.irmc.industrialrevival.core.utils.KeyUtil;
 import org.irmc.industrialrevival.core.utils.PersistentDataAPI;
 import org.jetbrains.annotations.Nullable;
 
 @Getter
 public class RecipeType {
 
+  // 找个时间在idea上面改，在这改不方便
+<<<<<< master
     public static final NamespacedKey RECIPE_TYPE_GRINDSTONE = Keys.customKey("grindstone");
     public static final NamespacedKey RECIPE_TYPE_VANILLA_SMELTING = Keys.customKey("vanilla_smelting");
     public static final NamespacedKey RECIPE_TYPE_MINE = Keys.customKey("mine");
@@ -29,6 +31,17 @@ public class RecipeType {
     public static final NamespacedKey RECIPE_TYPE_VANILLA_CRAFTING = Keys.customKey("vanilla_crafting");
     public static final NamespacedKey RECIPE_TYPE_SMELTING = Keys.customKey("smelting");
     public static final NamespacedKey RECIPE_TYPE_CRAFTING = Keys.customKey("crafting");
+=======
+    public static final NamespacedKey RECIPE_TYPE_GRINDSTONE = KeyUtil.customKey("grindstone");
+    public static final NamespacedKey RECIPE_TYPE_VANILLA_SMELTING = KeyUtil.customKey("vanilla_smelting");
+    public static final NamespacedKey RECIPE_TYPE_MINE = KeyUtil.customKey("mine");
+    public static final NamespacedKey RECIPE_TYPE_KILL_MOB = KeyUtil.customKey("kill_mob");
+    public static final NamespacedKey RECIPE_TYPE_INTERACT = KeyUtil.customKey("interact");
+    public static final NamespacedKey RECIPE_TYPE_WAIT = KeyUtil.customKey("wait");
+    public static final NamespacedKey RECIPE_TYPE_NULL = KeyUtil.customKey("null");
+    public static final NamespacedKey RECIPE_TYPE_VANILLA_CRAFTING = KeyUtil.customKey("vanilla_crafting");
+    public static final NamespacedKey RECIPE_TYPE_SMELTING = KeyUtil.customKey("smelting");
+>>>>>> master
 
     public static final RecipeType GRINDSTONE;
     public static final RecipeType VANILLA_SMELTING;
