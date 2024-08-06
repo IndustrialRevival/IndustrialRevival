@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ElectricLimitedConnector extends IndustrialRevivalItem implements EnergyNetComponent {
     private final long limit;
+
     public ElectricLimitedConnector(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, long limit) {
         super(group, itemStack, recipeType, recipe);
         this.limit = limit;

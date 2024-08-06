@@ -132,7 +132,6 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     @Override
     public void onDisable() {
         blockDataService.saveAllData();
-        dataManager.close();
     }
 
     @Override

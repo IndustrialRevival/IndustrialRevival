@@ -21,6 +21,10 @@ public class MachineMenuPreset extends SimpleMenu {
     }
 
     public void register() {
+        if (IndustrialRevival.getInstance().getRegistry().getMenuPresets().containsKey(this.id)) {
+            throw new IllegalStateException("Already registered!");
+        }
+
         this.locked = true;
 
         IndustrialRevival.getInstance().getRegistry().getMenuPresets().put(this.id, this);

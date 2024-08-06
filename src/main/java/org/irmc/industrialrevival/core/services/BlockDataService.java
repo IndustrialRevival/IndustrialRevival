@@ -52,4 +52,8 @@ public class BlockDataService {
     public Map<Location, IRBlockData> getBlockDataMap() {
         return new HashMap<>(blockDataMap);
     }
+
+    private void restoreMenuData() {
+
+    }
 }

@@ -49,17 +49,6 @@ public non-sealed class AbstractDataManager implements IDataManager {
     }
 
     @Override
-    public void close() {
-        try {
-            if (getSession() != null) {
-                getSession().close();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
     public void handleBlockPlacing(Location loc, String machineId) {
         try {
             getSession().getMapper(BlockDataMapper.class).blockPlacing(loc, machineId);
@@ -184,6 +173,7 @@ public non-sealed class AbstractDataManager implements IDataManager {
             conn.prepareStatement(
                             "CREATE TABLE IF NOT EXISTS research_status (username TEXT NOT NULL, researchStatus TEXT NOT NULL);")
                     .execute();
+
             conn.prepareStatement(
                             "CREATE TABLE IF NOT EXISTS block_record (world TEXT NOT NULL, x INT NOT NULL, y INT NOT NULL, z INT NOT NULL, machineId TEXT NOT NULL, data TEXT DEFAULT NULL, PRIMARY KEY (world, x, y, z));")
                     .execute();

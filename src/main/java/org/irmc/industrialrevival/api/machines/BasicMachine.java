@@ -38,12 +38,7 @@ public class BasicMachine extends AbstractMachine implements ProcessorHolder<Mac
     @Override
     protected void preRegister() throws Exception {
         addItemHandlers(
-                new BlockTicker() {
-                    @Override
-                    public void onTick(Block block, MachineMenuPreset menuPreset, IRBlockData data) {
-                        tick(block, menuPreset, data.getMachineMenu());
-                    }
-                }
+                (BlockTicker) (block, menu, data) -> tick(block, menu, data)
         );
         super.preRegister();
     }

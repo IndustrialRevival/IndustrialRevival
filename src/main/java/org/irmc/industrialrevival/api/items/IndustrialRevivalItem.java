@@ -186,7 +186,7 @@ public class IndustrialRevivalItem {
         }
 
         if (this.getRecipeType() == RecipeType.VANILLA_CRAFTING) {
-            NamespacedKey key = new NamespacedKey(addon.getPlugin(), getId().toLowerCase());
+            NamespacedKey key = new NamespacedKey(addon.getPlugin(), "rt_crafting_" + getId().toLowerCase());
             ShapedRecipe shapedRecipe = new ShapedRecipe(key, itemStack.clone());
             shapedRecipe.shape("abc", "def", "ghi");
             char[] chars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'};
@@ -200,7 +200,7 @@ public class IndustrialRevivalItem {
         }
 
         if (this instanceof VanillaSmeltingItem vsi) {
-            NamespacedKey key = new NamespacedKey(addon.getPlugin(), getId().toLowerCase());
+            NamespacedKey key = new NamespacedKey(addon.getPlugin(), "rt_smelting_" + getId().toLowerCase());
             FurnaceRecipe fr = new FurnaceRecipe(
                     key, vsi.getRecipeOutput(), vsi.getRecipeInput(), vsi.getExp(), vsi.getCookingTime());
 

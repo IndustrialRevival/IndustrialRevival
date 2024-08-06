@@ -27,4 +27,11 @@ public class RecipeContents {
     @Unmodifiable public static Map<String, List<RecipeContent>> getRecipeContents() {
         return Object2ObjectMaps.unmodifiable(new Object2ObjectArrayMap<>(recipeContents));
     }
+
+    @Unmodifiable public static List<RecipeContent> getRecipeContentsByRecipeType(RecipeType recipeType) {
+        return recipeContents.values().stream()
+               .flatMap(List::stream)
+               .filter(i -> i.recipeType() == recipeType)
+               .toList();
+    }
 }

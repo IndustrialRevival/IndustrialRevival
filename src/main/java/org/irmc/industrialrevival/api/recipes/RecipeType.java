@@ -19,6 +19,19 @@ import org.jetbrains.annotations.Nullable;
 @Getter
 public class RecipeType {
 
+  // 找个时间在idea上面改，在这改不方便
+<<<<<< master
+    public static final NamespacedKey RECIPE_TYPE_GRINDSTONE = Keys.customKey("grindstone");
+    public static final NamespacedKey RECIPE_TYPE_VANILLA_SMELTING = Keys.customKey("vanilla_smelting");
+    public static final NamespacedKey RECIPE_TYPE_MINE = Keys.customKey("mine");
+    public static final NamespacedKey RECIPE_TYPE_KILL_MOB = Keys.customKey("kill_mob");
+    public static final NamespacedKey RECIPE_TYPE_INTERACT = Keys.customKey("interact");
+    public static final NamespacedKey RECIPE_TYPE_WAIT = Keys.customKey("wait");
+    public static final NamespacedKey RECIPE_TYPE_NULL = Keys.customKey("null");
+    public static final NamespacedKey RECIPE_TYPE_VANILLA_CRAFTING = Keys.customKey("vanilla_crafting");
+    public static final NamespacedKey RECIPE_TYPE_SMELTING = Keys.customKey("smelting");
+    public static final NamespacedKey RECIPE_TYPE_CRAFTING = Keys.customKey("crafting");
+=======
     public static final NamespacedKey RECIPE_TYPE_GRINDSTONE = KeyUtil.customKey("grindstone");
     public static final NamespacedKey RECIPE_TYPE_VANILLA_SMELTING = KeyUtil.customKey("vanilla_smelting");
     public static final NamespacedKey RECIPE_TYPE_MINE = KeyUtil.customKey("mine");
@@ -28,6 +41,7 @@ public class RecipeType {
     public static final NamespacedKey RECIPE_TYPE_NULL = KeyUtil.customKey("null");
     public static final NamespacedKey RECIPE_TYPE_VANILLA_CRAFTING = KeyUtil.customKey("vanilla_crafting");
     public static final NamespacedKey RECIPE_TYPE_SMELTING = KeyUtil.customKey("smelting");
+>>>>>> master
 
     public static final RecipeType GRINDSTONE;
     public static final RecipeType VANILLA_SMELTING;
@@ -38,6 +52,7 @@ public class RecipeType {
     public static final RecipeType NULL;
     public static final RecipeType VANILLA_CRAFTING;
     public static final RecipeType SMELTING;
+    public static final RecipeType CRAFTING;
 
     private static final Map<UUID, Integer> pageRecord = new HashMap<>();
     static final RecipeDisplay DEFAULT_RECIPE_DISPLAY = new DefaultRecipeDisplay();
@@ -124,7 +139,7 @@ public class RecipeType {
         VANILLA_SMELTING = new RecipeType(
                 RECIPE_TYPE_VANILLA_SMELTING,
                 new CustomItemStack(
-                        Material.BLAST_FURNACE,
+                        Material.FURNACE,
                         IndustrialRevival.getInstance()
                                 .getLanguageManager()
                                 .getRecipeTypeName(RECIPE_TYPE_VANILLA_SMELTING),
@@ -179,5 +194,12 @@ public class RecipeType {
                         Material.FURNACE,
                         IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(RECIPE_TYPE_SMELTING),
                         IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(RECIPE_TYPE_SMELTING)));
+
+        CRAFTING = new RecipeType(
+                RECIPE_TYPE_CRAFTING,
+                new CustomItemStack(
+                        Material.CRAFTING_TABLE,
+                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(RECIPE_TYPE_CRAFTING),
+                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(RECIPE_TYPE_CRAFTING)));
     }
 }

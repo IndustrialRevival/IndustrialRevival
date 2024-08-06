@@ -2,6 +2,7 @@ package org.irmc.industrialrevival.core.command;
 
 import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.arguments.ArgumentSuggestions;
+import dev.jorel.commandapi.arguments.IntegerArgument;
 import dev.jorel.commandapi.arguments.PlayerArgument;
 import dev.jorel.commandapi.arguments.TextArgument;
 import java.util.List;
@@ -27,6 +28,11 @@ public class IRCommandGenerator {
         instance = new CommandAPICommand("industrialrevival")
                 .withAliases("ir")
                 .withArguments(new TextArgument("subCommand"))
+                .withPermission("industrialrevival.cmd.help")
+                .executes(info -> {
+                    CommandSender sender = info.sender();
+                    sendHelpMessage(sender);
+                })
                 .withSubcommand(new CommandAPICommand("help")
                         .withPermission("industrialrevival.cmd.help")
                         .executes(executionInfo -> {
@@ -69,9 +75,12 @@ public class IRCommandGenerator {
                                                 .getItems()
                                                 .keySet()
                                                 .toArray(new String[0])))))
+                        .withOptionalArguments(new IntegerArgument("amount"))
                         .executes((sender, args) -> {
                             Player target = (Player) args.get("target");
                             String itemID = (String) args.get("id");
+                            Integer amount = (Integer) args.get("amount");
+                            int finalAmount = amount == null ? 1 : amount;
                             IndustrialRevivalItem item = IndustrialRevival.getInstance()
                                     .getRegistry()
                                     .getItems()
@@ -82,24 +91,33 @@ public class IRCommandGenerator {
                                         .getMsgComponent(sender, "command.give.target_not_found"));
                                 return;
                             }
+
                             if (item == null) {
                                 sender.sendMessage(IndustrialRevival.getInstance()
                                         .getLanguageManager()
                                         .getMsgComponent(sender, "command.give.item_not_found"));
                                 return;
                             }
+
                             ItemStack iritem = item.getItem().clone();
+                            iritem.setAmount(finalAmount);
                             target.getInventory().addItem(iritem);
+
+                            MessageReplacement itemName = new MessageReplacement(
+                                    "%item%",
+                                    MiniMessage.miniMessage()
+                                            .serialize(Objects.requireNonNull(iritem.getItemMeta()
+                                                    .displayName())));
+                            MessageReplacement itemAmount = new MessageReplacement(
+                                     "%amount%", String.valueOf(finalAmount));
+
                             target.sendMessage(IndustrialRevival.getInstance()
                                     .getLanguageManager()
                                     .getMsgComponent(
                                             sender,
                                             "command.give.success",
-                                            new MessageReplacement(
-                                                    "%item%",
-                                                    MiniMessage.miniMessage()
-                                                            .serialize(Objects.requireNonNull(iritem.getItemMeta()
-                                                                    .displayName())))));
+                                            itemName,
+                                            itemAmount));
                         }))
                 .withSubcommand(new CommandAPICommand("giveSilently")
                         .withPermission("industrialrevival.cmd.give")
@@ -111,9 +129,12 @@ public class IRCommandGenerator {
                                                 .getItems()
                                                 .keySet()
                                                 .toArray(new String[0])))))
+                        .withOptionalArguments(new IntegerArgument("amount"))
                         .executes((sender, args) -> {
                             Player target = (Player) args.get("target");
                             String itemID = (String) args.get("id");
+                            Integer amount = (Integer) args.get("amount");
+                            int finalAmount = amount == null ? 1 : amount;
                             IndustrialRevivalItem item = IndustrialRevival.getInstance()
                                     .getRegistry()
                                     .getItems()
@@ -124,13 +145,16 @@ public class IRCommandGenerator {
                                         .getMsgComponent(sender, "command.give.target_not_found"));
                                 return;
                             }
+
                             if (item == null) {
                                 sender.sendMessage(IndustrialRevival.getInstance()
                                         .getLanguageManager()
                                         .getMsgComponent(sender, "command.give.item_not_found"));
                                 return;
                             }
+
                             ItemStack iritem = item.getItem().clone();
+                            iritem.setAmount(finalAmount);
                             target.getInventory().addItem(iritem);
                         }));
 

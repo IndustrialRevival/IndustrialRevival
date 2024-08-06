@@ -37,12 +37,17 @@ public class ElectricMachine extends BasicMachine implements EnergyNetComponent 
     @Override
     protected void preRegister() throws Exception {
         addItemHandlers(
+          // 找个时间在idea上面改，在这改不方便
+<<<<<< master
+                (BlockTicker) (block, menu, data) -> tick(block, data.getMachineMenu())
+======
                 new BlockTicker() {
                     @Override
                     public void onTick(Block block, MachineMenuPreset menuPreset, IRBlockData data) {
                         tick(block, menuPreset, data.getMachineMenu());
                     }
                 }
+>>>>>> master
         );
         super.preRegister();
     }

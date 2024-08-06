@@ -24,12 +24,4 @@ public class IRBlockData {
         this.config = config;
         this.machineMenu = menu;
     }
-
-    public <T> void setData(String key, DataType<T> type, T value) {
-        type.set(config, key, value);
-    }
-
-    @Nullable public <T> T getData(String key, DataType<T> type) {
-        return type.get(config, key);
-    }
 }

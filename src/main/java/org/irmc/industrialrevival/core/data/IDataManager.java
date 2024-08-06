@@ -21,8 +21,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public sealed interface IDataManager permits AbstractDataManager {
-    void close();
-
     @Nullable GuideSettings getGuideSettings(@NotNull String playerName);
 
     void saveGuideSettings(@NotNull String playerName, @NotNull GuideSettings settings);
