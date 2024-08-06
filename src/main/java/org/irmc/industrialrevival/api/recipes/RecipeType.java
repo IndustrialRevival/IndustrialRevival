@@ -2,23 +2,15 @@ package org.irmc.industrialrevival.api.recipes;
 
 import java.util.*;
 import lombok.Getter;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.event.ClickEvent;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
-import org.irmc.industrialrevival.api.items.attributes.RecipeDisplayItem;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.core.IndustrialRevival;
-import org.irmc.industrialrevival.core.guide.IRGuideImplementation;
-import org.irmc.industrialrevival.core.guide.impl.SurvivalGuideImplementation;
-import org.irmc.industrialrevival.core.implemention.recipes.RecipeContent;
-import org.irmc.industrialrevival.core.implemention.recipes.RecipeContents;
-import org.irmc.industrialrevival.core.utils.Constants;
 import org.irmc.industrialrevival.core.utils.ItemUtils;
 import org.irmc.industrialrevival.core.utils.Keys;
 import org.irmc.industrialrevival.core.utils.PersistentDataAPI;
@@ -36,6 +28,7 @@ public class RecipeType {
     public static final NamespacedKey RECIPE_TYPE_NULL = Keys.customKey("null");
     public static final NamespacedKey RECIPE_TYPE_VANILLA_CRAFTING = Keys.customKey("vanilla_crafting");
     public static final NamespacedKey RECIPE_TYPE_SMELTING = Keys.customKey("smelting");
+    public static final NamespacedKey RECIPE_TYPE_CRAFTING = Keys.customKey("crafting");
 
     public static final RecipeType GRINDSTONE;
     public static final RecipeType VANILLA_SMELTING;
@@ -46,6 +39,7 @@ public class RecipeType {
     public static final RecipeType NULL;
     public static final RecipeType VANILLA_CRAFTING;
     public static final RecipeType SMELTING;
+    public static final RecipeType CRAFTING;
 
     private static final Map<UUID, Integer> pageRecord = new HashMap<>();
     static final RecipeDisplay DEFAULT_RECIPE_DISPLAY = new DefaultRecipeDisplay();
@@ -132,7 +126,7 @@ public class RecipeType {
         VANILLA_SMELTING = new RecipeType(
                 RECIPE_TYPE_VANILLA_SMELTING,
                 new CustomItemStack(
-                        Material.BLAST_FURNACE,
+                        Material.FURNACE,
                         IndustrialRevival.getInstance()
                                 .getLanguageManager()
                                 .getRecipeTypeName(RECIPE_TYPE_VANILLA_SMELTING),
@@ -187,5 +181,12 @@ public class RecipeType {
                         Material.FURNACE,
                         IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(RECIPE_TYPE_SMELTING),
                         IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(RECIPE_TYPE_SMELTING)));
+
+        CRAFTING = new RecipeType(
+                RECIPE_TYPE_CRAFTING,
+                new CustomItemStack(
+                        Material.CRAFTING_TABLE,
+                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(RECIPE_TYPE_CRAFTING),
+                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(RECIPE_TYPE_CRAFTING)));
     }
 }

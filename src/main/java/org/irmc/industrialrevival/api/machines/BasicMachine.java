@@ -24,12 +24,7 @@ public class BasicMachine extends AbstractMachine {
     @Override
     protected void preRegister() throws Exception {
         addItemHandlers(
-                new BlockTicker() {
-                    @Override
-                    public void onTick(Block block, MachineMenuPreset menu, IRBlockData data) {
-                        tick(block, data.getMachineMenu());
-                    }
-                }
+                (BlockTicker) (block, menu, data) -> tick(block, data.getMachineMenu())
         );
         super.preRegister();
     }
