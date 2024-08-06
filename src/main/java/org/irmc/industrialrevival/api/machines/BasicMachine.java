@@ -6,6 +6,9 @@ import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.handlers.BlockTicker;
+import org.irmc.industrialrevival.api.machines.process.MachineOperation;
+import org.irmc.industrialrevival.api.machines.process.MachineProcessor;
+import org.irmc.industrialrevival.api.machines.process.ProcessorHolder;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipe;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipes;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
@@ -13,6 +16,7 @@ import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
+import org.irmc.industrialrevival.core.utils.DataUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -23,9 +27,10 @@ import java.util.Map;
 /**
  * BasicMachine is not related to energy networks, it just turns item A to B.
  */
-public class BasicMachine extends AbstractMachine {
+public class BasicMachine extends AbstractMachine implements ProcessorHolder<MachineOperation> {
 
     private Map<Location, MachineRecipe> lastMatches;
+    private final MachineProcessor<MachineOperation> processor = new MachineProcessor<>(this);
     public BasicMachine(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, @NotNull MachineRecipes machineRecipes) {
         super(group, itemStack, recipeType, recipe, machineRecipes);
     }
@@ -44,6 +49,7 @@ public class BasicMachine extends AbstractMachine {
     }
 
     protected void tick(Block block, MachineMenuPreset menuPreset, MachineMenu menu) {
+
         Map<ItemStack, Integer> inputs = new HashMap<>();
         for (int slot : menuPreset.getSlotsByItemFlow(ItemFlow.INSERT)) {
             ItemStack stack = menu.getItem(slot);
@@ -58,7 +64,12 @@ public class BasicMachine extends AbstractMachine {
             lastMatches.put(location, machineRecipes.findNextRecipe(inputs));
             return;
         }
+        // TODO: 仍然没写完processor的部分
+    }
 
-        // TODO: implement tick logic
+    @NotNull
+    @Override
+    public MachineProcessor<MachineOperation> getProcessor() {
+        return processor;
     }
 }
