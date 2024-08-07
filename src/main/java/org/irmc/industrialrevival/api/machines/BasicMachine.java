@@ -38,15 +38,15 @@ public class BasicMachine extends AbstractMachine implements ProcessorHolder<Mac
     @Override
     protected void preRegister() throws Exception {
         addItemHandlers(
-                (BlockTicker) (block, menu, data) -> tick(block, menu, data)
+                (BlockTicker) (block, menu, data) -> tick(block, menu)
         );
         super.preRegister();
     }
 
-    protected void tick(Block block, MachineMenuPreset menuPreset, MachineMenu menu) {
+    protected void tick(Block block, MachineMenu menu) {
 
         Map<ItemStack, Integer> inputs = new HashMap<>();
-        for (int slot : menuPreset.getSlotsByItemFlow(ItemFlow.INSERT)) {
+        for (int slot : menu.getPreset().getSlotsByItemFlow(ItemFlow.INSERT)) {
             ItemStack stack = menu.getItem(slot);
             if (stack != null && !stack.getType().isAir()) {
                 inputs.merge(stack, stack.getAmount(), Integer::sum);

@@ -8,15 +8,19 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
+import org.irmc.industrialrevival.api.objects.enums.RadiationLevel;
 import org.irmc.industrialrevival.core.IndustrialRevival;
-import org.irmc.industrialrevival.core.utils.Constants;
-import org.irmc.industrialrevival.core.utils.PersistentDataAPI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+
+@SuppressWarnings("unused")
 public class IndustrialRevivalItemStack extends ItemStack {
     @Getter
     private final String id;
+
+    @Getter
+    private final RadiationLevel radiationLevel;
 
     private boolean locked;
 
@@ -28,15 +32,24 @@ public class IndustrialRevivalItemStack extends ItemStack {
                         IndustrialRevival.getInstance().getLanguageManager().getItemName(id),
                         IndustrialRevival.getInstance().getLanguageManager().getItemLore(id)));
     }
+    public IndustrialRevivalItemStack(String id, ItemStack customItemStack) {
+        this(id, customItemStack, (RadiationLevel) null);
+    }
 
-    public IndustrialRevivalItemStack(String id, ItemStack itemStack) {
+    public IndustrialRevivalItemStack(String id, ItemStack itemStack, @Nullable RadiationLevel level) {
         super(itemStack);
 
         Preconditions.checkArgument(id.equals(id.toUpperCase()), "ID must be uppercase");
 
         this.id = id;
 
-        editMeta(meta -> PersistentDataAPI.setString(meta, Constants.ITEM_ID_KEY, id));
+        IndustrialRevival.getInstance().getItemDataService().setIRId(itemStack, id);
+        if (level != null) {
+            this.radiationLevel = level;
+            IndustrialRevival.getInstance().getItemDataService().setRadiationLevel(itemStack, level);
+        } else {
+            this.radiationLevel = null;
+        }
     }
 
     public IndustrialRevivalItemStack(String id, Material material, String name, String... lore) {
@@ -95,10 +108,19 @@ public class IndustrialRevivalItemStack extends ItemStack {
 
     @Override
     public @NotNull ItemStack clone() {
-        return new IndustrialRevivalItemStack(this.id, this);
+        return new IndustrialRevivalItemStack(this.id, this, this.radiationLevel);
     }
 
     void lock() {
         this.locked = true;
     }
+
+    void unlock() {
+        this.locked = false;
+    }
+
+    public boolean isRadiation() {
+        return this.radiationLevel != null;
+    }
+
 }

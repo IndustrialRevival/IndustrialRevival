@@ -11,27 +11,16 @@ import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.core.IndustrialRevival;
+import org.irmc.industrialrevival.core.utils.Constants;
 import org.irmc.industrialrevival.core.utils.ItemUtils;
 import org.irmc.industrialrevival.core.utils.KeyUtil;
 import org.irmc.industrialrevival.core.utils.PersistentDataAPI;
 import org.jetbrains.annotations.Nullable;
 
+import javax.naming.Name;
+
 @Getter
 public class RecipeType {
-
-  // 找个时间在idea上面改，在这改不方便
-<<<<<< master
-    public static final NamespacedKey RECIPE_TYPE_GRINDSTONE = Keys.customKey("grindstone");
-    public static final NamespacedKey RECIPE_TYPE_VANILLA_SMELTING = Keys.customKey("vanilla_smelting");
-    public static final NamespacedKey RECIPE_TYPE_MINE = Keys.customKey("mine");
-    public static final NamespacedKey RECIPE_TYPE_KILL_MOB = Keys.customKey("kill_mob");
-    public static final NamespacedKey RECIPE_TYPE_INTERACT = Keys.customKey("interact");
-    public static final NamespacedKey RECIPE_TYPE_WAIT = Keys.customKey("wait");
-    public static final NamespacedKey RECIPE_TYPE_NULL = Keys.customKey("null");
-    public static final NamespacedKey RECIPE_TYPE_VANILLA_CRAFTING = Keys.customKey("vanilla_crafting");
-    public static final NamespacedKey RECIPE_TYPE_SMELTING = Keys.customKey("smelting");
-    public static final NamespacedKey RECIPE_TYPE_CRAFTING = Keys.customKey("crafting");
-=======
     public static final NamespacedKey RECIPE_TYPE_GRINDSTONE = KeyUtil.customKey("grindstone");
     public static final NamespacedKey RECIPE_TYPE_VANILLA_SMELTING = KeyUtil.customKey("vanilla_smelting");
     public static final NamespacedKey RECIPE_TYPE_MINE = KeyUtil.customKey("mine");
@@ -41,7 +30,8 @@ public class RecipeType {
     public static final NamespacedKey RECIPE_TYPE_NULL = KeyUtil.customKey("null");
     public static final NamespacedKey RECIPE_TYPE_VANILLA_CRAFTING = KeyUtil.customKey("vanilla_crafting");
     public static final NamespacedKey RECIPE_TYPE_SMELTING = KeyUtil.customKey("smelting");
->>>>>> master
+    public static final NamespacedKey RECIPE_TYPE_CRAFTING = KeyUtil.customKey("crafting");
+    public static final NamespacedKey RECIPE_TYPE_ELECTROLYSIS = KeyUtil.customKey("electrolysis");
 
     public static final RecipeType GRINDSTONE;
     public static final RecipeType VANILLA_SMELTING;
@@ -53,6 +43,7 @@ public class RecipeType {
     public static final RecipeType VANILLA_CRAFTING;
     public static final RecipeType SMELTING;
     public static final RecipeType CRAFTING;
+    public static final RecipeType ELECTROLYSIS;
 
     private static final Map<UUID, Integer> pageRecord = new HashMap<>();
     static final RecipeDisplay DEFAULT_RECIPE_DISPLAY = new DefaultRecipeDisplay();
@@ -106,7 +97,7 @@ public class RecipeType {
                 return null;
             }
 
-            String id = PersistentDataAPI.getString(icon.getItemMeta(), ItemUtils.CLEANED_IR_ITEM_ID, "");
+            String id = PersistentDataAPI.getString(icon.getItemMeta(), Constants.CLEANED_IR_ITEM_ID, "");
             if (!id.isBlank()) {
                 makerId = id;
                 return IndustrialRevivalItem.getById(id).getItem();
@@ -201,5 +192,11 @@ public class RecipeType {
                         Material.CRAFTING_TABLE,
                         IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(RECIPE_TYPE_CRAFTING),
                         IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(RECIPE_TYPE_CRAFTING)));
+        ELECTROLYSIS = new RecipeType(
+                RECIPE_TYPE_ELECTROLYSIS,
+                new CustomItemStack(
+                        Material.CAULDRON,
+                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(RECIPE_TYPE_ELECTROLYSIS),
+                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(RECIPE_TYPE_ELECTROLYSIS)));
     }
 }
