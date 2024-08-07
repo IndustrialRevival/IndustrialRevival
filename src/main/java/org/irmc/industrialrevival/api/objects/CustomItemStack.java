@@ -23,6 +23,10 @@ public class CustomItemStack extends ItemStack {
         setItemMeta(im);
     }
 
+    public CustomItemStack(ItemStack item) {
+        super(item);
+    }
+
     public CustomItemStack(Material type) {
         super(type);
     }

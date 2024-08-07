@@ -1,10 +1,10 @@
-package org.irmc.industrialrevival.core.implemention.recipes;
+package org.irmc.industrialrevival.implementation.recipes;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.core.IndustrialRevival;
-import org.irmc.industrialrevival.core.implemention.items.IRItemStacks;
+import org.irmc.industrialrevival.implementation.items.IRItemStacks;
 import org.irmc.industrialrevival.core.utils.ItemUtils;
 
 public class IRRecipes {

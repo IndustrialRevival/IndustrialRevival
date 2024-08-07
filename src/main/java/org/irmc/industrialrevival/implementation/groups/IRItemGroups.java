@@ -1,4 +1,4 @@
-package org.irmc.industrialrevival.core.implemention.groups;
+package org.irmc.industrialrevival.implementation.groups;
 
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.groups.NormalItemGroup;

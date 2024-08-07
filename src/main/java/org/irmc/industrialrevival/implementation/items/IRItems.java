@@ -1,12 +1,11 @@
-package org.irmc.industrialrevival.core.implemention.items;
+package org.irmc.industrialrevival.implementation.items;
 
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
-import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalOreBlock;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.core.IndustrialRevival;
-import org.irmc.industrialrevival.core.implemention.groups.IRItemGroups;
-import org.irmc.industrialrevival.core.implemention.recipes.IRRecipes;
+import org.irmc.industrialrevival.implementation.groups.IRItemGroups;
+import org.irmc.industrialrevival.implementation.recipes.IRRecipes;
 
 public class IRItems {
     public static final IndustrialRevivalItem SLIVER_ORE;
