@@ -15,9 +15,6 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
 public class ItemUtils {
-    public static final NamespacedKey CLEANED_IR_ITEM_ID =
-            new NamespacedKey(IndustrialRevival.getInstance(), "cleaned_ir_item_id");
-
     private ItemUtils() {}
 
     @Contract("null -> null")
@@ -48,7 +45,7 @@ public class ItemUtils {
         item.getEnchantments().forEach(baseItem::addEnchantment);
 
         if (item instanceof IndustrialRevivalItemStack iris) {
-            PersistentDataAPI.setString(meta, CLEANED_IR_ITEM_ID, iris.getId());
+            PersistentDataAPI.setString(meta, Constants.CLEANED_IR_ITEM_ID, iris.getId());
         }
 
         baseItem.setItemMeta(meta);

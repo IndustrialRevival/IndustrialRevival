@@ -2,6 +2,8 @@ package org.irmc.industrialrevival.core.utils;
 
 import java.io.File;
 import java.util.function.Function;
+
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -10,6 +12,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.core.IndustrialRevival;
 
+@SuppressWarnings({"deprecation", "unused"})
 public class Constants {
     public static final String WIKI_URL = "https://ir.hiworldmc.com/";
 
@@ -30,9 +33,9 @@ public class Constants {
             IndustrialRevival.getInstance().getDataFolder().getParentFile().getParentFile(), "irstorage");
 
     public static final NamespacedKey ITEM_ID_KEY = new NamespacedKey(IndustrialRevival.getInstance(), "ir_item_id");
-    public static final NamespacedKey GUIDE_ITEM_KEY =
-            new NamespacedKey(IndustrialRevival.getInstance(), "ir_guide_item");
-
+    public static final NamespacedKey RADIATION_LEVEL_KEY = new NamespacedKey(IndustrialRevival.getInstance(), "ir_radiation_level");
+    public static final NamespacedKey GUIDE_ITEM_KEY = new NamespacedKey(IndustrialRevival.getInstance(), "ir_guide_item");
+    public static final NamespacedKey CLEANED_IR_ITEM_ID = KeyUtil.customKey("cleaned_ir_item_id");
     public static final ItemStack BACKGROUND_ITEM =
             new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " ").setCustomModel(19990);
 
@@ -86,13 +89,13 @@ public class Constants {
                     Material.ENCHANTED_BOOK,
                     IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(null, "guide.book_item_name"))
             .setCustomModel(19998)
-            .setPDCData(GUIDE_ITEM_KEY, PersistentDataType.INTEGER, 1);
+            .setPDCData(GUIDE_ITEM_KEY, PersistentDataType.INTEGER, GameMode.SURVIVAL.getValue());
 
     public static final ItemStack CHEAT_GUIDE_BOOK_ITEM = new CustomItemStack(
                     Material.ENCHANTED_BOOK,
                     IndustrialRevival.getInstance()
                             .getLanguageManager()
                             .getMsgComponent(null, "guide.cheat_book_item_name"))
-            .setCustomModel(19998)
-            .setPDCData(GUIDE_ITEM_KEY, PersistentDataType.INTEGER, 2);
+            .setCustomModel(19999)
+            .setPDCData(GUIDE_ITEM_KEY, PersistentDataType.INTEGER, GameMode.CREATIVE.getValue());
 }

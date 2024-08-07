@@ -24,6 +24,7 @@ import org.irmc.industrialrevival.core.listeners.MachineMenuListener;
 import org.irmc.industrialrevival.core.message.LanguageManager;
 import org.irmc.industrialrevival.core.services.BlockDataService;
 import org.irmc.industrialrevival.core.services.IRRegistry;
+import org.irmc.industrialrevival.core.services.ItemDataService;
 import org.irmc.industrialrevival.core.services.ItemTextureService;
 import org.irmc.industrialrevival.core.utils.Constants;
 import org.irmc.industrialrevival.core.utils.FileUtil;
@@ -38,6 +39,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     private @Getter IDataManager dataManager;
     private @Getter ItemTextureService itemTextureService;
     private @Getter BlockDataService blockDataService;
+    private @Getter ItemDataService itemDataService;
     private @Getter ServerImplementation foliaLibImpl;
 
     @Override
@@ -80,6 +82,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     private void setupServices() {
         blockDataService = new BlockDataService();
         itemTextureService = new ItemTextureService();
+        itemDataService = new ItemDataService();
     }
 
     private void setupListeners() {
@@ -132,6 +135,8 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     @Override
     public void onDisable() {
         blockDataService.saveAllData();
+        getLogger().info("IndustrialRevival has been disabled!");
+        getLogger().info("Goodbye!");
     }
 
     @Override

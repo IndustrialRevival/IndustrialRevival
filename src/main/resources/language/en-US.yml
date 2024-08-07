@@ -17,7 +17,7 @@ radiation:
 guide:
   # Guide
   title: "<dark_gray>Industrial Revival Guide</dark_gray>"
-  cheat_title: "<dark_gray>Industrial Revival Guide<dark_red>(Cheat Mode)"
+  cheat_title: "<dark_gray>Industrial Revival Guide<dark_red>(Cheat Mode)</dark_red>"
   back: "<dark_gray>Back</dark_gray>"
   settings: "<light_purple>Settings</light_purple>"
   next: "<green>Next page</green>"
@@ -25,7 +25,7 @@ guide:
   bookmarks: "<yellow>Bookmarks</yellow>"
   search: "<aqua>Search for...</aqua>"
   book_item_name: "<dark_gray>Industrial Revival</dark_gray> <green>Guide</green>"
-  cheat_book_item_name: "<dark_gray>Industrial Revival</dark_gray> <green>Guide<dark_red>(Cheat Mode)"
+  cheat_book_item_name: "<dark_gray>Industrial Revival</dark_gray> <green>Guide<dark_red>(Cheat Mode)</dark_red>"
 
 recipe_type:
   # Recipe type
@@ -55,7 +55,14 @@ recipe_type:
     name: "<green>Smelting</green>"
     lore:
       - "<gold>Use a smelting table to smelt this item</gold>"
-
+  crafting:
+    name: "<green>Crafting</green>"
+    lore:
+      - "<gold>Industrial Revival's source!</gold>"
+  electrolysis:
+    name: "<green>Electrolysis</green>"
+    lore:
+      - "<gold>I like this lol~</gold>"
 misc:
   # Misc
   recipe_not_found: "<red><bold>No recipe found for this item.<bold></red>"

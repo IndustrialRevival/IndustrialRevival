@@ -17,7 +17,7 @@ radiation:
 guide:
   # 指南
   title: "<dark_gray>工业复兴指南</dark_gray>"
-  cheat_title: "<dark_gray>工业复兴指南<dark_red>(作弊模式)"
+  cheat_title: "<dark_gray>工业复兴指南<dark_red>(作弊模式)</dark_red>"
   back: "<dark_gray>返回</dark_gray>"
   settings: "<light_purple>设置</light_purple>"
   next: "<green>下一页</green>"
@@ -25,7 +25,7 @@ guide:
   bookmarks: "<yellow>书签</yellow>"
   search: "<aqua>搜索...</aqua>"
   book_item_name: "<dark_gray>工业复兴</dark_gray> <green>指南</green>"
-  cheat_book_item_name: "<dark_gray>工业复兴</dark_gray> <green>指南<dark_red>(作弊模式)"
+  cheat_book_item_name: "<dark_gray>工业复兴</dark_gray> <green>指南<dark_red>(作弊模式)</dark_red>"
 
 recipe_type:
   # 配方类型
@@ -52,10 +52,17 @@ recipe_type:
     lore:
       - "<gold>使用原版工作台合成</gold>"
   smelting:
-    name : "<green>冶炼</green>"
+    name: "<green>冶炼</green>"
     lore:
       - "<gold>使用冶炼炉熔炼特定物品获得</gold>"
-
+  crafting:
+    name: "<green>合成</green>"
+    lore:
+      - "<gold>工业复兴的开始！</gold>"
+  electrolysis:
+    name: "<green>电解</green>"
+    lore:
+      - "<gold>万能的机器</gold>"
 misc:
   # 杂项
   recipe_not_found: "<red><bold>未找到配方</bold></red>"

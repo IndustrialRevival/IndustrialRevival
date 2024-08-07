@@ -3,29 +3,32 @@ package org.irmc.industrialrevival.core.utils;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
-import org.irmc.industrialrevival.api.objects.DataType;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.core.IndustrialRevival;
 
+import javax.annotation.Nullable;
+
+@SuppressWarnings("unused")
 public class DataUtil {
+    @Nullable
     public static IRBlockData getBlockData(Location location) {
         return IndustrialRevival.getInstance().getBlockDataService().getBlockData(location);
     }
     public static void setData(Location location, String key, String value) {
-        getBlockData(location).setData(key, DataType.STRING, value);
+        getBlockData(location).getConfig().set(key, value);
     }
 
+    @Nullable
     public static String getData(Location location, String key) {
-        return getBlockData(location).getData(key, DataType.STRING);
+        return (String) getBlockData(location).getConfig().get(key);
     }
 
     public static boolean hasData(Location location, String key) {
-        return getBlockData(location).getData(key, DataType.STRING) != null;
+        return getData(location, key) != null;
     }
 
     public static void setBlockData(Location location, IRBlockData blockData) {
@@ -36,6 +39,7 @@ public class DataUtil {
         return getBlockData(location) != null;
     }
 
+    @Nullable
     public static IRBlockData removeBlockData(Location location) {
         return IndustrialRevival.getInstance().getBlockDataService().getBlockDataMap().remove(location);
     }
@@ -44,22 +48,25 @@ public class DataUtil {
         // TODO: Implement
     }
 
+    @Nullable
     public static MachineMenu getMachineMenu(Location location) {
         return getBlockData(location).getMachineMenu();
     }
 
+    @Nullable
     public static MachineMenu getMachineMenu(Block block) {
         return getBlockData(block.getLocation()).getMachineMenu();
     }
     
     public static boolean hasMachineMenu(Location location) {
-        return getBlockData(location).getMachineMenu() != null;
+        return getMachineMenu(location) != null;
     }
     
     public static boolean hasMachineMenu(Block block) {
         return hasMachineMenu(block.getLocation());
     }
 
+    @Nullable
     public static MachineMenuPreset getMachineMenuPresetById(String id) {
         return IndustrialRevival.getInstance().getRegistry().getMenuPresets().get(id);
     }
@@ -72,6 +79,7 @@ public class DataUtil {
         holder.getPersistentDataContainer().set(key, PersistentDataType.STRING, value);
     }
 
+    @Nullable
     public static String getPDC(PersistentDataHolder holder, NamespacedKey key) {
         return holder.getPersistentDataContainer().get(key, PersistentDataType.STRING);
     }
