@@ -10,33 +10,27 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
+import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.core.utils.ItemUtils;
+import org.irmc.industrialrevival.core.utils.KeyUtil;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 @SuppressWarnings({"deprecation", "unused"})
 @Getter
 public class MachineMenu extends SimpleMenu {
-    // private final IRBlockData blockData;
     private final Location location;
     private final MachineMenuPreset preset;
 
     public MachineMenu(Location location, MachineMenuPreset preset) {
         super(preset.getTitle());
-
-        /*
-        IRBlockData blockData = IndustrialRevival.getInstance().getBlockDataService().getBlockData(location);
-
-        if (blockData == null) {
-            throw new IllegalArgumentException("Block data not found at location " + location.toString());
-        }
-
-        this.blockData = blockData;
-         */
-
         this.location = location;
         this.preset = preset;
     }
@@ -53,6 +47,7 @@ public class MachineMenu extends SimpleMenu {
         return !getInventory().getViewers().isEmpty();
     }
 
+    @Nonnull
     public List<HumanEntity> getViewers() {
         return getInventory().getViewers();
     }
@@ -104,7 +99,7 @@ public class MachineMenu extends SimpleMenu {
         }
 
         im.setDisplayName(" ");
-        im.setLore(Arrays.asList(getProgressBar(remainingTicks, totalTicks), "", ChatColor.GRAY + getTimeLeft(remainingTicks / 2)));
+        im.setLore(Arrays.asList(getProgressBar(remainingTicks, totalTicks), "", ChatColor.GRAY + getRemainingTime(remainingTicks / 2)));
         item.setItemMeta(im);
 
         setItem(slot, item);
@@ -156,19 +151,84 @@ public class MachineMenu extends SimpleMenu {
     }
 
     @Nonnull
-    public static String getTimeLeft(int seconds) {
-        String timeleft = "";
+    public static String getRemainingTime(int seconds) {
+        String remainingTime = "";
 
         int minutes = (int) (seconds / 60L);
 
         if (minutes > 0) {
-            timeleft += minutes + "m ";
+            remainingTime += minutes + "m ";
         }
 
         seconds -= minutes * 60;
-        return timeleft + seconds + "s";
+        return remainingTime + seconds + "s";
     }
 
+    public boolean fits(ItemStack item, int... slots) {
+        final ItemStack clone = item.clone();
+        for (int slot : slots) {
+            final ItemStack itemInSlot = getItem(slot);
+            if (itemInSlot == null || itemInSlot.getType().isAir()) {
+                clone.setAmount(clone.getAmount() - clone.getMaxStackSize());
+                if (clone.getAmount() <= 0) {
+                    return true;
+                }
+            }
+        }
+
+        for (int slot : slots) {
+            final ItemStack itemInSlot = getItem(slot);
+            if (itemInSlot != null && !itemInSlot.getType().isAir() && ItemUtils.isItemSimilar(itemInSlot, item)) {
+                clone.setAmount(clone.getAmount() - Math.max(0, clone.getMaxStackSize() - itemInSlot.getAmount()));
+                if (clone.getAmount() <= 0) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public boolean fits(Map<ItemStack, Integer> items, int... slots) {
+        final ItemStack[] contents = getInventory().getContents();
+        final Map<ItemStack, Integer> cloneMap = new HashMap<>(items);
+        for (ItemStack item : items.keySet()) {
+            final ItemStack clone = ItemUtils.cloneItem(item, items.get(item));
+            for (ItemStack content : contents) {
+                if (content == null || content.getType().isAir()) {
+                    clone.setAmount(clone.getAmount() - clone.getMaxStackSize());
+                    if (clone.getAmount() <= 0) {
+                        cloneMap.remove(item);
+                    }
+                    content = new CustomItemStack(item).setPDCData(KeyUtil.customKey("ir_placeholder_already_used"), PersistentDataType.BOOLEAN, true);
+                } else if (ItemUtils.isItemSimilar(content, item)) {
+                    if (content.getAmount() >= content.getMaxStackSize()) {
+                        continue;
+                    }
+                    clone.setAmount(clone.getAmount() - Math.max(0, clone.getMaxStackSize() - content.getAmount()));
+                    if (clone.getAmount() <= 0) {
+                        cloneMap.remove(item);
+                    }
+                }
+            }
+        }
+
+        return cloneMap.isEmpty();
+    }
+
+    @Nonnull
+    public Map<ItemStack, Integer> pushItem(Map<ItemStack, Integer> items, int... slots) {
+        final Map<ItemStack, Integer> lefts = new HashMap<>();
+        for (ItemStack item : items.keySet()) {
+            final ItemStack clone = ItemUtils.cloneItem(item, items.get(item));
+            ItemStack left = pushItem(clone, slots);
+            if (left != null) {
+                lefts.put(ItemUtils.cloneItem(left, 1), left.getAmount());
+            }
+        }
+        return lefts;
+    }
+    @Nullable
     public ItemStack pushItem(ItemStack item, int... slots) {
         if (item == null || item.getType().isAir()) {
             return null;
@@ -200,6 +260,7 @@ public class MachineMenu extends SimpleMenu {
         return item;
     }
 
+    @Nonnull
     public Block getBlock() {
         return location.getBlock();
     }

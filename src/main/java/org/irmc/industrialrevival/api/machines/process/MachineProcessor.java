@@ -10,7 +10,7 @@ import org.irmc.industrialrevival.api.menu.MachineMenu;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class MachineProcessor<T extends MachineOperation> {
+public class MachineProcessor<T extends IOperation> {
     private final Map<Location, T> ALL_MACHINES = new ConcurrentHashMap<>();
     private @Getter final ProcessorHolder<T> holder;
     private @Getter @Setter ItemStack progressBarItem;

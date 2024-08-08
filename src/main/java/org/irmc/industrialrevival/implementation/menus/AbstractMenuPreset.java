@@ -1,4 +1,4 @@
-package org.irmc.industrialrevival.core.implemention.menus;
+package org.irmc.industrialrevival.implementation.menus;
 
 import net.kyori.adventure.text.Component;
 import org.irmc.industrialrevival.api.menu.MachineMenuPreset;

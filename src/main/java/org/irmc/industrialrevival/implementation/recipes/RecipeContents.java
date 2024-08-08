@@ -1,4 +1,4 @@
-package org.irmc.industrialrevival.core.implemention.recipes;
+package org.irmc.industrialrevival.implementation.recipes;
 
 import java.util.ArrayList;
 import java.util.HashMap;

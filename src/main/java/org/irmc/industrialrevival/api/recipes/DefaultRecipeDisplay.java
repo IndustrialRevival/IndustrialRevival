@@ -13,8 +13,8 @@ import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.core.IndustrialRevival;
 import org.irmc.industrialrevival.core.guide.IRGuideImplementation;
 import org.irmc.industrialrevival.core.guide.impl.SurvivalGuideImplementation;
-import org.irmc.industrialrevival.core.implemention.recipes.RecipeContent;
-import org.irmc.industrialrevival.core.implemention.recipes.RecipeContents;
+import org.irmc.industrialrevival.implementation.recipes.RecipeContent;
+import org.irmc.industrialrevival.implementation.recipes.RecipeContents;
 import org.irmc.industrialrevival.core.utils.Constants;
 import org.irmc.industrialrevival.core.utils.ItemUtils;
 

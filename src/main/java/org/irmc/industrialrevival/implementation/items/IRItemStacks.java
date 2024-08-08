@@ -1,4 +1,4 @@
-package org.irmc.industrialrevival.core.implemention.items;
+package org.irmc.industrialrevival.implementation.items;
 
 import org.bukkit.Material;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;

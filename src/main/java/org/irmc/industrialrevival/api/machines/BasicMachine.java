@@ -12,16 +12,11 @@ import org.irmc.industrialrevival.api.machines.process.ProcessorHolder;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipe;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipes;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
-import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
-import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
-import org.irmc.industrialrevival.core.utils.DataUtil;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
+import javax.annotation.Nonnull;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,9 +24,9 @@ import java.util.Map;
  */
 public class BasicMachine extends AbstractMachine implements ProcessorHolder<MachineOperation> {
 
-    private Map<Location, MachineRecipe> lastMatches;
+    private final Map<Location, MachineRecipe> lastMatches = new HashMap<>();
     private final MachineProcessor<MachineOperation> processor = new MachineProcessor<>(this);
-    public BasicMachine(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, @NotNull MachineRecipes machineRecipes) {
+    public BasicMachine(@Nonnull ItemGroup group, @Nonnull IndustrialRevivalItemStack itemStack, @Nonnull RecipeType recipeType, @Nonnull ItemStack[] recipe, @Nonnull MachineRecipes machineRecipes) {
         super(group, itemStack, recipeType, recipe, machineRecipes);
     }
 
@@ -44,27 +39,58 @@ public class BasicMachine extends AbstractMachine implements ProcessorHolder<Mac
     }
 
     protected void tick(Block block, MachineMenu menu) {
-
-        Map<ItemStack, Integer> inputs = new HashMap<>();
-        for (int slot : menu.getPreset().getSlotsByItemFlow(ItemFlow.INSERT)) {
-            ItemStack stack = menu.getItem(slot);
-            if (stack != null && !stack.getType().isAir()) {
-                inputs.merge(stack, stack.getAmount(), Integer::sum);
+        // TODO: progressing itemstack
+        if (block == null) {
+            processor.stopProcess(menu.getLocation());
+            return;
+        }
+        if (menu == null) {
+            processor.stopProcess(block.getLocation());
+            return;
+        }
+        Location location = block.getLocation();
+        MachineOperation operation = processor.getProcess(location);
+        if (operation == null) {
+            MachineRecipe lastMatch = lastMatches.get(location);
+            Map<ItemStack, Integer> inputs = new HashMap<>();
+            for (int slot : menu.getPreset().getSlotsByItemFlow(ItemFlow.INSERT)) {
+                ItemStack stack = menu.getItem(slot);
+                if (stack != null && !stack.getType().isAir()) {
+                    inputs.merge(stack, stack.getAmount(), Integer::sum);
+                }
+            }
+            if (lastMatch == null) {
+                lastMatches.put(location, machineRecipes.findNextRecipe(inputs));
+                return;
+            } else {
+                if (!lastMatch.isMatch(inputs)) {
+                    lastMatches.remove(location);
+                    return;
+                }
+            }
+            processor.startProcess(location, new MachineOperation(lastMatch));
+            for (ItemStack item : lastMatch.getInputs().keySet()) {
+                menu.consumeItem(item, lastMatch.getInputs().get(item));
+            }
+        } else {
+            if (operation.isDone()) {
+                if (menu.fits(operation.getOutputStacks())) {
+                    menu.pushItem(operation.getOutputStacks(), menu.getPreset().getSlotsByItemFlow(ItemFlow.WITHDRAW));
+                    processor.stopProcess(location);
+                }
+            } else {
+                operation.tick();
             }
         }
 
-        Location location = block.getLocation();
-        MachineRecipe lastMatch = lastMatches.get(location);
-        if (lastMatch == null) {
-            lastMatches.put(location, machineRecipes.findNextRecipe(inputs));
-            return;
-        }
+
+
         // TODO: 仍然没写完processor的部分
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public MachineProcessor<MachineOperation> getProcessor() {
-        return processor;
+        return this.processor;
     }
 }
