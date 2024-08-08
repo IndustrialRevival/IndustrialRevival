@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * ElectricGenerator is a machine that generates energy.
  */
-public class ElectricGenerator extends AbstractMachine implements EnergyNetProvider {
+public abstract class ElectricGenerator extends AbstractMachine implements EnergyNetProvider {
     final long capacity;
 
     public ElectricGenerator(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, @NotNull MachineRecipes machineRecipes, long capacity, long powerPerTick) {

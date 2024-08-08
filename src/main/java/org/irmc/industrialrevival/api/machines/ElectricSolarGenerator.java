@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
  * ElectricSolarGenerator is a generator that need light to generate energy.
  */
 @Getter
-public class ElectricSolarGenerator extends IndustrialRevivalItem implements EnergyNetComponent {
+public abstract class ElectricSolarGenerator extends IndustrialRevivalItem implements EnergyNetComponent {
     private final long capacity;
     private final long dayEnergyPerTick;
     private final long nightEnergyPerTick;

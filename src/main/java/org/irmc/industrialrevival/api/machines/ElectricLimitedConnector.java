@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * ElectricLimitedConnector is a limited connector.
  */
-public class ElectricLimitedConnector extends IndustrialRevivalItem implements EnergyNetComponent {
+public abstract class ElectricLimitedConnector extends IndustrialRevivalItem implements EnergyNetComponent {
     private final long limit;
 
     public ElectricLimitedConnector(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, long limit) {
