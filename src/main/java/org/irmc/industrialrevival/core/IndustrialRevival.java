@@ -7,6 +7,8 @@ import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+
 import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -109,26 +111,19 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
                 }
             }
 
-            try {
-                dataManager = new SqliteDataManager(sqliteDbFile);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+            dataManager = new SqliteDataManager(sqliteDbFile);
         } else {
-            try {
-                String host = config.getString("storage.mysql.host");
-                int port = config.getInt("storage.mysql.port");
-                String username = config.getString("storage.mysql.username");
-                String password = config.getString("storage.mysql.password");
-                dataManager = new MysqlDataManager(host + ":" + port, username, password);
-            } catch (Exception e) {
-                getLogger().severe("Failed to connect to MySQL database, falling back to SQLite");
-                try {
-                    dataManager = new SqliteDataManager(sqliteDbFile);
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
+            String host = config.getString("storage.mysql.host");
+            int port = config.getInt("storage.mysql.port");
+            String username = config.getString("storage.mysql.username");
+            String password = config.getString("storage.mysql.password");
+            dataManager = new MysqlDataManager(host + ":" + port, username, password);
+        }
+
+        try {
+            dataManager.createTables();
+        } catch (SQLException e) {
+            getLogger().log(Level.SEVERE, "Failed to create tables in database. The plugin will not work properly.", e);
         }
     }
 

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.irmc.industrialrevival.api.menu.MachineMenu;
+import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.core.IndustrialRevival;
 import org.irmc.industrialrevival.core.data.object.BlockRecord;
@@ -53,7 +55,7 @@ public class BlockDataService {
         return new HashMap<>(blockDataMap);
     }
 
-    private void restoreMenuData() {
+    private void restoreMenuData(MachineMenu menu, MachineMenuPreset preset) {
 
     }
 }

@@ -98,4 +98,6 @@ public class Constants {
                             .getMsgComponent(null, "guide.cheat_book_item_name"))
             .setCustomModel(19999)
             .setPDCData(GUIDE_ITEM_KEY, PersistentDataType.INTEGER, GameMode.CREATIVE.getValue());
+    public static final int[] BOARDER_SLOT = {0, 1, 3, 4, 5, 7, 8, 45, 46, 48, 49, 50, 52, 53};
+    public static final int[] RECIPE_SLOT = {12, 13, 14, 21, 22, 23, 30, 31, 32};
 }
