@@ -23,7 +23,7 @@ import java.util.*;
 class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
     private static final Map<UUID, Integer> pageRecord = new HashMap<>();
 
-    private static final int[] recipeSlots = SurvivalGuideImplementation.RECIPE_SLOT;
+    private static final int[] recipeSlots = Constants.RECIPE_SLOT;
 
     @Override
     public void display(Player p, SimpleMenu sm, IndustrialRevivalItem item) {
@@ -33,7 +33,7 @@ class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
             return false;
         }));
 
-        int[] recipeSlots = SurvivalGuideImplementation.RECIPE_SLOT;
+        int[] recipeSlots = Constants.RECIPE_SLOT;
 
         List<RecipeContent> recipeContents = RecipeContents.getRecipeContents(item.getId());
         if (recipeContents.isEmpty()) {

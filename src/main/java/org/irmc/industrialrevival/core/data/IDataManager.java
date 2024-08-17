@@ -47,6 +47,8 @@ public sealed interface IDataManager permits AbstractDataManager {
 
     ItemStack getMenuItem(Location location, int slot);
 
+    void createTables() throws SQLException;
+
     default Configuration newMybatisConfiguration(Environment environment) {
         Configuration configuration = new Configuration(environment);
         configuration.addMapper(GuideSettingsMapper.class);
