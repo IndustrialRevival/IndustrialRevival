@@ -22,7 +22,7 @@ import java.util.Map;
 /**
  * BasicMachine is not related to energy networks, it just turns item A to B.
  */
-public class BasicMachine extends AbstractMachine implements ProcessorHolder<MachineOperation> {
+public abstract class BasicMachine extends AbstractMachine implements ProcessorHolder<MachineOperation> {
 
     private final Map<Location, MachineRecipe> lastMatches = new HashMap<>();
     private final MachineProcessor<MachineOperation> processor = new MachineProcessor<>(this);

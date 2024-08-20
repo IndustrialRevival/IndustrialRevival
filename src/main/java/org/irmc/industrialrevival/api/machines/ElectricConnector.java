@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * ElectricConnector is an item that can be used to connect machines together.
  */
-public class ElectricConnector extends IndustrialRevivalItem implements EnergyNetComponent {
+public abstract class ElectricConnector extends IndustrialRevivalItem implements EnergyNetComponent {
     public ElectricConnector(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe) {
         super(group, itemStack, recipeType, recipe);
     }
