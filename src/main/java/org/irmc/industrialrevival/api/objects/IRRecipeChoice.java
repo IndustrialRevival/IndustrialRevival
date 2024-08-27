@@ -1,13 +1,12 @@
 package org.irmc.industrialrevival.api.objects;
 
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.irmc.industrialrevival.core.utils.ItemUtils;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 
 public class IRRecipeChoice extends RecipeChoice.ExactChoice {
     public IRRecipeChoice(@NotNull ItemStack stack) {
@@ -32,7 +31,7 @@ public class IRRecipeChoice extends RecipeChoice.ExactChoice {
             }
 
             match = var2.next();
-        } while(!ItemUtils.isItemSimilar(t, match, true, true));
+        } while (!ItemUtils.isItemSimilar(t, match, true, true));
 
         return true;
     }

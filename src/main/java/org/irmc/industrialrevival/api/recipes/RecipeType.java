@@ -12,12 +12,9 @@ import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.core.IndustrialRevival;
 import org.irmc.industrialrevival.core.utils.Constants;
-import org.irmc.industrialrevival.core.utils.ItemUtils;
 import org.irmc.industrialrevival.core.utils.KeyUtil;
 import org.irmc.industrialrevival.core.utils.PersistentDataAPI;
 import org.jetbrains.annotations.Nullable;
-
-import javax.naming.Name;
 
 @Getter
 public class RecipeType {
@@ -196,7 +193,11 @@ public class RecipeType {
                 RECIPE_TYPE_ELECTROLYSIS,
                 new CustomItemStack(
                         Material.CAULDRON,
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(RECIPE_TYPE_ELECTROLYSIS),
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(RECIPE_TYPE_ELECTROLYSIS)));
+                        IndustrialRevival.getInstance()
+                                .getLanguageManager()
+                                .getRecipeTypeName(RECIPE_TYPE_ELECTROLYSIS),
+                        IndustrialRevival.getInstance()
+                                .getLanguageManager()
+                                .getRecipeTypeLore(RECIPE_TYPE_ELECTROLYSIS)));
     }
 }

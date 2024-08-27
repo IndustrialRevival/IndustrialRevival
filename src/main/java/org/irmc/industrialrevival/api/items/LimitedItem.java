@@ -10,7 +10,12 @@ public class LimitedItem extends IndustrialRevivalItem implements Limited {
     private int limit;
     private int countLeft;
 
-    public LimitedItem(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, int limit) {
+    public LimitedItem(
+            @NotNull ItemGroup group,
+            @NotNull IndustrialRevivalItemStack itemStack,
+            @NotNull RecipeType recipeType,
+            @NotNull ItemStack[] recipe,
+            int limit) {
         super(group, itemStack, recipeType, recipe);
         this.limit = limit;
         this.countLeft = limit;

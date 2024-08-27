@@ -9,17 +9,19 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.core.IndustrialRevival;
+import org.irmc.industrialrevival.core.utils.Constants;
+import org.irmc.industrialrevival.core.utils.PersistentDataAPI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 
 @SuppressWarnings("unused")
 public class IndustrialRevivalItemStack extends ItemStack {
     @Getter
     private final String id;
+
     private boolean locked;
 
-    public IndustrialRevivalItemStack(String id, Material material) {
+    public IndustrialRevivalItemStack(@NotNull String id, @NotNull Material material) {
         this(
                 id,
                 new CustomItemStack(
@@ -27,17 +29,18 @@ public class IndustrialRevivalItemStack extends ItemStack {
                         IndustrialRevival.getInstance().getLanguageManager().getItemName(id),
                         IndustrialRevival.getInstance().getLanguageManager().getItemLore(id)));
     }
-    public IndustrialRevivalItemStack(String id, ItemStack itemStack) {
+
+    public IndustrialRevivalItemStack(@NotNull String id, @NotNull ItemStack itemStack) {
         super(itemStack);
 
         Preconditions.checkArgument(id.equals(id.toUpperCase()), "ID must be uppercase");
 
         this.id = id;
 
-        IndustrialRevival.getInstance().getItemDataService().setIRId(itemStack, id);
+        editMeta(meta -> PersistentDataAPI.setString(meta, Constants.ITEM_ID_KEY, id));
     }
 
-    public IndustrialRevivalItemStack(String id, Material material, String name, String... lore) {
+    public IndustrialRevivalItemStack(@NotNull String id, @NotNull Material material, String name, String... lore) {
         this(id, new CustomItemStack(material, name, lore));
     }
 
@@ -93,7 +96,9 @@ public class IndustrialRevivalItemStack extends ItemStack {
 
     @Override
     public @NotNull ItemStack clone() {
-        return new IndustrialRevivalItemStack(this.id, this);
+        var itemStack = new IndustrialRevivalItemStack(this.id, this);
+        itemStack.unlock();
+        return itemStack;
     }
 
     void lock() {

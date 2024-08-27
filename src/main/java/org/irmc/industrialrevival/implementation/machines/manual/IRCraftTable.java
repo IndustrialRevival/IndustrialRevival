@@ -10,7 +10,12 @@ import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.jetbrains.annotations.NotNull;
 
 public class IRCraftTable extends IndustrialRevivalItem implements InventoryBlock {
-    public IRCraftTable(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, @NotNull MachineRecipes machineRecipes) {
+    public IRCraftTable(
+            @NotNull ItemGroup group,
+            @NotNull IndustrialRevivalItemStack itemStack,
+            @NotNull RecipeType recipeType,
+            @NotNull ItemStack[] recipe,
+            @NotNull MachineRecipes machineRecipes) {
         super(group, itemStack, recipeType, recipe);
     }
 

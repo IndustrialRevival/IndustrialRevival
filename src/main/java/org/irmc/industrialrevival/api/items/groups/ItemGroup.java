@@ -1,10 +1,9 @@
 package org.irmc.industrialrevival.api.items.groups;
 
+import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import com.google.common.collect.Lists;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -88,8 +87,6 @@ public abstract class ItemGroup {
                 if ((i - 9) >= itemList.size()) {
                     break;
                 }
-
-
 
                 IndustrialRevivalItem item = itemList.get(i - 9);
                 if (item != null) {

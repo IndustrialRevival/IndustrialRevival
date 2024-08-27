@@ -55,7 +55,5 @@ public class BlockDataService {
         return new HashMap<>(blockDataMap);
     }
 
-    private void restoreMenuData(MachineMenu menu, MachineMenuPreset preset) {
-
-    }
+    private void restoreMenuData(MachineMenu menu, MachineMenuPreset preset) {}
 }

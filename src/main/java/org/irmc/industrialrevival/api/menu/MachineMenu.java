@@ -1,5 +1,12 @@
 package org.irmc.industrialrevival.api.menu;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.IntStream;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
@@ -14,14 +21,6 @@ import org.bukkit.persistence.PersistentDataType;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.core.utils.ItemUtils;
 import org.irmc.industrialrevival.core.utils.KeyUtil;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.IntStream;
 
 @SuppressWarnings({"deprecation", "unused"})
 @Getter
@@ -99,7 +98,8 @@ public class MachineMenu extends SimpleMenu {
         }
 
         im.setDisplayName(" ");
-        im.setLore(Arrays.asList(getProgressBar(remainingTicks, totalTicks), "", ChatColor.GRAY + getRemainingTime(remainingTicks / 2)));
+        im.setLore(Arrays.asList(
+                getProgressBar(remainingTicks, totalTicks), "", ChatColor.GRAY + getRemainingTime(remainingTicks / 2)));
         item.setItemMeta(im);
 
         setItem(slot, item);
@@ -200,7 +200,9 @@ public class MachineMenu extends SimpleMenu {
                     if (clone.getAmount() <= 0) {
                         cloneMap.remove(item);
                     }
-                    content = new CustomItemStack(item).setPDCData(KeyUtil.customKey("ir_placeholder_already_used"), PersistentDataType.BOOLEAN, true);
+                    content = new CustomItemStack(item)
+                            .setPDCData(
+                                    KeyUtil.customKey("ir_placeholder_already_used"), PersistentDataType.BOOLEAN, true);
                 } else if (ItemUtils.isItemSimilar(content, item)) {
                     if (content.getAmount() >= content.getMaxStackSize()) {
                         continue;
@@ -228,8 +230,8 @@ public class MachineMenu extends SimpleMenu {
         }
         return lefts;
     }
-    @Nullable
-    public ItemStack pushItem(ItemStack item, int... slots) {
+
+    @Nullable public ItemStack pushItem(ItemStack item, int... slots) {
         if (item == null || item.getType().isAir()) {
             return null;
         }
@@ -244,7 +246,8 @@ public class MachineMenu extends SimpleMenu {
                     break;
                 }
             } else if (ItemUtils.isItemSimilar(itemInSlot, item)) {
-                int canPush = Math.min(item.getAmount(), Math.max(0, itemInSlot.getMaxStackSize() - itemInSlot.getAmount()));
+                int canPush =
+                        Math.min(item.getAmount(), Math.max(0, itemInSlot.getMaxStackSize() - itemInSlot.getAmount()));
                 itemInSlot.setAmount(itemInSlot.getAmount() + canPush);
                 item.setAmount(item.getAmount() - canPush);
                 if (item.getAmount() == 0) {

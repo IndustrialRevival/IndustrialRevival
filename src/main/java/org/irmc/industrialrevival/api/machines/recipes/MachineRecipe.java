@@ -1,9 +1,8 @@
 package org.irmc.industrialrevival.api.machines.recipes;
 
+import java.util.Map;
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.Map;
 
 public class MachineRecipe {
     private @Getter final int processTime;
@@ -11,7 +10,8 @@ public class MachineRecipe {
     private @Getter final Map<ItemStack, Integer> inputs;
     private @Getter final Map<ItemStack, Integer> outputs;
 
-    public MachineRecipe(int processTime, int energyCost, Map<ItemStack, Integer> inputs, Map<ItemStack, Integer> outputs) {
+    public MachineRecipe(
+            int processTime, int energyCost, Map<ItemStack, Integer> inputs, Map<ItemStack, Integer> outputs) {
         this.processTime = processTime;
         this.energyCost = energyCost;
         this.inputs = inputs;

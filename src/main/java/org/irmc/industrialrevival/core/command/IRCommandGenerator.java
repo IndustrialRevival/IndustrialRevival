@@ -106,18 +106,14 @@ public class IRCommandGenerator {
                             MessageReplacement itemName = new MessageReplacement(
                                     "%item%",
                                     MiniMessage.miniMessage()
-                                            .serialize(Objects.requireNonNull(iritem.getItemMeta()
-                                                    .displayName())));
-                            MessageReplacement itemAmount = new MessageReplacement(
-                                     "%amount%", String.valueOf(finalAmount));
+                                            .serialize(Objects.requireNonNull(
+                                                    iritem.getItemMeta().displayName())));
+                            MessageReplacement itemAmount =
+                                    new MessageReplacement("%amount%", String.valueOf(finalAmount));
 
                             target.sendMessage(IndustrialRevival.getInstance()
                                     .getLanguageManager()
-                                    .getMsgComponent(
-                                            sender,
-                                            "command.give.success",
-                                            itemName,
-                                            itemAmount));
+                                    .getMsgComponent(sender, "command.give.success", itemName, itemAmount));
                         }))
                 .withSubcommand(new CommandAPICommand("giveSilently")
                         .withPermission("industrialrevival.cmd.give")

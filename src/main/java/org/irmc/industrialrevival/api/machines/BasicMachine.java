@@ -1,5 +1,8 @@
 package org.irmc.industrialrevival.api.machines;
 
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.Nonnull;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
@@ -15,10 +18,6 @@ import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 
-import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * BasicMachine is not related to energy networks, it just turns item A to B.
  */
@@ -26,15 +25,19 @@ public abstract class BasicMachine extends AbstractMachine implements ProcessorH
 
     private final Map<Location, MachineRecipe> lastMatches = new HashMap<>();
     private final MachineProcessor<MachineOperation> processor = new MachineProcessor<>(this);
-    public BasicMachine(@Nonnull ItemGroup group, @Nonnull IndustrialRevivalItemStack itemStack, @Nonnull RecipeType recipeType, @Nonnull ItemStack[] recipe, @Nonnull MachineRecipes machineRecipes) {
+
+    public BasicMachine(
+            @Nonnull ItemGroup group,
+            @Nonnull IndustrialRevivalItemStack itemStack,
+            @Nonnull RecipeType recipeType,
+            @Nonnull ItemStack[] recipe,
+            @Nonnull MachineRecipes machineRecipes) {
         super(group, itemStack, recipeType, recipe, machineRecipes);
     }
 
     @Override
     protected void preRegister() throws Exception {
-        addItemHandlers(
-                (BlockTicker) (block, menu, data) -> tick(block, menu)
-        );
+        addItemHandlers((BlockTicker) (block, menu, data) -> tick(block, menu));
         super.preRegister();
     }
 
@@ -82,8 +85,6 @@ public abstract class BasicMachine extends AbstractMachine implements ProcessorH
                 operation.tick();
             }
         }
-
-
 
         // TODO: 仍然没写完processor的部分
     }

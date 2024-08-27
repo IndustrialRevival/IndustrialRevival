@@ -1,16 +1,13 @@
 package org.irmc.industrialrevival.core.utils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
-import org.irmc.industrialrevival.core.IndustrialRevival;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
@@ -369,7 +366,9 @@ public class ItemUtils {
                 return Component.text(meta.getDisplayName());
             }
 
-            if ((item.getType() == Material.PLAYER_HEAD || item.getType() == Material.PLAYER_WALL_HEAD) && meta instanceof SkullMeta skull && skull.hasOwner()) {
+            if ((item.getType() == Material.PLAYER_HEAD || item.getType() == Material.PLAYER_WALL_HEAD)
+                    && meta instanceof SkullMeta skull
+                    && skull.hasOwner()) {
                 return Component.text(skull.getOwningPlayer().getName());
             }
 

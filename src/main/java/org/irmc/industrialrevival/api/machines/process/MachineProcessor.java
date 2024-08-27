@@ -1,14 +1,13 @@
 package org.irmc.industrialrevival.api.machines.process;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class MachineProcessor<T extends IOperation> {
     private final Map<Location, T> ALL_MACHINES = new ConcurrentHashMap<>();
@@ -63,6 +62,7 @@ public class MachineProcessor<T extends IOperation> {
     }
 
     public void updateProgressBar(MachineMenu menu, int slot, T operation) {
-        menu.setProgressItem(slot, operation.getRemainingDuration(), operation.getTotalDuration(), getProgressBarItem());
+        menu.setProgressItem(
+                slot, operation.getRemainingDuration(), operation.getTotalDuration(), getProgressBarItem());
     }
 }

@@ -9,8 +9,6 @@ import org.irmc.industrialrevival.api.items.attributes.EnergyNetComponent;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.handlers.BlockTicker;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
-import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
-import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.api.objects.enums.EnergyNetComponentType;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +23,15 @@ public abstract class ElectricSolarGenerator extends IndustrialRevivalItem imple
     private final long nightEnergyPerTick;
     private final byte lightLevel;
 
-    public ElectricSolarGenerator(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, long capacity, long dayEnergyPerTick, long nightEnergyPerTick, byte lightLevel) {
+    public ElectricSolarGenerator(
+            @NotNull ItemGroup group,
+            @NotNull IndustrialRevivalItemStack itemStack,
+            @NotNull RecipeType recipeType,
+            @NotNull ItemStack[] recipe,
+            long capacity,
+            long dayEnergyPerTick,
+            long nightEnergyPerTick,
+            byte lightLevel) {
         super(group, itemStack, recipeType, recipe);
         this.capacity = capacity;
         this.dayEnergyPerTick = dayEnergyPerTick;
@@ -41,9 +47,8 @@ public abstract class ElectricSolarGenerator extends IndustrialRevivalItem imple
     @Override
     protected void preRegister() throws Exception {
         addItemHandlers(
-          // 找个时间在idea上面改，在这改不方便
-                (BlockTicker) (block, menu, data) -> tick(block, menu)
-        );
+                // 找个时间在idea上面改，在这改不方便
+                (BlockTicker) (block, menu, data) -> tick(block, menu));
         super.preRegister();
     }
 

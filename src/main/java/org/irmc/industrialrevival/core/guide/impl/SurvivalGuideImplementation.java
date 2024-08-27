@@ -101,8 +101,8 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
     }
 
     void setupGuideMenu(Player p, SimpleMenu sm) {
-        List<ItemGroup> groups =
-                new ArrayList<>(IndustrialRevival.getInstance().getRegistry().getItemGroups().values());
+        List<ItemGroup> groups = new ArrayList<>(
+                IndustrialRevival.getInstance().getRegistry().getItemGroups().values());
 
         sm.setSize(54);
 

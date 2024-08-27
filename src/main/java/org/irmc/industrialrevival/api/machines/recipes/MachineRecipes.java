@@ -1,18 +1,16 @@
 package org.irmc.industrialrevival.api.machines.recipes;
 
-import lombok.Getter;
-import org.bukkit.inventory.ItemStack;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import lombok.Getter;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * Machine recipes are unordered by default.
  */
-
 public class MachineRecipes {
     private @Getter static final Set<MachineRecipe> recipes = new HashSet<>();
 

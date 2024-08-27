@@ -10,7 +10,11 @@ import org.jetbrains.annotations.NotNull;
 public class RadiativeItem extends IndustrialRevivalItem implements Radiation {
     private RadiationLevel radiationLevel;
 
-    public RadiativeItem(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe) {
+    public RadiativeItem(
+            @NotNull ItemGroup group,
+            @NotNull IndustrialRevivalItemStack itemStack,
+            @NotNull RecipeType recipeType,
+            @NotNull ItemStack[] recipe) {
         super(group, itemStack, recipeType, recipe);
     }
 

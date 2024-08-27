@@ -3,6 +3,7 @@ package org.irmc.industrialrevival.api.items;
 import com.google.common.base.Preconditions;
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.Nonnull;
 import lombok.Getter;
 import lombok.Setter;
 import net.kyori.adventure.text.Component;
@@ -20,13 +21,11 @@ import org.irmc.industrialrevival.api.items.handlers.ItemHandler;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.core.IndustrialRevival;
-import org.irmc.industrialrevival.implementation.recipes.RecipeContent;
-import org.irmc.industrialrevival.implementation.recipes.RecipeContents;
 import org.irmc.industrialrevival.core.utils.Constants;
 import org.irmc.industrialrevival.core.utils.ItemUtils;
+import org.irmc.industrialrevival.implementation.recipes.RecipeContent;
+import org.irmc.industrialrevival.implementation.recipes.RecipeContents;
 import org.jetbrains.annotations.Nullable;
-
-import javax.annotation.Nonnull;
 
 /**
  * An industrial revival item.<br>
@@ -140,8 +139,6 @@ public class IndustrialRevivalItem {
                 this.getId(), new RecipeContent(recipeType, recipeType.getMakerItem(), recipe, this));
         IndustrialRevival.getInstance().getRegistry().getItems().put(getId(), this);
 
-
-
         return this;
     }
 
@@ -221,7 +218,8 @@ public class IndustrialRevivalItem {
             return getById(irStack.getId());
         }
 
-        String id = item.getItemMeta().getPersistentDataContainer().get(Constants.ITEM_ID_KEY, PersistentDataType.STRING);
+        String id =
+                item.getItemMeta().getPersistentDataContainer().get(Constants.ITEM_ID_KEY, PersistentDataType.STRING);
         if (id != null) {
             return getById(id);
         }

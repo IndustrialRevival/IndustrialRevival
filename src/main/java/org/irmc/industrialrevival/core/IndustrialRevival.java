@@ -5,10 +5,8 @@ import com.tcoded.folialib.impl.ServerImplementation;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
-
 import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -17,12 +15,7 @@ import org.irmc.industrialrevival.core.command.IRCommandGenerator;
 import org.irmc.industrialrevival.core.data.IDataManager;
 import org.irmc.industrialrevival.core.data.MysqlDataManager;
 import org.irmc.industrialrevival.core.data.SqliteDataManager;
-import org.irmc.industrialrevival.implementation.groups.IRItemGroups;
-import org.irmc.industrialrevival.implementation.items.IRItems;
-import org.irmc.industrialrevival.core.listeners.DropListener;
-import org.irmc.industrialrevival.core.listeners.GuideListener;
-import org.irmc.industrialrevival.core.listeners.ItemHandlerListener;
-import org.irmc.industrialrevival.core.listeners.MachineMenuListener;
+import org.irmc.industrialrevival.core.listeners.*;
 import org.irmc.industrialrevival.core.message.LanguageManager;
 import org.irmc.industrialrevival.core.services.BlockDataService;
 import org.irmc.industrialrevival.core.services.IRRegistry;
@@ -30,6 +23,8 @@ import org.irmc.industrialrevival.core.services.ItemDataService;
 import org.irmc.industrialrevival.core.services.ItemTextureService;
 import org.irmc.industrialrevival.core.utils.Constants;
 import org.irmc.industrialrevival.core.utils.FileUtil;
+import org.irmc.industrialrevival.implementation.groups.IRItemGroups;
+import org.irmc.industrialrevival.implementation.items.IRItems;
 import org.jetbrains.annotations.NotNull;
 
 public final class IndustrialRevival extends JavaPlugin implements IndustrialRevivalAddon {
@@ -46,21 +41,20 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
 
     @Override
     public void onLoad() {
+        instance = this;
         CommandAPI.onLoad(new CommandAPIBukkitConfig(this));
         IRCommandGenerator.registerCommand(this);
+        completeFiles();
     }
 
     @Override
     public void onEnable() {
-        instance = this;
-
-        completeFiles();
+        setupDataManager();
 
         foliaLibImpl = new FoliaLib(this).getImpl();
         languageManager = new LanguageManager(this);
         registry = new IRRegistry();
 
-        setupDataManager();
         setupServices();
 
         setupIndustrialRevivalItems();
@@ -88,6 +82,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     }
 
     private void setupListeners() {
+        new InteractListener().register();
         new MachineMenuListener().register();
         new ItemHandlerListener().register();
         new GuideListener().register();
@@ -103,21 +98,13 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
                 Constants.STORAGE_FOLDER.mkdirs();
             }
 
-            if (!sqliteDbFile.exists()) {
-                try {
-                    sqliteDbFile.createNewFile();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-
-            dataManager = new SqliteDataManager(sqliteDbFile);
+            this.dataManager = new SqliteDataManager(sqliteDbFile);
         } else {
             String host = config.getString("storage.mysql.host");
             int port = config.getInt("storage.mysql.port");
             String username = config.getString("storage.mysql.username");
             String password = config.getString("storage.mysql.password");
-            dataManager = new MysqlDataManager(host + ":" + port, username, password);
+            this.dataManager = new MysqlDataManager(host + ":" + port, username, password);
         }
 
         try {

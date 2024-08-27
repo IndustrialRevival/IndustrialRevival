@@ -10,7 +10,8 @@ public class IRItemGroups {
             new NormalItemGroup(KeyUtil.customKey("manual_machines"), GroupIcons.GROUP_MANUAL_MACHINES);
     public static final ItemGroup MATERIALS =
             new NormalItemGroup(KeyUtil.customKey("materials"), GroupIcons.GROUP_MATERIALS);
-    public static final ItemGroup SMELTING = new NormalItemGroup(KeyUtil.customKey("smelting"), GroupIcons.GROUP_SMELTING);
+    public static final ItemGroup SMELTING =
+            new NormalItemGroup(KeyUtil.customKey("smelting"), GroupIcons.GROUP_SMELTING);
     public static final ItemGroup ELECTRIC_MACHINES =
             new NormalItemGroup(KeyUtil.customKey("electric_machines"), GroupIcons.GROUP_ELECTRIC_MACHINES);
     public static final ItemGroup TOOLS = new NormalItemGroup(KeyUtil.customKey("tools"), GroupIcons.GROUP_TOOLS);

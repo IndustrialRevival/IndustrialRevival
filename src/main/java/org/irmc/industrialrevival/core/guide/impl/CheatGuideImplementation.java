@@ -22,7 +22,9 @@ public class CheatGuideImplementation extends SurvivalGuideImplementation {
         if (p.isOp()) {
             sm.open(p);
         } else {
-            p.sendMessage(IndustrialRevival.getInstance().getLanguageManager().getMsg(p, Constants.GUIDE_CHEAT_MODE_NO_PERMISSION_KEY));
+            p.sendMessage(IndustrialRevival.getInstance()
+                    .getLanguageManager()
+                    .getMsg(p, Constants.GUIDE_CHEAT_MODE_NO_PERMISSION_KEY));
         }
     }
 

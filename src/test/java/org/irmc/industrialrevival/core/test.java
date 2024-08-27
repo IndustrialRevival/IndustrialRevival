@@ -1,4 +1,3 @@
 package org.irmc.industrialrevival.core;
 
-public class test {
-}
+public class test {}

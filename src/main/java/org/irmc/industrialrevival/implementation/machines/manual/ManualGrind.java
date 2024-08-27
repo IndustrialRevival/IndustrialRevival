@@ -10,7 +10,12 @@ import org.jetbrains.annotations.NotNull;
 
 public class ManualGrind extends BasicMachine {
 
-    public ManualGrind(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, @NotNull MachineRecipes machineRecipes) {
+    public ManualGrind(
+            @NotNull ItemGroup group,
+            @NotNull IndustrialRevivalItemStack itemStack,
+            @NotNull RecipeType recipeType,
+            @NotNull ItemStack[] recipe,
+            @NotNull MachineRecipes machineRecipes) {
         super(group, itemStack, recipeType, recipe, machineRecipes);
     }
 }

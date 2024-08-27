@@ -6,25 +6,20 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 public class test {
 
     @DisplayName("Test test afterAll")
     @AfterAll
-    public static void afterAll() {
-
-    }
+    public static void afterAll() {}
 
     @DisplayName("Test test beforeAll")
     @BeforeAll
-    public static void beforeAll() {
-
-    }
+    public static void beforeAll() {}
 
     @DisplayName("Test test beforeEach")
     @BeforeEach
-    public void beforeEach() {
-
-    }
+    public void beforeEach() {}
 
     @DisplayName("Test test Test")
     @Test
@@ -32,6 +27,4 @@ public class test {
         Assertions.assertTrue(true);
         Assertions.assertEquals(1, 1);
     }
-
-
 }

@@ -1,5 +1,6 @@
 package org.irmc.industrialrevival.api.recipes;
 
+import java.util.*;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import org.bukkit.Material;
@@ -13,12 +14,10 @@ import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.core.IndustrialRevival;
 import org.irmc.industrialrevival.core.guide.IRGuideImplementation;
 import org.irmc.industrialrevival.core.guide.impl.SurvivalGuideImplementation;
-import org.irmc.industrialrevival.implementation.recipes.RecipeContent;
-import org.irmc.industrialrevival.implementation.recipes.RecipeContents;
 import org.irmc.industrialrevival.core.utils.Constants;
 import org.irmc.industrialrevival.core.utils.ItemUtils;
-
-import java.util.*;
+import org.irmc.industrialrevival.implementation.recipes.RecipeContent;
+import org.irmc.industrialrevival.implementation.recipes.RecipeContents;
 
 class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
     private static final Map<UUID, Integer> pageRecord = new HashMap<>();
@@ -56,8 +55,7 @@ class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
         sm.setSize(45);
     }
 
-    private void showRecipeContent(
-            Player p, SimpleMenu sm, RecipeContent rc, List<RecipeContent> recipeContents) {
+    private void showRecipeContent(Player p, SimpleMenu sm, RecipeContent rc, List<RecipeContent> recipeContents) {
         setBorder(sm, p, rc);
 
         IndustrialRevivalItem item = rc.result();
@@ -167,8 +165,10 @@ class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
     }
 
     private void showUsage(Player p, String itemId) {
-        SimpleMenu sm = new SimpleMenu(IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Constants.GUIDE_TITLE_KEY));
-        Collection<List<RecipeContent>> recipeContents = RecipeContents.getRecipeContents().values();
+        SimpleMenu sm = new SimpleMenu(
+                IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Constants.GUIDE_TITLE_KEY));
+        Collection<List<RecipeContent>> recipeContents =
+                RecipeContents.getRecipeContents().values();
         List<RecipeContent> allAvailableRecipeContents = new ArrayList<>();
         for (List<RecipeContent> recipeContentList : recipeContents) {
             for (RecipeContent recipeContent : recipeContentList) {
@@ -187,7 +187,13 @@ class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
             }));
             sm.setItem(Constants.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT, 1, 2, 3, 4, 5, 6, 7, 8);
 
-            sm.setItem(recipeSlots[4], new CustomItemStack(Material.BARRIER, IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, "misc.recipe_no_usage")));
+            sm.setItem(
+                    recipeSlots[4],
+                    new CustomItemStack(
+                            Material.BARRIER,
+                            IndustrialRevival.getInstance()
+                                    .getLanguageManager()
+                                    .getMsgComponent(p, "misc.recipe_no_usage")));
 
             return;
         }
@@ -197,7 +203,8 @@ class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
         SimpleMenu.ClickHandler previousHandler = (slot, player, item1, menu, clickType) -> {
             if (currentPage > 1) {
                 pageRecord.put(player.getUniqueId(), currentPage - 1);
-                List<RecipeContent> recipeContentsByPage = getRecipeContentsByPage(allAvailableRecipeContents, currentPage - 1);
+                List<RecipeContent> recipeContentsByPage =
+                        getRecipeContentsByPage(allAvailableRecipeContents, currentPage - 1);
                 for (int i = 2; i < 7; i++) {
                     sm.setItem(i, recipeContentsByPage.get(i - 2).maker().getItem());
                 }
@@ -223,7 +230,8 @@ class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
 
             if (currentPage < totalPage) {
                 pageRecord.put(player.getUniqueId(), currentPage + 1);
-                List<RecipeContent> recipeContentsByPage = getRecipeContentsByPage(allAvailableRecipeContents, currentPage + 1);
+                List<RecipeContent> recipeContentsByPage =
+                        getRecipeContentsByPage(allAvailableRecipeContents, currentPage + 1);
                 for (int i = 2; i < 7; i++) {
                     sm.setItem(i, recipeContentsByPage.get(i - 2).maker().getItem());
                 }
@@ -288,7 +296,10 @@ class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
         sm.setItem(19, rc.recipeType().getIcon());
 
         ItemStack resultItem = rc.result().getItem().clone();
-        ItemUtils.addLore(resultItem, IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, "misc.recipe_show_usage"), true);
+        ItemUtils.addLore(
+                resultItem,
+                IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, "misc.recipe_show_usage"),
+                true);
 
         sm.setItem(25, resultItem, (slot, player, item1, menu, clickType) -> {
             if (clickType == ClickType.RIGHT || clickType == ClickType.SHIFT_RIGHT) {

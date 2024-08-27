@@ -2,7 +2,6 @@ package org.irmc.industrialrevival.core.utils;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
-import org.irmc.industrialrevival.core.IndustrialRevival;
 
 public class EnergyUtil {
     private static final NamespacedKey ENERGY_KEY = KeyUtil.customKey("item_energy");

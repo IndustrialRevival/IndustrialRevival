@@ -1,12 +1,11 @@
 package org.irmc.industrialrevival.implementation.recipes;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
@@ -24,14 +23,16 @@ public class RecipeContents {
                 .toList();
     }
 
-    @Unmodifiable public static Map<String, List<RecipeContent>> getRecipeContents() {
+    @Unmodifiable
+    public static Map<String, List<RecipeContent>> getRecipeContents() {
         return Object2ObjectMaps.unmodifiable(new Object2ObjectArrayMap<>(recipeContents));
     }
 
-    @Unmodifiable public static List<RecipeContent> getRecipeContentsByRecipeType(RecipeType recipeType) {
+    @Unmodifiable
+    public static List<RecipeContent> getRecipeContentsByRecipeType(RecipeType recipeType) {
         return recipeContents.values().stream()
-               .flatMap(List::stream)
-               .filter(i -> i.recipeType() == recipeType)
-               .toList();
+                .flatMap(List::stream)
+                .filter(i -> i.recipeType() == recipeType)
+                .toList();
     }
 }

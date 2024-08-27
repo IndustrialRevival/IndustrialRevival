@@ -2,6 +2,7 @@ package org.irmc.industrialrevival.core.data;
 
 import java.io.StringReader;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Base64;
 import java.util.List;
@@ -165,36 +166,35 @@ public non-sealed class AbstractDataManager implements IDataManager {
     }
 
     public void createTables() throws SQLException {
-        try (SqlSession session = getSession()) {
-            try (Connection conn = session.getConnection()) {
+        int retryCount = 5; // 最大重试次数
+        while (retryCount > 0) {
+            try (Connection conn = DriverManager.getConnection(url, username, password)) {
                 conn.prepareStatement(
                                 "CREATE TABLE IF NOT EXISTS guide_settings (username TEXT NOT NULL, fireWorksEnabled BOOLEAN NOT NULL, learningAnimationEnabled BOOLEAN NOT NULL, language TEXT NOT NULL);")
                         .execute();
-            }
-        }
-
-        try (SqlSession session = getSession()) {
-            try (Connection conn = session.getConnection()) {
                 conn.prepareStatement(
                                 "CREATE TABLE IF NOT EXISTS research_status (username TEXT NOT NULL, researchStatus TEXT NOT NULL);")
                         .execute();
-            }
-        }
-
-        try (SqlSession session = getSession()) {
-            try (Connection conn = session.getConnection()) {
                 conn.prepareStatement(
                                 "CREATE TABLE IF NOT EXISTS block_record (world TEXT NOT NULL, x INT NOT NULL, y INT NOT NULL, z INT NOT NULL, machineId TEXT NOT NULL, data TEXT DEFAULT NULL, PRIMARY KEY (world, x, y, z));")
                         .execute();
-            }
-        }
-
-        try (SqlSession session = getSession()) {
-            try (Connection conn = session.getConnection()) {
                 conn.prepareStatement(
-                                "CREATE TABLE IF NOT EXISTS menu_items(world TEXT NOT NULL, x INT NOT NULL, y INT NOT NULL, z INT NOT NULL, slot INT NOT NULL, itemJson TEXT NOT NULL, itemClass TEXT NOT NULL, PRIMARY KEY (world, x, y, z));")
+                                "CREATE TABLE IF NOT EXISTS menu_items (world TEXT NOT NULL, x INT NOT NULL, y INT NOT NULL, z INT NOT NULL, slot INT NOT NULL, itemJson TEXT NOT NULL, itemClass TEXT NOT NULL, PRIMARY KEY (world, x, y, z));")
                         .execute();
+                return; // 成功创建表后退出
+            } catch (SQLException e) {
+                if (e.getMessage().contains("SQLITE_BUSY")) {
+                    retryCount--;
+                    try {
+                        Thread.sleep(1000); // 等待1秒后重试
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                    }
+                } else {
+                    throw new RuntimeException(e);
+                }
             }
         }
+        throw new RuntimeException("Failed to create tables after multiple attempts.");
     }
 }

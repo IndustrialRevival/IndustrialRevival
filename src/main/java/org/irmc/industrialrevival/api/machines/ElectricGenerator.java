@@ -19,7 +19,14 @@ import org.jetbrains.annotations.NotNull;
 public abstract class ElectricGenerator extends AbstractMachine implements EnergyNetProvider {
     final long capacity;
 
-    public ElectricGenerator(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, @NotNull MachineRecipes machineRecipes, long capacity, long powerPerTick) {
+    public ElectricGenerator(
+            @NotNull ItemGroup group,
+            @NotNull IndustrialRevivalItemStack itemStack,
+            @NotNull RecipeType recipeType,
+            @NotNull ItemStack[] recipe,
+            @NotNull MachineRecipes machineRecipes,
+            long capacity,
+            long powerPerTick) {
         super(group, itemStack, recipeType, recipe, machineRecipes);
         this.capacity = capacity;
     }
@@ -37,14 +44,12 @@ public abstract class ElectricGenerator extends AbstractMachine implements Energ
     @Override
     public long getEnergyProduction(SimpleMenu menu) {
         return 0;
-        //TODO: implement energy production logic here
+        // TODO: implement energy production logic here
     }
 
     @Override
     protected void preRegister() throws Exception {
-        addItemHandlers(
-                (BlockTicker) (block, menu, data) -> tick(block, menu)
-        );
+        addItemHandlers((BlockTicker) (block, menu, data) -> tick(block, menu));
         super.preRegister();
     }
 
