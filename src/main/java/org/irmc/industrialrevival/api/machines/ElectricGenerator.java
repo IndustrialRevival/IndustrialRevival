@@ -8,10 +8,11 @@ import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.handlers.BlockTicker;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipes;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
-import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.objects.enums.EnergyNetComponentType;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nullable;
 
 /**
  * ElectricGenerator is a machine that generates energy.
@@ -25,8 +26,7 @@ public abstract class ElectricGenerator extends AbstractMachine implements Energ
             @NotNull RecipeType recipeType,
             @NotNull ItemStack[] recipe,
             @NotNull MachineRecipes machineRecipes,
-            long capacity,
-            long powerPerTick) {
+            long capacity) {
         super(group, itemStack, recipeType, recipe, machineRecipes);
         this.capacity = capacity;
     }
@@ -42,7 +42,7 @@ public abstract class ElectricGenerator extends AbstractMachine implements Energ
     }
 
     @Override
-    public long getEnergyProduction(SimpleMenu menu) {
+    public long getEnergyProduction(Block block, @Nullable MachineMenu menu) {
         return 0;
         // TODO: implement energy production logic here
     }

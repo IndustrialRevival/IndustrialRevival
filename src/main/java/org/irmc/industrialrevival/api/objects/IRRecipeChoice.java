@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
-import org.irmc.industrialrevival.core.utils.ItemUtils;
+import org.irmc.pigeonlib.items.ItemUtils;
 import org.jetbrains.annotations.NotNull;
 
 public class IRRecipeChoice extends RecipeChoice.ExactChoice {

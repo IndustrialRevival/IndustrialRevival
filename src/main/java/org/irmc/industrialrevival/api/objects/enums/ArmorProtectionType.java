@@ -7,5 +7,9 @@ public enum ArmorProtectionType {
      * Lava protection(including fire)
      */
     LAVA,
+    /**
+     * Fire protection(only fire)
+     */
+    FIRE,
     BEE
 }

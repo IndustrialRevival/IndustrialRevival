@@ -6,7 +6,7 @@ import org.irmc.industrialrevival.api.objects.events.PlayerRightClickEvent;
 import org.irmc.industrialrevival.core.guide.impl.CheatGuideImplementation;
 import org.irmc.industrialrevival.core.guide.impl.SurvivalGuideImplementation;
 import org.irmc.industrialrevival.core.utils.Constants;
-import org.irmc.industrialrevival.core.utils.PersistentDataAPI;
+import org.irmc.pigeonlib.pdc.PersistentDataAPI;
 
 public class GuideListener extends AbstractIRListener {
     @EventHandler

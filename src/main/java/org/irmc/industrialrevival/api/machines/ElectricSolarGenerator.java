@@ -5,19 +5,18 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
-import org.irmc.industrialrevival.api.items.attributes.EnergyNetComponent;
+import org.irmc.industrialrevival.api.items.attributes.EnergyNetProvider;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
-import org.irmc.industrialrevival.api.items.handlers.BlockTicker;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
-import org.irmc.industrialrevival.api.objects.enums.EnergyNetComponentType;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * ElectricSolarGenerator is a generator that need light to generate energy.
  */
 @Getter
-public abstract class ElectricSolarGenerator extends IndustrialRevivalItem implements EnergyNetComponent {
+public abstract class ElectricSolarGenerator extends IndustrialRevivalItem implements EnergyNetProvider {
     private final long capacity;
     private final long dayEnergyPerTick;
     private final long nightEnergyPerTick;
@@ -40,21 +39,15 @@ public abstract class ElectricSolarGenerator extends IndustrialRevivalItem imple
     }
 
     @Override
-    public EnergyNetComponentType getComponentType() {
-        return EnergyNetComponentType.GENERATOR;
-    }
-
-    @Override
     protected void preRegister() throws Exception {
-        addItemHandlers(
-                // 找个时间在idea上面改，在这改不方便
-                (BlockTicker) (block, menu, data) -> tick(block, menu));
         super.preRegister();
     }
 
-    protected void tick(Block block, MachineMenu menu) {
+    public long getEnergyProduction(Block block, @Nullable MachineMenu menu) {
         if (block.getLightFromSky() >= lightLevel) {
-            // TODO: implement tick logic
+            return dayEnergyPerTick;
+        } else {
+            return nightEnergyPerTick;
         }
     }
 }

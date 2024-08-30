@@ -18,8 +18,8 @@ import org.bukkit.plugin.Plugin;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.core.IndustrialRevival;
 import org.irmc.industrialrevival.core.guide.impl.CheatGuideImplementation;
-import org.irmc.industrialrevival.core.message.MessageReplacement;
 import org.irmc.industrialrevival.core.utils.Constants;
+import org.irmc.pigeonlib.language.MessageReplacement;
 
 public class IRCommandGenerator {
     private static CommandAPICommand instance;
@@ -103,13 +103,12 @@ public class IRCommandGenerator {
                             iritem.setAmount(finalAmount);
                             target.getInventory().addItem(iritem);
 
-                            MessageReplacement itemName = new MessageReplacement(
+                            MessageReplacement itemName = MessageReplacement.replace(
                                     "%item%",
                                     MiniMessage.miniMessage()
                                             .serialize(Objects.requireNonNull(
                                                     iritem.getItemMeta().displayName())));
-                            MessageReplacement itemAmount =
-                                    new MessageReplacement("%amount%", String.valueOf(finalAmount));
+                            MessageReplacement itemAmount = MessageReplacement.replace("%amount%", String.valueOf(finalAmount));
 
                             target.sendMessage(IndustrialRevival.getInstance()
                                     .getLanguageManager()
@@ -176,7 +175,7 @@ public class IRCommandGenerator {
                 IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(sender, "command.info.header");
         msg = msg.append(Component.newline());
 
-        MessageReplacement ver = new MessageReplacement(
+        MessageReplacement ver = MessageReplacement.replace(
                 "%version%", IndustrialRevival.getInstance().getPluginMeta().getVersion());
 
         msg = msg.append(IndustrialRevival.getInstance()
@@ -185,15 +184,15 @@ public class IRCommandGenerator {
 
         msg = msg.append(Component.newline());
 
-        MessageReplacement serverVer = new MessageReplacement("%server_version%", Bukkit.getVersion());
+        MessageReplacement serverVer = MessageReplacement.replace("%server_version%", Bukkit.getVersion());
 
         msg = msg.append(IndustrialRevival.getInstance()
                 .getLanguageManager()
                 .getMsgComponent(sender, "command.info.server_version", serverVer));
 
         for (Plugin addon : findAllAddons()) {
-            MessageReplacement name = new MessageReplacement("%addon_name%", addon.getName());
-            MessageReplacement version = new MessageReplacement(
+            MessageReplacement name = MessageReplacement.replace("%addon_name%", addon.getName());
+            MessageReplacement version = MessageReplacement.replace(
                     "%addon_version%", addon.getDescription().getVersion());
             msg = msg.append(Component.newline());
             msg = msg.append(IndustrialRevival.getInstance()

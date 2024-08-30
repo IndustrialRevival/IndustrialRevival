@@ -100,6 +100,11 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
         }
     }
 
+    public void addBookmark(Player p, IndustrialRevivalItem item) {
+        BookMarkGroup group = bookmarks.computeIfAbsent(p.getName(), k -> new BookMarkGroup(BOOKMARK_KEY, p));
+        group.addItem(item);
+    }
+
     void setupGuideMenu(Player p, SimpleMenu sm) {
         List<ItemGroup> groups = new ArrayList<>(
                 IndustrialRevival.getInstance().getRegistry().getItemGroups().values());

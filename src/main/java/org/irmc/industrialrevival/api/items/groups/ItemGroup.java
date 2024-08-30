@@ -17,8 +17,9 @@ import org.irmc.industrialrevival.core.IndustrialRevival;
 import org.irmc.industrialrevival.core.guide.GuideHistory;
 import org.irmc.industrialrevival.core.guide.IRGuideImplementation;
 import org.irmc.industrialrevival.core.guide.impl.SurvivalGuideImplementation;
+import org.irmc.industrialrevival.core.utils.CleanedItemGetter;
 import org.irmc.industrialrevival.core.utils.Constants;
-import org.irmc.industrialrevival.core.utils.ItemUtils;
+import org.irmc.pigeonlib.items.ItemUtils;
 
 public abstract class ItemGroup {
     @Getter
@@ -90,7 +91,7 @@ public abstract class ItemGroup {
 
                 IndustrialRevivalItem item = itemList.get(i - 9);
                 if (item != null) {
-                    sm.setItem(i, ItemUtils.getCleanedItem(item.getItem()), (slot, player, item1, menu, clickType) -> {
+                    sm.setItem(i, CleanedItemGetter.getCleanedItem(item.getItem()), (slot, player, item1, menu, clickType) -> {
                         guide.onItemClicked(player, item, clickType);
                         return false;
                     });

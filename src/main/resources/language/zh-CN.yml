@@ -23,9 +23,11 @@ guide:
   next: "<green>下一页</green>"
   previous: "<green>上一页</green>"
   bookmarks: "<yellow>书签</yellow>"
+  add_to_bookmarks: "<yellow>添加到书签</yellow>"
   search: "<aqua>搜索...</aqua>"
   book_item_name: "<dark_gray>工业复兴</dark_gray> <green>指南</green>"
   cheat_book_item_name: "<dark_gray>工业复兴</dark_gray> <green>指南<dark_red>(作弊模式)</dark_red>"
+  wiki_page_button: "<yellow>获取 Wiki 页面</yellow>"
 
 recipe_type:
   # 配方类型

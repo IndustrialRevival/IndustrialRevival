@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.stream.IntStream;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
@@ -19,8 +21,8 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
-import org.irmc.industrialrevival.core.utils.ItemUtils;
 import org.irmc.industrialrevival.core.utils.KeyUtil;
+import org.irmc.pigeonlib.items.ItemUtils;
 
 @SuppressWarnings({"deprecation", "unused"})
 @Getter
@@ -219,6 +221,7 @@ public class MachineMenu extends SimpleMenu {
     }
 
     @Nonnull
+    @CanIgnoreReturnValue
     public Map<ItemStack, Integer> pushItem(Map<ItemStack, Integer> items, int... slots) {
         final Map<ItemStack, Integer> lefts = new HashMap<>();
         for (ItemStack item : items.keySet()) {

@@ -14,10 +14,11 @@ import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.core.IndustrialRevival;
 import org.irmc.industrialrevival.core.guide.IRGuideImplementation;
 import org.irmc.industrialrevival.core.guide.impl.SurvivalGuideImplementation;
+import org.irmc.industrialrevival.core.utils.CleanedItemGetter;
 import org.irmc.industrialrevival.core.utils.Constants;
-import org.irmc.industrialrevival.core.utils.ItemUtils;
 import org.irmc.industrialrevival.implementation.recipes.RecipeContent;
 import org.irmc.industrialrevival.implementation.recipes.RecipeContents;
+import org.irmc.pigeonlib.items.ItemUtils;
 
 class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
     private static final Map<UUID, Integer> pageRecord = new HashMap<>();
@@ -46,11 +47,16 @@ class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
 
             sm.setItem(Constants.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT, 1, 2, 3, 4, 5, 6, 7, 8);
             sm.setItem(7, Constants.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT);
-            sm.setItem(25, ItemUtils.getCleanedItem(item.getItem()));
+            sm.setItem(25, CleanedItemGetter.getCleanedItem(item.getItem()));
         } else {
             recipeContents = getRecipeContentsByPage(recipeContents, pageRecord.getOrDefault(p.getUniqueId(), 1));
             showRecipeContent(p, sm, recipeContents.get(0), recipeContents);
         }
+
+        sm.setItem(28, Constants.ADD_TO_BOOKMARK_BUTTON.apply(p), (slot, player, item1, menu, clickType) -> {
+            SurvivalGuideImplementation.INSTANCE.addBookmark(player, item);
+            return false;
+        });
 
         sm.setSize(45);
     }

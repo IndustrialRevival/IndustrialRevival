@@ -16,15 +16,15 @@ import org.irmc.industrialrevival.core.data.IDataManager;
 import org.irmc.industrialrevival.core.data.MysqlDataManager;
 import org.irmc.industrialrevival.core.data.SqliteDataManager;
 import org.irmc.industrialrevival.core.listeners.*;
-import org.irmc.industrialrevival.core.message.LanguageManager;
 import org.irmc.industrialrevival.core.services.BlockDataService;
 import org.irmc.industrialrevival.core.services.IRRegistry;
 import org.irmc.industrialrevival.core.services.ItemDataService;
 import org.irmc.industrialrevival.core.services.ItemTextureService;
 import org.irmc.industrialrevival.core.utils.Constants;
-import org.irmc.industrialrevival.core.utils.FileUtil;
 import org.irmc.industrialrevival.implementation.groups.IRItemGroups;
 import org.irmc.industrialrevival.implementation.items.IRItems;
+import org.irmc.pigeonlib.file.ConfigFileUtil;
+import org.irmc.pigeonlib.language.LanguageManager;
 import org.jetbrains.annotations.NotNull;
 
 public final class IndustrialRevival extends JavaPlugin implements IndustrialRevivalAddon {
@@ -42,16 +42,19 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     @Override
     public void onLoad() {
         instance = this;
+        foliaLibImpl = new FoliaLib(this).getImpl();
+
+        completeFiles();
+
         CommandAPI.onLoad(new CommandAPIBukkitConfig(this));
         IRCommandGenerator.registerCommand(this);
-        completeFiles();
     }
 
     @Override
     public void onEnable() {
         setupDataManager();
 
-        foliaLibImpl = new FoliaLib(this).getImpl();
+
         languageManager = new LanguageManager(this);
         registry = new IRRegistry();
 
@@ -65,9 +68,9 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     }
 
     private void completeFiles() {
-        FileUtil.completeFile(this, "config.yml");
-        FileUtil.completeLangFile(this, "language/en-US.yml");
-        FileUtil.completeLangFile(this, "language/zh-CN.yml");
+        ConfigFileUtil.completeFile(this, "config.yml");
+        ConfigFileUtil.completeLangFile(this, "language/en-US.yml");
+        ConfigFileUtil.completeLangFile(this, "language/zh-CN.yml");
     }
 
     private void setupIndustrialRevivalItems() {

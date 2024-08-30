@@ -20,6 +20,7 @@ public class Constants {
     public static final String GUIDE_CHEAT_MODE_NO_PERMISSION_KEY = "guide.cheat_mode_no_permission";
     public static final String GUIDE_SETTINGS_KEY = "guide.settings";
     public static final String GUIDE_BOOKMARKS_KEY = "guide.bookmarks";
+    public static final String GUIDE_ADD_TO_BOOKMARKS_KEY = "guide.add_to_bookmarks";
     public static final String GUIDE_SEARCH_KEY = "guide.search";
 
     public static final String GUIDE_PREVIOUS_KEY = "guide.previous";
@@ -43,16 +44,21 @@ public class Constants {
                     Material.ENCHANTED_BOOK,
                     IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_BACK_KEY),
                     IndustrialRevival.getInstance().getLanguageManager().getMsgComponentList(p, "guide.back_lore"))
-            .setCustomModel(19991);
+            .setCustomModel(19990);
 
     public static final Function<Player, ItemStack> SETTING_BUTTON = p -> new CustomItemStack(
                     Material.REPEATER,
                     IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_SETTINGS_KEY))
-            .setCustomModel(19992);
+            .setCustomModel(19991);
 
     public static final Function<Player, ItemStack> BOOKMARK_BUTTON = p -> new CustomItemStack(
                     Material.WRITABLE_BOOK,
                     IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_BOOKMARKS_KEY))
+            .setCustomModel(19992);
+
+    public static final Function<Player, ItemStack> ADD_TO_BOOKMARK_BUTTON = p -> new CustomItemStack(
+                    Material.PAPER,
+                    IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, "guide.add_to_bookmarks"))
             .setCustomModel(19993);
 
     public static final Function<Player, ItemStack> SEARCH_BUTTON = p -> new CustomItemStack(
@@ -73,22 +79,22 @@ public class Constants {
     public static final Function<Player, ItemStack> PREVIOUS_ONE_BUTTON = p -> new CustomItemStack(
                     Material.LIME_STAINED_GLASS_PANE,
                     IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_PREVIOUS_ONE_KEY))
-            .setCustomModel(19995);
+            .setCustomModel(19997);
 
     public static final Function<Player, ItemStack> NEXT_ONE_BUTTON = p -> new CustomItemStack(
                     Material.LIME_STAINED_GLASS_PANE,
                     IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_NEXT_ONE_KEY))
-            .setCustomModel(19996);
+            .setCustomModel(19998);
 
     public static final Function<Player, ItemStack> WIKI_PAGE_BUTTON = p -> new CustomItemStack(
                     Material.BOOK,
                     IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, "guide.wiki_page_button"))
-            .setCustomModel(19997);
+            .setCustomModel(19999);
 
     public static final ItemStack GUIDE_BOOK_ITEM = new CustomItemStack(
                     Material.ENCHANTED_BOOK,
                     IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(null, "guide.book_item_name"))
-            .setCustomModel(19998)
+            .setCustomModel(20000)
             .setPDCData(GUIDE_ITEM_KEY, PersistentDataType.INTEGER, 1);
 
     public static final ItemStack CHEAT_GUIDE_BOOK_ITEM = new CustomItemStack(
@@ -96,7 +102,7 @@ public class Constants {
                     IndustrialRevival.getInstance()
                             .getLanguageManager()
                             .getMsgComponent(null, "guide.cheat_book_item_name"))
-            .setCustomModel(19999)
+            .setCustomModel(20001)
             .setPDCData(GUIDE_ITEM_KEY, PersistentDataType.INTEGER, 2);
 
     public static final int[] BOARDER_SLOT = {0, 1, 3, 4, 5, 7, 8, 45, 46, 48, 49, 50, 52, 53};

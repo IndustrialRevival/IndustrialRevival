@@ -58,17 +58,13 @@ public class SimpleMenu implements IRInventoryHolder {
         }
 
         if (itemStack == null) {
-            if (this.slots.containsKey(slot)) {
-                this.slots.remove(slot);
-            }
-
-            if (this.clickHandlers.containsKey(slot)) {
-                this.clickHandlers.remove(slot);
-            }
+            this.slots.remove(slot);
+            this.clickHandlers.remove(slot);
 
             if (this.slots.get(slot) == null && this.clickHandlers.get(slot) == null) {
                 markDirty();
             }
+
             return;
         }
 

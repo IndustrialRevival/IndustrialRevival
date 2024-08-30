@@ -23,9 +23,11 @@ guide:
   next: "<green>Next page</green>"
   previous: "<green>Previous page</green>"
   bookmarks: "<yellow>Bookmarks</yellow>"
+  add_to_bookmarks: "<yellow>Add to bookmarks</yellow>"
   search: "<aqua>Search for...</aqua>"
   book_item_name: "<dark_gray>Industrial Revival</dark_gray> <green>Guide</green>"
   cheat_book_item_name: "<dark_gray>Industrial Revival</dark_gray> <green>Guide<dark_red>(Cheat Mode)</dark_red>"
+  wiki_page_button: "<yellow>Get the wiki page</yellow>"
 
 recipe_type:
   # Recipe type

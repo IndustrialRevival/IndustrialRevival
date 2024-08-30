@@ -7,7 +7,7 @@ import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.core.IndustrialRevival;
 import org.irmc.industrialrevival.core.utils.Constants;
-import org.irmc.industrialrevival.core.utils.ItemUtils;
+import org.irmc.pigeonlib.items.ItemUtils;
 
 public class CheatGuideImplementation extends SurvivalGuideImplementation {
     public static final CheatGuideImplementation INSTANCE = new CheatGuideImplementation();

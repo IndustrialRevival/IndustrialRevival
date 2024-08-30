@@ -8,8 +8,6 @@ import org.jetbrains.annotations.Nullable;
 
 @Getter
 public class IRBlockData {
-    // TODO: implement this class(implement sqlite/mysql database first)
-
     private final String id;
 
     private final YamlConfiguration config;

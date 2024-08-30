@@ -22,9 +22,9 @@ import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandler
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.core.IndustrialRevival;
 import org.irmc.industrialrevival.core.utils.Constants;
-import org.irmc.industrialrevival.core.utils.ItemUtils;
 import org.irmc.industrialrevival.implementation.recipes.RecipeContent;
 import org.irmc.industrialrevival.implementation.recipes.RecipeContents;
+import org.irmc.pigeonlib.items.ItemUtils;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -163,12 +163,12 @@ public class IndustrialRevivalItem {
                 throw ex;
             }
 
-            if (handler instanceof BlockTicker && !ItemUtils.isBlock(getItem().getType())) {
+            if (handler instanceof BlockTicker && !ItemUtils.isActualBlock(getItem().getType())) {
                 throw new UnsupportedOperationException("Only actual block can have a BlockTicker!");
             }
         }
 
-        if (this instanceof ItemDroppable && !ItemUtils.isBlock(getItem().getType())) {
+        if (this instanceof ItemDroppable && !ItemUtils.isActualBlock(getItem().getType())) {
             throw new UnsupportedOperationException("Only actual block can be drop items!");
         }
     }

@@ -4,8 +4,8 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.core.IndustrialRevival;
-import org.irmc.industrialrevival.core.utils.ItemUtils;
 import org.irmc.industrialrevival.implementation.items.IRItemStacks;
+import org.irmc.pigeonlib.items.ItemUtils;
 
 public class IRRecipes {
     public static final ItemStack[] EMPTY_RECIPE = new ItemStack[] {
