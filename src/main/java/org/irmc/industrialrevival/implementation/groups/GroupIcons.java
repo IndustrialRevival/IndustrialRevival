@@ -3,7 +3,7 @@ package org.irmc.industrialrevival.implementation.groups;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
-import org.irmc.industrialrevival.core.IndustrialRevival;
+import org.irmc.industrialrevival.implementation.IndustrialRevival;
 
 public class GroupIcons {
     public static final ItemStack GROUP_ORE = new CustomItemStack(

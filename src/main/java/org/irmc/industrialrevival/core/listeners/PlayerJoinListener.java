@@ -7,7 +7,7 @@ import org.bukkit.inventory.PlayerInventory;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
 import org.irmc.industrialrevival.core.utils.Constants;
 
-public class PlayerListener extends AbstractIRListener {
+public class PlayerJoinListener extends AbstractIRListener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();

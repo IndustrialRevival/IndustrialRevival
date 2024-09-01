@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 import org.bukkit.Location;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
-import org.irmc.industrialrevival.core.IndustrialRevival;
+import org.irmc.industrialrevival.implementation.IndustrialRevival;
 
 public class IRTicker implements Consumer<WrappedTask> {
     private final Supplier<Map<Location, IRBlockData>> blockDataSupplier =

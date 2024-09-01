@@ -1,4 +1,4 @@
-package org.irmc.industrialrevival.core;
+package org.irmc.industrialrevival.implementation;
 
 import com.tcoded.folialib.FoliaLib;
 import com.tcoded.folialib.impl.ServerImplementation;
@@ -17,7 +17,7 @@ import org.irmc.industrialrevival.core.command.IRCommandGenerator;
 import org.irmc.industrialrevival.core.data.IDataManager;
 import org.irmc.industrialrevival.core.data.MysqlDataManager;
 import org.irmc.industrialrevival.core.data.SqliteDataManager;
-import org.irmc.industrialrevival.core.listeners.*;
+import org.irmc.industrialrevival.core.managers.ListenerManager;
 import org.irmc.industrialrevival.core.services.BlockDataService;
 import org.irmc.industrialrevival.core.services.IRRegistry;
 import org.irmc.industrialrevival.core.services.ItemDataService;
@@ -30,12 +30,12 @@ import org.irmc.pigeonlib.language.LanguageManager;
 import org.jetbrains.annotations.NotNull;
 
 public final class IndustrialRevival extends JavaPlugin implements IndustrialRevivalAddon {
-    @Getter
-    private static IndustrialRevival instance;
 
+    private static @Getter IndustrialRevival instance;
     private @Getter MCVersion mcVersion;
     private @Getter IRRegistry registry;
     private @Getter LanguageManager languageManager;
+    private @Getter ListenerManager listenerManager;
     private @Getter IDataManager dataManager;
     private @Getter ItemTextureService itemTextureService;
     private @Getter BlockDataService blockDataService;
@@ -56,23 +56,22 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     @Override
     public void onEnable() {
         getLogger().info("IndustrialRevival is being enabled!");
-        instance = this;
 
+        boolean success = environmentCheck();
+        if (!success) {
+            onDisable();
+            return;
+        }
+
+        getLogger().info("Setting up data manager...");
         setupDataManager();
 
         getLogger().info("Completing files...");
         completeFiles();
 
         languageManager = new LanguageManager(this);
+        listenerManager = new ListenerManager();
         registry = new IRRegistry();
-
-        int major = PaperLib.getMinecraftVersion();
-        int minor = PaperLib.getMinecraftPatchVersion();
-        mcVersion = mcVersion.getByInt(major, minor);
-        if (mcVersion == MCVersion.UNKNOWN) {
-            getLogger().log(Level.SEVERE, "Unsupported Minecraft version: 1." + major + "." + minor);
-            return;
-        }
 
         getLogger().info("Setting up data manager...");
         setupDataManager();
@@ -84,7 +83,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         setupIndustrialRevivalItems();
 
         getLogger().info("Setting up listeners...");
-        setupListeners();
+        listenerManager.setupAll();
 
         getComponentLogger().info(LanguageManager.parseToComponent("<green>Industrial Revival has been enabled!"));
     }
@@ -104,14 +103,6 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         blockDataService = new BlockDataService();
         itemTextureService = new ItemTextureService();
         itemDataService = new ItemDataService();
-    }
-
-    private void setupListeners() {
-        new InteractListener().register();
-        new MachineMenuListener().register();
-        new ItemHandlerListener().register();
-        new GuideListener().register();
-        new DropListener().register();
     }
 
     private void setupDataManager() {
@@ -141,9 +132,22 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
 
     @Override
     public void onDisable() {
-        blockDataService.saveAllData();
+        if (blockDataService != null) {
+            blockDataService.saveAllData();
+        }
         getLogger().info("IndustrialRevival has been disabled!");
-        getLogger().info("Goodbye!");
+    }
+
+    public boolean environmentCheck() {
+        int major = PaperLib.getMinecraftVersion();
+        int minor = PaperLib.getMinecraftPatchVersion();
+        mcVersion = mcVersion.getByInt(major, minor);
+        if (mcVersion == MCVersion.UNKNOWN) {
+            getLogger().log(Level.SEVERE, "Unsupported Minecraft version: 1." + major + "." + minor);
+            return false;
+        }
+
+        return true;
     }
 
     @Override

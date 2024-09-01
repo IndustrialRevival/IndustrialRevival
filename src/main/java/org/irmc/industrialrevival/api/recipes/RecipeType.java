@@ -10,7 +10,7 @@ import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
-import org.irmc.industrialrevival.core.IndustrialRevival;
+import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.core.utils.Constants;
 import org.irmc.industrialrevival.core.utils.KeyUtil;
 import org.irmc.pigeonlib.pdc.PersistentDataAPI;

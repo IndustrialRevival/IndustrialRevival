@@ -3,7 +3,7 @@ package org.irmc.industrialrevival.implementation.recipes;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
-import org.irmc.industrialrevival.core.IndustrialRevival;
+import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.items.IRItemStacks;
 import org.irmc.pigeonlib.items.ItemUtils;
 

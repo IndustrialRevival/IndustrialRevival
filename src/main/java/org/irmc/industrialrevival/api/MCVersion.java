@@ -53,7 +53,7 @@ public enum MCVersion {
         return UNKNOWN;
     }
 
-    public boolean isAtLeast(MCVersion version) {
+    public boolean atLeast(MCVersion version) {
         if (this.major > version.major) {
             return true;
         }

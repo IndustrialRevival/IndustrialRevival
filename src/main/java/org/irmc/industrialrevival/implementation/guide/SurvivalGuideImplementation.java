@@ -1,4 +1,4 @@
-package org.irmc.industrialrevival.core.guide.impl;
+package org.irmc.industrialrevival.implementation.guide;
 
 import com.google.common.collect.Lists;
 import java.util.*;
@@ -12,7 +12,7 @@ import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
-import org.irmc.industrialrevival.core.IndustrialRevival;
+import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.core.guide.GuideHistory;
 import org.irmc.industrialrevival.core.guide.IRGuideImplementation;
 import org.irmc.industrialrevival.core.utils.Constants;

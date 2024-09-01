@@ -4,8 +4,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.irmc.industrialrevival.core.guide.impl.CheatGuideImplementation;
-import org.irmc.industrialrevival.core.guide.impl.SurvivalGuideImplementation;
+import org.irmc.industrialrevival.implementation.guide.CheatGuideImplementation;
+import org.irmc.industrialrevival.implementation.guide.SurvivalGuideImplementation;
 import org.irmc.industrialrevival.core.utils.Constants;
 import org.irmc.pigeonlib.pdc.PersistentDataAPI;
 
