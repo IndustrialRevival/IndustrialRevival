@@ -22,7 +22,7 @@ public class DataUtil {
     }
 
     @Nullable public static String getData(Location location, String key) {
-        return (String) getBlockData(location).getConfig().get(key);
+        return getBlockData(location).getConfig().getString(key);
     }
 
     public static boolean hasData(Location location, String key) {
@@ -45,7 +45,7 @@ public class DataUtil {
     }
 
     public static void removeData(Location location, String key) {
-        // TODO: Implement
+        setData(location, key, null);
     }
 
     @Nullable public static MachineMenu getMachineMenu(Location location) {

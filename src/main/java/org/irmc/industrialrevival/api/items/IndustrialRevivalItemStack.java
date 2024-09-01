@@ -31,7 +31,12 @@ public class IndustrialRevivalItemStack extends ItemStack {
     }
 
     public IndustrialRevivalItemStack(@NotNull String id, @NotNull ItemStack itemStack) {
-        super(itemStack);
+        super(itemStack.getType(), itemStack.getAmount());
+        //clone
+        setItemMeta(itemStack.getItemMeta());
+        addEnchantments(itemStack.getEnchantments());
+        setDurability(itemStack.getDurability());
+        //clone end
 
         Preconditions.checkArgument(id.equals(id.toUpperCase()), "ID must be uppercase");
 
