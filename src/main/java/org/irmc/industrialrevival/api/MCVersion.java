@@ -1,5 +1,8 @@
 package org.irmc.industrialrevival.api;
 
+import lombok.Getter;
+
+@Getter
 public enum MCVersion {
     MC_1_20(20, 0),
     MC1_20_1(20, 1),
@@ -18,14 +21,6 @@ public enum MCVersion {
     MCVersion(int major, int minor) {
         this.major = major;
         this.minor = minor;
-    }
-
-    public int getMajor() {
-        return major;
-    }
-
-    public int getMinor() {
-        return minor;
     }
 
     public MCVersion getPrevious() {

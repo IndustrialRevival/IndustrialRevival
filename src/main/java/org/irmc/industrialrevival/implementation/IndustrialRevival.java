@@ -66,15 +66,9 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         getLogger().info("Setting up data manager...");
         setupDataManager();
 
-        getLogger().info("Completing files...");
-        completeFiles();
-
         languageManager = new LanguageManager(this);
         listenerManager = new ListenerManager();
         registry = new IRRegistry();
-
-        getLogger().info("Setting up data manager...");
-        setupDataManager();
 
         getLogger().info("Setting up services...");
         setupServices();
