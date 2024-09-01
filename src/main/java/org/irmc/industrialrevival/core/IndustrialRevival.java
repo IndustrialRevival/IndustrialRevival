@@ -7,10 +7,12 @@ import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.logging.Level;
+import io.papermc.lib.PaperLib;
 import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
+import org.irmc.industrialrevival.api.MCVersion;
 import org.irmc.industrialrevival.core.command.IRCommandGenerator;
 import org.irmc.industrialrevival.core.data.IDataManager;
 import org.irmc.industrialrevival.core.data.MysqlDataManager;
@@ -31,6 +33,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     @Getter
     private static IndustrialRevival instance;
 
+    private @Getter MCVersion mcVersion;
     private @Getter IRRegistry registry;
     private @Getter LanguageManager languageManager;
     private @Getter IDataManager dataManager;
@@ -52,16 +55,35 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
 
     @Override
     public void onEnable() {
+        getLogger().info("IndustrialRevival is being enabled!");
+        instance = this;
+
         setupDataManager();
 
+        getLogger().info("Completing files...");
+        completeFiles();
 
         languageManager = new LanguageManager(this);
         registry = new IRRegistry();
 
+        int major = PaperLib.getMinecraftVersion();
+        int minor = PaperLib.getMinecraftPatchVersion();
+        mcVersion = mcVersion.getByInt(major, minor);
+        if (mcVersion == MCVersion.UNKNOWN) {
+            getLogger().log(Level.SEVERE, "Unsupported Minecraft version: 1." + major + "." + minor);
+            return;
+        }
+
+        getLogger().info("Setting up data manager...");
+        setupDataManager();
+
+        getLogger().info("Setting up services...");
         setupServices();
 
+        getLogger().info("Setting up items...");
         setupIndustrialRevivalItems();
 
+        getLogger().info("Setting up listeners...");
         setupListeners();
 
         getComponentLogger().info(LanguageManager.parseToComponent("<green>Industrial Revival has been enabled!"));

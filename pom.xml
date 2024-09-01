@@ -120,6 +120,12 @@
         </dependency>
 
         <dependency>
+            <groupId>io.papermc</groupId>
+            <artifactId>paperlib</artifactId>
+            <version>1.0.7</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.30</version>
@@ -130,7 +136,7 @@
         <dependency>
             <groupId>com.github.IndustrialRevival</groupId>
             <artifactId>PigeonLib</artifactId>
-            <version>main-SNAPSHOT</version>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>dev.jorel</groupId>

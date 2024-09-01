@@ -16,13 +16,12 @@ import org.irmc.industrialrevival.core.IndustrialRevival;
 import org.irmc.industrialrevival.core.guide.GuideHistory;
 import org.irmc.industrialrevival.core.guide.IRGuideImplementation;
 import org.irmc.industrialrevival.core.utils.Constants;
+import org.irmc.industrialrevival.core.utils.KeyUtil;
 
 public class SurvivalGuideImplementation implements IRGuideImplementation {
     public static final SurvivalGuideImplementation INSTANCE = new SurvivalGuideImplementation();
 
-    private static final NamespacedKey BOOKMARK_KEY =
-            new NamespacedKey(IndustrialRevival.getInstance(), "bookmark_group");
-
+    private static final NamespacedKey BOOKMARK_KEY = KeyUtil.customKey("bookmark_group");
     private final Map<String, BookMarkGroup> bookmarks;
     private final Map<String, Integer> pageMap;
 
