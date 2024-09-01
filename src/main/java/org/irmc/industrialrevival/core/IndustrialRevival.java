@@ -54,7 +54,6 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     public void onEnable() {
         setupDataManager();
 
-
         languageManager = new LanguageManager(this);
         registry = new IRRegistry();
 

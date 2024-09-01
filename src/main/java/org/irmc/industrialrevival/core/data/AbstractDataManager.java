@@ -52,7 +52,9 @@ public non-sealed class AbstractDataManager implements IDataManager {
     @Override
     public void handleBlockPlacing(Location loc, String machineId) {
         try {
-            getSession().getMapper(BlockDataMapper.class).blockPlacing(loc, machineId);
+            SqlSession session = getSession();
+            session.getMapper(BlockDataMapper.class).blockPlacing(loc, machineId);
+            session.commit();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -61,10 +63,12 @@ public non-sealed class AbstractDataManager implements IDataManager {
     @Override
     public void handleBlockBreaking(Location loc) {
         try {
-            BlockDataMapper mapper = getSession().getMapper(BlockDataMapper.class);
+            SqlSession session = getSession();
+            BlockDataMapper mapper = session.getMapper(BlockDataMapper.class);
             String id = mapper.getBlockId(loc);
             mapper.blockRemoving(loc, id);
             mapper.deleteMenuItems(loc);
+            session.commit();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -89,10 +93,12 @@ public non-sealed class AbstractDataManager implements IDataManager {
     @Override
     public void updateBlockData(@NotNull Location location, @NotNull BlockRecord record) {
         try {
-            BlockDataMapper mapper = getSession().getMapper(BlockDataMapper.class);
+            SqlSession session = getSession();
+            BlockDataMapper mapper = session.getMapper(BlockDataMapper.class);
             if (!getBlockData(location).getKeys(true).isEmpty()) {
                 mapper.saveBlockData(location, record.getData());
             }
+            session.commit();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -131,7 +137,9 @@ public non-sealed class AbstractDataManager implements IDataManager {
     @Override
     public void saveGuideSettings(@NotNull String playerName, @NotNull GuideSettings settings) {
         try {
-            getSession().getMapper(GuideSettingsMapper.class).save(playerName, settings);
+            SqlSession session = getSession();
+            session.getMapper(GuideSettingsMapper.class).save(playerName, settings);
+            session.commit();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -141,7 +149,9 @@ public non-sealed class AbstractDataManager implements IDataManager {
     public @NotNull YamlConfiguration getResearchStatus(String playerName) {
         String yaml;
         try {
-            yaml = getSession().getMapper(ResearchStatusMapper.class).getResearchStatus(playerName);
+            SqlSession session = getSession();
+            yaml = session.getMapper(ResearchStatusMapper.class).getResearchStatus(playerName);
+            session.commit();
         } catch (SQLException e) {
             return new YamlConfiguration();
         }
@@ -159,13 +169,15 @@ public non-sealed class AbstractDataManager implements IDataManager {
         String yaml = researchStatus.saveToString();
         String b64 = Base64.getEncoder().encodeToString(yaml.getBytes());
         try {
-            getSession().getMapper(ResearchStatusMapper.class).insertResearchStatus(playerName, b64);
+            SqlSession session = getSession();
+            session.getMapper(ResearchStatusMapper.class).insertResearchStatus(playerName, b64);
+            session.commit();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void createTables() throws SQLException {
+    public void createTables() {
         int retryCount = 5; // 最大重试次数
         while (retryCount > 0) {
             try (Connection conn = DriverManager.getConnection(url, username, password)) {
@@ -181,7 +193,7 @@ public non-sealed class AbstractDataManager implements IDataManager {
                 conn.prepareStatement(
                                 "CREATE TABLE IF NOT EXISTS menu_items (world TEXT NOT NULL, x INT NOT NULL, y INT NOT NULL, z INT NOT NULL, slot INT NOT NULL, itemJson TEXT NOT NULL, itemClass TEXT NOT NULL, PRIMARY KEY (world, x, y, z));")
                         .execute();
-                return; // 成功创建表后退出
+                return;
             } catch (SQLException e) {
                 if (e.getMessage().contains("SQLITE_BUSY")) {
                     retryCount--;

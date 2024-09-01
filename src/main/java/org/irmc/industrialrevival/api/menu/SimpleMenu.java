@@ -163,7 +163,7 @@ public class SimpleMenu implements IRInventoryHolder {
         Set<Integer> slots = this.slots.keySet();
         int maxValue = slots.stream().sorted().findFirst().orElse(0);
 
-        return ((maxValue - 1) / 9 + 1) * 9;
+        return (maxValue % 9 + 1) == 0 ? maxValue + 1 : (maxValue / 9 + 1) * 9;
     }
 
     public void setCloseHandler(@NotNull MenuCloseHandler closeHandler) {

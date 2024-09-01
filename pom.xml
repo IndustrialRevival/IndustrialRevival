@@ -130,7 +130,7 @@
         <dependency>
             <groupId>com.github.IndustrialRevival</groupId>
             <artifactId>PigeonLib</artifactId>
-            <version>main-SNAPSHOT</version>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>dev.jorel</groupId>

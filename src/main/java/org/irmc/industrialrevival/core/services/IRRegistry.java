@@ -2,6 +2,7 @@ package org.irmc.industrialrevival.core.services;
 
 import java.util.*;
 import lombok.Getter;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.EntityType;
@@ -67,5 +68,14 @@ public final class IRRegistry {
         item.setAmount(bdi.dropAmount());
         drops.add(new Pair<>(item, bdi.getChance()));
         blockDrops.put(bdi.dropBlock(), drops);
+    }
+
+    public List<IndustrialRevivalItem> searchItems(String term) {
+        return items.values().stream()
+               .filter(i -> {
+                   String coloredName = MiniMessage.miniMessage().serialize(i.getItemName());
+                   String noColoredName = MiniMessage.miniMessage().stripTags(coloredName);
+                   return noColoredName.toLowerCase().contains(term.toLowerCase());
+               }).toList();
     }
 }

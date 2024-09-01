@@ -20,8 +20,8 @@ import org.irmc.industrialrevival.implementation.recipes.RecipeContent;
 import org.irmc.industrialrevival.implementation.recipes.RecipeContents;
 import org.irmc.pigeonlib.items.ItemUtils;
 
-class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
-    private static final Map<UUID, Integer> pageRecord = new HashMap<>();
+public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
+    protected static final Map<UUID, Integer> pageRecord = new HashMap<>();
 
     private static final int[] recipeSlots = Constants.RECIPE_SLOT;
 
@@ -178,6 +178,10 @@ class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
         List<RecipeContent> allAvailableRecipeContents = new ArrayList<>();
         for (List<RecipeContent> recipeContentList : recipeContents) {
             for (RecipeContent recipeContent : recipeContentList) {
+                if (recipeContent.maker() == null) {
+                    continue;
+                }
+
                 if (recipeContent.maker().getId().equals(itemId)) {
                     allAvailableRecipeContents.add(recipeContent);
                 }

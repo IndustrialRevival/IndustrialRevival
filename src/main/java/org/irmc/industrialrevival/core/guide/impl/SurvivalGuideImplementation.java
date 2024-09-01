@@ -16,6 +16,7 @@ import org.irmc.industrialrevival.core.IndustrialRevival;
 import org.irmc.industrialrevival.core.guide.GuideHistory;
 import org.irmc.industrialrevival.core.guide.IRGuideImplementation;
 import org.irmc.industrialrevival.core.utils.Constants;
+import org.irmc.pigeonlib.chat.ChatInput;
 
 public class SurvivalGuideImplementation implements IRGuideImplementation {
     public static final SurvivalGuideImplementation INSTANCE = new SurvivalGuideImplementation();
@@ -53,25 +54,6 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
 
         PlayerProfile profile = PlayerProfile.getOrRequestProfile(p.getName());
         profile.getGuideHistory().addItem(item);
-
-        /*
-        ItemStack[] recipe = item.getRecipe();
-
-        for (int i = 0; i < RECIPE_SLOT.length; i++) {
-            sm.setItem(RECIPE_SLOT[i], ItemUtils.getCleanedItem(recipe[i]));
-        }
-
-        sm.setItem(0, Constants.BACK_BUTTON.apply(p), (slot, player, i, menu, clickType) -> {
-            goBack(player);
-            return false;
-        });
-
-        sm.setItem(16, item.getItem(), SimpleMenu.ClickHandler.DEFAULT);
-
-        sm.setSize(54);
-        sm.open(p);
-
-         */
     }
 
     @Override
@@ -175,6 +157,13 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
                 });
             }
         }
+
+        sm.setItem(6, Constants.SEARCH_BUTTON.apply(p), (slot, player, item, menu, clickType) -> {
+            player.closeInventory();
+            IndustrialRevival.getInstance().getLanguageManager().sendMessage(player, "guide.type_search");
+            SearchGUI.request(player, this);
+            return false;
+        });
     }
 
     private static class BookMarkGroup extends ItemGroup {
@@ -183,6 +172,114 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
         }
 
         @Override
+        public void addItem(IndustrialRevivalItem item) {
+            if (getItems().contains(item)) {
+                return;
+            }
+
+            super.addItem(item);
+        }
+
+        @Override
         public void register() {}
+    }
+
+    public static class SearchGUI {
+        private final Player player;
+        private final String searchTerm;
+        private final IRGuideImplementation implementation;
+
+        private SearchGUI(Player player, String searchTerm, IRGuideImplementation implementation) {
+            this.player = player;
+            this.searchTerm = searchTerm;
+            this.implementation = implementation;
+        }
+
+        public void showResults(int page) {
+            SimpleMenu sm = createMenu();
+
+            List<IndustrialRevivalItem> searchResults = IndustrialRevival.getInstance().getRegistry().searchItems(searchTerm);
+            List<List<IndustrialRevivalItem>> partition = Lists.partition(searchResults, 36);
+
+            ItemStack previousButton = Constants.PREVIOUS_BUTTON.apply(player);
+            SimpleMenu.ClickHandler previousClickHandler = (slot, player, item, menu, clickType) -> {
+                showResults(page - 1);
+                return false;
+            };
+
+            if (page == 1) {
+                previousButton.setType(Material.BLACK_STAINED_GLASS_PANE);
+                previousButton.editMeta(m -> m.displayName(Component.space()));
+                previousClickHandler = SimpleMenu.ClickHandler.DEFAULT;
+            }
+
+            ItemStack nextButton = Constants.NEXT_BUTTON.apply(player);
+            SimpleMenu.ClickHandler nextClickHandler = (slot, player, item, menu, clickType) -> {
+                showResults(page + 1);
+                return false;
+            };
+
+            //not the actual page, actually page - 1 = last page index
+            if (partition.isEmpty() || partition.size() == 1) {
+                nextButton.setType(Material.BLACK_STAINED_GLASS_PANE);
+                nextButton.editMeta(m -> m.displayName(Component.space()));
+                nextClickHandler = SimpleMenu.ClickHandler.DEFAULT;
+            }
+
+            sm.setItem(47, previousButton, previousClickHandler);
+            sm.setItem(51, nextButton, nextClickHandler);
+
+            if (page > partition.size() || page < 1) {
+                sm.open(player);
+                return;
+            }
+
+            List<IndustrialRevivalItem> items = partition.get(page - 1);
+
+            int startIndex = 9;
+            for (IndustrialRevivalItem item : items) {
+                ItemStack stack = item.getItem().clone();
+                sm.setItem(startIndex, stack, (slot, player, item1, menu, clickType) -> {
+                    implementation.onItemClicked(player, item, clickType);
+                    return false;
+                });
+                startIndex++;
+            }
+
+            PlayerProfile profile = PlayerProfile.getOrRequestProfile(player.getName());
+            GuideHistory guideHistory = profile.getGuideHistory();
+            guideHistory.addSearchGUI(this);
+
+            sm.open(player);
+        }
+
+        private SimpleMenu createMenu() {
+            SimpleMenu sm = new SimpleMenu(IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(player, Constants.GUIDE_TITLE_KEY));
+            for (int slot : Constants.BOARDER_SLOT) {
+                sm.setItem(slot, Constants.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT);
+            }
+
+            sm.setItem(2, Constants.BACK_BUTTON.apply(player), (slot, player, item, menu, clickType) -> {
+                implementation.goBack(player);
+                return false;
+            });
+
+            sm.setItem(6, Constants.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT);
+
+            sm.setSize(54);
+
+            return sm;
+        }
+
+        public static void request(Player player, IRGuideImplementation implementation) {
+            ChatInput.waitForPlayer(IndustrialRevival.getInstance(), player, s -> {
+                if (s.equalsIgnoreCase("##CANCEL")) {
+                    return;
+                }
+
+                SearchGUI searchGUI = new SearchGUI(player, s, implementation);
+                searchGUI.showResults(1);
+            });
+        }
     }
 }

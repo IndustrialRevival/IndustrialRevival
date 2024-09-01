@@ -35,17 +35,22 @@ public class GuideHistory {
         entries.add(entry);
     }
 
+    public void addSearchGUI(SurvivalGuideImplementation.SearchGUI searchGUI) {
+        GuideEntry<SurvivalGuideImplementation.SearchGUI> entry = new GuideEntry<>(searchGUI);
+        entries.add(entry);
+    }
+
     public void goBack() {
         Player player = Bukkit.getPlayer(playerName);
         if (player == null) {
             return;
         }
 
+        SurvivalGuideImplementation guide = SurvivalGuideImplementation.INSTANCE;
         if (entries.isEmpty()) {
+            guide.open(player);
             return;
         }
-
-        SurvivalGuideImplementation guide = SurvivalGuideImplementation.INSTANCE;
 
         int index = entries.size() - 2;
         if (index < 0) {
@@ -63,6 +68,9 @@ public class GuideHistory {
                 guide.onItemClicked(player, theItemEntry.getContent(), ClickType.UNKNOWN);
             } else if (lastEntry.isGuide()) {
                 guide.open(player);
+            } else if (lastEntry.isSearch()) {
+                SurvivalGuideImplementation.SearchGUI searchGUI = (SurvivalGuideImplementation.SearchGUI) lastEntry.getContent();
+                searchGUI.showResults(1);
             }
 
             entries.add(lastEntry);
