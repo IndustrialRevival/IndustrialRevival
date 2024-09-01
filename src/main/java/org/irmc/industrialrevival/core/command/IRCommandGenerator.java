@@ -5,6 +5,9 @@ import dev.jorel.commandapi.arguments.ArgumentSuggestions;
 import dev.jorel.commandapi.arguments.IntegerArgument;
 import dev.jorel.commandapi.arguments.PlayerArgument;
 import dev.jorel.commandapi.arguments.TextArgument;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
@@ -17,10 +20,6 @@ import org.irmc.industrialrevival.core.utils.Constants;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.guide.CheatGuideImplementation;
 import org.irmc.pigeonlib.language.MessageReplacement;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
 
 public class IRCommandGenerator {
     private static CommandAPICommand instance;
@@ -109,7 +108,8 @@ public class IRCommandGenerator {
                                     MiniMessage.miniMessage()
                                             .serialize(Objects.requireNonNull(
                                                     iritem.getItemMeta().displayName())));
-                            MessageReplacement itemAmount = MessageReplacement.replace("%amount%", String.valueOf(finalAmount));
+                            MessageReplacement itemAmount =
+                                    MessageReplacement.replace("%amount%", String.valueOf(finalAmount));
 
                             target.sendMessage(IndustrialRevival.getInstance()
                                     .getLanguageManager()

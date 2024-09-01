@@ -1,11 +1,10 @@
 package org.irmc.industrialrevival.api.items.handlers;
 
+import java.util.List;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
-
-import java.util.List;
 
 @FunctionalInterface
 public interface ToolUseHandler extends ItemHandler {

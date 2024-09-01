@@ -10,7 +10,6 @@ public interface ResearchStatusMapper {
     @Insert("INSERT INTO research_status (username, researchStatus) VALUES (#{playerName}, #{researchStatus})")
     void insertResearchStatus(String playerName, String researchStatus);
 
-    @Nullable
-    @Select("SELECT * FROM research_status WHERE username = #{playerName}")
+    @Nullable @Select("SELECT * FROM research_status WHERE username = #{playerName}")
     String getResearchStatus(String playerName);
 }

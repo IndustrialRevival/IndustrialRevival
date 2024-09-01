@@ -1,5 +1,8 @@
 package org.irmc.industrialrevival.api.objects;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -11,10 +14,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataType;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
 
 public class CustomItemStack extends ItemStack {
     public CustomItemStack(ItemStack item, Consumer<ItemMeta> meta) {

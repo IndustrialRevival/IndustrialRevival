@@ -1,6 +1,10 @@
 package org.irmc.industrialrevival.api.player;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -11,11 +15,6 @@ import org.irmc.industrialrevival.core.guide.GuideSettings;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
 
 public class PlayerProfile {
     @Getter
@@ -44,8 +43,7 @@ public class PlayerProfile {
         this.researchStatus = researchStatus;
     }
 
-    @Nullable
-    public static PlayerProfile getProfile(String playerName) {
+    @Nullable public static PlayerProfile getProfile(String playerName) {
         return IndustrialRevival.getInstance().getRegistry().getPlayerProfiles().get(playerName);
     }
 
@@ -74,8 +72,7 @@ public class PlayerProfile {
     }
      */
 
-    @NotNull
-    @CanIgnoreReturnValue
+    @NotNull @CanIgnoreReturnValue
     public static PlayerProfile getOrRequestProfile(String name) {
         if (IndustrialRevival.getInstance().getRegistry().getPlayerProfiles().containsKey(name)) {
             return IndustrialRevival.getInstance()

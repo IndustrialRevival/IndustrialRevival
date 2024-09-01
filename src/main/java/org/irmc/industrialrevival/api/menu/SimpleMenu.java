@@ -1,6 +1,10 @@
 package org.irmc.industrialrevival.api.menu;
 
 import com.google.common.base.Preconditions;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.IntStream;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -11,11 +15,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.IntStream;
 
 public class SimpleMenu implements IRInventoryHolder {
     private final Map<Integer, ItemStack> slots;
@@ -31,12 +30,10 @@ public class SimpleMenu implements IRInventoryHolder {
     private Inventory inventory;
 
     @Getter
-    private MenuCloseHandler closeHandler = (player) -> {
-    };
+    private MenuCloseHandler closeHandler = (player) -> {};
 
     @Getter
-    private MenuOpenHandler openHandler = (player, menu) -> {
-    };
+    private MenuOpenHandler openHandler = (player, menu) -> {};
 
     public SimpleMenu(Component title) {
         this.title = title;
@@ -116,8 +113,7 @@ public class SimpleMenu implements IRInventoryHolder {
         }
     }
 
-    @Nullable
-    public ItemStack getItem(int slot) {
+    @Nullable public ItemStack getItem(int slot) {
         return this.slots.get(slot);
     }
 

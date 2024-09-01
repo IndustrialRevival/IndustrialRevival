@@ -1,6 +1,13 @@
 package org.irmc.industrialrevival.api.menu;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.IntStream;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
@@ -15,14 +22,6 @@ import org.bukkit.persistence.PersistentDataType;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.core.utils.KeyUtil;
 import org.irmc.pigeonlib.items.ItemUtils;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.IntStream;
 
 @SuppressWarnings({"deprecation", "unused"})
 @Getter
@@ -234,8 +233,7 @@ public class MachineMenu extends SimpleMenu {
         return lefts;
     }
 
-    @Nullable
-    public ItemStack pushItem(ItemStack item, int... slots) {
+    @Nullable public ItemStack pushItem(ItemStack item, int... slots) {
         if (item == null || item.getType().isAir()) {
             return null;
         }

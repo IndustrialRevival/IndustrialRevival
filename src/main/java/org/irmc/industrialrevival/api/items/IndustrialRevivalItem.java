@@ -1,6 +1,9 @@
 package org.irmc.industrialrevival.api.items;
 
 import com.google.common.base.Preconditions;
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.Nonnull;
 import lombok.Getter;
 import lombok.Setter;
 import net.kyori.adventure.text.Component;
@@ -27,10 +30,6 @@ import org.irmc.industrialrevival.implementation.recipes.RecipeContent;
 import org.irmc.industrialrevival.implementation.recipes.RecipeContents;
 import org.irmc.pigeonlib.items.ItemUtils;
 import org.jetbrains.annotations.Nullable;
-
-import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * An industrial revival item.<br>
@@ -66,6 +65,7 @@ public class IndustrialRevivalItem {
     private String wikiText;
 
     private boolean locked = false;
+
     @Getter
     @Setter
     private boolean disabled = false;
@@ -201,8 +201,7 @@ public class IndustrialRevivalItem {
         }
     }
 
-    @Nullable
-    public <T extends ItemHandler> T getItemHandler(Class<T> clazz) {
+    @Nullable public <T extends ItemHandler> T getItemHandler(Class<T> clazz) {
         return (T) itemHandlers.get(clazz);
     }
 
@@ -213,7 +212,8 @@ public class IndustrialRevivalItem {
                 throw ex;
             }
 
-            if (handler instanceof BlockTicker && !ItemUtils.isActualBlock(getItem().getType())) {
+            if (handler instanceof BlockTicker
+                    && !ItemUtils.isActualBlock(getItem().getType())) {
                 throw new UnsupportedOperationException("Only actual block can have a BlockTicker!");
             }
         }

@@ -1,5 +1,7 @@
 package org.irmc.industrialrevival.core.listeners;
 
+import java.util.List;
+import java.util.Random;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -15,9 +17,6 @@ import org.irmc.industrialrevival.api.items.attributes.ItemDroppable;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.api.objects.Pair;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
-
-import java.util.List;
-import java.util.Random;
 
 public class DropListener extends AbstractIRListener {
     @EventHandler

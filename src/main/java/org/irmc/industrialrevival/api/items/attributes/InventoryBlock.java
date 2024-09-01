@@ -1,10 +1,9 @@
 package org.irmc.industrialrevival.api.items.attributes;
 
 import com.google.common.base.Preconditions;
+import java.util.function.Consumer;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
-
-import java.util.function.Consumer;
 
 public interface InventoryBlock extends ItemAttribute {
     int[] getInputSlots();

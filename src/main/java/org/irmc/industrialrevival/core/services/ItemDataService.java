@@ -1,13 +1,12 @@
 package org.irmc.industrialrevival.core.services;
 
+import java.util.Optional;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.irmc.industrialrevival.api.objects.enums.RadiationLevel;
 import org.irmc.industrialrevival.core.utils.Constants;
 import org.irmc.industrialrevival.core.utils.DataUtil;
-
-import java.util.Optional;
 
 public class ItemDataService {
     public Optional<String> getIRId(ItemStack stack) {

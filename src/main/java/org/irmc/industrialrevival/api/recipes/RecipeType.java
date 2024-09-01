@@ -1,5 +1,8 @@
 package org.irmc.industrialrevival.api.recipes;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -14,10 +17,6 @@ import org.irmc.industrialrevival.core.utils.KeyUtil;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.pigeonlib.pdc.PersistentDataAPI;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 @Getter
 public class RecipeType {
@@ -165,8 +164,7 @@ public class RecipeType {
         this.makerId = makerId;
     }
 
-    @Nullable
-    public ItemStack getMaker() {
+    @Nullable public ItemStack getMaker() {
         if (makerId != null) {
             return IndustrialRevivalItem.getById(makerId).getItem();
         }

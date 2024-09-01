@@ -18,8 +18,7 @@ public class Research {
 
     private IndustrialRevivalAddon addon;
 
-    @Nullable
-    public static Research getResearch(NamespacedKey key) {
+    @Nullable public static Research getResearch(NamespacedKey key) {
         return IndustrialRevival.getInstance().getRegistry().getResearches().get(key);
     }
 

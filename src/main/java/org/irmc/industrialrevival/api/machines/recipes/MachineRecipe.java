@@ -1,19 +1,14 @@
 package org.irmc.industrialrevival.api.machines.recipes;
 
+import java.util.Map;
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Map;
-
 public class MachineRecipe {
-    private @Getter
-    final int processTime;
-    private @Getter
-    final int energyCost;
-    private @Getter
-    final Map<ItemStack, Integer> inputs;
-    private @Getter
-    final Map<ItemStack, Integer> outputs;
+    private @Getter final int processTime;
+    private @Getter final int energyCost;
+    private @Getter final Map<ItemStack, Integer> inputs;
+    private @Getter final Map<ItemStack, Integer> outputs;
 
     public MachineRecipe(
             int processTime, int energyCost, Map<ItemStack, Integer> inputs, Map<ItemStack, Integer> outputs) {

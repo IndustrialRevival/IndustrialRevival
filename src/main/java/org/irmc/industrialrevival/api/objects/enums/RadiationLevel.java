@@ -13,6 +13,7 @@ public enum RadiationLevel {
 
     @Getter
     private final int value;
+
     private final String translationKey;
 
     RadiationLevel(int value, String translationKey) {

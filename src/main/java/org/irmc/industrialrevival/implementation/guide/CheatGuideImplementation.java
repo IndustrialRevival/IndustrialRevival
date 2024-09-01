@@ -12,8 +12,7 @@ import org.irmc.pigeonlib.items.ItemUtils;
 public class CheatGuideImplementation extends SurvivalGuideImplementation {
     public static final CheatGuideImplementation INSTANCE = new CheatGuideImplementation();
 
-    CheatGuideImplementation() {
-    }
+    CheatGuideImplementation() {}
 
     @Override
     public void open(Player p) {

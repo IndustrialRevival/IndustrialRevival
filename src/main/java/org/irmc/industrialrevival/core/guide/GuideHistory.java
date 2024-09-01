@@ -1,14 +1,13 @@
 package org.irmc.industrialrevival.core.guide;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.implementation.guide.SurvivalGuideImplementation;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class GuideHistory {
     private final String playerName;
@@ -70,7 +69,8 @@ public class GuideHistory {
             } else if (lastEntry.isGuide()) {
                 guide.open(player);
             } else if (lastEntry.isSearch()) {
-                SurvivalGuideImplementation.SearchGUI searchGUI = (SurvivalGuideImplementation.SearchGUI) lastEntry.getContent();
+                SurvivalGuideImplementation.SearchGUI searchGUI =
+                        (SurvivalGuideImplementation.SearchGUI) lastEntry.getContent();
                 searchGUI.showResults(1);
             }
 

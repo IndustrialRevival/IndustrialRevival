@@ -1,12 +1,11 @@
 package org.irmc.industrialrevival.api.items.handlers;
 
+import javax.annotation.Nonnull;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nonnull;
 
 @FunctionalInterface
 public interface WeaponUseHandler extends ItemHandler {

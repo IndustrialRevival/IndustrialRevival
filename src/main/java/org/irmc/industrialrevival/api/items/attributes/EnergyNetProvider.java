@@ -1,10 +1,9 @@
 package org.irmc.industrialrevival.api.items.attributes;
 
+import javax.annotation.Nullable;
 import org.bukkit.block.Block;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.objects.enums.EnergyNetComponentType;
-
-import javax.annotation.Nullable;
 
 public interface EnergyNetProvider extends EnergyNetComponent {
     @Override

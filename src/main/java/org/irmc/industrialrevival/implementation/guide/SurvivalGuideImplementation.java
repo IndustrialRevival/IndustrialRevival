@@ -1,6 +1,10 @@
 package org.irmc.industrialrevival.implementation.guide;
 
 import com.google.common.collect.Lists;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -17,11 +21,6 @@ import org.irmc.industrialrevival.core.utils.Constants;
 import org.irmc.industrialrevival.core.utils.KeyUtil;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.pigeonlib.chat.ChatInput;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class SurvivalGuideImplementation implements IRGuideImplementation {
     public static final SurvivalGuideImplementation INSTANCE = new SurvivalGuideImplementation();
@@ -184,8 +183,7 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
         }
 
         @Override
-        public void register() {
-        }
+        public void register() {}
     }
 
     public static class SearchGUI {
@@ -213,7 +211,8 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
         public void showResults(int page) {
             SimpleMenu sm = createMenu();
 
-            List<IndustrialRevivalItem> searchResults = IndustrialRevival.getInstance().getRegistry().searchItems(searchTerm);
+            List<IndustrialRevivalItem> searchResults =
+                    IndustrialRevival.getInstance().getRegistry().searchItems(searchTerm);
             List<List<IndustrialRevivalItem>> partition = Lists.partition(searchResults, 36);
 
             ItemStack previousButton = Constants.PREVIOUS_BUTTON.apply(player);
@@ -234,7 +233,7 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
                 return false;
             };
 
-            //not the actual page, actually page - 1 = last page index
+            // not the actual page, actually page - 1 = last page index
             if (partition.isEmpty() || partition.size() == 1) {
                 nextButton.setType(Material.BLACK_STAINED_GLASS_PANE);
                 nextButton.editMeta(m -> m.displayName(Component.space()));
@@ -269,7 +268,9 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
         }
 
         private SimpleMenu createMenu() {
-            SimpleMenu sm = new SimpleMenu(IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(player, Constants.GUIDE_TITLE_KEY));
+            SimpleMenu sm = new SimpleMenu(IndustrialRevival.getInstance()
+                    .getLanguageManager()
+                    .getMsgComponent(player, Constants.GUIDE_TITLE_KEY));
             for (int slot : Constants.BOARDER_SLOT) {
                 sm.setItem(slot, Constants.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT);
             }

@@ -1,5 +1,8 @@
 package org.irmc.industrialrevival.api.machines;
 
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.Nonnull;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
@@ -14,10 +17,6 @@ import org.irmc.industrialrevival.api.machines.recipes.MachineRecipes;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
-
-import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * BasicMachine is not related to energy networks, it just turns item A to B.

@@ -1,5 +1,6 @@
 package org.irmc.industrialrevival.core.data.mapper;
 
+import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -12,8 +13,6 @@ import org.irmc.industrialrevival.core.data.object.BlockMenuItem;
 import org.irmc.industrialrevival.core.data.object.BlockRecord;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-
 @Mapper
 public interface BlockDataMapper {
     @Insert(
@@ -24,13 +23,11 @@ public interface BlockDataMapper {
             "DELETE FROM block_record WHERE world = #{loc.getWorld().getName()} AND x = #{loc.getBlockX()} AND y = #{loc.getBlockY()} AND z = #{loc.getBlockZ()} AND machineId = #{machineId}")
     void blockRemoving(@Param("loc") Location loc, String machineId);
 
-    @Nullable
-    @Select(
+    @Nullable @Select(
             "SELECT machineId FROM block_record WHERE world = #{loc.getWorld().getName()} AND x = #{loc.getBlockX()} AND y = #{loc.getBlockY()} AND z = #{loc.getBlockZ()}")
     String getBlockId(@Param("loc") Location loc);
 
-    @Nullable
-    @Select(
+    @Nullable @Select(
             "SELECT data FROM block_record WHERE world = #{loc.getWorld().getName()} AND x = #{loc.getBlockX()} AND y = #{loc.getBlockY()} AND z = #{loc.getBlockZ()}")
     String getBlockData(@Param("loc") Location loc);
 

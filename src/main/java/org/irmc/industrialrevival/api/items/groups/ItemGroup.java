@@ -1,6 +1,9 @@
 package org.irmc.industrialrevival.api.items.groups;
 
 import com.google.common.collect.Lists;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -17,18 +20,16 @@ import org.irmc.industrialrevival.core.utils.Constants;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.guide.SurvivalGuideImplementation;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
 public abstract class ItemGroup {
     @Getter
     private final NamespacedKey key;
 
     @Getter
     private final ItemStack icon;
+
     private final List<IndustrialRevivalItem> items = new LinkedList<>();
     boolean locked = false;
+
     @Getter
     private int tier;
 
@@ -88,10 +89,13 @@ public abstract class ItemGroup {
 
                 IndustrialRevivalItem item = itemList.get(i - 9);
                 if (item != null) {
-                    sm.setItem(i, CleanedItemGetter.getCleanedItem(item.getItem()), (slot, player, item1, menu, clickType) -> {
-                        guide.onItemClicked(player, item, clickType);
-                        return false;
-                    });
+                    sm.setItem(
+                            i,
+                            CleanedItemGetter.getCleanedItem(item.getItem()),
+                            (slot, player, item1, menu, clickType) -> {
+                                guide.onItemClicked(player, item, clickType);
+                                return false;
+                            });
                 }
             }
         } else {

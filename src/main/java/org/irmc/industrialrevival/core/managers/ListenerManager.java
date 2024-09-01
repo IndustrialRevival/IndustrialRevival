@@ -1,5 +1,7 @@
 package org.irmc.industrialrevival.core.managers;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.irmc.industrialrevival.core.listeners.AbstractIRListener;
 import org.irmc.industrialrevival.core.listeners.DisabledItemListener;
 import org.irmc.industrialrevival.core.listeners.DropListener;
@@ -11,14 +13,10 @@ import org.irmc.industrialrevival.core.listeners.MachineMenuListener;
 import org.irmc.industrialrevival.core.listeners.NotPlaceableListener;
 import org.irmc.industrialrevival.core.listeners.PlayerJoinListener;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ListenerManager {
     List<AbstractIRListener> listeners = new ArrayList<>();
 
-    public ListenerManager() {
-    }
+    public ListenerManager() {}
 
     public void loadAll() {
         listeners.add(new DisabledItemListener());

@@ -1,13 +1,12 @@
 package org.irmc.industrialrevival.api.machines;
 
+import javax.annotation.Nonnull;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipes;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
-
-import javax.annotation.Nonnull;
 
 /**
  * Abstract class for all IndustrialRevival machines.

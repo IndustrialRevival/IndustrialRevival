@@ -1,6 +1,7 @@
 package org.irmc.industrialrevival.api.items;
 
 import com.google.common.base.Preconditions;
+import java.util.function.Consumer;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -13,12 +14,11 @@ import org.irmc.pigeonlib.pdc.PersistentDataAPI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.function.Consumer;
-
 @SuppressWarnings("unused")
 public class IndustrialRevivalItemStack extends ItemStack {
     @Getter
     private final String id;
+
     private boolean locked;
 
     public IndustrialRevivalItemStack(@NotNull String id, @NotNull Material material) {
@@ -32,11 +32,11 @@ public class IndustrialRevivalItemStack extends ItemStack {
 
     public IndustrialRevivalItemStack(@NotNull String id, @NotNull ItemStack itemStack) {
         super(itemStack.getType(), itemStack.getAmount());
-        //clone
+        // clone
         setItemMeta(itemStack.getItemMeta());
         addEnchantments(itemStack.getEnchantments());
         setDurability(itemStack.getDurability());
-        //clone end
+        // clone end
 
         Preconditions.checkArgument(id.equals(id.toUpperCase()), "ID must be uppercase");
 

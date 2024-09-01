@@ -1,5 +1,6 @@
 package org.irmc.industrialrevival.core.listeners;
 
+import java.util.ArrayList;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -26,8 +27,6 @@ import org.irmc.industrialrevival.api.items.handlers.WeaponUseHandler;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
-
-import java.util.ArrayList;
 
 public class ItemHandlerListener extends AbstractIRListener {
     @EventHandler
@@ -160,19 +159,15 @@ public class ItemHandlerListener extends AbstractIRListener {
 
     private boolean isSword(ItemStack item) {
         Material material = item.getType();
-        return (
-                Tag.ITEMS_SWORDS.isTagged(material)
-        );
+        return (Tag.ITEMS_SWORDS.isTagged(material));
     }
 
     private boolean isTool(ItemStack item) {
         Material material = item.getType();
-        return (
-                Tag.ITEMS_AXES.isTagged(material)
-                        || Tag.ITEMS_HOES.isTagged(material)
-                        || Tag.ITEMS_PICKAXES.isTagged(material)
-                        || Tag.ITEMS_SHOVELS.isTagged(material)
-                        || material == Material.SHEARS
-        );
+        return (Tag.ITEMS_AXES.isTagged(material)
+                || Tag.ITEMS_HOES.isTagged(material)
+                || Tag.ITEMS_PICKAXES.isTagged(material)
+                || Tag.ITEMS_SHOVELS.isTagged(material)
+                || material == Material.SHEARS);
     }
 }
