@@ -4,9 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
-import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
-import org.irmc.industrialrevival.api.items.attributes.Limited;
 import org.irmc.industrialrevival.api.objects.events.PlayerRightClickEvent;
 
 public class InteractListener extends AbstractIRListener {
@@ -17,17 +14,6 @@ public class InteractListener extends AbstractIRListener {
             Bukkit.getServer().getPluginManager().callEvent(event);
 
             e.setCancelled(event.isCancelled());
-        }
-    }
-
-    @EventHandler
-    public void onLimitedUseItem(PlayerRightClickEvent e) {
-        ItemStack item = e.getItem();
-        if (item != null) {
-            if (IndustrialRevivalItem.getByItem(item) instanceof Limited l) {
-                int left = l.getCountLeft();
-                l.setCountLeft(left - 1);
-            }
         }
     }
 }

@@ -1,13 +1,16 @@
 package org.irmc.industrialrevival.api.machines.process;
 
-import java.util.Map;
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipe;
 
+import java.util.Map;
+
 public class MachineOperation implements IOperation {
-    private @Getter final Map<ItemStack, Integer> inputStacks;
-    private @Getter final Map<ItemStack, Integer> outputStacks;
+    private @Getter
+    final Map<ItemStack, Integer> inputStacks;
+    private @Getter
+    final Map<ItemStack, Integer> outputStacks;
     private final int duration;
     private int currentProgress = 0;
 

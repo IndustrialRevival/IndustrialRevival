@@ -1,13 +1,14 @@
 package org.irmc.industrialrevival.core.guide;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
-import org.irmc.industrialrevival.core.guide.impl.SurvivalGuideImplementation;
+import org.irmc.industrialrevival.implementation.guide.SurvivalGuideImplementation;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GuideHistory {
     private final String playerName;

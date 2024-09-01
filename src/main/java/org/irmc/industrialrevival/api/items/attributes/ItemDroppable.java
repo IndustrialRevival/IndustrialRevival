@@ -1,8 +1,9 @@
 package org.irmc.industrialrevival.api.items.attributes;
 
-import java.util.List;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.List;
 
 /**
  * An interface for items that can be dropped by a block when it is destroyed.<br>
@@ -19,6 +20,7 @@ public interface ItemDroppable extends ItemAttribute {
 
     /**
      * Whether to drop {@link BlockDropItem}s or not.
+     *
      * @return true if the block should drop {@link BlockDropItem}s, false otherwise.
      */
     default boolean dropBlockDropItems() {

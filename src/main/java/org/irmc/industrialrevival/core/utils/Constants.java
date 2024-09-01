@@ -1,14 +1,15 @@
 package org.irmc.industrialrevival.core.utils;
 
-import java.io.File;
-import java.util.function.Function;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
-import org.irmc.industrialrevival.core.IndustrialRevival;
+import org.irmc.industrialrevival.implementation.IndustrialRevival;
+
+import java.io.File;
+import java.util.function.Function;
 
 @SuppressWarnings({"unused"})
 public class Constants {
@@ -45,67 +46,67 @@ public class Constants {
             new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " ").setCustomModel(19990);
 
     public static final Function<Player, ItemStack> BACK_BUTTON = p -> new CustomItemStack(
-                    Material.ENCHANTED_BOOK,
-                    IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_BACK_KEY),
-                    IndustrialRevival.getInstance().getLanguageManager().getMsgComponentList(p, "guide.back_lore"))
+            Material.ENCHANTED_BOOK,
+            IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_BACK_KEY),
+            IndustrialRevival.getInstance().getLanguageManager().getMsgComponentList(p, "guide.back_lore"))
             .setCustomModel(19990);
 
     public static final Function<Player, ItemStack> SETTING_BUTTON = p -> new CustomItemStack(
-                    Material.REPEATER,
-                    IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_SETTINGS_KEY))
+            Material.REPEATER,
+            IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_SETTINGS_KEY))
             .setCustomModel(19990);
 
     public static final Function<Player, ItemStack> BOOKMARK_BUTTON = p -> new CustomItemStack(
-                    Material.WRITABLE_BOOK,
-                    IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_BOOKMARKS_KEY))
+            Material.WRITABLE_BOOK,
+            IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_BOOKMARKS_KEY))
             .setCustomModel(19991);
 
     public static final Function<Player, ItemStack> ADD_TO_BOOKMARK_BUTTON = p -> new CustomItemStack(
-                    Material.PAPER,
-                    IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, "guide.add_to_bookmarks"))
+            Material.PAPER,
+            IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, "guide.add_to_bookmarks"))
             .setCustomModel(19992);
 
     public static final Function<Player, ItemStack> SEARCH_BUTTON = p -> new CustomItemStack(
-                    Material.COMPASS,
-                    IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_SEARCH_KEY))
+            Material.COMPASS,
+            IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_SEARCH_KEY))
             .setCustomModel(19993);
 
     public static final Function<Player, ItemStack> PREVIOUS_BUTTON = p -> new CustomItemStack(
-                    Material.LIME_STAINED_GLASS_PANE,
-                    IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_PREVIOUS_KEY))
+            Material.LIME_STAINED_GLASS_PANE,
+            IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_PREVIOUS_KEY))
             .setCustomModel(19994);
 
     public static final Function<Player, ItemStack> NEXT_BUTTON = p -> new CustomItemStack(
-                    Material.LIME_STAINED_GLASS_PANE,
-                    IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_NEXT_KEY))
+            Material.LIME_STAINED_GLASS_PANE,
+            IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_NEXT_KEY))
             .setCustomModel(19995);
 
     public static final Function<Player, ItemStack> PREVIOUS_ONE_BUTTON = p -> new CustomItemStack(
-                    Material.LIME_STAINED_GLASS_PANE,
-                    IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_PREVIOUS_ONE_KEY))
+            Material.LIME_STAINED_GLASS_PANE,
+            IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_PREVIOUS_ONE_KEY))
             .setCustomModel(19996);
 
     public static final Function<Player, ItemStack> NEXT_ONE_BUTTON = p -> new CustomItemStack(
-                    Material.LIME_STAINED_GLASS_PANE,
-                    IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_NEXT_ONE_KEY))
+            Material.LIME_STAINED_GLASS_PANE,
+            IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, GUIDE_NEXT_ONE_KEY))
             .setCustomModel(19997);
 
     public static final Function<Player, ItemStack> WIKI_PAGE_BUTTON = p -> new CustomItemStack(
-                    Material.BOOK,
-                    IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, "guide.wiki_page_button"))
+            Material.BOOK,
+            IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, "guide.wiki_page_button"))
             .setCustomModel(19998);
 
     public static final ItemStack GUIDE_BOOK_ITEM = new CustomItemStack(
-                    Material.ENCHANTED_BOOK,
-                    IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(null, "guide.book_item_name"))
+            Material.ENCHANTED_BOOK,
+            IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(null, "guide.book_item_name"))
             .setCustomModel(19999)
             .setPDCData(GUIDE_ITEM_KEY, PersistentDataType.INTEGER, 1);
 
     public static final ItemStack CHEAT_GUIDE_BOOK_ITEM = new CustomItemStack(
-                    Material.ENCHANTED_BOOK,
-                    IndustrialRevival.getInstance()
-                            .getLanguageManager()
-                            .getMsgComponent(null, "guide.cheat_book_item_name"))
+            Material.ENCHANTED_BOOK,
+            IndustrialRevival.getInstance()
+                    .getLanguageManager()
+                    .getMsgComponent(null, "guide.cheat_book_item_name"))
             .setCustomModel(20000)
             .setPDCData(GUIDE_ITEM_KEY, PersistentDataType.INTEGER, 2);
 }

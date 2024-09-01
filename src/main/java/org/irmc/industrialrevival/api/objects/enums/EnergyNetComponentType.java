@@ -5,6 +5,8 @@ public enum EnergyNetComponentType {
     GENERATOR,
     CONNECTOR,
     CAPACITOR,
-    /** A component that limits the flow of energy through it. It's also a connector. */
+    /**
+     * A component that limits the flow of energy through it. It's also a connector.
+     */
     LIMITED_CONNECTOR
 }

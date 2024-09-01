@@ -1,7 +1,8 @@
 package org.irmc.industrialrevival.core.guide;
 
-import java.util.Locale;
 import lombok.Data;
+
+import java.util.Locale;
 
 @Data
 public class GuideSettings {

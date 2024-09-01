@@ -1,8 +1,8 @@
 package org.irmc.industrialrevival.core.listeners;
 
-import java.util.ArrayList;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -17,11 +17,17 @@ import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.api.items.attributes.InventoryBlock;
 import org.irmc.industrialrevival.api.items.attributes.ItemDroppable;
-import org.irmc.industrialrevival.api.items.attributes.NotPlaceable;
-import org.irmc.industrialrevival.api.items.handlers.*;
+import org.irmc.industrialrevival.api.items.handlers.BlockBreakHandler;
+import org.irmc.industrialrevival.api.items.handlers.BlockPlaceHandler;
+import org.irmc.industrialrevival.api.items.handlers.BlockUseHandler;
+import org.irmc.industrialrevival.api.items.handlers.ToolUseHandler;
+import org.irmc.industrialrevival.api.items.handlers.UseItemInteractHandler;
+import org.irmc.industrialrevival.api.items.handlers.WeaponUseHandler;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
-import org.irmc.industrialrevival.core.IndustrialRevival;
+import org.irmc.industrialrevival.implementation.IndustrialRevival;
+
+import java.util.ArrayList;
 
 public class ItemHandlerListener extends AbstractIRListener {
     @EventHandler
@@ -44,11 +50,6 @@ public class ItemHandlerListener extends AbstractIRListener {
         if (item instanceof IndustrialRevivalItemStack iris) {
             String id = iris.getId();
             IndustrialRevivalItem iritem = IndustrialRevivalItem.getById(id);
-
-            if (iritem instanceof NotPlaceable) {
-                e.setCancelled(true);
-                return;
-            }
 
             Block block = e.getBlockPlaced();
 
@@ -121,12 +122,12 @@ public class ItemHandlerListener extends AbstractIRListener {
     public void onToolUse(BlockBreakEvent e) {
         ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
         if (item instanceof IndustrialRevivalItemStack iris) {
-            String id = iris.getId();
-            IndustrialRevivalItem iritem = IndustrialRevivalItem.getById(id);
-
             if (!isTool(item)) {
                 return;
             }
+
+            String id = iris.getId();
+            IndustrialRevivalItem iritem = IndustrialRevivalItem.getById(id);
 
             ToolUseHandler handler = iritem.getItemHandler(ToolUseHandler.class);
             if (handler != null) {
@@ -157,9 +158,21 @@ public class ItemHandlerListener extends AbstractIRListener {
         }
     }
 
+    private boolean isSword(ItemStack item) {
+        Material material = item.getType();
+        return (
+                Tag.ITEMS_SWORDS.isTagged(material)
+        );
+    }
+
     private boolean isTool(ItemStack item) {
         Material material = item.getType();
-        String str = material.toString();
-        return str.endsWith("AXE") || str.endsWith("HOE") || str.endsWith("PICKAXE") || str.endsWith("SHOVEL");
+        return (
+                Tag.ITEMS_AXES.isTagged(material)
+                        || Tag.ITEMS_HOES.isTagged(material)
+                        || Tag.ITEMS_PICKAXES.isTagged(material)
+                        || Tag.ITEMS_SHOVELS.isTagged(material)
+                        || material == Material.SHEARS
+        );
     }
 }

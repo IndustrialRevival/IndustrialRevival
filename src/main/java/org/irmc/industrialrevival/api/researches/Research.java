@@ -6,7 +6,7 @@ import org.bukkit.NamespacedKey;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.objects.exceptions.IdConflictException;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
-import org.irmc.industrialrevival.core.IndustrialRevival;
+import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.jetbrains.annotations.Nullable;
 
 @Getter
@@ -18,7 +18,8 @@ public class Research {
 
     private IndustrialRevivalAddon addon;
 
-    @Nullable public static Research getResearch(NamespacedKey key) {
+    @Nullable
+    public static Research getResearch(NamespacedKey key) {
         return IndustrialRevival.getInstance().getRegistry().getResearches().get(key);
     }
 

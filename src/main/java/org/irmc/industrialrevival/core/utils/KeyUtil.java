@@ -2,7 +2,7 @@ package org.irmc.industrialrevival.core.utils;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.Plugin;
-import org.irmc.industrialrevival.core.IndustrialRevival;
+import org.irmc.industrialrevival.implementation.IndustrialRevival;
 
 public class KeyUtil {
     public static NamespacedKey customKey(String key) {

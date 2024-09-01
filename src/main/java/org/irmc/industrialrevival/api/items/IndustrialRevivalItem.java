@@ -1,9 +1,6 @@
 package org.irmc.industrialrevival.api.items;
 
 import com.google.common.base.Preconditions;
-import java.util.HashMap;
-import java.util.Map;
-import javax.annotation.Nonnull;
 import lombok.Getter;
 import lombok.Setter;
 import net.kyori.adventure.text.Component;
@@ -14,18 +11,26 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.persistence.PersistentDataType;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
-import org.irmc.industrialrevival.api.items.attributes.*;
+import org.irmc.industrialrevival.api.items.attributes.BlockDropItem;
+import org.irmc.industrialrevival.api.items.attributes.ItemDroppable;
+import org.irmc.industrialrevival.api.items.attributes.MobDropItem;
+import org.irmc.industrialrevival.api.items.attributes.NotPlaceable;
+import org.irmc.industrialrevival.api.items.attributes.VanillaSmeltingItem;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.handlers.BlockTicker;
 import org.irmc.industrialrevival.api.items.handlers.ItemHandler;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
-import org.irmc.industrialrevival.core.IndustrialRevival;
 import org.irmc.industrialrevival.core.utils.Constants;
+import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.recipes.RecipeContent;
 import org.irmc.industrialrevival.implementation.recipes.RecipeContents;
 import org.irmc.pigeonlib.items.ItemUtils;
 import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nonnull;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * An industrial revival item.<br>
@@ -48,6 +53,9 @@ public class IndustrialRevivalItem {
     private final ItemStack[] recipe;
 
     @Getter
+    private final ItemStack recipeOutput;
+
+    @Getter
     private boolean usableInWorkbench = false;
 
     @Getter
@@ -58,12 +66,24 @@ public class IndustrialRevivalItem {
     private String wikiText;
 
     private boolean locked = false;
+    @Getter
+    @Setter
+    private boolean disabled = false;
 
     public IndustrialRevivalItem(
             @Nonnull ItemGroup group,
             @Nonnull IndustrialRevivalItemStack itemStack,
             @Nonnull RecipeType recipeType,
             @Nonnull ItemStack[] recipe) {
+        this(group, itemStack, recipeType, recipe, null);
+    }
+
+    public IndustrialRevivalItem(
+            @Nonnull ItemGroup group,
+            @Nonnull IndustrialRevivalItemStack itemStack,
+            @Nonnull RecipeType recipeType,
+            @Nonnull ItemStack[] recipe,
+            @Nullable ItemStack recipeOutput) {
         Preconditions.checkNotNull(group, "group cannot be null");
         Preconditions.checkNotNull(itemStack, "itemStack cannot be null");
         Preconditions.checkNotNull(recipeType, "recipeType cannot be null");
@@ -90,6 +110,34 @@ public class IndustrialRevivalItem {
         if (this.recipe.length != 9) {
             throw new IllegalArgumentException("Recipe must be a array of 9 items");
         }
+
+        if (recipeOutput == null) {
+            this.recipeOutput = itemStack.clone();
+        } else {
+            this.recipeOutput = recipeOutput.clone();
+        }
+    }
+
+    public static IndustrialRevivalItem getById(String id) {
+        return IndustrialRevival.getInstance().getRegistry().getItems().get(id);
+    }
+
+    public static IndustrialRevivalItem getByItem(@Nullable ItemStack item) {
+        if (item == null || item.getType().isAir()) {
+            return null;
+        }
+
+        if (item instanceof IndustrialRevivalItemStack irStack) {
+            return getById(irStack.getId());
+        }
+
+        String id =
+                item.getItemMeta().getPersistentDataContainer().get(Constants.ITEM_ID_KEY, PersistentDataType.STRING);
+        if (id != null) {
+            return getById(id);
+        }
+
+        return null;
     }
 
     public IndustrialRevivalItemStack getItem() {
@@ -111,6 +159,7 @@ public class IndustrialRevivalItem {
 
     /**
      * Registers the item in the registry.
+     *
      * @return WILL RETURN NULL IF THE ITEM IS NOT REGISTERED SUCCESSFULLY!!
      */
     public IndustrialRevivalItem register(IndustrialRevivalAddon addon) {
@@ -152,7 +201,8 @@ public class IndustrialRevivalItem {
         }
     }
 
-    @Nullable public <T extends ItemHandler> T getItemHandler(Class<T> clazz) {
+    @Nullable
+    public <T extends ItemHandler> T getItemHandler(Class<T> clazz) {
         return (T) itemHandlers.get(clazz);
     }
 
@@ -203,27 +253,5 @@ public class IndustrialRevivalItem {
 
             Bukkit.addRecipe(fr);
         }
-    }
-
-    public static IndustrialRevivalItem getById(String id) {
-        return IndustrialRevival.getInstance().getRegistry().getItems().get(id);
-    }
-
-    public static IndustrialRevivalItem getByItem(@Nullable ItemStack item) {
-        if (item == null || item.getType().isAir()) {
-            return null;
-        }
-
-        if (item instanceof IndustrialRevivalItemStack irStack) {
-            return getById(irStack.getId());
-        }
-
-        String id =
-                item.getItemMeta().getPersistentDataContainer().get(Constants.ITEM_ID_KEY, PersistentDataType.STRING);
-        if (id != null) {
-            return getById(id);
-        }
-
-        return null;
     }
 }

@@ -1,13 +1,5 @@
 package org.irmc.industrialrevival.api.menu;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.IntStream;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
@@ -24,6 +16,14 @@ import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.core.utils.KeyUtil;
 import org.irmc.pigeonlib.items.ItemUtils;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.IntStream;
+
 @SuppressWarnings({"deprecation", "unused"})
 @Getter
 public class MachineMenu extends SimpleMenu {
@@ -34,6 +34,65 @@ public class MachineMenu extends SimpleMenu {
         super(preset.getTitle());
         this.location = location;
         this.preset = preset;
+    }
+
+    @Nonnull
+    public static String getProgressBar(int remainingTicks, int total) {
+        StringBuilder sb = new StringBuilder();
+        float percentage = Math.round((total - remainingTicks) * 100.0F / total * 100.0F / 100.0F);
+
+        sb.append(getColorFromPercentage(percentage));
+
+        int rest = 16;
+        for (int i = (int) percentage; i >= 5; i = i - 5) {
+            sb.append(':');
+            rest--;
+        }
+
+        sb.append("&7");
+        sb.append(":".repeat(Math.max(0, rest)));
+
+        sb.append(" - ").append(percentage).append('%');
+        return ChatColor.translateAlternateColorCodes('&', sb.toString());
+    }
+
+    private static short getDurability(@Nonnull ItemStack item, int remainingTicks, int total) {
+        return (short) ((item.getType().getMaxDurability() / total) * remainingTicks);
+    }
+
+    @Nonnull
+    public static ChatColor getColorFromPercentage(float percentage) {
+        if (percentage < 16.0F) {
+            return ChatColor.DARK_RED;
+        }
+        if (percentage < 32.0F) {
+            return ChatColor.RED;
+        }
+        if (percentage < 48.0F) {
+            return ChatColor.GOLD;
+        }
+        if (percentage < 64.0F) {
+            return ChatColor.YELLOW;
+        }
+        if (percentage < 80.0F) {
+            return ChatColor.DARK_GREEN;
+        }
+
+        return ChatColor.GREEN;
+    }
+
+    @Nonnull
+    public static String getRemainingTime(int seconds) {
+        String remainingTime = "";
+
+        int minutes = (int) (seconds / 60L);
+
+        if (minutes > 0) {
+            remainingTime += minutes + "m ";
+        }
+
+        seconds -= minutes * 60;
+        return remainingTime + seconds + "s";
     }
 
     public void setSize(int size) {
@@ -107,65 +166,6 @@ public class MachineMenu extends SimpleMenu {
         setItem(slot, item);
     }
 
-    @Nonnull
-    public static String getProgressBar(int remainingTicks, int total) {
-        StringBuilder sb = new StringBuilder();
-        float percentage = Math.round((total - remainingTicks) * 100.0F / total * 100.0F / 100.0F);
-
-        sb.append(getColorFromPercentage(percentage));
-
-        int rest = 16;
-        for (int i = (int) percentage; i >= 5; i = i - 5) {
-            sb.append(':');
-            rest--;
-        }
-
-        sb.append("&7");
-        sb.append(":".repeat(Math.max(0, rest)));
-
-        sb.append(" - ").append(percentage).append('%');
-        return ChatColor.translateAlternateColorCodes('&', sb.toString());
-    }
-
-    private static short getDurability(@Nonnull ItemStack item, int remainingTicks, int total) {
-        return (short) ((item.getType().getMaxDurability() / total) * remainingTicks);
-    }
-
-    @Nonnull
-    public static ChatColor getColorFromPercentage(float percentage) {
-        if (percentage < 16.0F) {
-            return ChatColor.DARK_RED;
-        }
-        if (percentage < 32.0F) {
-            return ChatColor.RED;
-        }
-        if (percentage < 48.0F) {
-            return ChatColor.GOLD;
-        }
-        if (percentage < 64.0F) {
-            return ChatColor.YELLOW;
-        }
-        if (percentage < 80.0F) {
-            return ChatColor.DARK_GREEN;
-        }
-
-        return ChatColor.GREEN;
-    }
-
-    @Nonnull
-    public static String getRemainingTime(int seconds) {
-        String remainingTime = "";
-
-        int minutes = (int) (seconds / 60L);
-
-        if (minutes > 0) {
-            remainingTime += minutes + "m ";
-        }
-
-        seconds -= minutes * 60;
-        return remainingTime + seconds + "s";
-    }
-
     public boolean fits(ItemStack item, int... slots) {
         final ItemStack clone = item.clone();
         for (int slot : slots) {
@@ -234,7 +234,8 @@ public class MachineMenu extends SimpleMenu {
         return lefts;
     }
 
-    @Nullable public ItemStack pushItem(ItemStack item, int... slots) {
+    @Nullable
+    public ItemStack pushItem(ItemStack item, int... slots) {
         if (item == null || item.getType().isAir()) {
             return null;
         }

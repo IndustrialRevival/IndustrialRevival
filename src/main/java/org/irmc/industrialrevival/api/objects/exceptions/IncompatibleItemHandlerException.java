@@ -4,10 +4,10 @@ public class IncompatibleItemHandlerException extends Exception {
     public IncompatibleItemHandlerException(String message, String id) {
         super(
                 """
-                Incompatible item handler found in item with id: %s
-                Reason: %s
-                It will not be registered.
-                """
+                        Incompatible item handler found in item with id: %s
+                        Reason: %s
+                        It will not be registered.
+                        """
                         .formatted(id, message));
     }
 }

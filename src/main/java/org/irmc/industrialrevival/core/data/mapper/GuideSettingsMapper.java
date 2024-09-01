@@ -15,7 +15,8 @@ public interface GuideSettingsMapper {
                     + "VALUES (#{username}, #{settings.fireWorksEnabled}, #{settings.learningAnimationEnabled}, #{settings.language})")
     void save(@NotNull String username, @NotNull @Param("settings") GuideSettings settings);
 
-    @Nullable @Select(
+    @Nullable
+    @Select(
             "SELECT fireWorksEnabled, learningAnimationEnabled, language FROM guide_settings WHERE username = #{username}")
     GuideSettings get(@NotNull @Param("username") String username);
 }

@@ -11,13 +11,13 @@ public class IdConflictException extends Exception {
     public IdConflictException(String id, IndustrialRevivalAddon origin, IndustrialRevivalAddon conflictingAddon) {
         super(
                 """
-                Item id conflict detected:
-                Item id: %s
-                Original addon: %s
-                Conflicting item's addon: %s
+                        Item id conflict detected:
+                        Item id: %s
+                        Original addon: %s
+                        Conflicting item's addon: %s
 
-                The conflicting item will not be registered.
-                """
+                        The conflicting item will not be registered.
+                        """
                         .formatted(
                                 id,
                                 origin.getPlugin().getName(),

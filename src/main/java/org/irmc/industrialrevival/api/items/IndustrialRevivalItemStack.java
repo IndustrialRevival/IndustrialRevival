@@ -1,24 +1,24 @@
 package org.irmc.industrialrevival.api.items;
 
 import com.google.common.base.Preconditions;
-import java.util.function.Consumer;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
-import org.irmc.industrialrevival.core.IndustrialRevival;
 import org.irmc.industrialrevival.core.utils.Constants;
+import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.pigeonlib.pdc.PersistentDataAPI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Consumer;
 
 @SuppressWarnings("unused")
 public class IndustrialRevivalItemStack extends ItemStack {
     @Getter
     private final String id;
-
     private boolean locked;
 
     public IndustrialRevivalItemStack(@NotNull String id, @NotNull Material material) {
@@ -99,10 +99,16 @@ public class IndustrialRevivalItemStack extends ItemStack {
         super.setData(data);
     }
 
+    public @NotNull ItemStack cloneIR() {
+        IndustrialRevivalItemStack itemStack = new IndustrialRevivalItemStack(this.id, this);
+        itemStack.unlock();
+        return itemStack;
+    }
+
     @Override
     public @NotNull ItemStack clone() {
-        var itemStack = new IndustrialRevivalItemStack(this.id, this);
-        itemStack.unlock();
+        ItemStack itemStack = new ItemStack(this.getType(), this.getAmount());
+        itemStack.setItemMeta(this.getItemMeta());
         return itemStack;
     }
 

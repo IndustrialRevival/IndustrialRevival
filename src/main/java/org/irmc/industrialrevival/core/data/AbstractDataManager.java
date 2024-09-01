@@ -1,12 +1,5 @@
 package org.irmc.industrialrevival.core.data;
 
-import java.io.StringReader;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.Base64;
-import java.util.List;
-import javax.sql.DataSource;
 import org.apache.ibatis.datasource.unpooled.UnpooledDataSource;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.session.Configuration;
@@ -24,6 +17,14 @@ import org.irmc.industrialrevival.core.data.mapper.ResearchStatusMapper;
 import org.irmc.industrialrevival.core.data.object.BlockRecord;
 import org.irmc.industrialrevival.core.guide.GuideSettings;
 import org.jetbrains.annotations.NotNull;
+
+import javax.sql.DataSource;
+import java.io.StringReader;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Base64;
+import java.util.List;
 
 public non-sealed class AbstractDataManager implements IDataManager {
     private final String driver;

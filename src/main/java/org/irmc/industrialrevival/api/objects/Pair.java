@@ -4,9 +4,9 @@ import lombok.Getter;
 
 @Getter
 public class Pair<A, B> {
+    private final boolean mutable;
     private A first;
     private B second;
-    private final boolean mutable;
 
     public Pair(A first, B second) {
         this.first = first;

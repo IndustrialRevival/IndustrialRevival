@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
-import org.irmc.industrialrevival.core.guide.impl.SurvivalGuideImplementation;
+import org.irmc.industrialrevival.implementation.guide.SurvivalGuideImplementation;
 
 @Getter
 @RequiredArgsConstructor

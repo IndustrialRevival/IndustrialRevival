@@ -17,5 +17,6 @@ public interface IOperation {
         return getCurrentProgress() >= getTotalDuration();
     }
 
-    default void onCancel() {}
+    default void onCancel() {
+    }
 }
