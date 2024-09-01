@@ -27,13 +27,13 @@ public class LimitedItem extends IndustrialRevivalItem implements Limited {
     }
 
     @Override
-    public int getCountLeft() {
-        return countLeft;
+    public void setLimit(int limit) {
+        this.limit = limit;
     }
 
     @Override
-    public void setLimit(int limit) {
-        this.limit = limit;
+    public int getCountLeft() {
+        return countLeft;
     }
 
     @Override

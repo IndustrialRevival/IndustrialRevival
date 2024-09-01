@@ -12,7 +12,8 @@ public class IRBlockData {
 
     private final YamlConfiguration config;
 
-    @Nullable private final MachineMenu machineMenu;
+    @Nullable
+    private final MachineMenu machineMenu;
 
     private final Location location;
 

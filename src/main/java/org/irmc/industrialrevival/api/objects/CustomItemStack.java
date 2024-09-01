@@ -1,8 +1,5 @@
 package org.irmc.industrialrevival.api.objects;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -14,6 +11,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataType;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
 public class CustomItemStack extends ItemStack {
     public CustomItemStack(ItemStack item, Consumer<ItemMeta> meta) {
@@ -79,22 +80,6 @@ public class CustomItemStack extends ItemStack {
         this(material, name, new ArrayList<>());
     }
 
-    public CustomItemStack addFlags(ItemFlag... flags) {
-        ItemMeta im = getItemMeta();
-        im.addItemFlags(flags);
-        setItemMeta(im);
-
-        return this;
-    }
-
-    public CustomItemStack setCustomModel(int data) {
-        ItemMeta im = getItemMeta();
-        im.setCustomModelData(data == 0 ? null : data);
-        setItemMeta(im);
-
-        return this;
-    }
-
     public CustomItemStack(Material type, String name, String... lore) {
         this(new ItemStack(type), name, lore);
     }
@@ -116,6 +101,22 @@ public class CustomItemStack extends ItemStack {
                 im.lore(lore);
             }
         });
+    }
+
+    public CustomItemStack addFlags(ItemFlag... flags) {
+        ItemMeta im = getItemMeta();
+        im.addItemFlags(flags);
+        setItemMeta(im);
+
+        return this;
+    }
+
+    public CustomItemStack setCustomModel(int data) {
+        ItemMeta im = getItemMeta();
+        im.setCustomModelData(data == 0 ? null : data);
+        setItemMeta(im);
+
+        return this;
     }
 
     public <T, Z> CustomItemStack setPDCData(NamespacedKey key, PersistentDataType<T, Z> type, Z value) {

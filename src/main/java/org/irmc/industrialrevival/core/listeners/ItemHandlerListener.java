@@ -1,6 +1,5 @@
 package org.irmc.industrialrevival.core.listeners;
 
-import java.util.ArrayList;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -18,10 +17,17 @@ import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.api.items.attributes.InventoryBlock;
 import org.irmc.industrialrevival.api.items.attributes.ItemDroppable;
-import org.irmc.industrialrevival.api.items.handlers.*;
+import org.irmc.industrialrevival.api.items.handlers.BlockBreakHandler;
+import org.irmc.industrialrevival.api.items.handlers.BlockPlaceHandler;
+import org.irmc.industrialrevival.api.items.handlers.BlockUseHandler;
+import org.irmc.industrialrevival.api.items.handlers.ToolUseHandler;
+import org.irmc.industrialrevival.api.items.handlers.UseItemInteractHandler;
+import org.irmc.industrialrevival.api.items.handlers.WeaponUseHandler;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
+
+import java.util.ArrayList;
 
 public class ItemHandlerListener extends AbstractIRListener {
     @EventHandler
@@ -158,14 +164,15 @@ public class ItemHandlerListener extends AbstractIRListener {
                 Tag.ITEMS_SWORDS.isTagged(material)
         );
     }
+
     private boolean isTool(ItemStack item) {
         Material material = item.getType();
         return (
                 Tag.ITEMS_AXES.isTagged(material)
-                || Tag.ITEMS_HOES.isTagged(material)
-                || Tag.ITEMS_PICKAXES.isTagged(material)
-                || Tag.ITEMS_SHOVELS.isTagged(material)
-                || material == Material.SHEARS
-                );
+                        || Tag.ITEMS_HOES.isTagged(material)
+                        || Tag.ITEMS_PICKAXES.isTagged(material)
+                        || Tag.ITEMS_SHOVELS.isTagged(material)
+                        || material == Material.SHEARS
+        );
     }
 }

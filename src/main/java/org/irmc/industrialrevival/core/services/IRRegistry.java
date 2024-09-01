@@ -1,6 +1,5 @@
 package org.irmc.industrialrevival.core.services;
 
-import java.util.*;
 import lombok.Getter;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
@@ -15,6 +14,13 @@ import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
 import org.irmc.industrialrevival.api.objects.Pair;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
 import org.irmc.industrialrevival.api.researches.Research;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Getter
 public final class IRRegistry {
@@ -72,10 +78,10 @@ public final class IRRegistry {
 
     public List<IndustrialRevivalItem> searchItems(String term) {
         return items.values().stream()
-               .filter(i -> {
-                   String coloredName = MiniMessage.miniMessage().serialize(i.getItemName());
-                   String noColoredName = MiniMessage.miniMessage().stripTags(coloredName);
-                   return noColoredName.toLowerCase().contains(term.toLowerCase());
-               }).toList();
+                .filter(i -> {
+                    String coloredName = MiniMessage.miniMessage().serialize(i.getItemName());
+                    String noColoredName = MiniMessage.miniMessage().stripTags(coloredName);
+                    return noColoredName.toLowerCase().contains(term.toLowerCase());
+                }).toList();
     }
 }

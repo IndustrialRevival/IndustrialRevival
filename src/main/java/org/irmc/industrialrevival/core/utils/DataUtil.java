@@ -1,6 +1,5 @@
 package org.irmc.industrialrevival.core.utils;
 
-import javax.annotation.Nullable;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -11,9 +10,12 @@ import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 
+import javax.annotation.Nullable;
+
 @SuppressWarnings("unused")
 public class DataUtil {
-    @Nullable public static IRBlockData getBlockData(Location location) {
+    @Nullable
+    public static IRBlockData getBlockData(Location location) {
         return IndustrialRevival.getInstance().getBlockDataService().getBlockData(location);
     }
 
@@ -21,7 +23,8 @@ public class DataUtil {
         getBlockData(location).getConfig().set(key, value);
     }
 
-    @Nullable public static String getData(Location location, String key) {
+    @Nullable
+    public static String getData(Location location, String key) {
         return getBlockData(location).getConfig().getString(key);
     }
 
@@ -37,7 +40,8 @@ public class DataUtil {
         return getBlockData(location) != null;
     }
 
-    @Nullable public static IRBlockData removeBlockData(Location location) {
+    @Nullable
+    public static IRBlockData removeBlockData(Location location) {
         return IndustrialRevival.getInstance()
                 .getBlockDataService()
                 .getBlockDataMap()
@@ -48,11 +52,13 @@ public class DataUtil {
         setData(location, key, null);
     }
 
-    @Nullable public static MachineMenu getMachineMenu(Location location) {
+    @Nullable
+    public static MachineMenu getMachineMenu(Location location) {
         return getBlockData(location).getMachineMenu();
     }
 
-    @Nullable public static MachineMenu getMachineMenu(Block block) {
+    @Nullable
+    public static MachineMenu getMachineMenu(Block block) {
         return getBlockData(block.getLocation()).getMachineMenu();
     }
 
@@ -64,7 +70,8 @@ public class DataUtil {
         return hasMachineMenu(block.getLocation());
     }
 
-    @Nullable public static MachineMenuPreset getMachineMenuPresetById(String id) {
+    @Nullable
+    public static MachineMenuPreset getMachineMenuPresetById(String id) {
         return IndustrialRevival.getInstance().getRegistry().getMenuPresets().get(id);
     }
 
@@ -76,7 +83,8 @@ public class DataUtil {
         holder.getPersistentDataContainer().set(key, PersistentDataType.STRING, value);
     }
 
-    @Nullable public static String getPDC(PersistentDataHolder holder, NamespacedKey key) {
+    @Nullable
+    public static String getPDC(PersistentDataHolder holder, NamespacedKey key) {
         return holder.getPersistentDataContainer().get(key, PersistentDataType.STRING);
     }
 

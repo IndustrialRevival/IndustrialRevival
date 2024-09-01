@@ -1,20 +1,21 @@
 package org.irmc.industrialrevival.api.player;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
-import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.core.guide.GuideHistory;
 import org.irmc.industrialrevival.core.guide.GuideSettings;
+import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 
 public class PlayerProfile {
     @Getter
@@ -43,8 +44,9 @@ public class PlayerProfile {
         this.researchStatus = researchStatus;
     }
 
-    public boolean hasResearched(NamespacedKey key) {
-        return researchStatus.getOrDefault(key, false);
+    @Nullable
+    public static PlayerProfile getProfile(String playerName) {
+        return IndustrialRevival.getInstance().getRegistry().getPlayerProfiles().get(playerName);
     }
 
     /*
@@ -72,11 +74,8 @@ public class PlayerProfile {
     }
      */
 
-    @Nullable public static PlayerProfile getProfile(String playerName) {
-        return IndustrialRevival.getInstance().getRegistry().getPlayerProfiles().get(playerName);
-    }
-
-    @NotNull @CanIgnoreReturnValue
+    @NotNull
+    @CanIgnoreReturnValue
     public static PlayerProfile getOrRequestProfile(String name) {
         if (IndustrialRevival.getInstance().getRegistry().getPlayerProfiles().containsKey(name)) {
             return IndustrialRevival.getInstance()
@@ -106,5 +105,9 @@ public class PlayerProfile {
         IndustrialRevival.getInstance().getRegistry().getPlayerProfiles().put(name, profile);
 
         return profile;
+    }
+
+    public boolean hasResearched(NamespacedKey key) {
+        return researchStatus.getOrDefault(key, false);
     }
 }

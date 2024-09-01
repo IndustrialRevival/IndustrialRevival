@@ -11,6 +11,7 @@ public interface VanillaSmeltingItem extends ItemAttribute {
 
     /**
      * Returns the output of the recipe
+     *
      * @return the output of the recipe
      */
     @NotNull ItemStack getRecipeOutput();

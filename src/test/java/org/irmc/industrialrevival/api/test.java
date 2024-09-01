@@ -11,15 +11,18 @@ public class test {
 
     @DisplayName("Test test afterAll")
     @AfterAll
-    public static void afterAll() {}
+    public static void afterAll() {
+    }
 
     @DisplayName("Test test beforeAll")
     @BeforeAll
-    public static void beforeAll() {}
+    public static void beforeAll() {
+    }
 
     @DisplayName("Test test beforeEach")
     @BeforeEach
-    public void beforeEach() {}
+    public void beforeEach() {
+    }
 
     @DisplayName("Test test Test")
     @Test

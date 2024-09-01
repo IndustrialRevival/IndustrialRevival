@@ -6,7 +6,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
-import org.irmc.industrialrevival.api.items.attributes.NotPlaceable;
 
 public class DisabledItemListener extends AbstractIRListener {
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)

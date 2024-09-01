@@ -16,7 +16,9 @@ import java.util.List;
 
 public class ListenerManager {
     List<AbstractIRListener> listeners = new ArrayList<>();
-    public ListenerManager() {}
+
+    public ListenerManager() {
+    }
 
     public void loadAll() {
         listeners.add(new DisabledItemListener());

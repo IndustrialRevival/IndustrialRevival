@@ -19,12 +19,12 @@ public class PlayerRightClickEvent extends PlayerInteractEvent {
                 originalEvent.getHand());
     }
 
+    public static HandlerList getHandlerList() {
+        return new HandlerList();
+    }
+
     @Override
     public @NotNull HandlerList getHandlers() {
         return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
-        return new HandlerList();
     }
 }

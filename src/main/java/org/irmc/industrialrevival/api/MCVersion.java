@@ -27,6 +27,7 @@ public enum MCVersion {
     public int getMinor() {
         return minor;
     }
+
     public MCVersion getPrevious() {
         int index = ordinal() - 1;
         if (index < 0) {

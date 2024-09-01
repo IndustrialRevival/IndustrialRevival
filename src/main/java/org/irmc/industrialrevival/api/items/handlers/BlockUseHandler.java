@@ -8,6 +8,7 @@ import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandler
 public interface BlockUseHandler extends ItemHandler {
     /**
      * Called when a player right-clicks on a block with the item.
+     *
      * @param e the {@link PlayerInteractEvent} was triggered
      */
     void onRightClick(PlayerInteractEvent e);

@@ -3,11 +3,9 @@ package org.irmc.industrialrevival.core.listeners;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.LimitedItem;
-import org.irmc.industrialrevival.api.items.attributes.Limited;
 import org.irmc.industrialrevival.api.objects.events.PlayerRightClickEvent;
 
 public class LimitedItemListener extends AbstractIRListener {

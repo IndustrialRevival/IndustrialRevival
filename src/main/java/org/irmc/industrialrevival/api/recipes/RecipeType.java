@@ -1,6 +1,5 @@
 package org.irmc.industrialrevival.api.recipes;
 
-import java.util.*;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -10,11 +9,15 @@ import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
-import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.core.utils.Constants;
 import org.irmc.industrialrevival.core.utils.KeyUtil;
+import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.pigeonlib.pdc.PersistentDataAPI;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 @Getter
 public class RecipeType {
@@ -41,78 +44,8 @@ public class RecipeType {
     public static final RecipeType SMELTING;
     public static final RecipeType CRAFTING;
     public static final RecipeType ELECTROLYSIS;
-
-    private static final Map<UUID, Integer> pageRecord = new HashMap<>();
     static final RecipeDisplay DEFAULT_RECIPE_DISPLAY = new DefaultRecipeDisplay();
-
-    private final NamespacedKey key;
-    private final ItemStack icon;
-    private final RecipeDisplay recipeDisplay;
-    private String makerId;
-
-    public RecipeType(NamespacedKey key, ItemStack icon) {
-        this.key = key;
-        this.icon = icon;
-        this.recipeDisplay = DEFAULT_RECIPE_DISPLAY;
-    }
-
-    public RecipeType(NamespacedKey key, ItemStack icon, RecipeDisplay recipeDisplay) {
-        this.key = key;
-        this.icon = icon;
-        this.recipeDisplay = recipeDisplay;
-    }
-
-    public RecipeType(NamespacedKey key, ItemStack icon, String makerId) {
-        this.key = key;
-        this.icon = icon;
-        this.recipeDisplay = DEFAULT_RECIPE_DISPLAY;
-        this.makerId = makerId;
-    }
-
-    public RecipeType(NamespacedKey key, ItemStack icon, String makerId, RecipeDisplay recipeDisplay) {
-        this.key = key;
-        this.icon = icon;
-        this.recipeDisplay = recipeDisplay;
-        this.makerId = makerId;
-    }
-
-    public RecipeType setMaker(String makerId) {
-        this.makerId = makerId;
-        return this;
-    }
-
-    @Nullable public ItemStack getMaker() {
-        if (makerId != null) {
-            return IndustrialRevivalItem.getById(makerId).getItem();
-        }
-
-        if (icon instanceof IndustrialRevivalItemStack iris) {
-            makerId = iris.getId();
-            return IndustrialRevivalItem.getById(makerId).getItem();
-        } else {
-            if (icon == null || icon.getType() == Material.AIR) {
-                return null;
-            }
-
-            String id = PersistentDataAPI.getString(icon.getItemMeta(), Constants.CLEANED_IR_ITEM_ID, "");
-            if (!id.isBlank()) {
-                makerId = id;
-                return IndustrialRevivalItem.getById(id).getItem();
-            }
-
-            return icon;
-        }
-    }
-
-    public IndustrialRevivalItem getMakerItem() {
-        getMaker();
-        return IndustrialRevivalItem.getById(makerId);
-    }
-
-    @FunctionalInterface
-    public interface RecipeDisplay {
-        void display(Player p, SimpleMenu sm, IndustrialRevivalItem item);
-    }
+    private static final Map<UUID, Integer> pageRecord = new HashMap<>();
 
     static {
         GRINDSTONE = new RecipeType(
@@ -199,5 +132,75 @@ public class RecipeType {
                         IndustrialRevival.getInstance()
                                 .getLanguageManager()
                                 .getRecipeTypeLore(RECIPE_TYPE_ELECTROLYSIS)));
+    }
+
+    private final NamespacedKey key;
+    private final ItemStack icon;
+    private final RecipeDisplay recipeDisplay;
+    private String makerId;
+
+    public RecipeType(NamespacedKey key, ItemStack icon) {
+        this.key = key;
+        this.icon = icon;
+        this.recipeDisplay = DEFAULT_RECIPE_DISPLAY;
+    }
+
+    public RecipeType(NamespacedKey key, ItemStack icon, RecipeDisplay recipeDisplay) {
+        this.key = key;
+        this.icon = icon;
+        this.recipeDisplay = recipeDisplay;
+    }
+
+    public RecipeType(NamespacedKey key, ItemStack icon, String makerId) {
+        this.key = key;
+        this.icon = icon;
+        this.recipeDisplay = DEFAULT_RECIPE_DISPLAY;
+        this.makerId = makerId;
+    }
+
+    public RecipeType(NamespacedKey key, ItemStack icon, String makerId, RecipeDisplay recipeDisplay) {
+        this.key = key;
+        this.icon = icon;
+        this.recipeDisplay = recipeDisplay;
+        this.makerId = makerId;
+    }
+
+    @Nullable
+    public ItemStack getMaker() {
+        if (makerId != null) {
+            return IndustrialRevivalItem.getById(makerId).getItem();
+        }
+
+        if (icon instanceof IndustrialRevivalItemStack iris) {
+            makerId = iris.getId();
+            return IndustrialRevivalItem.getById(makerId).getItem();
+        } else {
+            if (icon == null || icon.getType() == Material.AIR) {
+                return null;
+            }
+
+            String id = PersistentDataAPI.getString(icon.getItemMeta(), Constants.CLEANED_IR_ITEM_ID, "");
+            if (!id.isBlank()) {
+                makerId = id;
+                return IndustrialRevivalItem.getById(id).getItem();
+            }
+
+            return icon;
+        }
+    }
+
+    public RecipeType setMaker(String makerId) {
+        this.makerId = makerId;
+        return this;
+    }
+
+    public IndustrialRevivalItem getMakerItem() {
+        getMaker();
+        return IndustrialRevivalItem.getById(makerId);
+    }
+
+    @FunctionalInterface
+    public interface RecipeDisplay {
+        void display(Player p, SimpleMenu sm, IndustrialRevivalItem item);
     }
 }

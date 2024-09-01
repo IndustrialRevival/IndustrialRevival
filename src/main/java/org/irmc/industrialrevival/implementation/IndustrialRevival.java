@@ -4,9 +4,6 @@ import com.tcoded.folialib.FoliaLib;
 import com.tcoded.folialib.impl.ServerImplementation;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
-import java.io.File;
-import java.sql.SQLException;
-import java.util.logging.Level;
 import io.papermc.lib.PaperLib;
 import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -28,6 +25,10 @@ import org.irmc.industrialrevival.implementation.items.IRItems;
 import org.irmc.pigeonlib.file.ConfigFileUtil;
 import org.irmc.pigeonlib.language.LanguageManager;
 import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
+import java.sql.SQLException;
+import java.util.logging.Level;
 
 public final class IndustrialRevival extends JavaPlugin implements IndustrialRevivalAddon {
 

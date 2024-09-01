@@ -1,7 +1,5 @@
 package org.irmc.industrialrevival.api.machines.process;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
@@ -9,10 +7,15 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 public class MachineProcessor<T extends IOperation> {
     private final Map<Location, T> ALL_MACHINES = new ConcurrentHashMap<>();
-    private @Getter final ProcessorHolder<T> holder;
-    private @Getter @Setter ItemStack progressBarItem;
+    private @Getter
+    final ProcessorHolder<T> holder;
+    private @Getter
+    @Setter ItemStack progressBarItem;
 
     public MachineProcessor(ProcessorHolder<T> holder) {
         this.holder = holder;

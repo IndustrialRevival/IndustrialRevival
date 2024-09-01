@@ -5,9 +5,6 @@ import dev.jorel.commandapi.arguments.ArgumentSuggestions;
 import dev.jorel.commandapi.arguments.IntegerArgument;
 import dev.jorel.commandapi.arguments.PlayerArgument;
 import dev.jorel.commandapi.arguments.TextArgument;
-import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
@@ -16,10 +13,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+import org.irmc.industrialrevival.core.utils.Constants;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.guide.CheatGuideImplementation;
-import org.irmc.industrialrevival.core.utils.Constants;
 import org.irmc.pigeonlib.language.MessageReplacement;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
 public class IRCommandGenerator {
     private static CommandAPICommand instance;

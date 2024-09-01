@@ -1,9 +1,6 @@
 package org.irmc.industrialrevival.api.items.groups;
 
 import com.google.common.collect.Lists;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -13,12 +10,16 @@ import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
-import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.core.guide.GuideHistory;
 import org.irmc.industrialrevival.core.guide.IRGuideImplementation;
-import org.irmc.industrialrevival.implementation.guide.SurvivalGuideImplementation;
 import org.irmc.industrialrevival.core.utils.CleanedItemGetter;
 import org.irmc.industrialrevival.core.utils.Constants;
+import org.irmc.industrialrevival.implementation.IndustrialRevival;
+import org.irmc.industrialrevival.implementation.guide.SurvivalGuideImplementation;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public abstract class ItemGroup {
     @Getter
@@ -26,13 +27,10 @@ public abstract class ItemGroup {
 
     @Getter
     private final ItemStack icon;
-
+    private final List<IndustrialRevivalItem> items = new LinkedList<>();
+    boolean locked = false;
     @Getter
     private int tier;
-
-    boolean locked = false;
-
-    private final List<IndustrialRevivalItem> items = new LinkedList<>();
 
     protected ItemGroup(NamespacedKey key, ItemStack icon) {
         this.key = key;
