@@ -18,6 +18,7 @@ import org.irmc.industrialrevival.api.items.attributes.MobDropItem;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
 import org.irmc.industrialrevival.api.objects.Pair;
+import org.irmc.industrialrevival.api.objects.display.DisplayGroup;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
 import org.irmc.industrialrevival.api.researches.Research;
 
@@ -25,6 +26,7 @@ import org.irmc.industrialrevival.api.researches.Research;
 public final class IRRegistry {
     private final Map<NamespacedKey, ItemGroup> itemGroups;
     private final Map<NamespacedKey, Research> researches;
+    private final Map<NamespacedKey, DisplayGroup> displayGroups;
     private final Map<String, IndustrialRevivalItem> items;
     private final Map<String, PlayerProfile> playerProfiles;
     private final Map<String, MachineMenuPreset> menuPresets;
@@ -35,6 +37,7 @@ public final class IRRegistry {
     public IRRegistry() {
         itemGroups = new HashMap<>();
         researches = new HashMap<>();
+        displayGroups = new HashMap<>();
         items = new HashMap<>();
         playerProfiles = new HashMap<>();
         menuPresets = new HashMap<>();
@@ -73,6 +76,10 @@ public final class IRRegistry {
         item.setAmount(bdi.dropAmount());
         drops.add(new Pair<>(item, bdi.getChance()));
         blockDrops.put(bdi.dropBlock(), drops);
+    }
+
+    public void registerDisplayGroup(NamespacedKey key, DisplayGroup displayGroup) {
+        displayGroups.put(key, displayGroup);
     }
 
     public List<IndustrialRevivalItem> searchItems(String term) {
