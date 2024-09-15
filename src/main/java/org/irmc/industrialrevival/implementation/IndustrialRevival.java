@@ -9,10 +9,12 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
-import org.irmc.industrialrevival.api.MCVersion;
+import org.irmc.industrialrevival.api.objects.ItemSettings;
 import org.irmc.industrialrevival.core.command.IRCommandGenerator;
 import org.irmc.industrialrevival.core.data.IDataManager;
 import org.irmc.industrialrevival.core.data.MysqlDataManager;
@@ -27,6 +29,7 @@ import org.irmc.industrialrevival.implementation.groups.IRItemGroups;
 import org.irmc.industrialrevival.implementation.items.IRItems;
 import org.irmc.pigeonlib.file.ConfigFileUtil;
 import org.irmc.pigeonlib.language.LanguageManager;
+import org.irmc.pigeonlib.mcversion.MCVersion;
 import org.jetbrains.annotations.NotNull;
 
 public final class IndustrialRevival extends JavaPlugin implements IndustrialRevivalAddon {
@@ -41,27 +44,30 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     private @Getter BlockDataService blockDataService;
     private @Getter ItemDataService itemDataService;
     private @Getter ServerImplementation foliaLibImpl;
+    private @Getter ItemSettings itemSettings;
 
     @Override
     public void onLoad() {
         instance = this;
+
+        if (!environmentCheck()) {
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        CommandAPI.onLoad(new CommandAPIBukkitConfig(this));
+        IRCommandGenerator.registerCommand(this);
+
         foliaLibImpl = new FoliaLib(this).getImpl();
 
         completeFiles();
 
-        CommandAPI.onLoad(new CommandAPIBukkitConfig(this));
-        IRCommandGenerator.registerCommand(this);
+        itemSettings = new ItemSettings(YamlConfiguration.loadConfiguration(new File(getDataFolder(), "items-settings.yml")));
     }
 
     @Override
     public void onEnable() {
         getLogger().info("IndustrialRevival is being enabled!");
-
-        boolean success = environmentCheck();
-        if (!success) {
-            onDisable();
-            return;
-        }
 
         getLogger().info("Setting up data manager...");
         setupDataManager();
@@ -86,6 +92,8 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         ConfigFileUtil.completeFile(this, "config.yml");
         ConfigFileUtil.completeLangFile(this, "language/en-US.yml");
         ConfigFileUtil.completeLangFile(this, "language/zh-CN.yml");
+
+        saveResource("items-settings.yml", false);
     }
 
     private void setupIndustrialRevivalItems() {

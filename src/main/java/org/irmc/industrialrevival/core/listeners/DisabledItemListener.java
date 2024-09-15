@@ -26,7 +26,7 @@ public class DisabledItemListener extends AbstractIRListener {
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onBlockPlace(BlockPlaceEvent event) {
         ItemStack itemStack = event.getItemInHand();
-        if (itemStack != null && !itemStack.getType().isAir()) {
+        if (!itemStack.getType().isAir()) {
             IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(itemStack);
             if (iritem == null) {
                 return;

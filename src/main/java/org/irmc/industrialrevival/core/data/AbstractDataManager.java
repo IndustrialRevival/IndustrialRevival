@@ -25,7 +25,9 @@ import org.irmc.industrialrevival.core.data.object.BlockRecord;
 import org.irmc.industrialrevival.core.guide.GuideSettings;
 import org.jetbrains.annotations.NotNull;
 
-public non-sealed class AbstractDataManager implements IDataManager {
+@Deprecated
+// TODO: refactor the not working code
+non-sealed class AbstractDataManager implements IDataManager {
     private final String driver;
     private final String url;
     private final String username;
@@ -198,7 +200,7 @@ public non-sealed class AbstractDataManager implements IDataManager {
                 if (e.getMessage().contains("SQLITE_BUSY")) {
                     retryCount--;
                     try {
-                        Thread.sleep(1000); // 等待1秒后重试
+                        Thread.sleep(1000);
                     } catch (InterruptedException ie) {
                         Thread.currentThread().interrupt();
                     }
