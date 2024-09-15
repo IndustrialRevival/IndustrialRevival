@@ -137,6 +137,9 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         if (blockDataService != null) {
             blockDataService.saveAllData();
         }
+        if (dataManager != null) {
+            dataManager.close();
+        }
         getLogger().info("IndustrialRevival has been disabled!");
     }
 

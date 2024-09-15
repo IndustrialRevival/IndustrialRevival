@@ -27,7 +27,7 @@ public class BlockDataService {
             Location loc = record.getLocation();
             YamlConfiguration config =
                     IndustrialRevival.getInstance().getDataManager().getBlockData(loc);
-            blockDataMap.put(loc, new IRBlockData(record.getMachineId(), record.getLocation(), config, null));
+            blockDataMap.put(loc, new IRBlockData(record.machineId(), record.getLocation(), config, null));
         }
     }
 

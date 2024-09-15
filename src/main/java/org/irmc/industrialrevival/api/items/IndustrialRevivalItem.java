@@ -254,7 +254,7 @@ public class IndustrialRevivalItem {
             Bukkit.addRecipe(fr);
         }
 
-        boolean disabled = IndustrialRevival.getInstance().getItemSettingsCfg().getStringList("disabled_items").contains(getId());
+        boolean disabled = IndustrialRevival.getInstance().getItemSettings().isItemDisabled(getId());
         if (disabled) {
             setDisabled(true);
         }

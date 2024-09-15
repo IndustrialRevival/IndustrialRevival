@@ -6,57 +6,51 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Base64;
 import java.util.List;
-import javax.sql.DataSource;
-import org.apache.ibatis.datasource.unpooled.UnpooledDataSource;
-import org.apache.ibatis.mapping.Environment;
-import org.apache.ibatis.session.Configuration;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.apache.ibatis.transaction.TransactionFactory;
-import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
+
+import com.google.gson.Gson;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
-import org.irmc.industrialrevival.core.data.mapper.BlockDataMapper;
-import org.irmc.industrialrevival.core.data.mapper.GuideSettingsMapper;
-import org.irmc.industrialrevival.core.data.mapper.ResearchStatusMapper;
 import org.irmc.industrialrevival.core.data.object.BlockRecord;
 import org.irmc.industrialrevival.core.guide.GuideSettings;
 import org.jetbrains.annotations.NotNull;
+import org.jooq.*;
+import org.jooq.impl.DSL;
+import org.jooq.tools.jdbc.JDBCUtils;
 
-@Deprecated
-// TODO: refactor the not working code
 non-sealed class AbstractDataManager implements IDataManager {
-    private final String driver;
+    private final ConnectionPool pool;
+
     private final String url;
     private final String username;
     private final String password;
 
-    public AbstractDataManager(String driver, String url, String username, String password) {
-        this.driver = driver;
+    public AbstractDataManager(String url, String username, String password) {
         this.url = url;
         this.username = username;
         this.password = password;
-    }
 
-    private SqlSession getSession() throws SQLException {
-        DataSource dataSource = new UnpooledDataSource(driver, url, username, password);
-        dataSource.setLoginTimeout(5);
-        TransactionFactory transactionFactory = new JdbcTransactionFactory();
-        Environment environment = new Environment("default", transactionFactory, dataSource);
-        Configuration configuration = newMybatisConfiguration(environment);
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
-
-        return sqlSessionFactory.openSession();
+        try {
+            this.pool = new ConnectionPool(url, username, password);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void handleBlockPlacing(Location loc, String machineId) {
         try {
-            SqlSession session = getSession();
-            session.getMapper(BlockDataMapper.class).blockPlacing(loc, machineId);
-            session.commit();
+            DSLContext dsl = DSL.using(pool.getConnection(), JDBCUtils.dialect(url));
+            dsl.insertInto(DSL.table(DSL.name("block_record")))
+                    //world, x, y, z, machineId, data
+                    .select(DSL.select(DSL.val(loc.getWorld().getName()), DSL.val(loc.getBlockX()), DSL.val(loc.getBlockY()), DSL.val(loc.getBlockZ()), DSL.val(machineId), DSL.val("")))
+                    .bind("world", DSL.val(loc.getWorld().getName()))
+                    .bind("x", DSL.val(loc.getBlockX()))
+                    .bind("y", DSL.val(loc.getBlockY()))
+                    .bind("z", DSL.val(loc.getBlockZ()))
+                    .bind("machineId", DSL.val(machineId))
+                    .bind("data", DSL.val(""))
+                    .executeAsync();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -65,12 +59,13 @@ non-sealed class AbstractDataManager implements IDataManager {
     @Override
     public void handleBlockBreaking(Location loc) {
         try {
-            SqlSession session = getSession();
-            BlockDataMapper mapper = session.getMapper(BlockDataMapper.class);
-            String id = mapper.getBlockId(loc);
-            mapper.blockRemoving(loc, id);
-            mapper.deleteMenuItems(loc);
-            session.commit();
+            DSLContext dsl = DSL.using(pool.getConnection(), JDBCUtils.dialect(url));
+            dsl.deleteFrom(DSL.table(DSL.name("block_record")))
+                    .where(DSL.field(DSL.name("world")).eq(loc.getWorld().getName()))
+                    .and(DSL.field(DSL.name("x")).eq(loc.getBlockX()))
+                    .and(DSL.field(DSL.name("y")).eq(loc.getBlockY()))
+                    .and(DSL.field(DSL.name("z")).eq(loc.getBlockZ()))
+                    .executeAsync();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -80,27 +75,38 @@ non-sealed class AbstractDataManager implements IDataManager {
     public @NotNull YamlConfiguration getBlockData(@NotNull Location location) {
         String b64;
         try {
-            b64 = getSession().getMapper(BlockDataMapper.class).getBlockData(location);
+            DSLContext dsl = DSL.using(pool.getConnection(), JDBCUtils.dialect(url));
+            Object tmp = dsl.select(DSL.field(DSL.name("data")))
+                    .from(DSL.table(DSL.name("block_record")))
+                    .where(DSL.field(DSL.name("world")).eq(location.getWorld().getName()))
+                    .and(DSL.field(DSL.name("x")).eq(location.getBlockX()))
+                    .and(DSL.field(DSL.name("y")).eq(location.getBlockY()))
+                    .and(DSL.field(DSL.name("z")).eq(location.getBlockZ()))
+                    .fetchOne(DSL.field(DSL.name("data")));
+            if (tmp == null) {
+                return new YamlConfiguration();
+            } else {
+                b64 = (String) tmp;
+            }
         } catch (SQLException e) {
             return new YamlConfiguration();
         }
 
-        if (b64 == null) {
-            return new YamlConfiguration();
-        } else {
-            return YamlConfiguration.loadConfiguration(new StringReader(b64));
-        }
+        return YamlConfiguration.loadConfiguration(new StringReader(b64));
     }
 
     @Override
     public void updateBlockData(@NotNull Location location, @NotNull BlockRecord record) {
         try {
-            SqlSession session = getSession();
-            BlockDataMapper mapper = session.getMapper(BlockDataMapper.class);
-            if (!getBlockData(location).getKeys(true).isEmpty()) {
-                mapper.saveBlockData(location, record.getData());
-            }
-            session.commit();
+            String b64 = Base64.getEncoder().encodeToString(record.data().getBytes());
+            DSLContext dsl = DSL.using(pool.getConnection(), JDBCUtils.dialect(url));
+            dsl.update(DSL.table(DSL.name("block_record")))
+                    .set(DSL.field(DSL.name("data")), DSL.val(b64))
+                    .where(DSL.field(DSL.name("world")).eq(location.getWorld().getName()))
+                    .and(DSL.field(DSL.name("x")).eq(location.getBlockX()))
+                    .and(DSL.field(DSL.name("y")).eq(location.getBlockY()))
+                    .and(DSL.field(DSL.name("z")).eq(location.getBlockZ()))
+                    .executeAsync();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -109,7 +115,15 @@ non-sealed class AbstractDataManager implements IDataManager {
     @Override
     public List<BlockRecord> getAllBlockRecords() {
         try {
-            return getSession().getMapper(BlockDataMapper.class).getAllBlockRecords();
+            DSLContext dsl = DSL.using(pool.getConnection(), JDBCUtils.dialect(url));
+            return dsl.select(DSL.field(DSL.name("world")),
+                            DSL.field(DSL.name("x")),
+                            DSL.field(DSL.name("y")),
+                            DSL.field(DSL.name("z")),
+                            DSL.field(DSL.name("machineId")),
+                            DSL.field(DSL.name("data")))
+                    .from(DSL.table(DSL.name("block_record")))
+                    .fetchInto(BlockRecord.class);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -118,10 +132,29 @@ non-sealed class AbstractDataManager implements IDataManager {
     @Override
     public ItemStack getMenuItem(Location location, int slot) {
         try {
-            return getSession()
-                    .getMapper(BlockDataMapper.class)
-                    .getMenuItem(location, slot)
-                    .getItemStack();
+            DSLContext dsl = DSL.using(pool.getConnection(), JDBCUtils.dialect(url));
+            Record2<Object, Object> results = dsl.select(DSL.field(DSL.name("itemJson")), DSL.field(DSL.name("itemClass")))
+                    .from(DSL.table(DSL.name("menu_items")))
+                    .where(DSL.field(DSL.name("world")).eq(location.getWorld().getName()))
+                    .and(DSL.field(DSL.name("x")).eq(location.getBlockX()))
+                    .and(DSL.field(DSL.name("y")).eq(location.getBlockY()))
+                    .and(DSL.field(DSL.name("z")).eq(location.getBlockZ()))
+                    .and(DSL.field(DSL.name("slot")).eq(slot))
+                    .fetchOne();
+            if (results == null) {
+                return null;
+            } else {
+                Gson gson = new Gson();
+                String json = results.getValue(0, String.class);
+                String className = results.getValue(1, String.class);
+                Class<? extends ItemStack> clazz;
+                try {
+                    clazz = (Class<? extends ItemStack>) Class.forName(className);
+                } catch (ClassNotFoundException e) {
+                    clazz = ItemStack.class;
+                }
+                return gson.fromJson(json, clazz);
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -130,7 +163,23 @@ non-sealed class AbstractDataManager implements IDataManager {
     @Override
     public GuideSettings getGuideSettings(@NotNull String playerName) {
         try {
-            return getSession().getMapper(GuideSettingsMapper.class).get(playerName);
+            DSLContext dsl = DSL.using(pool.getConnection(), JDBCUtils.dialect(url));
+            Record3<Object, Object, Object> results = dsl.select(
+                    DSL.field(DSL.name("fireWorksEnabled")),
+                    DSL.field(DSL.name("learningAnimationEnabled")),
+                    DSL.field(DSL.name("language")))
+                    .from(DSL.table(DSL.name("guide_settings")))
+                    .where(DSL.field(DSL.name("username")).eq(playerName))
+                    .fetchOne();
+            if (results == null) {
+                return GuideSettings.DEFAULT_SETTINGS;
+            } else {
+                return new GuideSettings(
+                        results.get(0, Boolean.class),
+                        results.get(1, Boolean.class),
+                        results.get(2, String.class)
+                );
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -139,9 +188,14 @@ non-sealed class AbstractDataManager implements IDataManager {
     @Override
     public void saveGuideSettings(@NotNull String playerName, @NotNull GuideSettings settings) {
         try {
-            SqlSession session = getSession();
-            session.getMapper(GuideSettingsMapper.class).save(playerName, settings);
-            session.commit();
+            DSLContext dsl = DSL.using(pool.getConnection(), JDBCUtils.dialect(url));
+            dsl.insertInto(DSL.table(DSL.name("guide_settings")))
+                    .select(DSL.select(DSL.val(playerName), DSL.val(settings.isFireWorksEnabled()), DSL.val(settings.isLearningAnimationEnabled()), DSL.val(settings.getLanguage())))
+                    .bind("username", DSL.val(playerName))
+                    .bind("fireWorksEnabled", DSL.val(settings.isFireWorksEnabled()))
+                    .bind("learningAnimationEnabled", DSL.val(settings.isLearningAnimationEnabled()))
+                    .bind("language", DSL.val(settings.getLanguage()))
+                    .executeAsync();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -151,19 +205,22 @@ non-sealed class AbstractDataManager implements IDataManager {
     public @NotNull YamlConfiguration getResearchStatus(String playerName) {
         String yaml;
         try {
-            SqlSession session = getSession();
-            yaml = session.getMapper(ResearchStatusMapper.class).getResearchStatus(playerName);
-            session.commit();
+            DSLContext dsl = DSL.using(pool.getConnection(), JDBCUtils.dialect(url));
+            Object tmp = dsl.select(DSL.field(DSL.name("researchStatus")))
+                    .from(DSL.table(DSL.name("research_status")))
+                    .where(DSL.field(DSL.name("username")).eq(playerName))
+                    .fetchOne(DSL.field(DSL.name("researchStatus")));
+            if (tmp == null) {
+                return new YamlConfiguration();
+            } else {
+                yaml = (String) tmp;
+            }
         } catch (SQLException e) {
             return new YamlConfiguration();
         }
 
-        if (yaml == null) {
-            return new YamlConfiguration();
-        } else {
-            yaml = new String(Base64.getDecoder().decode(yaml));
-            return YamlConfiguration.loadConfiguration(new StringReader(yaml));
-        }
+        yaml = new String(Base64.getDecoder().decode(yaml));
+        return YamlConfiguration.loadConfiguration(new StringReader(yaml));
     }
 
     @Override
@@ -171,9 +228,12 @@ non-sealed class AbstractDataManager implements IDataManager {
         String yaml = researchStatus.saveToString();
         String b64 = Base64.getEncoder().encodeToString(yaml.getBytes());
         try {
-            SqlSession session = getSession();
-            session.getMapper(ResearchStatusMapper.class).insertResearchStatus(playerName, b64);
-            session.commit();
+            DSLContext dsl = DSL.using(pool.getConnection(), JDBCUtils.dialect(url));
+            dsl.insertInto(DSL.table(DSL.name("research_status")))
+                    .select(DSL.select(DSL.val(playerName), DSL.val(b64)))
+                    .bind("username", DSL.val(playerName))
+                    .bind("researchStatus", DSL.val(b64))
+                    .executeAsync();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -210,5 +270,10 @@ non-sealed class AbstractDataManager implements IDataManager {
             }
         }
         throw new RuntimeException("Failed to create tables after multiple attempts.");
+    }
+
+    @Override
+    public void close() {
+        pool.closeAllConnections();
     }
 }

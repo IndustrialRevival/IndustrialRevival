@@ -27,6 +27,11 @@ public class ItemSettings {
         itemCfg.set("disabled_items", disabledItems);
     }
 
+    public boolean isItemDisabled(String id) {
+        checkValidItemId(id);
+        return itemCfg.getStringList("disabled_items").contains(id);
+    }
+
     private void checkValidItemId(String id) {
         IRRegistry registry = IndustrialRevival.getInstance().getRegistry();
         if (!registry.getItems().containsKey(id)) {
