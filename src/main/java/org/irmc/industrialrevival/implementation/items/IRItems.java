@@ -1,13 +1,19 @@
 package org.irmc.industrialrevival.implementation.items;
 
+import org.irmc.industrialrevival.api.items.ArmorSet;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalOreBlock;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
+import org.irmc.industrialrevival.core.utils.KeyUtil;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.groups.IRItemGroups;
 import org.irmc.industrialrevival.implementation.recipes.IRRecipes;
 
 public class IRItems {
+    //armor sets
+    public static final ArmorSet SILVER_ARMOR_SET = new ArmorSet(KeyUtil.customKey("silver_armor_set"), IRItemGroups.ARMORS);
+    public static final ArmorSet TIN_ARMOR_SET = new ArmorSet(KeyUtil.customKey("tin_armor_set"), IRItemGroups.ARMORS);
+
     public static final IndustrialRevivalItem SLIVER_ORE;
     public static final IndustrialRevivalItem NICKEL_ORE;
     public static final IndustrialRevivalItem COBALT_ORE;

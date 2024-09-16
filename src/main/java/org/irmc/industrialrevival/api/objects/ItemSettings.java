@@ -21,8 +21,8 @@ public class ItemSettings {
 
     public void disableItem(String id) {
         checkValidItemId(id);
-        IndustrialRevival.getInstance().getRegistry().getItems().get(id).setDisabled(true);
         List<String> disabledItems = itemCfg.getStringList("disabled_items");
+        IndustrialRevival.getInstance().getRegistry().getItems().get(id).setDisabled(true);
         disabledItems.add(id);
         itemCfg.set("disabled_items", disabledItems);
     }

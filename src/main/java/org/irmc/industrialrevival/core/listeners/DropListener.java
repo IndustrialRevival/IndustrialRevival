@@ -71,7 +71,7 @@ public class DropListener extends AbstractIRListener {
             World world = e.getBlock().getWorld();
 
             if (drops != null && !drops.isEmpty() && player.getGameMode() != GameMode.CREATIVE) {
-                Random random = new Random();
+                SecureRandom random = new SecureRandom();
                 for (Pair<ItemStack, Double> drop : drops) {
                     double chance = random.nextDouble(100);
                     if (chance <= drop.getB()) {

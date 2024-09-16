@@ -12,7 +12,7 @@ public class LimitedItemListener extends AbstractIRListener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onLimitedUseItem(PlayerRightClickEvent e) {
         ItemStack is = e.getItem();
-        if (is != null || !is.getType().isAir()) {
+        if (is != null && !is.getType().isAir()) {
             IndustrialRevivalItem item = IndustrialRevivalItem.getByItem(is);
             if (item instanceof LimitedItem li) {
                 li.setCountLeft(li.getCountLeft() - 1);

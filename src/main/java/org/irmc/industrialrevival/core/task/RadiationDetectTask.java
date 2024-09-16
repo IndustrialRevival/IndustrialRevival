@@ -7,7 +7,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.irmc.industrialrevival.api.items.ArmorSet;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+import org.irmc.industrialrevival.api.objects.enums.ArmorProtectionType;
 
 public class RadiationDetectTask implements Consumer<WrappedTask> {
     @Override
@@ -21,8 +23,17 @@ public class RadiationDetectTask implements Consumer<WrappedTask> {
             EntityEquipment ee = p.getEquipment();
 
             ItemStack helmet = ee.getHelmet();
-            IndustrialRevivalItem irKit = IndustrialRevivalItem.getByItem(helmet);
-            if (irKit != null) {}
+            IndustrialRevivalItem irHelmet = IndustrialRevivalItem.getByItem(helmet);
+            if (irHelmet != null) {
+                if (irHelmet instanceof ArmorSet.ArmorPiece piece) {
+                    ArmorSet parent = piece.getParent();
+                    if (parent.getProtectionTypes().contains(ArmorProtectionType.RADIATION)) {
+                        if (!parent.isProtectWhenFullSet()) {
+                            //
+                        }
+                    }
+                }
+            }
 
             // todo: add radiation detection logic
         }
