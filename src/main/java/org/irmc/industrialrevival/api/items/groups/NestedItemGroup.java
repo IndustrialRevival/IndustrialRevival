@@ -20,11 +20,11 @@ public class NestedItemGroup extends ItemGroup {
         super(key, icon, tier);
     }
 
-    public void addItem(IndustrialRevivalItem item) {
+    public final void addItem(IndustrialRevivalItem item) {
         throw new UnsupportedOperationException("Nested item groups cannot have items added to them");
     }
 
-    void addSubItemGroup(SubItemGroup group) {
+    final void addSubItemGroup(SubItemGroup group) {
         if (locked) {
             throw new IllegalStateException("Cannot add sub item groups to a locked nested item group");
         }

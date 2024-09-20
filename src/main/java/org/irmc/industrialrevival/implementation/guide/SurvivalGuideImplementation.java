@@ -198,8 +198,9 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
         }
 
         public static void request(Player player, IRGuideImplementation implementation) {
+            IndustrialRevival.getInstance().getLanguageManager().sendMessage(player, "guide.type_search");
             ChatInput.waitForPlayer(IndustrialRevival.getInstance(), player, s -> {
-                if (s.equalsIgnoreCase("##CANCEL")) {
+                if (s.equalsIgnoreCase("#cancel")) {
                     return;
                 }
 

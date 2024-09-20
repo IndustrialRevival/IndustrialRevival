@@ -13,5 +13,7 @@ public class IRTicker implements Consumer<WrappedTask> {
             IndustrialRevival.getInstance().getBlockDataService()::getBlockDataMap;
 
     @Override
-    public void accept(WrappedTask wrappedTask) {}
+    public void accept(WrappedTask wrappedTask) {
+        Map<Location, IRBlockData> blockDataMap = blockDataSupplier.get();
+    }
 }

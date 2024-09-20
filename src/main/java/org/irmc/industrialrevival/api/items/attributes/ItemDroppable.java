@@ -6,7 +6,9 @@ import org.bukkit.inventory.ItemStack;
 
 /**
  * An interface for items that can be dropped by a block when it is destroyed.<br>
- * This is not {@link BlockDropItem}, this is for specific items that can be dropped by specific block when it is destroyed.
+ * <br>
+ * <b>Note: </b> this is not {@link BlockDropItem},
+ * this is for specific items that can be dropped by specific block when it is destroyed.
  */
 public interface ItemDroppable extends ItemAttribute {
     /**

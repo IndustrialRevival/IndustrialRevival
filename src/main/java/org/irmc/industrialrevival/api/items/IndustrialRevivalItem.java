@@ -12,15 +12,14 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.persistence.PersistentDataType;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.items.attributes.BlockDropItem;
 import org.irmc.industrialrevival.api.items.attributes.ItemDroppable;
 import org.irmc.industrialrevival.api.items.attributes.MobDropItem;
 import org.irmc.industrialrevival.api.items.attributes.NotPlaceable;
 import org.irmc.industrialrevival.api.items.attributes.VanillaSmeltingItem;
+import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
-import org.irmc.industrialrevival.api.items.handlers.BlockTicker;
 import org.irmc.industrialrevival.api.items.handlers.ItemHandler;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
@@ -29,6 +28,7 @@ import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.recipes.RecipeContent;
 import org.irmc.industrialrevival.implementation.recipes.RecipeContents;
 import org.irmc.pigeonlib.items.ItemUtils;
+import org.irmc.pigeonlib.pdc.PersistentDataAPI;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -59,6 +59,9 @@ public class IndustrialRevivalItem {
 
     @Getter
     private IndustrialRevivalAddon addon;
+
+    @Getter
+    private ItemDictionary dictionary;
 
     @Getter
     @Setter
@@ -99,12 +102,6 @@ public class IndustrialRevivalItem {
             recipe = newRecipe;
         }
 
-        if (recipe.length > 9) {
-            ItemStack[] newRecipe = new ItemStack[9];
-            System.arraycopy(recipe, 0, newRecipe, 0, 9);
-            recipe = newRecipe;
-        }
-
         this.recipe = recipe;
 
         if (this.recipe.length != 9) {
@@ -131,8 +128,7 @@ public class IndustrialRevivalItem {
             return getById(irStack.getId());
         }
 
-        String id =
-                item.getItemMeta().getPersistentDataContainer().get(Constants.ITEM_ID_KEY, PersistentDataType.STRING);
+        String id = PersistentDataAPI.getString(item.getItemMeta(), Constants.ITEM_ID_KEY);
         if (id != null) {
             return getById(id);
         }
@@ -163,6 +159,10 @@ public class IndustrialRevivalItem {
      * @return WILL RETURN NULL IF THE ITEM IS NOT REGISTERED SUCCESSFULLY!!
      */
     public IndustrialRevivalItem register(IndustrialRevivalAddon addon) {
+        if (locked) {
+            throw new IllegalStateException("Item is already registered");
+        }
+
         this.locked = true;
         this.addon = addon;
         if (!addon.getPlugin().isEnabled()) {
@@ -180,13 +180,18 @@ public class IndustrialRevivalItem {
         IndustrialRevival.getInstance().getItemTextureService().setUpTexture(getItem());
         itemStack.lock();
 
-        if (!group.getItems().contains(this)) {
-            group.addItem(this);
-        }
+        boolean disabled = IndustrialRevival.getInstance().getItemSettings().isItemDisabled(getId());
+        if (disabled) {
+            setDisabled(true);
+        } else {
+            if (!group.getItems().contains(this)) {
+                group.addItem(this);
+            }
 
-        RecipeContents.addRecipeContent(
-                this.getId(), new RecipeContent(recipeType, recipeType.getMakerItem(), recipe, this));
-        IndustrialRevival.getInstance().getRegistry().getItems().put(getId(), this);
+            RecipeContents.addRecipeContent(
+                    this.getId(), new RecipeContent(recipeType, recipeType.getMakerItem(), recipe, this));
+            IndustrialRevival.getInstance().getRegistry().getItems().put(getId(), this);
+        }
 
         return this;
     }
@@ -195,14 +200,19 @@ public class IndustrialRevivalItem {
         return ItemUtils.getDisplayName(getItem());
     }
 
-    protected void addItemHandlers(ItemHandler... handlers) {
-        for (ItemHandler handler : handlers) {
-            itemHandlers.put(handler.getClass(), handler);
-        }
+    public void setItemDictionary(ItemDictionary dictionary) {
+        this.dictionary = dictionary;
     }
 
     @Nullable public <T extends ItemHandler> T getItemHandler(Class<T> clazz) {
         return (T) itemHandlers.get(clazz);
+    }
+
+    protected void addItemHandlers(ItemHandler... handlers) {
+        checkLocked();
+        for (ItemHandler handler : handlers) {
+            itemHandlers.put(handler.getClass(), handler);
+        }
     }
 
     protected void preRegister() throws Exception {
@@ -210,11 +220,6 @@ public class IndustrialRevivalItem {
             IncompatibleItemHandlerException ex = handler.isCompatible(this);
             if (ex != null) {
                 throw ex;
-            }
-
-            if (handler instanceof BlockTicker
-                    && !ItemUtils.isActualBlock(getItem().getType())) {
-                throw new UnsupportedOperationException("Only actual block can have a BlockTicker!");
             }
         }
 
@@ -253,10 +258,11 @@ public class IndustrialRevivalItem {
 
             Bukkit.addRecipe(fr);
         }
+    }
 
-        boolean disabled = IndustrialRevival.getInstance().getItemSettings().isItemDisabled(getId());
-        if (disabled) {
-            setDisabled(true);
+    private void checkLocked() {
+        if (locked) {
+            throw new IllegalStateException("Item is locked and cannot be modified");
         }
     }
 }

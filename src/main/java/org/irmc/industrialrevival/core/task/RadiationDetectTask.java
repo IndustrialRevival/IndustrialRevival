@@ -20,6 +20,7 @@ public class RadiationDetectTask implements Consumer<WrappedTask> {
             }
 
             Inventory inv = p.getInventory();
+            /*
             EntityEquipment ee = p.getEquipment();
 
             ItemStack helmet = ee.getHelmet();
@@ -34,6 +35,8 @@ public class RadiationDetectTask implements Consumer<WrappedTask> {
                     }
                 }
             }
+
+             */
 
             // todo: add radiation detection logic
         }

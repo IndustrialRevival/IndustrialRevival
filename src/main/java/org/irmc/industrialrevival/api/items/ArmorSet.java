@@ -48,12 +48,12 @@ public class ArmorSet {
         this.protectWhenFullSet = protectWhenFullSet;
     }
 
-    public void setArmorProtectionType(ArmorProtectionType... types) {
+    public void setArmorProtectionTypes(ArmorProtectionType... types) {
         checkLock();
         protectionTypes = List.of(types);
     }
 
-    public void setArmorProtectionType(List<ArmorProtectionType> types) {
+    public void setArmorProtectionTypes(List<ArmorProtectionType> types) {
         checkLock();
         protectionTypes = types;
     }
@@ -71,7 +71,7 @@ public class ArmorSet {
     }
 
     private String namespacedKeyToId(ArmorType armorType) {
-        return key.getNamespace().toUpperCase() + ":" + key.getKey().toUpperCase() + "_" + armorType.toString();
+        return key.getNamespace().toUpperCase() + "_" + key.getKey().toUpperCase() + "_" + armorType.toString();
     }
 
     private void checkLock() {
