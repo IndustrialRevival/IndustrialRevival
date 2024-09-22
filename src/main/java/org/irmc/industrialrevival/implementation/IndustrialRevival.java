@@ -62,7 +62,8 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
 
         completeFiles();
 
-        itemSettings = new ItemSettings(YamlConfiguration.loadConfiguration(new File(getDataFolder(), "items-settings.yml")));
+        itemSettings =
+                new ItemSettings(YamlConfiguration.loadConfiguration(new File(getDataFolder(), "items-settings.yml")));
     }
 
     @Override

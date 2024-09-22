@@ -2,7 +2,6 @@ package org.irmc.industrialrevival.core.listeners;
 
 import java.security.SecureRandom;
 import java.util.List;
-import java.util.Random;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -29,7 +28,8 @@ public class DropListener extends AbstractIRListener {
                 IndustrialRevival.getInstance().getRegistry().getMobDrops().get(entity.getType());
 
         if (drops != null) {
-            SecureRandom random = new SecureRandom(entity.getUniqueId().toString().getBytes());
+            SecureRandom random =
+                    new SecureRandom(entity.getUniqueId().toString().getBytes());
             for (Pair<ItemStack, Double> drop : drops) {
                 double chance = random.nextDouble(100);
                 if (chance <= drop.getB()) {

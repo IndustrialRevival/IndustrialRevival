@@ -4,19 +4,9 @@ import java.util.Map;
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 
-public class MachineRecipe {
-    private @Getter final int processTime;
-    private @Getter final int energyCost;
-    private @Getter final Map<ItemStack, Integer> inputs;
-    private @Getter final Map<ItemStack, Integer> outputs;
-
-    public MachineRecipe(
-            int processTime, int energyCost, Map<ItemStack, Integer> inputs, Map<ItemStack, Integer> outputs) {
-        this.processTime = processTime;
-        this.energyCost = energyCost;
-        this.inputs = inputs;
-        this.outputs = outputs;
-    }
+@Getter
+public record MachineRecipe(
+        int processTime, int energyCost, Map<ItemStack, Integer> inputs, Map<ItemStack, Integer> outputs) {
 
     public boolean isMatch(Map<ItemStack, Integer> items) {
         for (ItemStack item : inputs.keySet()) {

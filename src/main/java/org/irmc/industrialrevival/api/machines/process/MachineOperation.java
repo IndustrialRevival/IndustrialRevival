@@ -18,7 +18,7 @@ public class MachineOperation implements IOperation {
     }
 
     public MachineOperation(MachineRecipe recipe) {
-        this(recipe.getInputs(), recipe.getOutputs(), recipe.getProcessTime());
+        this(recipe.inputs(), recipe.outputs(), recipe.processTime());
     }
 
     @Override

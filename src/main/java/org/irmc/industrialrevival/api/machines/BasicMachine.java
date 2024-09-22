@@ -72,8 +72,8 @@ public abstract class BasicMachine extends AbstractMachine implements ProcessorH
                 }
             }
             processor.startProcess(location, new MachineOperation(lastMatch));
-            for (ItemStack item : lastMatch.getInputs().keySet()) {
-                menu.consumeItem(item, lastMatch.getInputs().get(item));
+            for (ItemStack item : lastMatch.inputs().keySet()) {
+                menu.consumeItem(item, lastMatch.inputs().get(item));
             }
         } else {
             if (operation.isDone()) {

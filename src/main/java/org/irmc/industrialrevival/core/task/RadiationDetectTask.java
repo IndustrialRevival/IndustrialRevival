@@ -4,12 +4,7 @@ import com.tcoded.folialib.wrapper.task.WrappedTask;
 import java.util.function.Consumer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.irmc.industrialrevival.api.items.ArmorSet;
-import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
-import org.irmc.industrialrevival.api.objects.enums.ArmorProtectionType;
 
 public class RadiationDetectTask implements Consumer<WrappedTask> {
     @Override

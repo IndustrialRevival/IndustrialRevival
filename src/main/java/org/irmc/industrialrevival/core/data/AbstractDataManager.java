@@ -1,13 +1,12 @@
 package org.irmc.industrialrevival.core.data;
 
+import com.google.gson.Gson;
 import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Base64;
 import java.util.List;
-
-import com.google.gson.Gson;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -42,8 +41,14 @@ non-sealed class AbstractDataManager implements IDataManager {
         try {
             DSLContext dsl = DSL.using(pool.getConnection(), JDBCUtils.dialect(url));
             dsl.insertInto(DSL.table(DSL.name("block_record")))
-                    //world, x, y, z, machineId, data
-                    .select(DSL.select(DSL.val(loc.getWorld().getName()), DSL.val(loc.getBlockX()), DSL.val(loc.getBlockY()), DSL.val(loc.getBlockZ()), DSL.val(machineId), DSL.val("")))
+                    // world, x, y, z, machineId, data
+                    .select(DSL.select(
+                            DSL.val(loc.getWorld().getName()),
+                            DSL.val(loc.getBlockX()),
+                            DSL.val(loc.getBlockY()),
+                            DSL.val(loc.getBlockZ()),
+                            DSL.val(machineId),
+                            DSL.val("")))
                     .bind("world", DSL.val(loc.getWorld().getName()))
                     .bind("x", DSL.val(loc.getBlockX()))
                     .bind("y", DSL.val(loc.getBlockY()))
@@ -116,7 +121,8 @@ non-sealed class AbstractDataManager implements IDataManager {
     public List<BlockRecord> getAllBlockRecords() {
         try {
             DSLContext dsl = DSL.using(pool.getConnection(), JDBCUtils.dialect(url));
-            return dsl.select(DSL.field(DSL.name("world")),
+            return dsl.select(
+                            DSL.field(DSL.name("world")),
                             DSL.field(DSL.name("x")),
                             DSL.field(DSL.name("y")),
                             DSL.field(DSL.name("z")),
@@ -133,7 +139,8 @@ non-sealed class AbstractDataManager implements IDataManager {
     public ItemStack getMenuItem(Location location, int slot) {
         try {
             DSLContext dsl = DSL.using(pool.getConnection(), JDBCUtils.dialect(url));
-            Record2<Object, Object> results = dsl.select(DSL.field(DSL.name("itemJson")), DSL.field(DSL.name("itemClass")))
+            Record2<Object, Object> results = dsl.select(
+                            DSL.field(DSL.name("itemJson")), DSL.field(DSL.name("itemClass")))
                     .from(DSL.table(DSL.name("menu_items")))
                     .where(DSL.field(DSL.name("world")).eq(location.getWorld().getName()))
                     .and(DSL.field(DSL.name("x")).eq(location.getBlockX()))
@@ -165,9 +172,9 @@ non-sealed class AbstractDataManager implements IDataManager {
         try {
             DSLContext dsl = DSL.using(pool.getConnection(), JDBCUtils.dialect(url));
             Record3<Object, Object, Object> results = dsl.select(
-                    DSL.field(DSL.name("fireWorksEnabled")),
-                    DSL.field(DSL.name("learningAnimationEnabled")),
-                    DSL.field(DSL.name("language")))
+                            DSL.field(DSL.name("fireWorksEnabled")),
+                            DSL.field(DSL.name("learningAnimationEnabled")),
+                            DSL.field(DSL.name("language")))
                     .from(DSL.table(DSL.name("guide_settings")))
                     .where(DSL.field(DSL.name("username")).eq(playerName))
                     .fetchOne();
@@ -175,10 +182,7 @@ non-sealed class AbstractDataManager implements IDataManager {
                 return GuideSettings.DEFAULT_SETTINGS;
             } else {
                 return new GuideSettings(
-                        results.get(0, Boolean.class),
-                        results.get(1, Boolean.class),
-                        results.get(2, String.class)
-                );
+                        results.get(0, Boolean.class), results.get(1, Boolean.class), results.get(2, String.class));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -190,7 +194,11 @@ non-sealed class AbstractDataManager implements IDataManager {
         try {
             DSLContext dsl = DSL.using(pool.getConnection(), JDBCUtils.dialect(url));
             dsl.insertInto(DSL.table(DSL.name("guide_settings")))
-                    .select(DSL.select(DSL.val(playerName), DSL.val(settings.isFireWorksEnabled()), DSL.val(settings.isLearningAnimationEnabled()), DSL.val(settings.getLanguage())))
+                    .select(DSL.select(
+                            DSL.val(playerName),
+                            DSL.val(settings.isFireWorksEnabled()),
+                            DSL.val(settings.isLearningAnimationEnabled()),
+                            DSL.val(settings.getLanguage())))
                     .bind("username", DSL.val(playerName))
                     .bind("fireWorksEnabled", DSL.val(settings.isFireWorksEnabled()))
                     .bind("learningAnimationEnabled", DSL.val(settings.isLearningAnimationEnabled()))

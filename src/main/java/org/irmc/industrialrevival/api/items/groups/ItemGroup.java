@@ -45,29 +45,6 @@ public abstract class ItemGroup {
         this.tier = tier;
     }
 
-    /*
-    public void onClick(Player player, IRGuideImplementation currentGuide, int page) {
-        int startIndex = 9;
-
-        List<List<IndustrialRevivalItem>> parts = Lists.partition(items, 36);
-        List<IndustrialRevivalItem> thePart = parts.get(page);
-
-        SimpleMenu menu = new SimpleMenu(IndustrialRevival.getInstance()
-                .getLanguageManager()
-                .getMsgComponent(player, Constants.GUIDE_TITLE_KEY));
-
-        for (IndustrialRevivalItem item : thePart) {
-            menu.setItem(startIndex, item.getItem(), ((slot, player1, item1, menu1, clickType) -> {
-                currentGuide.onItemClicked(player1, item);
-                return false;
-            }));
-        }
-
-        menu.open(player);
-    }
-
-     */
-
     public void onClicked(Player p, SimpleMenu sm, int page) {
         boolean onlyPageOne = false;
         IRGuideImplementation guide = SurvivalGuideImplementation.INSTANCE;

@@ -11,8 +11,9 @@ import org.bukkit.inventory.ItemStack;
 /**
  * Machine recipes are unordered by default.
  */
+@Getter
 public class MachineRecipes {
-    private @Getter static final Set<MachineRecipe> recipes = new HashSet<>();
+    private final Set<MachineRecipe> recipes = new HashSet<>();
 
     public MachineRecipes() {}
 
@@ -31,6 +32,14 @@ public class MachineRecipes {
             }
         }
         return null;
+    }
+
+    public void addAll(MachineRecipes recipes) {
+        this.recipes.addAll(recipes.recipes);
+    }
+
+    public void addAll(List<MachineRecipe> recipes) {
+        this.recipes.addAll(recipes);
     }
 
     public void addRecipe(MachineRecipe recipe) {

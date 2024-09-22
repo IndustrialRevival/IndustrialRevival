@@ -2,7 +2,6 @@ package org.irmc.industrialrevival.core.data;
 
 import java.sql.SQLException;
 import java.util.List;
-
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;

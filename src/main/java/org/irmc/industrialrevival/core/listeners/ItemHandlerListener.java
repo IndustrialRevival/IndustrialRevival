@@ -3,7 +3,6 @@ package org.irmc.industrialrevival.core.listeners;
 import java.util.ArrayList;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Tag;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -121,10 +120,6 @@ public class ItemHandlerListener extends AbstractIRListener {
     public void onToolUse(BlockBreakEvent e) {
         ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
         if (item instanceof IndustrialRevivalItemStack iris) {
-            if (!isTool(item)) {
-                return;
-            }
-
             String id = iris.getId();
             IndustrialRevivalItem iritem = IndustrialRevivalItem.getById(id);
 
@@ -155,19 +150,5 @@ public class ItemHandlerListener extends AbstractIRListener {
                 }
             }
         }
-    }
-
-    private boolean isSword(ItemStack item) {
-        Material material = item.getType();
-        return (Tag.ITEMS_SWORDS.isTagged(material));
-    }
-
-    private boolean isTool(ItemStack item) {
-        Material material = item.getType();
-        return (Tag.ITEMS_AXES.isTagged(material)
-                || Tag.ITEMS_HOES.isTagged(material)
-                || Tag.ITEMS_PICKAXES.isTagged(material)
-                || Tag.ITEMS_SHOVELS.isTagged(material)
-                || material == Material.SHEARS);
     }
 }

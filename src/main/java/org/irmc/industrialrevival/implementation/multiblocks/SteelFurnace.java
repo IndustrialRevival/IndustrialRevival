@@ -1,6 +1,6 @@
 package org.irmc.industrialrevival.implementation.multiblocks;
 
-import org.bukkit.Axis;
+import java.util.Map;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -15,11 +15,14 @@ import org.irmc.industrialrevival.api.objects.display.DisplayGroup;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Map;
-
 public class SteelFurnace extends MultiBlockCore implements DisplayableMultiBlock {
     Map<Location, DisplayGroup> displayGroups;
-    public SteelFurnace(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe) {
+
+    public SteelFurnace(
+            @NotNull ItemGroup group,
+            @NotNull IndustrialRevivalItemStack itemStack,
+            @NotNull RecipeType recipeType,
+            @NotNull ItemStack[] recipe) {
         super(group, itemStack, recipeType, recipe, 1, 2, 1);
     }
 

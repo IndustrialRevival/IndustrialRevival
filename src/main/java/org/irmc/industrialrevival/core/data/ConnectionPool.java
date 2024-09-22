@@ -1,7 +1,5 @@
 package org.irmc.industrialrevival.core.data;
 
-import org.irmc.industrialrevival.implementation.IndustrialRevival;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -9,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import org.irmc.industrialrevival.implementation.IndustrialRevival;
 
 class ConnectionPool {
     private final String url;
@@ -31,7 +30,9 @@ class ConnectionPool {
         this.password = password;
         int maxPoolSize = IndustrialRevival.getInstance().getConfig().getInt("storage.max-connections");
         if (maxPoolSize <= 5) {
-            IndustrialRevival.getInstance().getLogger().warning("Invalid connection pool size, it should be greater than 5, using default value of 10");
+            IndustrialRevival.getInstance()
+                    .getLogger()
+                    .warning("Invalid connection pool size, it should be greater than 5, using default value of 10");
             maxPoolSize = 10;
         }
         this.maxPoolSize = maxPoolSize;

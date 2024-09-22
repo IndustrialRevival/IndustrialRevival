@@ -11,11 +11,20 @@ import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.jetbrains.annotations.NotNull;
 
+@Getter
 public abstract class MultiBlockCore extends IndustrialRevivalItem implements IMultiBlock {
-    private @Getter int maxX;
-    private @Getter int maxY;
-    private @Getter int maxZ;
-    public MultiBlockCore(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, int maxX, int maxY, int maxZ) {
+    private int maxX;
+    private int maxY;
+    private int maxZ;
+
+    public MultiBlockCore(
+            @NotNull ItemGroup group,
+            @NotNull IndustrialRevivalItemStack itemStack,
+            @NotNull RecipeType recipeType,
+            @NotNull ItemStack[] recipe,
+            int maxX,
+            int maxY,
+            int maxZ) {
         super(group, itemStack, recipeType, recipe);
         setLimit(maxX, maxY, maxZ);
     }
