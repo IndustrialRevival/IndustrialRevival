@@ -1,11 +1,14 @@
 package org.irmc.industrialrevival.api.items.attributes;
 
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
 public interface Limited extends ItemAttribute {
     int getLimit();
 
-    void setLimit(int limit);
+    int getCountLeft(ItemStack item);
 
-    int getCountLeft();
+    void setCountLeft(ItemStack item, int countLeft);
 
-    void setCountLeft(int countLeft);
+    void doUse(Player player, ItemStack item);
 }
