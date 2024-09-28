@@ -122,4 +122,10 @@ public class CustomItemStack extends ItemStack {
         editMeta(m -> m.getPersistentDataContainer().set(key, type, value));
         return this;
     }
+
+    public ItemStack toPureItemStack() {
+        ItemStack pure = new ItemStack(this.getType(), this.getAmount());
+        pure.setItemMeta(this.getItemMeta());
+        return pure;
+    }
 }

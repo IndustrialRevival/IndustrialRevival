@@ -5,6 +5,11 @@ import java.util.function.Consumer;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
 
+/**
+ * This interface defines a machine that has an inventory. <br>
+ * <br>
+ * <b>Note: </b> Right-click to open the inventory.
+ */
 public interface InventoryBlock extends ItemAttribute {
     int[] getInputSlots();
 

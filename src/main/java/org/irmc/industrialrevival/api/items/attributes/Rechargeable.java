@@ -3,6 +3,9 @@ package org.irmc.industrialrevival.api.items.attributes;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.core.utils.EnergyUtil;
 
+/**
+ * This interface defines a item that can be charge or discharge its energy. <br>
+ */
 public interface Rechargeable extends ItemAttribute {
     double getEnergyCapacity();
 

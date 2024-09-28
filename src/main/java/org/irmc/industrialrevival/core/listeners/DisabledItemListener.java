@@ -17,7 +17,7 @@ public class DisabledItemListener extends AbstractIRListener {
                 return;
             }
 
-            if (iritem.isDisabled()) {
+            if (iritem.isDisabledInWorld(event.getPlayer().getWorld())) {
                 event.setCancelled(true);
             }
         }
@@ -32,7 +32,7 @@ public class DisabledItemListener extends AbstractIRListener {
                 return;
             }
 
-            if (iritem.isDisabled()) {
+            if (iritem.isDisabledInWorld(event.getPlayer().getWorld())) {
                 event.setCancelled(true);
             }
         }
