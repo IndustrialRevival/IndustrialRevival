@@ -37,22 +37,7 @@ public class MachineOperation implements IOperation {
     }
 
     @Override
-    public int getTotalDuration() {
+    public int getTotalProgress() {
         return duration;
-    }
-
-    @Override
-    public int getRemainingDuration() {
-        return IOperation.super.getRemainingDuration();
-    }
-
-    @Override
-    public boolean isDone() {
-        return IOperation.super.isDone();
-    }
-
-    @Override
-    public void onCancel() {
-        IOperation.super.onCancel();
     }
 }

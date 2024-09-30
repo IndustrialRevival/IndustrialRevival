@@ -4,6 +4,4 @@ import org.irmc.industrialrevival.api.objects.enums.RadiationLevel;
 
 public interface Radiation extends ItemAttribute {
     RadiationLevel getRadiationLevel();
-
-    void setRadiationLevel(RadiationLevel level);
 }

@@ -17,17 +17,19 @@ import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.tools.jdbc.JDBCUtils;
 
-non-sealed class AbstractDataManager implements IDataManager {
+public non-sealed class AbstractDataManager implements IDataManager {
     private final ConnectionPool pool;
 
     private final String url;
     private final String username;
     private final String password;
+    private final SQLDialect dialect;
 
     public AbstractDataManager(String url, String username, String password) {
         this.url = url;
         this.username = username;
         this.password = password;
+        this.dialect = JDBCUtils.dialect(url);
 
         try {
             this.pool = new ConnectionPool(url, username, password);
@@ -39,7 +41,7 @@ non-sealed class AbstractDataManager implements IDataManager {
     @Override
     public void handleBlockPlacing(Location loc, String machineId) {
         try {
-            DSLContext dsl = DSL.using(pool.getConnection(), JDBCUtils.dialect(url));
+            DSLContext dsl = DSL.using(pool.getConnection(), dialect);
             dsl.insertInto(DSL.table(DSL.name("block_record")))
                     // world, x, y, z, machineId, data
                     .select(DSL.select(
@@ -64,7 +66,7 @@ non-sealed class AbstractDataManager implements IDataManager {
     @Override
     public void handleBlockBreaking(Location loc) {
         try {
-            DSLContext dsl = DSL.using(pool.getConnection(), JDBCUtils.dialect(url));
+            DSLContext dsl = DSL.using(pool.getConnection(), dialect);
             dsl.deleteFrom(DSL.table(DSL.name("block_record")))
                     .where(DSL.field(DSL.name("world")).eq(loc.getWorld().getName()))
                     .and(DSL.field(DSL.name("x")).eq(loc.getBlockX()))
@@ -80,7 +82,7 @@ non-sealed class AbstractDataManager implements IDataManager {
     public @NotNull YamlConfiguration getBlockData(@NotNull Location location) {
         String b64;
         try {
-            DSLContext dsl = DSL.using(pool.getConnection(), JDBCUtils.dialect(url));
+            DSLContext dsl = DSL.using(pool.getConnection(), dialect);
             Object tmp = dsl.select(DSL.field(DSL.name("data")))
                     .from(DSL.table(DSL.name("block_record")))
                     .where(DSL.field(DSL.name("world")).eq(location.getWorld().getName()))
@@ -104,7 +106,7 @@ non-sealed class AbstractDataManager implements IDataManager {
     public void updateBlockData(@NotNull Location location, @NotNull BlockRecord record) {
         try {
             String b64 = Base64.getEncoder().encodeToString(record.data().getBytes());
-            DSLContext dsl = DSL.using(pool.getConnection(), JDBCUtils.dialect(url));
+            DSLContext dsl = DSL.using(pool.getConnection(), dialect);
             dsl.update(DSL.table(DSL.name("block_record")))
                     .set(DSL.field(DSL.name("data")), DSL.val(b64))
                     .where(DSL.field(DSL.name("world")).eq(location.getWorld().getName()))
@@ -120,7 +122,7 @@ non-sealed class AbstractDataManager implements IDataManager {
     @Override
     public List<BlockRecord> getAllBlockRecords() {
         try {
-            DSLContext dsl = DSL.using(pool.getConnection(), JDBCUtils.dialect(url));
+            DSLContext dsl = DSL.using(pool.getConnection(), dialect);
             return dsl.select(
                             DSL.field(DSL.name("world")),
                             DSL.field(DSL.name("x")),
@@ -138,7 +140,7 @@ non-sealed class AbstractDataManager implements IDataManager {
     @Override
     public ItemStack getMenuItem(Location location, int slot) {
         try {
-            DSLContext dsl = DSL.using(pool.getConnection(), JDBCUtils.dialect(url));
+            DSLContext dsl = DSL.using(pool.getConnection(), dialect);
             Record2<Object, Object> results = dsl.select(
                             DSL.field(DSL.name("itemJson")), DSL.field(DSL.name("itemClass")))
                     .from(DSL.table(DSL.name("menu_items")))
@@ -170,7 +172,7 @@ non-sealed class AbstractDataManager implements IDataManager {
     @Override
     public GuideSettings getGuideSettings(@NotNull String playerName) {
         try {
-            DSLContext dsl = DSL.using(pool.getConnection(), JDBCUtils.dialect(url));
+            DSLContext dsl = DSL.using(pool.getConnection(), dialect);
             Record3<Object, Object, Object> results = dsl.select(
                             DSL.field(DSL.name("fireWorksEnabled")),
                             DSL.field(DSL.name("learningAnimationEnabled")),
@@ -192,7 +194,7 @@ non-sealed class AbstractDataManager implements IDataManager {
     @Override
     public void saveGuideSettings(@NotNull String playerName, @NotNull GuideSettings settings) {
         try {
-            DSLContext dsl = DSL.using(pool.getConnection(), JDBCUtils.dialect(url));
+            DSLContext dsl = DSL.using(pool.getConnection(), dialect);
             dsl.insertInto(DSL.table(DSL.name("guide_settings")))
                     .select(DSL.select(
                             DSL.val(playerName),
@@ -213,7 +215,7 @@ non-sealed class AbstractDataManager implements IDataManager {
     public @NotNull YamlConfiguration getResearchStatus(String playerName) {
         String yaml;
         try {
-            DSLContext dsl = DSL.using(pool.getConnection(), JDBCUtils.dialect(url));
+            DSLContext dsl = DSL.using(pool.getConnection(), dialect);
             Object tmp = dsl.select(DSL.field(DSL.name("researchStatus")))
                     .from(DSL.table(DSL.name("research_status")))
                     .where(DSL.field(DSL.name("username")).eq(playerName))
@@ -236,7 +238,7 @@ non-sealed class AbstractDataManager implements IDataManager {
         String yaml = researchStatus.saveToString();
         String b64 = Base64.getEncoder().encodeToString(yaml.getBytes());
         try {
-            DSLContext dsl = DSL.using(pool.getConnection(), JDBCUtils.dialect(url));
+            DSLContext dsl = DSL.using(pool.getConnection(), dialect);
             dsl.insertInto(DSL.table(DSL.name("research_status")))
                     .select(DSL.select(DSL.val(playerName), DSL.val(b64)))
                     .bind("username", DSL.val(playerName))

@@ -50,8 +50,12 @@
                             <shadedPattern>org.irmc.industrialrevival.libraries.folialib</shadedPattern>
                         </relocation>
                         <relocation>
-                            <pattern>org.apache.ibatis</pattern>
-                            <shadedPattern>org.irmc.industrialrevival.libraries.mybatis</shadedPattern>
+                            <pattern>io.papermc.lib</pattern>
+                            <shadedPattern>org.irmc.industrialrevival.libraries.paperlib</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.jooq</pattern>
+                            <shadedPattern>org.irmc.industrialrevival.libraries.jooq</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
@@ -120,15 +124,9 @@
         </dependency>
 
         <dependency>
-            <groupId>io.papermc</groupId>
-            <artifactId>paperlib</artifactId>
-            <version>1.0.7</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.30</version>
+            <version>1.18.32</version>
             <scope>provided</scope>
         </dependency>
 
@@ -152,6 +150,11 @@
             <groupId>org.jooq</groupId>
             <artifactId>jooq</artifactId>
             <version>3.19.11</version>
+        </dependency>
+        <dependency>
+            <groupId>io.papermc</groupId>
+            <artifactId>paperlib</artifactId>
+            <version>1.0.7</version>
         </dependency>
 
         <!-- Testing dependencies -->

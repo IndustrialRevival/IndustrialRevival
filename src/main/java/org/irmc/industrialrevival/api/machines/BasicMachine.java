@@ -63,7 +63,7 @@ public abstract class BasicMachine extends AbstractMachine implements ProcessorH
                 }
             }
             if (lastMatch == null) {
-                lastMatches.put(location, machineRecipes.findNextRecipe(inputs));
+                lastMatches.put(location, this.machineRecipes.findNextRecipe(inputs));
                 return;
             } else {
                 if (!lastMatch.isMatch(inputs)) {

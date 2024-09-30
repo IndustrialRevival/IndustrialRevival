@@ -7,14 +7,14 @@ public interface IOperation {
 
     int getCurrentProgress();
 
-    int getTotalDuration();
+    int getTotalProgress();
 
     default int getRemainingDuration() {
-        return getTotalDuration() - getCurrentProgress();
+        return getTotalProgress() - getCurrentProgress();
     }
 
     default boolean isDone() {
-        return getCurrentProgress() >= getTotalDuration();
+        return getCurrentProgress() >= getTotalProgress();
     }
 
     default void onCancel() {}

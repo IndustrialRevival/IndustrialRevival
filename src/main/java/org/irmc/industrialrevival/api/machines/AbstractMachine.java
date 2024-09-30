@@ -12,7 +12,7 @@ import org.irmc.industrialrevival.api.recipes.RecipeType;
  * Abstract class for all IndustrialRevival machines.
  */
 public abstract class AbstractMachine extends IndustrialRevivalItem {
-    final MachineRecipes machineRecipes;
+    protected final MachineRecipes machineRecipes;
 
     public AbstractMachine(
             @Nonnull ItemGroup group,
