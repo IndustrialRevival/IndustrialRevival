@@ -1,19 +1,23 @@
 package org.irmc.industrialrevival.api.items;
 
 import java.util.function.BiConsumer;
+
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.attributes.Limited;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
+import org.irmc.industrialrevival.implementation.IndustrialRevival;
+import org.irmc.pigeonlib.pdc.PersistentDataAPI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
 
 public class LimitedItem extends IndustrialRevivalItem implements Limited {
     private final BiConsumer<Player, ItemStack> onUseHandler;
+    private final NamespacedKey LIMITED_COUNT_LEFT;
 
-    private int limit;
-    private int countLeft;
+    private final int limit;
 
     public LimitedItem(
             @NotNull ItemGroup group,
@@ -23,8 +27,8 @@ public class LimitedItem extends IndustrialRevivalItem implements Limited {
             int limit) {
         super(group, itemStack, recipeType, recipe);
         this.limit = limit;
-        this.countLeft = limit;
         this.onUseHandler = this::onItemUse;
+        this.LIMITED_COUNT_LEFT = new NamespacedKey(IndustrialRevival.getInstance(), "lcl_" + getId().toLowerCase());
     }
 
     public LimitedItem(
@@ -36,8 +40,8 @@ public class LimitedItem extends IndustrialRevivalItem implements Limited {
             @NotNull BiConsumer<Player, ItemStack> onUseHandler) {
         super(group, itemStack, recipeType, recipe);
         this.limit = limit;
-        this.countLeft = limit;
         this.onUseHandler = onUseHandler;
+        this.LIMITED_COUNT_LEFT = new NamespacedKey(IndustrialRevival.getInstance(), "lcl_" + getId().toLowerCase());
     }
 
     @Override
@@ -46,18 +50,13 @@ public class LimitedItem extends IndustrialRevivalItem implements Limited {
     }
 
     @Override
-    public void setLimit(int limit) {
-        this.limit = limit;
+    public final int getCountLeft(ItemStack item) {
+        return PersistentDataAPI.getInt(item.getItemMeta(), LIMITED_COUNT_LEFT, 0);
     }
 
     @Override
-    public int getCountLeft() {
-        return countLeft;
-    }
-
-    @Override
-    public void setCountLeft(int countLeft) {
-        this.countLeft = countLeft;
+    public void setCountLeft(ItemStack item, int countLeft) {
+        PersistentDataAPI.setInt(item.getItemMeta(), LIMITED_COUNT_LEFT, countLeft);
     }
 
     public void doUse(Player player, ItemStack item) {
@@ -65,11 +64,11 @@ public class LimitedItem extends IndustrialRevivalItem implements Limited {
     }
 
     private void onItemUse(Player player, ItemStack item) {
-        if (countLeft <= 0) {
+        if (getCountLeft(item) <= 0) {
             item.setAmount(0);
         }
-        countLeft -= 1;
-        if (countLeft == 0) {
+        setCountLeft(item, getCountLeft(item) - 1);
+        if (getCountLeft(item) == 0) {
             item.setAmount(0);
         }
     }

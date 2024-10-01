@@ -250,3 +250,5 @@ item:
     name: "<white>Tungsten Ingot</white>"
     lore:
       - "<dark_gray>W</dark_gray>"
+  BATTERY_AA:
+    name: "<gold>Battery (AA)</gold>"

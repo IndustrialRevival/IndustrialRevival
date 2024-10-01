@@ -12,6 +12,4 @@ import org.irmc.industrialrevival.core.task.RadiationDetectTask;
  */
 public interface Radiation extends ItemAttribute {
     RadiationLevel getRadiationLevel();
-
-    void setRadiationLevel(RadiationLevel level);
 }

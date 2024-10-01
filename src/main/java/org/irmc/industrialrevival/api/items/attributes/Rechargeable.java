@@ -2,6 +2,7 @@ package org.irmc.industrialrevival.api.items.attributes;
 
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.core.utils.EnergyUtil;
+import org.jetbrains.annotations.Range;
 
 /**
  * This interface defines a item that can be charge or discharge its energy. <br>
@@ -13,7 +14,7 @@ public interface Rechargeable extends ItemAttribute {
         return EnergyUtil.getItemEnergy(item);
     }
 
-    default void setItemEnergy(ItemStack item, long energy) {
+    default void setItemEnergy(ItemStack item, double energy) {
         EnergyUtil.setItemEnergy(item, energy);
     }
 
@@ -28,4 +29,6 @@ public interface Rechargeable extends ItemAttribute {
     default boolean hasEnoughEnergy(ItemStack item, double energy) {
         return EnergyUtil.hasEnoughEnergy(item, energy);
     }
+
+    default void onRecharge(ItemStack item, double energy) {}
 }

@@ -63,6 +63,6 @@ public class MachineProcessor<T extends IOperation> {
 
     public void updateProgressBar(MachineMenu menu, int slot, T operation) {
         menu.setProgressItem(
-                slot, operation.getRemainingDuration(), operation.getTotalDuration(), getProgressBarItem());
+                slot, operation.getRemainingDuration(), operation.getTotalProgress(), getProgressBarItem());
     }
 }

@@ -7,6 +7,3 @@ permissions:
   industrialrevival.cmd.guide:
     description: get the guide of IndustrialRevival
     default: true
-  industrialrevival.bypass.radiation:
-    description: bypass the radiation protection
-    default: op

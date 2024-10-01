@@ -17,13 +17,15 @@ import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.objects.ItemSettings;
 import org.irmc.industrialrevival.core.command.IRCommandGenerator;
 import org.irmc.industrialrevival.core.data.IDataManager;
-import org.irmc.industrialrevival.core.data.MysqlDataManager;
-import org.irmc.industrialrevival.core.data.SqliteDataManager;
+import org.irmc.industrialrevival.core.data.impl.MysqlDataManager;
+import org.irmc.industrialrevival.core.data.impl.PostgreSQLDataManager;
+import org.irmc.industrialrevival.core.data.impl.SqliteDataManager;
 import org.irmc.industrialrevival.core.managers.ListenerManager;
 import org.irmc.industrialrevival.core.services.BlockDataService;
 import org.irmc.industrialrevival.core.services.IRRegistry;
 import org.irmc.industrialrevival.core.services.ItemDataService;
 import org.irmc.industrialrevival.core.services.ItemTextureService;
+import org.irmc.industrialrevival.core.task.ArmorCheckTask;
 import org.irmc.industrialrevival.core.utils.Constants;
 import org.irmc.industrialrevival.implementation.groups.IRItemGroups;
 import org.irmc.industrialrevival.implementation.items.IRItems;
@@ -86,6 +88,9 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         getLogger().info("Setting up listeners...");
         listenerManager.setupAll();
 
+        getLogger().info("Setting up tasks...");
+        setupTasks();
+
         getComponentLogger().info(LanguageManager.parseToComponent("<green>Industrial Revival has been enabled!"));
     }
 
@@ -112,18 +117,29 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         FileConfiguration config = getConfig();
         String storageType = config.getString("storage.type", "sqlite");
         File sqliteDbFile = new File(Constants.STORAGE_FOLDER, "database.db");
-        if (storageType.equalsIgnoreCase("sqlite")) {
-            if (!Constants.STORAGE_FOLDER.exists()) {
-                Constants.STORAGE_FOLDER.mkdirs();
-            }
 
+        if (!Constants.STORAGE_FOLDER.exists()) {
+            Constants.STORAGE_FOLDER.mkdirs();
+        }
+
+        if (storageType.equalsIgnoreCase("sqlite")) {
             this.dataManager = new SqliteDataManager(sqliteDbFile);
-        } else {
+        } else if (storageType.equalsIgnoreCase("mysql")){
             String host = config.getString("storage.mysql.host");
             int port = config.getInt("storage.mysql.port");
             String username = config.getString("storage.mysql.username");
             String password = config.getString("storage.mysql.password");
             this.dataManager = new MysqlDataManager(host + ":" + port, username, password);
+        } else if (storageType.equalsIgnoreCase("postgres")) {
+            String host = config.getString("storage.mysql.host");
+            int port = config.getInt("storage.mysql.port");
+            String username = config.getString("storage.mysql.username");
+            String password = config.getString("storage.mysql.password");
+            this.dataManager = new PostgreSQLDataManager(host + ":" + port, username, password);
+        } else {
+            getLogger().log(Level.SEVERE, "Unsupported storage type: " + storageType + ", using sqlite instead.");
+
+            this.dataManager = new SqliteDataManager(sqliteDbFile);
         }
 
         try {
@@ -131,6 +147,10 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         } catch (SQLException e) {
             getLogger().log(Level.SEVERE, "Failed to create tables in database. The plugin will not work properly.", e);
         }
+    }
+
+    private void setupTasks() {
+        foliaLibImpl.runTimerAsync(new ArmorCheckTask(), 20 * 5, 20 * 5);
     }
 
     @Override

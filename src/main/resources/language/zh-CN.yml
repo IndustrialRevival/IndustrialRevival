@@ -250,3 +250,5 @@ item:
     name: "<white>钨锭</white>"
     lore:
       - "<dark_gray>W</dark_gray>"
+  BATTERY_AA:
+    name: "<gold>5号电池</gold>"

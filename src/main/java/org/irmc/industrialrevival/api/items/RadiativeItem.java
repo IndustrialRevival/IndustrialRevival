@@ -8,23 +8,21 @@ import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.jetbrains.annotations.NotNull;
 
 public class RadiativeItem extends IndustrialRevivalItem implements Radiation {
-    private RadiationLevel radiationLevel;
+    private final RadiationLevel radiationLevel;
 
     public RadiativeItem(
             @NotNull ItemGroup group,
             @NotNull IndustrialRevivalItemStack itemStack,
             @NotNull RecipeType recipeType,
-            @NotNull ItemStack[] recipe) {
+            @NotNull ItemStack[] recipe,
+            @NotNull RadiationLevel radiationLevel) {
         super(group, itemStack, recipeType, recipe);
+
+        this.radiationLevel = radiationLevel;
     }
 
     @Override
     public RadiationLevel getRadiationLevel() {
         return radiationLevel;
-    }
-
-    @Override
-    public void setRadiationLevel(RadiationLevel radiationLevel) {
-        this.radiationLevel = radiationLevel;
     }
 }
