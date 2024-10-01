@@ -258,59 +258,59 @@ item:
     name: "<white>可重构纳米天线</white>"
     lore:
       - "能够根据需求实时调整形状和尺寸"
-      - "以控制光的相位、振幅和偏振。"
+      - "以控制光的相位、振幅和偏振"
   LIQUID_CRYSTAL_POLYMERS:
     name: "<white>液晶聚合物</white>"
     lore:
       - "能够通过改变分子排列来调控光线传播"
-      - "实现动态的全息显示。"
+      - "实现动态的全息显示"
   GRAPHENE:
     name: "<white>石墨烯</white>"
     lore:
       - "因其独特的电子和光学性质"
-      - "将被用于全息投屏技术。"
+      - "将被用于全息投屏技术"
   MOLYBDENUM_DISULFIDE:
     name: "<white>二硫化钼</white>"
     lore:
       - "因其独特的电子和光学性质"
-      - "也将被用于全息投屏技术。"
+      - "也将被用于全息投屏技术"
   GRAPHENE_OPTICAL_MODULATOR:
     name: "<white>石墨烯光调制器</white>"
     lore:
       - "利用石墨烯对光的吸收和透射性质"
-      - "实现高速的光信号调制。"
+      - "实现高速的光信号调制"
   HOLOGRAPHIC_PLATE:
     name: "<white>全息板</white>"
     lore:
-      - "调控全息图的衍射效率。"
+      - "调控全息图的衍射效率"
   INDIUM_TIN_OXIDE:
     name: "<white>氧化铟锡</white>"
     lore:
-      - "用于制造柔性电极。"
+      - "用于制造柔性电极"
   POLYIMIDE:
     name: "<white>聚酰亚胺</white>"
     lore:
-      - "可用于支撑全息投屏的柔性结构。"
+      - "可用于支撑全息投屏的柔性结构"
   POLYETHYLENE_TEREPHTHALATE:
     name: "<white>聚对苯二甲酸乙二醇酯</white>"
     lore:
-      - "也可用于支撑全息投屏的柔性结构。"
+      - "也可用于支撑全息投屏的柔性结构"
   PHOTONIC:
     name: "<white>光子晶体</white>"
     lore:
-      - "用于实现全息图像的立体显示。"
+      - "用于实现全息图像的立体显示"
   NEGATIVE_INDEX_MATERIAL:
     name: "<white>负折射率材料</white>"
     lore:
-      - "用于实现完美全息图的精确聚焦和成像。"
+      - "用于实现完美全息图的精确聚焦和成像"
   FREQUENCY_SELECTIVE_SURFACE:
     name: "<white>频率选择表面</white>"
     lore:
-      - "用于精确控制全息投屏的带宽和方向性。"
+      - "用于精确控制全息投屏的带宽和方向性"
   MICRO_ELECTRO_MECHANICAL_SYSTEM:
     name: "<white>微机电系统</white>"
     lore:
-      - "用于精确控制全息投屏系统中光学元件的位置和状态。"
+      - "用于精确控制全息投屏系统中光学元件的位置和状态"
   EFFICIENT_SOLAR_MATERIALS:
     name: "<white>高效太阳能材料</white>"
     lore:
@@ -320,31 +320,36 @@ item:
     lore:
       - "利用先进的激光写入技术"
       - "将全息图案直接记录在透明的光敏材料上"
-      - "形成可动态改变的全息光学元件。"
+      - "形成可动态改变的全息光学元件"
   DIGITAL_MICROMIRROR_DEVICE:
     name: "<white>数字微镜器件</white>"
     lore:
       - "采用更高密度的微镜阵列"
       - "实现对光波的精确控制"
-      - "以生成更清晰、更真实的三维全息图像。"
+      - "以生成更清晰、更真实的三维全息图像"
   COHERENT_LIGHT_SOURCE:
     name: "<white>相干光源</white>"
     lore:
       - "使用激光或其他相干光源"
-      - "确保光波在传播过程中保持稳定的相位关系。"
+      - "确保光波在传播过程中保持稳定的相位关系"
   WAVEFRONT_SENSOR:
     name: "<white>波前传感器</white>"
     lore:
       - "实时监测光波前"
       - "通过算法调整光学元件"
-      - "以优化全息图像的质量。"
+      - "以优化全息图像的质量"
   QUANTUM_ENTANGLEMENT_LIGHT_SOURCE:
     name: "<white>量子纠缠光源</white>"
     lore:
       - "使用量子纠缠光源"
-      - "提高全息图像的亮度和对比度。"
+      - "提高全息图像的亮度和对比度"
   STRUCTURAL_COLOR_HOLOGRAPHY:
     name: "<white>结构色全息</white>"
     lore:
       - "利用微观结构对光的干涉和衍射效应"
-      - "产生丰富的颜色和图案。"
+      - "产生丰富的颜色和图案"
+  ELECTRON_BEAM_LITHOGRAPHY_MACHINE:
+    name: "<white>电子束光刻机器</white>"
+    lore:
+      - "电子束光刻机器利用高能电子束直接在材料表面进行刻蚀或沉积"
+      - "从而实现纳米级的图案加工"

@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
  * ElectricMachine is a BasicMachine that consumes energy.
  */
 public abstract class ElectricMachine extends BasicMachine implements EnergyNetComponent {
-    final long capacity;
+    private final long capacity;
 
     public ElectricMachine(
             @NotNull ItemGroup group,

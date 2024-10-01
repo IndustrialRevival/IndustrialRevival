@@ -60,6 +60,7 @@ public class IRItemStacks {
     public static final IndustrialRevivalItemStack ZINC;
     public static final IndustrialRevivalItemStack TUNGSTEN;
     public static final IndustrialRevivalItemStack BATTERY_AA;
+    public static final IndustrialRevivalItemStack NANOANTENNA;
     public static final IndustrialRevivalItemStack RECONFIGURABLE_NANOANTENNA;
     public static final IndustrialRevivalItemStack LIQUID_CRYSTAL_POLYMERS;
     public static final IndustrialRevivalItemStack GRAPHENE;
@@ -80,7 +81,10 @@ public class IRItemStacks {
     public static final IndustrialRevivalItemStack WAVEFRONT_SENSOR;
     public static final IndustrialRevivalItemStack QUANTUM_ENTANGLEMENT_LIGHT_SOURCE;
     public static final IndustrialRevivalItemStack STRUCTURAL_COLOR_HOLOGRAPHY;
-
+    public static final IndustrialRevivalItemStack ELECTRON_BEAM_LITHOGRAPHY_MACHINE;
+    public static final IndustrialRevivalItemStack ATOMIC_LAYER_DEPOSITION_MACHINE;
+    public static final IndustrialRevivalItemStack POLYMERIAZTION_REACTOR;
+    public static final IndustrialRevivalItemStack PRESSURE_CHAMBER;
     static {
         LAVA_ALLOY = new IndustrialRevivalItemStack("LAVA_ALLOY", Material.MAGMA_BLOCK);
         ROCK_IRON_ALLOY = new IndustrialRevivalItemStack("ROCK_IRON_ALLOY", Material.POLISHED_ANDESITE);
@@ -137,6 +141,7 @@ public class IRItemStacks {
         BORAX = new IndustrialRevivalItemStack("BORAX", Material.QUARTZ);
         SILICA = new IndustrialRevivalItemStack("SILICA", Material.FIREWORK_STAR);
         BATTERY_AA = new IndustrialRevivalItemStack("BATTERY_AA", Material.IRON_INGOT);
+        NANOANTENNA = new IndustrialRevivalItemStack("NANOANTENNA", Material.COAL);
         RECONFIGURABLE_NANOANTENNA = new IndustrialRevivalItemStack("RECONFIGURABLE_NANOANTENNA", Material.COAL);
         LIQUID_CRYSTAL_POLYMERS = new IndustrialRevivalItemStack("LIQUID_CRYSTAL_POLYMERS", Material.WATER_BUCKET);
         GRAPHENE = new IndustrialRevivalItemStack("GRAPHENE", Material.BLACK_CONCRETE_POWDER);
@@ -157,5 +162,9 @@ public class IRItemStacks {
         WAVEFRONT_SENSOR = new IndustrialRevivalItemStack("WAVEFRONT_SENSOR", Material.IRON_INGOT);
         QUANTUM_ENTANGLEMENT_LIGHT_SOURCE = new IndustrialRevivalItemStack("QUANTUM_ENTANGLEMENT_LIGHT_SOURCE", Material.SHROOMLIGHT);
         STRUCTURAL_COLOR_HOLOGRAPHY = new IndustrialRevivalItemStack("STRUCTURAL_COLOR_HOLOGRAPHY", Material.IRON_INGOT);
+        ELECTRON_BEAM_LITHOGRAPHY_MACHINE = new IndustrialRevivalItemStack("ELECTRON_BEAM_LITHOGRAPHY_MACHINE", Material.IRON_BLOCK);
+        ATOMIC_LAYER_DEPOSITION_MACHINE = new IndustrialRevivalItemStack("ATOMIC_LAYER_DEPOSITION_MACHINE", Material.IRON_BLOCK);
+        POLYMERIAZTION_REACTOR = new IndustrialRevivalItemStack("POLYMERIAZTION_REACTOR", Material.IRON_BLOCK);
+        PRESSURE_CHAMBER = new IndustrialRevivalItemStack("PRESSURE_CHAMBER", Material.IRON_BLOCK);
     }
 }

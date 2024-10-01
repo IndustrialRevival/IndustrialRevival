@@ -7,10 +7,13 @@ import java.util.Map;
 import java.util.Set;
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
+import org.irmc.pigeonlib.items.ItemUtils;
 
 /**
  * Machine recipes are unordered by default.
+ * @author balugaq
  */
+// TODO: 为了支持矿辞系统，这里可能需要重写。。。
 @Getter
 public class MachineRecipes {
     private final Set<MachineRecipe> recipes = new HashSet<>();
@@ -46,14 +49,26 @@ public class MachineRecipes {
         recipes.add(recipe);
     }
 
+    public void addRecipe(int processTime, int energyCost, ItemStack[] input, ItemStack[] output) {
+        final Map<ItemStack, Integer> inputsMap = new HashMap<>();
+        for (ItemStack inputItem : input) {
+            inputsMap.put(ItemUtils.cloneItem(inputItem, 1), inputItem.getAmount());
+        }
+        final Map<ItemStack, Integer> outputsMap = new HashMap<>();
+        for (ItemStack outputItem : output) {
+            outputsMap.put(ItemUtils.cloneItem(outputItem, 1), outputItem.getAmount());
+        }
+        recipes.add(new MachineRecipe(processTime, energyCost, inputsMap, outputsMap));
+    }
+
     public void addRecipe(int processTime, int energyCost, List<ItemStack> inputs, List<ItemStack> outputs) {
         final Map<ItemStack, Integer> inputsMap = new HashMap<>();
         for (ItemStack input : inputs) {
-            inputsMap.put(input, input.getAmount());
+            inputsMap.put(ItemUtils.cloneItem(input, 1), input.getAmount());
         }
         final Map<ItemStack, Integer> outputsMap = new HashMap<>();
         for (ItemStack output : outputs) {
-            outputsMap.put(output, output.getAmount());
+            outputsMap.put(ItemUtils.cloneItem(output, 1), output.getAmount());
         }
         recipes.add(new MachineRecipe(processTime, energyCost, inputsMap, outputsMap));
     }
