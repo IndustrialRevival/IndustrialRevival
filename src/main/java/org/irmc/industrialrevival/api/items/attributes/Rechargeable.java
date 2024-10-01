@@ -26,4 +26,6 @@ public interface Rechargeable extends ItemAttribute {
     default boolean hasEnoughEnergy(ItemStack item, double energy) {
         return EnergyUtil.hasEnoughEnergy(item, energy);
     }
+
+    default void onRecharge(ItemStack item, double energy) {}
 }

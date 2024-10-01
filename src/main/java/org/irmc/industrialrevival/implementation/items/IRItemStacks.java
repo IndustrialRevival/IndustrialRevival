@@ -2,6 +2,7 @@ package org.irmc.industrialrevival.implementation.items;
 
 import org.bukkit.Material;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class IRItemStacks {
     public static final IndustrialRevivalItemStack SLIVER_ORE;
@@ -58,6 +59,7 @@ public class IRItemStacks {
     public static final IndustrialRevivalItemStack LEAD;
     public static final IndustrialRevivalItemStack ZINC;
     public static final IndustrialRevivalItemStack TUNGSTEN;
+    public static final IndustrialRevivalItemStack BATTERY_AA;
 
     static {
         LAVA_ALLOY = new IndustrialRevivalItemStack("LAVA_ALLOY", Material.MAGMA_BLOCK);
@@ -114,5 +116,6 @@ public class IRItemStacks {
         GAS = new IndustrialRevivalItemStack("GAS", Material.IRON_ORE);
         BORAX = new IndustrialRevivalItemStack("BORAX", Material.IRON_ORE);
         SILICA = new IndustrialRevivalItemStack("SILICA", Material.IRON_ORE);
+        BATTERY_AA = new IndustrialRevivalItemStack("BATTERY_AA", Material.IRON_INGOT);
     }
 }

@@ -1,5 +1,6 @@
 package org.irmc.industrialrevival.implementation.items;
 
+import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.ArmorSet;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalOreBlock;
@@ -7,6 +8,7 @@ import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.core.utils.KeyUtil;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.groups.IRItemGroups;
+import org.irmc.industrialrevival.implementation.items.components.Battery;
 import org.irmc.industrialrevival.implementation.recipes.IRRecipes;
 
 public class IRItems {
@@ -44,7 +46,7 @@ public class IRItems {
     public static final IndustrialRevivalItem BORAX;
     public static final IndustrialRevivalItem SILICA;
 
-    // 材料 - 合金与化学物品
+    // Materials
     public static final IndustrialRevivalItem LAVA_ALLOY;
     public static final IndustrialRevivalItem ROCK_IRON_ALLOY;
     public static final IndustrialRevivalItem ALUMINIUM_ALLOY;
@@ -71,6 +73,9 @@ public class IRItems {
     public static final IndustrialRevivalItem LEAD;
     public static final IndustrialRevivalItem ZINC;
     public static final IndustrialRevivalItem TUNGSTEN;
+
+    // Tech components
+    public static final Battery BATTERY_AA = new Battery(IRItemGroups.COMPONENTS, IRItemStacks.BATTERY_AA, new ItemStack[]{}, Battery.Type.NiMH, Battery.Size.AA);
 
     static {
         // Metal and Other Materials

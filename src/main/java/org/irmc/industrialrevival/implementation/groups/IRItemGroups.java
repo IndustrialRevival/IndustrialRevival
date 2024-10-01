@@ -12,8 +12,11 @@ public class IRItemGroups {
             new NormalItemGroup(KeyUtil.customKey("materials"), GroupIcons.GROUP_MATERIALS);
     public static final ItemGroup SMELTING =
             new NormalItemGroup(KeyUtil.customKey("smelting"), GroupIcons.GROUP_SMELTING);
+    public static final ItemGroup COMPONENTS =
+            new NormalItemGroup(KeyUtil.customKey("components"), GroupIcons.GROUP_COMPONENTS);
     public static final ItemGroup ELECTRIC_MACHINES =
             new NormalItemGroup(KeyUtil.customKey("electric_machines"), GroupIcons.GROUP_ELECTRIC_MACHINES);
+
     public static final ItemGroup TOOLS = new NormalItemGroup(KeyUtil.customKey("tools"), GroupIcons.GROUP_TOOLS);
     public static final ItemGroup ARMORS = new NormalItemGroup(KeyUtil.customKey("armors"), GroupIcons.GROUP_ARMORS);
     public static final ItemGroup DEFENSE = new NormalItemGroup(KeyUtil.customKey("defense"), GroupIcons.GROUP_DEFENSE);

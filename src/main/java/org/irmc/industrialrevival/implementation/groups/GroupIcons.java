@@ -42,4 +42,7 @@ public class GroupIcons {
 
     public static final ItemStack GROUP_MISC = new CustomItemStack(
             Material.PAPER, IndustrialRevival.getInstance().getLanguageManager().getGroupName("misc"));
+    public static final ItemStack GROUP_COMPONENTS = new CustomItemStack(
+            Material.IRON_INGOT,
+            IndustrialRevival.getInstance().getLanguageManager().getGroupName("components"));
 }
