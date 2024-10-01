@@ -2,13 +2,16 @@ package org.irmc.industrialrevival.api.items;
 
 import com.google.common.base.Preconditions;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import javax.annotation.Nonnull;
 import lombok.Getter;
 import lombok.Setter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.bukkit.World;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
@@ -72,6 +75,9 @@ public class IndustrialRevivalItem {
     @Getter
     @Setter
     private boolean disabled = false;
+
+    @Getter
+    private final Set<String> disabledInWorld = new HashSet<>();
 
     public IndustrialRevivalItem(
             @Nonnull ItemGroup group,
@@ -263,6 +269,19 @@ public class IndustrialRevivalItem {
     private void checkLocked() {
         if (locked) {
             throw new IllegalStateException("Item is locked and cannot be modified");
+        }
+    }
+
+    public boolean isDisabledInWorld(World world) {
+        return isDisabled() || disabledInWorld.contains(world.getName());
+    }
+
+    public void setDisabledInWorld(World world, boolean disabled) {
+        // TODO: add it to the config
+        if (disabled) {
+            disabledInWorld.add(world.getName());
+        } else {
+            disabledInWorld.remove(world.getName());
         }
     }
 }

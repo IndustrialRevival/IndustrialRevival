@@ -34,6 +34,12 @@ public class DropListener extends AbstractIRListener {
                 double chance = random.nextDouble(100);
                 if (chance <= drop.getB()) {
                     ItemStack item = drop.getA();
+                    // banned item should not drop
+                    IndustrialRevivalItem irItem = IndustrialRevivalItem.getByItem(item);
+                    if (irItem != null && irItem.isDisabledInWorld(entity.getWorld())) {
+                        // TODO: remind players
+                        continue;
+                    }
                     world.dropItemNaturally(location, item);
                 }
             }
@@ -48,12 +54,18 @@ public class DropListener extends AbstractIRListener {
         if (data != null) {
             IndustrialRevivalItem item = IndustrialRevivalItem.getById(data.getId());
             if (item != null) {
-                if (item instanceof ItemDroppable id) {
-                    continueDrop = id.dropBlockDropItems();
-                    List<ItemStack> items = id.drops(e.getPlayer());
+                if (item instanceof ItemDroppable droppable) {
+                    continueDrop = droppable.dropBlockDropItems();
+                    List<ItemStack> items = droppable.drops(e.getPlayer());
                     if (items != null && !items.isEmpty()) {
                         World world = e.getBlock().getWorld();
                         for (ItemStack itemStack : items) {
+                            // banned item should not drop
+                            IndustrialRevivalItem irItem = IndustrialRevivalItem.getByItem(itemStack);
+                            if (irItem != null && irItem.isDisabledInWorld(world)) {
+                                // TODO: remind players
+                                continue;
+                            }
                             world.dropItemNaturally(loc, itemStack);
                         }
                     }
