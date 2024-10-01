@@ -252,3 +252,112 @@ item:
       - "<dark_gray>W</dark_gray>"
   BATTERY_AA:
     name: "<gold>Battery (AA)</gold>"
+    lore:
+      - "<dark_gray>It's a low-capacity battery</dark_gray>"
+  RECONFIGURABLE_NANOANTENNA:
+    name: "<white>Reconfigurable Nanoantenna</white>"
+    lore:
+      - "Can be reconfigured to adjust shape and size to control phase,"
+      - "amplitude, and skew."
+  LIQUID_CRYSTAL_POLYMERS:
+    name: "<white>Liquid Crystal Polymers</white>"
+    lore:
+      - "Can change the sort of atoms in the crystal to control"
+      - "the light's propagation to create dynamic holographic displays."
+  GRAPHENE:
+    name: "<white>Graphene</white>"
+    lore:
+      - "Cause it has unique properties of electrons and light."
+      - "It will be used in holographic imaging technology."
+  MOLYBDENUM_DISULFIDE:
+    name: "<white>Molybdenum Disulfide</white>"
+    lore:
+      - "It's a powerful material that can be used"
+      - "in holographic imaging technology."
+  GRAPHENE_OPTICAL_MODULATOR:
+    name: "<white>Graphene Optical Modulator</white>"
+    lore:
+      - "Utilizing the absorption and transmission properties"
+      - "of graphene to achieve high-speed optical signal modulation."
+  HOLOGRAPHIC_PLATE:
+    name: "<white>Holographic Plate</white>"
+    lore:
+      - "Regulating the diffraction efficiency of holograms."
+  INDIUM_TIN_OXIDE:
+    name: "<white>Indium Tin Oxide</white>"
+    lore:
+      - "Used for manufacturing flexible electrodes."
+  POLYIMIDE:
+    name: "<white>Polyimide</white>"
+    lore:
+      - "Flexible structure that can be used"
+      - "to support holographic projection screen."
+  POLYETHYLENE_TEREPHTHALATE:
+    name: "<white>Polyethylene Terephthalate</white>"
+    lore:
+      - "It can also be used to support flexible structures"
+      - "for holographic projection screens."
+  PHOTONIC:
+    name: "<white>Photonic Crystal</white>"
+    lore:
+      - "Used to achieve stereoscopic display"
+      - "of holographic images。"
+  NEGATIVE_INDEX_MATERIAL:
+    name: "<white>Negative Index Material</white>"
+    lore:
+      - "Accurate focusing and imaging"
+      - "for achieving perfect holograms。"
+  FREQUENCY_SELECTIVE_SURFACE:
+    name: "<white>Frequency Selective Surface</white>"
+    lore:
+      - "Used for precise control of the bandwidth"
+      - "and directionality of holographic projection screens。"
+  MICRO_ELECTRO_MECHANICAL_SYSTEM:
+    name: "<white>Micro Electro Mechanical System</white>"
+    lore:
+      - "Used for precise control of the position"
+      - "and state of optical components"
+      - "in holographic projection systems."
+  EFFICIENT_SOLAR_MATERIALS:
+    name: "<white>Efficient Solar Materials"
+    lore:
+      - "Provide continuous energy supply"
+      - "for holographic projection equipment."
+  HOLOGRAPHIC_OPTICAL_ELEMENT:
+    name: "<white>Holographic Optical Element</white>"
+    lore:
+      - "By utilizing advanced laser writing technology,"
+      - "holographic patterns are directly recorded on"
+      - "transparent photosensitive materials, forming"
+      - "holographic optical elements that can be"
+      - "dynamically changed."
+  DIGITAL_MICROMIRROR_DEVICE:
+    name: "<white>Digital Micromirror Device</white>"
+    lore:
+      - "By using a higher density micro mirror array,"
+      - "precise control of light waves can be achieved"
+      - "to generate clearer and more realistic"
+      - "three-dimensional holographic images."
+  COHERENT_LIGHT_SOURCE:
+    name: "<white>Coherent Light Source</white>"
+    lore:
+      - "Use lasers or other coherent light sources to"
+      - "ensure that light waves maintain a stable phase"
+      - "relationship during propagation."
+  WAVEFRONT_SENSOR:
+    name: "<white>Wavefront Sensor</white>"
+    lore:
+      - "Real time monitoring of light waves, adjusting"
+      - "optical components through algorithms to optimize"
+      - "the quality of holographic images."
+  QUANTUM_ENTANGLEMENT_LIGHT_SOURCE:
+    name: "<white>Quantum Entanglement Light Source</white>"
+    lore:
+      - "Using quantum entangled light sources to enhance"
+      - "the brightness and contrast of holographic images."
+  STRUCTURAL_COLOR_HOLOGRAPHY:
+    name: "<white>Structural Color Holography</white>"
+    lore:
+      - "By utilizing the interference and diffraction effects"
+      - "of microstructure on light, rich colors and"
+      - "patterns can be generated."

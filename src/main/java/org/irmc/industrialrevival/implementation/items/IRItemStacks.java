@@ -60,6 +60,26 @@ public class IRItemStacks {
     public static final IndustrialRevivalItemStack ZINC;
     public static final IndustrialRevivalItemStack TUNGSTEN;
     public static final IndustrialRevivalItemStack BATTERY_AA;
+    public static final IndustrialRevivalItemStack RECONFIGURABLE_NANOANTENNA;
+    public static final IndustrialRevivalItemStack LIQUID_CRYSTAL_POLYMERS;
+    public static final IndustrialRevivalItemStack GRAPHENE;
+    public static final IndustrialRevivalItemStack MOLYBDENUM_DISULFIDE;
+    public static final IndustrialRevivalItemStack GRAPHENE_OPTICAL_MODULATOR;
+    public static final IndustrialRevivalItemStack HOLOGRAPHIC_PLATE;
+    public static final IndustrialRevivalItemStack INDIUM_TIN_OXIDE;
+    public static final IndustrialRevivalItemStack POLYIMIDE;
+    public static final IndustrialRevivalItemStack POLYETHYLENE_TEREPHTHALATE;
+    public static final IndustrialRevivalItemStack PHOTONIC;
+    public static final IndustrialRevivalItemStack NEGATIVE_INDEX_MATERIAL;
+    public static final IndustrialRevivalItemStack FREQUENCY_SELECTIVE_SURFACE;
+    public static final IndustrialRevivalItemStack MICRO_ELECTRO_MECHANICAL_SYSTEM;
+    public static final IndustrialRevivalItemStack EFFICIENT_SOLAR_MATERIALS;
+    public static final IndustrialRevivalItemStack HOLOGRAPHIC_OPTICAL_ELEMENT;
+    public static final IndustrialRevivalItemStack DIGITAL_MICROMIRROR_DEVICE;
+    public static final IndustrialRevivalItemStack COHERENT_LIGHT_SOURCE;
+    public static final IndustrialRevivalItemStack WAVEFRONT_SENSOR;
+    public static final IndustrialRevivalItemStack QUANTUM_ENTANGLEMENT_LIGHT_SOURCE;
+    public static final IndustrialRevivalItemStack STRUCTURAL_COLOR_HOLOGRAPHY;
 
     static {
         LAVA_ALLOY = new IndustrialRevivalItemStack("LAVA_ALLOY", Material.MAGMA_BLOCK);
@@ -109,13 +129,33 @@ public class IRItemStacks {
         LIMESTONE = new IndustrialRevivalItemStack("LIMESTONE", Material.GRAY_CONCRETE);
         LIMEWATER = new IndustrialRevivalItemStack("LIMEWATER", Material.BUCKET);
         SALT = new IndustrialRevivalItemStack("SALT", Material.SUGAR);
-        MAGIC_CRYSTAL = new IndustrialRevivalItemStack("MAGIC_CRYSTAL", Material.IRON_ORE);
-        CHARGED_STONE = new IndustrialRevivalItemStack("CHARGED_STONE", Material.IRON_ORE);
-        CARBON = new IndustrialRevivalItemStack("CARBON", Material.IRON_ORE);
-        LED = new IndustrialRevivalItemStack("LED", Material.IRON_ORE);
-        GAS = new IndustrialRevivalItemStack("GAS", Material.IRON_ORE);
-        BORAX = new IndustrialRevivalItemStack("BORAX", Material.IRON_ORE);
-        SILICA = new IndustrialRevivalItemStack("SILICA", Material.IRON_ORE);
+        MAGIC_CRYSTAL = new IndustrialRevivalItemStack("MAGIC_CRYSTAL", Material.DIAMOND);
+        CHARGED_STONE = new IndustrialRevivalItemStack("CHARGED_STONE", Material.EMERALD);
+        CARBON = new IndustrialRevivalItemStack("CARBON", Material.COAL_BLOCK);
+        LED = new IndustrialRevivalItemStack("LED", Material.WHITE_CONCRETE);
+        GAS = new IndustrialRevivalItemStack("GAS", Material.GLASS_BOTTLE);
+        BORAX = new IndustrialRevivalItemStack("BORAX", Material.QUARTZ);
+        SILICA = new IndustrialRevivalItemStack("SILICA", Material.FIREWORK_STAR);
         BATTERY_AA = new IndustrialRevivalItemStack("BATTERY_AA", Material.IRON_INGOT);
+        RECONFIGURABLE_NANOANTENNA = new IndustrialRevivalItemStack("RECONFIGURABLE_NANOANTENNA", Material.COAL);
+        LIQUID_CRYSTAL_POLYMERS = new IndustrialRevivalItemStack("LIQUID_CRYSTAL_POLYMERS", Material.WATER_BUCKET);
+        GRAPHENE = new IndustrialRevivalItemStack("GRAPHENE", Material.BLACK_CONCRETE_POWDER);
+        MOLYBDENUM_DISULFIDE = new IndustrialRevivalItemStack("MOLYBDENUM_DISULFIDE", Material.WHITE_CONCRETE_POWDER);
+        GRAPHENE_OPTICAL_MODULATOR = new IndustrialRevivalItemStack("GRAPHENE_OPTICAL_MODULATOR", Material.BLACK_CONCRETE_POWDER);
+        HOLOGRAPHIC_PLATE = new IndustrialRevivalItemStack("HOLOGRAPHIC_PLATE", Material.IRON_INGOT);
+        INDIUM_TIN_OXIDE = new IndustrialRevivalItemStack("INDIUM_TIN_OXIDE", Material.IRON_INGOT);
+        POLYIMIDE = new IndustrialRevivalItemStack("POLYIMIDE", Material.IRON_INGOT);
+        POLYETHYLENE_TEREPHTHALATE = new IndustrialRevivalItemStack("POLYETHYLENE_TEREPHTHALATE", Material.IRON_INGOT);
+        PHOTONIC = new IndustrialRevivalItemStack("PHOTONIC", Material.IRON_INGOT);
+        NEGATIVE_INDEX_MATERIAL = new IndustrialRevivalItemStack("NEGATIVE_INDEX_MATERIAL", Material.IRON_INGOT);
+        FREQUENCY_SELECTIVE_SURFACE = new IndustrialRevivalItemStack("FREQUENCY_SELECTIVE_SURFACE", Material.IRON_INGOT);
+        MICRO_ELECTRO_MECHANICAL_SYSTEM = new IndustrialRevivalItemStack("MICRO_ELECTRO_MECHANICAL_SYSTEM", Material.IRON_INGOT);
+        EFFICIENT_SOLAR_MATERIALS = new IndustrialRevivalItemStack("EFFICIENT_SOLAR_MATERIALS", Material.IRON_INGOT);
+        HOLOGRAPHIC_OPTICAL_ELEMENT = new IndustrialRevivalItemStack("HOLOGRAPHIC_OPTICAL_ELEMENT", Material.IRON_INGOT);
+        DIGITAL_MICROMIRROR_DEVICE = new IndustrialRevivalItemStack("DIGITAL_MICROMIRROR_DEVICE", Material.IRON_INGOT);
+        COHERENT_LIGHT_SOURCE = new IndustrialRevivalItemStack("COHERENT_LIGHT_SOURCE", Material.SHROOMLIGHT);
+        WAVEFRONT_SENSOR = new IndustrialRevivalItemStack("WAVEFRONT_SENSOR", Material.IRON_INGOT);
+        QUANTUM_ENTANGLEMENT_LIGHT_SOURCE = new IndustrialRevivalItemStack("QUANTUM_ENTANGLEMENT_LIGHT_SOURCE", Material.SHROOMLIGHT);
+        STRUCTURAL_COLOR_HOLOGRAPHY = new IndustrialRevivalItemStack("STRUCTURAL_COLOR_HOLOGRAPHY", Material.IRON_INGOT);
     }
 }
