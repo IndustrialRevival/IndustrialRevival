@@ -2,6 +2,7 @@ package org.irmc.industrialrevival.implementation.items;
 
 import org.bukkit.Material;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
+import org.irmc.industrialrevival.implementation.machines.electric.InductionFurnace;
 
 public class IRItemStacks {
     public static final IndustrialRevivalItemStack SLIVER_ORE;
@@ -118,7 +119,7 @@ public class IRItemStacks {
     public static final IndustrialRevivalItemStack POLISHED_IRON_FOIL;
     public static final IndustrialRevivalItemStack FLAWLESS_IRON_FOIL;
     public static final IndustrialRevivalItemStack VACUUM_BOTTLE;
-    public static final IndustrialRevivalItemStack METHANE;
+    public static final IndustrialRevivalItemStack METHANE_BOTTLE;
     public static final IndustrialRevivalItemStack HYDROGEN;
     public static final IndustrialRevivalItemStack OXYGEN;
     public static final IndustrialRevivalItemStack NITROGEN;
@@ -137,6 +138,23 @@ public class IRItemStacks {
     public static final IndustrialRevivalItemStack CLEANED_GRAPHENE_THIN_FILM;
     public static final IndustrialRevivalItemStack GRAPHENE_FILM_COATED_WITH_POLYMETHYL_METHACRYLATE;
     public static final IndustrialRevivalItemStack DIRTY_GRAPHENE;
+    public static final IndustrialRevivalItemStack AUTO_GRIND;
+    public static final IndustrialRevivalItemStack CHARGER;
+    public static final IndustrialRevivalItemStack CHEMICAL_VAPOR_DEPOSITION_REACTION_CHAMBER;
+    public static final IndustrialRevivalItemStack COLDER;
+    public static final IndustrialRevivalItemStack ELECTROLYTIC_MACHINE;
+    public static final IndustrialRevivalItemStack HEATER;
+    public static final IndustrialRevivalItemStack HOT_PRESS;
+    public static final IndustrialRevivalItemStack INDUCTION_COOKER;
+    public static final IndustrialRevivalItemStack INDUSTRIAL_FURNACE;
+    public static final IndustrialRevivalItemStack POLISHER;
+    public static final IndustrialRevivalItemStack PRESSING_MACHINE;
+    public static final IndustrialRevivalItemStack PRESSURE_COOKER;
+    public static final IndustrialRevivalItemStack REACTION_CHAMBER;
+    public static final IndustrialRevivalItemStack SPIN_COATER;
+    public static final IndustrialRevivalItemStack VACUUM_EXTRACTOR;
+    public static final IndustrialRevivalItemStack WASHER;
+    public static final IndustrialRevivalItemStack WELDING_ROD_MACHINE;
     static {
         LAVA_ALLOY = new IndustrialRevivalItemStack("LAVA_ALLOY", Material.MAGMA_BLOCK);
         ROCK_IRON_ALLOY = new IndustrialRevivalItemStack("ROCK_IRON_ALLOY", Material.POLISHED_ANDESITE);
@@ -252,7 +270,7 @@ public class IRItemStacks {
         POLISHED_IRON_FOIL = new IndustrialRevivalItemStack("POLISHED_IRON_FOIL", Material.PAPER);
         FLAWLESS_IRON_FOIL = new IndustrialRevivalItemStack("FLAWLESS_IRON_FOIL", Material.PAPER);
         VACUUM_BOTTLE = new IndustrialRevivalItemStack("VACUUM_BOTTLE", Material.GLASS_BOTTLE);
-        METHANE = new IndustrialRevivalItemStack("METHANE", Material.WATER_BUCKET);
+        METHANE_BOTTLE = new IndustrialRevivalItemStack("METHANE_BOTTLE", Material.WATER_BUCKET);
         HEATED_COPPER_FOIL = new IndustrialRevivalItemStack("HEATED_COPPER_FOIL", Material.PAPER);
         HYDROGEN = new IndustrialRevivalItemStack("HYDROGEN", Material.WATER_BUCKET);
         OXYGEN = new IndustrialRevivalItemStack("OXYGEN", Material.WATER_BUCKET);
@@ -271,5 +289,22 @@ public class IRItemStacks {
         CLEANED_GRAPHENE_THIN_FILM = new IndustrialRevivalItemStack("CLEANED_GRAPHENE_THIN_FILM", Material.WATER_BUCKET);
         GRAPHENE_FILM_COATED_WITH_POLYMETHYL_METHACRYLATE = new IndustrialRevivalItemStack("GRAPHENE_FILM_COATED_WITH_POLYMETHYL_METHACRYLATE", Material.WATER_BUCKET);
         DIRTY_GRAPHENE = new IndustrialRevivalItemStack("DIRTY_GRAPHENE", Material.WATER_BUCKET);
+        AUTO_GRIND = new IndustrialRevivalItemStack("AUTO_GRIND", Material.IRON_BLOCK);
+        CHARGER = new IndustrialRevivalItemStack("CHARGER", Material.IRON_BLOCK);
+        CHEMICAL_VAPOR_DEPOSITION_REACTION_CHAMBER = new IndustrialRevivalItemStack("CHEMICAL_VAPOR_DEPOSITION_REACTION_CHAMBER", Material.IRON_BLOCK);
+        COLDER = new IndustrialRevivalItemStack("COLDER", Material.IRON_BLOCK);
+        ELECTROLYTIC_MACHINE = new IndustrialRevivalItemStack("ELECTROLYTIC_MACHINE", Material.IRON_BLOCK);
+        HEATER = new IndustrialRevivalItemStack("HEATER", Material.IRON_BLOCK);
+        HOT_PRESS = new IndustrialRevivalItemStack("HOT_PRESS", Material.IRON_BLOCK);
+        INDUCTION_COOKER =   new IndustrialRevivalItemStack("INDUCTION_COOKER", Material.IRON_BLOCK);
+        INDUSTRIAL_FURNACE =   new IndustrialRevivalItemStack("InductionFurnace", Material.IRON_BLOCK);
+        POLISHER = new IndustrialRevivalItemStack("POLISHER", Material.IRON_BLOCK);
+        PRESSING_MACHINE = new IndustrialRevivalItemStack("PRESSING_MACHINE", Material.IRON_BLOCK);
+        PRESSURE_COOKER = new IndustrialRevivalItemStack("PRESSURE_COOKER", Material.IRON_BLOCK);
+        REACTION_CHAMBER = new IndustrialRevivalItemStack("REACTION_CHAMBER", Material.IRON_BLOCK);
+        SPIN_COATER = new IndustrialRevivalItemStack("SPIN_COATER", Material.IRON_BLOCK);
+        VACUUM_EXTRACTOR = new IndustrialRevivalItemStack("VACUUM_EXTRACTOR", Material.IRON_BLOCK);
+        WASHER = new IndustrialRevivalItemStack("WASHER", Material.IRON_BLOCK);
+        WELDING_ROD_MACHINE = new IndustrialRevivalItemStack("WELDING_ROD_MACHINE", Material.IRON_BLOCK);
     }
 }

@@ -360,3 +360,298 @@ item:
     lore:
       - "电子束光刻机器利用高能电子束直接在材料表面进行刻蚀或沉积"
       - "从而实现纳米级的图案加工"
+  ATOMIC_LAYER_DEPOSITION_MACHINE:
+    name: "<white>原子层沉积器</white>"
+    lore:
+      - "原子层沉积器的特点在于其极高的沉积精度和控制能力，能够生长均匀、致密且具有特定化学组成的薄膜"
+  POLYMERIAZTION_REACTOR:
+    name: "<white>聚合反应器</white>"
+    lore:
+      - "在特定的条件下（如温度、压力、催化剂等）进行聚合反应"
+  PRESSURE_CHAMBER:
+    name: "<white>压力机</white>"
+    lore:
+      - "通过施加压力来完成材料的成型、剪切、冲孔、组装、校直、拉伸或其他加工过程"
+      - "基础物品全靠它了。。。"
+  RAW_COPPER_FOIL:
+    name: "<white>粗糙的铜箔</white>"
+    lore:
+      - "直接从原材料加工，未经处理"
+  POLISHED_COPPER_FOIL:
+    name: "<white>抛光的铜箔</white>"
+    lore:
+      - "经过抛光的铜箔"
+  FLAWLESS_COPPER_FOIL:
+    name: "<white>无暇的铜箔</white>"
+    lore:
+      - "经过清洗的铜箔"
+  RAW_TIN_FOIL:
+    name: "<white>粗糙的锡箔</white>"
+    lore:
+      - "直接从原材料加工，未经处理"
+  POLISHED_TIN_FOIL:
+    name: "<white>抛光的锡箔</white>"
+    lore:
+      - "经过抛光的锡箔"
+  FLAWLESS_TIN_FOIL:
+    name: "<white>无暇的锡箔</white>"
+    lore:
+      - "经过清洗的锡箔"
+  RAW_ZINC_FOIL:
+    name: "<white>粗糙的锌箔</white>"
+    lore:
+      - "直接从原材料加工，未经处理"
+  POLISHED_ZINC_FOIL:
+    name: "<white>抛光的锌箔</white>"
+    lore:
+      - "经过抛光的锌箔"
+  FLAWLESS_ZINC_FOIL:
+    name: "<white>无暇的锌箔</white>"
+    lore:
+      - "经过清洗的锌箔"
+  RAW_LEAD_FOIL:
+    name: "<white>粗糙的铅箔</white>"
+    lore:
+      - "直接从原材料加工，未经处理"
+  POLISHED_LEAD_FOIL:
+    name: "<white>抛光的铅箔</white>"
+    lore:
+      - "经过抛光的铅箔"
+  FLAWLESS_LEAD_FOIL:
+    name: "<white>无暇的铅箔</white>"
+    lore:
+      - "经过清洗的铅箔"
+  RAW_TUNGSTEN_FOIL:
+    name: "<white>粗糙的钨箔</white>"
+    lore:
+      - "直接从原材料加工，未经处理"
+  POLISHED_TUNGSTEN_FOIL:
+    name: "<white>抛光的钨箔</white>"
+    lore:
+      - "经过抛光的钨箔"
+  FLAWLESS_TUNGSTEN_FOIL:
+    name: "<white>无暇的钨箔</white>"
+    lore:
+      - "经过清洗的钨箔"
+  RAW_MAGNESIUM_FOIL:
+    name: "<white>粗糙的镁箔</white>"
+    lore:
+      - "直接从原材料加工，未经处理"
+  POLISHED_MAGNESIUM_FOIL:
+    name: "<white>抛光的镁箔</white>"
+    lore:
+      - "经过抛光的镁箔"
+  FLAWLESS_MAGNESIUM_FOIL:
+    name: "<white>无暇的镁箔</white>"
+    lore:
+      - "经过清洗的镁箔"
+  RAW_ALUMINIUM_FOIL:
+    name: "<white>粗糙的铝箔</white>"
+    lore:
+      - "直接从原材料加工，未经处理"
+  POLISHED_ALUMINIUM_FOIL:
+    name: "<white>抛光的铝箔</white>"
+    lore:
+      - "经过抛光的铝箔"
+  FLAWLESS_ALUMINIUM_FOIL:
+    name: "<white>无暇的铝箔</white>"
+    lore:
+      - "经过清洗的铝箔"
+  RAW_CHROMIUM_FOIL:
+    name: "<white>粗糙的铬箔</white>"
+    lore:
+      - "直接从原材料加工，未经处理"
+  POLISHED_CHROMIUM_FOIL:
+    name: "<white>抛光的铬箔</white>"
+    lore:
+      - "经过抛光的铬箔"
+  FLAWLESS_CHROMIUM_FOIL:
+    name: "<white>无暇的铬箔</white>"
+    lore:
+      - "经过清洗的铬箔"
+  RAW_COBALT_FOIL:
+    name: "<white>粗糙的钴箔</white>"
+    lore:
+      - "直接从原材料加工，未经处理"
+  POLISHED_COBALT_FOIL:
+    name: "<white>抛光的钴箔</white>"
+    lore:
+      - "经过抛光的钴箔"
+  FLAWLESS_COBALT_FOIL:
+    name: "<white>无暇的钴箔</white>"
+    lore:
+      - "经过清洗的钴箔"
+  RAW_NICKEL_FOIL:
+    name: "<white>粗糙的镍箔</white>"
+    lore:
+      - "直接从原材料加工，未经处理"
+  POLISHED_NICKEL_FOIL:
+    name: "<white>抛光的镍箔</white>"
+    lore:
+      - "经过抛光的镍箔"
+  FLAWLESS_NICKEL_FOIL:
+    name: "<white>无暇的镍箔</white>"
+    lore:
+      - "经过清洗的镍箔"
+  RAW_IRON_FOIL:
+    name: "<white>粗糙的铁箔</white>"
+    lore:
+      - "直接从原材料加工，未经处理"
+  POLISHED_IRON_FOIL:
+    name: "<white>抛光的铁箔</white>"
+    lore:
+      - "经过抛光的铁箔"
+  FLAWLESS_IRON_FOIL:
+    name: "<white>无暇的铁箔</white>"
+    lore:
+      - "经过清洗的铁箔"
+  VACUUM_BOTTLE:
+    name: "<white>真空瓶</white>"
+    lore:
+      - "啥也没有"
+  METHANE_BOTTLE:
+    name: "<white>甲烷瓶</white>"
+    lore:
+      - "CH4"
+  HEATED_COPPER_FOIL:
+    name: "<white>加热的铜箔</white>"
+    lore:
+      - "经过加热的铜箔"
+  HYDROGEN:
+    name: "<white>氢</white>"
+    lore:
+      - "H2"
+  OXYGEN:
+    name: "<white>氧</white>"
+    lore:
+      - "O2"
+  NITROGEN:
+    name: "<white>氮</white>"
+    lore:
+      - "N2"
+  HELIUM:
+    name: "<white>氦</white>"
+    lore:
+      - "He"
+  LITHIUM:
+    name: "<white>锂</white>"
+    lore:
+      - "Li"
+  BERYLLIUM:
+    name: "<white>铊</white>"
+    lore:
+      - "Be"
+  BORON:
+    name: "<white>硼</white>"
+    lore:
+      - "B"
+  RAW_GRAPHENE:
+    name: "<white>粗糙的石墨烯</white>"
+    lore:
+      - "还需要进一步加工"
+  DEIONIZED_WATER:
+    name: "<white>离子水</white>"
+    lore:
+      - "电解万岁！"
+  GRAPHENE_THIN_FILM:
+    name: "<white>石墨烯薄膜</white>"
+    lore:
+      - "- “这怎么像是切出来的?”"
+  POTASSIUM_FERROCYANIDE_SOLUTION:
+    name: "<white>钾铁离子溶液</white>"
+    lore:
+      - "用于制备石墨烯薄膜"
+  STEAM_BOTTLE:
+    name: "<white>水蒸气瓶</white>"
+    lore:
+      - "不穿防护服会被烫死 ("
+  PURE_WATER_BOTTLE:
+    name: "<white>纯水瓶</white>"
+    lore:
+      - "H2O"
+  POLYMETHYL_METHACRYLATE:
+    name: "<white>聚乙烯</white>"
+    lore:
+      - "用于制备石墨烯薄膜"
+  CLEANED_GRAPHENE_THIN_FILM:
+    name: "<white>洁净的的石墨烯薄膜</white>"
+    lore:
+      - ""
+  GRAPHENE_FILM_COATED_WITH_POLYMETHYL_METHACRYLATE:
+    name: "<white>聚乙烯覆盖的石墨烯薄膜</white>"
+    lore:
+      - "好长的名字"
+  DIRTY_GRAPHENE:
+    name: "<white>不纯的石墨烯</white>"
+    lore:
+      - "发出尖锐爆鸣声，说明它不纯"
+  AUTO_GRIND:
+    name: "<white>自动磨石</white>"
+    lore:
+      - "自动将石墨烯切成薄膜"
+      - "<black>想多了</black>"
+  CHARGER:
+    name: "<white>充电器</white>"
+    lore:
+      - "用于给物品充电"
+  CHEMICAL_VAPOR_DEPOSITION_REACTION_CHAMBER:
+    name: "<white>化学气体沉积机</white>"
+    lore:
+      - "制取沉积物的关键设备"
+  COLDER:
+    name: "<white>冷却器</white>"
+    lore:
+      - "“这不是冰箱吗?”"
+      - "—— “用坏了9块9能卖掉吗”"
+  ELECTROLYTIC_MACHINE:
+    name: "<white>电解机</white>"
+    lore:
+      - "电解万岁!"
+  HEATER:
+    name: "<white>加热器</white>"
+    lore:
+      - "用于加热物品"
+  HOT_PRESS:
+    name: "<white>热压机</white>"
+    lore:
+      - "一边加热，一边加压"
+  INDUCTION_COOKER:
+    name: "<white>感应锅</white>"
+    lore:
+      - "用感应炉制取面包"
+  INDUCTION_FURNACE:
+    name: "<white>感应炉</white>"
+    lore:
+      - "利用电磁感应原理熔化金属的工业炉"
+  POLISHER:
+    name: "<white>抛光机</white>"
+    lore:
+      - "抛一次就够了"
+  PRESSING_MACHINE:
+    name: "<white>压缩机</white>"
+    lore:
+      - "用于加压、拉伸、切割、组装、校直、加工等"
+  PRESSURE_COOKER:
+    name: "<white>高压锅</white>"
+    lore:
+      - "用高压炉制取面包"
+  REACTION_CHAMBER:
+    name: "<white>反应器</white>"
+    lore:
+      - "用于化学反应"
+  SPIN_COATER:
+    name: "<white>旋涂机</white>"
+    lore:
+      - "涂层? 图层!"
+  VACUUM_EXTRACTOR:
+    name: "<white>真空制取器</white>"
+    lore:
+      - "吸一口真空~"
+  WASHER:
+    name: "<white>清洁机</white>"
+    lore:
+      - "用于清洁物品"
+  WELDING_ROD_MACHINE:
+    name: "<white>焊条机</white>"
+    lore:
+      - "火光四射!"

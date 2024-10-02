@@ -13,7 +13,7 @@ public class ReactionChamber extends ElectricMachine {
     public ReactionChamber(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, @NotNull MachineRecipes machineRecipes, long capacity) {
         super(group, itemStack, recipeType, recipe, machineRecipes, capacity);
         addRecipe(400, 100,
-                new ItemStack[] {IRItemStacks.RAW_GRAPHENE},
+                IRItemStacks.RAW_GRAPHENE,
                 IRItemStacks.GRAPHENE_THIN_FILM);
     }
 }
