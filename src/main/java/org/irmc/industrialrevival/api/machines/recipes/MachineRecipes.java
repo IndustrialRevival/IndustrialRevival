@@ -1,5 +1,6 @@
 package org.irmc.industrialrevival.api.machines.recipes;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -13,10 +14,9 @@ import org.irmc.pigeonlib.items.ItemUtils;
  * Machine recipes are unordered by default.
  * @author balugaq
  */
-// TODO: 为了支持矿辞系统，这里可能需要重写。。。
 @Getter
 public class MachineRecipes {
-    private final Set<MachineRecipe> recipes = new HashSet<>();
+    private final List<MachineRecipe> recipes = new ArrayList<>();
 
     public MachineRecipes() {}
 

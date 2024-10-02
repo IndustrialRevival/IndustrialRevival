@@ -9,12 +9,15 @@ import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.implementation.items.IRItemStacks;
 import org.jetbrains.annotations.NotNull;
 
-public class Colder extends ElectricMachine {
-    public Colder(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, @NotNull MachineRecipes machineRecipes, long capacity) {
+public class HotPress extends ElectricMachine {
+    public HotPress(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, @NotNull MachineRecipes machineRecipes, long capacity) {
         super(group, itemStack, recipeType, recipe, machineRecipes, capacity);
 
-        addRecipe(240, 357000,
-                IRItemStacks.STEAM_BOTTLE,
-                IRItemStacks.PURE_WATER_BOTTLE);
+        addRecipe(50, 8000,
+                new ItemStack[] {IRItemStacks.GRAPHENE_FILM_COATED_WITH_POLYMETHYL_METHACRYLATE, IRItemStacks.POLYETHYLENE_TEREPHTHALATE},
+                IRItemStacks.DIRTY_GRAPHENE);
+        addRecipe(50, 4000,
+                IRItemStacks.DIRTY_GRAPHENE,
+                IRItemStacks.GRAPHENE);
     }
 }

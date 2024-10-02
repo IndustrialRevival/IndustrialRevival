@@ -15,6 +15,7 @@ import org.irmc.industrialrevival.api.machines.process.ProcessorHolder;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipe;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipes;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
+import org.irmc.industrialrevival.api.objects.ItemStackReference;
 import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 
@@ -22,7 +23,6 @@ import org.irmc.industrialrevival.api.recipes.RecipeType;
  * BasicMachine is not related to energy networks, it just turns item A to B.
  */
 public abstract class BasicMachine extends AbstractMachine implements ProcessorHolder<MachineOperation> {
-
     private final Map<Location, MachineRecipe> lastMatches = new HashMap<>();
     private final MachineProcessor<MachineOperation> processor = new MachineProcessor<>(this);
 
@@ -72,8 +72,8 @@ public abstract class BasicMachine extends AbstractMachine implements ProcessorH
                 }
             }
             processor.startProcess(location, new MachineOperation(lastMatch));
-            for (ItemStack item : lastMatch.inputs().keySet()) {
-                menu.consumeItem(item, lastMatch.inputs().get(item));
+            for (ItemStackReference item : lastMatch.getInputs().keySet()) {
+                menu.consumeItem(item, lastMatch.getInputs().get(item));
             }
         } else {
             if (operation.isDone()) {

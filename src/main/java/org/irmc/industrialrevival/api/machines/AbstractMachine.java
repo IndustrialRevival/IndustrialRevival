@@ -2,6 +2,7 @@ package org.irmc.industrialrevival.api.machines;
 
 import javax.annotation.Nonnull;
 
+import lombok.Getter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
@@ -19,7 +20,8 @@ import java.util.List;
  * Abstract class for all IndustrialRevival machines.
  */
 public abstract class AbstractMachine extends IndustrialRevivalItem {
-    public final RecipeType recipeType;
+    @Getter
+    private final RecipeType recipeType;
     protected final MachineRecipes machineRecipes;
 
     public AbstractMachine(

@@ -12,6 +12,7 @@ import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.ItemFlag;
@@ -20,7 +21,10 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
+import org.irmc.industrialrevival.api.objects.ItemStackReference;
 import org.irmc.industrialrevival.core.utils.KeyUtil;
+import org.irmc.pigeonlib.dict.Dictionary;
+import org.irmc.pigeonlib.dict.DictionaryUtil;
 import org.irmc.pigeonlib.items.ItemUtils;
 
 @SuppressWarnings({"deprecation", "unused"})
@@ -111,6 +115,15 @@ public class MachineMenu extends SimpleMenu {
         return getInventory().getViewers();
     }
 
+    public void consumeSlot(int slot, int amount) {
+        ItemStack item = getItem(slot);
+        if (item != null && item.getAmount() > 0) {
+            item.setAmount(item.getAmount() - amount);
+            if (item.getAmount() <= 0) {
+                setItem(slot, null);
+            }
+        }
+    }
     public void consumeSlot(int... slot) {
         for (int s : slot) {
             setItem(s, null);
@@ -140,8 +153,25 @@ public class MachineMenu extends SimpleMenu {
         return consumedCount;
     }
 
-    public int consumeItem(ItemStack item) {
+    public int consumeAllItem(ItemStack item) {
         return consumeItem(item, IntStream.range(0, getSize()).toArray());
+    }
+
+    public int consumeItem(ItemStackReference itemRef, int amount, int... slots) {
+        int consumedCount = 0;
+        for (int slot : slots) {
+            ItemStack itemInSlot = getItem(slot);
+            if (itemInSlot != null && itemInSlot.getType() != Material.AIR && itemRef.itemsMatch(itemInSlot)) {
+                int canConsume = Math.min(itemInSlot.getAmount(), amount);
+                itemInSlot.setAmount(itemInSlot.getAmount() - canConsume);
+                amount -= canConsume;
+                consumedCount += canConsume;
+                if (amount <= 0) {
+                    break;
+                }
+            }
+        }
+        return consumedCount;
     }
 
     public void setProgressItem(int slot, int remainingTicks, int totalTicks, ItemStack progressBarItem) {
