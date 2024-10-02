@@ -6,10 +6,11 @@ import lombok.Getter;
 import org.bukkit.entity.Display;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 
+@Getter
 public class DisplayGroup {
     // TODO
-    private final @Getter String plugin;
-    private final @Getter List<Display> displays;
+    private final String plugin;
+    private final List<Display> displays;
 
     public DisplayGroup(@Nonnull IndustrialRevivalAddon addon, List<Display> displays) {
         if (!addon.getPlugin().isEnabled()) {

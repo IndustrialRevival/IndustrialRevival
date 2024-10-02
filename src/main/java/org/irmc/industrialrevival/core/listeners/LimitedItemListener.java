@@ -13,6 +13,10 @@ public class LimitedItemListener extends AbstractIRListener {
         ItemStack is = e.getItem();
         if (is != null && !is.getType().isAir()) {
             IndustrialRevivalItem item = IndustrialRevivalItem.getByItem(is);
+            if (item != null && item.isDisabledInWorld(e.getPlayer().getWorld())) {
+                // TODO: remind player
+                return;
+            }
             if (item instanceof LimitedItem li) {
                 li.doUse(e.getPlayer(), is);
             }
