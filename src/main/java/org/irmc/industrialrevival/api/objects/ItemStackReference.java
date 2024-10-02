@@ -18,7 +18,8 @@ public class ItemStackReference {
 
     public ItemStackReference(ItemStack itemStack) {
         this.referenceType = ReferenceType.ITEMSTACK;
-        this.itemStack = CleanedItemGetter.getCleanedItem(itemStack);
+        this.itemStack = new ItemStack(itemStack.getType(), itemStack.getAmount());
+        this.itemStack.setItemMeta(itemStack.getItemMeta());
     }
 
     public ItemStackReference(Dictionary dictionary) {
