@@ -1,7 +1,7 @@
 package org.irmc.industrialrevival.api.items.attributes;
 
 /**
- * This interface is a abstract interface. DON'T use it directly.<br>
+ * This interface is an abstract interface. DON'T use it directly.<br>
  * <br>
  * @see BlockDropItem <br>
  * @see ChancedItem <br>
@@ -13,5 +13,6 @@ package org.irmc.industrialrevival.api.items.attributes;
  * @see Rechargeable <br>
  * @see RecipeDisplayItem <br>
  * @see VanillaSmeltingItem <br>
+ * @see Unusable <br>
  */
 public interface ItemAttribute {}

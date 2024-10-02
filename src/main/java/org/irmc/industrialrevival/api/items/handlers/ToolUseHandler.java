@@ -13,11 +13,11 @@ public interface ToolUseHandler extends ItemHandler {
      * <br/>
      * <b>Note: block drop item doesn't add to the drops list.</b>
      *
-     * @param e     the {@link BlockBreakEvent} that was fired
+     * @param event     the {@link BlockBreakEvent} that was fired
      * @param tool  the {@link ItemStack} that was used as a tool
      * @param drops the list of {@link ItemStack}s that will be dropped by the block
      */
-    void onToolUse(BlockBreakEvent e, ItemStack tool, List<ItemStack> drops);
+    void onToolUse(BlockBreakEvent event, ItemStack tool, List<ItemStack> drops);
 
     @Override
     default IncompatibleItemHandlerException isCompatible(IndustrialRevivalItem item) {

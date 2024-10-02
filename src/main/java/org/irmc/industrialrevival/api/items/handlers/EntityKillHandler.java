@@ -6,5 +6,5 @@ import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 
 @FunctionalInterface
 public interface EntityKillHandler extends ItemHandler{
-    void onKill(EntityDeathEvent entityDeathEvent, Player killer, IndustrialRevivalItem item);
+    void onKill(EntityDeathEvent event, Player killer, IndustrialRevivalItem item);
 }
