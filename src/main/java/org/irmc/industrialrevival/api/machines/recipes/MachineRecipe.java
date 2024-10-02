@@ -18,7 +18,7 @@ public class MachineRecipe {
     private final int processTime;
     private final int energyCost;
     private final Map<ItemStackReference, Integer> inputs;
-    private final Map<ItemStackReference, Integer> outputs;
+    private final Map<ItemStack, Integer> outputs;
 
     public MachineRecipe(
             int processTime,
@@ -30,8 +30,8 @@ public class MachineRecipe {
         Preconditions.checkArgument(outputs != null, "outputs cannot be null");
         this.processTime = processTime;
         this.energyCost = energyCost;
-        this.inputs = toMap(inputs);
-        this.outputs = toMap(outputs);
+        this.inputs = toRefMap(inputs);
+        this.outputs = outputs;
     }
 
     public MachineRecipe(
@@ -44,8 +44,8 @@ public class MachineRecipe {
         Preconditions.checkArgument(outputs != null, "outputs cannot be null");
         this.processTime = processTime;
         this.energyCost = energyCost;
-        this.inputs = toMap(inputs);
-        this.outputs = toMap(outputs);
+        this.inputs = toRefMap(inputs);
+        this.outputs = toStackMap(outputs);
     }
 
     public MachineRecipe(
@@ -58,8 +58,8 @@ public class MachineRecipe {
         Preconditions.checkArgument(outputs != null, "outputs cannot be null");
         this.processTime = processTime;
         this.energyCost = energyCost;
-        this.inputs = toMap(inputs);
-        this.outputs = toMap(outputs);
+        this.inputs = toRefMap(inputs);
+        this.outputs = toStackMap(outputs);
     }
 
     public MachineRecipe(
@@ -72,8 +72,8 @@ public class MachineRecipe {
         Preconditions.checkArgument(outputs != null, "outputs cannot be null");
         this.processTime = processTime;
         this.energyCost = energyCost;
-        this.inputs = toMap(inputs);
-        this.outputs = toMap(outputs);
+        this.inputs = toRefMap(inputs);
+        this.outputs = toStackMap(outputs);
     }
 
     public MachineRecipe(
@@ -86,8 +86,8 @@ public class MachineRecipe {
         Preconditions.checkArgument(output != null, "output cannot be null");
         this.processTime = processTime;
         this.energyCost = energyCost;
-        this.inputs = toMap(input);
-        this.outputs = toMap(output);
+        this.inputs = toRefMap(input);
+        this.outputs = toStackMap(output);
     }
 
     public MachineRecipe(
@@ -100,8 +100,8 @@ public class MachineRecipe {
         Preconditions.checkArgument(output != null, "output cannot be null");
         this.processTime = processTime;
         this.energyCost = energyCost;
-        this.inputs = toMap(input);
-        this.outputs = toMap(output);
+        this.inputs = toRefMap(input);
+        this.outputs = toStackMap(output);
     }
 
     public boolean isMatch(Map<ItemStack, Integer> items){
@@ -135,14 +135,14 @@ public class MachineRecipe {
         }
         return true;
     }
-    private static Map<ItemStackReference, Integer> toMap(Map<ItemStack, Integer> items) {
+    private static Map<ItemStackReference, Integer> toRefMap(Map<ItemStack, Integer> items) {
         Map<ItemStackReference, Integer> map = new HashMap<>();
         for (ItemStack itemStack : items.keySet()) {
             map.put(new ItemStackReference(itemStack), items.get(itemStack));
         }
         return map;
     }
-    private static Map<ItemStackReference, Integer> toMap(List<ItemStack> items) {
+    private static Map<ItemStackReference, Integer> toRefMap(List<ItemStack> items) {
         Map<ItemStackReference, Integer> map = new HashMap<>();
         for (ItemStack itemStack : items) {
             map.put(new ItemStackReference(itemStack), itemStack.getAmount());
@@ -150,7 +150,7 @@ public class MachineRecipe {
         return map;
     }
 
-    private static Map<ItemStackReference, Integer> toMap(Iterable<ItemStack> items) {
+    private static Map<ItemStackReference, Integer> toRefMap(Iterable<ItemStack> items) {
         Map<ItemStackReference, Integer> map = new HashMap<>();
         for (ItemStack itemStack : items) {
             map.put(new ItemStackReference(itemStack), itemStack.getAmount());
@@ -158,7 +158,7 @@ public class MachineRecipe {
         return map;
     }
 
-    private static Map<ItemStackReference, Integer> toMap(Collection<ItemStack> items) {
+    private static Map<ItemStackReference, Integer> toRefMap(Collection<ItemStack> items) {
         Map<ItemStackReference, Integer> map = new HashMap<>();
         for (ItemStack itemStack : items) {
             map.put(new ItemStackReference(itemStack), itemStack.getAmount());
@@ -166,15 +166,52 @@ public class MachineRecipe {
         return map;
     }
 
-    private static Map<ItemStackReference, Integer> toMap(ItemStack itemStack) {
+    private static Map<ItemStackReference, Integer> toRefMap(ItemStack itemStack) {
         Map<ItemStackReference, Integer> map = new HashMap<>();
         map.put(new ItemStackReference(itemStack), itemStack.getAmount());
         return map;
     }
 
-    private static Map<ItemStackReference, Integer> toMap(ItemStackReference itemStackReference) {
+    private static Map<ItemStackReference, Integer> toRefMap(ItemStackReference itemStackReference) {
         Map<ItemStackReference, Integer> map = new HashMap<>();
         map.put(itemStackReference, 1);
         return map;
     }
+
+    private static Map<ItemStack, Integer> toStackMap(List<ItemStack> items) {
+        Map<ItemStack, Integer> map = new HashMap<>();
+        for (ItemStack itemStack : items) {
+            map.put(itemStack, itemStack.getAmount());
+        }
+        return map;
+    }
+
+    private static Map<ItemStack, Integer> toStackMap(Iterable<ItemStack> items) {
+        Map<ItemStack, Integer> map = new HashMap<>();
+        for (ItemStack itemStack : items) {
+            map.put(itemStack, itemStack.getAmount());
+        }
+        return map;
+    }
+
+    private static Map<ItemStack, Integer> toStackMap(Collection<ItemStack> items) {
+        Map<ItemStack, Integer> map = new HashMap<>();
+        for (ItemStack itemStack : items) {
+            map.put(itemStack, itemStack.getAmount());
+        }
+        return map;
+    }
+
+    private static Map<ItemStack, Integer> toStackMap(ItemStackReference itemStackReference) {
+        Map<ItemStack, Integer> map = new HashMap<>();
+        map.put(itemStackReference.getItemStack(), 1);
+        return map;
+    }
+
+    private static Map<ItemStack, Integer> toStackMap(ItemStack itemStack) {
+        Map<ItemStack, Integer> map = new HashMap<>();
+        map.put(itemStack, itemStack.getAmount());
+        return map;
+    }
+
 }
