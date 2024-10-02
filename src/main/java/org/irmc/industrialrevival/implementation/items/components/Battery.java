@@ -30,7 +30,7 @@ public class Battery extends IndustrialRevivalItem implements NotPlaceable, Rech
 
     @Override
     public double getEnergyCapacity() {
-        return 200 * size.ordinal();
+        return 300 * size.ordinal();
     }
 
     @Override
@@ -43,10 +43,10 @@ public class Battery extends IndustrialRevivalItem implements NotPlaceable, Rech
         }
 
         Component stored = IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(null, "energy.stored",
-                MessageReplacement.replace("%energy%", newEnergy + "J"));
+                MessageReplacement.replace("%energy%", newEnergy + "mAh"),
+                MessageReplacement.replace("%capacity%", getEnergyCapacity() + "mAh"));
 
         List<Component> lore = new ArrayList<>();
-        lore.add(Component.empty());
         lore.add(stored);
 
         item.lore(lore);

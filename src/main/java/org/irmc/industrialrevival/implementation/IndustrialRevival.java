@@ -150,7 +150,8 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     }
 
     private void setupTasks() {
-        foliaLibImpl.runTimerAsync(new ArmorCheckTask(), 20 * 5, 20 * 5);
+        int checkInterval = getConfig().getInt("options.armor-check-interval", 1);
+        foliaLibImpl.runTimerAsync(new ArmorCheckTask(checkInterval), checkInterval * 20L, checkInterval * 20L);
     }
 
     @Override
