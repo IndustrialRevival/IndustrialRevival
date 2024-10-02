@@ -17,7 +17,7 @@ import org.irmc.industrialrevival.api.objects.enums.ArmorProtectionType;
 public class ArmorCheckTask implements Consumer<WrappedTask> {
     private static final Map<String, List<ArmorProtectionType>> protection = new HashMap<>();
 
-    private final int checkInterval; // 1 sec
+    private final int checkInterval;
 
     public ArmorCheckTask(int checkInterval) {
         this.checkInterval = checkInterval;
