@@ -6,6 +6,9 @@ language: zh-CN
 # if set to false, the default language file will be used
 detect-player-locale: false
 
+options:
+  armor-check-interval: 20
+
 storage:
   # the type of storage to use
   # usable types: sqlite, mysql, postgres, mariadb

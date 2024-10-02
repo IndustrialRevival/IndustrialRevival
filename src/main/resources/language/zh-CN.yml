@@ -66,6 +66,10 @@ recipe_type:
     name: "<green>电解</green>"
     lore:
       - "<gold>万能的机器</gold>"
+
+energy:
+  stored: "<grey>已存储: </grey><yellow>%energy% <grey>/<grey> %capacity%</yellow>"
+
 misc:
   # 杂项
   recipe_not_found: "<red><bold>未找到配方</bold></red>"

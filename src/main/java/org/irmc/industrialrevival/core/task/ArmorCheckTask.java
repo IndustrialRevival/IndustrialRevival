@@ -17,6 +17,12 @@ import org.irmc.industrialrevival.api.objects.enums.ArmorProtectionType;
 public class ArmorCheckTask implements Consumer<WrappedTask> {
     private static final Map<String, List<ArmorProtectionType>> protection = new HashMap<>();
 
+    private final int checkInterval;
+
+    public ArmorCheckTask(int checkInterval) {
+        this.checkInterval = checkInterval;
+    }
+
     @Override
     public void accept(WrappedTask wrappedTask) {
         for (Player p : Bukkit.getOnlinePlayers()) {
@@ -39,6 +45,7 @@ public class ArmorCheckTask implements Consumer<WrappedTask> {
                 if (irItem instanceof ArmorSet.ArmorPiece piece) {
                     ArmorSet parent = piece.getParent();
                     for (PotionEffect effect : piece.getPotionEffects()) {
+                        effect.withDuration(checkInterval / 20);
                         p.addPotionEffect(effect);
                     }
 
