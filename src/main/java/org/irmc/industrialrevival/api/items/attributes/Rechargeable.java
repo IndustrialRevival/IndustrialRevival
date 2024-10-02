@@ -5,7 +5,7 @@ import org.irmc.industrialrevival.core.utils.EnergyUtil;
 import org.jetbrains.annotations.Range;
 
 /**
- * This interface defines a item that can be charge or discharge its energy. <br>
+ * This interface defines an item that can be charge or discharge its energy. <br>
  */
 public interface Rechargeable extends ItemAttribute {
     double getEnergyCapacity();

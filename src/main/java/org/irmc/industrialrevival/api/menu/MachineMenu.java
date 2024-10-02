@@ -1,6 +1,8 @@
 package org.irmc.industrialrevival.api.menu;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +14,7 @@ import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.ItemFlag;
@@ -20,7 +23,10 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
+import org.irmc.industrialrevival.api.objects.ItemStackReference;
 import org.irmc.industrialrevival.core.utils.KeyUtil;
+import org.irmc.pigeonlib.dict.Dictionary;
+import org.irmc.pigeonlib.dict.DictionaryUtil;
 import org.irmc.pigeonlib.items.ItemUtils;
 
 @SuppressWarnings({"deprecation", "unused"})
@@ -111,6 +117,15 @@ public class MachineMenu extends SimpleMenu {
         return getInventory().getViewers();
     }
 
+    public void consumeSlot(int slot, int amount) {
+        ItemStack item = getItem(slot);
+        if (item != null && item.getAmount() > 0) {
+            item.setAmount(item.getAmount() - amount);
+            if (item.getAmount() <= 0) {
+                setItem(slot, null);
+            }
+        }
+    }
     public void consumeSlot(int... slot) {
         for (int s : slot) {
             setItem(s, null);
@@ -140,8 +155,25 @@ public class MachineMenu extends SimpleMenu {
         return consumedCount;
     }
 
-    public int consumeItem(ItemStack item) {
+    public int consumeAllItem(ItemStack item) {
         return consumeItem(item, IntStream.range(0, getSize()).toArray());
+    }
+
+    public int consumeItem(ItemStackReference itemRef, int amount, int... slots) {
+        int consumedCount = 0;
+        for (int slot : slots) {
+            ItemStack itemInSlot = getItem(slot);
+            if (itemInSlot != null && itemInSlot.getType() != Material.AIR && itemRef.itemsMatch(itemInSlot)) {
+                int canConsume = Math.min(itemInSlot.getAmount(), amount);
+                itemInSlot.setAmount(itemInSlot.getAmount() - canConsume);
+                amount -= canConsume;
+                consumedCount += canConsume;
+                if (amount <= 0) {
+                    break;
+                }
+            }
+        }
+        return consumedCount;
     }
 
     public void setProgressItem(int slot, int remainingTicks, int totalTicks, ItemStack progressBarItem) {
@@ -165,104 +197,211 @@ public class MachineMenu extends SimpleMenu {
         setItem(slot, item);
     }
 
-    public boolean fits(ItemStack item, int... slots) {
-        final ItemStack clone = item.clone();
+    @Nullable
+    public ItemStack pushItem(@Nonnull ItemStack item, int... slots) {
+        if (item == null || item.getType() == Material.AIR) {
+            throw new IllegalArgumentException("Cannot push null or AIR");
+        }
+
+        int leftAmount = item.getAmount();
+
         for (int slot : slots) {
-            final ItemStack itemInSlot = getItem(slot);
-            if (itemInSlot == null || itemInSlot.getType().isAir()) {
-                clone.setAmount(clone.getAmount() - clone.getMaxStackSize());
-                if (clone.getAmount() <= 0) {
-                    return true;
+            if (leftAmount <= 0) {
+                break;
+            }
+
+            ItemStack existing = getItem(slot);
+
+            if (existing == null || existing.getType() == Material.AIR) {
+                int received = Math.min(leftAmount, item.getMaxStackSize());
+                setItem(slot, ItemUtils.cloneItem(item, received));
+                leftAmount -= received;
+                item.setAmount(Math.max(0, leftAmount));
+            } else {
+                int existingAmount = existing.getAmount();
+                if (existingAmount >= item.getMaxStackSize()) {
+                    continue;
+                }
+
+                if (!ItemUtils.isItemSimilar(item, existing)) {
+                    continue;
+                }
+
+                int received = Math.max(0, Math.min(item.getMaxStackSize() - existingAmount, leftAmount));
+                leftAmount -= received;
+                existing.setAmount(existingAmount + received);
+                item.setAmount(leftAmount);
+            }
+        }
+
+        if (leftAmount > 0) {
+            return new CustomItemStack(item, leftAmount);
+        } else {
+            return null;
+        }
+    }
+
+    @Nonnull
+    public Map<ItemStack, Integer> pushItem(@Nonnull ItemStack[] items, int... slots) {
+        if (items == null || items.length == 0) {
+            throw new IllegalArgumentException("Cannot push null or empty array");
+        }
+
+        List<ItemStack> listItems = new ArrayList<>();
+        for (ItemStack item : items) {
+            if (item != null && item.getType() != Material.AIR) {
+                listItems.add(item);
+            }
+        }
+
+        return pushItem(listItems, slots);
+    }
+
+    @Nonnull
+    public Map<ItemStack, Integer> pushItem(@Nonnull List<ItemStack> items, int... slots) {
+        if (items == null || items.isEmpty()) {
+            throw new IllegalArgumentException("Cannot push null or empty list");
+        }
+
+        Map<ItemStack, Integer> itemMap = new HashMap<>();
+        for (ItemStack item : items) {
+            if (item != null && item.getType() != Material.AIR) {
+                ItemStack leftOver = pushItem(item, slots);
+                if (leftOver != null) {
+                    itemMap.put(leftOver, itemMap.getOrDefault(leftOver, 0) + leftOver.getAmount());
                 }
             }
         }
 
+        return itemMap;
+    }
+
+    @Nonnull
+    public Map<ItemStack, Integer> pushItem(Map<ItemStack, Integer> items, int... slots) {
+        if (items == null || items.isEmpty()) {
+            throw new IllegalArgumentException("Cannot push null or empty map");
+        }
+
+        List<ItemStack> listItems = new ArrayList<>();
+        for (ItemStack item : items.keySet()) {
+            if (item != null && item.getType() != Material.AIR) {
+                listItems.add(ItemUtils.cloneItem(item, items.get(item)));
+            }
+        }
+
+        return pushItem(listItems, slots);
+    }
+
+    public boolean fits(@Nonnull ItemStack item, int... slots) {
+        if (item == null || item.getType() == Material.AIR) {
+            return true;
+        }
+
+        int incoming = item.getAmount();
         for (int slot : slots) {
-            final ItemStack itemInSlot = getItem(slot);
-            if (itemInSlot != null && !itemInSlot.getType().isAir() && ItemUtils.isItemSimilar(itemInSlot, item)) {
-                clone.setAmount(clone.getAmount() - Math.max(0, clone.getMaxStackSize() - itemInSlot.getAmount()));
-                if (clone.getAmount() <= 0) {
-                    return true;
-                }
+            ItemStack stack = getItem(slot);
+
+            if (stack == null || stack.getType() == Material.AIR) {
+                incoming -= item.getMaxStackSize();
+            } else if (stack.getMaxStackSize() > stack.getAmount() && ItemUtils.isItemSimilar(item, stack)) {
+                incoming -= stack.getMaxStackSize() - stack.getAmount();
+            }
+
+            if (incoming <= 0) {
+                return true;
             }
         }
 
         return false;
     }
 
-    public boolean fits(Map<ItemStack, Integer> items, int... slots) {
-        final ItemStack[] contents = getInventory().getContents();
-        final Map<ItemStack, Integer> cloneMap = new HashMap<>(items);
-        for (ItemStack item : items.keySet()) {
-            final ItemStack clone = ItemUtils.cloneItem(item, items.get(item));
-            for (ItemStack content : contents) {
-                if (content == null || content.getType().isAir()) {
-                    clone.setAmount(clone.getAmount() - clone.getMaxStackSize());
-                    if (clone.getAmount() <= 0) {
-                        cloneMap.remove(item);
-                    }
-                    content = new CustomItemStack(item)
-                            .setPDCData(
-                                    KeyUtil.customKey("ir_placeholder_already_used"), PersistentDataType.BOOLEAN, true);
-                } else if (ItemUtils.isItemSimilar(content, item)) {
-                    if (content.getAmount() >= content.getMaxStackSize()) {
-                        continue;
-                    }
-                    clone.setAmount(clone.getAmount() - Math.max(0, clone.getMaxStackSize() - content.getAmount()));
-                    if (clone.getAmount() <= 0) {
-                        cloneMap.remove(item);
-                    }
-                }
+    public boolean fits(@Nonnull ItemStack[] items, int... slots) {
+        if (items == null || items.length == 0) {
+            return false;
+        }
+
+        List<ItemStack> listItems = new ArrayList<>();
+        for (ItemStack item : items) {
+            if (item != null && item.getType() != Material.AIR) {
+                listItems.add(item.clone());
             }
         }
 
-        return cloneMap.isEmpty();
+        return fits(listItems, slots);
     }
 
-    @Nonnull
-    @CanIgnoreReturnValue
-    public Map<ItemStack, Integer> pushItem(Map<ItemStack, Integer> items, int... slots) {
-        final Map<ItemStack, Integer> lefts = new HashMap<>();
-        for (ItemStack item : items.keySet()) {
-            final ItemStack clone = ItemUtils.cloneItem(item, items.get(item));
-            ItemStack left = pushItem(clone, slots);
-            if (left != null) {
-                lefts.put(ItemUtils.cloneItem(left, 1), left.getAmount());
-            }
+    public boolean fits(@Nonnull List<ItemStack> items, int... slots) {
+        if (items == null || items.isEmpty()) {
+            return false;
         }
-        return lefts;
-    }
 
-    @Nullable public ItemStack pushItem(ItemStack item, int... slots) {
-        if (item == null || item.getType().isAir()) {
-            return null;
+        List<ItemStack> cloneMenu = new ArrayList<>();
+        for (int i = 0; i < 54; i++) {
+            cloneMenu.add(null);
         }
 
         for (int slot : slots) {
-            ItemStack itemInSlot = getItem(slot);
-            if (itemInSlot == null || itemInSlot.getType().isAir()) {
-                int canPush = Math.min(item.getAmount(), item.getMaxStackSize());
-                setItem(slot, ItemUtils.cloneItem(item, canPush));
-                item.setAmount(item.getAmount() - canPush);
-                if (item.getAmount() == 0) {
-                    break;
-                }
-            } else if (ItemUtils.isItemSimilar(itemInSlot, item)) {
-                int canPush =
-                        Math.min(item.getAmount(), Math.max(0, itemInSlot.getMaxStackSize() - itemInSlot.getAmount()));
-                itemInSlot.setAmount(itemInSlot.getAmount() + canPush);
-                item.setAmount(item.getAmount() - canPush);
-                if (item.getAmount() == 0) {
-                    break;
-                }
+            ItemStack stack = getItem(slot);
+            if (stack != null && stack.getType() != Material.AIR) {
+                cloneMenu.set(slot, stack.clone());
+            } else {
+                cloneMenu.set(slot, null);
             }
         }
 
-        if (item.getAmount() == 0) {
-            return null;
+        for (ItemStack rawItem : items) {
+            ItemStack item = rawItem.clone();
+            int leftAmount = item.getAmount();
+            for (int slot : slots) {
+                if (leftAmount <= 0) {
+                    break;
+                }
+
+                ItemStack existing = cloneMenu.get(slot);
+
+                if (existing == null || existing.getType() == Material.AIR) {
+                    int received = Math.min(leftAmount, item.getMaxStackSize());
+                    cloneMenu.set(slot, ItemUtils.cloneItem(item, leftAmount));
+                    leftAmount -= received;
+                    item.setAmount(Math.max(0, leftAmount));
+                } else {
+                    int existingAmount = existing.getAmount();
+                    if (existingAmount >= item.getMaxStackSize()) {
+                        continue;
+                    }
+
+                    if (!ItemUtils.isItemSimilar(item, existing)) {
+                        continue;
+                    }
+
+                    int received = Math.max(0, Math.min(item.getMaxStackSize() - existingAmount, leftAmount));
+                    leftAmount -= received;
+                    existing.setAmount(existingAmount + received);
+                    item.setAmount(leftAmount);
+                }
+            }
+
+            if (leftAmount > 0) {
+                return false;
+            }
         }
 
-        return item;
+        return true;
+    }
+
+    public boolean fits(Map<ItemStack, Integer> items, int... slots) {
+        if (items == null || items.isEmpty()) {
+            return false;
+        }
+
+        List<ItemStack> listItems = new ArrayList<>();
+        for (ItemStack item : items.keySet()) {
+            if (item != null && item.getType() != Material.AIR) {
+                listItems.add(ItemUtils.cloneItem(item, items.get(item)));
+            }
+        }
+
+        return fits(listItems, slots);
     }
 
     @Nonnull

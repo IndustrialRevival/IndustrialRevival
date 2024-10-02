@@ -51,7 +51,6 @@ public class ItemHandlerListener extends AbstractIRListener {
 
     @EventHandler
     public void onBlockPlaced(BlockPlaceEvent e) {
-        Player player = e.getPlayer();
         ItemStack item = e.getItemInHand();
         if (item instanceof IndustrialRevivalItemStack iris) {
             String id = iris.getId();
@@ -65,14 +64,13 @@ public class ItemHandlerListener extends AbstractIRListener {
             BlockPlaceHandler handler = iritem.getItemHandler(BlockPlaceHandler.class);
 
             if (handler != null) {
-                handler.onBlockPlace(player, block, false);
+                handler.onBlockPlace(e);
             }
         }
     }
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
-        Player player = e.getPlayer();
         IRBlockData blockData = IndustrialRevival.getInstance()
                 .getBlockDataService()
                 .getBlockData(e.getBlock().getLocation());
@@ -86,7 +84,7 @@ public class ItemHandlerListener extends AbstractIRListener {
 
             BlockBreakHandler handler = iritem.getItemHandler(BlockBreakHandler.class);
             if (handler != null) {
-                handler.onBlockBreak(player, block, false);
+                handler.onBlockBreak(e);
             }
 
             e.setDropItems(false);

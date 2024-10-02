@@ -2,9 +2,12 @@ package org.irmc.industrialrevival.api.items.handlers;
 
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nonnull;
 
 @FunctionalInterface
 public interface BlockPlaceHandler extends ItemHandler {
-    void onBlockPlace(@Nullable Player player, Block block, boolean placeByPlacers);
+    void onBlockPlace(@Nonnull BlockPlaceEvent event);
 }

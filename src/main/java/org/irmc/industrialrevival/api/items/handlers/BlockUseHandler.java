@@ -9,9 +9,9 @@ public interface BlockUseHandler extends ItemHandler {
     /**
      * Called when a player right-clicks on a block with the item.
      *
-     * @param e the {@link PlayerInteractEvent} was triggered
+     * @param event the {@link PlayerInteractEvent} was triggered
      */
-    void onRightClick(PlayerInteractEvent e);
+    void onRightClick(PlayerInteractEvent event);
 
     @Override
     default IncompatibleItemHandlerException isCompatible(IndustrialRevivalItem item) {

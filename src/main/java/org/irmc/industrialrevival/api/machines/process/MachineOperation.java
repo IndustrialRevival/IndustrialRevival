@@ -4,21 +4,22 @@ import java.util.Map;
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipe;
+import org.irmc.industrialrevival.api.objects.ItemStackReference;
 
 public class MachineOperation implements IOperation {
-    private @Getter final Map<ItemStack, Integer> inputStacks;
+    private @Getter final Map<ItemStackReference, Integer> inputStacks;
     private @Getter final Map<ItemStack, Integer> outputStacks;
     private final int duration;
     private int currentProgress = 0;
 
-    public MachineOperation(Map<ItemStack, Integer> inputStacks, Map<ItemStack, Integer> outputStacks, int duration) {
+    public MachineOperation(Map<ItemStackReference, Integer> inputStacks, Map<ItemStack, Integer> outputStacks, int duration) {
         this.inputStacks = inputStacks;
         this.outputStacks = outputStacks;
         this.duration = duration;
     }
 
     public MachineOperation(MachineRecipe recipe) {
-        this(recipe.inputs(), recipe.outputs(), recipe.processTime());
+        this(recipe.getInputs(), recipe.getOutputs(), recipe.getProcessTime());
     }
 
     @Override
