@@ -37,10 +37,10 @@ class ConnectionPool {
         }
         this.maxPoolSize = maxPoolSize;
 
-        initializeConnections(url, user, password);
+        initializeConnections();
     }
 
-    private void initializeConnections(String url, String user, String password) throws SQLException {
+    private void initializeConnections() throws SQLException {
         for (int i = 0; i < maxPoolSize / 2; i++) {
             Connection connection = DriverManager.getConnection(url, user, password);
             connectionPool.add(connection);

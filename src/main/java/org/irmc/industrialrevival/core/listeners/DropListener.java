@@ -9,6 +9,7 @@ import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
@@ -18,7 +19,7 @@ import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.api.objects.Pair;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 
-public class DropListener extends AbstractIRListener {
+public class DropListener implements Listener {
     @EventHandler
     public void onMobDrop(EntityDeathEvent e) {
         LivingEntity entity = e.getEntity();

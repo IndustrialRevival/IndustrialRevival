@@ -42,7 +42,7 @@ public non-sealed class AbstractDataManager implements IDataManager {
     public void handleBlockPlacing(Location loc, String machineId) {
         try {
             DSLContext dsl = DSL.using(pool.getConnection(), dialect);
-            dsl.insertInto(DSL.table(DSL.name("block_record")))
+            int r = dsl.insertInto(DSL.table(DSL.name("block_record")))
                     // world, x, y, z, machineId, data
                     .select(DSL.select(
                             DSL.val(loc.getWorld().getName()),
@@ -57,7 +57,10 @@ public non-sealed class AbstractDataManager implements IDataManager {
                     .bind("z", DSL.val(loc.getBlockZ()))
                     .bind("machineId", DSL.val(machineId))
                     .bind("data", DSL.val(""))
-                    .executeAsync();
+                    .execute();
+            if (r < 0) {
+                throw new RuntimeException("Failed to insert block record");
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -72,7 +75,9 @@ public non-sealed class AbstractDataManager implements IDataManager {
                     .and(DSL.field(DSL.name("x")).eq(loc.getBlockX()))
                     .and(DSL.field(DSL.name("y")).eq(loc.getBlockY()))
                     .and(DSL.field(DSL.name("z")).eq(loc.getBlockZ()))
-                    .executeAsync();
+                    .executeAsync()
+                    .toCompletableFuture()
+                    .join();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -113,7 +118,9 @@ public non-sealed class AbstractDataManager implements IDataManager {
                     .and(DSL.field(DSL.name("x")).eq(location.getBlockX()))
                     .and(DSL.field(DSL.name("y")).eq(location.getBlockY()))
                     .and(DSL.field(DSL.name("z")).eq(location.getBlockZ()))
-                    .executeAsync();
+                    .executeAsync()
+                    .toCompletableFuture()
+                    .join();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -205,7 +212,9 @@ public non-sealed class AbstractDataManager implements IDataManager {
                     .bind("fireWorksEnabled", DSL.val(settings.isFireWorksEnabled()))
                     .bind("learningAnimationEnabled", DSL.val(settings.isLearningAnimationEnabled()))
                     .bind("language", DSL.val(settings.getLanguage()))
-                    .executeAsync();
+                    .executeAsync()
+                    .toCompletableFuture()
+                    .join();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -243,7 +252,9 @@ public non-sealed class AbstractDataManager implements IDataManager {
                     .select(DSL.select(DSL.val(playerName), DSL.val(b64)))
                     .bind("username", DSL.val(playerName))
                     .bind("researchStatus", DSL.val(b64))
-                    .executeAsync();
+                    .executeAsync()
+                    .toCompletableFuture()
+                    .join();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

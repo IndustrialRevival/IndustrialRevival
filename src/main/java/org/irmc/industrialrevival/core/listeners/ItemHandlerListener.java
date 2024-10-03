@@ -10,6 +10,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -31,7 +32,7 @@ import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 
-public class ItemHandlerListener extends AbstractIRListener {
+public class ItemHandlerListener implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
         ItemStack item = e.getItem();
@@ -52,9 +53,9 @@ public class ItemHandlerListener extends AbstractIRListener {
     @EventHandler
     public void onBlockPlaced(BlockPlaceEvent e) {
         ItemStack item = e.getItemInHand();
-        if (item instanceof IndustrialRevivalItemStack iris) {
-            String id = iris.getId();
-            IndustrialRevivalItem iritem = IndustrialRevivalItem.getById(id);
+        IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(item);
+        if (iritem != null && iritem.isDisabledInWorld(e.getPlayer().getWorld())) {
+            String id = iritem.getId();
 
             Block block = e.getBlockPlaced();
 

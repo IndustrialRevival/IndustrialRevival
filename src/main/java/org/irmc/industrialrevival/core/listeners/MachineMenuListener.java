@@ -2,6 +2,7 @@ package org.irmc.industrialrevival.core.listeners;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
@@ -9,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.menu.IRInventoryHolder;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
 
-public class MachineMenuListener extends AbstractIRListener {
+public class MachineMenuListener implements Listener {
     @EventHandler
     public void onMenuClick(InventoryClickEvent e) {
         Inventory inv = e.getInventory();
