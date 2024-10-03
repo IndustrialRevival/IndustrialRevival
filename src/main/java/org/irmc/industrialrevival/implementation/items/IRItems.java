@@ -956,8 +956,5 @@ public class IRItems {
                 new ItemStack[] {IRItemStacks.LEAD_ORE, null, null, null, null, null, null, null, null};
         public static final ItemStack[] ZINC =
                 new ItemStack[] {IRItemStacks.ZINC_ORE, null, null, null, null, null, null, null, null};
-
-        public static final ItemStack[] RECONFIGURABLE_NANOANTENNA =
-                new ItemStack[] {IRItemStacks.GRAPHENE, null, null, null, null, null, null, null, null};
     }
 }
