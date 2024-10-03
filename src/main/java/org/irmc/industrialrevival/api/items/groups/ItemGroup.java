@@ -143,7 +143,7 @@ public abstract class ItemGroup {
     public void register() {
         this.locked = true;
 
-        IndustrialRevival.getInstance().getRegistry().getItemGroups().put(key, this);
+        IndustrialRevival.getInstance().getRegistry().registerItemGroup(this);
     }
 
     public final boolean isRegistered() {

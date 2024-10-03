@@ -16,6 +16,9 @@ import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.BlockDropItem;
 import org.irmc.industrialrevival.api.items.attributes.MobDropItem;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
+import org.irmc.industrialrevival.api.items.groups.NestedItemGroup;
+import org.irmc.industrialrevival.api.items.groups.NormalItemGroup;
+import org.irmc.industrialrevival.api.items.groups.SubItemGroup;
 import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
 import org.irmc.industrialrevival.api.objects.Pair;
 import org.irmc.industrialrevival.api.objects.display.DisplayGroup;
@@ -55,6 +58,10 @@ public final class IRRegistry {
         itemGroups.putAll(newItemGroups);
     }
 
+    public void registerItemGroup(ItemGroup itemGroup) {
+        itemGroups.put(itemGroup.getKey(), itemGroup);
+    }
+
     public void registerMobDrop(IndustrialRevivalItem mobDropItem) {
         if (!(mobDropItem instanceof MobDropItem mdi)) {
             throw new IllegalArgumentException("Item must implement MobDropItem interface");
@@ -80,6 +87,75 @@ public final class IRRegistry {
 
     public void registerDisplayGroup(NamespacedKey key, DisplayGroup displayGroup) {
         displayGroups.put(key, displayGroup);
+    }
+
+    public void unregisterItemGroup(NamespacedKey key) {
+        ItemGroup itemGroup = itemGroups.get(key);
+        if (itemGroup instanceof NestedItemGroup nestedItemGroup) {
+            nestedItemGroup.getSubItemGroups().forEach(subItemGroup -> {
+                subItemGroup.getItems().forEach(this::unregisterItem);
+            });
+
+            nestedItemGroup.getItems().forEach(this::unregisterItem);
+        }
+
+        if (itemGroup instanceof SubItemGroup subItemGroup) {
+            subItemGroup.getItems().forEach(this::unregisterItem);
+        }
+
+        if (itemGroup instanceof NormalItemGroup normalItemGroup) {
+            normalItemGroup.getItems().forEach(this::unregisterItem);
+        }
+        itemGroups.remove(key);
+    }
+
+    public void unregisterItem(IndustrialRevivalItem item) {
+        if (item instanceof MobDropItem) {
+            unregisterMobDrop(item);
+        }
+
+        if (item instanceof BlockDropItem) {
+            unregisterBlockDrop(item);
+        }
+
+        items.remove(item.getId());
+        item.setDisabled(true);
+    }
+
+    public void unregisterMobDrop(IndustrialRevivalItem mobDropItem) {
+        if (!(mobDropItem instanceof MobDropItem mdi)) {
+            throw new IllegalArgumentException("Item must implement MobDropItem interface");
+        }
+        List<Pair<ItemStack, Double>> drops = mobDrops.get(mdi.getMobType());
+        if (drops == null) {
+            return;
+        }
+        drops.removeIf(p -> p.getFirst().isSimilar(mobDropItem.getItem()));
+        if (drops.isEmpty()) {
+            mobDrops.remove(mdi.getMobType());
+        }
+
+        mobDropItem.setDisabled(true);
+    }
+
+    public void unregisterBlockDrop(IndustrialRevivalItem blockDropItem) {
+        if (!(blockDropItem instanceof BlockDropItem bdi)) {
+            throw new IllegalArgumentException("Item must implement BlockDropItem interface");
+        }
+        List<Pair<ItemStack, Double>> drops = blockDrops.get(bdi.dropBlock());
+        if (drops == null) {
+            return;
+        }
+        drops.removeIf(p -> p.getFirst().isSimilar(blockDropItem.getItem()));
+        if (drops.isEmpty()) {
+            blockDrops.remove(bdi.dropBlock());
+        }
+
+        blockDropItem.setDisabled(true);
+    }
+
+    public void unregisterDisplayGroup(NamespacedKey key) {
+        displayGroups.remove(key);
     }
 
     public List<IndustrialRevivalItem> searchItems(String term) {
