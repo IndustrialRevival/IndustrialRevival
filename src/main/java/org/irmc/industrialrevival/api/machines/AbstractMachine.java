@@ -10,11 +10,10 @@ import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipes;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
-import org.irmc.industrialrevival.core.utils.CleanedItemGetter;
+import org.irmc.industrialrevival.utils.CleanedItemGetter;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 /**
  * Abstract class for all IndustrialRevival machines.

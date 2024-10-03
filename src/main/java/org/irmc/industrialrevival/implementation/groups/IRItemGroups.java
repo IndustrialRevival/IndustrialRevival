@@ -2,7 +2,7 @@ package org.irmc.industrialrevival.implementation.groups;
 
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.groups.NormalItemGroup;
-import org.irmc.industrialrevival.core.utils.KeyUtil;
+import org.irmc.industrialrevival.utils.KeyUtil;
 
 public class IRItemGroups {
     public static final ItemGroup ORES = new NormalItemGroup(KeyUtil.customKey("ores"), GroupIcons.GROUP_ORE);

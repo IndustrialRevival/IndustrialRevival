@@ -26,7 +26,7 @@ import org.irmc.industrialrevival.core.services.IRRegistry;
 import org.irmc.industrialrevival.core.services.ItemDataService;
 import org.irmc.industrialrevival.core.services.ItemTextureService;
 import org.irmc.industrialrevival.core.task.ArmorCheckTask;
-import org.irmc.industrialrevival.core.utils.Constants;
+import org.irmc.industrialrevival.utils.Constants;
 import org.irmc.industrialrevival.implementation.groups.IRItemGroups;
 import org.irmc.industrialrevival.implementation.items.IRItems;
 import org.irmc.pigeonlib.file.ConfigFileUtil;

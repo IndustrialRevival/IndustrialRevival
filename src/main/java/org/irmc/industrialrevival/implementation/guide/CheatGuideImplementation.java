@@ -5,7 +5,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
-import org.irmc.industrialrevival.core.utils.Constants;
+import org.irmc.industrialrevival.utils.Constants;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.pigeonlib.items.ItemUtils;
 

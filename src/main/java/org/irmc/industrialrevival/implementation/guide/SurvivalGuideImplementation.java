@@ -17,8 +17,8 @@ import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
 import org.irmc.industrialrevival.core.guide.GuideHistory;
 import org.irmc.industrialrevival.core.guide.IRGuideImplementation;
-import org.irmc.industrialrevival.core.utils.Constants;
-import org.irmc.industrialrevival.core.utils.KeyUtil;
+import org.irmc.industrialrevival.utils.Constants;
+import org.irmc.industrialrevival.utils.KeyUtil;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.pigeonlib.chat.ChatInput;
 

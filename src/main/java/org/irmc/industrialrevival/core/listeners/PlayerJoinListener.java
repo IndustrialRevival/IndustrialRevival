@@ -6,7 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.PlayerInventory;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
-import org.irmc.industrialrevival.core.utils.Constants;
+import org.irmc.industrialrevival.utils.Constants;
 
 public class PlayerJoinListener implements Listener {
     @EventHandler

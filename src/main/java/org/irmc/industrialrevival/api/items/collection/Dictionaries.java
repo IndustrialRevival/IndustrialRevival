@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.bukkit.NamespacedKey;
-import org.irmc.industrialrevival.core.utils.KeyUtil;
+import org.irmc.industrialrevival.utils.KeyUtil;
 import org.irmc.industrialrevival.implementation.items.IRItems;
 
 public class Dictionaries {
