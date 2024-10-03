@@ -6,12 +6,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import com.google.common.base.Preconditions;
 import lombok.Getter;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
+import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.BlockDropItem;
 import org.irmc.industrialrevival.api.items.attributes.MobDropItem;
@@ -23,7 +26,10 @@ import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
 import org.irmc.industrialrevival.api.objects.Pair;
 import org.irmc.industrialrevival.api.objects.display.DisplayGroup;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
+import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.api.researches.Research;
+
+import javax.annotation.Nonnull;
 
 @Getter
 public final class IRRegistry {
@@ -37,6 +43,7 @@ public final class IRRegistry {
     private final Map<EntityType, List<Pair<ItemStack, Double>>> mobDrops;
     private final Map<Material, List<Pair<ItemStack, Double>>> blockDrops;
 
+    private final Map<RecipeType, Set<ItemStack>> craftables;
     public IRRegistry() {
         itemGroups = new HashMap<>();
         researches = new HashMap<>();
@@ -46,6 +53,7 @@ public final class IRRegistry {
         menuPresets = new HashMap<>();
         mobDrops = new HashMap<>();
         blockDrops = new HashMap<>();
+        craftables = new HashMap<>();
     }
 
     public void resortItemGroups() {
@@ -58,11 +66,18 @@ public final class IRRegistry {
         itemGroups.putAll(newItemGroups);
     }
 
-    public void registerItemGroup(ItemGroup itemGroup) {
+    public void registerItem(@Nonnull IndustrialRevivalItem item) {
+        Preconditions.checkArgument(item != null, "Item cannot be null");
+        items.put(item.getId(), item);
+    }
+
+    public void registerItemGroup(@Nonnull ItemGroup itemGroup) {
+        Preconditions.checkArgument(itemGroup.getKey() != null, "Item group key cannot be null");
         itemGroups.put(itemGroup.getKey(), itemGroup);
     }
 
-    public void registerMobDrop(IndustrialRevivalItem mobDropItem) {
+    public void registerMobDrop(@Nonnull IndustrialRevivalItem mobDropItem) {
+        Preconditions.checkArgument(mobDropItem != null, "Item cannot be null");
         if (!(mobDropItem instanceof MobDropItem mdi)) {
             throw new IllegalArgumentException("Item must implement MobDropItem interface");
         }
@@ -73,7 +88,8 @@ public final class IRRegistry {
         mobDrops.put(mdi.getMobType(), drops);
     }
 
-    public void registerBlockDrop(IndustrialRevivalItem blockDropItem) {
+    public void registerBlockDrop(@Nonnull IndustrialRevivalItem blockDropItem) {
+        Preconditions.checkArgument(blockDropItem != null, "Item cannot be null");
         if (!(blockDropItem instanceof BlockDropItem bdi)) {
             throw new IllegalArgumentException("Item must implement BlockDropItem interface");
         }

@@ -72,7 +72,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
         if (item instanceof RecipeDisplayItem rdi) {
             recipe = rdi.getRecipe(rc.recipeType().getMakerItem());
         } else {
-            recipe = item.getRecipe();
+            recipe = item.getRecipeIngredients(rc.recipeType());
         }
 
         for (int i = 0; i < 9; i++) {

@@ -607,6 +607,10 @@ public class IRItems {
         public static final IndustrialRevivalItemStack VACUUM_EXTRACTOR;
         public static final IndustrialRevivalItemStack WASHER;
         public static final IndustrialRevivalItemStack WELDING_ROD_MACHINE;
+        public static final IndustrialRevivalItemStack COPPER_WIRE;
+        public static final IndustrialRevivalItemStack TIN_WIRE;
+        public static final IndustrialRevivalItemStack ALUMINUM_WIRE;
+        public static final IndustrialRevivalItemStack SILVER_WIRE;
         static {
             LAVA_ALLOY = new IndustrialRevivalItemStack("LAVA_ALLOY", Material.MAGMA_BLOCK);
             ROCK_IRON_ALLOY = new IndustrialRevivalItemStack("ROCK_IRON_ALLOY", Material.POLISHED_ANDESITE);
@@ -748,8 +752,8 @@ public class IRItems {
             ELECTROLYTIC_MACHINE = new IndustrialRevivalItemStack("ELECTROLYTIC_MACHINE", Material.GRINDSTONE);
             HEATER = new IndustrialRevivalItemStack("HEATER", Material.RED_STAINED_GLASS);
             HOT_PRESS = new IndustrialRevivalItemStack("HOT_PRESS", Material.PISTON);
-            INDUCTION_COOKER =   new IndustrialRevivalItemStack("INDUCTION_COOKER", Material.BLAST_FURNACE);
-            INDUSTRIAL_FURNACE =   new IndustrialRevivalItemStack("INDUSTRIAL_FURNACE", Material.FURNACE);
+            INDUCTION_COOKER = new IndustrialRevivalItemStack("INDUCTION_COOKER", Material.BLAST_FURNACE);
+            INDUSTRIAL_FURNACE = new IndustrialRevivalItemStack("INDUSTRIAL_FURNACE", Material.FURNACE);
             POLISHER = new IndustrialRevivalItemStack("POLISHER", Material.POLISHED_DIORITE);
             PRESSING_MACHINE = new IndustrialRevivalItemStack("PRESSING_MACHINE", Material.NOTE_BLOCK);
             PRESSURE_COOKER = new IndustrialRevivalItemStack("PRESSURE_COOKER", Material.SMOKER);
@@ -758,6 +762,10 @@ public class IRItems {
             VACUUM_EXTRACTOR = new IndustrialRevivalItemStack("VACUUM_EXTRACTOR", Material.BLACK_STAINED_GLASS);
             WASHER = new IndustrialRevivalItemStack("WASHER", Material.CAULDRON);
             WELDING_ROD_MACHINE = new IndustrialRevivalItemStack("WELDING_ROD_MACHINE", Material.STONECUTTER);
+            COPPER_WIRE = new IndustrialRevivalItemStack("COPPER_WIRE", Material.STRING);
+            TIN_WIRE = new IndustrialRevivalItemStack("TIN_WIRE", Material.STONECUTTER);
+            ALUMINUM_WIRE = new IndustrialRevivalItemStack("ALUMINUM_WIRE", Material.STRING);
+            SILVER_WIRE = new IndustrialRevivalItemStack("SILVER_WIRE", Material.STRING);
         }
     }
 

@@ -7,9 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 
+@UtilityClass
 public class RecipeContents {
     private static final Map<String, List<RecipeContent>> recipeContents = new HashMap<>();
 

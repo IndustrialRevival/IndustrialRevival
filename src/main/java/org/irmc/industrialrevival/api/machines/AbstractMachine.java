@@ -2,6 +2,7 @@ package org.irmc.industrialrevival.api.machines;
 
 import javax.annotation.Nonnull;
 
+import com.google.common.base.Preconditions;
 import lombok.Getter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -23,43 +24,32 @@ import java.util.Map;
  */
 public abstract class AbstractMachine extends IndustrialRevivalItem {
     @Getter
-    private final RecipeType recipeType;
-    protected final MachineRecipes machineRecipes;
-
-    public AbstractMachine(
-            @Nonnull ItemGroup group,
-            @Nonnull IndustrialRevivalItemStack itemStack,
-            @Nonnull RecipeType recipeType,
-            @Nonnull ItemStack[] recipe,
-            @Nonnull ItemStack recipeItem,
-            @Nonnull MachineRecipes machineRecipes) {
-        super(group, itemStack, recipeType, recipe);
-        this.machineRecipes = machineRecipes;
-        this.recipeType = new RecipeType(new NamespacedKey(getAddon().getPlugin(), itemStack.getId().toLowerCase()), recipeItem);
-    }
-
-    public AbstractMachine(
-            @Nonnull ItemGroup group,
-            @Nonnull IndustrialRevivalItemStack itemStack,
-            @Nonnull RecipeType recipeType,
-            @Nonnull ItemStack[] recipe,
-            @Nonnull MachineRecipes machineRecipes) {
-        this(group, itemStack, recipeType, recipe, CleanedItemGetter.getCleanedItem(itemStack), machineRecipes);
-    }
+    private RecipeType recipeType = null;
+    private ItemStack recipeTypeIcon = null;
+    protected final MachineRecipes machineRecipes = new MachineRecipes();
 
     public void addRecipe(int processTime, int energyCost, ItemStack[] consume, ItemStack[] produce) {
+        checkRegistered();
         machineRecipes.addRecipe(processTime, energyCost, consume, produce);
     }
 
     public void addRecipe(int processTime, int energyCost, ItemStack[] consume, ItemStack produce) {
+        checkRegistered();
         machineRecipes.addRecipe(processTime, energyCost, Arrays.asList(consume), Collections.singletonList(produce));
     }
     public void addRecipe(int processTime, int energyCost, ItemStack consume, ItemStack produce) {
+        checkRegistered();
         machineRecipes.addRecipe(processTime, energyCost, Collections.singletonList(consume), Collections.singletonList(produce));
     }
 
     public void addRecipe(int processTime, int energyCost, ItemStack consume, ItemStack[] produce) {
+        checkRegistered();
         machineRecipes.addRecipe(processTime, energyCost, Collections.singletonList(consume), Arrays.asList(produce));
+    }
+
+    public void addRecipe(MachineRecipe recipe) {
+        checkRegistered();
+        machineRecipes.addRecipe(recipe);
     }
 
     public Map<ItemStackReference, Integer> findInputByOutput(ItemStack output) {
@@ -85,5 +75,35 @@ public abstract class AbstractMachine extends IndustrialRevivalItem {
         }
 
         return foundRecipe.getInputs();
+    }
+
+    @Override
+    public void postRegister() {
+        super.postRegister();
+    }
+
+    private ItemStack getRecipeTypeIcon() {
+        if (recipeTypeIcon == null) {
+            return CleanedItemGetter.getCleanedItem(getItem());
+        }
+
+        return CleanedItemGetter.getCleanedItem(recipeTypeIcon);
+    }
+
+    public AbstractMachine setRecipeTypeIcon(ItemStack recipeTypeIcon) {
+        checkRegistered();
+        this.recipeTypeIcon = recipeTypeIcon;
+        this.recipeType = new RecipeType(new NamespacedKey(getAddon().getPlugin(), getId().toLowerCase()), getRecipeTypeIcon());
+        return this;
+    }
+
+    @Override
+    public IndustrialRevivalItem setItemStack(@Nonnull IndustrialRevivalItemStack itemStack) {
+        super.setItemStack(itemStack);
+        if (recipeTypeIcon == null) {
+            this.recipeTypeIcon = CleanedItemGetter.getCleanedItem(itemStack);
+            this.recipeType = new RecipeType(new NamespacedKey(getAddon().getPlugin(), getId().toLowerCase()), getRecipeTypeIcon());
+        }
+        return this;
     }
 }

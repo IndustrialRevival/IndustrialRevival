@@ -39,7 +39,7 @@ public abstract class ElectricSolarGenerator extends IndustrialRevivalItem imple
     }
 
     @Override
-    protected void preRegister() throws Exception {
+    public void preRegister() throws Exception {
         super.preRegister();
     }
 
