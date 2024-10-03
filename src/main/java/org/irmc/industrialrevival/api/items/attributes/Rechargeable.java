@@ -20,10 +20,12 @@ public interface Rechargeable extends ItemAttribute {
 
     default void addItemEnergy(ItemStack item, double energy) {
         EnergyUtil.addItemEnergy(item, energy);
+        onRecharge(item, energy);
     }
 
     default void takeItemEnergy(ItemStack item, double energy) {
         EnergyUtil.takeItemEnergy(item, energy);
+        onEnergyTaken(item, energy);
     }
 
     default boolean hasEnoughEnergy(ItemStack item, double energy) {
@@ -31,4 +33,6 @@ public interface Rechargeable extends ItemAttribute {
     }
 
     default void onRecharge(ItemStack item, double energy) {}
+
+    void onEnergyTaken(ItemStack item, double energy);
 }

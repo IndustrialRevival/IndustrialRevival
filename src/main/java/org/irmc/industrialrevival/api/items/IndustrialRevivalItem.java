@@ -1,10 +1,8 @@
 package org.irmc.industrialrevival.api.items;
 
 import com.google.common.base.Preconditions;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+
+import java.util.*;
 import javax.annotation.Nonnull;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +10,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
@@ -32,6 +31,7 @@ import org.irmc.industrialrevival.implementation.recipes.RecipeContent;
 import org.irmc.industrialrevival.implementation.recipes.RecipeContents;
 import org.irmc.pigeonlib.items.ItemUtils;
 import org.irmc.pigeonlib.pdc.PersistentDataAPI;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -76,7 +76,6 @@ public class IndustrialRevivalItem {
     @Setter
     private boolean disabled = false;
 
-    @Getter
     private final Set<String> disabledInWorld = new HashSet<>();
 
     public IndustrialRevivalItem(
@@ -277,11 +276,22 @@ public class IndustrialRevivalItem {
     }
 
     public void setDisabledInWorld(World world, boolean disabled) {
-        // TODO: add it to the config
+        ConfigurationSection setting = getItemSetting();
+        List<String> worlds = setting.getStringList("disabled_in_worlds");
+
         if (disabled) {
             disabledInWorld.add(world.getName());
+            worlds.add(world.getName());
         } else {
             disabledInWorld.remove(world.getName());
+            worlds.remove(world.getName());
         }
+
+        setting.set("disabled_in_worlds", worlds);
+    }
+
+    @NotNull
+    protected ConfigurationSection getItemSetting() {
+        return IndustrialRevival.getInstance().getItemSettings().getSetting(getId());
     }
 }

@@ -3,7 +3,6 @@ package org.irmc.industrialrevival.api.objects;
 import java.util.List;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.irmc.industrialrevival.core.services.IRRegistry;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 
 public class ItemSettings {
@@ -14,12 +13,18 @@ public class ItemSettings {
     }
 
     public ConfigurationSection getSetting(String id) {
-        checkValidItemId(id);
+        if (!id.equals(id.toUpperCase())) {
+            throw new IllegalArgumentException("Item ID must be uppercase");
+        }
+
         return itemCfg.createSection("specific_items." + id);
     }
 
     public void disableItem(String id) {
-        checkValidItemId(id);
+        if (!id.equals(id.toUpperCase())) {
+            throw new IllegalArgumentException("Item ID must be uppercase");
+        }
+
         List<String> disabledItems = itemCfg.getStringList("disabled_items");
         IndustrialRevival.getInstance().getRegistry().getItems().get(id).setDisabled(true);
         disabledItems.add(id);
@@ -27,14 +32,6 @@ public class ItemSettings {
     }
 
     public boolean isItemDisabled(String id) {
-        checkValidItemId(id);
-        return itemCfg.getStringList("disabled_items").contains(id);
-    }
-
-    private void checkValidItemId(String id) {
-        IRRegistry registry = IndustrialRevival.getInstance().getRegistry();
-        if (!registry.getItems().containsKey(id)) {
-            throw new IllegalArgumentException("Invalid item id: " + id);
-        }
+        return itemCfg.getStringList("disabled_items").contains(id.toUpperCase());
     }
 }

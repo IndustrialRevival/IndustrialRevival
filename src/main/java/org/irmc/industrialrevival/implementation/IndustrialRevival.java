@@ -4,7 +4,7 @@ import com.tcoded.folialib.FoliaLib;
 import com.tcoded.folialib.impl.ServerImplementation;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
-import io.papermc.lib.PaperLib;
+
 import java.io.File;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -37,7 +37,6 @@ import org.jetbrains.annotations.NotNull;
 public final class IndustrialRevival extends JavaPlugin implements IndustrialRevivalAddon {
 
     private static @Getter IndustrialRevival instance;
-    private @Getter MCVersion mcVersion;
     private @Getter IRRegistry registry;
     private @Getter LanguageManager languageManager;
     private @Getter ListenerManager listenerManager;
@@ -52,11 +51,6 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     public void onLoad() {
         instance = this;
 
-        if (!environmentCheck()) {
-            Bukkit.getPluginManager().disablePlugin(this);
-            return;
-        }
-
         CommandAPI.onLoad(new CommandAPIBukkitConfig(this));
         IRCommandGenerator.registerCommand(this);
 
@@ -66,10 +60,18 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
 
         itemSettings =
                 new ItemSettings(YamlConfiguration.loadConfiguration(new File(getDataFolder(), "items-settings.yml")));
+
+        System.setProperty("org.jooq.no-logo", "true");
+        System.setProperty("org.jooq.no-tips", "true");
     }
 
     @Override
     public void onEnable() {
+        if (!environmentCheck()) {
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
+
         getLogger().info("IndustrialRevival is being enabled!");
 
         getLogger().info("Setting up data manager...");
@@ -166,11 +168,8 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     }
 
     public boolean environmentCheck() {
-        int major = PaperLib.getMinecraftVersion();
-        int minor = PaperLib.getMinecraftPatchVersion();
-        mcVersion = mcVersion.getByInt(major, minor);
-        if (mcVersion == MCVersion.UNKNOWN) {
-            getLogger().log(Level.SEVERE, "Unsupported Minecraft version: 1." + major + "." + minor);
+        if (MCVersion.CURRENT == MCVersion.UNKNOWN) {
+            getLogger().log(Level.SEVERE, "Unsupported Minecraft version: " + getServer().getMinecraftVersion());
             return false;
         }
 

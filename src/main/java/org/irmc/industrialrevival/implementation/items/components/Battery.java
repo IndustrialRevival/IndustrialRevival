@@ -52,6 +52,25 @@ public class Battery extends IndustrialRevivalItem implements NotPlaceable, Rech
         item.lore(lore);
     }
 
+    @Override
+    public void onEnergyTaken(ItemStack item, double energy) {
+        double currentEnergy = getItemEnergy(item);
+        double newEnergy = currentEnergy - energy;
+
+        if (newEnergy > getEnergyCapacity()) {
+            newEnergy = getEnergyCapacity();
+        }
+
+        Component stored = IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(null, "energy.stored",
+                MessageReplacement.replace("%energy%", newEnergy + "mAh"),
+                MessageReplacement.replace("%capacity%", getEnergyCapacity() + "mAh"));
+
+        List<Component> lore = new ArrayList<>();
+        lore.add(stored);
+
+        item.lore(lore);
+    }
+
     public enum Type {
         STORAGE,
         LITHIUM,

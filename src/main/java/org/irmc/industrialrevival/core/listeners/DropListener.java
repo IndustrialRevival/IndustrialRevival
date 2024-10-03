@@ -6,7 +6,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -21,7 +21,7 @@ import org.irmc.industrialrevival.implementation.IndustrialRevival;
 public class DropListener extends AbstractIRListener {
     @EventHandler
     public void onMobDrop(EntityDeathEvent e) {
-        Entity entity = e.getEntity();
+        LivingEntity entity = e.getEntity();
         Location location = entity.getLocation();
         World world = location.getWorld();
         List<Pair<ItemStack, Double>> drops =
@@ -37,7 +37,11 @@ public class DropListener extends AbstractIRListener {
                     // banned item should not drop
                     IndustrialRevivalItem irItem = IndustrialRevivalItem.getByItem(item);
                     if (irItem != null && irItem.isDisabledInWorld(entity.getWorld())) {
-                        // TODO: remind players
+                        Player killer = entity.getKiller();
+                        if (killer != null) {
+                            IndustrialRevival.getInstance().getLanguageManager()
+                                    .sendMessage(killer, "dropping_banned_item");
+                        }
                         continue;
                     }
                     world.dropItemNaturally(location, item);
@@ -54,6 +58,7 @@ public class DropListener extends AbstractIRListener {
         if (data != null) {
             IndustrialRevivalItem item = IndustrialRevivalItem.getById(data.getId());
             if (item != null) {
+                e.setDropItems(false);
                 if (item instanceof ItemDroppable droppable) {
                     continueDrop = droppable.dropBlockDropItems();
                     List<ItemStack> items = droppable.drops(e.getPlayer());
@@ -63,13 +68,15 @@ public class DropListener extends AbstractIRListener {
                             // banned item should not drop
                             IndustrialRevivalItem irItem = IndustrialRevivalItem.getByItem(itemStack);
                             if (irItem != null && irItem.isDisabledInWorld(world)) {
-                                // TODO: remind players
+                                IndustrialRevival.getInstance().getLanguageManager()
+                                        .sendMessage(e.getPlayer(), "dropping_banned_item");
                                 continue;
                             }
                             world.dropItemNaturally(loc, itemStack);
                         }
                     }
                 }
+                IndustrialRevival.getInstance().getDataManager().handleBlockBreaking(data.getLocation());
             }
         }
 
@@ -82,7 +89,14 @@ public class DropListener extends AbstractIRListener {
             Player player = e.getPlayer();
             World world = e.getBlock().getWorld();
 
-            if (drops != null && !drops.isEmpty() && player.getGameMode() != GameMode.CREATIVE) {
+            drops = drops == null ? List.of() : drops;
+
+            if (drops.isEmpty() && data != null) {
+                IndustrialRevivalItem irItem = IndustrialRevivalItem.getById(data.getId());
+                drops = List.of(new Pair<>(irItem.getItem().cloneIR(), 100.0));
+            }
+
+            if (player.getGameMode() != GameMode.CREATIVE) {
                 SecureRandom random = new SecureRandom();
                 for (Pair<ItemStack, Double> drop : drops) {
                     double chance = random.nextDouble(100);

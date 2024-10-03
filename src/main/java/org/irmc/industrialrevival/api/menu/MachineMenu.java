@@ -1,7 +1,5 @@
 package org.irmc.industrialrevival.api.menu;
 
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -21,12 +19,8 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.api.objects.ItemStackReference;
-import org.irmc.industrialrevival.core.utils.KeyUtil;
-import org.irmc.pigeonlib.dict.Dictionary;
-import org.irmc.pigeonlib.dict.DictionaryUtil;
 import org.irmc.pigeonlib.items.ItemUtils;
 
 @SuppressWarnings({"deprecation", "unused"})

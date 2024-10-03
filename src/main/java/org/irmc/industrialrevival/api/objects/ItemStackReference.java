@@ -2,18 +2,14 @@ package org.irmc.industrialrevival.api.objects;
 
 import lombok.Getter;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.irmc.industrialrevival.core.utils.CleanedItemGetter;
-import org.irmc.pigeonlib.dict.Dictionary;
+import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.pigeonlib.items.ItemUtils;
 
 @Getter
 public class ItemStackReference {
     private final ReferenceType referenceType;
-    private Dictionary dictionary;
+    private ItemDictionary dictionary;
     private ItemStack itemStack;
 
     public ItemStackReference(ItemStack itemStack) {
@@ -22,7 +18,7 @@ public class ItemStackReference {
         this.itemStack.setItemMeta(itemStack.getItemMeta());
     }
 
-    public ItemStackReference(Dictionary dictionary) {
+    public ItemStackReference(ItemDictionary dictionary) {
         this.referenceType = ReferenceType.DICTIONARY;
         this.dictionary = dictionary;
     }
@@ -37,7 +33,7 @@ public class ItemStackReference {
                 return false;
             }
 
-            return dictionary.hasDictMeta(incomingItemStack);
+            return dictionary.isInDictionary(incomingItemStack);
         }
 
         return false;
