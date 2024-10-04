@@ -1,9 +1,6 @@
 package org.irmc.industrialrevival.api.items.groups;
 
 import com.google.common.collect.Lists;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -15,9 +12,13 @@ import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
 import org.irmc.industrialrevival.core.guide.GuideHistory;
 import org.irmc.industrialrevival.core.guide.IRGuideImplementation;
+import org.irmc.industrialrevival.implementation.guide.SurvivalGuideImplementation;
 import org.irmc.industrialrevival.utils.CleanedItemGetter;
 import org.irmc.industrialrevival.utils.Constants;
-import org.irmc.industrialrevival.implementation.guide.SurvivalGuideImplementation;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * An item group class that can nest other tree item groups.<br>

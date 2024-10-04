@@ -14,7 +14,7 @@ public class ChemicalVaporDepositionReactionChamber extends ElectricMachine {
         super(group, itemStack, recipeType, recipe, machineRecipes, capacity);
 
         addRecipe(480, 80000,
-                new ItemStack[] {IRItems.IRItemStacks.HEATED_COPPER_FOIL, IRItems.IRItemStacks.HYDROGEN},
+                new ItemStack[]{IRItems.IRItemStacks.HEATED_COPPER_FOIL, IRItems.IRItemStacks.HYDROGEN},
                 IRItems.IRItemStacks.RAW_GRAPHENE);
     }
 }

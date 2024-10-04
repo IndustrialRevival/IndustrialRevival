@@ -1,12 +1,13 @@
 package org.irmc.industrialrevival.api.objects;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.irmc.pigeonlib.items.ItemUtils;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 public class IRRecipeChoice extends RecipeChoice.ExactChoice {
     public IRRecipeChoice(@NotNull ItemStack stack) {

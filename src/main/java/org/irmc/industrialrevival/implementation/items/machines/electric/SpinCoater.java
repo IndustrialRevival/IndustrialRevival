@@ -14,7 +14,7 @@ public class SpinCoater extends ElectricMachine {
         super(group, itemStack, recipeType, recipe, machineRecipes, capacity);
 
         addRecipe(80, 1000,
-                new ItemStack[] {IRItems.IRItemStacks.CLEANED_GRAPHENE_THIN_FILM, IRItems.IRItemStacks.POLYMETHYL_METHACRYLATE},
+                new ItemStack[]{IRItems.IRItemStacks.CLEANED_GRAPHENE_THIN_FILM, IRItems.IRItemStacks.POLYMETHYL_METHACRYLATE},
                 IRItems.IRItemStacks.GRAPHENE_FILM_COATED_WITH_POLYMETHYL_METHACRYLATE);
     }
 }

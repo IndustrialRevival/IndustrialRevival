@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * This interface defines a machine that can obtain by smelting in vanilla furnace. <br>
  * <br>
+ *
  * @see IndustrialRevivalItem
  */
 public interface VanillaSmeltingItem extends ItemAttribute {

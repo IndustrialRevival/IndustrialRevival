@@ -2,14 +2,14 @@ package org.irmc.industrialrevival.api.recipes;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
+import lombok.experimental.UtilityClass;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Unmodifiable;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import lombok.experimental.UtilityClass;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Unmodifiable;
 
 @UtilityClass
 public class RecipeContents {
@@ -19,7 +19,8 @@ public class RecipeContents {
         recipeContents.computeIfAbsent(itemId, k -> new ArrayList<>()).add(content);
     }
 
-    @NotNull public static List<RecipeContent> getRecipeContents(String itemId) {
+    @NotNull
+    public static List<RecipeContent> getRecipeContents(String itemId) {
         return recipeContents.getOrDefault(itemId, new ArrayList<>()).stream()
                 .filter(i -> i.recipeType() != RecipeType.NULL)
                 .toList();

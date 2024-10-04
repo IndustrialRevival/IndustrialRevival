@@ -1,9 +1,10 @@
 package org.irmc.industrialrevival.api.objects;
 
-import java.util.List;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
+
+import java.util.List;
 
 public class ItemSettings {
     private final YamlConfiguration itemCfg;

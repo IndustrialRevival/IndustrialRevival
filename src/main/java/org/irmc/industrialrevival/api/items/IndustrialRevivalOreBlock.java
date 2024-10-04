@@ -1,6 +1,5 @@
 package org.irmc.industrialrevival.api.items;
 
-import lombok.Builder;
 import lombok.Getter;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
@@ -9,7 +8,6 @@ import org.irmc.industrialrevival.api.items.attributes.VanillaSmeltingItem;
 import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.objects.IRRecipeChoice;
-import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -94,6 +92,7 @@ public class IndustrialRevivalOreBlock extends IndustrialRevivalItem implements 
     public RecipeChoice getRecipeInput() {
         return new IRRecipeChoice(getItem());
     }
+
     @Override
     @Nonnull
     public ItemStack getRecipeOutput() {

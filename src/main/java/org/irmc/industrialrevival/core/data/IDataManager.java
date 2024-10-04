@@ -1,7 +1,5 @@
 package org.irmc.industrialrevival.core.data;
 
-import java.sql.SQLException;
-import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -9,6 +7,9 @@ import org.irmc.industrialrevival.core.data.object.BlockRecord;
 import org.irmc.industrialrevival.core.guide.GuideSettings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.sql.SQLException;
+import java.util.List;
 
 public sealed interface IDataManager permits AbstractDataManager {
     @Nullable GuideSettings getGuideSettings(@NotNull String playerName);

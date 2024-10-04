@@ -1,11 +1,6 @@
 package org.irmc.industrialrevival.core.task;
 
 import com.tcoded.folialib.wrapper.task.WrappedTask;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -13,6 +8,11 @@ import org.bukkit.potion.PotionEffect;
 import org.irmc.industrialrevival.api.items.ArmorSet;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.objects.enums.ArmorProtectionType;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 public class ArmorCheckTask implements Consumer<WrappedTask> {
     private static final Map<String, List<ArmorProtectionType>> protection = new HashMap<>();

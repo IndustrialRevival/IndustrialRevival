@@ -1,5 +1,7 @@
 package org.irmc.industrialrevival.core.data;
 
+import org.irmc.industrialrevival.implementation.IndustrialRevival;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -7,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import org.irmc.industrialrevival.implementation.IndustrialRevival;
 
 class ConnectionPool {
     private final String url;

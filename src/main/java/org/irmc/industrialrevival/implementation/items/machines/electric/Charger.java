@@ -14,7 +14,7 @@ public class Charger extends ElectricMachine {
     public Charger(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, @NotNull MachineRecipes machineRecipes, long capacity) {
         super(group, itemStack, recipeType, recipe, machineRecipes, capacity);
     }
-    
+
     @Override
     public void tick(Block block, MachineMenu menu) {
 

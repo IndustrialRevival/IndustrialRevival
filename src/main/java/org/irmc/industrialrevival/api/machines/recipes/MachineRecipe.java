@@ -1,16 +1,15 @@
 package org.irmc.industrialrevival.api.machines.recipes;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.google.common.base.Preconditions;
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.objects.ItemStackReference;
 
 import javax.annotation.Nonnull;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Getter
 @SuppressWarnings("unused")
@@ -104,37 +103,6 @@ public class MachineRecipe {
         this.outputs = toStackMap(output);
     }
 
-    public boolean isMatch(Map<ItemStack, Integer> items){
-        for (ItemStackReference itemStackReference : inputs.keySet()) {
-            if (itemStackReference.getReferenceType() == ItemStackReference.ReferenceType.DICTIONARY) {
-                boolean found = false;
-                for (ItemStack incoming : items.keySet()) {
-                    if (itemStackReference.itemsMatch(incoming)) {
-                        if (items.get(incoming) < inputs.get(itemStackReference)) {
-                            return false;
-                        }
-
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    return false;
-                }
-            } else {
-                for (ItemStack incoming : items.keySet()) {
-                    if (itemStackReference.itemsMatch(incoming)) {
-                        if (items.get(incoming) < inputs.get(itemStackReference)) {
-                            return false;
-                        }
-
-                        break;
-                    }
-                }
-            }
-        }
-        return true;
-    }
     private static Map<ItemStackReference, Integer> toRefMap(Map<ItemStack, Integer> items) {
         Map<ItemStackReference, Integer> map = new HashMap<>();
         for (ItemStack itemStack : items.keySet()) {
@@ -142,6 +110,7 @@ public class MachineRecipe {
         }
         return map;
     }
+
     private static Map<ItemStackReference, Integer> toRefMap(List<ItemStack> items) {
         Map<ItemStackReference, Integer> map = new HashMap<>();
         for (ItemStack itemStack : items) {
@@ -212,6 +181,38 @@ public class MachineRecipe {
         Map<ItemStack, Integer> map = new HashMap<>();
         map.put(itemStack, itemStack.getAmount());
         return map;
+    }
+
+    public boolean isMatch(Map<ItemStack, Integer> items) {
+        for (ItemStackReference itemStackReference : inputs.keySet()) {
+            if (itemStackReference.getReferenceType() == ItemStackReference.ReferenceType.DICTIONARY) {
+                boolean found = false;
+                for (ItemStack incoming : items.keySet()) {
+                    if (itemStackReference.itemsMatch(incoming)) {
+                        if (items.get(incoming) < inputs.get(itemStackReference)) {
+                            return false;
+                        }
+
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    return false;
+                }
+            } else {
+                for (ItemStack incoming : items.keySet()) {
+                    if (itemStackReference.itemsMatch(incoming)) {
+                        if (items.get(incoming) < inputs.get(itemStackReference)) {
+                            return false;
+                        }
+
+                        break;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
 }

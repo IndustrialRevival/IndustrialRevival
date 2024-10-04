@@ -1,9 +1,10 @@
 package org.irmc.industrialrevival.api.items.collection;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.bukkit.NamespacedKey;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 class UnchangeableItemDictionary extends SimpleItemDictionary {
     private final List<IndustrialRevivalItem> items;

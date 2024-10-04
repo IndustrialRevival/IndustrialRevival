@@ -1,6 +1,5 @@
 package org.irmc.industrialrevival.api.items;
 
-import lombok.Builder;
 import lombok.Getter;
 import org.bukkit.World;
 import org.irmc.industrialrevival.api.items.attributes.BlockDropItem;
@@ -63,6 +62,7 @@ public class DropFromBlockItem extends IndustrialRevivalItem implements BlockDro
         super.addItemDictionary(dictionary);
         return this;
     }
+
     public DropFromBlockItem addDropMethod(BlockDropMethod blockDropMethod) {
         checkRegistered();
         blockDropMethods.add(blockDropMethod);

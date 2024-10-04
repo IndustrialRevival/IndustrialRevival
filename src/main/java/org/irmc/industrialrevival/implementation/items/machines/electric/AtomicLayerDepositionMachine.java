@@ -14,7 +14,7 @@ public class AtomicLayerDepositionMachine extends ElectricMachine {
         super(group, itemStack, recipeType, recipe, machineRecipes, capacity);
 
         addRecipe(600, 6000,
-                new ItemStack[] {IRItems.IRItemStacks.GAS, IRItems.IRItemStacks.NANOANTENNA},
+                new ItemStack[]{IRItems.IRItemStacks.GAS, IRItems.IRItemStacks.NANOANTENNA},
                 IRItems.IRItemStacks.RECONFIGURABLE_NANOANTENNA);
     }
 }

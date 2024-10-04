@@ -1,10 +1,11 @@
 package org.irmc.industrialrevival.api.objects.display;
 
-import java.util.List;
-import javax.annotation.Nonnull;
 import lombok.Getter;
 import org.bukkit.entity.Display;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
+
+import javax.annotation.Nonnull;
+import java.util.List;
 
 @Getter
 public class DisplayGroup {

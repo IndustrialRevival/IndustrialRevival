@@ -14,7 +14,7 @@ public class HotPress extends ElectricMachine {
         super(group, itemStack, recipeType, recipe, machineRecipes, capacity);
 
         addRecipe(50, 8000,
-                new ItemStack[] {IRItems.IRItemStacks.GRAPHENE_FILM_COATED_WITH_POLYMETHYL_METHACRYLATE, IRItems.IRItemStacks.POLYETHYLENE_TEREPHTHALATE},
+                new ItemStack[]{IRItems.IRItemStacks.GRAPHENE_FILM_COATED_WITH_POLYMETHYL_METHACRYLATE, IRItems.IRItemStacks.POLYETHYLENE_TEREPHTHALATE},
                 IRItems.IRItemStacks.DIRTY_GRAPHENE);
         addRecipe(50, 4000,
                 IRItems.IRItemStacks.DIRTY_GRAPHENE,

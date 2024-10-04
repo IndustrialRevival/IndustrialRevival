@@ -1,6 +1,5 @@
 package org.irmc.industrialrevival.api.machines;
 
-import javax.annotation.Nullable;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
@@ -12,6 +11,8 @@ import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.objects.enums.EnergyNetComponentType;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nullable;
 
 /**
  * ElectricGenerator is a machine that generates energy.

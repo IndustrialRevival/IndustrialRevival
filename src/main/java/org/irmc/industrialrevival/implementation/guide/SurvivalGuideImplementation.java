@@ -1,10 +1,6 @@
 package org.irmc.industrialrevival.implementation.guide;
 
 import com.google.common.collect.Lists;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -17,10 +13,15 @@ import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
 import org.irmc.industrialrevival.core.guide.GuideHistory;
 import org.irmc.industrialrevival.core.guide.IRGuideImplementation;
+import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.Constants;
 import org.irmc.industrialrevival.utils.KeyUtil;
-import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.pigeonlib.chat.ChatInput;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SurvivalGuideImplementation implements IRGuideImplementation {
     public static final SurvivalGuideImplementation INSTANCE = new SurvivalGuideImplementation();
@@ -183,7 +184,8 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
         }
 
         @Override
-        public void register() {}
+        public void register() {
+        }
     }
 
     public static class SearchGUI {

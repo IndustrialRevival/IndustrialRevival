@@ -1,11 +1,5 @@
 package org.irmc.industrialrevival.api.items;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import lombok.Getter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
@@ -21,18 +15,19 @@ import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class ArmorSet {
-    private boolean lock = false;
-
     @Getter
     private final NamespacedKey key;
-
     @Getter
     private final ItemGroup group;
-
     private final Map<ArmorType, ArmorPiece> armor;
-
+    private boolean lock = false;
     @Getter
     private boolean protectWhenFullSet;
 

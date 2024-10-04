@@ -1,12 +1,5 @@
 package org.irmc.industrialrevival.core.services;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.google.common.base.Preconditions;
 import lombok.Getter;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -14,7 +7,6 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
-import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.BlockDropItem;
 import org.irmc.industrialrevival.api.items.attributes.MobDropItem;
@@ -30,6 +22,12 @@ import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.api.researches.Research;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Getter
 public final class IRRegistry {
@@ -44,6 +42,7 @@ public final class IRRegistry {
     private final Map<Material, List<Pair<ItemStack, Double>>> blockDrops;
 
     private final Map<RecipeType, Set<ItemStack>> craftables;
+
     public IRRegistry() {
         itemGroups = new HashMap<>();
         researches = new HashMap<>();

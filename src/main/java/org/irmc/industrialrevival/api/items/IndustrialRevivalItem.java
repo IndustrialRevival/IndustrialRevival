@@ -1,12 +1,6 @@
 package org.irmc.industrialrevival.api.items;
 
 import com.google.common.base.Preconditions;
-
-import java.util.*;
-import javax.annotation.Nonnull;
-import javax.annotation.OverridingMethodsMustInvokeSuper;
-
-import lombok.Builder;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -28,15 +22,24 @@ import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.handlers.ItemHandler;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
 import org.irmc.industrialrevival.api.recipes.CraftMethod;
-import org.irmc.industrialrevival.api.recipes.RecipeType;
-import org.irmc.industrialrevival.utils.Constants;
-import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.api.recipes.RecipeContent;
 import org.irmc.industrialrevival.api.recipes.RecipeContents;
+import org.irmc.industrialrevival.api.recipes.RecipeType;
+import org.irmc.industrialrevival.implementation.IndustrialRevival;
+import org.irmc.industrialrevival.utils.Constants;
 import org.irmc.pigeonlib.items.ItemUtils;
 import org.irmc.pigeonlib.pdc.PersistentDataAPI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nonnull;
+import javax.annotation.OverridingMethodsMustInvokeSuper;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * An industrial revival item.<br>
@@ -46,28 +49,22 @@ import org.jetbrains.annotations.Nullable;
  */
 public class IndustrialRevivalItem {
     private final Map<Class<? extends ItemHandler>, ItemHandler> itemHandlers = new HashMap<>();
-
-    @Getter
-    private ItemGroup group;
-
-    private IndustrialRevivalItemStack itemStack;
-
-    @Getter
-    private IndustrialRevivalAddon addon;
-
-    @Getter
-    private String wikiText;
-
-    private ItemState state = ItemState.UNREGISTERED;
-
     private final Set<String> disabledInWorld = new HashSet<>();
-
     @Getter
     private final List<CraftMethod> craftMethods = new ArrayList<>();
-
     @Getter
     private final Set<ItemDictionary> itemDictionaries = new HashSet<>();
-    public IndustrialRevivalItem() {}
+    @Getter
+    private ItemGroup group;
+    private IndustrialRevivalItemStack itemStack;
+    @Getter
+    private IndustrialRevivalAddon addon;
+    @Getter
+    private String wikiText;
+    private ItemState state = ItemState.UNREGISTERED;
+
+    public IndustrialRevivalItem() {
+    }
 
     public static IndustrialRevivalItem getById(String id) {
         return IndustrialRevival.getInstance().getRegistry().getItems().get(id);
@@ -174,7 +171,8 @@ public class IndustrialRevivalItem {
         return ItemUtils.getDisplayName(getItem());
     }
 
-    @Nullable public <T extends ItemHandler> T getItemHandler(Class<T> clazz) {
+    @Nullable
+    public <T extends ItemHandler> T getItemHandler(Class<T> clazz) {
         return (T) itemHandlers.get(clazz);
     }
 
@@ -258,16 +256,6 @@ public class IndustrialRevivalItem {
         return this;
     }
 
-    public IndustrialRevivalItem setDisabled(boolean disabled) {
-        checkRegistered();
-        if (disabled) {
-            this.state = ItemState.DISABLED;
-        } else {
-            this.state = ItemState.ENABLED;
-        }
-        return this;
-    }
-
     public IndustrialRevivalItem addItemDictionary(@Nonnull ItemDictionary itemDictionary) {
         checkRegistered();
         Preconditions.checkArgument(itemDictionary != null, "ItemDictionary cannot be null");
@@ -295,6 +283,16 @@ public class IndustrialRevivalItem {
 
     public boolean isDisabled() {
         return state == ItemState.DISABLED;
+    }
+
+    public IndustrialRevivalItem setDisabled(boolean disabled) {
+        checkRegistered();
+        if (disabled) {
+            this.state = ItemState.DISABLED;
+        } else {
+            this.state = ItemState.ENABLED;
+        }
+        return this;
     }
 
     @Nullable

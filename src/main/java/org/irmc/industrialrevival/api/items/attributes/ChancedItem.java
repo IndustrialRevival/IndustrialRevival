@@ -4,6 +4,7 @@ import org.jetbrains.annotations.Range;
 
 /**
  * This interface defines an item that has a certain chance to obtain. <br>
+ *
  * @see MobDropItem
  */
 public interface ChancedItem extends ItemAttribute {

@@ -1,6 +1,5 @@
 package org.irmc.industrialrevival.core.listeners;
 
-import java.util.ArrayList;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -31,6 +30,8 @@ import org.irmc.industrialrevival.api.items.handlers.WeaponUseHandler;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
+
+import java.util.ArrayList;
 
 public class ItemHandlerListener implements Listener {
     @EventHandler
