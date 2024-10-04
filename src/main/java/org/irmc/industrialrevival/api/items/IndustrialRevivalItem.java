@@ -23,6 +23,7 @@ import org.irmc.industrialrevival.api.items.attributes.ItemDroppable;
 import org.irmc.industrialrevival.api.items.attributes.MobDropItem;
 import org.irmc.industrialrevival.api.items.attributes.NotPlaceable;
 import org.irmc.industrialrevival.api.items.attributes.VanillaSmeltingItem;
+import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.handlers.ItemHandler;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
@@ -63,7 +64,10 @@ public class IndustrialRevivalItem {
     private final Set<String> disabledInWorld = new HashSet<>();
 
     @Getter
-    private final Set<CraftMethod> craftMethods = new HashSet<>();
+    private final List<CraftMethod> craftMethods = new ArrayList<>();
+
+    @Getter
+    private final Set<ItemDictionary> itemDictionaries = new HashSet<>();
     public IndustrialRevivalItem() {}
 
     public static IndustrialRevivalItem getById(String id) {
@@ -257,6 +261,13 @@ public class IndustrialRevivalItem {
         } else {
             this.state = ItemState.ENABLED;
         }
+        return this;
+    }
+
+    public IndustrialRevivalItem addItemDictionary(@Nonnull ItemDictionary itemDictionary) {
+        checkRegistered();
+        Preconditions.checkArgument(itemDictionary != null, "ItemDictionary cannot be null");
+        itemDictionaries.add(itemDictionary);
         return this;
     }
 

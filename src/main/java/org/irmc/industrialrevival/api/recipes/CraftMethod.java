@@ -8,7 +8,7 @@ import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
  * Not supported custom recipe output yet.
  */
 @Getter
-public class CraftMethod {
+public class CraftMethod implements ProduceMethod {
     private final RecipeType recipeType;
     private final ItemStack[] ingredients;
     private final ItemStack output;

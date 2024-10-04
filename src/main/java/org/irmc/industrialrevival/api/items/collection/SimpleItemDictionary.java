@@ -3,7 +3,6 @@ package org.irmc.industrialrevival.api.items.collection;
 import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.NamespacedKey;
-import org.irmc.industrialrevival.api.items.DictionaryItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 
 public class SimpleItemDictionary extends ItemDictionary {
@@ -15,9 +14,9 @@ public class SimpleItemDictionary extends ItemDictionary {
     }
 
     @Override
-    public void addItem(DictionaryItem item) {
+    public void addItem(IndustrialRevivalItem item) {
         this.items.add(item);
-        item.addDictionary(this);
+        item.addItemDictionary(this);
     }
 
     @Override

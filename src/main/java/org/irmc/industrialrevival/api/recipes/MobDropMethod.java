@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.DropFromMobItem;
 
 @Getter
-public class MobDropMethod {
+public class MobDropMethod implements ProduceMethod {
     private final EntityType dropFromEntity;
     private final int amount;
     private final int chance;

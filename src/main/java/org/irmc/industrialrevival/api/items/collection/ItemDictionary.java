@@ -4,7 +4,6 @@ import java.util.List;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
-import org.irmc.industrialrevival.api.items.DictionaryItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,7 +16,7 @@ public abstract class ItemDictionary implements Keyed {
         this.key = key;
     }
 
-    public abstract void addItem(DictionaryItem item);
+    public abstract void addItem(IndustrialRevivalItem item);
 
     public abstract List<IndustrialRevivalItem> getItems();
 
