@@ -5,9 +5,11 @@ import java.util.function.BiConsumer;
 import lombok.Builder;
 import lombok.Getter;
 import org.bukkit.NamespacedKey;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.attributes.Limited;
+import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
@@ -17,7 +19,6 @@ import org.jetbrains.annotations.Range;
 
 import javax.annotation.Nonnull;
 
-@Builder
 public class LimitedItem extends IndustrialRevivalItem implements Limited {
     private NamespacedKey LIMITED_COUNT_LEFT;
     @Getter
@@ -72,5 +73,41 @@ public class LimitedItem extends IndustrialRevivalItem implements Limited {
         if (getCountLeft(item) == 0) {
             item.setAmount(0);
         }
+    }
+
+    @Override
+    public LimitedItem setItemGroup(@NotNull ItemGroup group) {
+        super.setItemGroup(group);
+        return this;
+    }
+
+    @Override
+    public LimitedItem addCraftMethod(@NotNull CraftMethodHandler handler) {
+        super.addCraftMethod(handler);
+        return this;
+    }
+
+    @Override
+    public LimitedItem setWikiText(@NotNull String wikiText) {
+        super.setWikiText(wikiText);
+        return this;
+    }
+
+    @Override
+    public LimitedItem setDisabledInWorld(@Nonnull World world, boolean disabled) {
+        super.setDisabledInWorld(world, disabled);
+        return this;
+    }
+
+    @Override
+    public LimitedItem setDisabled(boolean disabled) {
+        super.setDisabled(disabled);
+        return this;
+    }
+
+    @Override
+    public LimitedItem addItemDictionary(@Nonnull ItemDictionary dictionary) {
+        super.addItemDictionary(dictionary);
+        return this;
     }
 }

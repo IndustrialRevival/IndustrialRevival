@@ -1,18 +1,26 @@
 package org.irmc.industrialrevival.api.items;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 import lombok.Getter;
 import org.bukkit.NamespacedKey;
+import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
+import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.objects.enums.ArmorProtectionType;
 import org.irmc.industrialrevival.api.objects.enums.ArmorType;
+import org.irmc.industrialrevival.api.recipes.CraftMethod;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 public class ArmorSet {
     private boolean lock = false;
@@ -41,19 +49,18 @@ public class ArmorSet {
     public void addArmor(
             ArmorType armorType,
             ItemStack itemStack,
-            PotionEffect[] potionEffects,
+            Set<PotionEffect> potionEffects,
             ItemStack[] recipe,
             RecipeType type) {
         checkLock();
         armor.put(
                 armorType,
-                new ArmorPiece(
-                        group,
-                        new IndustrialRevivalItemStack(namespacedKeyToId(armorType), itemStack),
-                        type,
-                        recipe,
-                        potionEffects,
-                        this));
+                new ArmorPiece()
+                        .setPotionEffects(potionEffects)
+                        .setItemGroup(group)
+                        .setItemStack(new IndustrialRevivalItemStack(namespacedKeyToId(armorType), itemStack))
+                        .addCraftMethod(item -> new CraftMethod(type, recipe, item))
+        );
     }
 
     public void setProtectWhenFullSet(boolean protectWhenFullSet) {
@@ -95,20 +102,68 @@ public class ArmorSet {
 
     @Getter
     public static class ArmorPiece extends IndustrialRevivalItem {
-        private final PotionEffect[] potionEffects;
-        private final ArmorSet parent;
+        private final Set<PotionEffect> potionEffects = new HashSet<>();
+        private ArmorSet parent;
 
-        ArmorPiece(
-                @NotNull ItemGroup group,
-                @NotNull IndustrialRevivalItemStack itemStack,
-                @NotNull RecipeType recipeType,
-                @NotNull ItemStack[] recipe,
-                @NotNull PotionEffect[] potionEffects,
-                @NotNull ArmorSet parent) {
-            super(group, itemStack, recipeType, recipe);
+        public ArmorPiece addPotionEffect(PotionEffect effect) {
+            checkRegistered();
+            potionEffects.add(effect);
+            return this;
+        }
 
+        public ArmorPiece setPotionEffects(Set<PotionEffect> effects) {
+            checkRegistered();
+            potionEffects.clear();
+            potionEffects.addAll(effects);
+            return this;
+        }
+
+        public ArmorPiece setParent(@Nonnull ArmorSet parent) {
+            checkRegistered();
             this.parent = parent;
-            this.potionEffects = potionEffects;
+            return this;
+        }
+
+        @Override
+        public ArmorPiece setItemGroup(@NotNull ItemGroup group) {
+            super.setItemGroup(group);
+            return this;
+        }
+
+        @Override
+        public ArmorPiece setItemStack(@NotNull IndustrialRevivalItemStack itemStack) {
+            super.setItemStack(itemStack);
+            return this;
+        }
+
+        @Override
+        public ArmorPiece addCraftMethod(@NotNull CraftMethodHandler handler) {
+            super.addCraftMethod(handler);
+            return this;
+        }
+
+        @Override
+        public ArmorPiece setWikiText(@NotNull String wikiText) {
+            super.setWikiText(wikiText);
+            return this;
+        }
+
+        @Override
+        public ArmorPiece setDisabledInWorld(@Nonnull World world, boolean disabled) {
+            super.setDisabledInWorld(world, disabled);
+            return this;
+        }
+
+        @Override
+        public ArmorPiece setDisabled(boolean disabled) {
+            super.setDisabled(disabled);
+            return this;
+        }
+
+        @Override
+        public ArmorPiece addItemDictionary(@Nonnull ItemDictionary dictionary) {
+            super.addItemDictionary(dictionary);
+            return this;
         }
     }
 }

@@ -44,7 +44,6 @@ import org.jetbrains.annotations.Nullable;
  * To register the item, use the register method.<br>
  * The block is placeable by default if you want it to be unplaceable, please see {@link NotPlaceable}
  */
-@Builder
 public class IndustrialRevivalItem {
     private final Map<Class<? extends ItemHandler>, ItemHandler> itemHandlers = new HashMap<>();
 
@@ -95,8 +94,13 @@ public class IndustrialRevivalItem {
         return itemStack;
     }
 
-    public IndustrialRevivalItem addCraftMethod(@Nonnull CraftMethod craftMethod) {
-        Preconditions.checkArgument(craftMethod != null, "CraftMethod cannot be null");
+    public IndustrialRevivalItem addCraftMethod(@Nonnull CraftMethodHandler craftMethodHandler) {
+        Preconditions.checkArgument(craftMethodHandler != null, "craftMethodHandler cannot be null");
+        CraftMethod craftMethod = craftMethodHandler.getCraftMethod(this);
+        if (craftMethod == null) {
+            return this;
+        }
+
         craftMethods.add(craftMethod);
 
         if (craftMethod.getRecipeType() == RecipeType.VANILLA_CRAFTING) {
@@ -319,5 +323,10 @@ public class IndustrialRevivalItem {
         UNREGISTERED,
         ENABLED,
         DISABLED
+    }
+
+    @FunctionalInterface
+    public interface CraftMethodHandler {
+        CraftMethod getCraftMethod(IndustrialRevivalItem item);
     }
 }
