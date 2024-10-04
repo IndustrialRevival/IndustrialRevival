@@ -31,17 +31,17 @@ public class Constants {
     public static final String GUIDE_PREVIOUS_ONE_KEY = "guide.previous_one";
     public static final String GUIDE_NEXT_ONE_KEY = "guide.next_one";
 
+    public static final String ENERGY_CHARGE_KEY = "energy_charge";
+
     public static final int[] BOARDER_SLOT = {0, 1, 3, 4, 5, 7, 8, 45, 46, 48, 49, 50, 52, 53};
     public static final int[] RECIPE_SLOT = {12, 13, 14, 21, 22, 23, 30, 31, 32};
 
     public static final File STORAGE_FOLDER = new File(
             IndustrialRevival.getInstance().getDataFolder().getParentFile().getParentFile(), "irstorage");
 
-    public static final NamespacedKey ITEM_ID_KEY = new NamespacedKey(IndustrialRevival.getInstance(), "ir_item_id");
-    public static final NamespacedKey RADIATION_LEVEL_KEY =
-            new NamespacedKey(IndustrialRevival.getInstance(), "ir_radiation_level");
-    public static final NamespacedKey GUIDE_ITEM_KEY =
-            new NamespacedKey(IndustrialRevival.getInstance(), "ir_guide_item");
+    public static final NamespacedKey ITEM_ID_KEY = KeyUtil.customKey("ir_item_id");
+    public static final NamespacedKey RADIATION_LEVEL_KEY = KeyUtil.customKey("ir_radiation_level");
+    public static final NamespacedKey GUIDE_ITEM_KEY = KeyUtil.customKey("ir_guide_item");
     public static final NamespacedKey CLEANED_IR_ITEM_ID = KeyUtil.customKey("cleaned_ir_item_id");
 
     public static final ItemStack BACKGROUND_ITEM =

@@ -7,9 +7,12 @@ import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
 import org.irmc.pigeonlib.items.ItemUtils;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 @FunctionalInterface
 public interface BlockTicker extends ItemHandler {
-    void onTick(Block block, MachineMenu menu, IRBlockData data);
+    void onTick(@Nonnull Block block, @Nullable MachineMenu menu, @Nullable IRBlockData data);
 
     @Override
     default IncompatibleItemHandlerException isCompatible(IndustrialRevivalItem item) {
