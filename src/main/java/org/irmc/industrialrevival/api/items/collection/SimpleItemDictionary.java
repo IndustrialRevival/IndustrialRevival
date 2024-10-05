@@ -1,9 +1,10 @@
 package org.irmc.industrialrevival.api.items.collection;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.bukkit.NamespacedKey;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SimpleItemDictionary extends ItemDictionary {
     private final List<IndustrialRevivalItem> items;
@@ -16,7 +17,7 @@ public class SimpleItemDictionary extends ItemDictionary {
     @Override
     public void addItem(IndustrialRevivalItem item) {
         this.items.add(item);
-        item.setItemDictionary(this);
+        item.addItemDictionary(this);
     }
 
     @Override

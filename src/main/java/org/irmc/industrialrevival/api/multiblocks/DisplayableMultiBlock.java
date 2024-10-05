@@ -1,8 +1,9 @@
 package org.irmc.industrialrevival.api.multiblocks;
 
-import java.util.Map;
 import org.bukkit.Location;
 import org.irmc.industrialrevival.api.objects.display.DisplayGroup;
+
+import java.util.Map;
 
 public interface DisplayableMultiBlock {
     Map<Location, DisplayGroup> getDisplayGroups();

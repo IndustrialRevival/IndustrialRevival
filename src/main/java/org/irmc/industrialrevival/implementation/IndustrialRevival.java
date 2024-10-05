@@ -4,10 +4,6 @@ import com.tcoded.folialib.FoliaLib;
 import com.tcoded.folialib.impl.ServerImplementation;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
-
-import java.io.File;
-import java.sql.SQLException;
-import java.util.logging.Level;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -26,13 +22,17 @@ import org.irmc.industrialrevival.core.services.IRRegistry;
 import org.irmc.industrialrevival.core.services.ItemDataService;
 import org.irmc.industrialrevival.core.services.ItemTextureService;
 import org.irmc.industrialrevival.core.task.ArmorCheckTask;
-import org.irmc.industrialrevival.core.utils.Constants;
 import org.irmc.industrialrevival.implementation.groups.IRItemGroups;
 import org.irmc.industrialrevival.implementation.items.IRItems;
+import org.irmc.industrialrevival.utils.Constants;
 import org.irmc.pigeonlib.file.ConfigFileUtil;
 import org.irmc.pigeonlib.language.LanguageManager;
 import org.irmc.pigeonlib.mcversion.MCVersion;
 import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
+import java.sql.SQLException;
+import java.util.logging.Level;
 
 public final class IndustrialRevival extends JavaPlugin implements IndustrialRevivalAddon {
 
@@ -126,7 +126,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
 
         if (storageType.equalsIgnoreCase("sqlite")) {
             this.dataManager = new SqliteDataManager(sqliteDbFile);
-        } else if (storageType.equalsIgnoreCase("mysql")){
+        } else if (storageType.equalsIgnoreCase("mysql")) {
             String host = config.getString("storage.mysql.host");
             int port = config.getInt("storage.mysql.port");
             String username = config.getString("storage.mysql.username");

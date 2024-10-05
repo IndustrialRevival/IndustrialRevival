@@ -1,44 +1,71 @@
 package org.irmc.industrialrevival.api.items;
 
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
+import lombok.Getter;
+import org.bukkit.World;
 import org.irmc.industrialrevival.api.items.attributes.BlockDropItem;
+import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
-import org.irmc.industrialrevival.api.recipes.RecipeType;
-import org.jetbrains.annotations.Range;
+import org.irmc.industrialrevival.api.recipes.BlockDropMethod;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
+import java.util.HashSet;
+import java.util.Set;
 
 public class DropFromBlockItem extends IndustrialRevivalItem implements BlockDropItem {
-    private final Material dropBlock;
-    private final int dropAmount;
-    private final double chance;
+    @Getter
+    private final Set<BlockDropMethod> blockDropMethods = new HashSet<>();
 
-    public DropFromBlockItem(
-            ItemGroup group,
-            IndustrialRevivalItemStack itemStack,
-            RecipeType recipeType,
-            ItemStack[] recipe,
-            Material dropBlock,
-            int dropAmount,
-            double chance) {
-        super(group, itemStack, recipeType, recipe);
-
-        this.dropBlock = dropBlock;
-        this.dropAmount = dropAmount;
-        this.chance = chance;
+    @Override
+    public BlockDropMethod[] getDropMethods() {
+        return blockDropMethods.toArray(new BlockDropMethod[0]);
     }
 
     @Override
-    public Material dropBlock() {
-        return dropBlock;
+    public DropFromBlockItem setItemGroup(@NotNull ItemGroup group) {
+        super.setItemGroup(group);
+        return this;
     }
 
     @Override
-    public int dropAmount() {
-        return dropAmount;
+    public DropFromBlockItem setItemStack(@NotNull IndustrialRevivalItemStack itemStack) {
+        super.setItemStack(itemStack);
+        return this;
     }
 
     @Override
-    public @Range(from = 0, to = 100) double getChance() {
-        return chance;
+    public DropFromBlockItem addCraftMethod(@NotNull CraftMethodHandler handler) {
+        super.addCraftMethod(handler);
+        return this;
+    }
+
+    @Override
+    public DropFromBlockItem setWikiText(@NotNull String wikiText) {
+        super.setWikiText(wikiText);
+        return this;
+    }
+
+    @Override
+    public DropFromBlockItem setDisabledInWorld(@Nonnull World world, boolean disabled) {
+        super.setDisabledInWorld(world, disabled);
+        return this;
+    }
+
+    @Override
+    public DropFromBlockItem setDisabled(boolean disabled) {
+        super.setDisabled(disabled);
+        return this;
+    }
+
+    @Override
+    public DropFromBlockItem addItemDictionary(@Nonnull ItemDictionary dictionary) {
+        super.addItemDictionary(dictionary);
+        return this;
+    }
+
+    public DropFromBlockItem addDropMethod(BlockDropMethod blockDropMethod) {
+        checkRegistered();
+        blockDropMethods.add(blockDropMethod);
+        return this;
     }
 }

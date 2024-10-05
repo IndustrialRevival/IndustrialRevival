@@ -1,8 +1,5 @@
 package org.irmc.industrialrevival.core.managers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.irmc.industrialrevival.core.listeners.DisabledItemListener;
@@ -14,7 +11,11 @@ import org.irmc.industrialrevival.core.listeners.LimitedItemListener;
 import org.irmc.industrialrevival.core.listeners.MachineMenuListener;
 import org.irmc.industrialrevival.core.listeners.NotPlaceableListener;
 import org.irmc.industrialrevival.core.listeners.PlayerJoinListener;
+import org.irmc.industrialrevival.core.listeners.UnusableItemListener;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ListenerManager {
     private final List<Listener> listeners = new ArrayList<>();
@@ -33,6 +34,7 @@ public class ListenerManager {
         listeners.add(new MachineMenuListener());
         listeners.add(new NotPlaceableListener());
         listeners.add(new PlayerJoinListener());
+        listeners.add(new UnusableItemListener());
     }
 
     public void setupAll() {

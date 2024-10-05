@@ -1,11 +1,5 @@
 package org.irmc.industrialrevival.api.recipes;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import org.bukkit.Material;
@@ -17,13 +11,18 @@ import org.irmc.industrialrevival.api.items.attributes.RecipeDisplayItem;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.core.guide.IRGuideImplementation;
-import org.irmc.industrialrevival.core.utils.CleanedItemGetter;
-import org.irmc.industrialrevival.core.utils.Constants;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.guide.SurvivalGuideImplementation;
-import org.irmc.industrialrevival.implementation.recipes.RecipeContent;
-import org.irmc.industrialrevival.implementation.recipes.RecipeContents;
+import org.irmc.industrialrevival.utils.CleanedItemGetter;
+import org.irmc.industrialrevival.utils.Constants;
 import org.irmc.pigeonlib.items.ItemUtils;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
     protected static final Map<UUID, Integer> pageRecord = new HashMap<>();
@@ -74,7 +73,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
         if (item instanceof RecipeDisplayItem rdi) {
             recipe = rdi.getRecipe(rc.recipeType().getMakerItem());
         } else {
-            recipe = item.getRecipe();
+            recipe = item.getRecipeIngredients(rc.recipeType());
         }
 
         for (int i = 0; i < 9; i++) {

@@ -1,24 +1,25 @@
 package org.irmc.industrialrevival.api.machines.recipes;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.pigeonlib.items.ItemUtils;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Machine recipes are unordered by default.
+ *
  * @author balugaq
  */
 @Getter
 public class MachineRecipes {
     private final List<MachineRecipe> recipes = new ArrayList<>();
 
-    public MachineRecipes() {}
+    public MachineRecipes() {
+    }
 
     public MachineRecipe findNextRecipe(List<ItemStack> items) {
         Map<ItemStack, Integer> itemsMap = new HashMap<>();

@@ -6,6 +6,7 @@ import org.irmc.industrialrevival.api.objects.enums.RadiationLevel;
 /**
  * This interface defines an item which is radioactive. <br>
  * <br>
+ *
  * @see RadiativeItem
  */
 public interface Radiation extends ItemAttribute {

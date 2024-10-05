@@ -3,6 +3,7 @@ package org.irmc.industrialrevival.api.items.attributes;
 /**
  * This interface is an abstract interface. DON'T use it directly.<br>
  * <br>
+ *
  * @see BlockDropItem <br>
  * @see ChancedItem <br>
  * @see ItemDroppable <br>
@@ -15,4 +16,5 @@ package org.irmc.industrialrevival.api.items.attributes;
  * @see VanillaSmeltingItem <br>
  * @see Unusable <br>
  */
-public interface ItemAttribute {}
+public interface ItemAttribute {
+}

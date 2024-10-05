@@ -1,53 +1,28 @@
 package org.irmc.industrialrevival.api.machines;
 
-import lombok.Getter;
 import org.bukkit.block.Block;
-import org.bukkit.inventory.ItemStack;
-import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
-import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
-import org.irmc.industrialrevival.api.items.attributes.EnergyNetProvider;
-import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
-import org.irmc.industrialrevival.api.recipes.RecipeType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.irmc.industrialrevival.api.objects.enums.GeneratorType;
 
-/**
- * ElectricSolarGenerator is a generator that need light to generate energy.
- */
-@Getter
-public abstract class ElectricSolarGenerator extends IndustrialRevivalItem implements EnergyNetProvider {
-    private final long capacity;
-    private final long dayEnergyPerTick;
-    private final long nightEnergyPerTick;
-    private final byte lightLevel;
-
-    public ElectricSolarGenerator(
-            @NotNull ItemGroup group,
-            @NotNull IndustrialRevivalItemStack itemStack,
-            @NotNull RecipeType recipeType,
-            @NotNull ItemStack[] recipe,
-            long capacity,
-            long dayEnergyPerTick,
-            long nightEnergyPerTick,
-            byte lightLevel) {
-        super(group, itemStack, recipeType, recipe);
-        this.capacity = capacity;
-        this.dayEnergyPerTick = dayEnergyPerTick;
-        this.nightEnergyPerTick = nightEnergyPerTick;
-        this.lightLevel = lightLevel;
+public abstract class ElectricSolarGenerator extends AbstractElectricGenerator {
+    @Override
+    protected void tick(Block block, MachineMenu menu) {
+        byte lightLevel = block.getLightFromSky();
+        if (isDay(block, menu, lightLevel)) {
+            addEnergyProduction(menu.getLocation(), getDayEnergyProduction(block, menu, lightLevel));
+        } else {
+            addEnergyProduction(menu.getLocation(), getNightEnergyProduction(block, menu, lightLevel));
+        }
     }
+
+    protected abstract boolean isDay(Block block, MachineMenu menu, byte lightLevel);
+
+    protected abstract long getDayEnergyProduction(Block block, MachineMenu menu, byte lightLevel);
+
+    protected abstract long getNightEnergyProduction(Block block, MachineMenu menu, byte lightLevel);
 
     @Override
-    protected void preRegister() throws Exception {
-        super.preRegister();
-    }
-
-    public long getEnergyProduction(Block block, @Nullable MachineMenu menu) {
-        if (block.getLightFromSky() >= lightLevel) {
-            return dayEnergyPerTick;
-        } else {
-            return nightEnergyPerTick;
-        }
+    public GeneratorType getGeneratorType() {
+        return GeneratorType.SOLAR;
     }
 }

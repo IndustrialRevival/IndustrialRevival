@@ -2,10 +2,14 @@ package org.irmc.industrialrevival.api.menu;
 
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 @Getter
 public class MachineMenuPreset extends SimpleMenu {
@@ -20,9 +24,30 @@ public class MachineMenuPreset extends SimpleMenu {
         this.locked = false;
     }
 
+    public void handleMenuDrawer(MenuDrawer drawer) {
+        int i = 0, j = 0;
+        for (String line : drawer.getMatrix()) {
+            for (char slotSymbol : line.toCharArray()) {
+                if (drawer.getCharMap().containsKey(slotSymbol)) {
+                    setItem(i*9+j, drawer.getCharMap().get(slotSymbol));
+                }
+                j += 1;
+            }
+            i += 1;
+        }
+    }
+
+    public void init() {
+
+    }
+
+    public void newInstance(@Nonnull Block block, @Nullable MachineMenu menu) {
+
+    }
+
     public void register() {
         if (IndustrialRevival.getInstance().getRegistry().getMenuPresets().containsKey(this.id)) {
-            throw new IllegalStateException("Already registered!");
+            throw new IllegalStateException("Already registered menu preset with id " + this.id);
         }
 
         this.locked = true;

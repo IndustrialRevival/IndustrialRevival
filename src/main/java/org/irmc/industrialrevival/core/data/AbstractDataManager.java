@@ -1,21 +1,25 @@
 package org.irmc.industrialrevival.core.data;
 
 import com.google.gson.Gson;
-import java.io.StringReader;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.Base64;
-import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.core.data.object.BlockRecord;
 import org.irmc.industrialrevival.core.guide.GuideSettings;
 import org.jetbrains.annotations.NotNull;
-import org.jooq.*;
+import org.jooq.DSLContext;
+import org.jooq.Record2;
+import org.jooq.Record3;
+import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 import org.jooq.tools.jdbc.JDBCUtils;
+
+import java.io.StringReader;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Base64;
+import java.util.List;
 
 public non-sealed class AbstractDataManager implements IDataManager {
     private final ConnectionPool pool;

@@ -1,13 +1,5 @@
 package org.irmc.industrialrevival.api.menu;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.IntStream;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
@@ -22,6 +14,15 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.api.objects.ItemStackReference;
 import org.irmc.pigeonlib.items.ItemUtils;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.IntStream;
 
 @SuppressWarnings({"deprecation", "unused"})
 @Getter
@@ -120,6 +121,7 @@ public class MachineMenu extends SimpleMenu {
             }
         }
     }
+
     public void consumeSlot(int... slot) {
         for (int s : slot) {
             setItem(s, null);

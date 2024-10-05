@@ -1,56 +1,45 @@
 package org.irmc.industrialrevival.api.machines;
 
-import java.util.HashMap;
-import java.util.Map;
-import javax.annotation.Nonnull;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
-import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
-import org.irmc.industrialrevival.api.items.groups.ItemGroup;
+import org.irmc.industrialrevival.api.items.attributes.InventoryBlock;
 import org.irmc.industrialrevival.api.items.handlers.BlockTicker;
 import org.irmc.industrialrevival.api.machines.process.MachineOperation;
 import org.irmc.industrialrevival.api.machines.process.MachineProcessor;
 import org.irmc.industrialrevival.api.machines.process.ProcessorHolder;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipe;
-import org.irmc.industrialrevival.api.machines.recipes.MachineRecipes;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
+import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
 import org.irmc.industrialrevival.api.objects.ItemStackReference;
 import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
-import org.irmc.industrialrevival.api.recipes.RecipeType;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.OverridingMethodsMustInvokeSuper;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * BasicMachine is not related to energy networks, it just turns item A to B.
  */
-public abstract class BasicMachine extends AbstractMachine implements ProcessorHolder<MachineOperation> {
+public abstract class BasicMachine extends AbstractMachine implements ProcessorHolder<MachineOperation>, InventoryBlock {
     private final Map<Location, MachineRecipe> lastMatches = new HashMap<>();
     private final MachineProcessor<MachineOperation> processor = new MachineProcessor<>(this);
 
-    public BasicMachine(
-            @Nonnull ItemGroup group,
-            @Nonnull IndustrialRevivalItemStack itemStack,
-            @Nonnull RecipeType recipeType,
-            @Nonnull ItemStack[] recipe,
-            @Nonnull MachineRecipes machineRecipes) {
-        super(group, itemStack, recipeType, recipe, machineRecipes);
-    }
-
     @Override
+    @OverridingMethodsMustInvokeSuper
     protected void preRegister() throws Exception {
         addItemHandlers((BlockTicker) (block, menu, data) -> tick(block, menu));
         super.preRegister();
     }
 
-    protected void tick(Block block, MachineMenu menu) {
-        // TODO: progressing itemstack
-        if (block == null) {
-            processor.stopProcess(menu.getLocation());
-            return;
-        }
+    protected void tick(@Nonnull Block block, @Nullable MachineMenu menu) {
         if (menu == null) {
             processor.stopProcess(block.getLocation());
             return;
         }
+
         Location location = block.getLocation();
         MachineOperation operation = processor.getProcess(location);
         if (operation == null) {
@@ -78,20 +67,22 @@ public abstract class BasicMachine extends AbstractMachine implements ProcessorH
         } else {
             if (operation.isDone()) {
                 if (menu.fits(operation.getOutputStacks())) {
-                    menu.pushItem(operation.getOutputStacks(), menu.getPreset().getSlotsByItemFlow(ItemFlow.WITHDRAW));
+                    onDone(block, menu, operation);
                     processor.stopProcess(location);
                 }
             } else {
                 operation.tick();
             }
         }
-
-        // TODO: 仍然没写完processor的部分
     }
 
     @Nonnull
     @Override
     public MachineProcessor<MachineOperation> getProcessor() {
         return this.processor;
+    }
+
+    public void onDone(Block block, MachineMenu menu, MachineOperation operation) {
+        menu.pushItem(operation.getOutputStacks(), menu.getPreset().getSlotsByItemFlow(ItemFlow.WITHDRAW));
     }
 }

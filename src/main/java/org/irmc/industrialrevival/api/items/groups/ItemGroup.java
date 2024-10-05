@@ -1,9 +1,6 @@
 package org.irmc.industrialrevival.api.items.groups;
 
 import com.google.common.collect.Lists;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -15,10 +12,14 @@ import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
 import org.irmc.industrialrevival.core.guide.GuideHistory;
 import org.irmc.industrialrevival.core.guide.IRGuideImplementation;
-import org.irmc.industrialrevival.core.utils.CleanedItemGetter;
-import org.irmc.industrialrevival.core.utils.Constants;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.guide.SurvivalGuideImplementation;
+import org.irmc.industrialrevival.utils.CleanedItemGetter;
+import org.irmc.industrialrevival.utils.Constants;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public abstract class ItemGroup {
     @Getter
@@ -143,7 +144,7 @@ public abstract class ItemGroup {
     public void register() {
         this.locked = true;
 
-        IndustrialRevival.getInstance().getRegistry().getItemGroups().put(key, this);
+        IndustrialRevival.getInstance().getRegistry().registerItemGroup(this);
     }
 
     public final boolean isRegistered() {

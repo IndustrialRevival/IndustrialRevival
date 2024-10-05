@@ -1,9 +1,10 @@
 package org.irmc.industrialrevival.core.guide;
 
-import java.util.Locale;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Locale;
 
 @Getter
 @Setter

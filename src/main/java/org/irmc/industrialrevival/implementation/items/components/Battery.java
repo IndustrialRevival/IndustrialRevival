@@ -2,30 +2,77 @@ package org.irmc.industrialrevival.implementation.items.components;
 
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
+import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.api.items.attributes.NotPlaceable;
 import org.irmc.industrialrevival.api.items.attributes.Rechargeable;
+import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
-import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.pigeonlib.language.MessageReplacement;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 public class Battery extends IndustrialRevivalItem implements NotPlaceable, Rechargeable {
-    private final Type type;
-    private final Size size;
+    private Type type;
+    private Size size;
 
-    public Battery(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull ItemStack[] recipe, Type type, Size size) {
-        super(group, itemStack, RecipeType.VANILLA_CRAFTING, recipe);
+    @Override
+    public Battery setItemGroup(@NotNull ItemGroup group) {
+        super.setItemGroup(group);
+        return this;
+    }
 
+    @Override
+    public Battery setItemStack(@NotNull IndustrialRevivalItemStack itemStack) {
+        super.setItemStack(itemStack);
+        return this;
+    }
+
+    @Override
+    public Battery addCraftMethod(@NotNull CraftMethodHandler handler) {
+        super.addCraftMethod(handler);
+        return this;
+    }
+
+    @Override
+    public Battery setWikiText(@NotNull String wikiText) {
+        super.setWikiText(wikiText);
+        return this;
+    }
+
+    @Override
+    public Battery setDisabledInWorld(@Nonnull World world, boolean disabled) {
+        super.setDisabledInWorld(world, disabled);
+        return this;
+    }
+
+    @Override
+    public Battery setDisabled(boolean disabled) {
+        super.setDisabled(disabled);
+        return this;
+    }
+
+    @Override
+    public Battery addItemDictionary(@Nonnull ItemDictionary dictionary) {
+        super.addItemDictionary(dictionary);
+        return this;
+    }
+
+    public Battery setType(Type type) {
         this.type = type;
+        return this;
+    }
+
+    public Battery setSize(Size size) {
         this.size = size;
+        return this;
     }
 
     @Override
