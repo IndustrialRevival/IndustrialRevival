@@ -4,7 +4,6 @@ import lombok.Getter;
 import org.bukkit.Axis;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
@@ -12,12 +11,9 @@ import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.handlers.BlockTicker;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
-import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
-
-import javax.annotation.NotNull;
 
 @Getter
 public abstract class MultiBlockCore extends IndustrialRevivalItem implements IMultiBlock {

@@ -14,7 +14,6 @@ import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.pigeonlib.language.MessageReplacement;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 

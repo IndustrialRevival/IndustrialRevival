@@ -8,7 +8,6 @@ import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.NotNull;
 import javax.annotation.Nullable;
 
 @Getter
@@ -29,7 +28,7 @@ public class MachineMenuPreset extends SimpleMenu {
         for (String line : drawer.getMatrix()) {
             for (char slotSymbol : line.toCharArray()) {
                 if (drawer.getCharMap().containsKey(slotSymbol)) {
-                    setItem(i*9+j, drawer.getCharMap().get(slotSymbol));
+                    setItem(i * 9 + j, drawer.getCharMap().get(slotSymbol));
                 }
                 j += 1;
             }

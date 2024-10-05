@@ -10,8 +10,6 @@ import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.objects.IRRecipeChoice;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.NotNull;
-
 /**
  * An ore block that drops itself when mined.
  */

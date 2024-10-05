@@ -3,29 +3,19 @@ package org.irmc.industrialrevival.implementation.items.machines.manual;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
-import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
-import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.machines.BasicMachine;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipe;
-import org.irmc.industrialrevival.api.machines.recipes.MachineRecipes;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
-import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
 import org.irmc.industrialrevival.api.menu.MenuDrawer;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
-import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.utils.MenuUtil;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.NotNull;
 import javax.annotation.Nullable;
 import java.util.Map;
 
 public class ManualGrind extends BasicMachine {
-    public ManualGrind() {
-        super();
-        addRecipe(0, 0, new ItemStack(Material.COBBLESTONE), new ItemStack(Material.GRAVEL));
-    }
     private static final ItemStack CLICKER_ICON = new CustomItemStack(
             Material.ORANGE_STAINED_GLASS_PANE,
             "§6Clicker",
@@ -40,6 +30,10 @@ public class ManualGrind extends BasicMachine {
             .addExplain("D", MenuUtil.CLICKER_BORDER)
             .addExplain("O", MenuUtil.OUTPUT_BORDER)
             .addExplain("C", CLICKER_ICON);
+    public ManualGrind() {
+        super();
+        addRecipe(0, 0, new ItemStack(Material.COBBLESTONE), new ItemStack(Material.GRAVEL));
+    }
 
     public void onNewInstance(@NotNull Block block, @Nullable MachineMenu menu) {
         if (menu == null) {

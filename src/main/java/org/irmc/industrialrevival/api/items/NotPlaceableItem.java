@@ -6,8 +6,6 @@ import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.NotNull;
-
 public class NotPlaceableItem extends IndustrialRevivalItem implements NotPlaceable {
     @Override
     public NotPlaceableItem setItemGroup(@NotNull ItemGroup group) {

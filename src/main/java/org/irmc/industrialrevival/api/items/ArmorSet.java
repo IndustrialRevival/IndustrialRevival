@@ -14,7 +14,6 @@ import org.irmc.industrialrevival.api.recipes.CraftMethod;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.NotNull;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;

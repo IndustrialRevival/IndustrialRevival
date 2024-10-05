@@ -8,8 +8,6 @@ import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.NotNull;
-
 public abstract class EnergyComponent extends BasicMachine implements EnergyNetComponent {
     @Getter
     private long capacity = 0;

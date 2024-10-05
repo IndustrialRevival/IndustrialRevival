@@ -12,7 +12,6 @@ import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.objects.enums.EnergyNetComponentType;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.NotNull;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 /**

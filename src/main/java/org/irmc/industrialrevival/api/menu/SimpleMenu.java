@@ -13,7 +13,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
-import javax.annotation.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -208,11 +207,11 @@ public class SimpleMenu implements IRInventoryHolder {
         /**
          * Called when an item in the machine menu is clicked.
          *
-         * @param player    the player who clicked the item
-         * @param clickedItem      the clicked item
-         * @param clickedSlot      the slot where the item was clicked
-         * @param clickedMenu      the machine menu where the item was clicked
-         * @param clickType the click type
+         * @param player      the player who clicked the item
+         * @param clickedItem the clicked item
+         * @param clickedSlot the slot where the item was clicked
+         * @param clickedMenu the machine menu where the item was clicked
+         * @param clickType   the click type
          * @return false if the click should be canceled, true otherwise
          */
         boolean onClick(
@@ -228,11 +227,11 @@ public class SimpleMenu implements IRInventoryHolder {
         /**
          * Called when an item in the machine menu is clicked.
          *
-         * @param player    the player who clicked the item
-         * @param clickedItem      the clicked item
-         * @param clickedSlot      the slot where the item was clicked
-         * @param clickedMenu      the machine menu where the item was clicked
-         * @param clickType the click type
+         * @param player      the player who clicked the item
+         * @param clickedItem the clicked item
+         * @param clickedSlot the slot where the item was clicked
+         * @param clickedMenu the machine menu where the item was clicked
+         * @param clickType   the click type
          * @return always false, use {@link #onClick(Player, ItemStack, int, SimpleMenu, ClickType, InventoryClickEvent)}
          */
 

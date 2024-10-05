@@ -6,8 +6,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.NotNull;
-
 @FunctionalInterface
 public interface WeaponUseHandler extends ItemHandler {
     /**

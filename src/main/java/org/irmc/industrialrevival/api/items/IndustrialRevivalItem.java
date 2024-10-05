@@ -32,7 +32,6 @@ import org.irmc.pigeonlib.pdc.PersistentDataAPI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.NotNull;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,27 +49,24 @@ import java.util.Set;
  */
 @SuppressWarnings("unused")
 public class IndustrialRevivalItem {
-    @Getter
-    private IndustrialRevivalAddon addon;
-    @Getter
-    private ItemGroup group;
-    private IndustrialRevivalItemStack itemStack;
-
-    private ItemState state = ItemState.UNREGISTERED;
-
-    @Getter
-    private Optional<String> wikiText;
-    @Getter
-    private boolean enchantable = true;
-    @Getter
-    private boolean disenchantable = true;
-
     private final Map<Class<? extends ItemHandler>, ItemHandler> itemHandlers = new HashMap<>();
     @Getter
     private final List<CraftMethod> craftMethods = new ArrayList<>();
     @Getter
     private final Set<ItemDictionary> itemDictionaries = new HashSet<>();
     private final Set<String> disabledInWorld = new HashSet<>();
+    @Getter
+    private IndustrialRevivalAddon addon;
+    @Getter
+    private ItemGroup group;
+    private IndustrialRevivalItemStack itemStack;
+    private ItemState state = ItemState.UNREGISTERED;
+    @Getter
+    private Optional<String> wikiText;
+    @Getter
+    private boolean enchantable = true;
+    @Getter
+    private boolean disenchantable = true;
 
     public IndustrialRevivalItem() {
     }

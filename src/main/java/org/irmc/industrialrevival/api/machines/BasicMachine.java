@@ -17,7 +17,6 @@ import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
 import org.irmc.industrialrevival.utils.MenuUtil;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.NotNull;
 import javax.annotation.Nullable;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.util.HashMap;
@@ -142,6 +141,7 @@ public abstract class BasicMachine extends AbstractMachine implements ProcessorH
             return OUTPUT_SLOTS;
         }
     }
+
     public void onNewInstance(Block block, MachineMenu menu) {
 
     }

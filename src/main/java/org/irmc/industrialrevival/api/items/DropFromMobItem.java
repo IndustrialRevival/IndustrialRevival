@@ -8,7 +8,6 @@ import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.recipes.MobDropMethod;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 

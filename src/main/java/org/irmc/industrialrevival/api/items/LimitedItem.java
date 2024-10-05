@@ -13,7 +13,6 @@ import org.irmc.pigeonlib.pdc.PersistentDataAPI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
 
-import javax.annotation.NotNull;
 import java.util.function.BiConsumer;
 
 public class LimitedItem extends IndustrialRevivalItem implements Limited {

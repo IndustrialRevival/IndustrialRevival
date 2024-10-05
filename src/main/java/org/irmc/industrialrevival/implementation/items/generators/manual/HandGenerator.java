@@ -4,10 +4,7 @@ import org.bukkit.block.Block;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.irmc.industrialrevival.api.items.attributes.EnergyNetProvider;
 import org.irmc.industrialrevival.api.items.handlers.BlockUseHandler;
-import org.irmc.industrialrevival.api.machines.AbstractElectricGenerator;
 import org.irmc.industrialrevival.api.machines.ElectricManualGenerator;
-import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
-import org.irmc.industrialrevival.api.objects.enums.GeneratorType;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.utils.DataUtil;
 import org.jetbrains.annotations.NotNull;
@@ -19,6 +16,7 @@ public class HandGenerator extends ElectricManualGenerator implements EnergyNetP
     public long getEnergyProduction(@NotNull Block block, @Nullable MachineMenu menu) {
         return 1;
     }
+
     @Override
     public void preRegister() throws Exception {
         super.preRegister();

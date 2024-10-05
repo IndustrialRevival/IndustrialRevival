@@ -2,13 +2,10 @@ package org.irmc.industrialrevival.api.menu;
 
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
-import org.irmc.industrialrevival.api.objects.CustomItemStack;
-import org.irmc.pigeonlib.items.ItemUtils;
 import org.jetbrains.annotations.Range;
 
 import javax.annotation.NotNull;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +40,7 @@ public class MenuDrawer {
             String line = matrix.get(i);
             for (int j = 0; j < line.length(); j++) {
                 if (line.charAt(j) == c) {
-                    positions.add(i*9+j);
+                    positions.add(i * 9 + j);
                 }
             }
         }
