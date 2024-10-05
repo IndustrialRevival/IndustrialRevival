@@ -28,7 +28,9 @@ import org.irmc.industrialrevival.api.items.handlers.ToolUseHandler;
 import org.irmc.industrialrevival.api.items.handlers.UseItemInteractHandler;
 import org.irmc.industrialrevival.api.items.handlers.WeaponUseHandler;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
+import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
+import org.irmc.industrialrevival.api.objects.events.MenuOpenEvent;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 
 import java.util.ArrayList;

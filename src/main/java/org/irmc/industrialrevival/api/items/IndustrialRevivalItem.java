@@ -39,6 +39,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -47,21 +48,29 @@ import java.util.Set;
  * To register the item, use the register method.<br>
  * The block is placeable by default if you want it to be unplaceable, please see {@link NotPlaceable}
  */
+@SuppressWarnings("unused")
 public class IndustrialRevivalItem {
+    @Getter
+    private IndustrialRevivalAddon addon;
+    @Getter
+    private ItemGroup group;
+    private IndustrialRevivalItemStack itemStack;
+
+    private ItemState state = ItemState.UNREGISTERED;
+
+    @Getter
+    private Optional<String> wikiText;
+    @Getter
+    private boolean enchantable = true;
+    @Getter
+    private boolean disenchantable = true;
+
     private final Map<Class<? extends ItemHandler>, ItemHandler> itemHandlers = new HashMap<>();
-    private final Set<String> disabledInWorld = new HashSet<>();
     @Getter
     private final List<CraftMethod> craftMethods = new ArrayList<>();
     @Getter
     private final Set<ItemDictionary> itemDictionaries = new HashSet<>();
-    @Getter
-    private ItemGroup group;
-    private IndustrialRevivalItemStack itemStack;
-    @Getter
-    private IndustrialRevivalAddon addon;
-    @Getter
-    private String wikiText;
-    private ItemState state = ItemState.UNREGISTERED;
+    private final Set<String> disabledInWorld = new HashSet<>();
 
     public IndustrialRevivalItem() {
     }
@@ -252,7 +261,7 @@ public class IndustrialRevivalItem {
     public IndustrialRevivalItem setWikiText(@Nonnull String wikiText) {
         checkRegistered();
         Preconditions.checkArgument(wikiText != null, "WikiText cannot be null");
-        this.wikiText = wikiText;
+        this.wikiText = Optional.of(wikiText);
         return this;
     }
 
@@ -315,6 +324,18 @@ public class IndustrialRevivalItem {
         }
 
         return null;
+    }
+
+    public IndustrialRevivalItem setEnchantable(boolean enchantable) {
+        checkRegistered();
+        this.enchantable = enchantable;
+        return this;
+    }
+
+    public IndustrialRevivalItem setDisenchantable(boolean disenchantable) {
+        checkRegistered();
+        this.disenchantable = disenchantable;
+        return this;
     }
 
     public enum ItemState {

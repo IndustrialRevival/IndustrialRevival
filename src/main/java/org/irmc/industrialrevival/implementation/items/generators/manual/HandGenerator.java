@@ -28,6 +28,6 @@ public class HandGenerator extends AbstractElectricGenerator implements EnergyNe
 
     @Override
     public void preRegister() {
-        // addItemHandlers()
+
     }
 }

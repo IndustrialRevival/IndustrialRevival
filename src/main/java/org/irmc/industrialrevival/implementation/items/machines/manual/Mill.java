@@ -9,7 +9,4 @@ import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.jetbrains.annotations.NotNull;
 
 public class Mill extends AbstractMachine {
-    public Mill(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, @NotNull ItemStack recipeItem, @NotNull MachineRecipes machineRecipes) {
-        super(group, itemStack, recipeType, recipe, recipeItem, machineRecipes);
-    }
 }

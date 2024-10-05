@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 @Getter
 public class PlayerRightClickEvent extends PlayerInteractEvent {
     private final HandlerList handlers = new HandlerList();
+    private final PlayerInteractEvent originalEvent;
 
     public PlayerRightClickEvent(PlayerInteractEvent originalEvent) {
         super(
@@ -17,6 +18,7 @@ public class PlayerRightClickEvent extends PlayerInteractEvent {
                 originalEvent.getClickedBlock(),
                 originalEvent.getBlockFace(),
                 originalEvent.getHand());
+        this.originalEvent = originalEvent;
     }
 
     public static HandlerList getHandlerList() {
