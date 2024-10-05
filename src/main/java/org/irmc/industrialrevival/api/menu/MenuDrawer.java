@@ -2,9 +2,9 @@ package org.irmc.industrialrevival.api.menu;
 
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
 
-import javax.annotation.NotNull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

@@ -304,7 +304,7 @@ public class Metrics {
             appendServiceDataConsumer.accept(serviceJsonBuilder);
             JsonObjectBuilder.JsonObject[] chartData = customCharts.stream()
                     .map(customChart -> customChart.getRequestJsonObject(errorLogger, logErrors))
-                    .filter(Objects::NotNull)
+                    .filter(Objects::nonNull)
                     .toArray(JsonObjectBuilder.JsonObject[]::new);
             serviceJsonBuilder.appendField("id", serviceId);
             serviceJsonBuilder.appendField("customCharts", chartData);

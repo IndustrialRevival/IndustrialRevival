@@ -4,8 +4,8 @@ import com.google.common.base.Preconditions;
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.objects.ItemStackReference;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.NotNull;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;

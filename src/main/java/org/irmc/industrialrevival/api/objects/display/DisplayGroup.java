@@ -3,8 +3,8 @@ package org.irmc.industrialrevival.api.objects.display;
 import lombok.Getter;
 import org.bukkit.entity.Display;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.NotNull;
 import java.util.List;
 
 @Getter

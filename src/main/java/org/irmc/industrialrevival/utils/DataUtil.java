@@ -11,8 +11,7 @@ import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 
-import javax.annotation.Nullable;
-
+import org.jetbrains.annotations.Nullable;
 @UtilityClass
 @SuppressWarnings("unused")
 public class DataUtil {

@@ -5,8 +5,7 @@ import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.NotPlaceable;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
 import org.irmc.pigeonlib.items.ItemUtils;
-
-import javax.annotation.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 @FunctionalInterface
 public interface BlockPlaceHandler extends ItemHandler {

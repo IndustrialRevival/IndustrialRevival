@@ -23,8 +23,8 @@ import org.irmc.industrialrevival.api.recipes.MobDropMethod;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.api.researches.Research;
 import org.irmc.pigeonlib.items.ItemUtils;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.NotNull;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;

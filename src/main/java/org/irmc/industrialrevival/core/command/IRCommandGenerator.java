@@ -107,7 +107,7 @@ public class IRCommandGenerator {
                             MessageReplacement itemName = MessageReplacement.replace(
                                     "%item%",
                                     MiniMessage.miniMessage()
-                                            .serialize(Objects.requireNotNull(
+                                            .serialize(Objects.requireNonNull(
                                                     iritem.getItemMeta().displayName())));
                             MessageReplacement itemAmount =
                                     MessageReplacement.replace("%amount%", String.valueOf(finalAmount));

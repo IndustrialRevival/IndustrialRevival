@@ -8,8 +8,8 @@ import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
