@@ -9,7 +9,9 @@ import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
+import org.irmc.industrialrevival.api.items.handlers.BlockTicker;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
+import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -19,9 +21,9 @@ import javax.annotation.Nonnull;
 
 @Getter
 public abstract class MultiBlockCore extends IndustrialRevivalItem implements IMultiBlock {
-    private int maxX;
-    private int maxY;
-    private int maxZ;
+    private int maxX = 0;
+    private int maxY = 0;
+    private int maxZ = 0;
 
     @Override
     public MultiBlockCore setItemGroup(@NotNull ItemGroup group) {
@@ -70,43 +72,44 @@ public abstract class MultiBlockCore extends IndustrialRevivalItem implements IM
         return false;
     }
 
+    public void setLimit(@Nonnull Axis axis, @Range(from = 1, to = 9) int max) {
+        checkRegistered();
+        if (max < 1 || max > 9) {
+            throw new IllegalArgumentException("maxX must be between 1 and 9");
+        }
+        switch (axis) {
+            case X -> this.maxX = max;
+            case Y -> this.maxY = max;
+            case Z -> this.maxZ = max;
+            default -> throw new IllegalArgumentException("Invalid axis: " + axis);
+        }
+    }
+
+    public int getLimit(@Nonnull Axis axis) {
+        checkRegistered();
+        return switch (axis) {
+            case X -> maxX;
+            case Y -> maxY;
+            case Z -> maxZ;
+            default -> throw new IllegalArgumentException("Invalid axis: " + axis);
+        };
+    }
+
     @Override
-    public void setLimit(int maxX, int maxY, int maxZ) {
-        if (maxX < 1 || maxX > 9) {
-            throw new IllegalArgumentException("maxX must be between 1 and 9");
-        }
-        if (maxY < 1 || maxY > 9) {
-            throw new IllegalArgumentException("maxY must be between 1 and 9");
-        }
-        if (maxZ < 1 || maxZ > 9) {
-            throw new IllegalArgumentException("maxZ must be between 1 and 9");
+    public void preRegister() throws Exception {
+        super.preRegister();
+
+        if (maxX == 0 || maxY == 0 || maxZ == 0) {
+            throw new Exception("MultiBlockCore must have a limit set for each axis");
         }
 
-        this.maxX = maxX;
-        this.maxY = maxY;
-        this.maxZ = maxZ;
+        addItemHandlers(new BlockTicker() {
+            @Override
+            public void onTick(@NotNull Block block, @Nullable MachineMenu menu, @Nullable IRBlockData data) {
+                tick(block, menu, data);
+            }
+        });
     }
 
-    public void setLimitX(@Range(from = 1, to = 9) int maxX) {
-        checkRegistered();
-        if (maxX < 1 || maxX > 9) {
-            throw new IllegalArgumentException("maxX must be between 1 and 9");
-        }
-        this.maxX = maxX;
-    }
-
-    public void setLimitY(@Range(from = 1, to = 9) int maxY) {
-        checkRegistered();
-        if (maxY < 1 || maxY > 9) {
-            throw new IllegalArgumentException("maxY must be between 1 and 9");
-        }
-        this.maxY = maxY;
-    }
-
-    public void setLimitZ(@Range(from = 1, to = 9) int maxZ) {
-        checkRegistered();
-        if (maxZ < 1 || maxZ > 9) {
-            throw new IllegalArgumentException("maxZ must be between 1 and 9");
-        }
-    }
+    public abstract void tick(@NotNull Block block, @Nullable MachineMenu menu, @Nullable IRBlockData data);
 }
