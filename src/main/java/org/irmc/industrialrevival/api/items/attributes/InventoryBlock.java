@@ -19,6 +19,8 @@ public interface InventoryBlock extends ItemAttribute {
     default void createMenu(IndustrialRevivalItem item, Consumer<MachineMenuPreset> consumer) {
         MachineMenuPreset menu = new MachineMenuPreset(item.getId(), item.getItemName());
         consumer.accept(menu);
+
+        menu.register();
     }
 
     default void createMenu(IndustrialRevivalItem item, MachineMenuPreset menu) {

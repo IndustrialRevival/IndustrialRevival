@@ -289,7 +289,7 @@ public class MachineMenu extends SimpleMenu {
     }
 
     public boolean fits(@Nonnull ItemStack item, int... slots) {
-        if (item == null || item.getType() == Material.AIR) {
+        if (item.getType() == Material.AIR) {
             return true;
         }
 
@@ -312,7 +312,7 @@ public class MachineMenu extends SimpleMenu {
     }
 
     public boolean fits(@Nonnull ItemStack[] items, int... slots) {
-        if (items == null || items.length == 0) {
+        if (items.length == 0) {
             return false;
         }
 
@@ -327,7 +327,7 @@ public class MachineMenu extends SimpleMenu {
     }
 
     public boolean fits(@Nonnull List<ItemStack> items, int... slots) {
-        if (items == null || items.isEmpty()) {
+        if (items.isEmpty()) {
             return false;
         }
 
@@ -403,5 +403,20 @@ public class MachineMenu extends SimpleMenu {
     @Nonnull
     public Block getBlock() {
         return location.getBlock();
+    }
+
+    @Override
+    public MenuCloseHandler getCloseHandler() {
+        return preset.getCloseHandler();
+    }
+
+    @Override
+    public MenuOpenHandler getOpenHandler() {
+        return preset.getOpenHandler();
+    }
+
+    @Override
+    public ClickHandler getClickHandler(int slot) {
+        return preset.getClickHandler(slot);
     }
 }

@@ -13,6 +13,7 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -91,6 +92,19 @@ public class CustomItemStack extends ItemStack {
     public CustomItemStack(ItemStack item, int amount) {
         super(item);
         setAmount(amount);
+    }
+
+    public CustomItemStack(ItemStack item, Component name, Component... lore) {
+        this(item, im -> {
+            im.displayName(name);
+
+            if (lore.length > 0) {
+                List<Component> lines = new ArrayList<>();
+
+                Collections.addAll(lines, lore);
+                im.lore(lines);
+            }
+        });
     }
 
     public CustomItemStack(Material type, Component name, List<Component> lore) {

@@ -287,12 +287,12 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
 
         ItemStack wikiPageItem = Constants.WIKI_PAGE_BUTTON.apply(p);
         SimpleMenu.ClickHandler wikiHandler;
-        if (item.getWikiText() == null) {
+        if (item.getWikiText().isEmpty()) {
             wikiPageItem.setType(Material.BLACK_STAINED_GLASS_PANE);
             wikiHandler = SimpleMenu.ClickHandler.DEFAULT;
             wikiPageItem.editMeta(m -> m.displayName(Component.empty()));
         } else {
-            String url = Constants.WIKI_URL + item.getWikiText();
+            String url = Constants.WIKI_URL + item.getWikiText().get();
             ClickEvent clickEvent = ClickEvent.openUrl(url);
             Component text =
                     IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, "misc.wiki_page");

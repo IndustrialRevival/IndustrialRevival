@@ -6,6 +6,8 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
+import org.irmc.industrialrevival.utils.MenuUtil;
+import org.irmc.pigeonlib.items.ItemUtils;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -24,12 +26,17 @@ public class MachineMenuPreset extends SimpleMenu {
         this.locked = false;
     }
 
-    public void handleMenuDrawer(MenuDrawer drawer) {
+    public void handleMenuDrawer(MatrixMenuDrawer drawer) {
         int i = 0, j = 0;
         for (String line : drawer.getMatrix()) {
             for (char slotSymbol : line.toCharArray()) {
                 if (drawer.getCharMap().containsKey(slotSymbol)) {
-                    setItem(i*9+j, drawer.getCharMap().get(slotSymbol));
+                    ItemStack itemStack = drawer.getCharMap().get(slotSymbol);
+                    if (ItemUtils.isItemSimilar(itemStack, MenuUtil.BACKGROUND)) {
+                        setItem(i*9+j, MenuUtil.BACKGROUND, ClickHandler.DEFAULT);
+                    } else {
+                        setItem(i * 9 + j, itemStack, drawer.getClickHandlerMap().get(slotSymbol));
+                    }
                 }
                 j += 1;
             }

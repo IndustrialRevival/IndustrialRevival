@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @Getter
@@ -17,7 +18,7 @@ public class IRBlockData {
 
     private final Location location;
 
-    public IRBlockData(String id, Location location, YamlConfiguration config, @Nullable MachineMenu menu) {
+    public IRBlockData(String id, Location location, @NotNull YamlConfiguration config, @Nullable MachineMenu menu) {
         this.id = id;
         this.location = location;
         this.config = config;

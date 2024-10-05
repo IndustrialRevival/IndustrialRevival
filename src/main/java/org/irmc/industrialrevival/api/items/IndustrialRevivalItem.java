@@ -1,6 +1,7 @@
 package org.irmc.industrialrevival.api.items;
 
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -52,24 +53,31 @@ import java.util.Set;
 public class IndustrialRevivalItem {
     @Getter
     private IndustrialRevivalAddon addon;
+
     @Getter
     private ItemGroup group;
+
     private IndustrialRevivalItemStack itemStack;
 
     private ItemState state = ItemState.UNREGISTERED;
 
     @Getter
-    private Optional<String> wikiText;
+    private Optional<String> wikiText = Optional.empty();
+
     @Getter
     private boolean enchantable = true;
+
     @Getter
     private boolean disenchantable = true;
 
     private final Map<Class<? extends ItemHandler>, ItemHandler> itemHandlers = new HashMap<>();
+
     @Getter
     private final List<CraftMethod> craftMethods = new ArrayList<>();
+
     @Getter
     private final Set<ItemDictionary> itemDictionaries = new HashSet<>();
+
     private final Set<String> disabledInWorld = new HashSet<>();
 
     public IndustrialRevivalItem() {
@@ -100,7 +108,7 @@ public class IndustrialRevivalItem {
         return itemStack;
     }
 
-    public IndustrialRevivalItem addCraftMethod(@Nonnull CraftMethodHandler craftMethodHandler) {
+    public IndustrialRevivalItem addCraftMethod(CraftMethodHandler craftMethodHandler) {
         Preconditions.checkArgument(craftMethodHandler != null, "craftMethodHandler cannot be null");
         CraftMethod craftMethod = craftMethodHandler.getCraftMethod(this);
         if (craftMethod == null) {
@@ -185,6 +193,7 @@ public class IndustrialRevivalItem {
         return (T) itemHandlers.get(clazz);
     }
 
+    @CanIgnoreReturnValue
     protected IndustrialRevivalItem addItemHandlers(ItemHandler... handlers) {
         checkRegistered();
         for (ItemHandler handler : handlers) {
