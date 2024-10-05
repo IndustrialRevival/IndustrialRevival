@@ -11,8 +11,8 @@ import org.irmc.industrialrevival.implementation.items.IRItems;
 import org.jetbrains.annotations.NotNull;
 
 public class Heater extends ElectricMachine {
-    public Heater(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, @NotNull MachineRecipes machineRecipes, long capacity) {
-        super(group, itemStack, recipeType, recipe, machineRecipes, capacity);
+    public Heater() {
+        super();
 
         addRecipe(240, 357000,
                 new ItemStack[]{new ItemStack(Material.WATER_BUCKET), new ItemStack(Material.GLASS_BOTTLE)},

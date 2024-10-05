@@ -11,8 +11,8 @@ import org.irmc.pigeonlib.items.ItemUtils;
 import org.jetbrains.annotations.NotNull;
 
 public class PolymeriaztionReactor extends ElectricMachine {
-    public PolymeriaztionReactor(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, @NotNull MachineRecipes machineRecipes, long capacity) {
-        super(group, itemStack, recipeType, recipe, machineRecipes, capacity);
+    public PolymeriaztionReactor() {
+        super();
 
         addRecipe(3000, 700000,
                 ItemUtils.cloneItem(IRItems.IRItemStacks.MAGIC_CRYSTAL, 3),

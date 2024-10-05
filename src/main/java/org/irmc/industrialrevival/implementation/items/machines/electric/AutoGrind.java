@@ -9,13 +9,7 @@ import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.jetbrains.annotations.NotNull;
 
 public class AutoGrind extends ElectricMachine {
-    public AutoGrind(
-            @NotNull ItemGroup group,
-            @NotNull IndustrialRevivalItemStack itemStack,
-            @NotNull RecipeType recipeType,
-            @NotNull ItemStack[] recipe,
-            @NotNull MachineRecipes machineRecipes,
-            long capacity) {
-        super(group, itemStack, recipeType, recipe, machineRecipes, capacity);
+    public AutoGrind() {
+        super();
     }
 }

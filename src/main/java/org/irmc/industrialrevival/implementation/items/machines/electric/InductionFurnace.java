@@ -9,7 +9,7 @@ import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.jetbrains.annotations.NotNull;
 
 public class InductionFurnace extends ElectricMachine {
-    public InductionFurnace(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, @NotNull MachineRecipes machineRecipes, long capacity) {
-        super(group, itemStack, recipeType, recipe, machineRecipes, capacity);
+    public InductionFurnace() {
+        super();
     }
 }

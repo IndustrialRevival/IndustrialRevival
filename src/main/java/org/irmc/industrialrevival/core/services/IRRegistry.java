@@ -18,8 +18,11 @@ import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
 import org.irmc.industrialrevival.api.objects.Pair;
 import org.irmc.industrialrevival.api.objects.display.DisplayGroup;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
+import org.irmc.industrialrevival.api.recipes.BlockDropMethod;
+import org.irmc.industrialrevival.api.recipes.MobDropMethod;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.api.researches.Research;
+import org.irmc.pigeonlib.items.ItemUtils;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -80,11 +83,15 @@ public final class IRRegistry {
         if (!(mobDropItem instanceof MobDropItem mdi)) {
             throw new IllegalArgumentException("Item must implement MobDropItem interface");
         }
-        List<Pair<ItemStack, Double>> drops = mobDrops.getOrDefault(mdi.getMobType(), new ArrayList<>());
-        ItemStack item = mobDropItem.getItem().clone();
-        item.setAmount(mdi.dropAmount());
-        drops.add(new Pair<>(item, mdi.getChance()));
-        mobDrops.put(mdi.getMobType(), drops);
+
+        MobDropMethod[] methods = mdi.getDropMethods();
+        for (MobDropMethod method : methods) {
+            List<Pair<ItemStack, Double>> methodDrops = mobDrops.getOrDefault(method.getMobType(), new ArrayList<>());
+            ItemStack itemToDrop = method.getItemToDrop().clone();
+            itemToDrop.setAmount(method.getDropAmount());
+            methodDrops.add(new Pair<>(itemToDrop, method.getChance()));
+            mobDrops.put(method.getMobType(), methodDrops);
+        }
     }
 
     public void registerBlockDrop(@Nonnull IndustrialRevivalItem blockDropItem) {
@@ -93,11 +100,14 @@ public final class IRRegistry {
             throw new IllegalArgumentException("Item must implement BlockDropItem interface");
         }
 
-        List<Pair<ItemStack, Double>> drops = blockDrops.getOrDefault(bdi.dropBlock(), new ArrayList<>());
-        ItemStack item = blockDropItem.getItem().clone();
-        item.setAmount(bdi.dropAmount());
-        drops.add(new Pair<>(item, bdi.getChance()));
-        blockDrops.put(bdi.dropBlock(), drops);
+        BlockDropMethod[] methods = bdi.getDropMethods();
+        for (BlockDropMethod method : methods) {
+            List<Pair<ItemStack, Double>> methodDrops = blockDrops.getOrDefault(method.getBlockType(), new ArrayList<>());
+            ItemStack itemToDrop = method.getItemToDrop().clone();
+            itemToDrop.setAmount(method.getDropAmount());
+            methodDrops.add(new Pair<>(itemToDrop, method.getChance()));
+            blockDrops.put(method.getBlockType(), methodDrops);
+        }
     }
 
     public void registerDisplayGroup(NamespacedKey key, DisplayGroup displayGroup) {
@@ -141,13 +151,16 @@ public final class IRRegistry {
         if (!(mobDropItem instanceof MobDropItem mdi)) {
             throw new IllegalArgumentException("Item must implement MobDropItem interface");
         }
-        List<Pair<ItemStack, Double>> drops = mobDrops.get(mdi.getMobType());
-        if (drops == null) {
-            return;
-        }
-        drops.removeIf(p -> p.getFirst().isSimilar(mobDropItem.getItem()));
-        if (drops.isEmpty()) {
-            mobDrops.remove(mdi.getMobType());
+        MobDropMethod[] methods = mdi.getDropMethods();
+        for (MobDropMethod method : methods) {
+            List<Pair<ItemStack, Double>> methodDrops = mobDrops.get(method.getMobType());
+            if (methodDrops == null) {
+                continue;
+            }
+            methodDrops.removeIf(p -> ItemUtils.isItemSimilar(p.getFirst(), mobDropItem.getItem()));
+            if (methodDrops.isEmpty()) {
+                mobDrops.remove(method.getMobType());
+            }
         }
 
         mobDropItem.setDisabled(true);
@@ -157,13 +170,16 @@ public final class IRRegistry {
         if (!(blockDropItem instanceof BlockDropItem bdi)) {
             throw new IllegalArgumentException("Item must implement BlockDropItem interface");
         }
-        List<Pair<ItemStack, Double>> drops = blockDrops.get(bdi.dropBlock());
-        if (drops == null) {
-            return;
-        }
-        drops.removeIf(p -> p.getFirst().isSimilar(blockDropItem.getItem()));
-        if (drops.isEmpty()) {
-            blockDrops.remove(bdi.dropBlock());
+        BlockDropMethod[] methods = bdi.getDropMethods();
+        for (BlockDropMethod method : methods) {
+            List<Pair<ItemStack, Double>> methodDrops = blockDrops.get(method.getBlockType());
+            if (methodDrops == null) {
+                continue;
+            }
+            methodDrops.removeIf(p -> ItemUtils.isItemSimilar(p.getFirst(), blockDropItem.getItem()));
+            if (methodDrops.isEmpty()) {
+                blockDrops.remove(method.getBlockType());
+            }
         }
 
         blockDropItem.setDisabled(true);

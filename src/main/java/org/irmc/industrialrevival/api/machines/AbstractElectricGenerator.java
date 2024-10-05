@@ -13,6 +13,7 @@ import org.irmc.industrialrevival.api.objects.enums.EnergyNetComponentType;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
+import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 /**
  * ElectricGenerator is a machine that generates energy.
@@ -75,6 +76,7 @@ public abstract class AbstractElectricGenerator extends AbstractMachine implemen
     }
 
     @Override
+    @OverridingMethodsMustInvokeSuper
     protected void preRegister() throws Exception {
         addItemHandlers((BlockTicker) (block, menu, data) -> tick(block, menu));
         super.preRegister();

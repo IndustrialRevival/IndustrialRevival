@@ -172,6 +172,16 @@ public class MachineMenu extends SimpleMenu {
         return consumedCount;
     }
 
+    public int consumeItem(Map<ItemStackReference, Integer> itemRefMap, int... slots) {
+        int consumedCount = 0;
+        for (ItemStackReference itemRef : itemRefMap.keySet()) {
+            int amount = itemRefMap.get(itemRef);
+            consumedCount += consumeItem(itemRef, amount, slots);
+        }
+
+        return consumedCount;
+    }
+
     public void setProgressItem(int slot, int remainingTicks, int totalTicks, ItemStack progressBarItem) {
         if (!this.hasViewer()) {
             return;

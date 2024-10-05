@@ -7,21 +7,21 @@ import org.irmc.industrialrevival.api.items.DropFromMobItem;
 
 @Getter
 public class MobDropMethod implements ProduceMethod {
-    private final EntityType dropFromEntity;
-    private final int amount;
-    private final int chance;
+    private final EntityType mobType;
+    private final int dropAmount;
+    private final double chance;
     private final ItemStack itemToDrop;
 
-    public MobDropMethod(EntityType dropFromEntity, int amount, int chance, ItemStack itemToDrop) {
-        this.dropFromEntity = dropFromEntity;
-        this.amount = amount;
+    public MobDropMethod(EntityType mobType, int dropAmount, double chance, ItemStack itemToDrop) {
+        this.mobType = mobType;
+        this.dropAmount = dropAmount;
         this.chance = chance;
         this.itemToDrop = itemToDrop;
     }
 
-    public MobDropMethod(EntityType dropFromEntity, int amount, int chance, DropFromMobItem dropFromMobItem) {
-        this.dropFromEntity = dropFromEntity;
-        this.amount = amount;
+    public MobDropMethod(EntityType mobType, int dropAmount, double chance, DropFromMobItem dropFromMobItem) {
+        this.mobType = mobType;
+        this.dropAmount = dropAmount;
         this.chance = chance;
         this.itemToDrop = dropFromMobItem.getItem();
     }

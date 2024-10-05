@@ -10,8 +10,8 @@ import org.irmc.industrialrevival.implementation.items.IRItems;
 import org.jetbrains.annotations.NotNull;
 
 public class Polisher extends ElectricMachine {
-    public Polisher(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, @NotNull MachineRecipes machineRecipes, long capacity) {
-        super(group, itemStack, recipeType, recipe, machineRecipes, capacity);
+    public Polisher() {
+        super();
 
         addRecipe(50, 5000,
                 IRItems.IRItemStacks.RAW_COPPER_FOIL,

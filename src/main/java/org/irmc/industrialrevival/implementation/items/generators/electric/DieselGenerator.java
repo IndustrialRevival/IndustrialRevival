@@ -10,10 +10,15 @@ import org.irmc.industrialrevival.api.machines.recipes.MachineRecipes;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.objects.enums.GeneratorType;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
+import org.irmc.industrialrevival.implementation.items.IRItems;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class DieselGenerator extends ElectricConsumableGenerator {
+    public DieselGenerator() {
+        super();
+        addRecipe(10, 1000, IRItems.IRItemStacks.GAS, IRItems.IRItemStacks.EMPTY);
+    }
     @Override
     public long getCapacity() {
         return 0;
@@ -22,5 +27,10 @@ public class DieselGenerator extends ElectricConsumableGenerator {
     @Override
     public long getEnergyProduction(@NotNull Block block, @Nullable MachineMenu menu) {
         return 0;
+    }
+
+    @Override
+    public void onNewInstance(Block block, MachineMenu menu) {
+
     }
 }

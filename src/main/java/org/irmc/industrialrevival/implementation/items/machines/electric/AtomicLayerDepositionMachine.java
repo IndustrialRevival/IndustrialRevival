@@ -10,8 +10,8 @@ import org.irmc.industrialrevival.implementation.items.IRItems;
 import org.jetbrains.annotations.NotNull;
 
 public class AtomicLayerDepositionMachine extends ElectricMachine {
-    public AtomicLayerDepositionMachine(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, @NotNull MachineRecipes machineRecipes, long capacity) {
-        super(group, itemStack, recipeType, recipe, machineRecipes, capacity);
+    public AtomicLayerDepositionMachine() {
+        super();
 
         addRecipe(600, 6000,
                 new ItemStack[]{IRItems.IRItemStacks.GAS, IRItems.IRItemStacks.NANOANTENNA},

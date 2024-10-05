@@ -10,8 +10,8 @@ import org.irmc.industrialrevival.implementation.items.IRItems;
 import org.jetbrains.annotations.NotNull;
 
 public class ChemicalVaporDepositionReactionChamber extends ElectricMachine {
-    public ChemicalVaporDepositionReactionChamber(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, @NotNull MachineRecipes machineRecipes, long capacity) {
-        super(group, itemStack, recipeType, recipe, machineRecipes, capacity);
+    public ChemicalVaporDepositionReactionChamber() {
+        super();
 
         addRecipe(480, 80000,
                 new ItemStack[]{IRItems.IRItemStacks.HEATED_COPPER_FOIL, IRItems.IRItemStacks.HYDROGEN},

@@ -11,6 +11,7 @@ import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
+import org.irmc.industrialrevival.api.recipes.CraftMethod;
 import org.irmc.industrialrevival.core.guide.GuideHistory;
 import org.irmc.industrialrevival.core.guide.IRGuideImplementation;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
@@ -48,10 +49,14 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
 
     @Override
     public void onItemClicked(Player p, IndustrialRevivalItem item, ClickType clickType) {
-        SimpleMenu sm = new SimpleMenu(
-                IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Constants.GUIDE_TITLE_KEY));
+        SimpleMenu sm = new SimpleMenu(IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Constants.GUIDE_TITLE_KEY));
 
-        item.getRecipeType().getRecipeDisplay().display(p, sm, item);
+        List<CraftMethod> craftMethods = item.getCraftMethods();
+        if (craftMethods == null || craftMethods.isEmpty()) {
+            return;
+        }
+
+        craftMethods.get(0).getRecipeType().getRecipeDisplay().display(p, sm, item);
 
         sm.open(p);
 
@@ -109,7 +114,7 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
         int page = pageMap.getOrDefault(p.getName(), 1);
 
         ItemStack previousButton = Constants.PREVIOUS_BUTTON.apply(p);
-        SimpleMenu.ClickHandler previousClickHandler = (slot, player, item, menu, clickType) -> {
+        SimpleMenu.ClickHandler previousClickHandler = (player, item, slot, menu, clickType) -> {
             pageMap.put(p.getName(), page - 1);
             SimpleMenu previousPage = new SimpleMenu(IndustrialRevival.getInstance()
                     .getLanguageManager()
@@ -131,7 +136,7 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
         List<List<ItemGroup>> partition = Lists.partition(groups.stream().toList(), 36);
 
         ItemStack nextButton = Constants.NEXT_BUTTON.apply(p);
-        SimpleMenu.ClickHandler nextClickHandler = (slot, player, item, menu, clickType) -> {
+        SimpleMenu.ClickHandler nextClickHandler = (player, slot, item, menu, clickType) -> {
             pageMap.put(p.getName(), page + 1);
             SimpleMenu nextPage = new SimpleMenu(IndustrialRevival.getInstance()
                     .getLanguageManager()
@@ -154,14 +159,14 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
             int index = i - 9;
             ItemGroup group = index < groupList.size() ? groupList.get(index) : null;
             if (group != null) {
-                sm.setItem(i, group.getIcon(), (slot, player, item, menu, clickType) -> {
+                sm.setItem(i, group.getIcon(), (player, slot, item, menu, clickType) -> {
                     onGroupClicked(player, group);
                     return false;
                 });
             }
         }
 
-        sm.setItem(6, Constants.SEARCH_BUTTON.apply(p), (slot, player, item, menu, clickType) -> {
+        sm.setItem(6, Constants.SEARCH_BUTTON.apply(p), (player, item, slot, menu, clickType) -> {
             player.closeInventory();
             IndustrialRevival.getInstance().getLanguageManager().sendMessage(player, "guide.type_search");
             SearchGUI.request(player, this);
@@ -256,7 +261,7 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
             int startIndex = 9;
             for (IndustrialRevivalItem item : items) {
                 ItemStack stack = item.getItem().clone();
-                sm.setItem(startIndex, stack, (slot, player, item1, menu, clickType) -> {
+                sm.setItem(startIndex, stack, (player, item1, slot, menu, clickType) -> {
                     implementation.onItemClicked(player, item, clickType);
                     return false;
                 });
@@ -278,7 +283,7 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
                 sm.setItem(slot, Constants.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT);
             }
 
-            sm.setItem(2, Constants.BACK_BUTTON.apply(player), (slot, player, item, menu, clickType) -> {
+            sm.setItem(2, Constants.BACK_BUTTON.apply(player), (player, item, slot, menu, clickType) -> {
                 implementation.goBack(player);
                 return false;
             });

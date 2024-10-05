@@ -17,14 +17,14 @@ public class MachineMenuPreset extends SimpleMenu {
 
     private boolean locked;
 
-    public MachineMenuPreset(String id, Component title) {
+    public MachineMenuPreset(@Nonnull String id, @Nonnull Component title) {
         super(title);
 
         this.id = id;
         this.locked = false;
     }
 
-    public void handleMenuDrawer(MenuDrawer drawer) {
+    protected void addMenuDrawer(@Nonnull MenuDrawer drawer) {
         int i = 0, j = 0;
         for (String line : drawer.getMatrix()) {
             for (char slotSymbol : line.toCharArray()) {
@@ -55,7 +55,7 @@ public class MachineMenuPreset extends SimpleMenu {
         IndustrialRevival.getInstance().getRegistry().getMenuPresets().put(this.id, this);
     }
 
-    public void setItem(int slot, ItemStack itemStack) {
+    public void setItem(int slot, @Nullable ItemStack itemStack) {
         if (this.locked) {
             throw new IllegalStateException("Cannot set item of locked machine menu!");
         }
@@ -63,7 +63,7 @@ public class MachineMenuPreset extends SimpleMenu {
         super.setItem(slot, itemStack);
     }
 
-    public void setItem(int slot, ItemStack itemStack, ClickHandler clickHandler) {
+    public void setItem(int slot, ItemStack itemStack, @NotNull ClickHandler clickHandler) {
         if (this.locked) {
             throw new IllegalStateException("Cannot set item of locked machine menu!");
         }
@@ -71,7 +71,7 @@ public class MachineMenuPreset extends SimpleMenu {
         super.setItem(slot, itemStack, clickHandler);
     }
 
-    public void setTitle(Component title) {
+    public void setTitle(@NotNull Component title) {
         if (this.locked) {
             throw new IllegalStateException("Cannot set title of locked machine menu!");
         }
@@ -87,7 +87,7 @@ public class MachineMenuPreset extends SimpleMenu {
         super.setSize(size);
     }
 
-    public void setClickHandler(int slot, ClickHandler clickHandler) {
+    public void setClickHandler(int slot, @NotNull ClickHandler clickHandler) {
         if (this.locked) {
             throw new IllegalStateException("Cannot set click handler of locked machine menu!");
         }

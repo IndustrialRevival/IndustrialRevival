@@ -10,8 +10,8 @@ import org.irmc.industrialrevival.implementation.items.IRItems;
 import org.jetbrains.annotations.NotNull;
 
 public class ElectrolyticMachine extends ElectricMachine {
-    public ElectrolyticMachine(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, @NotNull MachineRecipes machineRecipes, long capacity) {
-        super(group, itemStack, recipeType, recipe, machineRecipes, capacity);
+    public ElectrolyticMachine() {
+        super();
 
         addRecipe(5, 1000,
                 IRItems.IRItemStacks.PURE_WATER_BOTTLE,

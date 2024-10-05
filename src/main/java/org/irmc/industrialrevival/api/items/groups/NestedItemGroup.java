@@ -60,7 +60,7 @@ public class NestedItemGroup extends ItemGroup {
                     sm.setItem(
                             i,
                             CleanedItemGetter.getCleanedItem(item.getIcon()),
-                            (slot, player, item1, menu, clickType) -> {
+                            (player, clickedItem, slot, menu, clickType) -> {
                                 guide.onGroupClicked(player, item, 1);
                                 return false;
                             });
@@ -75,13 +75,13 @@ public class NestedItemGroup extends ItemGroup {
         }
 
         ItemStack backButton = Constants.BACK_BUTTON.apply(p);
-        sm.setItem(2, backButton, ((slot, player, item, menu, clickType) -> {
+        sm.setItem(2, backButton, ((player, clickedItem, slot, menu, clickType) -> {
             guide.open(player);
             return false;
         }));
 
         ItemStack previousButton = Constants.PREVIOUS_BUTTON.apply(p);
-        SimpleMenu.ClickHandler previousClickHandler = (slot, player, item, menu, clickType) -> {
+        SimpleMenu.ClickHandler previousClickHandler = (player, clickedItem, slot, menu, clickType) -> {
             guide.onGroupClicked(player, this, page - 1);
             return false;
         };
@@ -95,7 +95,7 @@ public class NestedItemGroup extends ItemGroup {
         sm.setItem(47, previousButton, previousClickHandler);
 
         ItemStack nextButton = Constants.NEXT_BUTTON.apply(p);
-        SimpleMenu.ClickHandler nextClickHandler = (slot, player, item, menu, clickType) -> {
+        SimpleMenu.ClickHandler nextClickHandler = (player, clickedItem, slot, menu, clickType) -> {
             guide.onGroupClicked(player, this, page + 1);
             return false;
         };

@@ -66,27 +66,27 @@ public abstract class AbstractMachine extends IndustrialRevivalItem {
         return this;
     }
 
-    public AbstractMachine addRecipe(int processTime, int energyCost, ItemStack[] consume, ItemStack[] produce) {
+    public AbstractMachine addRecipe(int processTime, int energy, ItemStack[] consume, ItemStack[] produce) {
         checkRegistered();
-        machineRecipes.addRecipe(processTime, energyCost, consume, produce);
+        machineRecipes.addRecipe(processTime, energy, consume, produce);
         return this;
     }
 
-    public AbstractMachine addRecipe(int processTime, int energyCost, ItemStack[] consume, ItemStack produce) {
+    public AbstractMachine addRecipe(int processTime, int energy, ItemStack[] consume, ItemStack produce) {
         checkRegistered();
-        machineRecipes.addRecipe(processTime, energyCost, Arrays.asList(consume), Collections.singletonList(produce));
+        machineRecipes.addRecipe(processTime, energy, Arrays.asList(consume), Collections.singletonList(produce));
         return this;
     }
 
-    public AbstractMachine addRecipe(int processTime, int energyCost, ItemStack consume, ItemStack produce) {
+    public AbstractMachine addRecipe(int processTime, int energy, ItemStack consume, ItemStack produce) {
         checkRegistered();
-        machineRecipes.addRecipe(processTime, energyCost, Collections.singletonList(consume), Collections.singletonList(produce));
+        machineRecipes.addRecipe(processTime, energy, Collections.singletonList(consume), Collections.singletonList(produce));
         return this;
     }
 
-    public AbstractMachine addRecipe(int processTime, int energyCost, ItemStack consume, ItemStack[] produce) {
+    public AbstractMachine addRecipe(int processTime, int energy, ItemStack consume, ItemStack[] produce) {
         checkRegistered();
-        machineRecipes.addRecipe(processTime, energyCost, Collections.singletonList(consume), Arrays.asList(produce));
+        machineRecipes.addRecipe(processTime, energy, Collections.singletonList(consume), Arrays.asList(produce));
         return this;
     }
 

@@ -10,8 +10,8 @@ import org.irmc.industrialrevival.implementation.items.IRItems;
 import org.jetbrains.annotations.NotNull;
 
 public class Colder extends ElectricMachine {
-    public Colder(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, @NotNull MachineRecipes machineRecipes, long capacity) {
-        super(group, itemStack, recipeType, recipe, machineRecipes, capacity);
+    public Colder() {
+        super();
 
         addRecipe(240, 357000,
                 IRItems.IRItemStacks.STEAM_BOTTLE,

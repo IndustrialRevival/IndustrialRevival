@@ -10,8 +10,8 @@ import org.irmc.industrialrevival.implementation.items.IRItems;
 import org.jetbrains.annotations.NotNull;
 
 public class SpinCoater extends ElectricMachine {
-    public SpinCoater(@NotNull ItemGroup group, @NotNull IndustrialRevivalItemStack itemStack, @NotNull RecipeType recipeType, @NotNull ItemStack[] recipe, @NotNull MachineRecipes machineRecipes, long capacity) {
-        super(group, itemStack, recipeType, recipe, machineRecipes, capacity);
+    public SpinCoater() {
+        super();
 
         addRecipe(80, 1000,
                 new ItemStack[]{IRItems.IRItemStacks.CLEANED_GRAPHENE_THIN_FILM, IRItems.IRItemStacks.POLYMETHYL_METHACRYLATE},

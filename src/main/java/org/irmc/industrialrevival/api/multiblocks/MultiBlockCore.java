@@ -2,14 +2,20 @@ package org.irmc.industrialrevival.api.multiblocks;
 
 import lombok.Getter;
 import org.bukkit.Axis;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
+import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Range;
+
+import javax.annotation.Nonnull;
 
 @Getter
 public abstract class MultiBlockCore extends IndustrialRevivalItem implements IMultiBlock {
@@ -17,20 +23,50 @@ public abstract class MultiBlockCore extends IndustrialRevivalItem implements IM
     private int maxY;
     private int maxZ;
 
-    public MultiBlockCore(
-            @NotNull ItemGroup group,
-            @NotNull IndustrialRevivalItemStack itemStack,
-            @NotNull RecipeType recipeType,
-            @NotNull ItemStack[] recipe,
-            int maxX,
-            int maxY,
-            int maxZ) {
-        super(group, itemStack, recipeType, recipe);
-        setLimit(maxX, maxY, maxZ);
+    @Override
+    public MultiBlockCore setItemGroup(@NotNull ItemGroup group) {
+        super.setItemGroup(group);
+        return this;
     }
 
     @Override
-    public boolean environmentCheck(Block block, MachineMenu menu) {
+    public MultiBlockCore setItemStack(@NotNull IndustrialRevivalItemStack itemStack) {
+        super.setItemStack(itemStack);
+        return this;
+    }
+
+    @Override
+    public MultiBlockCore addCraftMethod(@NotNull CraftMethodHandler handler) {
+        super.addCraftMethod(handler);
+        return this;
+    }
+
+    @Override
+    public MultiBlockCore setWikiText(@NotNull String wikiText) {
+        super.setWikiText(wikiText);
+        return this;
+    }
+
+    @Override
+    public MultiBlockCore setDisabledInWorld(@Nonnull World world, boolean disabled) {
+        super.setDisabledInWorld(world, disabled);
+        return this;
+    }
+
+    @Override
+    public MultiBlockCore setDisabled(boolean disabled) {
+        super.setDisabled(disabled);
+        return this;
+    }
+
+    @Override
+    public MultiBlockCore addItemDictionary(@Nonnull ItemDictionary dictionary) {
+        super.addItemDictionary(dictionary);
+        return this;
+    }
+
+    @Override
+    public boolean environmentCheck(@Nonnull Block block, @Nullable MachineMenu menu) {
         return false;
     }
 
@@ -51,15 +87,26 @@ public abstract class MultiBlockCore extends IndustrialRevivalItem implements IM
         this.maxZ = maxZ;
     }
 
-    @Override
-    public int getLimit(Axis axis) {
-        if (axis == Axis.X) {
-            return maxX;
-        } else if (axis == Axis.Y) {
-            return maxY;
-        } else if (axis == Axis.Z) {
-            return maxZ;
+    public void setLimitX(@Range(from = 1, to = 9) int maxX) {
+        checkRegistered();
+        if (maxX < 1 || maxX > 9) {
+            throw new IllegalArgumentException("maxX must be between 1 and 9");
         }
-        return 0;
+        this.maxX = maxX;
+    }
+
+    public void setLimitY(@Range(from = 1, to = 9) int maxY) {
+        checkRegistered();
+        if (maxY < 1 || maxY > 9) {
+            throw new IllegalArgumentException("maxY must be between 1 and 9");
+        }
+        this.maxY = maxY;
+    }
+
+    public void setLimitZ(@Range(from = 1, to = 9) int maxZ) {
+        checkRegistered();
+        if (maxZ < 1 || maxZ > 9) {
+            throw new IllegalArgumentException("maxZ must be between 1 and 9");
+        }
     }
 }

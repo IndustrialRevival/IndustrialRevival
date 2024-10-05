@@ -4,7 +4,14 @@ import lombok.experimental.UtilityClass;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.irmc.industrialrevival.api.menu.MachineMenu;
+import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
+import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
+
+import javax.annotation.Nonnull;
+import java.util.HashMap;
+import java.util.Map;
 
 @SuppressWarnings({"deprecation", "unused"})
 @UtilityClass
@@ -44,4 +51,26 @@ public class MenuUtil {
             ChatColor.RED + "Cancel",
             ChatColor.GRAY + "Click to cancel."
     ).toPureItemStack();
+
+    @Nonnull
+    public static Map<ItemStack, Integer> getMenuItemsByItemFlow(MachineMenu menu, ItemFlow itemFlow, ItemStack itemStack) {
+        final int[] slots = menu.getPreset().getSlotsByItemFlow(itemFlow, itemStack);
+        final Map<ItemStack, Integer> items = new HashMap<>();
+        for (int slot : slots) {
+            final ItemStack itemInSlot = menu.getItem(slot);
+            if (itemInSlot != null && itemInSlot.getType() != Material.AIR) {
+                items.merge(itemInSlot, itemInSlot.getAmount(), Integer::sum);
+            }
+        }
+        return items;
+    }
+
+    @Nonnull
+    public static Map<ItemStack, Integer> getMenuItemsByItemFlow(SimpleMenu menu, ItemFlow itemFlow, ItemStack itemStack) {
+        if (menu instanceof MachineMenu machineMenu) {
+            return getMenuItemsByItemFlow(machineMenu, itemFlow, itemStack);
+        } else {
+            return new HashMap<>();
+        }
+    }
 }
