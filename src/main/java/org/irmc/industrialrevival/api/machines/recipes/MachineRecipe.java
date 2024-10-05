@@ -5,7 +5,7 @@ import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.objects.ItemStackReference;
 
-import javax.annotation.Nonnull;
+import javax.annotation.NotNull;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -22,8 +22,8 @@ public class MachineRecipe {
     public MachineRecipe(
             int processTime,
             int energy,
-            @Nonnull Map<ItemStack, Integer> inputs,
-            @Nonnull Map<ItemStack, Integer> outputs
+            @NotNull Map<ItemStack, Integer> inputs,
+            @NotNull Map<ItemStack, Integer> outputs
     ) {
         Preconditions.checkArgument(inputs != null, "inputs cannot be null");
         Preconditions.checkArgument(outputs != null, "outputs cannot be null");
@@ -36,8 +36,8 @@ public class MachineRecipe {
     public MachineRecipe(
             int processTime,
             int energy,
-            @Nonnull List<ItemStack> inputs,
-            @Nonnull List<ItemStack> outputs
+            @NotNull List<ItemStack> inputs,
+            @NotNull List<ItemStack> outputs
     ) {
         Preconditions.checkArgument(inputs != null, "inputs cannot be null");
         Preconditions.checkArgument(outputs != null, "outputs cannot be null");
@@ -50,8 +50,8 @@ public class MachineRecipe {
     public MachineRecipe(
             int processTime,
             int energy,
-            @Nonnull Iterable<ItemStack> inputs,
-            @Nonnull Iterable<ItemStack> outputs
+            @NotNull Iterable<ItemStack> inputs,
+            @NotNull Iterable<ItemStack> outputs
     ) {
         Preconditions.checkArgument(inputs != null, "inputs cannot be null");
         Preconditions.checkArgument(outputs != null, "outputs cannot be null");
@@ -64,8 +64,8 @@ public class MachineRecipe {
     public MachineRecipe(
             int processTime,
             int energy,
-            @Nonnull Collection<ItemStack> inputs,
-            @Nonnull Collection<ItemStack> outputs
+            @NotNull Collection<ItemStack> inputs,
+            @NotNull Collection<ItemStack> outputs
     ) {
         Preconditions.checkArgument(inputs != null, "inputs cannot be null");
         Preconditions.checkArgument(outputs != null, "outputs cannot be null");
@@ -78,8 +78,8 @@ public class MachineRecipe {
     public MachineRecipe(
             int processTime,
             int energy,
-            @Nonnull ItemStack input,
-            @Nonnull ItemStack output
+            @NotNull ItemStack input,
+            @NotNull ItemStack output
     ) {
         Preconditions.checkArgument(input != null, "input cannot be null");
         Preconditions.checkArgument(output != null, "output cannot be null");
@@ -92,8 +92,8 @@ public class MachineRecipe {
     public MachineRecipe(
             int processTime,
             int energy,
-            @Nonnull ItemStackReference input,
-            @Nonnull ItemStackReference output
+            @NotNull ItemStackReference input,
+            @NotNull ItemStackReference output
     ) {
         Preconditions.checkArgument(input != null, "input cannot be null");
         Preconditions.checkArgument(output != null, "output cannot be null");

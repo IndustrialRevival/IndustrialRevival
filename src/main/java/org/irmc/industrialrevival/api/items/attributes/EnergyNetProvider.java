@@ -7,8 +7,8 @@ import org.irmc.industrialrevival.api.objects.enums.EnergyNetComponentType;
 import org.irmc.industrialrevival.api.objects.enums.GeneratorType;
 import org.irmc.industrialrevival.utils.Constants;
 import org.irmc.industrialrevival.utils.DataUtil;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
@@ -36,7 +36,7 @@ public interface EnergyNetProvider extends EnergyNetComponent {
      * @param energyProduction the amount of energy production to add to the network
      * @return the total energy production added to the network
      */
-    default long addEnergyProduction(@Nonnull Location location, long energyProduction) {
+    default long addEnergyProduction(@NotNull Location location, long energyProduction) {
         long existingEnergyProduction = 0;
         final String dataExistingEnergyProduction = DataUtil.getData(location, Constants.ENERGY_CHARGE_KEY);
         if (dataExistingEnergyProduction != null) {
@@ -52,5 +52,5 @@ public interface EnergyNetProvider extends EnergyNetComponent {
         return charged;
     }
 
-    long getEnergyProduction(@Nonnull Block block, @Nullable MachineMenu menu);
+    long getEnergyProduction(@NotNull Block block, @Nullable MachineMenu menu);
 }

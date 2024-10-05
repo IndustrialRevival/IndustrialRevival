@@ -24,7 +24,7 @@ import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.api.researches.Research;
 import org.irmc.pigeonlib.items.ItemUtils;
 
-import javax.annotation.Nonnull;
+import javax.annotation.NotNull;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -68,17 +68,17 @@ public final class IRRegistry {
         itemGroups.putAll(newItemGroups);
     }
 
-    public void registerItem(@Nonnull IndustrialRevivalItem item) {
+    public void registerItem(@NotNull IndustrialRevivalItem item) {
         Preconditions.checkArgument(item != null, "Item cannot be null");
         items.put(item.getId(), item);
     }
 
-    public void registerItemGroup(@Nonnull ItemGroup itemGroup) {
+    public void registerItemGroup(@NotNull ItemGroup itemGroup) {
         Preconditions.checkArgument(itemGroup.getKey() != null, "Item group key cannot be null");
         itemGroups.put(itemGroup.getKey(), itemGroup);
     }
 
-    public void registerMobDrop(@Nonnull IndustrialRevivalItem mobDropItem) {
+    public void registerMobDrop(@NotNull IndustrialRevivalItem mobDropItem) {
         Preconditions.checkArgument(mobDropItem != null, "Item cannot be null");
         if (!(mobDropItem instanceof MobDropItem mdi)) {
             throw new IllegalArgumentException("Item must implement MobDropItem interface");
@@ -94,7 +94,7 @@ public final class IRRegistry {
         }
     }
 
-    public void registerBlockDrop(@Nonnull IndustrialRevivalItem blockDropItem) {
+    public void registerBlockDrop(@NotNull IndustrialRevivalItem blockDropItem) {
         Preconditions.checkArgument(blockDropItem != null, "Item cannot be null");
         if (!(blockDropItem instanceof BlockDropItem bdi)) {
             throw new IllegalArgumentException("Item must implement BlockDropItem interface");

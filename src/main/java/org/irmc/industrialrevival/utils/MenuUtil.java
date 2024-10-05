@@ -9,7 +9,7 @@ import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
 
-import javax.annotation.Nonnull;
+import javax.annotation.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,7 +52,7 @@ public class MenuUtil {
             ChatColor.GRAY + "Click to cancel."
     ).toPureItemStack();
 
-    @Nonnull
+    @NotNull
     public static Map<ItemStack, Integer> getMenuItemsByItemFlow(MachineMenu menu, ItemFlow itemFlow, ItemStack itemStack) {
         final int[] slots = menu.getPreset().getSlotsByItemFlow(itemFlow, itemStack);
         final Map<ItemStack, Integer> items = new HashMap<>();
@@ -65,7 +65,7 @@ public class MenuUtil {
         return items;
     }
 
-    @Nonnull
+    @NotNull
     public static Map<ItemStack, Integer> getMenuItemsByItemFlow(SimpleMenu menu, ItemFlow itemFlow, ItemStack itemStack) {
         if (menu instanceof MachineMenu machineMenu) {
             return getMenuItemsByItemFlow(machineMenu, itemFlow, itemStack);

@@ -6,7 +6,7 @@ import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.pigeonlib.items.ItemUtils;
 import org.jetbrains.annotations.Range;
 
-import javax.annotation.Nonnull;
+import javax.annotation.NotNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -28,12 +28,12 @@ public class MenuDrawer {
         return this;
     }
 
-    public MenuDrawer addExplain(char c, @Nonnull ItemStack itemStack) {
+    public MenuDrawer addExplain(char c, @NotNull ItemStack itemStack) {
         charMap.put(c, new ItemStack(itemStack));
         return this;
     }
 
-    public MenuDrawer addExplain(String c, @Nonnull ItemStack itemStack) {
+    public MenuDrawer addExplain(String c, @NotNull ItemStack itemStack) {
         return addExplain(c.charAt(0), itemStack);
     }
 

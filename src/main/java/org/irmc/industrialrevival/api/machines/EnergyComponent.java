@@ -8,7 +8,7 @@ import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
+import javax.annotation.NotNull;
 
 public abstract class EnergyComponent extends BasicMachine implements EnergyNetComponent {
     @Getter
@@ -39,7 +39,7 @@ public abstract class EnergyComponent extends BasicMachine implements EnergyNetC
     }
 
     @Override
-    public EnergyComponent setDisabledInWorld(@Nonnull World world, boolean disabled) {
+    public EnergyComponent setDisabledInWorld(@NotNull World world, boolean disabled) {
         super.setDisabledInWorld(world, disabled);
         return this;
     }
@@ -51,7 +51,7 @@ public abstract class EnergyComponent extends BasicMachine implements EnergyNetC
     }
 
     @Override
-    public EnergyComponent addItemDictionary(@Nonnull ItemDictionary dictionary) {
+    public EnergyComponent addItemDictionary(@NotNull ItemDictionary dictionary) {
         super.addItemDictionary(dictionary);
         return this;
     }

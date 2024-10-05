@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
-import javax.annotation.Nonnull;
+import javax.annotation.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -47,7 +47,7 @@ public class SimpleMenu implements IRInventoryHolder {
         this.clickHandlers = new HashMap<>();
     }
 
-    public void setItem(@Nullable ItemStack item, @Nonnull ClickHandler clickHandler, int... slots) {
+    public void setItem(@Nullable ItemStack item, @NotNull ClickHandler clickHandler, int... slots) {
         for (int slot : slots) {
             setItem(slot, item, clickHandler);
         }
@@ -57,7 +57,7 @@ public class SimpleMenu implements IRInventoryHolder {
         setItem(slot, itemStack, ClickHandler.DEFAULT);
     }
 
-    public void setItem(@Range(from = 0, to = 53) int slot, @Nullable ItemStack itemStack, @Nonnull ClickHandler clickHandler) {
+    public void setItem(@Range(from = 0, to = 53) int slot, @Nullable ItemStack itemStack, @NotNull ClickHandler clickHandler) {
         if (slot < 0 || slot >= 54) {
             throw new IllegalArgumentException("Invalid slot: " + slot);
         }
@@ -79,7 +79,7 @@ public class SimpleMenu implements IRInventoryHolder {
         markDirty();
     }
 
-    public void setTitle(@Nonnull Component title) {
+    public void setTitle(@NotNull Component title) {
         this.title = title;
 
         markDirty();
@@ -144,12 +144,12 @@ public class SimpleMenu implements IRInventoryHolder {
                 .toArray();
     }
 
-    @Nonnull
+    @NotNull
     public ClickHandler getClickHandler(int slot) {
         return this.clickHandlers.getOrDefault(slot, ClickHandler.DEFAULT);
     }
 
-    public void setClickHandler(int slot, @Nonnull ClickHandler clickHandler) {
+    public void setClickHandler(int slot, @NotNull ClickHandler clickHandler) {
         this.clickHandlers.put(slot, clickHandler);
     }
 
@@ -158,7 +158,7 @@ public class SimpleMenu implements IRInventoryHolder {
     }
 
     @Override
-    @Nonnull
+    @NotNull
     public Inventory getInventory() {
         if (this.inventory == null || this.dirty) {
             setupInventory();
@@ -216,11 +216,11 @@ public class SimpleMenu implements IRInventoryHolder {
          * @return false if the click should be canceled, true otherwise
          */
         boolean onClick(
-                @Nonnull Player player,
+                @NotNull Player player,
                 @Nullable ItemStack clickedItem,
                 int clickedSlot,
-                @Nonnull SimpleMenu clickedMenu,
-                @Nonnull ClickType clickType);
+                @NotNull SimpleMenu clickedMenu,
+                @NotNull ClickType clickType);
     }
 
     @FunctionalInterface
@@ -238,21 +238,21 @@ public class SimpleMenu implements IRInventoryHolder {
 
         @Override
         default boolean onClick(
-                @Nonnull Player player,
+                @NotNull Player player,
                 @Nullable ItemStack clickedItem,
                 int clickedSlot,
-                @Nonnull SimpleMenu clickedMenu,
-                @Nonnull ClickType clickType) {
+                @NotNull SimpleMenu clickedMenu,
+                @NotNull ClickType clickType) {
             return false;
         }
 
         boolean onClick(
-                @Nonnull Player player,
+                @NotNull Player player,
                 @Nullable ItemStack item,
                 int slot,
-                @Nonnull SimpleMenu menu,
-                @Nonnull ClickType clickType,
-                @Nonnull InventoryClickEvent event);
+                @NotNull SimpleMenu menu,
+                @NotNull ClickType clickType,
+                @NotNull InventoryClickEvent event);
     }
 
     @FunctionalInterface

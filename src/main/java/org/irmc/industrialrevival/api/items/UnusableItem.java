@@ -6,7 +6,7 @@ import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
+import javax.annotation.NotNull;
 
 
 public class UnusableItem extends IndustrialRevivalItem implements Unusable {
@@ -35,7 +35,7 @@ public class UnusableItem extends IndustrialRevivalItem implements Unusable {
     }
 
     @Override
-    public UnusableItem setDisabledInWorld(@Nonnull World world, boolean disabled) {
+    public UnusableItem setDisabledInWorld(@NotNull World world, boolean disabled) {
         super.setDisabledInWorld(world, disabled);
         return this;
     }
@@ -47,7 +47,7 @@ public class UnusableItem extends IndustrialRevivalItem implements Unusable {
     }
 
     @Override
-    public UnusableItem addItemDictionary(@Nonnull ItemDictionary dictionary) {
+    public UnusableItem addItemDictionary(@NotNull ItemDictionary dictionary) {
         super.addItemDictionary(dictionary);
         return this;
     }

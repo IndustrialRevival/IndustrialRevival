@@ -40,7 +40,7 @@ public class PlayerProfile {
         this.playerName = playerName;
         this.playerUUID = playerUUID;
         this.guideHistory = new GuideHistory(playerName);
-        this.guideSettings = Objects.requireNonNullElse(guideSettings, GuideSettings.DEFAULT_SETTINGS);
+        this.guideSettings = Objects.requireNotNullElse(guideSettings, GuideSettings.DEFAULT_SETTINGS);
         this.researchStatus = researchStatus;
     }
 

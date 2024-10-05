@@ -8,7 +8,7 @@ import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
+import javax.annotation.NotNull;
 import javax.annotation.Nullable;
 
 @Getter
@@ -17,14 +17,14 @@ public class MachineMenuPreset extends SimpleMenu {
 
     private boolean locked;
 
-    public MachineMenuPreset(@Nonnull String id, @Nonnull Component title) {
+    public MachineMenuPreset(@NotNull String id, @NotNull Component title) {
         super(title);
 
         this.id = id;
         this.locked = false;
     }
 
-    protected void addMenuDrawer(@Nonnull MenuDrawer drawer) {
+    protected void addMenuDrawer(@NotNull MenuDrawer drawer) {
         int i = 0, j = 0;
         for (String line : drawer.getMatrix()) {
             for (char slotSymbol : line.toCharArray()) {
@@ -41,7 +41,7 @@ public class MachineMenuPreset extends SimpleMenu {
 
     }
 
-    public void newInstance(@Nonnull Block block, @Nullable MachineMenu menu) {
+    public void newInstance(@NotNull Block block, @Nullable MachineMenu menu) {
 
     }
 

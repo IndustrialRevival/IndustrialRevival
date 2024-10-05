@@ -16,7 +16,7 @@ import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.utils.CleanedItemGetter;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
+import javax.annotation.NotNull;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
@@ -49,7 +49,7 @@ public abstract class AbstractMachine extends IndustrialRevivalItem {
     }
 
     @Override
-    public AbstractMachine setDisabledInWorld(@Nonnull World world, boolean disabled) {
+    public AbstractMachine setDisabledInWorld(@NotNull World world, boolean disabled) {
         super.setDisabledInWorld(world, disabled);
         return this;
     }
@@ -61,7 +61,7 @@ public abstract class AbstractMachine extends IndustrialRevivalItem {
     }
 
     @Override
-    public AbstractMachine addItemDictionary(@Nonnull ItemDictionary dictionary) {
+    public AbstractMachine addItemDictionary(@NotNull ItemDictionary dictionary) {
         super.addItemDictionary(dictionary);
         return this;
     }
@@ -142,7 +142,7 @@ public abstract class AbstractMachine extends IndustrialRevivalItem {
     }
 
     @Override
-    public AbstractMachine setItemStack(@Nonnull IndustrialRevivalItemStack itemStack) {
+    public AbstractMachine setItemStack(@NotNull IndustrialRevivalItemStack itemStack) {
         super.setItemStack(itemStack);
         if (recipeTypeIcon == null) {
             this.recipeTypeIcon = CleanedItemGetter.getCleanedItem(itemStack);

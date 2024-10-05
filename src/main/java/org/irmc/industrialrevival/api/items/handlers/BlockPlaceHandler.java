@@ -6,11 +6,11 @@ import org.irmc.industrialrevival.api.items.attributes.NotPlaceable;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
 import org.irmc.pigeonlib.items.ItemUtils;
 
-import javax.annotation.Nonnull;
+import javax.annotation.NotNull;
 
 @FunctionalInterface
 public interface BlockPlaceHandler extends ItemHandler {
-    void onBlockPlace(@Nonnull BlockPlaceEvent event);
+    void onBlockPlace(@NotNull BlockPlaceEvent event);
 
     @Override
     default IncompatibleItemHandlerException isCompatible(IndustrialRevivalItem item) {

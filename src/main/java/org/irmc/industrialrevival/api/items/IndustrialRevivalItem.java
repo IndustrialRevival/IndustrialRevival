@@ -32,7 +32,7 @@ import org.irmc.pigeonlib.pdc.PersistentDataAPI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
+import javax.annotation.NotNull;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -100,7 +100,7 @@ public class IndustrialRevivalItem {
         return itemStack;
     }
 
-    public IndustrialRevivalItem addCraftMethod(@Nonnull CraftMethodHandler craftMethodHandler) {
+    public IndustrialRevivalItem addCraftMethod(@NotNull CraftMethodHandler craftMethodHandler) {
         Preconditions.checkArgument(craftMethodHandler != null, "craftMethodHandler cannot be null");
         CraftMethod craftMethod = craftMethodHandler.getCraftMethod(this);
         if (craftMethod == null) {
@@ -144,7 +144,7 @@ public class IndustrialRevivalItem {
      *
      * @return WILL RETURN NULL IF THE ITEM IS NOT REGISTERED SUCCESSFULLY!!
      */
-    public IndustrialRevivalItem register(@Nonnull IndustrialRevivalAddon addon) {
+    public IndustrialRevivalItem register(@NotNull IndustrialRevivalAddon addon) {
         Preconditions.checkArgument(addon != null, "Addon cannot be null");
         checkRegistered();
 
@@ -232,11 +232,11 @@ public class IndustrialRevivalItem {
         }
     }
 
-    public boolean isDisabledInWorld(@Nonnull World world) {
+    public boolean isDisabledInWorld(@NotNull World world) {
         return state == ItemState.DISABLED || disabledInWorld.contains(world.getName());
     }
 
-    public IndustrialRevivalItem setDisabledInWorld(@Nonnull World world, boolean disabled) {
+    public IndustrialRevivalItem setDisabledInWorld(@NotNull World world, boolean disabled) {
         Preconditions.checkArgument(world != null, "World cannot be null");
         ConfigurationSection setting = getItemSetting();
         List<String> worlds = setting.getStringList("disabled_in_worlds");
@@ -258,28 +258,28 @@ public class IndustrialRevivalItem {
         return IndustrialRevival.getInstance().getItemSettings().getSetting(getId());
     }
 
-    public IndustrialRevivalItem setWikiText(@Nonnull String wikiText) {
+    public IndustrialRevivalItem setWikiText(@NotNull String wikiText) {
         checkRegistered();
         Preconditions.checkArgument(wikiText != null, "WikiText cannot be null");
         this.wikiText = Optional.of(wikiText);
         return this;
     }
 
-    public IndustrialRevivalItem addItemDictionary(@Nonnull ItemDictionary itemDictionary) {
+    public IndustrialRevivalItem addItemDictionary(@NotNull ItemDictionary itemDictionary) {
         checkRegistered();
         Preconditions.checkArgument(itemDictionary != null, "ItemDictionary cannot be null");
         itemDictionaries.add(itemDictionary);
         return this;
     }
 
-    public IndustrialRevivalItem setItemGroup(@Nonnull ItemGroup group) {
+    public IndustrialRevivalItem setItemGroup(@NotNull ItemGroup group) {
         checkRegistered();
         Preconditions.checkArgument(group != null, "ItemGroup cannot be null");
         this.group = group;
         return this;
     }
 
-    public IndustrialRevivalItem setItemStack(@Nonnull IndustrialRevivalItemStack itemStack) {
+    public IndustrialRevivalItem setItemStack(@NotNull IndustrialRevivalItemStack itemStack) {
         checkRegistered();
         Preconditions.checkArgument(itemStack != null, "ItemStack cannot be null");
         this.itemStack = itemStack;

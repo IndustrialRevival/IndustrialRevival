@@ -6,7 +6,7 @@ import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
+import javax.annotation.NotNull;
 
 public class NotPlaceableItem extends IndustrialRevivalItem implements NotPlaceable {
     @Override
@@ -34,7 +34,7 @@ public class NotPlaceableItem extends IndustrialRevivalItem implements NotPlacea
     }
 
     @Override
-    public NotPlaceableItem setDisabledInWorld(@Nonnull World world, boolean disabled) {
+    public NotPlaceableItem setDisabledInWorld(@NotNull World world, boolean disabled) {
         super.setDisabledInWorld(world, disabled);
         return this;
     }
@@ -46,7 +46,7 @@ public class NotPlaceableItem extends IndustrialRevivalItem implements NotPlacea
     }
 
     @Override
-    public NotPlaceableItem addItemDictionary(@Nonnull ItemDictionary dictionary) {
+    public NotPlaceableItem addItemDictionary(@NotNull ItemDictionary dictionary) {
         super.addItemDictionary(dictionary);
         return this;
     }

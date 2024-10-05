@@ -17,7 +17,7 @@ import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
 import org.irmc.industrialrevival.utils.MenuUtil;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
+import javax.annotation.NotNull;
 import javax.annotation.Nullable;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.util.HashMap;
@@ -49,7 +49,7 @@ public abstract class BasicMachine extends AbstractMachine implements ProcessorH
             }
 
             @Override
-            public int[] getSlotsByItemFlow(@Nonnull ItemFlow itemFlow, @Nullable ItemStack itemStack) {
+            public int[] getSlotsByItemFlow(@NotNull ItemFlow itemFlow, @Nullable ItemStack itemStack) {
                 if (itemFlow == ItemFlow.INSERT) {
                     return getInputSlots();
                 } else {
@@ -61,7 +61,7 @@ public abstract class BasicMachine extends AbstractMachine implements ProcessorH
         super.preRegister();
     }
 
-    protected void tick(@Nonnull Block block, @Nullable MachineMenu menu) {
+    protected void tick(@NotNull Block block, @Nullable MachineMenu menu) {
         if (menu == null) {
             processor.stopProcess(block.getLocation());
             return;
@@ -103,7 +103,7 @@ public abstract class BasicMachine extends AbstractMachine implements ProcessorH
         }
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public MachineProcessor<MachineOperation> getProcessor() {
         return this.processor;

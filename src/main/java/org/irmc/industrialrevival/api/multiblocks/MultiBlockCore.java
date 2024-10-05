@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
-import javax.annotation.Nonnull;
+import javax.annotation.NotNull;
 
 @Getter
 public abstract class MultiBlockCore extends IndustrialRevivalItem implements IMultiBlock {
@@ -50,7 +50,7 @@ public abstract class MultiBlockCore extends IndustrialRevivalItem implements IM
     }
 
     @Override
-    public MultiBlockCore setDisabledInWorld(@Nonnull World world, boolean disabled) {
+    public MultiBlockCore setDisabledInWorld(@NotNull World world, boolean disabled) {
         super.setDisabledInWorld(world, disabled);
         return this;
     }
@@ -62,17 +62,17 @@ public abstract class MultiBlockCore extends IndustrialRevivalItem implements IM
     }
 
     @Override
-    public MultiBlockCore addItemDictionary(@Nonnull ItemDictionary dictionary) {
+    public MultiBlockCore addItemDictionary(@NotNull ItemDictionary dictionary) {
         super.addItemDictionary(dictionary);
         return this;
     }
 
     @Override
-    public boolean environmentCheck(@Nonnull Block block, @Nullable MachineMenu menu) {
+    public boolean environmentCheck(@NotNull Block block, @Nullable MachineMenu menu) {
         return false;
     }
 
-    public void setLimit(@Nonnull Axis axis, @Range(from = 1, to = 9) int max) {
+    public void setLimit(@NotNull Axis axis, @Range(from = 1, to = 9) int max) {
         checkRegistered();
         if (max < 1 || max > 9) {
             throw new IllegalArgumentException("maxX must be between 1 and 9");
@@ -85,7 +85,7 @@ public abstract class MultiBlockCore extends IndustrialRevivalItem implements IM
         }
     }
 
-    public int getLimit(@Nonnull Axis axis) {
+    public int getLimit(@NotNull Axis axis) {
         checkRegistered();
         return switch (axis) {
             case X -> maxX;

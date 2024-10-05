@@ -10,7 +10,7 @@ import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.objects.IRRecipeChoice;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
+import javax.annotation.NotNull;
 
 /**
  * An ore block that drops itself when mined.
@@ -69,7 +69,7 @@ public class IndustrialRevivalOreBlock extends IndustrialRevivalItem implements 
     }
 
     @Override
-    public IndustrialRevivalOreBlock setDisabledInWorld(@Nonnull World world, boolean disabled) {
+    public IndustrialRevivalOreBlock setDisabledInWorld(@NotNull World world, boolean disabled) {
         super.setDisabledInWorld(world, disabled);
         return this;
     }
@@ -81,20 +81,20 @@ public class IndustrialRevivalOreBlock extends IndustrialRevivalItem implements 
     }
 
     @Override
-    public IndustrialRevivalOreBlock addItemDictionary(@Nonnull ItemDictionary dictionary) {
+    public IndustrialRevivalOreBlock addItemDictionary(@NotNull ItemDictionary dictionary) {
         super.addItemDictionary(dictionary);
         return this;
     }
 
 
     @Override
-    @Nonnull
+    @NotNull
     public RecipeChoice getRecipeInput() {
         return new IRRecipeChoice(getItem());
     }
 
     @Override
-    @Nonnull
+    @NotNull
     public ItemStack getRecipeOutput() {
         return output;
     }

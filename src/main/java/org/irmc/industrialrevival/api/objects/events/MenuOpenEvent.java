@@ -12,7 +12,7 @@ import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
+import javax.annotation.NotNull;
 
 @Getter
 public class MenuOpenEvent extends PlayerRightClickEvent {
@@ -20,7 +20,7 @@ public class MenuOpenEvent extends PlayerRightClickEvent {
     private final PlayerRightClickEvent rightClickEvent;
     private final MachineMenu openedMenu;
 
-    public MenuOpenEvent(PlayerRightClickEvent originalEvent, @Nonnull MachineMenu openedMenu) {
+    public MenuOpenEvent(PlayerRightClickEvent originalEvent, @NotNull MachineMenu openedMenu) {
         super(originalEvent.getOriginalEvent());
         this.rightClickEvent = originalEvent;
         this.openedMenu = openedMenu;
