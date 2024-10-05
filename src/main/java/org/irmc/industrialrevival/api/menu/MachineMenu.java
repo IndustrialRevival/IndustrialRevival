@@ -15,8 +15,8 @@ import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.api.objects.ItemStackReference;
 import org.irmc.pigeonlib.items.ItemUtils;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-@SuppressWarnings({"deprecation", "unused"})
+@SuppressWarnings({ "deprecation", "unused" })
 @Getter
 public class MachineMenu extends SimpleMenu {
     private final Location location;
@@ -36,7 +36,7 @@ public class MachineMenu extends SimpleMenu {
         this.preset = preset;
     }
 
-    @Nonnull
+    @NotNull
     public static String getProgressBar(int remainingTicks, int total) {
         StringBuilder sb = new StringBuilder();
         float percentage = Math.round((total - remainingTicks) * 100.0F / total * 100.0F / 100.0F);
@@ -56,11 +56,11 @@ public class MachineMenu extends SimpleMenu {
         return ChatColor.translateAlternateColorCodes('&', sb.toString());
     }
 
-    private static short getDurability(@Nonnull ItemStack item, int remainingTicks, int total) {
+    private static short getDurability(@NotNull ItemStack item, int remainingTicks, int total) {
         return (short) ((item.getType().getMaxDurability() / total) * remainingTicks);
     }
 
-    @Nonnull
+    @NotNull
     public static ChatColor getColorFromPercentage(float percentage) {
         if (percentage < 16.0F) {
             return ChatColor.DARK_RED;
@@ -81,7 +81,7 @@ public class MachineMenu extends SimpleMenu {
         return ChatColor.GREEN;
     }
 
-    @Nonnull
+    @NotNull
     public static String getRemainingTime(int seconds) {
         String remainingTime = "";
 
@@ -107,7 +107,7 @@ public class MachineMenu extends SimpleMenu {
         return !getInventory().getViewers().isEmpty();
     }
 
-    @Nonnull
+    @NotNull
     public List<HumanEntity> getViewers() {
         return getInventory().getViewers();
     }
@@ -172,6 +172,16 @@ public class MachineMenu extends SimpleMenu {
         return consumedCount;
     }
 
+    public int consumeItem(Map<ItemStackReference, Integer> itemRefMap, int... slots) {
+        int consumedCount = 0;
+        for (ItemStackReference itemRef : itemRefMap.keySet()) {
+            int amount = itemRefMap.get(itemRef);
+            consumedCount += consumeItem(itemRef, amount, slots);
+        }
+
+        return consumedCount;
+    }
+
     public void setProgressItem(int slot, int remainingTicks, int totalTicks, ItemStack progressBarItem) {
         if (!this.hasViewer()) {
             return;
@@ -194,7 +204,7 @@ public class MachineMenu extends SimpleMenu {
     }
 
     @Nullable
-    public ItemStack pushItem(@Nonnull ItemStack item, int... slots) {
+    public ItemStack pushItem(@NotNull ItemStack item, int... slots) {
         if (item == null || item.getType() == Material.AIR) {
             throw new IllegalArgumentException("Cannot push null or AIR");
         }
@@ -237,8 +247,8 @@ public class MachineMenu extends SimpleMenu {
         }
     }
 
-    @Nonnull
-    public Map<ItemStack, Integer> pushItem(@Nonnull ItemStack[] items, int... slots) {
+    @NotNull
+    public Map<ItemStack, Integer> pushItem(@NotNull ItemStack[] items, int... slots) {
         if (items == null || items.length == 0) {
             throw new IllegalArgumentException("Cannot push null or empty array");
         }
@@ -253,8 +263,8 @@ public class MachineMenu extends SimpleMenu {
         return pushItem(listItems, slots);
     }
 
-    @Nonnull
-    public Map<ItemStack, Integer> pushItem(@Nonnull List<ItemStack> items, int... slots) {
+    @NotNull
+    public Map<ItemStack, Integer> pushItem(@NotNull List<ItemStack> items, int... slots) {
         if (items == null || items.isEmpty()) {
             throw new IllegalArgumentException("Cannot push null or empty list");
         }
@@ -272,7 +282,7 @@ public class MachineMenu extends SimpleMenu {
         return itemMap;
     }
 
-    @Nonnull
+    @NotNull
     public Map<ItemStack, Integer> pushItem(Map<ItemStack, Integer> items, int... slots) {
         if (items == null || items.isEmpty()) {
             throw new IllegalArgumentException("Cannot push null or empty map");
@@ -288,8 +298,8 @@ public class MachineMenu extends SimpleMenu {
         return pushItem(listItems, slots);
     }
 
-    public boolean fits(@Nonnull ItemStack item, int... slots) {
-        if (item.getType() == Material.AIR) {
+    public boolean fits(@NotNull ItemStack item, int... slots) {
+        if (item == null || item.getType() == Material.AIR) {
             return true;
         }
 
@@ -311,8 +321,8 @@ public class MachineMenu extends SimpleMenu {
         return false;
     }
 
-    public boolean fits(@Nonnull ItemStack[] items, int... slots) {
-        if (items.length == 0) {
+    public boolean fits(@NotNull ItemStack[] items, int... slots) {
+        if (items == null || items.length == 0) {
             return false;
         }
 
@@ -326,8 +336,8 @@ public class MachineMenu extends SimpleMenu {
         return fits(listItems, slots);
     }
 
-    public boolean fits(@Nonnull List<ItemStack> items, int... slots) {
-        if (items.isEmpty()) {
+    public boolean fits(@NotNull List<ItemStack> items, int... slots) {
+        if (items == null || items.isEmpty()) {
             return false;
         }
 
@@ -400,7 +410,7 @@ public class MachineMenu extends SimpleMenu {
         return fits(listItems, slots);
     }
 
-    @Nonnull
+    @NotNull
     public Block getBlock() {
         return location.getBlock();
     }

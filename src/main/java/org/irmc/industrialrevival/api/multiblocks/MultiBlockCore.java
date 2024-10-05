@@ -2,64 +2,110 @@ package org.irmc.industrialrevival.api.multiblocks;
 
 import lombok.Getter;
 import org.bukkit.Axis;
+import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
+import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
+import org.irmc.industrialrevival.api.items.handlers.BlockTicker;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
-import org.irmc.industrialrevival.api.recipes.RecipeType;
+import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Range;
 
 @Getter
 public abstract class MultiBlockCore extends IndustrialRevivalItem implements IMultiBlock {
-    private int maxX;
-    private int maxY;
-    private int maxZ;
+    private int maxX = 0;
+    private int maxY = 0;
+    private int maxZ = 0;
 
-    public MultiBlockCore(
-            @NotNull ItemGroup group,
-            @NotNull IndustrialRevivalItemStack itemStack,
-            @NotNull RecipeType recipeType,
-            @NotNull ItemStack[] recipe,
-            int maxX,
-            int maxY,
-            int maxZ) {
-        super(group, itemStack, recipeType, recipe);
-        setLimit(maxX, maxY, maxZ);
+    @Override
+    public MultiBlockCore setItemGroup(@NotNull ItemGroup group) {
+        super.setItemGroup(group);
+        return this;
     }
 
     @Override
-    public boolean environmentCheck(Block block, MachineMenu menu) {
+    public MultiBlockCore setItemStack(@NotNull IndustrialRevivalItemStack itemStack) {
+        super.setItemStack(itemStack);
+        return this;
+    }
+
+    @Override
+    public MultiBlockCore addCraftMethod(@NotNull CraftMethodHandler handler) {
+        super.addCraftMethod(handler);
+        return this;
+    }
+
+    @Override
+    public MultiBlockCore setWikiText(@NotNull String wikiText) {
+        super.setWikiText(wikiText);
+        return this;
+    }
+
+    @Override
+    public MultiBlockCore setDisabledInWorld(@NotNull World world, boolean disabled) {
+        super.setDisabledInWorld(world, disabled);
+        return this;
+    }
+
+    @Override
+    public MultiBlockCore setDisabled(boolean disabled) {
+        super.setDisabled(disabled);
+        return this;
+    }
+
+    @Override
+    public MultiBlockCore addItemDictionary(@NotNull ItemDictionary dictionary) {
+        super.addItemDictionary(dictionary);
+        return this;
+    }
+
+    @Override
+    public boolean environmentCheck(@NotNull Block block, @Nullable MachineMenu menu) {
         return false;
     }
 
-    @Override
-    public void setLimit(int maxX, int maxY, int maxZ) {
-        if (maxX < 1 || maxX > 9) {
+    public void setLimit(@NotNull Axis axis, @Range(from = 1, to = 9) int max) {
+        checkRegistered();
+        if (max < 1 || max > 9) {
             throw new IllegalArgumentException("maxX must be between 1 and 9");
         }
-        if (maxY < 1 || maxY > 9) {
-            throw new IllegalArgumentException("maxY must be between 1 and 9");
+        switch (axis) {
+            case X -> this.maxX = max;
+            case Y -> this.maxY = max;
+            case Z -> this.maxZ = max;
+            default -> throw new IllegalArgumentException("Invalid axis: " + axis);
         }
-        if (maxZ < 1 || maxZ > 9) {
-            throw new IllegalArgumentException("maxZ must be between 1 and 9");
-        }
+    }
 
-        this.maxX = maxX;
-        this.maxY = maxY;
-        this.maxZ = maxZ;
+    public int getLimit(@NotNull Axis axis) {
+        checkRegistered();
+        return switch (axis) {
+            case X -> maxX;
+            case Y -> maxY;
+            case Z -> maxZ;
+            default -> throw new IllegalArgumentException("Invalid axis: " + axis);
+        };
     }
 
     @Override
-    public int getLimit(Axis axis) {
-        if (axis == Axis.X) {
-            return maxX;
-        } else if (axis == Axis.Y) {
-            return maxY;
-        } else if (axis == Axis.Z) {
-            return maxZ;
+    public void preRegister() throws Exception {
+        super.preRegister();
+
+        if (maxX == 0 || maxY == 0 || maxZ == 0) {
+            throw new Exception("MultiBlockCore must have a limit set for each axis");
         }
-        return 0;
+
+        addItemHandlers(new BlockTicker() {
+            @Override
+            public void onTick(@NotNull Block block, @Nullable MachineMenu menu, @Nullable IRBlockData data) {
+                tick(block, menu, data);
+            }
+        });
     }
+
+    public abstract void tick(@NotNull Block block, @Nullable MachineMenu menu, @Nullable IRBlockData data);
 }

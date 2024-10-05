@@ -14,7 +14,6 @@ import org.irmc.industrialrevival.api.recipes.CraftMethod;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -113,7 +112,7 @@ public class ArmorSet {
             return this;
         }
 
-        public ArmorPiece setParent(@Nonnull ArmorSet parent) {
+        public ArmorPiece setParent(@NotNull ArmorSet parent) {
             checkRegistered();
             this.parent = parent;
             return this;
@@ -144,7 +143,7 @@ public class ArmorSet {
         }
 
         @Override
-        public ArmorPiece setDisabledInWorld(@Nonnull World world, boolean disabled) {
+        public ArmorPiece setDisabledInWorld(@NotNull World world, boolean disabled) {
             super.setDisabledInWorld(world, disabled);
             return this;
         }
@@ -156,7 +155,7 @@ public class ArmorSet {
         }
 
         @Override
-        public ArmorPiece addItemDictionary(@Nonnull ItemDictionary dictionary) {
+        public ArmorPiece addItemDictionary(@NotNull ItemDictionary dictionary) {
             super.addItemDictionary(dictionary);
             return this;
         }

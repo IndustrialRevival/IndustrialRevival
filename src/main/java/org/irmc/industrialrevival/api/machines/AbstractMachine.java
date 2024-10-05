@@ -6,7 +6,6 @@ import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
-import org.irmc.industrialrevival.api.items.attributes.InventoryBlock;
 import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipe;
@@ -16,7 +15,6 @@ import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.utils.CleanedItemGetter;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
@@ -49,7 +47,7 @@ public abstract class AbstractMachine extends IndustrialRevivalItem {
     }
 
     @Override
-    public AbstractMachine setDisabledInWorld(@Nonnull World world, boolean disabled) {
+    public AbstractMachine setDisabledInWorld(@NotNull World world, boolean disabled) {
         super.setDisabledInWorld(world, disabled);
         return this;
     }
@@ -61,32 +59,32 @@ public abstract class AbstractMachine extends IndustrialRevivalItem {
     }
 
     @Override
-    public AbstractMachine addItemDictionary(@Nonnull ItemDictionary dictionary) {
+    public AbstractMachine addItemDictionary(@NotNull ItemDictionary dictionary) {
         super.addItemDictionary(dictionary);
         return this;
     }
 
-    public AbstractMachine addRecipe(int processTime, int energyCost, ItemStack[] consume, ItemStack[] produce) {
+    public AbstractMachine addRecipe(int processTime, int energy, ItemStack[] consume, ItemStack[] produce) {
         checkRegistered();
-        machineRecipes.addRecipe(processTime, energyCost, consume, produce);
+        machineRecipes.addRecipe(processTime, energy, consume, produce);
         return this;
     }
 
-    public AbstractMachine addRecipe(int processTime, int energyCost, ItemStack[] consume, ItemStack produce) {
+    public AbstractMachine addRecipe(int processTime, int energy, ItemStack[] consume, ItemStack produce) {
         checkRegistered();
-        machineRecipes.addRecipe(processTime, energyCost, Arrays.asList(consume), Collections.singletonList(produce));
+        machineRecipes.addRecipe(processTime, energy, Arrays.asList(consume), Collections.singletonList(produce));
         return this;
     }
 
-    public AbstractMachine addRecipe(int processTime, int energyCost, ItemStack consume, ItemStack produce) {
+    public AbstractMachine addRecipe(int processTime, int energy, ItemStack consume, ItemStack produce) {
         checkRegistered();
-        machineRecipes.addRecipe(processTime, energyCost, Collections.singletonList(consume), Collections.singletonList(produce));
+        machineRecipes.addRecipe(processTime, energy, Collections.singletonList(consume), Collections.singletonList(produce));
         return this;
     }
 
-    public AbstractMachine addRecipe(int processTime, int energyCost, ItemStack consume, ItemStack[] produce) {
+    public AbstractMachine addRecipe(int processTime, int energy, ItemStack consume, ItemStack[] produce) {
         checkRegistered();
-        machineRecipes.addRecipe(processTime, energyCost, Collections.singletonList(consume), Arrays.asList(produce));
+        machineRecipes.addRecipe(processTime, energy, Collections.singletonList(consume), Arrays.asList(produce));
         return this;
     }
 
@@ -142,7 +140,7 @@ public abstract class AbstractMachine extends IndustrialRevivalItem {
     }
 
     @Override
-    public AbstractMachine setItemStack(@Nonnull IndustrialRevivalItemStack itemStack) {
+    public AbstractMachine setItemStack(@NotNull IndustrialRevivalItemStack itemStack) {
         super.setItemStack(itemStack);
         if (recipeTypeIcon == null) {
             this.recipeTypeIcon = CleanedItemGetter.getCleanedItem(itemStack);

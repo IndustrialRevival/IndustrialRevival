@@ -10,8 +10,7 @@ import org.irmc.industrialrevival.utils.MenuUtil;
 import org.irmc.pigeonlib.items.ItemUtils;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 @Getter
 public class MachineMenuPreset extends SimpleMenu {
@@ -19,7 +18,7 @@ public class MachineMenuPreset extends SimpleMenu {
 
     private boolean locked;
 
-    public MachineMenuPreset(String id, Component title) {
+    public MachineMenuPreset(@NotNull String id, @NotNull Component title) {
         super(title);
 
         this.id = id;
@@ -33,7 +32,7 @@ public class MachineMenuPreset extends SimpleMenu {
                 if (drawer.getCharMap().containsKey(slotSymbol)) {
                     ItemStack itemStack = drawer.getCharMap().get(slotSymbol);
                     if (ItemUtils.isItemSimilar(itemStack, MenuUtil.BACKGROUND)) {
-                        setItem(i*9+j, MenuUtil.BACKGROUND, ClickHandler.DEFAULT);
+                        setItem(i * 9 + j, MenuUtil.BACKGROUND, ClickHandler.DEFAULT);
                     } else {
                         setItem(i * 9 + j, itemStack, drawer.getClickHandlerMap().get(slotSymbol));
                     }
@@ -48,7 +47,7 @@ public class MachineMenuPreset extends SimpleMenu {
 
     }
 
-    public void newInstance(@Nonnull Block block, @Nullable MachineMenu menu) {
+    public void newInstance(@NotNull Block block, @Nullable MachineMenu menu) {
 
     }
 
@@ -62,7 +61,7 @@ public class MachineMenuPreset extends SimpleMenu {
         IndustrialRevival.getInstance().getRegistry().getMenuPresets().put(this.id, this);
     }
 
-    public void setItem(int slot, ItemStack itemStack) {
+    public void setItem(int slot, @Nullable ItemStack itemStack) {
         if (this.locked) {
             throw new IllegalStateException("Cannot set item of locked machine menu!");
         }
@@ -70,7 +69,7 @@ public class MachineMenuPreset extends SimpleMenu {
         super.setItem(slot, itemStack);
     }
 
-    public void setItem(int slot, ItemStack itemStack, ClickHandler clickHandler) {
+    public void setItem(int slot, ItemStack itemStack, @NotNull ClickHandler clickHandler) {
         if (this.locked) {
             throw new IllegalStateException("Cannot set item of locked machine menu!");
         }
@@ -78,7 +77,7 @@ public class MachineMenuPreset extends SimpleMenu {
         super.setItem(slot, itemStack, clickHandler);
     }
 
-    public void setTitle(Component title) {
+    public void setTitle(@NotNull Component title) {
         if (this.locked) {
             throw new IllegalStateException("Cannot set title of locked machine menu!");
         }
@@ -94,7 +93,7 @@ public class MachineMenuPreset extends SimpleMenu {
         super.setSize(size);
     }
 
-    public void setClickHandler(int slot, ClickHandler clickHandler) {
+    public void setClickHandler(int slot, @NotNull ClickHandler clickHandler) {
         if (this.locked) {
             throw new IllegalStateException("Cannot set click handler of locked machine menu!");
         }

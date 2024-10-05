@@ -13,7 +13,6 @@ import org.irmc.pigeonlib.pdc.PersistentDataAPI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
 
-import javax.annotation.Nonnull;
 import java.util.function.BiConsumer;
 
 public class LimitedItem extends IndustrialRevivalItem implements Limited {
@@ -32,7 +31,7 @@ public class LimitedItem extends IndustrialRevivalItem implements Limited {
     }
 
     @Override
-    public LimitedItem setItemStack(@Nonnull IndustrialRevivalItemStack itemStack) {
+    public LimitedItem setItemStack(@NotNull IndustrialRevivalItemStack itemStack) {
         super.setItemStack(itemStack);
         this.LIMITED_COUNT_LEFT = new NamespacedKey(IndustrialRevival.getInstance(), "lcl_" + getId().toLowerCase());
         return this;
@@ -43,18 +42,18 @@ public class LimitedItem extends IndustrialRevivalItem implements Limited {
         return this;
     }
 
-    public LimitedItem setOnUseHandler(@Nonnull BiConsumer<Player, ItemStack> onUseHandler) {
+    public LimitedItem setOnUseHandler(@NotNull BiConsumer<Player, ItemStack> onUseHandler) {
         this.onUseHandler = onUseHandler;
         return this;
     }
 
     @Override
-    public final int getCountLeft(@Nonnull ItemStack item) {
+    public final int getCountLeft(@NotNull ItemStack item) {
         return PersistentDataAPI.getInt(item.getItemMeta(), LIMITED_COUNT_LEFT, 0);
     }
 
     @Override
-    public void setCountLeft(@Nonnull ItemStack item, int countLeft) {
+    public void setCountLeft(@NotNull ItemStack item, int countLeft) {
         PersistentDataAPI.setInt(item.getItemMeta(), LIMITED_COUNT_LEFT, countLeft);
     }
 
@@ -91,7 +90,7 @@ public class LimitedItem extends IndustrialRevivalItem implements Limited {
     }
 
     @Override
-    public LimitedItem setDisabledInWorld(@Nonnull World world, boolean disabled) {
+    public LimitedItem setDisabledInWorld(@NotNull World world, boolean disabled) {
         super.setDisabledInWorld(world, disabled);
         return this;
     }
@@ -103,7 +102,7 @@ public class LimitedItem extends IndustrialRevivalItem implements Limited {
     }
 
     @Override
-    public LimitedItem addItemDictionary(@Nonnull ItemDictionary dictionary) {
+    public LimitedItem addItemDictionary(@NotNull ItemDictionary dictionary) {
         super.addItemDictionary(dictionary);
         return this;
     }

@@ -6,8 +6,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
-
 @FunctionalInterface
 public interface WeaponUseHandler extends ItemHandler {
     /**
@@ -17,5 +15,5 @@ public interface WeaponUseHandler extends ItemHandler {
      * @param player The {@link Player} that used the weapon
      * @param item   The {@link ItemStack} that was used to attack
      */
-    void onHit(@NotNull EntityDamageByEntityEvent event, @Nonnull Player player, @Nonnull ItemStack item);
+    void onHit(@NotNull EntityDamageByEntityEvent event, @NotNull Player player, @NotNull ItemStack item);
 }

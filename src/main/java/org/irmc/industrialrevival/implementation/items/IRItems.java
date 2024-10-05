@@ -627,6 +627,7 @@ public class IRItems {
     }
 
     public static class IRItemStacks {
+        public static final IndustrialRevivalItemStack EMPTY;
         public static final IndustrialRevivalItemStack SLIVER_ORE;
         public static final IndustrialRevivalItemStack NICKEL_ORE;
         public static final IndustrialRevivalItemStack COBALT_ORE;
@@ -783,6 +784,7 @@ public class IRItems {
         public static final IndustrialRevivalItemStack SILVER_WIRE;
 
         static {
+            EMPTY = new IndustrialRevivalItemStack("EMPTY", Material.AIR);
             LAVA_ALLOY = new IndustrialRevivalItemStack("LAVA_ALLOY", Material.MAGMA_BLOCK);
             ROCK_IRON_ALLOY = new IndustrialRevivalItemStack("ROCK_IRON_ALLOY", Material.POLISHED_ANDESITE);
             ALUMINIUM_ALLOY = new IndustrialRevivalItemStack("ALUMINIUM_ALLOY", Material.IRON_INGOT);

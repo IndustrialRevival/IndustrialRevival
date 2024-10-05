@@ -8,8 +8,6 @@ import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.objects.enums.RadiationLevel;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
-
 public class RadiativeItem extends IndustrialRevivalItem implements Radiation {
     @Getter
     private RadiationLevel radiationLevel = RadiationLevel.LOW;
@@ -45,7 +43,7 @@ public class RadiativeItem extends IndustrialRevivalItem implements Radiation {
     }
 
     @Override
-    public RadiativeItem setDisabledInWorld(@Nonnull World world, boolean disabled) {
+    public RadiativeItem setDisabledInWorld(@NotNull World world, boolean disabled) {
         super.setDisabledInWorld(world, disabled);
         return this;
     }
@@ -57,7 +55,7 @@ public class RadiativeItem extends IndustrialRevivalItem implements Radiation {
     }
 
     @Override
-    public RadiativeItem addItemDictionary(@Nonnull ItemDictionary dictionary) {
+    public RadiativeItem addItemDictionary(@NotNull ItemDictionary dictionary) {
         super.addItemDictionary(dictionary);
         return this;
     }

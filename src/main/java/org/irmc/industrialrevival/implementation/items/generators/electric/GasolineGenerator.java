@@ -1,21 +1,21 @@
 package org.irmc.industrialrevival.implementation.items.generators.electric;
 
 import org.bukkit.block.Block;
-import org.bukkit.inventory.ItemStack;
-import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
-import org.irmc.industrialrevival.api.items.groups.ItemGroup;
-import org.irmc.industrialrevival.api.machines.AbstractElectricGenerator;
-import org.irmc.industrialrevival.api.machines.recipes.MachineRecipes;
+import org.irmc.industrialrevival.api.machines.ElectricConsumableGenerator;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
-import org.irmc.industrialrevival.api.objects.enums.GeneratorType;
-import org.irmc.industrialrevival.api.recipes.RecipeType;
+import org.irmc.industrialrevival.implementation.items.IRItems;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class GasolineGenerator extends AbstractElectricGenerator {
+public class GasolineGenerator extends ElectricConsumableGenerator {
+    public GasolineGenerator() {
+        super();
+        addRecipe(10, 4000, IRItems.IRItemStacks.GAS, IRItems.IRItemStacks.EMPTY);
+    }
+
     @Override
-    public GeneratorType getGeneratorType() {
-        return GeneratorType.CONSUMABLE;
+    public long getCapacity() {
+        return 0;
     }
 
     @Override
@@ -24,7 +24,7 @@ public class GasolineGenerator extends AbstractElectricGenerator {
     }
 
     @Override
-    protected void tick(Block block, MachineMenu menu) {
+    public void onNewInstance(Block block, MachineMenu menu) {
 
     }
 }

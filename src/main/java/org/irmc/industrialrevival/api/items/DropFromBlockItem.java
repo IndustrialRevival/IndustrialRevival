@@ -8,7 +8,6 @@ import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.recipes.BlockDropMethod;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -46,7 +45,7 @@ public class DropFromBlockItem extends IndustrialRevivalItem implements BlockDro
     }
 
     @Override
-    public DropFromBlockItem setDisabledInWorld(@Nonnull World world, boolean disabled) {
+    public DropFromBlockItem setDisabledInWorld(@NotNull World world, boolean disabled) {
         super.setDisabledInWorld(world, disabled);
         return this;
     }
@@ -58,7 +57,7 @@ public class DropFromBlockItem extends IndustrialRevivalItem implements BlockDro
     }
 
     @Override
-    public DropFromBlockItem addItemDictionary(@Nonnull ItemDictionary dictionary) {
+    public DropFromBlockItem addItemDictionary(@NotNull ItemDictionary dictionary) {
         super.addItemDictionary(dictionary);
         return this;
     }

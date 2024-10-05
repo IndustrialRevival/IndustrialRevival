@@ -1,7 +1,6 @@
 package org.irmc.industrialrevival.core.listeners;
 
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -10,7 +9,6 @@ import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.objects.events.MenuOpenEvent;
 import org.irmc.industrialrevival.api.objects.events.PlayerLeftClickEvent;
 import org.irmc.industrialrevival.api.objects.events.PlayerRightClickEvent;
-import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.DataUtil;
 
 @SuppressWarnings("deprecation")

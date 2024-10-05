@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+@SuppressWarnings("deprecation")
 public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
     protected static final Map<UUID, Integer> pageRecord = new HashMap<>();
 
@@ -32,7 +33,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
     @Override
     public void display(Player p, SimpleMenu sm, IndustrialRevivalItem item) {
         IRGuideImplementation guide = SurvivalGuideImplementation.INSTANCE;
-        sm.setItem(0, Constants.BACK_BUTTON.apply(p), ((slot, player, item1, menu, clickType) -> {
+        sm.setItem(0, Constants.BACK_BUTTON.apply(p), ((player, clickedItem, slot, menu, clickType) -> {
             guide.goBack(player);
             return false;
         }));
@@ -57,7 +58,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
             showRecipeContent(p, sm, recipeContents.get(0), recipeContents);
         }
 
-        sm.setItem(28, Constants.ADD_TO_BOOKMARK_BUTTON.apply(p), (slot, player, item1, menu, clickType) -> {
+        sm.setItem(28, Constants.ADD_TO_BOOKMARK_BUTTON.apply(p), (player, clickedItem, slot, menu, clickType) -> {
             SurvivalGuideImplementation.INSTANCE.addBookmark(player, item);
             return false;
         });
@@ -90,7 +91,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
         for (int i = 2; i < 7; i++) {
             RecipeContent recipeContent = recipeContents.get(index);
             if (recipeContent != null) {
-                sm.setItem(i, recipeContent.getMakerItem(), (slot, player, item1, menu, clickType) -> {
+                sm.setItem(i, recipeContent.getMakerItem(), (player, clickedItem, slot, menu, clickType) -> {
                     pageRecord.put(player.getUniqueId(), 1);
                     showRecipeContent(player, menu, recipeContent, recipeContents);
                     return false;
@@ -103,7 +104,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
 
         int currentPage = pageRecord.getOrDefault(p.getUniqueId(), 1);
 
-        SimpleMenu.ClickHandler previousHandler = (slot, player, item1, menu, clickType) -> {
+        SimpleMenu.ClickHandler previousHandler = (player, clickedItem, slot, menu, clickType) -> {
             if (currentPage > 1) {
                 pageRecord.put(player.getUniqueId(), currentPage - 1);
                 List<RecipeContent> recipeContentsByPage = getRecipeContentsByPage(recipeContents, currentPage - 1);
@@ -122,7 +123,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
 
         sm.setItem(1, previousOne, previousHandler);
 
-        SimpleMenu.ClickHandler nextHandler = (slot, player, item1, menu, clickType) -> {
+        SimpleMenu.ClickHandler nextHandler = (player, clickedItem, slot, menu, clickType) -> {
             if (recipeContents.size() < 6) {
                 return false;
             }
@@ -195,7 +196,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
         IRGuideImplementation guide = SurvivalGuideImplementation.INSTANCE;
 
         if (allAvailableRecipeContents.isEmpty()) {
-            sm.setItem(0, Constants.BACK_BUTTON.apply(p), ((slot, player, item1, menu, clickType) -> {
+            sm.setItem(0, Constants.BACK_BUTTON.apply(p), ((player, clickedItem, slot, menu, clickType) -> {
                 guide.goBack(player);
                 return false;
             }));
@@ -214,7 +215,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
 
         int currentPage = pageRecord.getOrDefault(p.getUniqueId(), 1);
 
-        SimpleMenu.ClickHandler previousHandler = (slot, player, item1, menu, clickType) -> {
+        SimpleMenu.ClickHandler previousHandler = (player, clickedItem, slot, menu, clickType) -> {
             if (currentPage > 1) {
                 pageRecord.put(player.getUniqueId(), currentPage - 1);
                 List<RecipeContent> recipeContentsByPage =
@@ -235,7 +236,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
 
         sm.setItem(1, previousOne, previousHandler);
 
-        SimpleMenu.ClickHandler nextHandler = (slot, player, item1, menu, clickType) -> {
+        SimpleMenu.ClickHandler nextHandler = (player, clickedItem, slot, menu, clickType) -> {
             if (recipeContents.size() < 6) {
                 return false;
             }
@@ -270,7 +271,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
 
     private void setBorder(SimpleMenu sm, Player p, RecipeContent rc) {
         IRGuideImplementation guide = SurvivalGuideImplementation.INSTANCE;
-        sm.setItem(0, Constants.BACK_BUTTON.apply(p), ((slot, player, item1, menu, clickType) -> {
+        sm.setItem(0, Constants.BACK_BUTTON.apply(p), ((player, clickedItem, slot, menu, clickType) -> {
             guide.goBack(player);
             pageRecord.remove(player.getUniqueId());
             return false;
@@ -299,7 +300,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
             text = text.clickEvent(clickEvent);
 
             Component finalText = text;
-            wikiHandler = (slot, player, item1, menu, clickType) -> {
+            wikiHandler = (player, clickedItem, slot, menu, clickType) -> {
                 p.sendMessage(finalText);
                 return false;
             };
@@ -315,7 +316,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
                 IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, "misc.recipe_show_usage"),
                 true);
 
-        sm.setItem(25, resultItem, (slot, player, item1, menu, clickType) -> {
+        sm.setItem(25, resultItem, (player, clickedItem, slot, menu, clickType) -> {
             if (clickType == ClickType.RIGHT || clickType == ClickType.SHIFT_RIGHT) {
                 showUsage(player, item.getId());
             }

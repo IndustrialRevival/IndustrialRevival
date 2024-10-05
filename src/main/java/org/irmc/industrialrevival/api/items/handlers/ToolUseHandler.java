@@ -24,7 +24,7 @@ public interface ToolUseHandler extends ItemHandler {
     default IncompatibleItemHandlerException isCompatible(IndustrialRevivalItem item) {
         if (!item.getItem().getType().isItem()) {
             return new IncompatibleItemHandlerException(
-                    "Only materials that are items can have a block use handler", item.getId());
+                    "Only materials that are items can have a tool use handler", item.getId());
         }
 
         return null;

@@ -14,7 +14,6 @@ import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.pigeonlib.language.MessageReplacement;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +47,7 @@ public class Battery extends IndustrialRevivalItem implements NotPlaceable, Rech
     }
 
     @Override
-    public Battery setDisabledInWorld(@Nonnull World world, boolean disabled) {
+    public Battery setDisabledInWorld(@NotNull World world, boolean disabled) {
         super.setDisabledInWorld(world, disabled);
         return this;
     }
@@ -60,7 +59,7 @@ public class Battery extends IndustrialRevivalItem implements NotPlaceable, Rech
     }
 
     @Override
-    public Battery addItemDictionary(@Nonnull ItemDictionary dictionary) {
+    public Battery addItemDictionary(@NotNull ItemDictionary dictionary) {
         super.addItemDictionary(dictionary);
         return this;
     }

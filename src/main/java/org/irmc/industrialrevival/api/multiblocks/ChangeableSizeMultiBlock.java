@@ -1,9 +1,10 @@
 package org.irmc.industrialrevival.api.multiblocks;
 
 import org.bukkit.Axis;
+import org.jetbrains.annotations.NotNull;
 
 public interface ChangeableSizeMultiBlock {
-    int getSize(Axis axis);
+    int getSize(@NotNull Axis axis);
 
-    void setSize(Axis axis, int size);
+    void setSize(@NotNull Axis axis, int size);
 }

@@ -11,11 +11,13 @@ import org.irmc.industrialrevival.api.machines.process.ProcessorHolder;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipe;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
+import org.irmc.industrialrevival.api.menu.MenuDrawer;
 import org.irmc.industrialrevival.api.objects.ItemStackReference;
 import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
+import org.irmc.industrialrevival.utils.MenuUtil;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,14 +29,38 @@ public abstract class BasicMachine extends AbstractMachine implements ProcessorH
     private final Map<Location, MachineRecipe> lastMatches = new HashMap<>();
     private final MachineProcessor<MachineOperation> processor = new MachineProcessor<>(this);
 
+    private int[] INPUT_SLOTS = null;
+    private int[] OUTPUT_SLOTS = null;
+
     @Override
     @OverridingMethodsMustInvokeSuper
     protected void preRegister() throws Exception {
+        new MachineMenuPreset(this.getId(), this.getItemName()) {
+            @Override
+            public void init() {
+                setSize(getMenuDrawer().getSize());
+                addMenuDrawer(getMenuDrawer());
+            }
+
+            @Override
+            public void newInstance(@NotNull Block block, @Nullable MachineMenu menu) {
+                onNewInstance(block, menu);
+            }
+
+            @Override
+            public int[] getSlotsByItemFlow(@NotNull ItemFlow itemFlow, @Nullable ItemStack itemStack) {
+                if (itemFlow == ItemFlow.INSERT) {
+                    return getInputSlots();
+                } else {
+                    return getOutputSlots();
+                }
+            }
+        };
         addItemHandlers((BlockTicker) (block, menu, data) -> tick(block, menu));
         super.preRegister();
     }
 
-    protected void tick(@Nonnull Block block, @Nullable MachineMenu menu) {
+    protected void tick(@NotNull Block block, @Nullable MachineMenu menu) {
         if (menu == null) {
             processor.stopProcess(block.getLocation());
             return;
@@ -76,7 +102,7 @@ public abstract class BasicMachine extends AbstractMachine implements ProcessorH
         }
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public MachineProcessor<MachineOperation> getProcessor() {
         return this.processor;
@@ -84,5 +110,39 @@ public abstract class BasicMachine extends AbstractMachine implements ProcessorH
 
     public void onDone(Block block, MachineMenu menu, MachineOperation operation) {
         menu.pushItem(operation.getOutputStacks(), menu.getPreset().getSlotsByItemFlow(ItemFlow.WITHDRAW));
+    }
+
+    public MenuDrawer getMenuDrawer() {
+        return new MenuDrawer(45)
+                .addLine("IIIBBBOOO")
+                .addLine("IiIBBBOoO")
+                .addLine("IiIBSBOoO")
+                .addLine("IiIBBBOoO")
+                .addLine("IIIBBBOOO")
+                .addExplain("I", MenuUtil.INPUT_BORDER)
+                .addExplain("B", MenuUtil.BACKGROUND)
+                .addExplain("O", MenuUtil.OUTPUT_BORDER);
+    }
+
+    public int[] getInputSlots() {
+        if (INPUT_SLOTS != null) {
+            return INPUT_SLOTS;
+        } else {
+            INPUT_SLOTS = getMenuDrawer().getCharPositions("i");
+            return INPUT_SLOTS;
+        }
+    }
+
+    public int[] getOutputSlots() {
+        if (OUTPUT_SLOTS != null) {
+            return OUTPUT_SLOTS;
+        } else {
+            OUTPUT_SLOTS = getMenuDrawer().getCharPositions("o");
+            return OUTPUT_SLOTS;
+        }
+    }
+
+    public void onNewInstance(Block block, MachineMenu menu) {
+
     }
 }

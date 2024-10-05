@@ -12,7 +12,7 @@ import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.objects.enums.EnergyNetComponentType;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
+import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 /**
  * ElectricGenerator is a machine that generates energy.
@@ -46,7 +46,7 @@ public abstract class AbstractElectricGenerator extends AbstractMachine implemen
     }
 
     @Override
-    public AbstractElectricGenerator setDisabledInWorld(@Nonnull World world, boolean disabled) {
+    public AbstractElectricGenerator setDisabledInWorld(@NotNull World world, boolean disabled) {
         super.setDisabledInWorld(world, disabled);
         return this;
     }
@@ -58,7 +58,7 @@ public abstract class AbstractElectricGenerator extends AbstractMachine implemen
     }
 
     @Override
-    public AbstractElectricGenerator addItemDictionary(@Nonnull ItemDictionary dictionary) {
+    public AbstractElectricGenerator addItemDictionary(@NotNull ItemDictionary dictionary) {
         super.addItemDictionary(dictionary);
         return this;
     }
@@ -75,6 +75,7 @@ public abstract class AbstractElectricGenerator extends AbstractMachine implemen
     }
 
     @Override
+    @OverridingMethodsMustInvokeSuper
     protected void preRegister() throws Exception {
         addItemHandlers((BlockTicker) (block, menu, data) -> tick(block, menu));
         super.preRegister();

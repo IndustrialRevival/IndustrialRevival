@@ -8,7 +8,6 @@ import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.recipes.MobDropMethod;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -52,7 +51,7 @@ public class DropFromMobItem extends IndustrialRevivalItem implements MobDropIte
     }
 
     @Override
-    public DropFromMobItem setDisabledInWorld(@Nonnull World world, boolean disabled) {
+    public DropFromMobItem setDisabledInWorld(@NotNull World world, boolean disabled) {
         super.setDisabledInWorld(world, disabled);
         return this;
     }
@@ -64,7 +63,7 @@ public class DropFromMobItem extends IndustrialRevivalItem implements MobDropIte
     }
 
     @Override
-    public DropFromMobItem addItemDictionary(@Nonnull ItemDictionary dictionary) {
+    public DropFromMobItem addItemDictionary(@NotNull ItemDictionary dictionary) {
         super.addItemDictionary(dictionary);
         return this;
     }

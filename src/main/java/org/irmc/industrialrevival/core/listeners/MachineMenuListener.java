@@ -23,9 +23,9 @@ public class MachineMenuListener implements Listener {
             SimpleMenu.ClickHandler handler = menu.getClickHandler(slot);
             boolean notShouldBeCancelled;
             if (handler instanceof SimpleMenu.AdvancedClickHandler ach) {
-                notShouldBeCancelled = ach.onClick(slot, p, item, menu, clickType, e);
+                notShouldBeCancelled = ach.onClick(p, item, slot, menu, clickType, e);
             } else {
-                notShouldBeCancelled = handler.onClick(slot, p, item, menu, clickType);
+                notShouldBeCancelled = handler.onClick(p, item, slot, menu, clickType);
             }
 
             e.setCancelled(!notShouldBeCancelled);
