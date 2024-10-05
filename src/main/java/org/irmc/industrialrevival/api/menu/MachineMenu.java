@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-@SuppressWarnings({"deprecation", "unused"})
+@SuppressWarnings({ "deprecation", "unused" })
 @Getter
 public class MachineMenu extends SimpleMenu {
     private final Location location;
@@ -413,5 +413,20 @@ public class MachineMenu extends SimpleMenu {
     @NotNull
     public Block getBlock() {
         return location.getBlock();
+    }
+
+    @Override
+    public MenuCloseHandler getCloseHandler() {
+        return preset.getCloseHandler();
+    }
+
+    @Override
+    public MenuOpenHandler getOpenHandler() {
+        return preset.getOpenHandler();
+    }
+
+    @Override
+    public ClickHandler getClickHandler(int slot) {
+        return preset.getClickHandler(slot);
     }
 }

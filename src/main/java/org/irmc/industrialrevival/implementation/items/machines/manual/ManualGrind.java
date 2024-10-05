@@ -10,7 +10,6 @@ import org.irmc.industrialrevival.api.menu.MenuDrawer;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
 import org.irmc.industrialrevival.utils.MenuUtil;
-import org.jetbrains.annotations.NotNull;
 
 import org.jetbrains.annotations.Nullable;
 import java.util.Map;
@@ -19,8 +18,7 @@ public class ManualGrind extends BasicMachine {
     private static final ItemStack CLICKER_ICON = new CustomItemStack(
             Material.ORANGE_STAINED_GLASS_PANE,
             "§6Clicker",
-            "§7Click to start grinding"
-    );
+            "§7Click to start grinding");
     private static final int MENU_SIZE = 27;
     private static final MenuDrawer DRAWER = new MenuDrawer(MENU_SIZE)
             .addLine("IIIDDDOOO")
@@ -30,6 +28,7 @@ public class ManualGrind extends BasicMachine {
             .addExplain("D", MenuUtil.CLICKER_BORDER)
             .addExplain("O", MenuUtil.OUTPUT_BORDER)
             .addExplain("C", CLICKER_ICON);
+
     public ManualGrind() {
         super();
         addRecipe(0, 0, new ItemStack(Material.COBBLESTONE), new ItemStack(Material.GRAVEL));

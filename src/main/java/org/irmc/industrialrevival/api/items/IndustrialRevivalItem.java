@@ -1,6 +1,7 @@
 package org.irmc.industrialrevival.api.items;
 
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -45,15 +46,19 @@ import java.util.Set;
  * An industrial revival item.<br>
  * By default, the item is not registered in the game.<br>
  * To register the item, use the register method.<br>
- * The block is placeable by default if you want it to be unplaceable, please see {@link NotPlaceable}
+ * The block is placeable by default if you want it to be unplaceable, please
+ * see {@link NotPlaceable}
  */
 @SuppressWarnings("unused")
 public class IndustrialRevivalItem {
     private final Map<Class<? extends ItemHandler>, ItemHandler> itemHandlers = new HashMap<>();
+
     @Getter
     private final List<CraftMethod> craftMethods = new ArrayList<>();
+
     @Getter
     private final Set<ItemDictionary> itemDictionaries = new HashSet<>();
+
     private final Set<String> disabledInWorld = new HashSet<>();
     @Getter
     private IndustrialRevivalAddon addon;
@@ -109,7 +114,7 @@ public class IndustrialRevivalItem {
             NamespacedKey key = new NamespacedKey(addon.getPlugin(), "rt_crafting_" + getId().toLowerCase());
             ShapedRecipe shapedRecipe = new ShapedRecipe(key, itemStack.clone());
             shapedRecipe.shape("abc", "def", "ghi");
-            char[] chars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'};
+            char[] chars = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' };
             for (int i = 0; i < 9; i++) {
                 if (craftMethod.getIngredients()[i] != null) {
                     shapedRecipe.setIngredient(chars[i], craftMethod.getIngredients()[i]);
@@ -124,9 +129,7 @@ public class IndustrialRevivalItem {
                         craftMethod.getRecipeType(),
                         craftMethod.getRecipeType().getMakerItem(),
                         craftMethod.getIngredients(),
-                        this
-                )
-        );
+                        this));
 
         return this;
     }
@@ -181,6 +184,7 @@ public class IndustrialRevivalItem {
         return (T) itemHandlers.get(clazz);
     }
 
+    @CanIgnoreReturnValue
     protected IndustrialRevivalItem addItemHandlers(ItemHandler... handlers) {
         checkRegistered();
         for (ItemHandler handler : handlers) {

@@ -6,7 +6,7 @@ import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import java.util.ArrayList;
 import java.util.List;
 
-class UnchangeableItemDictionary extends SimpleItemDictionary {
+public class UnchangeableItemDictionary extends SimpleItemDictionary {
     private final List<IndustrialRevivalItem> items;
 
     UnchangeableItemDictionary(NamespacedKey key, final List<IndustrialRevivalItem> items) {

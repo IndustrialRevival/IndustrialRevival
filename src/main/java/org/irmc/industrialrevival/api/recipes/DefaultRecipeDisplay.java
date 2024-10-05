@@ -293,7 +293,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
             wikiHandler = SimpleMenu.ClickHandler.DEFAULT;
             wikiPageItem.editMeta(m -> m.displayName(Component.empty()));
         } else {
-            String url = Constants.WIKI_URL + item.getWikiText();
+            String url = Constants.WIKI_URL + item.getWikiText().get();
             ClickEvent clickEvent = ClickEvent.openUrl(url);
             Component text =
                     IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, "misc.wiki_page");
