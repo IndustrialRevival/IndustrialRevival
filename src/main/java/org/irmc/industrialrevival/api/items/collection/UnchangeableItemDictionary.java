@@ -12,10 +12,13 @@ class UnchangeableItemDictionary extends SimpleItemDictionary {
     UnchangeableItemDictionary(NamespacedKey key, final List<IndustrialRevivalItem> items) {
         super(key);
         this.items = new ArrayList<>(items);
+        for (IndustrialRevivalItem item : items) {
+            item.addItemDictionary(this);
+        }
     }
 
     @Override
-    public void addItem(DictionaryItem item) {
+    public void addItem(IndustrialRevivalItem item) {
         throw new UnsupportedOperationException("Cannot add items to an unchangeable item dictionary");
     }
 
