@@ -12,15 +12,17 @@ import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.groups.IRItemGroups;
 import org.irmc.industrialrevival.implementation.items.components.Battery;
+import org.irmc.industrialrevival.implementation.items.hidden.Debugger;
 import org.irmc.industrialrevival.utils.KeyUtil;
 import org.irmc.pigeonlib.items.ItemUtils;
 
 public class IRItems {
+    public static final IndustrialRevivalItem DEBUGGER;
+    public static final IndustrialRevivalItem DEBUG_HEAD;
     // armor sets
     public static final ArmorSet SILVER_ARMOR_SET =
             new ArmorSet(KeyUtil.customKey("silver_armor_set"), IRItemGroups.ARMORS);
     public static final ArmorSet TIN_ARMOR_SET = new ArmorSet(KeyUtil.customKey("tin_armor_set"), IRItemGroups.ARMORS);
-
     public static final IndustrialRevivalItem SILVER_ORE;
     public static final IndustrialRevivalItem NICKEL_ORE;
     public static final IndustrialRevivalItem COBALT_ORE;
@@ -91,6 +93,10 @@ public class IRItems {
             .setType(Battery.Type.NiMH);
 
     static {
+        DEBUGGER = new Debugger()
+                .setItemStack(IRItemStacks.DEBUGGER);
+        DEBUG_HEAD = new IndustrialRevivalItem()
+                .setItemStack(IRItemStacks.DEBUG_HEAD);
         SLIVER = new IndustrialRevivalItem()
                 .setItemGroup(IRItemGroups.MATERIALS)
                 .setItemStack(IRItemStacks.SLIVER)
@@ -570,6 +576,9 @@ public class IRItems {
     public static void setup() {
         IndustrialRevival INSTANCE = IndustrialRevival.getInstance();
 
+        DEBUGGER.register(INSTANCE);
+        DEBUG_HEAD.register(INSTANCE);
+
         SILVER_ORE.register(INSTANCE);
         NICKEL_ORE.register(INSTANCE);
         COBALT_ORE.register(INSTANCE);
@@ -628,6 +637,8 @@ public class IRItems {
 
     public static class IRItemStacks {
         public static final IndustrialRevivalItemStack EMPTY;
+        public static final IndustrialRevivalItemStack DEBUGGER;
+        public static final IndustrialRevivalItemStack DEBUG_HEAD;
         public static final IndustrialRevivalItemStack SLIVER_ORE;
         public static final IndustrialRevivalItemStack NICKEL_ORE;
         public static final IndustrialRevivalItemStack COBALT_ORE;
@@ -785,6 +796,8 @@ public class IRItems {
 
         static {
             EMPTY = new IndustrialRevivalItemStack("EMPTY", Material.AIR);
+            DEBUGGER = new IndustrialRevivalItemStack("DEBUGGER", Material.CLOCK);
+            DEBUG_HEAD = new IndustrialRevivalItemStack("DEBUG_HEAD", Material.PLAYER_HEAD);
             LAVA_ALLOY = new IndustrialRevivalItemStack("LAVA_ALLOY", Material.MAGMA_BLOCK);
             ROCK_IRON_ALLOY = new IndustrialRevivalItemStack("ROCK_IRON_ALLOY", Material.POLISHED_ANDESITE);
             ALUMINIUM_ALLOY = new IndustrialRevivalItemStack("ALUMINIUM_ALLOY", Material.IRON_INGOT);

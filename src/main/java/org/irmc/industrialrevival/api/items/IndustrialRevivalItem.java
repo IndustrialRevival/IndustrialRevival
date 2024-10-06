@@ -238,11 +238,8 @@ public class IndustrialRevivalItem {
         Preconditions.checkArgument(addon != null, "Addon cannot be null");
 
         if (!addon.getPlugin().isEnabled()) {
-            return null;
+            throw new UnsupportedOperationException("Cannot register item before your plugin is enabled");
         }
-
-        Preconditions.checkArgument(this.group != null, "Must set group before registering") ;
-        Preconditions.checkArgument(this.itemStack != null, "Must set itemStack before registering") ;
 
         this.addon = addon;
 

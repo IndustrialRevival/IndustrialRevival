@@ -40,4 +40,8 @@ public class ListenerManager {
     public void setupAll() {
         listeners.forEach(r -> Bukkit.getServer().getPluginManager().registerEvents(r, IndustrialRevival.getInstance()));
     }
+
+    public int getListenerCount() {
+        return listeners.size();
+    }
 }
