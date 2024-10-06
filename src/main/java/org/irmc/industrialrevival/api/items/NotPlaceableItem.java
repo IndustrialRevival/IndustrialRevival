@@ -50,15 +50,21 @@ public class NotPlaceableItem extends IndustrialRevivalItem implements NotPlacea
         return this;
     }
 
-    @Nullable
+    @Override
     public NotPlaceableItem setEnchantable(boolean enchantable) {
         super.setEnchantable(enchantable);
         return this;
     }
 
-    @Nullable
+    @Override
     public NotPlaceableItem setDisenchantable(boolean disenchantable) {
         super.setDisenchantable(disenchantable);
+        return this;
+    }
+
+    @Override
+    public NotPlaceableItem setHideInGuide(boolean hideInGuide) {
+        super.setHideInGuide(hideInGuide);
         return this;
     }
 }

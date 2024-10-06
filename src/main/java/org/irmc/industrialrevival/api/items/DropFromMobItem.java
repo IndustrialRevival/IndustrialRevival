@@ -69,15 +69,21 @@ public class DropFromMobItem extends IndustrialRevivalItem implements MobDropIte
         return this;
     }
 
-    @Nullable
+    @Override
     public DropFromMobItem setEnchantable(boolean enchantable) {
         super.setEnchantable(enchantable);
         return this;
     }
 
-    @Nullable
+    @Override
     public DropFromMobItem setDisenchantable(boolean disenchantable) {
         super.setDisenchantable(disenchantable);
+        return this;
+    }
+
+    @Override
+    public DropFromMobItem setHideInGuide(boolean hideInGuide) {
+        super.setHideInGuide(hideInGuide);
         return this;
     }
 }

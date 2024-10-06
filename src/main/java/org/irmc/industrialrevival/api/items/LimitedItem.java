@@ -108,15 +108,21 @@ public class LimitedItem extends IndustrialRevivalItem implements Limited {
         return this;
     }
 
-    @Nullable
+    @Override
     public LimitedItem setEnchantable(boolean enchantable) {
         super.setEnchantable(enchantable);
         return this;
     }
 
-    @Nullable
+    @Override
     public LimitedItem setDisenchantable(boolean disenchantable) {
         super.setDisenchantable(disenchantable);
+        return this;
+    }
+
+    @Override
+    public LimitedItem setHideInGuide(boolean hideInGuide) {
+        super.setHideInGuide(hideInGuide);
         return this;
     }
 }

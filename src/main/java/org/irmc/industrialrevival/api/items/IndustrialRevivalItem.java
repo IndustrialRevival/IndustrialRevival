@@ -72,6 +72,8 @@ public class IndustrialRevivalItem {
     private boolean enchantable = true;
     @Getter
     private boolean disenchantable = true;
+    @Getter
+    private boolean hideInGuide = false;
 
     public IndustrialRevivalItem() {
     }
@@ -205,6 +207,13 @@ public class IndustrialRevivalItem {
         }
 
         setting.set("disabled_in_worlds", worlds);
+        return this;
+    }
+
+    @Nullable
+    public IndustrialRevivalItem setHideInGuide(boolean hideInGuide) {
+        checkRegistered();
+        this.hideInGuide = hideInGuide;
         return this;
     }
 

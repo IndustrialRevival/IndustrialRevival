@@ -63,15 +63,21 @@ public class DropFromBlockItem extends IndustrialRevivalItem implements BlockDro
         return this;
     }
 
-    @Nullable
+    @Override
     public DropFromBlockItem setEnchantable(boolean enchantable) {
         super.setEnchantable(enchantable);
         return this;
     }
 
-    @Nullable
+    @Override
     public DropFromBlockItem setDisenchantable(boolean disenchantable) {
         super.setDisenchantable(disenchantable);
+        return this;
+    }
+
+    @Override
+    public DropFromBlockItem setHideInGuide(boolean hideInGuide) {
+        super.setHideInGuide(hideInGuide);
         return this;
     }
 

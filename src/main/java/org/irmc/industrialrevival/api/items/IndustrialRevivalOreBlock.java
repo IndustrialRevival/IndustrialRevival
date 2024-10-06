@@ -85,18 +85,23 @@ public class IndustrialRevivalOreBlock extends IndustrialRevivalItem implements 
         return this;
     }
 
-    @Nullable
+    @Override
     public IndustrialRevivalOreBlock setEnchantable(boolean enchantable) {
         super.setEnchantable(enchantable);
         return this;
     }
 
-    @Nullable
+    @Override
     public IndustrialRevivalOreBlock setDisenchantable(boolean disenchantable) {
         super.setDisenchantable(disenchantable);
         return this;
     }
 
+    @Override
+    public IndustrialRevivalOreBlock setHideInGuide(boolean hideInGuide) {
+        super.setHideInGuide(hideInGuide);
+        return this;
+    }
 
     @Override
     @NotNull

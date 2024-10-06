@@ -51,15 +51,21 @@ public class UnusableItem extends IndustrialRevivalItem implements Unusable {
         return this;
     }
 
-    @Nullable
+    @Override
     public UnusableItem setEnchantable(boolean enchantable) {
         super.setEnchantable(enchantable);
         return this;
     }
 
-    @Nullable
+    @Override
     public UnusableItem setDisenchantable(boolean disenchantable) {
         super.setDisenchantable(disenchantable);
+        return this;
+    }
+
+    @Override
+    public UnusableItem setHideInGuide(boolean hideInGuide) {
+        super.setHideInGuide(hideInGuide);
         return this;
     }
 }
