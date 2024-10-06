@@ -99,9 +99,28 @@ public class IndustrialRevivalItem {
         return null;
     }
 
-    @NotNull
-    public IndustrialRevivalItemStack getItem() {
-        return itemStack;
+    @Nullable
+    public IndustrialRevivalItem setItemGroup(@NotNull ItemGroup group) {
+        checkRegistered();
+        Preconditions.checkArgument(group != null, "ItemGroup cannot be null");
+        this.group = group;
+        return this;
+    }
+
+    @Nullable
+    public IndustrialRevivalItem setItemStack(@NotNull IndustrialRevivalItemStack itemStack) {
+        checkRegistered();
+        Preconditions.checkArgument(itemStack != null, "ItemStack cannot be null");
+        this.itemStack = itemStack;
+        return this;
+    }
+
+    @Nullable
+    public IndustrialRevivalItem setWikiText(@NotNull String wikiText) {
+        checkRegistered();
+        Preconditions.checkArgument(wikiText != null, "WikiText cannot be null");
+        this.wikiText = Optional.of(wikiText);
+        return this;
     }
 
     @NotNull
@@ -136,6 +155,62 @@ public class IndustrialRevivalItem {
                         this));
 
         return this;
+    }
+
+    @Nullable
+    public IndustrialRevivalItem addItemDictionary(@NotNull ItemDictionary itemDictionary) {
+        checkRegistered();
+        Preconditions.checkArgument(itemDictionary != null, "ItemDictionary cannot be null");
+        itemDictionaries.add(itemDictionary);
+        return this;
+    }
+
+    @Nullable
+    public IndustrialRevivalItem setDisabled(boolean disabled) {
+        checkRegistered();
+        if (disabled) {
+            this.state = ItemState.DISABLED;
+        } else {
+            this.state = ItemState.ENABLED;
+        }
+        return this;
+    }
+
+    @Nullable
+    public IndustrialRevivalItem setEnchantable(boolean enchantable) {
+        checkRegistered();
+        this.enchantable = enchantable;
+        return this;
+    }
+
+    @Nullable
+    public IndustrialRevivalItem setDisenchantable(boolean disenchantable) {
+        checkRegistered();
+        this.disenchantable = disenchantable;
+        return this;
+    }
+
+    @Nullable
+    public IndustrialRevivalItem setDisabledInWorld(@NotNull World world, boolean disabled) {
+        Preconditions.checkArgument(world != null, "World cannot be null");
+        ConfigurationSection setting = getItemSetting();
+        List<String> worlds = setting.getStringList("disabled_in_worlds");
+
+        if (disabled) {
+            disabledInWorld.add(world.getName());
+            worlds.add(world.getName());
+        } else {
+            disabledInWorld.remove(world.getName());
+            worlds.remove(world.getName());
+        }
+
+        setting.set("disabled_in_worlds", worlds);
+        return this;
+    }
+
+    @NotNull
+    public IndustrialRevivalItemStack getItem() {
+        return itemStack;
     }
 
     @NotNull
@@ -246,59 +321,9 @@ public class IndustrialRevivalItem {
         return state == ItemState.DISABLED || disabledInWorld.contains(world.getName());
     }
 
-    @Nullable
-    public IndustrialRevivalItem setDisabledInWorld(@NotNull World world, boolean disabled) {
-        Preconditions.checkArgument(world != null, "World cannot be null");
-        ConfigurationSection setting = getItemSetting();
-        List<String> worlds = setting.getStringList("disabled_in_worlds");
-
-        if (disabled) {
-            disabledInWorld.add(world.getName());
-            worlds.add(world.getName());
-        } else {
-            disabledInWorld.remove(world.getName());
-            worlds.remove(world.getName());
-        }
-
-        setting.set("disabled_in_worlds", worlds);
-        return this;
-    }
-
     @NotNull
     protected ConfigurationSection getItemSetting() {
         return IndustrialRevival.getInstance().getItemSettings().getSetting(getId());
-    }
-
-    @Nullable
-    public IndustrialRevivalItem setWikiText(@NotNull String wikiText) {
-        checkRegistered();
-        Preconditions.checkArgument(wikiText != null, "WikiText cannot be null");
-        this.wikiText = Optional.of(wikiText);
-        return this;
-    }
-
-    @Nullable
-    public IndustrialRevivalItem addItemDictionary(@NotNull ItemDictionary itemDictionary) {
-        checkRegistered();
-        Preconditions.checkArgument(itemDictionary != null, "ItemDictionary cannot be null");
-        itemDictionaries.add(itemDictionary);
-        return this;
-    }
-
-    @Nullable
-    public IndustrialRevivalItem setItemGroup(@NotNull ItemGroup group) {
-        checkRegistered();
-        Preconditions.checkArgument(group != null, "ItemGroup cannot be null");
-        this.group = group;
-        return this;
-    }
-
-    @Nullable
-    public IndustrialRevivalItem setItemStack(@NotNull IndustrialRevivalItemStack itemStack) {
-        checkRegistered();
-        Preconditions.checkArgument(itemStack != null, "ItemStack cannot be null");
-        this.itemStack = itemStack;
-        return this;
     }
 
     public boolean isEnabled() {
@@ -307,17 +332,6 @@ public class IndustrialRevivalItem {
 
     public boolean isDisabled() {
         return !isEnabled();
-    }
-
-    @Nullable
-    public IndustrialRevivalItem setDisabled(boolean disabled) {
-        checkRegistered();
-        if (disabled) {
-            this.state = ItemState.DISABLED;
-        } else {
-            this.state = ItemState.ENABLED;
-        }
-        return this;
     }
 
     @Nullable
@@ -340,20 +354,6 @@ public class IndustrialRevivalItem {
         }
 
         return null;
-    }
-
-    @Nullable
-    public IndustrialRevivalItem setEnchantable(boolean enchantable) {
-        checkRegistered();
-        this.enchantable = enchantable;
-        return this;
-    }
-
-    @Nullable
-    public IndustrialRevivalItem setDisenchantable(boolean disenchantable) {
-        checkRegistered();
-        this.disenchantable = disenchantable;
-        return this;
     }
 
     public enum ItemState {
