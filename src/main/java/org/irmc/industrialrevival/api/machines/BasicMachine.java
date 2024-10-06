@@ -11,7 +11,7 @@ import org.irmc.industrialrevival.api.machines.process.ProcessorHolder;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipe;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
-import org.irmc.industrialrevival.api.menu.MenuDrawer;
+import org.irmc.industrialrevival.api.menu.MatrixMenuDrawer;
 import org.irmc.industrialrevival.api.objects.ItemStackReference;
 import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
 import org.irmc.industrialrevival.utils.MenuUtil;
@@ -39,7 +39,7 @@ public abstract class BasicMachine extends AbstractMachine implements ProcessorH
             @Override
             public void init() {
                 setSize(getMenuDrawer().getSize());
-                addMenuDrawer(getMenuDrawer());
+                handleMenuDrawer(getMenuDrawer());
             }
 
             @Override
@@ -112,8 +112,8 @@ public abstract class BasicMachine extends AbstractMachine implements ProcessorH
         menu.pushItem(operation.getOutputStacks(), menu.getPreset().getSlotsByItemFlow(ItemFlow.WITHDRAW));
     }
 
-    public MenuDrawer getMenuDrawer() {
-        return new MenuDrawer(45)
+    public MatrixMenuDrawer getMenuDrawer() {
+        return new MatrixMenuDrawer(45)
                 .addLine("IIIBBBOOO")
                 .addLine("IiIBBBOoO")
                 .addLine("IiIBSBOoO")

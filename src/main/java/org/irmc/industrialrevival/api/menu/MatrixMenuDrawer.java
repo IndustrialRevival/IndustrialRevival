@@ -46,4 +46,27 @@ public class MatrixMenuDrawer {
         clickHandlerMap.put(c.charAt(0), clickHandler);
         return this;
     }
+
+    public int[] getCharPositions(char c) {
+        List<Integer> positions = new ArrayList<>();
+        for (int i = 0; i < matrix.size(); i++) {
+            String line = matrix.get(i);
+            for (int j = 0; j < line.length(); j++) {
+                if (line.charAt(j) == c) {
+                    positions.add(i * 9 + j);
+                }
+            }
+        }
+
+        int[] result = new int[positions.size()];
+        for (int i = 0; i < positions.size(); i++) {
+            result[i] = positions.get(i);
+        }
+
+        return result;
+    }
+
+    public int[] getCharPositions(String c) {
+        return getCharPositions(c.charAt(0));
+    }
 }

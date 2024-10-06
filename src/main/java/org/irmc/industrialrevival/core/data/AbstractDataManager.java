@@ -7,17 +7,10 @@ import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.core.data.object.BlockRecord;
 import org.irmc.industrialrevival.core.guide.GuideSettings;
 import org.jetbrains.annotations.NotNull;
-import org.jooq.DSLContext;
-import org.jooq.Record2;
-import org.jooq.Record3;
-import org.jooq.SQLDialect;
-import org.jooq.impl.DSL;
-import org.jooq.tools.jdbc.JDBCUtils;
 
 import java.io.StringReader;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -27,13 +20,11 @@ public non-sealed class AbstractDataManager implements IDataManager {
     private final String url;
     private final String username;
     private final String password;
-    private final SQLDialect dialect;
 
     public AbstractDataManager(String url, String username, String password) {
         this.url = url;
         this.username = username;
         this.password = password;
-        this.dialect = JDBCUtils.dialect(url);
 
         try {
             this.pool = new ConnectionPool(url, username, password);
@@ -45,26 +36,19 @@ public non-sealed class AbstractDataManager implements IDataManager {
     @Override
     public void handleBlockPlacing(Location loc, String machineId) {
         try {
-            DSLContext dsl = DSL.using(pool.getConnection(), dialect);
-            int r = dsl.insertInto(DSL.table(DSL.name("block_record")))
-                    // world, x, y, z, machineId, data
-                    .select(DSL.select(
-                            DSL.val(loc.getWorld().getName()),
-                            DSL.val(loc.getBlockX()),
-                            DSL.val(loc.getBlockY()),
-                            DSL.val(loc.getBlockZ()),
-                            DSL.val(machineId),
-                            DSL.val("")))
-                    .bind("world", DSL.val(loc.getWorld().getName()))
-                    .bind("x", DSL.val(loc.getBlockX()))
-                    .bind("y", DSL.val(loc.getBlockY()))
-                    .bind("z", DSL.val(loc.getBlockZ()))
-                    .bind("machineId", DSL.val(machineId))
-                    .bind("data", DSL.val(""))
-                    .execute();
-            if (r < 0) {
-                throw new RuntimeException("Failed to insert block record");
-            }
+           Connection conn = pool.getConnection();
+           PreparedStatement pstmt = conn.prepareStatement("INSERT INTO block_record (world, x, y, z, machineId, data) VALUES (?,?,?,?,?,?)");
+
+           pstmt.setString(1, loc.getWorld().getName());
+           pstmt.setInt(2, loc.getBlockX());
+           pstmt.setInt(3, loc.getBlockY());
+           pstmt.setInt(4, loc.getBlockZ());
+           pstmt.setString(5, machineId);
+           pstmt.setString(6, "");
+
+           pstmt.executeUpdate();
+           pstmt.close();
+           pool.releaseConnection(conn);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -73,15 +57,17 @@ public non-sealed class AbstractDataManager implements IDataManager {
     @Override
     public void handleBlockBreaking(Location loc) {
         try {
-            DSLContext dsl = DSL.using(pool.getConnection(), dialect);
-            dsl.deleteFrom(DSL.table(DSL.name("block_record")))
-                    .where(DSL.field(DSL.name("world")).eq(loc.getWorld().getName()))
-                    .and(DSL.field(DSL.name("x")).eq(loc.getBlockX()))
-                    .and(DSL.field(DSL.name("y")).eq(loc.getBlockY()))
-                    .and(DSL.field(DSL.name("z")).eq(loc.getBlockZ()))
-                    .executeAsync()
-                    .toCompletableFuture()
-                    .join();
+            Connection conn = pool.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement("DELETE FROM block_record WHERE world =? AND x =? AND y =? AND z =?");
+
+            pstmt.setString(1, loc.getWorld().getName());
+            pstmt.setInt(2, loc.getBlockX());
+            pstmt.setInt(3, loc.getBlockY());
+            pstmt.setInt(4, loc.getBlockZ());
+            pstmt.executeUpdate();
+
+            pstmt.close();
+            pool.releaseConnection(conn);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -91,18 +77,23 @@ public non-sealed class AbstractDataManager implements IDataManager {
     public @NotNull YamlConfiguration getBlockData(@NotNull Location location) {
         String b64;
         try {
-            DSLContext dsl = DSL.using(pool.getConnection(), dialect);
-            Object tmp = dsl.select(DSL.field(DSL.name("data")))
-                    .from(DSL.table(DSL.name("block_record")))
-                    .where(DSL.field(DSL.name("world")).eq(location.getWorld().getName()))
-                    .and(DSL.field(DSL.name("x")).eq(location.getBlockX()))
-                    .and(DSL.field(DSL.name("y")).eq(location.getBlockY()))
-                    .and(DSL.field(DSL.name("z")).eq(location.getBlockZ()))
-                    .fetchOne(DSL.field(DSL.name("data")));
+            Connection conn = pool.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement("SELECT data FROM block_record WHERE world =? AND x =? AND y =? AND z =?");
+            pstmt.setString(1, location.getWorld().getName());
+            pstmt.setInt(2, location.getBlockX());
+            pstmt.setInt(3, location.getBlockY());
+            pstmt.setInt(4, location.getBlockZ());
+
+            ResultSet rs = pstmt.executeQuery();
+            String tmp = rs.getString("data");
+            rs.close();
+            pstmt.close();
+            pool.releaseConnection(conn);
+
             if (tmp == null) {
                 return new YamlConfiguration();
             } else {
-                b64 = (String) tmp;
+                b64 = tmp;
             }
         } catch (SQLException e) {
             return new YamlConfiguration();
@@ -115,16 +106,19 @@ public non-sealed class AbstractDataManager implements IDataManager {
     public void updateBlockData(@NotNull Location location, @NotNull BlockRecord record) {
         try {
             String b64 = Base64.getEncoder().encodeToString(record.data().getBytes());
-            DSLContext dsl = DSL.using(pool.getConnection(), dialect);
-            dsl.update(DSL.table(DSL.name("block_record")))
-                    .set(DSL.field(DSL.name("data")), DSL.val(b64))
-                    .where(DSL.field(DSL.name("world")).eq(location.getWorld().getName()))
-                    .and(DSL.field(DSL.name("x")).eq(location.getBlockX()))
-                    .and(DSL.field(DSL.name("y")).eq(location.getBlockY()))
-                    .and(DSL.field(DSL.name("z")).eq(location.getBlockZ()))
-                    .executeAsync()
-                    .toCompletableFuture()
-                    .join();
+
+            Connection conn = pool.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement("UPDATE block_record SET data=? WHERE world =? AND x =? AND y =? AND z =?");
+
+            pstmt.setString(1, b64);
+            pstmt.setString(2, location.getWorld().getName());
+            pstmt.setInt(3, location.getBlockX());
+            pstmt.setInt(4, location.getBlockY());
+            pstmt.setInt(5, location.getBlockZ());
+            pstmt.executeUpdate();
+
+            pstmt.close();
+            pool.releaseConnection(conn);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -133,16 +127,26 @@ public non-sealed class AbstractDataManager implements IDataManager {
     @Override
     public List<BlockRecord> getAllBlockRecords() {
         try {
-            DSLContext dsl = DSL.using(pool.getConnection(), dialect);
-            return dsl.select(
-                            DSL.field(DSL.name("world")),
-                            DSL.field(DSL.name("x")),
-                            DSL.field(DSL.name("y")),
-                            DSL.field(DSL.name("z")),
-                            DSL.field(DSL.name("machineId")),
-                            DSL.field(DSL.name("data")))
-                    .from(DSL.table(DSL.name("block_record")))
-                    .fetchInto(BlockRecord.class);
+            List<BlockRecord> records = new ArrayList<>();
+
+            Connection conn = pool.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM block_record");
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                String world = rs.getString("world");
+                int x = rs.getInt("x");
+                int y = rs.getInt("y");
+                int z = rs.getInt("z");
+                String machineId = rs.getString("machineId");
+                String data = rs.getString("data");
+                records.add(new BlockRecord(world, x, y, z, machineId, data));
+            }
+
+            rs.close();
+            pstmt.close();
+            pool.releaseConnection(conn);
+            return records;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -151,22 +155,25 @@ public non-sealed class AbstractDataManager implements IDataManager {
     @Override
     public ItemStack getMenuItem(Location location, int slot) {
         try {
-            DSLContext dsl = DSL.using(pool.getConnection(), dialect);
-            Record2<Object, Object> results = dsl.select(
-                            DSL.field(DSL.name("itemJson")), DSL.field(DSL.name("itemClass")))
-                    .from(DSL.table(DSL.name("menu_items")))
-                    .where(DSL.field(DSL.name("world")).eq(location.getWorld().getName()))
-                    .and(DSL.field(DSL.name("x")).eq(location.getBlockX()))
-                    .and(DSL.field(DSL.name("y")).eq(location.getBlockY()))
-                    .and(DSL.field(DSL.name("z")).eq(location.getBlockZ()))
-                    .and(DSL.field(DSL.name("slot")).eq(slot))
-                    .fetchOne();
-            if (results == null) {
+            Connection conn = pool.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement("SELECT itemJson, itemClass FROM menu_items WHERE world =? AND x =? AND y =? AND z =? AND slot =?");
+            pstmt.setString(1, location.getWorld().getName());
+            pstmt.setInt(2, location.getBlockX());
+            pstmt.setInt(3, location.getBlockY());
+            pstmt.setInt(4, location.getBlockZ());
+            pstmt.setInt(5, slot);
+
+            ResultSet rs = pstmt.executeQuery();
+            String json = rs.getString("itemJson");
+            String className = rs.getString("itemClass");
+            rs.close();
+            pstmt.close();
+            pool.releaseConnection(conn);
+
+            if (json == null) {
                 return null;
             } else {
                 Gson gson = new Gson();
-                String json = results.getValue(0, String.class);
-                String className = results.getValue(1, String.class);
                 Class<? extends ItemStack> clazz;
                 try {
                     clazz = (Class<? extends ItemStack>) Class.forName(className);
@@ -183,20 +190,23 @@ public non-sealed class AbstractDataManager implements IDataManager {
     @Override
     public GuideSettings getGuideSettings(@NotNull String playerName) {
         try {
-            DSLContext dsl = DSL.using(pool.getConnection(), dialect);
-            Record3<Object, Object, Object> results = dsl.select(
-                            DSL.field(DSL.name("fireWorksEnabled")),
-                            DSL.field(DSL.name("learningAnimationEnabled")),
-                            DSL.field(DSL.name("language")))
-                    .from(DSL.table(DSL.name("guide_settings")))
-                    .where(DSL.field(DSL.name("username")).eq(playerName))
-                    .fetchOne();
-            if (results == null) {
+            Connection conn = pool.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM guide_settings WHERE username =?");
+            pstmt.setString(1, playerName);
+
+            ResultSet rs = pstmt.executeQuery();
+            boolean fireWorksEnabled = rs.getBoolean("fireWorksEnabled");
+            boolean learningAnimationEnabled = rs.getBoolean("learningAnimationEnabled");
+            String language = rs.getString("language");
+            rs.close();
+            pstmt.close();
+            pool.releaseConnection(conn);
+
+            if (language == null) {
                 return GuideSettings.DEFAULT_SETTINGS;
-            } else {
-                return new GuideSettings(
-                        results.get(0, Boolean.class), results.get(1, Boolean.class), results.get(2, String.class));
             }
+
+            return new GuideSettings(fireWorksEnabled, learningAnimationEnabled, language);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -205,20 +215,15 @@ public non-sealed class AbstractDataManager implements IDataManager {
     @Override
     public void saveGuideSettings(@NotNull String playerName, @NotNull GuideSettings settings) {
         try {
-            DSLContext dsl = DSL.using(pool.getConnection(), dialect);
-            dsl.insertInto(DSL.table(DSL.name("guide_settings")))
-                    .select(DSL.select(
-                            DSL.val(playerName),
-                            DSL.val(settings.isFireWorksEnabled()),
-                            DSL.val(settings.isLearningAnimationEnabled()),
-                            DSL.val(settings.getLanguage())))
-                    .bind("username", DSL.val(playerName))
-                    .bind("fireWorksEnabled", DSL.val(settings.isFireWorksEnabled()))
-                    .bind("learningAnimationEnabled", DSL.val(settings.isLearningAnimationEnabled()))
-                    .bind("language", DSL.val(settings.getLanguage()))
-                    .executeAsync()
-                    .toCompletableFuture()
-                    .join();
+            Connection conn = pool.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO guide_settings (username, fireWorksEnabled, learningAnimationEnabled, language) VALUES (?,?,?,?) ON CONFLICT (username) DO UPDATE SET fireWorksEnabled = excluded.fireWorksEnabled, learningAnimationEnabled = excluded.learningAnimationEnabled, language = excluded.language");
+            pstmt.setString(1, playerName);
+            pstmt.setBoolean(2, settings.isFireWorksEnabled());
+            pstmt.setBoolean(3, settings.isLearningAnimationEnabled());
+            pstmt.setString(4, settings.getLanguage());
+            pstmt.executeUpdate();
+            pstmt.close();
+            pool.releaseConnection(conn);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -226,6 +231,7 @@ public non-sealed class AbstractDataManager implements IDataManager {
 
     @Override
     public @NotNull YamlConfiguration getResearchStatus(String playerName) {
+        /*
         String yaml;
         try {
             DSLContext dsl = DSL.using(pool.getConnection(), dialect);
@@ -233,6 +239,7 @@ public non-sealed class AbstractDataManager implements IDataManager {
                     .from(DSL.table(DSL.name("research_status")))
                     .where(DSL.field(DSL.name("username")).eq(playerName))
                     .fetchOne(DSL.field(DSL.name("researchStatus")));
+
             if (tmp == null) {
                 return new YamlConfiguration();
             } else {
@@ -244,10 +251,15 @@ public non-sealed class AbstractDataManager implements IDataManager {
 
         yaml = new String(Base64.getDecoder().decode(yaml));
         return YamlConfiguration.loadConfiguration(new StringReader(yaml));
+
+         */
+
+        return new YamlConfiguration();
     }
 
     @Override
     public void saveResearchStatus(String playerName, YamlConfiguration researchStatus) {
+        /*
         String yaml = researchStatus.saveToString();
         String b64 = Base64.getEncoder().encodeToString(yaml.getBytes());
         try {
@@ -262,6 +274,8 @@ public non-sealed class AbstractDataManager implements IDataManager {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+         */
     }
 
     public void createTables() {

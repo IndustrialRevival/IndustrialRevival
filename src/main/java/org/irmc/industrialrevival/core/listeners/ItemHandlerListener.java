@@ -55,7 +55,8 @@ public class ItemHandlerListener implements Listener {
     public void onBlockPlaced(BlockPlaceEvent e) {
         ItemStack item = e.getItemInHand();
         IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(item);
-        if (iritem != null && iritem.isDisabledInWorld(e.getPlayer().getWorld())) {
+
+        if (iritem != null && !iritem.isDisabledInWorld(e.getPlayer().getWorld())) {
             String id = iritem.getId();
 
             Block block = e.getBlockPlaced();
@@ -71,12 +72,14 @@ public class ItemHandlerListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOW)
     public void onBlockBreak(BlockBreakEvent e) {
         IRBlockData blockData = IndustrialRevival.getInstance()
                 .getBlockDataService()
                 .getBlockData(e.getBlock().getLocation());
         if (blockData != null) {
+            e.setDropItems(false);
+
             String id = blockData.getId();
             IndustrialRevivalItem iritem = IndustrialRevivalItem.getById(id);
             Block block = e.getBlock();
@@ -89,10 +92,11 @@ public class ItemHandlerListener implements Listener {
                 handler.onBlockBreak(e);
             }
 
-            e.setDropItems(false);
-            if (!(iritem instanceof ItemDroppable)) {
-                World world = block.getWorld();
-                world.dropItemNaturally(block.getLocation(), iritem.getItem().clone());
+            if (!iritem.isDisabledInWorld(block.getWorld())) {
+                if (!(iritem instanceof ItemDroppable)) {
+                    World world = block.getWorld();
+                    world.dropItemNaturally(block.getLocation(), iritem.getItem().clone());
+                }
             }
         }
     }

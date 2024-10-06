@@ -111,7 +111,7 @@ public class IndustrialRevivalItem {
         craftMethods.add(craftMethod);
 
         if (craftMethod.getRecipeType() == RecipeType.VANILLA_CRAFTING) {
-            NamespacedKey key = new NamespacedKey(addon.getPlugin(), "rt_crafting_" + getId().toLowerCase());
+            NamespacedKey key = new NamespacedKey(IndustrialRevival.getInstance(), "rt_crafting_" + getId().toLowerCase());
             ShapedRecipe shapedRecipe = new ShapedRecipe(key, itemStack.clone());
             shapedRecipe.shape("abc", "def", "ghi");
             char[] chars = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' };
@@ -148,6 +148,10 @@ public class IndustrialRevivalItem {
         checkRegistered();
 
         if (!addon.getPlugin().isEnabled()) {
+            return null;
+        }
+
+        if (this.state == ItemState.DISABLED) {
             return null;
         }
 
@@ -295,11 +299,8 @@ public class IndustrialRevivalItem {
     }
 
     public IndustrialRevivalItem setDisabled(boolean disabled) {
-        checkRegistered();
         if (disabled) {
             this.state = ItemState.DISABLED;
-        } else {
-            this.state = ItemState.ENABLED;
         }
         return this;
     }

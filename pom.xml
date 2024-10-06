@@ -146,11 +146,6 @@
             <artifactId>FoliaLib</artifactId>
             <version>0.3.4</version>
         </dependency>
-        <dependency>
-            <groupId>org.jooq</groupId>
-            <artifactId>jooq</artifactId>
-            <version>3.19.11</version>
-        </dependency>
 
         <!-- Testing dependencies -->
         <dependency>

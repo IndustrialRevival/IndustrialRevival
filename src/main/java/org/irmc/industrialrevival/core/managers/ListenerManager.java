@@ -26,10 +26,10 @@ public class ListenerManager {
 
     private void loadAll() {
         listeners.add(new DisabledItemListener());
-        listeners.add(new DropListener());
         listeners.add(new GuideListener());
         listeners.add(new InteractListener());
         listeners.add(new ItemHandlerListener());
+        listeners.add(new DropListener());
         listeners.add(new LimitedItemListener());
         listeners.add(new MachineMenuListener());
         listeners.add(new NotPlaceableListener());
