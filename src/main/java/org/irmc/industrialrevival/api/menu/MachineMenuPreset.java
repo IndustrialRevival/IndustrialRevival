@@ -7,10 +7,10 @@ import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.MenuUtil;
-import org.irmc.pigeonlib.items.ItemUtils;
 import org.jetbrains.annotations.NotNull;
 
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Range;
 
 @Getter
 public class MachineMenuPreset extends SimpleMenu {
@@ -25,13 +25,13 @@ public class MachineMenuPreset extends SimpleMenu {
         this.locked = false;
     }
 
-    public void handleMenuDrawer(MatrixMenuDrawer drawer) {
+    public void addMenuDrawer(@NotNull MatrixMenuDrawer drawer) {
         int i = 0, j = 0;
         for (String line : drawer.getMatrix()) {
             for (char slotSymbol : line.toCharArray()) {
                 if (drawer.getCharMap().containsKey(slotSymbol)) {
                     ItemStack itemStack = drawer.getCharMap().get(slotSymbol);
-                    if (ItemUtils.isItemSimilar(itemStack, MenuUtil.BACKGROUND)) {
+                    if (MenuUtil.isBackground(itemStack)) {
                         setItem(i * 9 + j, MenuUtil.BACKGROUND, ClickHandler.DEFAULT);
                     } else {
                         setItem(i * 9 + j, itemStack, drawer.getClickHandlerMap().get(slotSymbol));
@@ -43,10 +43,21 @@ public class MachineMenuPreset extends SimpleMenu {
         }
     }
 
+    /**
+     * Called when the menu be registered to the registry.
+     * Override this method to initialize the menu BACKGROUND items.
+     * We suggest to use {@link #addMenuDrawer(MatrixMenuDrawer)}
+     */
     public void init() {
 
     }
 
+    /**
+     * Called when a machine data be loaded.
+     * Override this method to initialize the menu items based on the machine data.
+     * @param block The block of the machine
+     * @param menu The menu of the machine, null if the machine has no menu.
+     */
     public void newInstance(@NotNull Block block, @Nullable MachineMenu menu) {
 
     }
@@ -61,7 +72,7 @@ public class MachineMenuPreset extends SimpleMenu {
         IndustrialRevival.getInstance().getRegistry().getMenuPresets().put(this.id, this);
     }
 
-    public void setItem(int slot, @Nullable ItemStack itemStack) {
+    public void setItem(@Range(from = 0, to = 53) int slot, @Nullable ItemStack itemStack) {
         if (this.locked) {
             throw new IllegalStateException("Cannot set item of locked machine menu!");
         }
@@ -69,7 +80,7 @@ public class MachineMenuPreset extends SimpleMenu {
         super.setItem(slot, itemStack);
     }
 
-    public void setItem(int slot, ItemStack itemStack, @NotNull ClickHandler clickHandler) {
+    public void setItem(@Range(from = 0, to = 53) int slot, @Nullable ItemStack itemStack, @NotNull ClickHandler clickHandler) {
         if (this.locked) {
             throw new IllegalStateException("Cannot set item of locked machine menu!");
         }
@@ -85,7 +96,7 @@ public class MachineMenuPreset extends SimpleMenu {
         super.setTitle(title);
     }
 
-    public void setSize(int size) {
+    public void setSize(@Range(from = 0, to = 53) int size) {
         if (this.locked) {
             throw new IllegalStateException("Cannot set size of locked machine menu!");
         }
@@ -93,7 +104,7 @@ public class MachineMenuPreset extends SimpleMenu {
         super.setSize(size);
     }
 
-    public void setClickHandler(int slot, @NotNull ClickHandler clickHandler) {
+    public void setClickHandler(@Range(from = 0, to = 53) int slot, @NotNull ClickHandler clickHandler) {
         if (this.locked) {
             throw new IllegalStateException("Cannot set click handler of locked machine menu!");
         }
@@ -117,11 +128,11 @@ public class MachineMenuPreset extends SimpleMenu {
         super.setOpenHandler(openHandler);
     }
 
-    public int[] getSlotsByItemFlow(ItemFlow itemFlow) {
+    public int[] getSlotsByItemFlow(@NotNull ItemFlow itemFlow) {
         return getSlotsByItemFlow(itemFlow, null);
     }
 
-    public int[] getSlotsByItemFlow(ItemFlow itemFlow, ItemStack itemStack) {
+    public int[] getSlotsByItemFlow(@NotNull ItemFlow itemFlow, @Nullable ItemStack itemStack) {
         return new int[0];
     }
 }

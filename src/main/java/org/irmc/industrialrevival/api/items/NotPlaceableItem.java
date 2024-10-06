@@ -5,6 +5,7 @@ import org.irmc.industrialrevival.api.items.attributes.NotPlaceable;
 import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class NotPlaceableItem extends IndustrialRevivalItem implements NotPlaceable {
     @Override
@@ -46,6 +47,18 @@ public class NotPlaceableItem extends IndustrialRevivalItem implements NotPlacea
     @Override
     public NotPlaceableItem addItemDictionary(@NotNull ItemDictionary dictionary) {
         super.addItemDictionary(dictionary);
+        return this;
+    }
+
+    @Nullable
+    public NotPlaceableItem setEnchantable(boolean enchantable) {
+        super.setEnchantable(enchantable);
+        return this;
+    }
+
+    @Nullable
+    public NotPlaceableItem setDisenchantable(boolean disenchantable) {
+        super.setDisenchantable(disenchantable);
         return this;
     }
 }

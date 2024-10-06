@@ -11,9 +11,9 @@ public interface BlockBreakHandler extends ItemHandler {
     void onBlockBreak(@NotNull BlockBreakEvent event);
 
     @Override
-    default IncompatibleItemHandlerException isCompatible(IndustrialRevivalItem item) {
+    default IncompatibleItemHandlerException isCompatible(@NotNull IndustrialRevivalItem item) {
         if (!ItemUtils.isActualBlock(item.getItem().getType())) {
-            return new IncompatibleItemHandlerException("Only actual blocks can be breaked", item.getId());
+            return new IncompatibleItemHandlerException("Only actual blocks can be broken", item.getId());
         }
         return null;
     }

@@ -7,6 +7,7 @@ import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.recipes.MobDropMethod;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,7 +21,7 @@ public class DropFromMobItem extends IndustrialRevivalItem implements MobDropIte
         return dropMethods.toArray(new MobDropMethod[0]);
     }
 
-    public DropFromMobItem addDropMethod(MobDropMethod dropMethod) {
+    public DropFromMobItem addDropMethod(@NotNull MobDropMethod dropMethod) {
         checkRegistered();
         dropMethods.add(dropMethod);
         return this;
@@ -65,6 +66,18 @@ public class DropFromMobItem extends IndustrialRevivalItem implements MobDropIte
     @Override
     public DropFromMobItem addItemDictionary(@NotNull ItemDictionary dictionary) {
         super.addItemDictionary(dictionary);
+        return this;
+    }
+
+    @Nullable
+    public DropFromMobItem setEnchantable(boolean enchantable) {
+        super.setEnchantable(enchantable);
+        return this;
+    }
+
+    @Nullable
+    public DropFromMobItem setDisenchantable(boolean disenchantable) {
+        super.setDisenchantable(disenchantable);
         return this;
     }
 }

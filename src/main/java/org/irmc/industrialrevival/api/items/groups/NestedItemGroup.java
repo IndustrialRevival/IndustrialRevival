@@ -15,6 +15,7 @@ import org.irmc.industrialrevival.core.guide.IRGuideImplementation;
 import org.irmc.industrialrevival.implementation.guide.SurvivalGuideImplementation;
 import org.irmc.industrialrevival.utils.CleanedItemGetter;
 import org.irmc.industrialrevival.utils.Constants;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -24,19 +25,19 @@ import java.util.List;
 public class NestedItemGroup extends ItemGroup {
     private final List<SubItemGroup> subItemGroups = new ArrayList<>();
 
-    public NestedItemGroup(NamespacedKey key, ItemStack icon) {
+    public NestedItemGroup(@NotNull NamespacedKey key, @NotNull ItemStack icon) {
         super(key, icon);
     }
 
-    public NestedItemGroup(NamespacedKey key, ItemStack icon, int tier) {
+    public NestedItemGroup(@NotNull NamespacedKey key, @NotNull ItemStack icon, int tier) {
         super(key, icon, tier);
     }
 
-    public final void addItem(IndustrialRevivalItem item) {
+    public final void addItem(@NotNull IndustrialRevivalItem item) {
         throw new UnsupportedOperationException("Nested item groups can only contain sub item groups");
     }
 
-    public void onClicked(Player p, SimpleMenu sm, int page) {
+    public void onClicked(@NotNull Player p, @NotNull SimpleMenu sm, int page) {
         boolean onlyPageOne = false;
         IRGuideImplementation guide = SurvivalGuideImplementation.INSTANCE;
 
@@ -119,10 +120,8 @@ public class NestedItemGroup extends ItemGroup {
         sm.open(p);
     }
 
-    final void addSubItemGroup(SubItemGroup group) {
-        if (locked) {
-            throw new IllegalStateException("Cannot add sub item groups to a locked nested item group");
-        }
+    final void addSubItemGroup(@NotNull SubItemGroup group) {
+        checkLocked();
 
         subItemGroups.add(group);
 
@@ -135,5 +134,11 @@ public class NestedItemGroup extends ItemGroup {
                 .toList();
         subItemGroups.clear();
         subItemGroups.addAll(sorted);
+    }
+
+    private void checkLocked() {
+        if (locked) {
+            throw new IllegalStateException("Cannot modify a locked nested item group");
+        }
     }
 }

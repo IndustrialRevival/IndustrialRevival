@@ -17,6 +17,8 @@ import org.irmc.pigeonlib.items.ItemUtils;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Range;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -30,7 +32,7 @@ public class MachineMenu extends SimpleMenu {
     private final Location location;
     private final MachineMenuPreset preset;
 
-    public MachineMenu(Location location, MachineMenuPreset preset) {
+    public MachineMenu(@NotNull Location location, @NotNull MachineMenuPreset preset) {
         super(preset.getTitle());
         this.location = location;
         this.preset = preset;
@@ -61,7 +63,7 @@ public class MachineMenu extends SimpleMenu {
     }
 
     @NotNull
-    public static ChatColor getColorFromPercentage(float percentage) {
+    public static ChatColor getColorFromPercentage(@Range(from = 0, to = 100) float percentage) {
         if (percentage < 16.0F) {
             return ChatColor.DARK_RED;
         }
@@ -95,11 +97,11 @@ public class MachineMenu extends SimpleMenu {
         return remainingTime + seconds + "s";
     }
 
-    public void setSize(int size) {
+    public void setSize(@Range(from = 9, to = 54) int size) {
         throw new UnsupportedOperationException("Cannot set size of a machine menu");
     }
 
-    public void setTitle(Component title) {
+    public void setTitle(@NotNull Component title) {
         throw new UnsupportedOperationException("Cannot set title of a machine menu");
     }
 
@@ -112,7 +114,7 @@ public class MachineMenu extends SimpleMenu {
         return getInventory().getViewers();
     }
 
-    public void consumeSlot(int slot, int amount) {
+    public void consumeSlot(@Range(from = 0, to = 53) int slot, int amount) {
         ItemStack item = getItem(slot);
         if (item != null && item.getAmount() > 0) {
             item.setAmount(item.getAmount() - amount);
@@ -122,13 +124,13 @@ public class MachineMenu extends SimpleMenu {
         }
     }
 
-    public void consumeSlot(int... slot) {
+    public void consumeSlot(@Range(from = 0, to = 53) int... slot) {
         for (int s : slot) {
             setItem(s, null);
         }
     }
 
-    public int consumeItem(ItemStack item, int... slots) {
+    public int consumeItem(@NotNull ItemStack item, @Range(from = 0, to = 53) int... slots) {
         if (item == null || item.getType().isAir()) {
             return 0;
         }
@@ -151,11 +153,11 @@ public class MachineMenu extends SimpleMenu {
         return consumedCount;
     }
 
-    public int consumeAllItem(ItemStack item) {
+    public int consumeAllItem(@NotNull ItemStack item) {
         return consumeItem(item, IntStream.range(0, getSize()).toArray());
     }
 
-    public int consumeItem(ItemStackReference itemRef, int amount, int... slots) {
+    public int consumeItem(@NotNull ItemStackReference itemRef, int amount, @Range(from = 0, to = 53) int... slots) {
         int consumedCount = 0;
         for (int slot : slots) {
             ItemStack itemInSlot = getItem(slot);
@@ -172,7 +174,7 @@ public class MachineMenu extends SimpleMenu {
         return consumedCount;
     }
 
-    public int consumeItem(Map<ItemStackReference, Integer> itemRefMap, int... slots) {
+    public int consumeItem(@NotNull Map<ItemStackReference, Integer> itemRefMap, @Range(from = 0, to = 53) int... slots) {
         int consumedCount = 0;
         for (ItemStackReference itemRef : itemRefMap.keySet()) {
             int amount = itemRefMap.get(itemRef);
@@ -182,7 +184,7 @@ public class MachineMenu extends SimpleMenu {
         return consumedCount;
     }
 
-    public void setProgressItem(int slot, int remainingTicks, int totalTicks, ItemStack progressBarItem) {
+    public void setProgressItem(@Range(from = 0, to = 53) int slot, int remainingTicks, int totalTicks, @NotNull ItemStack progressBarItem) {
         if (!this.hasViewer()) {
             return;
         }
@@ -204,7 +206,7 @@ public class MachineMenu extends SimpleMenu {
     }
 
     @Nullable
-    public ItemStack pushItem(@NotNull ItemStack item, int... slots) {
+    public ItemStack pushItem(@NotNull ItemStack item, @Range(from = 0, to = 53) int... slots) {
         if (item == null || item.getType() == Material.AIR) {
             throw new IllegalArgumentException("Cannot push null or AIR");
         }
@@ -248,7 +250,7 @@ public class MachineMenu extends SimpleMenu {
     }
 
     @NotNull
-    public Map<ItemStack, Integer> pushItem(@NotNull ItemStack[] items, int... slots) {
+    public Map<ItemStack, Integer> pushItem(@NotNull ItemStack[] items, @Range(from = 0, to = 53) int... slots) {
         if (items == null || items.length == 0) {
             throw new IllegalArgumentException("Cannot push null or empty array");
         }
@@ -264,7 +266,7 @@ public class MachineMenu extends SimpleMenu {
     }
 
     @NotNull
-    public Map<ItemStack, Integer> pushItem(@NotNull List<ItemStack> items, int... slots) {
+    public Map<ItemStack, Integer> pushItem(@NotNull List<ItemStack> items, @Range(from = 0, to = 53) int... slots) {
         if (items == null || items.isEmpty()) {
             throw new IllegalArgumentException("Cannot push null or empty list");
         }
@@ -283,7 +285,7 @@ public class MachineMenu extends SimpleMenu {
     }
 
     @NotNull
-    public Map<ItemStack, Integer> pushItem(Map<ItemStack, Integer> items, int... slots) {
+    public Map<ItemStack, Integer> pushItem(@NotNull Map<ItemStack, Integer> items, @Range(from = 0, to = 53) int... slots) {
         if (items == null || items.isEmpty()) {
             throw new IllegalArgumentException("Cannot push null or empty map");
         }
@@ -298,7 +300,7 @@ public class MachineMenu extends SimpleMenu {
         return pushItem(listItems, slots);
     }
 
-    public boolean fits(@NotNull ItemStack item, int... slots) {
+    public boolean fits(@NotNull ItemStack item, @Range(from = 0, to = 53) int... slots) {
         if (item == null || item.getType() == Material.AIR) {
             return true;
         }
@@ -321,7 +323,7 @@ public class MachineMenu extends SimpleMenu {
         return false;
     }
 
-    public boolean fits(@NotNull ItemStack[] items, int... slots) {
+    public boolean fits(@NotNull ItemStack[] items, @Range(from = 0, to = 53) int... slots) {
         if (items == null || items.length == 0) {
             return false;
         }
@@ -336,7 +338,7 @@ public class MachineMenu extends SimpleMenu {
         return fits(listItems, slots);
     }
 
-    public boolean fits(@NotNull List<ItemStack> items, int... slots) {
+    public boolean fits(@NotNull List<ItemStack> items, @Range(from = 0, to = 53) int... slots) {
         if (items == null || items.isEmpty()) {
             return false;
         }
@@ -395,7 +397,7 @@ public class MachineMenu extends SimpleMenu {
         return true;
     }
 
-    public boolean fits(Map<ItemStack, Integer> items, int... slots) {
+    public boolean fits(@NotNull Map<ItemStack, Integer> items, @Range(from = 0, to = 53) int... slots) {
         if (items == null || items.isEmpty()) {
             return false;
         }
@@ -416,17 +418,20 @@ public class MachineMenu extends SimpleMenu {
     }
 
     @Override
+    @NotNull
     public MenuCloseHandler getCloseHandler() {
         return preset.getCloseHandler();
     }
 
     @Override
+    @NotNull
     public MenuOpenHandler getOpenHandler() {
         return preset.getOpenHandler();
     }
 
     @Override
-    public ClickHandler getClickHandler(int slot) {
+    @NotNull
+    public ClickHandler getClickHandler(@Range(from = 0, to = 53) int slot) {
         return preset.getClickHandler(slot);
     }
 }

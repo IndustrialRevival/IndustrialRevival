@@ -12,7 +12,7 @@ public interface BlockPlaceHandler extends ItemHandler {
     void onBlockPlace(@NotNull BlockPlaceEvent event);
 
     @Override
-    default IncompatibleItemHandlerException isCompatible(IndustrialRevivalItem item) {
+    default IncompatibleItemHandlerException isCompatible(@NotNull IndustrialRevivalItem item) {
         if (!ItemUtils.isActualBlock(item.getItem().getType())) {
             return new IncompatibleItemHandlerException("Only actual blocks can be placed", item.getId());
         }

@@ -60,7 +60,7 @@ public class ItemDisplayer extends IndustrialRevivalItem implements InventoryBlo
                     })
                     .addExplain('I', info, SimpleMenu.ClickHandler.DEFAULT);
 
-            preset.handleMenuDrawer(drawer);
+            preset.addMenuDrawer(drawer);
             preset.setClickHandler(13, (slot, player, item, menu, clickType) -> {
                 ItemStack itemStack = menu.getItem(13);
                 if (itemStack != null) {

@@ -7,6 +7,7 @@ import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.recipes.BlockDropMethod;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -62,7 +63,19 @@ public class DropFromBlockItem extends IndustrialRevivalItem implements BlockDro
         return this;
     }
 
-    public DropFromBlockItem addDropMethod(BlockDropMethod blockDropMethod) {
+    @Nullable
+    public DropFromBlockItem setEnchantable(boolean enchantable) {
+        super.setEnchantable(enchantable);
+        return this;
+    }
+
+    @Nullable
+    public DropFromBlockItem setDisenchantable(boolean disenchantable) {
+        super.setDisenchantable(disenchantable);
+        return this;
+    }
+
+    public DropFromBlockItem addDropMethod(@NotNull BlockDropMethod blockDropMethod) {
         checkRegistered();
         blockDropMethods.add(blockDropMethod);
         return this;

@@ -76,10 +76,12 @@ public class IndustrialRevivalItem {
     public IndustrialRevivalItem() {
     }
 
-    public static IndustrialRevivalItem getById(String id) {
+    @Nullable
+    public static IndustrialRevivalItem getById(@NotNull String id) {
         return IndustrialRevival.getInstance().getRegistry().getItems().get(id);
     }
 
+    @Nullable
     public static IndustrialRevivalItem getByItem(@Nullable ItemStack item) {
         if (item == null || item.getType() == Material.AIR) {
             return null;
@@ -97,10 +99,12 @@ public class IndustrialRevivalItem {
         return null;
     }
 
+    @NotNull
     public IndustrialRevivalItemStack getItem() {
         return itemStack;
     }
 
+    @NotNull
     public IndustrialRevivalItem addCraftMethod(@NotNull CraftMethodHandler craftMethodHandler) {
         Preconditions.checkArgument(craftMethodHandler != null, "craftMethodHandler cannot be null");
         CraftMethod craftMethod = craftMethodHandler.getCraftMethod(this);
@@ -134,6 +138,7 @@ public class IndustrialRevivalItem {
         return this;
     }
 
+    @NotNull
     public String getId() {
         return itemStack.getId();
     }
@@ -143,13 +148,17 @@ public class IndustrialRevivalItem {
      *
      * @return WILL RETURN NULL IF THE ITEM IS NOT REGISTERED SUCCESSFULLY!!
      */
+    @Nullable
     public IndustrialRevivalItem register(@NotNull IndustrialRevivalAddon addon) {
-        Preconditions.checkArgument(addon != null, "Addon cannot be null");
         checkRegistered();
+        Preconditions.checkArgument(addon != null, "Addon cannot be null");
 
         if (!addon.getPlugin().isEnabled()) {
             return null;
         }
+
+        Preconditions.checkArgument(this.group != null, "Must set group before registering") ;
+        Preconditions.checkArgument(this.itemStack != null, "Must set itemStack before registering") ;
 
         this.addon = addon;
 
@@ -170,11 +179,12 @@ public class IndustrialRevivalItem {
         }
 
         IndustrialRevival.getInstance().getRegistry().registerItem(this);
-        this.state = ItemState.ENABLED;
+        this.state = this.state == ItemState.UNREGISTERED ? ItemState.ENABLED : this.state;
 
         return this;
     }
 
+    @NotNull
     public Component getItemName() {
         return ItemUtils.getDisplayName(getItem());
     }
@@ -185,7 +195,7 @@ public class IndustrialRevivalItem {
     }
 
     @CanIgnoreReturnValue
-    protected IndustrialRevivalItem addItemHandlers(ItemHandler... handlers) {
+    protected IndustrialRevivalItem addItemHandlers(@NotNull ItemHandler... handlers) {
         checkRegistered();
         for (ItemHandler handler : handlers) {
             itemHandlers.put(handler.getClass(), handler);
@@ -236,6 +246,7 @@ public class IndustrialRevivalItem {
         return state == ItemState.DISABLED || disabledInWorld.contains(world.getName());
     }
 
+    @Nullable
     public IndustrialRevivalItem setDisabledInWorld(@NotNull World world, boolean disabled) {
         Preconditions.checkArgument(world != null, "World cannot be null");
         ConfigurationSection setting = getItemSetting();
@@ -258,6 +269,7 @@ public class IndustrialRevivalItem {
         return IndustrialRevival.getInstance().getItemSettings().getSetting(getId());
     }
 
+    @Nullable
     public IndustrialRevivalItem setWikiText(@NotNull String wikiText) {
         checkRegistered();
         Preconditions.checkArgument(wikiText != null, "WikiText cannot be null");
@@ -265,6 +277,7 @@ public class IndustrialRevivalItem {
         return this;
     }
 
+    @Nullable
     public IndustrialRevivalItem addItemDictionary(@NotNull ItemDictionary itemDictionary) {
         checkRegistered();
         Preconditions.checkArgument(itemDictionary != null, "ItemDictionary cannot be null");
@@ -272,6 +285,7 @@ public class IndustrialRevivalItem {
         return this;
     }
 
+    @Nullable
     public IndustrialRevivalItem setItemGroup(@NotNull ItemGroup group) {
         checkRegistered();
         Preconditions.checkArgument(group != null, "ItemGroup cannot be null");
@@ -279,6 +293,7 @@ public class IndustrialRevivalItem {
         return this;
     }
 
+    @Nullable
     public IndustrialRevivalItem setItemStack(@NotNull IndustrialRevivalItemStack itemStack) {
         checkRegistered();
         Preconditions.checkArgument(itemStack != null, "ItemStack cannot be null");
@@ -291,9 +306,10 @@ public class IndustrialRevivalItem {
     }
 
     public boolean isDisabled() {
-        return state == ItemState.DISABLED;
+        return !isEnabled();
     }
 
+    @Nullable
     public IndustrialRevivalItem setDisabled(boolean disabled) {
         checkRegistered();
         if (disabled) {
@@ -326,12 +342,14 @@ public class IndustrialRevivalItem {
         return null;
     }
 
+    @Nullable
     public IndustrialRevivalItem setEnchantable(boolean enchantable) {
         checkRegistered();
         this.enchantable = enchantable;
         return this;
     }
 
+    @Nullable
     public IndustrialRevivalItem setDisenchantable(boolean disenchantable) {
         checkRegistered();
         this.disenchantable = disenchantable;
@@ -346,6 +364,6 @@ public class IndustrialRevivalItem {
 
     @FunctionalInterface
     public interface CraftMethodHandler {
-        CraftMethod getCraftMethod(IndustrialRevivalItem item);
+        @Nullable CraftMethod getCraftMethod(@NotNull IndustrialRevivalItem item);
     }
 }

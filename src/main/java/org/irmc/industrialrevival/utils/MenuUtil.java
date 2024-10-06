@@ -8,7 +8,9 @@ import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
+import org.irmc.pigeonlib.items.ItemUtils;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,7 +55,7 @@ public class MenuUtil {
     ).toPureItemStack();
 
     @NotNull
-    public static Map<ItemStack, Integer> getMenuItemsByItemFlow(MachineMenu menu, ItemFlow itemFlow, ItemStack itemStack) {
+    public static Map<ItemStack, Integer> getMenuItemsByItemFlow(@NotNull MachineMenu menu, @NotNull ItemFlow itemFlow, @Nullable ItemStack itemStack) {
         final int[] slots = menu.getPreset().getSlotsByItemFlow(itemFlow, itemStack);
         final Map<ItemStack, Integer> items = new HashMap<>();
         for (int slot : slots) {
@@ -66,11 +68,39 @@ public class MenuUtil {
     }
 
     @NotNull
-    public static Map<ItemStack, Integer> getMenuItemsByItemFlow(SimpleMenu menu, ItemFlow itemFlow, ItemStack itemStack) {
+    public static Map<ItemStack, Integer> getMenuItemsByItemFlow(@NotNull SimpleMenu menu, @NotNull ItemFlow itemFlow, @Nullable ItemStack itemStack) {
         if (menu instanceof MachineMenu machineMenu) {
             return getMenuItemsByItemFlow(machineMenu, itemFlow, itemStack);
         } else {
             return new HashMap<>();
         }
+    }
+
+    public static boolean isBackground(@NotNull ItemStack itemStack) {
+        if (ItemUtils.isItemSimilar(itemStack, BACKGROUND)) {
+            return true;
+        }
+
+        if (ItemUtils.isItemSimilar(itemStack, INPUT_BORDER)) {
+            return true;
+        }
+
+        if (ItemUtils.isItemSimilar(itemStack, OUTPUT_BORDER)) {
+            return true;
+        }
+
+        if (ItemUtils.isItemSimilar(itemStack, CLICKER_BORDER)) {
+            return true;
+        }
+
+        if (ItemUtils.isItemSimilar(itemStack, CONFIRM)) {
+            return true;
+        }
+
+        if (ItemUtils.isItemSimilar(itemStack, CANCEL)) {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -13,6 +13,7 @@ import org.irmc.industrialrevival.api.objects.enums.ArmorType;
 import org.irmc.industrialrevival.api.recipes.CraftMethod;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -33,7 +34,7 @@ public class ArmorSet {
     @Getter
     private List<ArmorProtectionType> protectionTypes;
 
-    public ArmorSet(NamespacedKey key, ItemGroup group) {
+    public ArmorSet(@NotNull NamespacedKey key, @NotNull ItemGroup group) {
         this.key = key;
         this.armor = new HashMap<>(4);
         this.protectWhenFullSet = false;
@@ -41,11 +42,11 @@ public class ArmorSet {
     }
 
     public void addArmor(
-            ArmorType armorType,
-            ItemStack itemStack,
-            Set<PotionEffect> potionEffects,
-            ItemStack[] recipe,
-            RecipeType type) {
+            @NotNull ArmorType armorType,
+            @NotNull ItemStack itemStack,
+            @NotNull Set<PotionEffect> potionEffects,
+            @NotNull ItemStack[] recipe,
+            @NotNull RecipeType type) {
         checkLock();
         armor.put(
                 armorType,
@@ -57,26 +58,33 @@ public class ArmorSet {
         );
     }
 
+    public void addArmor(
+            @NotNull ArmorType armorType,
+            @NotNull ArmorPiece armorPiece) {
+        checkLock();
+        armor.put(armorType, armorPiece);
+    }
+
     public void setProtectWhenFullSet(boolean protectWhenFullSet) {
         checkLock();
         this.protectWhenFullSet = protectWhenFullSet;
     }
 
-    public void setArmorProtectionTypes(ArmorProtectionType... types) {
+    public void setArmorProtectionTypes(@NotNull ArmorProtectionType... types) {
         checkLock();
         protectionTypes = List.of(types);
     }
 
-    public void setArmorProtectionTypes(List<ArmorProtectionType> types) {
+    public void setArmorProtectionTypes(@NotNull List<ArmorProtectionType> types) {
         checkLock();
         protectionTypes = types;
     }
 
-    public ArmorPiece getArmorPiece(ArmorType armorType) {
+    public ArmorPiece getArmorPiece(@NotNull ArmorType armorType) {
         return armor.get(armorType);
     }
 
-    public void register(IndustrialRevivalAddon addon) {
+    public void register(@NotNull IndustrialRevivalAddon addon) {
         for (ArmorPiece p : armor.values()) {
             p.register(addon);
         }
@@ -84,7 +92,7 @@ public class ArmorSet {
         lock = true;
     }
 
-    private String namespacedKeyToId(ArmorType armorType) {
+    private String namespacedKeyToId(@NotNull ArmorType armorType) {
         return key.getNamespace().toUpperCase() + "_" + key.getKey().toUpperCase() + "_" + armorType.toString();
     }
 
@@ -99,13 +107,13 @@ public class ArmorSet {
         private final Set<PotionEffect> potionEffects = new HashSet<>();
         private ArmorSet parent;
 
-        public ArmorPiece addPotionEffect(PotionEffect effect) {
+        public ArmorPiece addPotionEffect(@NotNull PotionEffect effect) {
             checkRegistered();
             potionEffects.add(effect);
             return this;
         }
 
-        public ArmorPiece setPotionEffects(Set<PotionEffect> effects) {
+        public ArmorPiece setPotionEffects(@NotNull Set<PotionEffect> effects) {
             checkRegistered();
             potionEffects.clear();
             potionEffects.addAll(effects);
@@ -157,6 +165,18 @@ public class ArmorSet {
         @Override
         public ArmorPiece addItemDictionary(@NotNull ItemDictionary dictionary) {
             super.addItemDictionary(dictionary);
+            return this;
+        }
+
+        @Nullable
+        public ArmorPiece setEnchantable(boolean enchantable) {
+            super.setEnchantable(enchantable);
+            return this;
+        }
+
+        @Nullable
+        public ArmorPiece setDisenchantable(boolean disenchantable) {
+            super.setDisenchantable(disenchantable);
             return this;
         }
     }

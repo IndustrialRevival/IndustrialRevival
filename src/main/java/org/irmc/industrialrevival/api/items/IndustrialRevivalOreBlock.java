@@ -9,6 +9,7 @@ import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.objects.IRRecipeChoice;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * An ore block that drops itself when mined.
@@ -81,6 +82,18 @@ public class IndustrialRevivalOreBlock extends IndustrialRevivalItem implements 
     @Override
     public IndustrialRevivalOreBlock addItemDictionary(@NotNull ItemDictionary dictionary) {
         super.addItemDictionary(dictionary);
+        return this;
+    }
+
+    @Nullable
+    public IndustrialRevivalOreBlock setEnchantable(boolean enchantable) {
+        super.setEnchantable(enchantable);
+        return this;
+    }
+
+    @Nullable
+    public IndustrialRevivalOreBlock setDisenchantable(boolean disenchantable) {
+        super.setDisenchantable(disenchantable);
         return this;
     }
 

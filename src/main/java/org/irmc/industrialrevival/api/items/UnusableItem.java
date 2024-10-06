@@ -5,6 +5,7 @@ import org.irmc.industrialrevival.api.items.attributes.Unusable;
 import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 
 public class UnusableItem extends IndustrialRevivalItem implements Unusable {
@@ -47,6 +48,18 @@ public class UnusableItem extends IndustrialRevivalItem implements Unusable {
     @Override
     public UnusableItem addItemDictionary(@NotNull ItemDictionary dictionary) {
         super.addItemDictionary(dictionary);
+        return this;
+    }
+
+    @Nullable
+    public UnusableItem setEnchantable(boolean enchantable) {
+        super.setEnchantable(enchantable);
+        return this;
+    }
+
+    @Nullable
+    public UnusableItem setDisenchantable(boolean disenchantable) {
+        super.setDisenchantable(disenchantable);
         return this;
     }
 }

@@ -15,7 +15,7 @@ public interface BlockTicker extends ItemHandler {
     void onTick(@NotNull Block block, @Nullable MachineMenu menu, @Nullable IRBlockData data);
 
     @Override
-    default IncompatibleItemHandlerException isCompatible(IndustrialRevivalItem item) {
+    default IncompatibleItemHandlerException isCompatible(@NotNull IndustrialRevivalItem item) {
         if (!ItemUtils.isActualBlock(item.getItem().getType())) {
             return new IncompatibleItemHandlerException("Only actual blocks can be ticked", item.getId());
         }
