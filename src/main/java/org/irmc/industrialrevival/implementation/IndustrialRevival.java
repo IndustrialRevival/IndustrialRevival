@@ -24,6 +24,7 @@ import org.irmc.industrialrevival.core.services.IRRegistry;
 import org.irmc.industrialrevival.core.services.ItemDataService;
 import org.irmc.industrialrevival.core.services.ItemTextureService;
 import org.irmc.industrialrevival.core.task.ArmorCheckTask;
+import org.irmc.industrialrevival.core.task.TickerTask;
 import org.irmc.industrialrevival.implementation.groups.IRItemGroups;
 import org.irmc.industrialrevival.implementation.items.IRItems;
 import org.irmc.industrialrevival.utils.Constants;
@@ -160,6 +161,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     private void setupTasks() {
         int checkInterval = getConfig().getInt("options.armor-check-interval", 1);
         foliaLibImpl.runTimerAsync(new ArmorCheckTask(checkInterval), checkInterval * 20L, checkInterval * 20L);
+        foliaLibImpl.runTimerAsync(new TickerTask(checkInterval), checkInterval * 20L, checkInterval * 20L);
     }
 
     @Override

@@ -20,6 +20,7 @@ import org.irmc.industrialrevival.api.items.attributes.NotPlaceable;
 import org.irmc.industrialrevival.api.items.attributes.VanillaSmeltingItem;
 import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
+import org.irmc.industrialrevival.api.items.handlers.BlockTicker;
 import org.irmc.industrialrevival.api.items.handlers.ItemHandler;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
 import org.irmc.industrialrevival.api.recipes.CraftMethod;
@@ -74,7 +75,6 @@ public class IndustrialRevivalItem {
     private boolean disenchantable = true;
     @Getter
     private boolean hideInGuide = false;
-
     public IndustrialRevivalItem() {
     }
 
