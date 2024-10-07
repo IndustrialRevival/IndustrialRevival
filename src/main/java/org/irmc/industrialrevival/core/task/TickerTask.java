@@ -75,7 +75,7 @@ public class TickerTask implements Consumer<WrappedTask> {
     }
 
     /**
-     * Called when a existing block is loaded.
+     * Called when an existing block is loaded.
      * @param location The location of the block that was loaded.
      */
     public void loadBlock(Location location) {
