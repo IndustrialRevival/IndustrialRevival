@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 @FunctionalInterface
-public interface ToolUseHandler extends ItemHandler {
+public interface ItemBreakBlockHandler extends ItemHandler {
     /**
      * Called when a tool is used on a block.
      * <br/>
@@ -25,7 +25,7 @@ public interface ToolUseHandler extends ItemHandler {
     default IncompatibleItemHandlerException isCompatible(@NotNull IndustrialRevivalItem item) {
         if (!item.getItem().getType().isItem()) {
             return new IncompatibleItemHandlerException(
-                    "Only materials that are items can have a tool use handler", item.getId());
+                    "Only materials that are items can have a item break block handler", item.getId());
         }
 
         return null;

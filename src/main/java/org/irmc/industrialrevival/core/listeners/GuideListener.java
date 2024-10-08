@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.irmc.industrialrevival.api.objects.enums.GuideMode;
 import org.irmc.industrialrevival.implementation.guide.CheatGuideImplementation;
 import org.irmc.industrialrevival.implementation.guide.SurvivalGuideImplementation;
 import org.irmc.industrialrevival.utils.Constants;
@@ -16,14 +17,18 @@ public class GuideListener implements Listener {
     public void onRightClick(PlayerInteractEvent e) {
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) {
             ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
-            if (item.getType() != Material.AIR) {
-                int type = PersistentDataAPI.getInt(item.getItemMeta(), Constants.GUIDE_ITEM_KEY, -1);
-                if (type == 1) {
-                    SurvivalGuideImplementation.INSTANCE.open(e.getPlayer());
-                    e.setCancelled(true);
-                } else if (type == 2) {
-                    CheatGuideImplementation.INSTANCE.open(e.getPlayer());
-                    e.setCancelled(true);
+            if (item != null && item.getType() != Material.AIR) {
+                String smode = PersistentDataAPI.getString(item.getItemMeta(), Constants.GUIDE_ITEM_KEY, GuideMode.UNKNOWN.name());
+                GuideMode mode = GuideMode.valueOf(smode);
+                switch (mode) {
+                    case SURVIVAL -> {
+                        SurvivalGuideImplementation.INSTANCE.open(e.getPlayer());
+                        e.setCancelled(true);
+                    }
+                    case CREATIVE -> {
+                        CheatGuideImplementation.INSTANCE.open(e.getPlayer());
+                        e.setCancelled(true);
+                    }
                 }
             }
         }

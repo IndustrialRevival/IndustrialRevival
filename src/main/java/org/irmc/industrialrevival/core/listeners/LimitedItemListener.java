@@ -1,5 +1,6 @@
 package org.irmc.industrialrevival.core.listeners;
 
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -12,10 +13,9 @@ public class LimitedItemListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onLimitedUseItem(PlayerRightClickEvent e) {
         ItemStack is = e.getItem();
-        if (is != null && !is.getType().isAir()) {
+        if (is != null && is.getType() != Material.AIR) {
             IndustrialRevivalItem item = IndustrialRevivalItem.getByItem(is);
             if (item != null && item.isDisabledInWorld(e.getPlayer().getWorld())) {
-                // TODO: remind player
                 return;
             }
             if (item instanceof LimitedItem li) {

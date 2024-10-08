@@ -15,7 +15,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.handlers.BlockPlaceHandler;
-import org.irmc.industrialrevival.api.items.handlers.UseItemInteractHandler;
+import org.irmc.industrialrevival.api.items.handlers.ItemInteractHandler;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.core.services.IRRegistry;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
@@ -52,7 +52,7 @@ public class Debugger extends IndustrialRevivalItem {
     private static final ChatColor black = ChatColor.BLACK;
     public Debugger() {
         super();
-        addItemHandlers(new UseItemInteractHandler() {
+        addItemHandlers(new ItemInteractHandler() {
             @Override
             public void onInteract(@NotNull PlayerInteractEvent e) {
                 interact(e);
