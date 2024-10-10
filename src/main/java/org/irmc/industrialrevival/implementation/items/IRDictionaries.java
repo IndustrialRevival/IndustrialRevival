@@ -1,6 +1,9 @@
-package org.irmc.industrialrevival.api.items.collection;
+package org.irmc.industrialrevival.implementation.items;
 
 import org.bukkit.NamespacedKey;
+import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
+import org.irmc.industrialrevival.api.items.collection.UnchangeableItemDictionary;
+import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.items.IRItems;
 import org.irmc.industrialrevival.utils.KeyUtil;
 
@@ -8,10 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Dictionaries {
+public class IRDictionaries {
     public static final ItemDictionary IR_ORE;
     public static final ItemDictionary IR_ORE_PRODUCTION;
-    static Map<NamespacedKey, ItemDictionary> registry = new HashMap<>();
 
     static {
         IR_ORE = new UnchangeableItemDictionary(
@@ -35,6 +37,6 @@ public class Dictionaries {
     }
 
     public static ItemDictionary getDictionary(NamespacedKey key) {
-        return registry.get(key);
+        return IndustrialRevival.getInstance().getRegistry().getDictionaries().get(key);
     }
 }

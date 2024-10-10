@@ -7,7 +7,6 @@ import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.recipes.BlockDropMethod;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,8 +21,8 @@ public class DropFromBlockItem extends IndustrialRevivalItem implements BlockDro
     }
 
     @Override
-    public DropFromBlockItem setItemGroup(@NotNull ItemGroup group) {
-        super.setItemGroup(group);
+    public DropFromBlockItem addItemGroup(@NotNull ItemGroup group) {
+        super.addItemGroup(group);
         return this;
     }
 

@@ -11,7 +11,6 @@ import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.pigeonlib.pdc.PersistentDataAPI;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
 import java.util.function.BiConsumer;
@@ -73,8 +72,8 @@ public class LimitedItem extends IndustrialRevivalItem implements Limited {
     }
 
     @Override
-    public LimitedItem setItemGroup(@NotNull ItemGroup group) {
-        super.setItemGroup(group);
+    public LimitedItem addItemGroup(@NotNull ItemGroup group) {
+        super.addItemGroup(group);
         return this;
     }
 

@@ -4,12 +4,13 @@ import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.NotPlaceable;
+import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
 import org.irmc.pigeonlib.items.ItemUtils;
 import org.jetbrains.annotations.NotNull;
 
 public interface BlockPistonRetractHandler extends ItemHandler {
-    boolean onPistonRetract(BlockPistonRetractEvent event);
+    boolean onPistonRetract(BlockPistonRetractEvent event, IndustrialRevivalItem iritem, IRBlockData blockData);
     @Override
     default IncompatibleItemHandlerException isCompatible(@NotNull IndustrialRevivalItem item) {
         if (!ItemUtils.isActualBlock(item.getItem().getType())) {

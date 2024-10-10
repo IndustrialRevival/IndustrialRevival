@@ -1,20 +1,23 @@
 package org.irmc.industrialrevival.api.items.handlers;
 
-import org.bukkit.event.block.BlockPistonExtendEvent;
+import org.bukkit.Material;
+import org.bukkit.event.block.BlockFromToEvent;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.NotPlaceable;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
-import org.irmc.pigeonlib.items.ItemUtils;
 import org.jetbrains.annotations.NotNull;
 
-public interface BlockPistonExtendHandler extends ItemHandler {
-    boolean onPistonExtend(BlockPistonExtendEvent event, IndustrialRevivalItem iritem, IRBlockData blockData);
-    @Override
+public interface BlockFromToHandler extends ItemHandler {
+    void onBlockFromTo(BlockFromToEvent event, IndustrialRevivalItem iritem, IRBlockData blockData);
+
+    public @Override
     default IncompatibleItemHandlerException isCompatible(@NotNull IndustrialRevivalItem item) {
-        if (!ItemUtils.isActualBlock(item.getItem().getType())) {
-            return new IncompatibleItemHandlerException("Only actual blocks can be placed", item.getId());
+        Material material = item.getItem().getType();
+        if (material != Material.LAVA_BUCKET && material != Material.WATER_BUCKET && material != Material.DRAGON_EGG) {
+            return new IncompatibleItemHandlerException("Item must be liquid or dragon egg", item.getId());
         }
+
         if (item instanceof NotPlaceable) {
             return new IncompatibleItemHandlerException("This item cannot be placed", item.getId());
         }

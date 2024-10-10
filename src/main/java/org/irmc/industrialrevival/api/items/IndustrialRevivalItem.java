@@ -20,7 +20,6 @@ import org.irmc.industrialrevival.api.items.attributes.NotPlaceable;
 import org.irmc.industrialrevival.api.items.attributes.VanillaSmeltingItem;
 import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
-import org.irmc.industrialrevival.api.items.handlers.BlockTicker;
 import org.irmc.industrialrevival.api.items.handlers.ItemHandler;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
 import org.irmc.industrialrevival.api.recipes.CraftMethod;
@@ -46,9 +45,14 @@ import java.util.Set;
 /**
  * An industrial revival item.<br>
  * By default, the item is not registered in the game.<br>
- * To register the item, use the register method.<br>
- * The block is placeable by default if you want it to be unplaceable, please
- * see {@link NotPlaceable}
+ * To register the item, use {@link #register(IndustrialRevivalAddon)}.<br>
+ * The block is placeable by default. If you want it to
+ * be unplaceable, implement the {@link NotPlaceable} interface.<br>
+ *
+ * @author balugaq
+ * @author linjinhong11
+ *
+ * @see {@link NotPlaceable}
  */
 @SuppressWarnings("unused")
 public class IndustrialRevivalItem {
@@ -64,7 +68,7 @@ public class IndustrialRevivalItem {
     @Getter
     private IndustrialRevivalAddon addon;
     @Getter
-    private ItemGroup group;
+    private final Set<ItemGroup> group = new HashSet<>();
     private IndustrialRevivalItemStack itemStack;
     private ItemState state = ItemState.UNREGISTERED;
     @Getter
@@ -102,10 +106,10 @@ public class IndustrialRevivalItem {
     }
 
     @Nullable
-    public IndustrialRevivalItem setItemGroup(@NotNull ItemGroup group) {
+    public IndustrialRevivalItem addItemGroup(@NotNull ItemGroup group) {
         checkRegistered();
         Preconditions.checkArgument(group != null, "ItemGroup cannot be null");
-        this.group = group;
+        this.group.add(group);
         return this;
     }
 
@@ -163,7 +167,7 @@ public class IndustrialRevivalItem {
     public IndustrialRevivalItem addItemDictionary(@NotNull ItemDictionary itemDictionary) {
         checkRegistered();
         Preconditions.checkArgument(itemDictionary != null, "ItemDictionary cannot be null");
-        itemDictionaries.add(itemDictionary);
+        itemDictionary.tagItem(this, true);
         return this;
     }
 

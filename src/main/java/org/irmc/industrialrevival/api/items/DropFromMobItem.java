@@ -7,7 +7,6 @@ import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.recipes.MobDropMethod;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -28,8 +27,8 @@ public class DropFromMobItem extends IndustrialRevivalItem implements MobDropIte
     }
 
     @Override
-    public DropFromMobItem setItemGroup(@NotNull ItemGroup group) {
-        super.setItemGroup(group);
+    public DropFromMobItem addItemGroup(@NotNull ItemGroup group) {
+        super.addItemGroup(group);
         return this;
     }
 

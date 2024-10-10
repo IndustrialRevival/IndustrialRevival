@@ -22,8 +22,8 @@ public abstract class AbstractElectricGenerator extends AbstractMachine implemen
     private long capacity;
 
     @Override
-    public AbstractElectricGenerator setItemGroup(@NotNull ItemGroup group) {
-        super.setItemGroup(group);
+    public AbstractElectricGenerator addItemGroup(@NotNull ItemGroup group) {
+        super.addItemGroup(group);
         return this;
     }
 

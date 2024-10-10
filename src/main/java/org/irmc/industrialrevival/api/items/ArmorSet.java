@@ -13,7 +13,6 @@ import org.irmc.industrialrevival.api.objects.enums.ArmorType;
 import org.irmc.industrialrevival.api.recipes.CraftMethod;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -52,7 +51,7 @@ public class ArmorSet {
                 armorType,
                 new ArmorPiece()
                         .setPotionEffects(potionEffects)
-                        .setItemGroup(group)
+                        .addItemGroup(group)
                         .setItemStack(new IndustrialRevivalItemStack(namespacedKeyToId(armorType), itemStack))
                         .addCraftMethod(item -> new CraftMethod(type, recipe, item))
         );
@@ -127,8 +126,8 @@ public class ArmorSet {
         }
 
         @Override
-        public ArmorPiece setItemGroup(@NotNull ItemGroup group) {
-            super.setItemGroup(group);
+        public ArmorPiece addItemGroup(@NotNull ItemGroup group) {
+            super.addItemGroup(group);
             return this;
         }
 

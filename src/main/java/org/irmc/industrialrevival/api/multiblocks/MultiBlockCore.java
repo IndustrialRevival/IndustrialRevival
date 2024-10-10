@@ -22,8 +22,8 @@ public abstract class MultiBlockCore extends IndustrialRevivalItem implements IM
     private int maxZ = 0;
 
     @Override
-    public MultiBlockCore setItemGroup(@NotNull ItemGroup group) {
-        super.setItemGroup(group);
+    public MultiBlockCore addItemGroup(@NotNull ItemGroup group) {
+        super.addItemGroup(group);
         return this;
     }
 

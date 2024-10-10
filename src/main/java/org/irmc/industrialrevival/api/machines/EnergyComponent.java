@@ -13,8 +13,8 @@ public abstract class EnergyComponent extends BasicMachine implements EnergyNetC
     private long capacity = 0;
 
     @Override
-    public EnergyComponent setItemGroup(@NotNull ItemGroup group) {
-        super.setItemGroup(group);
+    public EnergyComponent addItemGroup(@NotNull ItemGroup group) {
+        super.addItemGroup(group);
         return this;
     }
 

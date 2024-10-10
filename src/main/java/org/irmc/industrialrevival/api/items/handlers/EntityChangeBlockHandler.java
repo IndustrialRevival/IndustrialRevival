@@ -1,6 +1,6 @@
 package org.irmc.industrialrevival.api.items.handlers;
 
-import org.bukkit.event.block.BlockPistonExtendEvent;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.NotPlaceable;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
@@ -8,8 +8,9 @@ import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandler
 import org.irmc.pigeonlib.items.ItemUtils;
 import org.jetbrains.annotations.NotNull;
 
-public interface BlockPistonExtendHandler extends ItemHandler {
-    boolean onPistonExtend(BlockPistonExtendEvent event, IndustrialRevivalItem iritem, IRBlockData blockData);
+public interface EntityChangeBlockHandler extends ItemHandler {
+    void onEntityChangeBlock(@NotNull EntityChangeBlockEvent even, IndustrialRevivalItem iritem, IRBlockData blockData);
+
     @Override
     default IncompatibleItemHandlerException isCompatible(@NotNull IndustrialRevivalItem item) {
         if (!ItemUtils.isActualBlock(item.getItem().getType())) {

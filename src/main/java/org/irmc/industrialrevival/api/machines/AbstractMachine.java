@@ -29,8 +29,8 @@ public abstract class AbstractMachine extends IndustrialRevivalItem {
     private ItemStack recipeTypeIcon = null;
 
     @Override
-    public AbstractMachine setItemGroup(@NotNull ItemGroup group) {
-        super.setItemGroup(group);
+    public AbstractMachine addItemGroup(@NotNull ItemGroup group) {
+        super.addItemGroup(group);
         return this;
     }
 

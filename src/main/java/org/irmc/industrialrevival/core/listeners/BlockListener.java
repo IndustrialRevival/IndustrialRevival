@@ -8,6 +8,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.ItemDroppable;
@@ -15,6 +16,7 @@ import org.irmc.industrialrevival.api.items.handlers.BlockBreakHandler;
 import org.irmc.industrialrevival.api.items.handlers.BlockPistonRetractHandler;
 import org.irmc.industrialrevival.api.items.handlers.BlockPlaceHandler;
 import org.irmc.industrialrevival.api.items.handlers.BlockPistonExtendHandler;
+import org.irmc.industrialrevival.api.items.handlers.EntityChangeBlockHandler;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 
@@ -83,7 +85,7 @@ public class BlockListener implements Listener {
 
         BlockPistonExtendHandler handler = iritem.getItemHandler(BlockPistonExtendHandler.class);
         if (handler != null) {
-            boolean pass = handler.onPistonExtend(event);
+            boolean pass = handler.onPistonExtend(event, iritem, blockData);
             if (!pass) {
                 event.setCancelled(true);
             }
@@ -105,10 +107,28 @@ public class BlockListener implements Listener {
 
         BlockPistonRetractHandler handler = iritem.getItemHandler(BlockPistonRetractHandler.class);
         if (handler != null) {
-            boolean pass = handler.onPistonRetract(event);
+            boolean pass = handler.onPistonRetract(event, iritem, blockData);
             if (!pass) {
                 event.setCancelled(true);
             }
+        }
+    }
+
+    @EventHandler
+    public void onEntityChangeBlock(EntityChangeBlockEvent e) {
+        IRBlockData blockData = IndustrialRevival.getInstance().getBlockDataService().getBlockData(e.getBlock().getLocation());
+        if (blockData == null) {
+            return;
+        }
+
+        IndustrialRevivalItem iritem = IndustrialRevivalItem.getById(blockData.getId());
+        if (iritem == null) {
+            return;
+        }
+
+        EntityChangeBlockHandler handler = iritem.getItemHandler(EntityChangeBlockHandler.class);
+        if (handler != null) {
+            handler.onEntityChangeBlock(e, iritem, blockData);
         }
     }
 }

@@ -7,7 +7,6 @@ import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.objects.enums.RadiationLevel;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class RadiativeItem extends IndustrialRevivalItem implements Radiation {
     @Getter
@@ -20,8 +19,8 @@ public class RadiativeItem extends IndustrialRevivalItem implements Radiation {
     }
 
     @Override
-    public RadiativeItem setItemGroup(@NotNull ItemGroup group) {
-        super.setItemGroup(group);
+    public RadiativeItem addItemGroup(@NotNull ItemGroup group) {
+        super.addItemGroup(group);
         return this;
     }
 

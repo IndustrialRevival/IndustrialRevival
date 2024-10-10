@@ -5,13 +5,12 @@ import org.irmc.industrialrevival.api.items.attributes.Unusable;
 import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 
 public class UnusableItem extends IndustrialRevivalItem implements Unusable {
     @Override
-    public UnusableItem setItemGroup(@NotNull ItemGroup group) {
-        super.setItemGroup(group);
+    public UnusableItem addItemGroup(@NotNull ItemGroup group) {
+        super.addItemGroup(group);
         return this;
     }
 
