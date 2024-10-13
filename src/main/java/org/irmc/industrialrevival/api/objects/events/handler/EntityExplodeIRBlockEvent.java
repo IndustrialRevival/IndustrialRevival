@@ -1,4 +1,4 @@
-package org.irmc.industrialrevival.api.objects.events;
+package org.irmc.industrialrevival.api.objects.events.handler;
 
 import lombok.Getter;
 import org.bukkit.event.entity.EntityExplodeEvent;
