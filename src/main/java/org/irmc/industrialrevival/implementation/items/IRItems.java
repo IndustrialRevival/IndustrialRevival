@@ -80,6 +80,7 @@ public class IRItems {
 
     // Tech components
     public static final Battery BATTERY_AA = new Battery()
+            .setAddon(IndustrialRevival.getInstance())
             .setItemGroup(IRItemGroups.COMPONENTS)
             .setItemStack(IRItemStacks.BATTERY_AA)
             .addCraftMethod(item -> new CraftMethod(
@@ -570,64 +571,63 @@ public class IRItems {
     public static void setup() {
         IndustrialRevival INSTANCE = IndustrialRevival.getInstance();
 
-        SILVER_ORE.register(INSTANCE);
-        NICKEL_ORE.register(INSTANCE);
-        COBALT_ORE.register(INSTANCE);
-        CHROMIUM_ORE.register(INSTANCE);
-        MAGNET_ORE.register(INSTANCE);
-        URANIUM_ORE.register(INSTANCE);
-        ALUMINIUM_ORE.register(INSTANCE);
-        TIN_ORE.register(INSTANCE);
-        MAGNESIUM_ORE.register(INSTANCE);
-        LEAD_ORE.register(INSTANCE);
-        ZINC_ORE.register(INSTANCE);
-        TUNGSTEN_ORE.register(INSTANCE);
-        MERCURY_ORE.register(INSTANCE);
-        SALT_ORE.register(INSTANCE);
-        SULFUR.register(INSTANCE);
-        PETROLEUM.register(INSTANCE);
-        FLAWED_QUARTZ.register(INSTANCE);
-        FLAWLESS_QUARTZ.register(INSTANCE);
-        LIMESTONE.register(INSTANCE);
-        LIMEWATER.register(INSTANCE);
-        SALT.register(INSTANCE);
-        MAGIC_CRYSTAL.register(INSTANCE);
-        CHARGED_STONE.register(INSTANCE);
-        CARBON.register(INSTANCE);
-        LED.register(INSTANCE);
-        GAS.register(INSTANCE);
-        BORAX.register(INSTANCE);
-        SILICA.register(INSTANCE);
-        LAVA_ALLOY.register(INSTANCE);
-        ROCK_IRON_ALLOY.register(INSTANCE);
-        ALUMINIUM_ALLOY.register(INSTANCE);
-        COPPER_NICKEL_ALLOY.register(INSTANCE);
-        NICHROM.register(INSTANCE);
-        SILICON_STEEL.register(INSTANCE);
-        WOLFRAM_STEEL.register(INSTANCE);
-        SILICON.register(INSTANCE);
-        RAW_SILICON.register(INSTANCE);
-        SILICON_TETRACHLORIDE.register(INSTANCE);
-        SLAG.register(INSTANCE);
-        BRASS.register(INSTANCE);
-        FINE_IRON.register(INSTANCE);
-        FINE_GOLD.register(INSTANCE);
-        SLIVER.register(INSTANCE);
-        NICKEL.register(INSTANCE);
-        COBALT.register(INSTANCE);
-        CHROMIUM.register(INSTANCE);
-        MAGNET.register(INSTANCE);
-        URANIUM.register(INSTANCE);
-        ALUMINIUM.register(INSTANCE);
-        TIN.register(INSTANCE);
-        MAGNESIUM.register(INSTANCE);
-        LEAD.register(INSTANCE);
-        ZINC.register(INSTANCE);
-        TUNGSTEN.register(INSTANCE);
+        SILVER_ORE.setAddon(INSTANCE).register();
+        NICKEL_ORE.setAddon(INSTANCE).register();
+        COBALT_ORE.setAddon(INSTANCE).register();
+        CHROMIUM_ORE.setAddon(INSTANCE).register();
+        MAGNET_ORE.setAddon(INSTANCE).register();
+        URANIUM_ORE.setAddon(INSTANCE).register();
+        ALUMINIUM_ORE.setAddon(INSTANCE).register();
+        TIN_ORE.setAddon(INSTANCE).register();
+        MAGNESIUM_ORE.setAddon(INSTANCE).register();
+        LEAD_ORE.setAddon(INSTANCE).register();
+        ZINC_ORE.setAddon(INSTANCE).register();
+        TUNGSTEN_ORE.setAddon(INSTANCE).register();
+        MERCURY_ORE.setAddon(INSTANCE).register();
+        SALT_ORE.setAddon(INSTANCE).register();
+        SULFUR.setAddon(INSTANCE).register();
+        PETROLEUM.setAddon(INSTANCE).register();
+        FLAWED_QUARTZ.setAddon(INSTANCE).register();
+        FLAWLESS_QUARTZ.setAddon(INSTANCE).register();
+        LIMESTONE.setAddon(INSTANCE).register();
+        LIMEWATER.setAddon(INSTANCE).register();
+        SALT.setAddon(INSTANCE).register();
+        MAGIC_CRYSTAL.setAddon(INSTANCE).register();
+        CHARGED_STONE.setAddon(INSTANCE).register();
+        CARBON.setAddon(INSTANCE).register();
+        LED.setAddon(INSTANCE).register();
+        GAS.setAddon(INSTANCE).register();
+        BORAX.setAddon(INSTANCE).register();
+        SILICA.setAddon(INSTANCE).register();
+        LAVA_ALLOY.setAddon(INSTANCE).register();
+        ROCK_IRON_ALLOY.setAddon(INSTANCE).register();
+        ALUMINIUM_ALLOY.setAddon(INSTANCE).register();
+        COPPER_NICKEL_ALLOY.setAddon(INSTANCE).register();
+        NICHROM.setAddon(INSTANCE).register();
+        SILICON_STEEL.setAddon(INSTANCE).register();
+        WOLFRAM_STEEL.setAddon(INSTANCE).register();
+        SILICON.setAddon(INSTANCE).register();
+        RAW_SILICON.setAddon(INSTANCE).register();
+        SILICON_TETRACHLORIDE.setAddon(INSTANCE).register();
+        SLAG.setAddon(INSTANCE).register();
+        BRASS.setAddon(INSTANCE).register();
+        FINE_IRON.setAddon(INSTANCE).register();
+        FINE_GOLD.setAddon(INSTANCE).register();
+        SLIVER.setAddon(INSTANCE).register();
+        NICKEL.setAddon(INSTANCE).register();
+        COBALT.setAddon(INSTANCE).register();
+        CHROMIUM.setAddon(INSTANCE).register();
+        MAGNET.setAddon(INSTANCE).register();
+        URANIUM.setAddon(INSTANCE).register();
+        ALUMINIUM.setAddon(INSTANCE).register();
+        TIN.setAddon(INSTANCE).register();
+        MAGNESIUM.setAddon(INSTANCE).register();
+        LEAD.setAddon(INSTANCE).register();
+        ZINC.setAddon(INSTANCE).register();
+        TUNGSTEN.setAddon(INSTANCE).register();
     }
 
     public static class IRItemStacks {
-        public static final IndustrialRevivalItemStack EMPTY;
         public static final IndustrialRevivalItemStack SLIVER_ORE;
         public static final IndustrialRevivalItemStack NICKEL_ORE;
         public static final IndustrialRevivalItemStack COBALT_ORE;
@@ -784,7 +784,6 @@ public class IRItems {
         public static final IndustrialRevivalItemStack SILVER_WIRE;
 
         static {
-            EMPTY = new IndustrialRevivalItemStack("EMPTY", Material.AIR);
             LAVA_ALLOY = new IndustrialRevivalItemStack("LAVA_ALLOY", Material.MAGMA_BLOCK);
             ROCK_IRON_ALLOY = new IndustrialRevivalItemStack("ROCK_IRON_ALLOY", Material.POLISHED_ANDESITE);
             ALUMINIUM_ALLOY = new IndustrialRevivalItemStack("ALUMINIUM_ALLOY", Material.IRON_INGOT);

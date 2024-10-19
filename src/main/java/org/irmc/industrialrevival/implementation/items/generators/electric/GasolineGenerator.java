@@ -1,6 +1,7 @@
 package org.irmc.industrialrevival.implementation.items.generators.electric;
 
 import org.bukkit.block.Block;
+import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.machines.ElectricConsumableGenerator;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.implementation.items.IRItems;
@@ -10,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 public class GasolineGenerator extends ElectricConsumableGenerator {
     public GasolineGenerator() {
         super();
-        addRecipe(10, 4000, IRItems.IRItemStacks.GAS, IRItems.IRItemStacks.EMPTY);
+        addRecipe(10, 4000, IRItems.IRItemStacks.GAS, (ItemStack) null);
     }
 
     @Override

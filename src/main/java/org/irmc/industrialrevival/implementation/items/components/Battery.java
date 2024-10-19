@@ -4,6 +4,7 @@ import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
+import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.api.items.attributes.NotPlaceable;
@@ -64,19 +65,27 @@ public class Battery extends IndustrialRevivalItem implements NotPlaceable, Rech
         return this;
     }
 
+    @Override
+    public Battery setAddon(@NotNull IndustrialRevivalAddon addon) {
+        super.setAddon(addon);
+        return this;
+    }
+
     public Battery setType(Type type) {
+        checkRegistered();
         this.type = type;
         return this;
     }
 
     public Battery setSize(Size size) {
+        checkRegistered();
         this.size = size;
         return this;
     }
 
     @Override
     public double getEnergyCapacity() {
-        return 300 * size.ordinal();
+        return 300 * (size.ordinal() + 1);
     }
 
     @Override

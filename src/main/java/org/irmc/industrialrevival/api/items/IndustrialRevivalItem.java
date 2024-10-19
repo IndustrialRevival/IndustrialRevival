@@ -55,10 +55,8 @@ public class IndustrialRevivalItem {
 
     @Getter
     private final List<CraftMethod> craftMethods = new ArrayList<>();
-
     @Getter
     private final Set<ItemDictionary> itemDictionaries = new HashSet<>();
-
     private final Set<String> disabledInWorld = new HashSet<>();
     @Getter
     private IndustrialRevivalAddon addon;
@@ -109,28 +107,6 @@ public class IndustrialRevivalItem {
         }
 
         craftMethods.add(craftMethod);
-
-        if (craftMethod.getRecipeType() == RecipeType.VANILLA_CRAFTING) {
-            NamespacedKey key = new NamespacedKey(addon.getPlugin(), "rt_crafting_" + getId().toLowerCase());
-            ShapedRecipe shapedRecipe = new ShapedRecipe(key, itemStack.clone());
-            shapedRecipe.shape("abc", "def", "ghi");
-            char[] chars = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' };
-            for (int i = 0; i < 9; i++) {
-                if (craftMethod.getIngredients()[i] != null) {
-                    shapedRecipe.setIngredient(chars[i], craftMethod.getIngredients()[i]);
-                }
-            }
-
-            Bukkit.addRecipe(shapedRecipe);
-        }
-
-        RecipeContents.addRecipeContent(this.getId(),
-                new RecipeContent(
-                        craftMethod.getRecipeType(),
-                        craftMethod.getRecipeType().getMakerItem(),
-                        craftMethod.getIngredients(),
-                        this));
-
         return this;
     }
 
@@ -143,15 +119,13 @@ public class IndustrialRevivalItem {
      *
      * @return WILL RETURN NULL IF THE ITEM IS NOT REGISTERED SUCCESSFULLY!!
      */
-    public IndustrialRevivalItem register(@NotNull IndustrialRevivalAddon addon) {
-        Preconditions.checkArgument(addon != null, "Addon cannot be null");
+    public IndustrialRevivalItem register() {
+        Preconditions.checkArgument(addon != null, "Losing addon reference! Please set it before registering the item.");
         checkRegistered();
 
         if (!addon.getPlugin().isEnabled()) {
             return null;
         }
-
-        this.addon = addon;
 
         try {
             this.preRegister();
@@ -224,6 +198,29 @@ public class IndustrialRevivalItem {
 
             Bukkit.addRecipe(fr);
         }
+
+        for (CraftMethod craftMethod : craftMethods) {
+            if (craftMethod.getRecipeType() == RecipeType.VANILLA_CRAFTING) {
+                NamespacedKey key = new NamespacedKey(addon.getPlugin(), "rt_crafting_" + getId().toLowerCase());
+                ShapedRecipe shapedRecipe = new ShapedRecipe(key, itemStack.clone());
+                shapedRecipe.shape("abc", "def", "ghi");
+                char[] chars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'};
+                for (int i = 0; i < 9; i++) {
+                    if (craftMethod.getIngredients()[i] != null) {
+                        shapedRecipe.setIngredient(chars[i], craftMethod.getIngredients()[i]);
+                    }
+                }
+
+                Bukkit.addRecipe(shapedRecipe);
+            }
+
+            RecipeContents.addRecipeContent(this.getId(),
+                    new RecipeContent(
+                            craftMethod.getRecipeType(),
+                            craftMethod.getRecipeType().getMakerItem(),
+                            craftMethod.getIngredients(),
+                            this));
+        }
     }
 
     protected void checkRegistered() {
@@ -283,6 +280,13 @@ public class IndustrialRevivalItem {
         checkRegistered();
         Preconditions.checkArgument(itemStack != null, "ItemStack cannot be null");
         this.itemStack = itemStack;
+        return this;
+    }
+
+    public IndustrialRevivalItem setAddon(@NotNull IndustrialRevivalAddon addon) {
+        checkRegistered();
+        Preconditions.checkArgument(addon != null, "Addon cannot be null");
+        this.addon = addon;
         return this;
     }
 

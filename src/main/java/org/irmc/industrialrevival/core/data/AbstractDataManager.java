@@ -45,26 +45,29 @@ public non-sealed class AbstractDataManager implements IDataManager {
     @Override
     public void handleBlockPlacing(Location loc, String machineId) {
         try {
-            DSLContext dsl = DSL.using(pool.getConnection(), dialect);
-            int r = dsl.insertInto(DSL.table(DSL.name("block_record")))
+            Connection conn = pool.getConnection();
+            conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+            DSLContext dsl = DSL.using(conn, dialect);
+            dsl.insertInto(DSL.table(DSL.name("block_record")))
                     // world, x, y, z, machineId, data
-                    .select(DSL.select(
+                    .columns(
+                            DSL.field("world"),
+                            DSL.field("x"),
+                            DSL.field("y"),
+                            DSL.field("z"),
+                            DSL.field("machineId"),
+                            DSL.field("data"))
+                    .values(
                             DSL.val(loc.getWorld().getName()),
                             DSL.val(loc.getBlockX()),
                             DSL.val(loc.getBlockY()),
                             DSL.val(loc.getBlockZ()),
                             DSL.val(machineId),
-                            DSL.val("")))
-                    .bind("world", DSL.val(loc.getWorld().getName()))
-                    .bind("x", DSL.val(loc.getBlockX()))
-                    .bind("y", DSL.val(loc.getBlockY()))
-                    .bind("z", DSL.val(loc.getBlockZ()))
-                    .bind("machineId", DSL.val(machineId))
-                    .bind("data", DSL.val(""))
+                            DSL.val("")
+                    )
                     .execute();
-            if (r < 0) {
-                throw new RuntimeException("Failed to insert block record");
-            }
+
+            pool.releaseConnection(conn);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -73,7 +76,9 @@ public non-sealed class AbstractDataManager implements IDataManager {
     @Override
     public void handleBlockBreaking(Location loc) {
         try {
-            DSLContext dsl = DSL.using(pool.getConnection(), dialect);
+            Connection conn = pool.getConnection();
+            conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            DSLContext dsl = DSL.using(conn, dialect);
             dsl.deleteFrom(DSL.table(DSL.name("block_record")))
                     .where(DSL.field(DSL.name("world")).eq(loc.getWorld().getName()))
                     .and(DSL.field(DSL.name("x")).eq(loc.getBlockX()))
@@ -82,6 +87,8 @@ public non-sealed class AbstractDataManager implements IDataManager {
                     .executeAsync()
                     .toCompletableFuture()
                     .join();
+
+            pool.releaseConnection(conn);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -91,7 +98,8 @@ public non-sealed class AbstractDataManager implements IDataManager {
     public @NotNull YamlConfiguration getBlockData(@NotNull Location location) {
         String b64;
         try {
-            DSLContext dsl = DSL.using(pool.getConnection(), dialect);
+            Connection conn = pool.getConnection();
+            DSLContext dsl = DSL.using(conn, dialect);
             Object tmp = dsl.select(DSL.field(DSL.name("data")))
                     .from(DSL.table(DSL.name("block_record")))
                     .where(DSL.field(DSL.name("world")).eq(location.getWorld().getName()))
@@ -99,6 +107,9 @@ public non-sealed class AbstractDataManager implements IDataManager {
                     .and(DSL.field(DSL.name("y")).eq(location.getBlockY()))
                     .and(DSL.field(DSL.name("z")).eq(location.getBlockZ()))
                     .fetchOne(DSL.field(DSL.name("data")));
+
+            pool.releaseConnection(conn);
+
             if (tmp == null) {
                 return new YamlConfiguration();
             } else {
