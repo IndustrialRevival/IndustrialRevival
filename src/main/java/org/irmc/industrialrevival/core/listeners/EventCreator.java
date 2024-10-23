@@ -14,25 +14,40 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.inventory.InventoryMoveItemEvent;
+import org.bukkit.event.inventory.PrepareAnvilEvent;
+import org.bukkit.event.inventory.PrepareGrindstoneEvent;
+import org.bukkit.event.inventory.PrepareSmithingEvent;
+import org.bukkit.event.inventory.TradeSelectEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.MerchantRecipe;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.api.objects.events.handler.BlockExplodeIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.handler.EndermanMoveIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.handler.EntityExplodeIRBlockEvent;
+import org.irmc.industrialrevival.api.objects.events.handler.EntityPickupIRItemEvent;
 import org.irmc.industrialrevival.api.objects.events.handler.IRBlockBreakEvent;
 import org.irmc.industrialrevival.api.objects.events.handler.IRBlockPlaceEvent;
 import org.irmc.industrialrevival.api.objects.events.handler.IRItemDamageEntityEvent;
+import org.irmc.industrialrevival.api.objects.events.handler.InventoryMoveIRItemEvent;
 import org.irmc.industrialrevival.api.objects.events.handler.MenuOpenEvent;
 import org.irmc.industrialrevival.api.objects.events.handler.PlayerBucketEmptyToIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.handler.PlayerLeftClickEvent;
 import org.irmc.industrialrevival.api.objects.events.handler.PlayerRightClickEvent;
+import org.irmc.industrialrevival.api.objects.events.handler.PrepareAnvilIRItemEvent;
+import org.irmc.industrialrevival.api.objects.events.handler.PrepareGrindstoneIRItemEvent;
+import org.irmc.industrialrevival.api.objects.events.handler.PrepareIRItemEnchantEvent;
+import org.irmc.industrialrevival.api.objects.events.handler.PrepareSmithingIRItemEvent;
+import org.irmc.industrialrevival.api.objects.events.handler.PrepareTradeSelectIRItemEvent;
 import org.irmc.industrialrevival.utils.DataUtil;
 
 import java.util.ArrayList;
@@ -230,6 +245,131 @@ public class EventCreator implements Listener {
         }
 
         PlayerBucketEmptyToIRBlockEvent event = new PlayerBucketEmptyToIRBlockEvent(e, item);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onPrepareItemEnchant(PrepareItemEnchantEvent e) {
+        ItemStack itemStack = e.getItem();
+        IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(itemStack);
+        if (iritem == null) {
+            return;
+        }
+
+        if (iritem.isDisabledInWorld(e.getEnchantBlock().getWorld())) {
+            e.setCancelled(true);
+            return;
+        }
+
+        PrepareIRItemEnchantEvent event = new PrepareIRItemEnchantEvent(e, iritem);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onPrepareSmithingIRItem(PrepareSmithingEvent e) {
+        ItemStack itemStack = e.getResult();
+        IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(itemStack);
+        if (iritem == null) {
+            return;
+        }
+
+        if (iritem.isDisabledInWorld(e.getInventory().getLocation().getWorld())) {
+            e.setResult(null);
+            return;
+        }
+
+        PrepareSmithingIRItemEvent event = new PrepareSmithingIRItemEvent(e, iritem);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onPrepareGrindstone(PrepareGrindstoneEvent e) {
+        ItemStack itemStack = e.getResult();
+        IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(itemStack);
+        if (iritem == null) {
+            return;
+        }
+
+        if (iritem.isDisabledInWorld(e.getInventory().getLocation().getWorld())) {
+            e.setResult(null);
+            return;
+        }
+
+        PrepareGrindstoneIRItemEvent event = new PrepareGrindstoneIRItemEvent(e, iritem);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onPrepareTradeSelect(TradeSelectEvent e) {
+        MerchantRecipe recipe = e.getMerchant().getRecipe(e.getIndex());
+        List<ItemStack> testItems = new ArrayList<>();
+        testItems.addAll(recipe.getIngredients());
+        testItems.add(recipe.getResult());
+        for (ItemStack testItem : testItems) {
+            IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(testItem);
+            if (iritem == null) {
+                continue;
+            }
+            if (iritem.isDisabledInWorld(e.getInventory().getLocation().getWorld())) {
+                e.setCancelled(true);
+                return;
+            }
+
+            PrepareTradeSelectIRItemEvent event = new PrepareTradeSelectIRItemEvent(e, recipe, iritem);
+            Bukkit.getServer().getPluginManager().callEvent(event);
+
+            if (event.isCancelled()) {
+                break;
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onPrepareAnvil(PrepareAnvilEvent e) {
+        ItemStack itemStack = e.getResult();
+        IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(itemStack);
+        if (iritem == null) {
+            return;
+        }
+
+        if (iritem.isDisabledInWorld(e.getInventory().getLocation().getWorld())) {
+            e.setResult(null);
+            return;
+        }
+
+        PrepareAnvilIRItemEvent event = new PrepareAnvilIRItemEvent(e, iritem);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onEntityPickupIRItem(EntityPickupItemEvent e) {
+        ItemStack itemStack = e.getItem().getItemStack();
+        IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(itemStack);
+        if (iritem == null) {
+            return;
+        }
+
+        if (iritem.isDisabledInWorld(e.getEntity().getWorld())) {
+            return;
+        }
+
+        EntityPickupIRItemEvent event = new EntityPickupIRItemEvent(e, iritem);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onInventoryMoveItem(InventoryMoveItemEvent e) {
+        ItemStack itemStack = e.getItem();
+        IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(itemStack);
+        if (iritem == null) {
+            return;
+        }
+        if (iritem.isDisabledInWorld(e.getDestination().getLocation().getWorld())) {
+            e.setCancelled(true);
+            return;
+        }
+
+        InventoryMoveIRItemEvent event = new InventoryMoveIRItemEvent(e, iritem);
         Bukkit.getServer().getPluginManager().callEvent(event);
     }
 }
