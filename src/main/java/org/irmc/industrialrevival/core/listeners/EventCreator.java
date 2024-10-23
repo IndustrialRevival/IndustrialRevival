@@ -17,6 +17,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
@@ -29,6 +30,7 @@ import org.irmc.industrialrevival.api.objects.events.handler.IRBlockBreakEvent;
 import org.irmc.industrialrevival.api.objects.events.handler.IRBlockPlaceEvent;
 import org.irmc.industrialrevival.api.objects.events.handler.IRItemDamageEntityEvent;
 import org.irmc.industrialrevival.api.objects.events.handler.MenuOpenEvent;
+import org.irmc.industrialrevival.api.objects.events.handler.PlayerBucketEmptyToIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.handler.PlayerLeftClickEvent;
 import org.irmc.industrialrevival.api.objects.events.handler.PlayerRightClickEvent;
 import org.irmc.industrialrevival.utils.DataUtil;
@@ -207,6 +209,27 @@ public class EventCreator implements Listener {
         }
 
         IRItemDamageEntityEvent event = new IRItemDamageEntityEvent(e, iritem);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onPlayerBucketEmpty(PlayerBucketEmptyEvent e) {
+        Location location = e.getBlockClicked().getLocation();
+        IRBlockData data = DataUtil.getBlockData(location);
+        if (data == null) {
+            return;
+        }
+
+        IndustrialRevivalItem item = IndustrialRevivalItem.getById(data.getId());
+        if (item == null) {
+            return;
+        }
+
+        if (item.isDisabledInWorld(location.getWorld())) {
+            return;
+        }
+
+        PlayerBucketEmptyToIRBlockEvent event = new PlayerBucketEmptyToIRBlockEvent(e, item);
         Bukkit.getServer().getPluginManager().callEvent(event);
     }
 }
