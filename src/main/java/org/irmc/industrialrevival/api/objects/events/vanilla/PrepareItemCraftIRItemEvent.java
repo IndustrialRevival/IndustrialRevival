@@ -1,9 +1,8 @@
-package org.irmc.industrialrevival.api.objects.events.handler;
+package org.irmc.industrialrevival.api.objects.events.vanilla;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.event.Cancellable;
-import org.bukkit.event.inventory.PrepareGrindstoneEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 

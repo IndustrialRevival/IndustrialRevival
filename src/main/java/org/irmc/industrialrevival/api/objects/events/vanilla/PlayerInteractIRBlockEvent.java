@@ -1,4 +1,4 @@
-package org.irmc.industrialrevival.api.objects.events.handler;
+package org.irmc.industrialrevival.api.objects.events.vanilla;
 
 import lombok.Getter;
 import org.bukkit.event.player.PlayerInteractEvent;

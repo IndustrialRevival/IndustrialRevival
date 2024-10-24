@@ -1,18 +1,16 @@
-package org.irmc.industrialrevival.api.objects.events.handler;
+package org.irmc.industrialrevival.api.objects.events.vanilla;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.event.Cancellable;
-import org.bukkit.event.inventory.PrepareGrindstoneEvent;
 import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 
 @Getter
-public class PrepareGrindstoneIRItemEvent extends PrepareGrindstoneEvent implements Cancellable {
+public class PrepareSmithingIRItemEvent extends PrepareSmithingEvent implements Cancellable {
     private final IndustrialRevivalItem iritem;
-    private final PrepareGrindstoneEvent originalEvent;
+    private final PrepareSmithingEvent originalEvent;
     private boolean cancelled;
-    public PrepareGrindstoneIRItemEvent(PrepareGrindstoneEvent event, IndustrialRevivalItem iritem) {
+    public PrepareSmithingIRItemEvent(PrepareSmithingEvent event, IndustrialRevivalItem iritem) {
         super(event.getView(), event.getResult());
         this.originalEvent = event;
         this.iritem = iritem;

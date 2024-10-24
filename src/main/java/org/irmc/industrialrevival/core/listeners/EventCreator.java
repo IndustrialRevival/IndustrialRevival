@@ -31,29 +31,35 @@ import org.bukkit.inventory.MerchantRecipe;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
-import org.irmc.industrialrevival.api.objects.events.handler.BlockExplodeIRBlockEvent;
-import org.irmc.industrialrevival.api.objects.events.handler.EndermanMoveIRBlockEvent;
-import org.irmc.industrialrevival.api.objects.events.handler.EntityExplodeIRBlockEvent;
-import org.irmc.industrialrevival.api.objects.events.handler.EntityPickupIRItemEvent;
-import org.irmc.industrialrevival.api.objects.events.handler.IRBlockBreakEvent;
-import org.irmc.industrialrevival.api.objects.events.handler.IRBlockPlaceEvent;
-import org.irmc.industrialrevival.api.objects.events.handler.IRItemDamageEntityEvent;
-import org.irmc.industrialrevival.api.objects.events.handler.InventoryMoveIRItemEvent;
-import org.irmc.industrialrevival.api.objects.events.handler.MenuOpenEvent;
-import org.irmc.industrialrevival.api.objects.events.handler.PlayerBucketEmptyToIRBlockEvent;
-import org.irmc.industrialrevival.api.objects.events.handler.PlayerLeftClickEvent;
-import org.irmc.industrialrevival.api.objects.events.handler.PlayerRightClickEvent;
-import org.irmc.industrialrevival.api.objects.events.handler.PrepareAnvilIRItemEvent;
-import org.irmc.industrialrevival.api.objects.events.handler.PrepareGrindstoneIRItemEvent;
-import org.irmc.industrialrevival.api.objects.events.handler.PrepareIRItemEnchantEvent;
-import org.irmc.industrialrevival.api.objects.events.handler.PrepareSmithingIRItemEvent;
-import org.irmc.industrialrevival.api.objects.events.handler.PrepareTradeSelectIRItemEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.BlockExplodeIRBlockEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.EndermanMoveIRBlockEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.EntityExplodeIRBlockEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.EntityPickupIRItemEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockBreakEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockPlaceEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.IRItemDamageEntityEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.InventoryMoveIRItemEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.MenuOpenEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.PlayerBucketEmptyToIRBlockEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.PlayerLeftClickEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.PlayerRightClickEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareAnvilIRItemEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareGrindstoneIRItemEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareIRItemEnchantEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareSmithingIRItemEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareTradeSelectIRItemEvent;
 import org.irmc.industrialrevival.utils.DataUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("deprecation")
+/**
+ * This class creates the events and calls the corresponding event handlers.
+ *
+ * @see HandlerCaller
+ * @see DefaultHandler
+ * @author balugaq
+ */
 public class EventCreator implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerClick(PlayerInteractEvent e) {

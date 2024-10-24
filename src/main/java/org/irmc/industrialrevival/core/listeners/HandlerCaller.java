@@ -4,25 +4,33 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPistonExtendEvent;
-import org.bukkit.event.block.BlockPistonRetractEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.ItemDroppable;
 import org.irmc.industrialrevival.api.items.handlers.BlockBreakHandler;
+import org.irmc.industrialrevival.api.items.handlers.BlockPistonExtendHandler;
 import org.irmc.industrialrevival.api.items.handlers.BlockPistonRetractHandler;
 import org.irmc.industrialrevival.api.items.handlers.BlockPlaceHandler;
-import org.irmc.industrialrevival.api.items.handlers.BlockPistonExtendHandler;
 import org.irmc.industrialrevival.api.items.handlers.EntityChangeBlockHandler;
+import org.irmc.industrialrevival.api.items.handlers.ItemHandler;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
+import org.irmc.industrialrevival.api.objects.events.vanilla.EntityChangeIRBlockEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockBreakEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockPlaceEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.PistonExtendIRBlockEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.PistonRetractIRBlockEvent;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 
-public class BlockListener implements Listener {
+/**
+ * This class is used to call {@link ItemHandler}
+ *
+ * @see EventCreator
+ * @see DefaultHandler
+ * @author balugaq
+ */
+public class HandlerCaller implements Listener {
     @EventHandler
-    public void onBlockPlace(BlockPlaceEvent event) {
+    public void onBlockPlace(IRBlockPlaceEvent event) {
         ItemStack item = event.getItemInHand();
         IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(item);
         if (iritem != null) {
@@ -42,35 +50,29 @@ public class BlockListener implements Listener {
     }
 
     @EventHandler
-    public void onBlockBreak(BlockBreakEvent e) {
-        IRBlockData blockData = IndustrialRevival.getInstance()
-                .getBlockDataService()
-                .getBlockData(e.getBlock().getLocation());
-        if (blockData != null) {
-            String id = blockData.getId();
-            IndustrialRevivalItem iritem = IndustrialRevivalItem.getById(id);
-            if (iritem == null) {
-                return;
-            }
-            Block block = e.getBlock();
-
-            BlockBreakHandler handler = iritem.getItemHandler(BlockBreakHandler.class);
-            if (handler != null) {
-                handler.onBlockBreak(e);
-            }
-
-            e.setDropItems(false);
-            if (!(iritem instanceof ItemDroppable)) {
-                World world = block.getWorld();
-                world.dropItemNaturally(block.getLocation(), iritem.getItem().clone());
-            }
-
-            IndustrialRevival.getInstance().getItemTextureService().blockBreaking(e);
-            IndustrialRevival.getInstance().getDataManager().handleBlockBreaking(block.getLocation());
+    public void onBlockBreak(IRBlockBreakEvent e) {
+        IndustrialRevivalItem iritem = e.getIritem();
+        if (iritem == null) {
+            return;
         }
+        Block block = e.getBlock();
+
+        BlockBreakHandler handler = iritem.getItemHandler(BlockBreakHandler.class);
+        if (handler != null) {
+            handler.onBlockBreak(e);
+        }
+
+        e.setDropItems(false);
+        if (!(iritem instanceof ItemDroppable)) {
+            World world = block.getWorld();
+            world.dropItemNaturally(block.getLocation(), iritem.getItem().clone());
+        }
+
+        IndustrialRevival.getInstance().getItemTextureService().blockBreaking(e);
+        IndustrialRevival.getInstance().getDataManager().handleBlockBreaking(block.getLocation());
     }
 
-    public void onPistonExtend(BlockPistonExtendEvent event) {
+    public void onPistonExtend(PistonExtendIRBlockEvent event) {
         IRBlockData blockData = IndustrialRevival.getInstance()
                 .getBlockDataService()
                 .getBlockData(event.getBlock().getLocation());
@@ -92,7 +94,7 @@ public class BlockListener implements Listener {
         }
     }
 
-    public void onPistonRetract(BlockPistonRetractEvent event) {
+    public void onPistonRetract(PistonRetractIRBlockEvent event) {
         IRBlockData blockData = IndustrialRevival.getInstance()
                 .getBlockDataService()
                 .getBlockData(event.getBlock().getLocation());
@@ -115,7 +117,7 @@ public class BlockListener implements Listener {
     }
 
     @EventHandler
-    public void onEntityChangeBlock(EntityChangeBlockEvent e) {
+    public void onEntityChangeBlock(EntityChangeIRBlockEvent e) {
         IRBlockData blockData = IndustrialRevival.getInstance().getBlockDataService().getBlockData(e.getBlock().getLocation());
         if (blockData == null) {
             return;

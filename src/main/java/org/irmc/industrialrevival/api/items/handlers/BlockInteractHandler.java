@@ -3,6 +3,7 @@ package org.irmc.industrialrevival.api.items.handlers;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.NotPlaceable;
+import org.irmc.industrialrevival.api.objects.events.vanilla.PlayerInteractIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,7 +14,7 @@ public interface BlockInteractHandler extends ItemHandler {
      *
      * @param event the {@link PlayerInteractEvent} was triggered
      */
-    void onBlockUse(@NotNull PlayerInteractEvent event);
+    void onBlockUse(PlayerInteractIRBlockEvent event);
 
     @Override
     default IncompatibleItemHandlerException isCompatible(@NotNull IndustrialRevivalItem item) {

@@ -1,9 +1,8 @@
-package org.irmc.industrialrevival.api.objects.events.handler;
+package org.irmc.industrialrevival.api.objects.events.vanilla;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.event.Cancellable;
-import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.bukkit.event.inventory.TradeSelectEvent;
 import org.bukkit.inventory.MerchantRecipe;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;

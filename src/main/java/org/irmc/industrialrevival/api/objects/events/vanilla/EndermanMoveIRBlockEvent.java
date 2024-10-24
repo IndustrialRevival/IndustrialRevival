@@ -1,7 +1,6 @@
-package org.irmc.industrialrevival.api.objects.events.handler;
+package org.irmc.industrialrevival.api.objects.events.vanilla;
 
 import lombok.Getter;
-import org.bukkit.entity.Enderman;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
