@@ -17,6 +17,8 @@ import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.handlers.BlockPlaceHandler;
 import org.irmc.industrialrevival.api.items.handlers.ItemInteractHandler;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
+import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockBreakEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockPlaceEvent;
 import org.irmc.industrialrevival.core.services.IRRegistry;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.items.IRItems;
@@ -235,7 +237,7 @@ public class Debugger extends IndustrialRevivalItem {
         }
         Location location = block.getRelative(e.getBlockFace()).getLocation();
         player.sendMessage(" - Location: " + simpleLocationToString(location));
-        BlockPlaceEvent event = new BlockPlaceEvent(location.getBlock(), location.getBlock().getState(), block, IRItems.IRItemStacks.DEBUG_HEAD.clone(), player, true);
+        IRBlockPlaceEvent event = new IRBlockPlaceEvent(new BlockPlaceEvent(location.getBlock(), location.getBlock().getState(), block, IRItems.IRItemStacks.DEBUG_HEAD.clone(), player, true), IRItems.DEBUG_HEAD);
         IndustrialRevival.getInstance().getItemTextureService().blockPlacing(event);
         IndustrialRevival.getInstance().getDataManager().handleBlockPlacing(block.getLocation(), IRItems.IRItemStacks.DEBUG_HEAD.getId());
 

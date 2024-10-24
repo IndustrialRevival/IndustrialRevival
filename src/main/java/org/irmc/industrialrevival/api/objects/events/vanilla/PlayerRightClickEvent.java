@@ -21,10 +21,6 @@ public class PlayerRightClickEvent extends PlayerInteractEvent {
         this.originalEvent = originalEvent;
     }
 
-    public static HandlerList getHandlerList() {
-        return new HandlerList();
-    }
-
     @Override
     public @NotNull HandlerList getHandlers() {
         return handlers;

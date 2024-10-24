@@ -19,10 +19,6 @@ public class PlayerLeftClickEvent extends PlayerInteractEvent {
                 originalEvent.getHand());
     }
 
-    public static HandlerList getHandlerList() {
-        return new HandlerList();
-    }
-
     @Override
     public @NotNull HandlerList getHandlers() {
         return handlers;
