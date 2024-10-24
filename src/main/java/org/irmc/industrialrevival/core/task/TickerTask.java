@@ -1,11 +1,13 @@
 package org.irmc.industrialrevival.core.task;
 
 import com.tcoded.folialib.wrapper.task.WrappedTask;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.handlers.BlockTicker;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
+import org.irmc.industrialrevival.api.objects.events.ir.IRBlockTickEvent;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 
 import java.util.Map;
@@ -43,7 +45,12 @@ public class TickerTask implements Consumer<WrappedTask> {
             BlockTicker ticker = item.getItemHandler(BlockTicker.class);
             if (ticker != null) {
                 try {
-                    ticker.onTick(entry.getKey().getBlock(), blockData.getMachineMenu(), blockData);
+                    IRBlockTickEvent event = new IRBlockTickEvent(entry.getKey().getBlock(), blockData.getMachineMenu(), item, blockData);
+                    Bukkit.getPluginManager().callEvent(event);
+
+                    if (!event.isCancelled()) {
+                        ticker.onTick(event);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                     bugsCount.put(entry.getKey(), bugsCount.getOrDefault(entry.getKey(), 0) + 1);

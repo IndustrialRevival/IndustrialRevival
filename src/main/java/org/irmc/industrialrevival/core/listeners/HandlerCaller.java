@@ -14,6 +14,7 @@ import org.irmc.industrialrevival.api.items.handlers.BlockPlaceHandler;
 import org.irmc.industrialrevival.api.items.handlers.EntityChangeBlockHandler;
 import org.irmc.industrialrevival.api.items.handlers.ItemHandler;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
+import org.irmc.industrialrevival.api.objects.events.vanilla.BlockExplodeIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.EntityChangeIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockBreakEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockPlaceEvent;
@@ -29,6 +30,37 @@ import org.irmc.industrialrevival.implementation.IndustrialRevival;
  * @author balugaq
  */
 public class HandlerCaller implements Listener {
+    // todo: add more event handlers
+    @EventHandler
+    public void onBlockExplodeIRBlock(BlockExplodeIRBlockEvent e) {
+        IndustrialRevivalItem iritem = e.getIritem();
+        if (iritem == null) {
+            return;
+        }
+
+        if (iritem.isDisabledInWorld(e.getBlock().getWorld())) {
+            return;
+        }
+
+        // todo
+    }
+    @EventHandler
+    public void onEntityChangeBlock(EntityChangeIRBlockEvent e) {
+        IRBlockData blockData = IndustrialRevival.getInstance().getBlockDataService().getBlockData(e.getBlock().getLocation());
+        if (blockData == null) {
+            return;
+        }
+
+        IndustrialRevivalItem iritem = IndustrialRevivalItem.getById(blockData.getId());
+        if (iritem == null) {
+            return;
+        }
+
+        EntityChangeBlockHandler handler = iritem.getItemHandler(EntityChangeBlockHandler.class);
+        if (handler != null) {
+            handler.onEntityChangeBlock(e, iritem, blockData);
+        }
+    }
     @EventHandler
     public void onBlockPlace(IRBlockPlaceEvent event) {
         ItemStack item = event.getItemInHand();
@@ -113,24 +145,6 @@ public class HandlerCaller implements Listener {
             if (!pass) {
                 event.setCancelled(true);
             }
-        }
-    }
-
-    @EventHandler
-    public void onEntityChangeBlock(EntityChangeIRBlockEvent e) {
-        IRBlockData blockData = IndustrialRevival.getInstance().getBlockDataService().getBlockData(e.getBlock().getLocation());
-        if (blockData == null) {
-            return;
-        }
-
-        IndustrialRevivalItem iritem = IndustrialRevivalItem.getById(blockData.getId());
-        if (iritem == null) {
-            return;
-        }
-
-        EntityChangeBlockHandler handler = iritem.getItemHandler(EntityChangeBlockHandler.class);
-        if (handler != null) {
-            handler.onEntityChangeBlock(e, iritem, blockData);
         }
     }
 }
