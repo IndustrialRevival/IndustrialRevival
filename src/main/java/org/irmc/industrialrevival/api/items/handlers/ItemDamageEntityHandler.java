@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+import org.irmc.industrialrevival.api.objects.events.vanilla.IRItemDamageEntityEvent;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,11 +14,9 @@ public interface ItemDamageEntityHandler extends ItemHandler {
     /**
      * This function is called when a {@link Player} attacks an {@link Entity} with a {@link org.irmc.industrialrevival.api.items.IndustrialRevivalItem}
      *
-     * @param event  The {@link EntityDamageByEntityEvent} that was fired
-     * @param player The {@link Player} that used the weapon
-     * @param item   The {@link ItemStack} that was used to attack
+     * @param event  // todo: add event description
      */
-    void onHit(@NotNull EntityDamageByEntityEvent event, @NotNull Player player, @NotNull ItemStack item);
+    void onHit(@NotNull IRItemDamageEntityEvent event);
     @Override
     default IncompatibleItemHandlerException isCompatible(@NotNull IndustrialRevivalItem item) {
         if (!item.getItem().getType().isItem()) {

@@ -10,7 +10,7 @@ import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 public class IRItemDamageEntityEvent extends EntityDamageByEntityEvent {
     private final EntityDamageByEntityEvent originalEvent;
     private final Player player;
-    private final Entity hitted;
+    private final Entity hit;
     private final IndustrialRevivalItem iritem;
     public IRItemDamageEntityEvent(EntityDamageByEntityEvent originalEvent, IndustrialRevivalItem iritem) {
         super(originalEvent.getDamager(), originalEvent.getEntity(), originalEvent.getCause(), originalEvent.getDamageSource(), originalEvent.getDamage());
@@ -21,6 +21,6 @@ public class IRItemDamageEntityEvent extends EntityDamageByEntityEvent {
         } else {
             throw new IllegalArgumentException("Damager is not a player");
         }
-        this.hitted = originalEvent.getEntity();
+        this.hit = originalEvent.getEntity();
     }
 }

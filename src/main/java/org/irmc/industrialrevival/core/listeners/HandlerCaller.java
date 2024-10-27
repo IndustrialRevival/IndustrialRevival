@@ -18,7 +18,11 @@ import org.irmc.industrialrevival.api.items.handlers.BlockPlaceHandler;
 import org.irmc.industrialrevival.api.items.handlers.EndermanMoveBlockHandler;
 import org.irmc.industrialrevival.api.items.handlers.EntityChangeBlockHandler;
 import org.irmc.industrialrevival.api.items.handlers.EntityExplodeHandler;
+import org.irmc.industrialrevival.api.items.handlers.EntityPickupHandler;
+import org.irmc.industrialrevival.api.items.handlers.InventoryMoveHandler;
+import org.irmc.industrialrevival.api.items.handlers.ItemDamageEntityHandler;
 import org.irmc.industrialrevival.api.items.handlers.ItemHandler;
+import org.irmc.industrialrevival.api.items.handlers.PlayerBucketEmptyHandler;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.api.objects.events.vanilla.BlockExplodeIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.EndermanMoveIRBlockEvent;
@@ -28,8 +32,11 @@ import org.irmc.industrialrevival.api.objects.events.vanilla.EntityPickupIRItemE
 import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockBreakEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockFromToEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockPlaceEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.IRItemDamageEntityEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.InventoryMoveIRItemEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PistonExtendIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PistonRetractIRBlockEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.PlayerBucketEmptyToIRBlockEvent;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.jetbrains.annotations.Nullable;
 
@@ -98,6 +105,24 @@ public class HandlerCaller implements Listener {
         if (!checkValid(iritem)) {
             return;
         }
+
+        EntityPickupHandler handler = iritem.getItemHandler(EntityPickupHandler.class);
+        if (handler != null) {
+            handler.onEntityPickup(e);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onInventoryMoveIRItem(InventoryMoveIRItemEvent e) {
+        IndustrialRevivalItem iritem = e.getIritem();
+        if (!checkValid(iritem)) {
+            return;
+        }
+
+        InventoryMoveHandler handler = iritem.getItemHandler(InventoryMoveHandler.class);
+        if (handler != null) {
+            handler.onInventoryMove(e);
+        }
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -141,6 +166,19 @@ public class HandlerCaller implements Listener {
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
+    public void onIRItemDamageEntityEvent(IRItemDamageEntityEvent e) {
+        IndustrialRevivalItem iritem = e.getIritem();
+        if (!checkValid(iritem)) {
+            return;
+        }
+
+        ItemDamageEntityHandler handler = iritem.getItemHandler(ItemDamageEntityHandler.class);
+        if (handler != null) {
+            handler.onHit(e);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onPistonExtendIRBlock(PistonExtendIRBlockEvent event) {
         BlockPistonExtendHandler handler = event.getIritem().getItemHandler(BlockPistonExtendHandler.class);
         if (handler != null) {
@@ -159,6 +197,19 @@ public class HandlerCaller implements Listener {
             if (!pass) {
                 event.setCancelled(true);
             }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onPlayerBucketEmptyToIRBlock(PlayerBucketEmptyToIRBlockEvent event) {
+        IndustrialRevivalItem iritem = event.getIritem();
+        if (!checkValid(iritem, event.getBlock().getWorld())) {
+            return;
+        }
+
+        PlayerBucketEmptyHandler handler = iritem.getItemHandler(PlayerBucketEmptyHandler.class);
+        if (handler != null) {
+            handler.onPlayerBucketEmpty(event);
         }
     }
 
