@@ -9,7 +9,7 @@ import org.irmc.pigeonlib.items.ItemUtils;
 import org.jetbrains.annotations.NotNull;
 
 public interface BlockPistonRetractHandler extends ItemHandler {
-    boolean onPistonRetract(PistonRetractIRBlockEvent event, IndustrialRevivalItem iritem, IRBlockData blockData);
+    boolean onPistonRetract(PistonRetractIRBlockEvent event);
     @Override
     default IncompatibleItemHandlerException isCompatible(@NotNull IndustrialRevivalItem item) {
         if (!ItemUtils.isActualBlock(item.getItem().getType())) {

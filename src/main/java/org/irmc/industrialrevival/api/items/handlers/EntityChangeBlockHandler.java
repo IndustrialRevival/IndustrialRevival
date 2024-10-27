@@ -9,7 +9,7 @@ import org.irmc.pigeonlib.items.ItemUtils;
 import org.jetbrains.annotations.NotNull;
 
 public interface EntityChangeBlockHandler extends ItemHandler {
-    void onEntityChangeBlock(@NotNull EntityChangeBlockEvent even, IndustrialRevivalItem iritem, IRBlockData blockData);
+    void onEntityChangeBlock(@NotNull EntityChangeBlockEvent event);
 
     @Override
     default IncompatibleItemHandlerException isCompatible(@NotNull IndustrialRevivalItem item) {

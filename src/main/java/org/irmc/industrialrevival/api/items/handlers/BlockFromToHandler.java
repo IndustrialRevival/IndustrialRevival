@@ -9,7 +9,7 @@ import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandler
 import org.jetbrains.annotations.NotNull;
 
 public interface BlockFromToHandler extends ItemHandler {
-    void onBlockFromTo(IRBlockFromToEvent event, IRBlockData blockData);
+    void onBlockFromTo(IRBlockFromToEvent event);
 
     public @Override
     default IncompatibleItemHandlerException isCompatible(@NotNull IndustrialRevivalItem item) {

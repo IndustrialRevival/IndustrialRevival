@@ -52,7 +52,7 @@ import java.util.Set;
  * @author balugaq
  * @author linjinhong11
  *
- * @see {@link NotPlaceable}
+ * @see NotPlaceable
  */
 @SuppressWarnings("unused")
 public class IndustrialRevivalItem {
