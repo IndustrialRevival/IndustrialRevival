@@ -9,10 +9,11 @@ import org.bukkit.event.HandlerList;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
+import org.irmc.industrialrevival.api.objects.events.interfaces.RelatedIRItem;
 import org.jetbrains.annotations.NotNull;
 
 @Getter
-public class IRBlockTickEvent extends Event implements Cancellable {
+public class IRBlockTickEvent extends Event implements Cancellable, RelatedIRItem {
     private static final HandlerList HANDLERS = new HandlerList();
     private final Block block;
     private final MachineMenu menu;

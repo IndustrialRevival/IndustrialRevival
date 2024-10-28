@@ -6,9 +6,10 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.inventory.TradeSelectEvent;
 import org.bukkit.inventory.MerchantRecipe;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+import org.irmc.industrialrevival.api.objects.events.interfaces.RelatedIRItem;
 
 @Getter
-public class PrepareTradeSelectIRItemEvent extends TradeSelectEvent implements Cancellable {
+public class PrepareTradeSelectIRItemEvent extends TradeSelectEvent implements Cancellable, RelatedIRItem {
     private final IndustrialRevivalItem iritem;
     private final MerchantRecipe recipe;
     private final TradeSelectEvent originalEvent;

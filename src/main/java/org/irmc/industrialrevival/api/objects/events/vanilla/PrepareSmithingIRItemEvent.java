@@ -4,9 +4,10 @@ import lombok.Getter;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+import org.irmc.industrialrevival.api.objects.events.interfaces.RelatedIRItem;
 
 @Getter
-public class PrepareSmithingIRItemEvent extends PrepareSmithingEvent implements Cancellable {
+public class PrepareSmithingIRItemEvent extends PrepareSmithingEvent implements Cancellable, RelatedIRItem {
     private final IndustrialRevivalItem iritem;
     private final PrepareSmithingEvent originalEvent;
     private boolean cancelled;

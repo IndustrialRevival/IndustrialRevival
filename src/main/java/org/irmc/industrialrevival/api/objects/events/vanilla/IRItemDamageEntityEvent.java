@@ -5,9 +5,10 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+import org.irmc.industrialrevival.api.objects.events.interfaces.RelatedIRItem;
 
 @Getter
-public class IRItemDamageEntityEvent extends EntityDamageByEntityEvent {
+public class IRItemDamageEntityEvent extends EntityDamageByEntityEvent implements RelatedIRItem {
     private final EntityDamageByEntityEvent originalEvent;
     private final Player player;
     private final Entity hit;

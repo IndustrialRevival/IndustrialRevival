@@ -23,6 +23,12 @@ import org.irmc.industrialrevival.api.items.handlers.InventoryMoveHandler;
 import org.irmc.industrialrevival.api.items.handlers.ItemDamageEntityHandler;
 import org.irmc.industrialrevival.api.items.handlers.ItemHandler;
 import org.irmc.industrialrevival.api.items.handlers.PlayerBucketEmptyHandler;
+import org.irmc.industrialrevival.api.items.handlers.PrepareAnvilHandler;
+import org.irmc.industrialrevival.api.items.handlers.PrepareGrindstoneHandler;
+import org.irmc.industrialrevival.api.items.handlers.PrepareItemCraftHandler;
+import org.irmc.industrialrevival.api.items.handlers.PrepareItemEnchantHandler;
+import org.irmc.industrialrevival.api.items.handlers.PrepareSmithingHandler;
+import org.irmc.industrialrevival.api.items.handlers.PrepareTradeSelectHandler;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.api.objects.events.vanilla.BlockExplodeIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.EndermanMoveIRBlockEvent;
@@ -37,6 +43,12 @@ import org.irmc.industrialrevival.api.objects.events.vanilla.InventoryMoveIRItem
 import org.irmc.industrialrevival.api.objects.events.vanilla.PistonExtendIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PistonRetractIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PlayerBucketEmptyToIRBlockEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareAnvilIRItemEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareGrindstoneIRItemEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareIRItemEnchantEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareItemCraftIRItemEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareSmithingIRItemEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareTradeSelectIRItemEvent;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.jetbrains.annotations.Nullable;
 
@@ -210,6 +222,84 @@ public class HandlerCaller implements Listener {
         PlayerBucketEmptyHandler handler = iritem.getItemHandler(PlayerBucketEmptyHandler.class);
         if (handler != null) {
             handler.onPlayerBucketEmpty(event);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onPrepareAnvilIRItem(PrepareAnvilIRItemEvent event) {
+        IndustrialRevivalItem iritem = event.getIritem();
+        if (!checkValid(iritem)) {
+            return;
+        }
+
+        PrepareAnvilHandler handler = iritem.getItemHandler(PrepareAnvilHandler.class);
+        if (handler != null) {
+            handler.onPrepareAnvil(event);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onPrepareGrindstoneIRItem(PrepareGrindstoneIRItemEvent event) {
+        IndustrialRevivalItem iritem = event.getIritem();
+        if (!checkValid(iritem)) {
+            return;
+        }
+
+        PrepareGrindstoneHandler handler = iritem.getItemHandler(PrepareGrindstoneHandler.class);
+        if (handler != null) {
+            handler.onPrepareGrindstone(event);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onPrepareIRItemCraft(PrepareItemCraftIRItemEvent event) {
+        IndustrialRevivalItem iritem = event.getIritem();
+        if (!checkValid(iritem)) {
+            return;
+        }
+
+        PrepareItemCraftHandler handler = iritem.getItemHandler(PrepareItemCraftHandler.class);
+        if (handler != null) {
+            handler.onPrepareItemCraft(event);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onPrepareIRItemEnchant(PrepareIRItemEnchantEvent event) {
+        IndustrialRevivalItem iritem = event.getIritem();
+        if (!checkValid(iritem)) {
+            return;
+        }
+
+        PrepareItemEnchantHandler handler = iritem.getItemHandler(PrepareItemEnchantHandler.class);
+        if (handler != null) {
+            handler.onPrepareEnchant(event);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onPrepareSmithingIRItem(PrepareSmithingIRItemEvent event) {
+        IndustrialRevivalItem iritem = event.getIritem();
+        if (!checkValid(iritem)) {
+            return;
+        }
+
+        PrepareSmithingHandler handler = iritem.getItemHandler(PrepareSmithingHandler.class);
+        if (handler != null) {
+            handler.onPrepareSmithing(event);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onPrepareTradeSelect(PrepareTradeSelectIRItemEvent event) {
+        IndustrialRevivalItem iritem = event.getIritem();
+        if (!checkValid(iritem)) {
+            return;
+        }
+
+        PrepareTradeSelectHandler handler = iritem.getItemHandler(PrepareTradeSelectHandler.class);
+        if (handler != null) {
+            handler.onPrepareTradeSelect(event);
         }
     }
 

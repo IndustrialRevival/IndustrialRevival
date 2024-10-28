@@ -5,9 +5,10 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+import org.irmc.industrialrevival.api.objects.events.interfaces.RelatedIRItem;
 
 @Getter
-public class EndermanMoveIRBlockEvent extends EntityChangeBlockEvent {
+public class EndermanMoveIRBlockEvent extends EntityChangeBlockEvent implements RelatedIRItem {
     private final EntityChangeBlockEvent originalEvent;
     private final Entity enderman;
     private final IndustrialRevivalItem iritem;

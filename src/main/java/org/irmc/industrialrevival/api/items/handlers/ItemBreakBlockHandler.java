@@ -19,7 +19,7 @@ public interface ItemBreakBlockHandler extends ItemHandler {
      * @param tool  the {@link ItemStack} that was used as a tool
      * @param drops the list of {@link ItemStack}s that will be dropped by the block
      */
-    void onToolUse(@NotNull BlockBreakEvent event, @NotNull ItemStack tool, @NotNull List<ItemStack> drops);
+    void onBreakBlock(@NotNull BlockBreakEvent event, @NotNull ItemStack tool, @NotNull List<ItemStack> drops);
 
     @Override
     default IncompatibleItemHandlerException isCompatible(@NotNull IndustrialRevivalItem item) {

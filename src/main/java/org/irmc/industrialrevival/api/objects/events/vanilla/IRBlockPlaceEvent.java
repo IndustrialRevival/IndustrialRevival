@@ -5,10 +5,11 @@ import lombok.Setter;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+import org.irmc.industrialrevival.api.objects.events.interfaces.RelatedIRItem;
 import org.jetbrains.annotations.NotNull;
 
 @Getter
-public class IRBlockPlaceEvent extends BlockPlaceEvent {
+public class IRBlockPlaceEvent extends BlockPlaceEvent implements RelatedIRItem {
     private final HandlerList handlers = new HandlerList();
     private final BlockPlaceEvent originalEvent;
     private final IndustrialRevivalItem iritem;

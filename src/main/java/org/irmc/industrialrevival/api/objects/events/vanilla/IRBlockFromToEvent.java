@@ -6,10 +6,11 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.block.BlockFromToEvent;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+import org.irmc.industrialrevival.api.objects.events.interfaces.RelatedIRItem;
 import org.jetbrains.annotations.NotNull;
 
 @Getter
-public class IRBlockFromToEvent extends BlockFromToEvent {
+public class IRBlockFromToEvent extends BlockFromToEvent implements RelatedIRItem {
     private final HandlerList handlers = new HandlerList();
     private final BlockFromToEvent originalEvent;
     private final IndustrialRevivalItem iritem;

@@ -10,7 +10,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -18,7 +17,6 @@ import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.InventoryBlock;
 import org.irmc.industrialrevival.api.items.handlers.BlockInteractHandler;
-import org.irmc.industrialrevival.api.items.handlers.EntityChangeBlockHandler;
 import org.irmc.industrialrevival.api.items.handlers.ItemKillEntityHandler;
 import org.irmc.industrialrevival.api.items.handlers.ItemBreakBlockHandler;
 import org.irmc.industrialrevival.api.items.handlers.ItemInteractHandler;
@@ -90,7 +88,7 @@ public class ItemHandlerListener implements Listener {
 
         ItemBreakBlockHandler handler = iritem.getItemHandler(ItemBreakBlockHandler.class);
         if (handler != null) {
-            handler.onToolUse(e, item, new ArrayList<>(e.getBlock().getDrops()));
+            handler.onBreakBlock(e, item, new ArrayList<>(e.getBlock().getDrops()));
         }
     }
 
