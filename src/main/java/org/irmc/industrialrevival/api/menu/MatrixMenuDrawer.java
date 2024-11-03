@@ -95,7 +95,7 @@ public class MatrixMenuDrawer {
             String line = matrix.get(i);
             for (int j = 0; j < line.length(); j++) {
                 if (line.charAt(j) == c) {
-                    positions.add(i*9+j);
+                    positions.add(i * 9 + j);
                 }
             }
         }

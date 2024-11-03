@@ -1,6 +1,7 @@
 package org.irmc.industrialrevival.implementation.items.generators.electric;
 
 import org.bukkit.block.Block;
+import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.machines.ElectricConsumableGenerator;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.implementation.items.IRItems;
@@ -10,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 public class HeatEngine extends ElectricConsumableGenerator {
     public HeatEngine() {
         super();
-        addRecipe(20, 8000, IRItems.IRItemStacks.STEAM_BOTTLE, IRItems.IRItemStacks.EMPTY);
+        addRecipe(20, 8000, IRItems.IRItemStacks.STEAM_BOTTLE, (ItemStack) null);
     }
 
     @Override

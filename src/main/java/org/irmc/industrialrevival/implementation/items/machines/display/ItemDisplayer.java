@@ -79,8 +79,9 @@ public class ItemDisplayer extends IndustrialRevivalItem implements InventoryBlo
         setEnchantable(false);
         setDisenchantable(false);
         setWikiText("Item-Displayer");
+        setAddon(IndustrialRevival.getInstance());
 
-        register(IndustrialRevival.getInstance());
+        register();
     }
 
     private void minusHeight(Location loc) {

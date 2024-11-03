@@ -82,7 +82,12 @@ public class IRItems {
 
     // Tech components
     public static final Battery BATTERY_AA = new Battery()
+//<<<<<<< master
             .addItemGroup(IRItemGroups.COMPONENTS)
+//=======
+            .setAddon(IndustrialRevival.getInstance())
+            .setItemGroup(IRItemGroups.COMPONENTS)
+//>>>>>>> master
             .setItemStack(IRItemStacks.BATTERY_AA)
             .addCraftMethod(item -> new CraftMethod(
                     RecipeType.VANILLA_CRAFTING,
@@ -576,6 +581,7 @@ public class IRItems {
     public static void setup() {
         IndustrialRevival INSTANCE = IndustrialRevival.getInstance();
 
+//<<<<<<< master
         DEBUGGER.register(INSTANCE);
         DEBUG_HEAD.register(INSTANCE);
 
@@ -639,6 +645,65 @@ public class IRItems {
         public static final IndustrialRevivalItemStack EMPTY;
         public static final IndustrialRevivalItemStack DEBUGGER;
         public static final IndustrialRevivalItemStack DEBUG_HEAD;
+//=======
+        SILVER_ORE.setAddon(INSTANCE).register();
+        NICKEL_ORE.setAddon(INSTANCE).register();
+        COBALT_ORE.setAddon(INSTANCE).register();
+        CHROMIUM_ORE.setAddon(INSTANCE).register();
+        MAGNET_ORE.setAddon(INSTANCE).register();
+        URANIUM_ORE.setAddon(INSTANCE).register();
+        ALUMINIUM_ORE.setAddon(INSTANCE).register();
+        TIN_ORE.setAddon(INSTANCE).register();
+        MAGNESIUM_ORE.setAddon(INSTANCE).register();
+        LEAD_ORE.setAddon(INSTANCE).register();
+        ZINC_ORE.setAddon(INSTANCE).register();
+        TUNGSTEN_ORE.setAddon(INSTANCE).register();
+        MERCURY_ORE.setAddon(INSTANCE).register();
+        SALT_ORE.setAddon(INSTANCE).register();
+        SULFUR.setAddon(INSTANCE).register();
+        PETROLEUM.setAddon(INSTANCE).register();
+        FLAWED_QUARTZ.setAddon(INSTANCE).register();
+        FLAWLESS_QUARTZ.setAddon(INSTANCE).register();
+        LIMESTONE.setAddon(INSTANCE).register();
+        LIMEWATER.setAddon(INSTANCE).register();
+        SALT.setAddon(INSTANCE).register();
+        MAGIC_CRYSTAL.setAddon(INSTANCE).register();
+        CHARGED_STONE.setAddon(INSTANCE).register();
+        CARBON.setAddon(INSTANCE).register();
+        LED.setAddon(INSTANCE).register();
+        GAS.setAddon(INSTANCE).register();
+        BORAX.setAddon(INSTANCE).register();
+        SILICA.setAddon(INSTANCE).register();
+        LAVA_ALLOY.setAddon(INSTANCE).register();
+        ROCK_IRON_ALLOY.setAddon(INSTANCE).register();
+        ALUMINIUM_ALLOY.setAddon(INSTANCE).register();
+        COPPER_NICKEL_ALLOY.setAddon(INSTANCE).register();
+        NICHROM.setAddon(INSTANCE).register();
+        SILICON_STEEL.setAddon(INSTANCE).register();
+        WOLFRAM_STEEL.setAddon(INSTANCE).register();
+        SILICON.setAddon(INSTANCE).register();
+        RAW_SILICON.setAddon(INSTANCE).register();
+        SILICON_TETRACHLORIDE.setAddon(INSTANCE).register();
+        SLAG.setAddon(INSTANCE).register();
+        BRASS.setAddon(INSTANCE).register();
+        FINE_IRON.setAddon(INSTANCE).register();
+        FINE_GOLD.setAddon(INSTANCE).register();
+        SLIVER.setAddon(INSTANCE).register();
+        NICKEL.setAddon(INSTANCE).register();
+        COBALT.setAddon(INSTANCE).register();
+        CHROMIUM.setAddon(INSTANCE).register();
+        MAGNET.setAddon(INSTANCE).register();
+        URANIUM.setAddon(INSTANCE).register();
+        ALUMINIUM.setAddon(INSTANCE).register();
+        TIN.setAddon(INSTANCE).register();
+        MAGNESIUM.setAddon(INSTANCE).register();
+        LEAD.setAddon(INSTANCE).register();
+        ZINC.setAddon(INSTANCE).register();
+        TUNGSTEN.setAddon(INSTANCE).register();
+    }
+
+    public static class IRItemStacks {
+//>>>>>>> master
         public static final IndustrialRevivalItemStack SLIVER_ORE;
         public static final IndustrialRevivalItemStack NICKEL_ORE;
         public static final IndustrialRevivalItemStack COBALT_ORE;
@@ -795,9 +860,12 @@ public class IRItems {
         public static final IndustrialRevivalItemStack SILVER_WIRE;
 
         static {
+//<<<<<<< master
             EMPTY = new IndustrialRevivalItemStack("EMPTY", Material.AIR);
             DEBUGGER = new IndustrialRevivalItemStack("DEBUGGER", Material.CLOCK);
             DEBUG_HEAD = new IndustrialRevivalItemStack("DEBUG_HEAD", Material.PLAYER_HEAD);
+//=======
+//>>>>>>> master
             LAVA_ALLOY = new IndustrialRevivalItemStack("LAVA_ALLOY", Material.MAGMA_BLOCK);
             ROCK_IRON_ALLOY = new IndustrialRevivalItemStack("ROCK_IRON_ALLOY", Material.POLISHED_ANDESITE);
             ALUMINIUM_ALLOY = new IndustrialRevivalItemStack("ALUMINIUM_ALLOY", Material.IRON_INGOT);

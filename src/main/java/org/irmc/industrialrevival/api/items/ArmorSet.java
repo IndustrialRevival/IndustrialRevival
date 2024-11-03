@@ -85,7 +85,8 @@ public class ArmorSet {
 
     public void register(@NotNull IndustrialRevivalAddon addon) {
         for (ArmorPiece p : armor.values()) {
-            p.register(addon);
+            p.setAddon(addon);
+            p.register();
         }
 
         lock = true;

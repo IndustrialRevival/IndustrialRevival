@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class ItemTextureService {
     private final Map<Material, Integer> customModelDataMap;
-    private final Map<Location, BlockModel> blockModelMap;
+    private final Map<Integer, BlockModel> blockModelMap;
 
     public ItemTextureService() {
         customModelDataMap = new HashMap<>();
@@ -36,11 +36,11 @@ public class ItemTextureService {
             IndustrialRevivalItem item = IndustrialRevivalItem.getById(id);
             if (item == null) {
                 // just ignore
-                return;
+                continue;
             }
 
             Location location = data.getLocation();
-            blockModelMap.put(location, new BlockModel(location, item.getItem()));
+            blockModelMap.put(location.hashCode(), new BlockModel(location, item.getItem()));
         }
     }
 
@@ -59,12 +59,12 @@ public class ItemTextureService {
         Location location = e.getBlockPlaced().getLocation();
         ItemStack itemStack = e.getItemInHand();
 
-        blockModelMap.put(location, new BlockModel(location, itemStack));
+        blockModelMap.put(location.hashCode(), new BlockModel(location, itemStack));
     }
 
     public void blockBreaking(BlockBreakEvent e) {
         Location location = e.getBlock().getLocation();
-        BlockModel model = blockModelMap.remove(location);
+        BlockModel model = blockModelMap.remove(location.hashCode());
         model.breakBlock();
     }
 
@@ -85,14 +85,12 @@ public class ItemTextureService {
 
             Location entityLoc = loc.clone().add(0.5, 0.5, 0.5);
 
-            world.spawn(entityLoc, ItemDisplay.class, i -> {
+            this.entity = world.spawn(entityLoc, ItemDisplay.class, i -> {
                 i.setItemStack(item);
                 i.setPersistent(true);
                 i.setInvulnerable(true);
                 i.setGravity(false);
                 i.setSilent(true);
-
-                this.entity = i;
             });
         }
 
