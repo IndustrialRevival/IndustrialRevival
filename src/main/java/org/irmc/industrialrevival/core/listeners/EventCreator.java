@@ -85,11 +85,7 @@ public class EventCreator implements Listener {
                 continue;
             }
 
-            if (item.isDisabledInWorld(block.getWorld())) {
-                continue;
-            }
-
-            BlockExplodeIRBlockEvent event = new BlockExplodeIRBlockEvent(e, item);
+            BlockExplodeIRBlockEvent event = new BlockExplodeIRBlockEvent(e, block.getLocation(),item);
             events.add(event);
         }
 
@@ -110,11 +106,6 @@ public class EventCreator implements Listener {
 
             IndustrialRevivalItem item = IndustrialRevivalItem.getById(data.getId());
             if (item == null) {
-                return;
-            }
-
-            if (item.isDisabledInWorld(location.getWorld())) {
-                e.setCancelled(true);
                 return;
             }
 
@@ -156,11 +147,7 @@ public class EventCreator implements Listener {
                 continue;
             }
 
-            if (item.isDisabledInWorld(block.getWorld())) {
-                continue;
-            }
-
-            EntityExplodeIRBlockEvent event = new EntityExplodeIRBlockEvent(e, item);
+            EntityExplodeIRBlockEvent event = new EntityExplodeIRBlockEvent(e, block.getLocation(), item);
             events.add(event);
         }
 
@@ -180,10 +167,6 @@ public class EventCreator implements Listener {
             return;
         }
 
-        if (iritem.isDisabledInWorld(e.getEntity().getWorld())) {
-            return;
-        }
-
         EntityPickupIRItemEvent event = new EntityPickupIRItemEvent(e, iritem);
         Bukkit.getServer().getPluginManager().callEvent(event);
 
@@ -195,10 +178,6 @@ public class EventCreator implements Listener {
         ItemStack itemStack = e.getItem();
         IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(itemStack);
         if (iritem == null) {
-            return;
-        }
-        if (iritem.isDisabledInWorld(e.getDestination().getLocation().getWorld())) {
-            e.setCancelled(true);
             return;
         }
 
@@ -217,11 +196,6 @@ public class EventCreator implements Listener {
 
         IndustrialRevivalItem item = IndustrialRevivalItem.getById(data.getId());
         if (item == null) {
-            return;
-        }
-
-        if (item.isDisabledInWorld(e.getBlock().getWorld())) {
-            e.setCancelled(true);
             return;
         }
 
@@ -264,11 +238,6 @@ public class EventCreator implements Listener {
 
         IndustrialRevivalItem item = IndustrialRevivalItem.getById(data.getId());
         if (item == null) {
-            return;
-        }
-
-        if (item.isDisabledInWorld(block.getWorld())) {
-            e.setCancelled(true);
             return;
         }
 
@@ -390,10 +359,6 @@ public class EventCreator implements Listener {
             return;
         }
 
-        if (item.isDisabledInWorld(location.getWorld())) {
-            return;
-        }
-
         PlayerBucketEmptyToIRBlockEvent event = new PlayerBucketEmptyToIRBlockEvent(e, item);
         Bukkit.getServer().getPluginManager().callEvent(event);
 
@@ -450,11 +415,6 @@ public class EventCreator implements Listener {
             return;
         }
 
-        if (iritem.isDisabledInWorld(e.getInventory().getLocation().getWorld())) {
-            e.setResult(null);
-            return;
-        }
-
         PrepareAnvilIRItemEvent event = new PrepareAnvilIRItemEvent(e, iritem);
         Bukkit.getServer().getPluginManager().callEvent(event);
     }
@@ -466,11 +426,6 @@ public class EventCreator implements Listener {
             return;
         }
 
-        if (iritem.isDisabledInWorld(e.getInventory().getLocation().getWorld())) {
-            e.setResult(null);
-            return;
-        }
-
         PrepareGrindstoneIRItemEvent event = new PrepareGrindstoneIRItemEvent(e, iritem);
         Bukkit.getServer().getPluginManager().callEvent(event);
     }
@@ -479,11 +434,6 @@ public class EventCreator implements Listener {
         ItemStack itemStack = e.getItem();
         IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(itemStack);
         if (iritem == null) {
-            return;
-        }
-
-        if (iritem.isDisabledInWorld(e.getEnchantBlock().getWorld())) {
-            e.setCancelled(true);
             return;
         }
 
@@ -501,11 +451,6 @@ public class EventCreator implements Listener {
             return;
         }
 
-        if (iritem.isDisabledInWorld(e.getInventory().getLocation().getWorld())) {
-            e.setResult(null);
-            return;
-        }
-
         PrepareSmithingIRItemEvent event = new PrepareSmithingIRItemEvent(e, iritem);
         Bukkit.getServer().getPluginManager().callEvent(event);
     }
@@ -520,10 +465,6 @@ public class EventCreator implements Listener {
             IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(testItem);
             if (iritem == null) {
                 continue;
-            }
-            if (iritem.isDisabledInWorld(e.getInventory().getLocation().getWorld())) {
-                e.setCancelled(true);
-                return;
             }
 
             PrepareTradeSelectIRItemEvent event = new PrepareTradeSelectIRItemEvent(e, recipe, iritem);

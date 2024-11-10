@@ -2,7 +2,6 @@ package org.irmc.industrialrevival.core.managers;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
-import org.irmc.industrialrevival.core.listeners.DisabledItemListener;
 import org.irmc.industrialrevival.core.listeners.DropListener;
 import org.irmc.industrialrevival.core.listeners.EventPrechecker;
 import org.irmc.industrialrevival.core.listeners.GuideListener;
