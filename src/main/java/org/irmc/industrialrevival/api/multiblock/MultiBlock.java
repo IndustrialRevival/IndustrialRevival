@@ -13,6 +13,7 @@ import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.jetbrains.annotations.NotNull;
 
 // todo: 实现右键中心方块，交互多方块
+// todo: 多方块注册到registry，玩家交互方块时，for each check 注册的多方块，match时判断是否match多个
 @SuppressWarnings("unused")
 public class MultiBlock extends IndustrialRevivalItem implements Keyed {
     private @Getter NamespacedKey key;

@@ -22,6 +22,7 @@ public class Structure {
     private @Getter static final Rotation[] ROTATIONS = new Rotation[] {Rotation.NONE, Rotation.CLOCKWISE, Rotation.FLIPPED, Rotation.COUNTER_CLOCKWISE};
     private @Getter final StructurePiece[][][] structure;
     private @Getter final int[] center;
+    // todo: 将size改为3个int，分别表示x,y,z方向的长度
     private @Getter final int size;
 
     /**
