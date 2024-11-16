@@ -17,6 +17,7 @@ import org.irmc.industrialrevival.utils.KeyUtil;
 import org.irmc.pigeonlib.items.ItemUtils;
 
 public class IRItems {
+    private static final IndustrialRevival INSTANCE = IndustrialRevival.getInstance();
     public static final IndustrialRevivalItem DEBUGGER;
     public static final IndustrialRevivalItem DEBUG_HEAD;
     // armor sets
@@ -82,6 +83,7 @@ public class IRItems {
 
     // Tech components
     public static final Battery BATTERY_AA = new Battery()
+                .setAddon(INSTANCE)
             .addItemGroup(IRItemGroups.COMPONENTS)
             .setItemStack(IRItemStacks.BATTERY_AA)
             .addCraftMethod(item -> new CraftMethod(
@@ -94,10 +96,15 @@ public class IRItems {
 
     static {
         DEBUGGER = new Debugger()
+                .setAddon(INSTANCE)
+                .addItemGroup(IRItemGroups.DEBUG)
                 .setItemStack(IRItemStacks.DEBUGGER);
         DEBUG_HEAD = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
+                .addItemGroup(IRItemGroups.DEBUG)
                 .setItemStack(IRItemStacks.DEBUG_HEAD);
         SLIVER = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.MATERIALS)
                 .setItemStack(IRItemStacks.SLIVER)
                 .addCraftMethod(item -> new CraftMethod(
@@ -106,6 +113,7 @@ public class IRItems {
                         item
                 ));
         NICKEL = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.MATERIALS)
                 .setItemStack(IRItemStacks.NICKEL)
                 .addCraftMethod(item -> new CraftMethod(
@@ -114,6 +122,7 @@ public class IRItems {
                         item
                 ));
         COBALT = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.MATERIALS)
                 .setItemStack(IRItemStacks.COBALT)
                 .addCraftMethod(item -> new CraftMethod(
@@ -122,6 +131,7 @@ public class IRItems {
                         item
                 ));
         CHROMIUM = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.MATERIALS)
                 .setItemStack(IRItemStacks.CHROMIUM)
                 .addCraftMethod(item -> new CraftMethod(
@@ -130,6 +140,7 @@ public class IRItems {
                         item
                 ));
         MAGNET = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.MATERIALS)
                 .setItemStack(IRItemStacks.MAGNET)
                 .addCraftMethod(item -> new CraftMethod(
@@ -138,6 +149,7 @@ public class IRItems {
                         item
                 ));
         URANIUM = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.MATERIALS)
                 .setItemStack(IRItemStacks.URANIUM)
                 .addCraftMethod(item -> new CraftMethod(
@@ -146,6 +158,7 @@ public class IRItems {
                         item
                 ));
         ALUMINIUM = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.MATERIALS)
                 .setItemStack(IRItemStacks.ALUMINIUM)
                 .addCraftMethod(item -> new CraftMethod(
@@ -154,6 +167,7 @@ public class IRItems {
                         item
                 ));
         TIN = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.MATERIALS)
                 .setItemStack(IRItemStacks.TIN)
                 .addCraftMethod(item -> new CraftMethod(
@@ -162,6 +176,7 @@ public class IRItems {
                         item
                 ));
         MAGNESIUM = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.MATERIALS)
                 .setItemStack(IRItemStacks.MAGNESIUM)
                 .addCraftMethod(item -> new CraftMethod(
@@ -170,6 +185,7 @@ public class IRItems {
                         item
                 ));
         LEAD = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.MATERIALS)
                 .setItemStack(IRItemStacks.LEAD)
                 .addCraftMethod(item -> new CraftMethod(
@@ -178,6 +194,7 @@ public class IRItems {
                         item
                 ));
         ZINC = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.MATERIALS)
                 .setItemStack(IRItemStacks.ZINC)
                 .addCraftMethod(item -> new CraftMethod(
@@ -186,6 +203,7 @@ public class IRItems {
                         item
                 ));
         TUNGSTEN = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.MATERIALS)
                 .setItemStack(IRItemStacks.TUNGSTEN)
                 .addCraftMethod(item -> new CraftMethod(
@@ -194,6 +212,7 @@ public class IRItems {
                         item
                 ));
         LAVA_ALLOY = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.MATERIALS)
                 .setItemStack(IRItemStacks.LAVA_ALLOY)
                 .addCraftMethod(item -> new CraftMethod(
@@ -202,6 +221,7 @@ public class IRItems {
                         item
                 ));
         ROCK_IRON_ALLOY = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.MATERIALS)
                 .setItemStack(IRItemStacks.ROCK_IRON_ALLOY)
                 .addCraftMethod(item -> new CraftMethod(
@@ -210,6 +230,7 @@ public class IRItems {
                         item
                 ));
         ALUMINIUM_ALLOY = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.MATERIALS)
                 .setItemStack(IRItemStacks.ALUMINIUM_ALLOY)
                 .addCraftMethod(item -> new CraftMethod(
@@ -218,6 +239,7 @@ public class IRItems {
                         item
                 ));
         COPPER_NICKEL_ALLOY = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.MATERIALS)
                 .setItemStack(IRItemStacks.COPPER_NICKEL_ALLOY)
                 .addCraftMethod(item -> new CraftMethod(
@@ -226,6 +248,7 @@ public class IRItems {
                         item
                 ));
         NICHROM = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.MATERIALS)
                 .setItemStack(IRItemStacks.NICHROM)
                 .addCraftMethod(item -> new CraftMethod(
@@ -234,6 +257,7 @@ public class IRItems {
                         item
                 ));
         SILICON_STEEL = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.MATERIALS)
                 .setItemStack(IRItemStacks.SILICON_STEEL)
                 .addCraftMethod(item -> new CraftMethod(
@@ -242,6 +266,7 @@ public class IRItems {
                         item
                 ));
         WOLFRAM_STEEL = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.MATERIALS)
                 .setItemStack(IRItemStacks.WOLFRAM_STEEL)
                 .addCraftMethod(item -> new CraftMethod(
@@ -250,6 +275,7 @@ public class IRItems {
                         item
                 ));
         SILICON = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.MATERIALS)
                 .setItemStack(IRItemStacks.SILICON)
                 .addCraftMethod(item -> new CraftMethod(
@@ -258,6 +284,7 @@ public class IRItems {
                         item
                 ));
         RAW_SILICON = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.MATERIALS)
                 .setItemStack(IRItemStacks.RAW_SILICON)
                 .addCraftMethod(item -> new CraftMethod(
@@ -266,6 +293,7 @@ public class IRItems {
                         item
                 ));
         SILICON_TETRACHLORIDE = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.MATERIALS)
                 .setItemStack(IRItemStacks.SILICON_TETRACHLORIDE)
                 .addCraftMethod(item -> new CraftMethod(
@@ -274,6 +302,7 @@ public class IRItems {
                         item
                 ));
         SLAG = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.MATERIALS)
                 .setItemStack(IRItemStacks.SLAG)
                 .addCraftMethod(item -> new CraftMethod(
@@ -282,6 +311,7 @@ public class IRItems {
                         item
                 ));
         BRASS = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.MATERIALS)
                 .setItemStack(IRItemStacks.BRASS)
                 .addCraftMethod(item -> new CraftMethod(
@@ -290,6 +320,7 @@ public class IRItems {
                         item
                 ));
         FINE_IRON = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.MATERIALS)
                 .setItemStack(IRItemStacks.FINE_IRON)
                 .addCraftMethod(item -> new CraftMethod(
@@ -298,6 +329,7 @@ public class IRItems {
                         item
                 ));
         FINE_GOLD = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.MATERIALS)
                 .setItemStack(IRItemStacks.FINE_GOLD)
                 .addCraftMethod(item -> new CraftMethod(
@@ -306,6 +338,7 @@ public class IRItems {
                         item
                 ));
         SILVER_ORE = new IndustrialRevivalOreBlock()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.ORES)
                 .setItemStack(IRItemStacks.SLIVER_ORE)
                 .addCraftMethod(item -> new CraftMethod(
@@ -317,6 +350,7 @@ public class IRItems {
                 .setCookingTime(5 * 20)
                 .setOutput(item -> item.getItem().clone());
         NICKEL_ORE = new IndustrialRevivalOreBlock()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.ORES)
                 .setItemStack(IRItemStacks.NICKEL_ORE)
                 .addCraftMethod(item -> new CraftMethod(
@@ -328,6 +362,7 @@ public class IRItems {
                 .setCookingTime(5 * 20)
                 .setOutput(item -> item.getItem().clone());
         COBALT_ORE = new IndustrialRevivalOreBlock()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.ORES)
                 .setItemStack(IRItemStacks.COBALT_ORE)
                 .addCraftMethod(item -> new CraftMethod(
@@ -339,6 +374,7 @@ public class IRItems {
                 .setCookingTime(5 * 20)
                 .setOutput(item -> item.getItem().clone());
         CHROMIUM_ORE = new IndustrialRevivalOreBlock()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.ORES)
                 .setItemStack(IRItemStacks.CHROMIUM_ORE)
                 .addCraftMethod(item -> new CraftMethod(
@@ -350,6 +386,7 @@ public class IRItems {
                 .setCookingTime(5 * 20)
                 .setOutput(item -> item.getItem().clone());
         MAGNET_ORE = new IndustrialRevivalOreBlock()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.ORES)
                 .setItemStack(IRItemStacks.MAGNET_ORE)
                 .addCraftMethod(item -> new CraftMethod(
@@ -361,6 +398,7 @@ public class IRItems {
                 .setCookingTime(10 * 20)
                 .setOutput(item -> item.getItem().clone());
         URANIUM_ORE = new IndustrialRevivalOreBlock()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.ORES)
                 .setItemStack(IRItemStacks.URANIUM_ORE)
                 .addCraftMethod(item -> new CraftMethod(
@@ -372,6 +410,7 @@ public class IRItems {
                 .setCookingTime(20 * 20)
                 .setOutput(item -> item.getItem().clone());
         ALUMINIUM_ORE = new IndustrialRevivalOreBlock()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.ORES)
                 .setItemStack(IRItemStacks.ALUMINIUM_ORE)
                 .addCraftMethod(item -> new CraftMethod(
@@ -383,6 +422,7 @@ public class IRItems {
                 .setCookingTime(5 * 20)
                 .setOutput(item -> item.getItem().clone());
         TIN_ORE = new IndustrialRevivalOreBlock()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.ORES)
                 .setItemStack(IRItemStacks.TIN_ORE)
                 .addCraftMethod(item -> new CraftMethod(
@@ -394,6 +434,7 @@ public class IRItems {
                 .setCookingTime(5 * 20)
                 .setOutput(item -> item.getItem().clone());
         MAGNESIUM_ORE = new IndustrialRevivalOreBlock()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.ORES)
                 .setItemStack(IRItemStacks.MAGNESIUM_ORE)
                 .addCraftMethod(item -> new CraftMethod(
@@ -405,6 +446,7 @@ public class IRItems {
                 .setCookingTime(5 * 20)
                 .setOutput(item -> item.getItem().clone());
         LEAD_ORE = new IndustrialRevivalOreBlock()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.ORES)
                 .setItemStack(IRItemStacks.LEAD_ORE)
                 .addCraftMethod(item -> new CraftMethod(
@@ -416,6 +458,7 @@ public class IRItems {
                 .setCookingTime(5 * 20)
                 .setOutput(item -> item.getItem().clone());
         ZINC_ORE = new IndustrialRevivalOreBlock()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.ORES)
                 .setItemStack(IRItemStacks.ZINC_ORE)
                 .addCraftMethod(item -> new CraftMethod(
@@ -427,6 +470,7 @@ public class IRItems {
                 .setCookingTime(5 * 20)
                 .setOutput(item -> item.getItem().clone());
         TUNGSTEN_ORE = new IndustrialRevivalOreBlock()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.ORES)
                 .setItemStack(IRItemStacks.TUNGSTEN_ORE)
                 .addCraftMethod(item -> new CraftMethod(
@@ -438,6 +482,7 @@ public class IRItems {
                 .setCookingTime(5 * 20)
                 .setOutput(item -> item.getItem().clone());
         MERCURY_ORE = new IndustrialRevivalOreBlock()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.ORES)
                 .setItemStack(IRItemStacks.MERCURY_ORE)
                 .addCraftMethod(item -> new CraftMethod(
@@ -449,6 +494,7 @@ public class IRItems {
                 .setCookingTime(5 * 20)
                 .setOutput(item -> item.getItem().clone());
         SALT_ORE = new IndustrialRevivalOreBlock()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.ORES)
                 .setItemStack(IRItemStacks.SALT_ORE)
                 .addCraftMethod(item -> new CraftMethod(
@@ -460,6 +506,7 @@ public class IRItems {
                 .setCookingTime(5 * 20)
                 .setOutput(item -> item.getItem().clone());
         SULFUR = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.ORES)
                 .setItemStack(IRItemStacks.SULFUR)
                 .addCraftMethod(item -> new CraftMethod(
@@ -468,6 +515,7 @@ public class IRItems {
                         item
                 ));
         PETROLEUM = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.ORES)
                 .setItemStack(IRItemStacks.PETROLEUM)
                 .addCraftMethod(item -> new CraftMethod(
@@ -476,6 +524,7 @@ public class IRItems {
                         item
                 ));
         FLAWED_QUARTZ = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.ORES)
                 .setItemStack(IRItemStacks.FLAWED_QUARTZ)
                 .addCraftMethod(item -> new CraftMethod(
@@ -484,6 +533,7 @@ public class IRItems {
                         item
                 ));
         FLAWLESS_QUARTZ = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.ORES)
                 .setItemStack(IRItemStacks.FLAWLESS_QUARTZ)
                 .addCraftMethod(item -> new CraftMethod(
@@ -492,6 +542,7 @@ public class IRItems {
                         item
                 ));
         LIMESTONE = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.ORES)
                 .setItemStack(IRItemStacks.LIMESTONE)
                 .addCraftMethod(item -> new CraftMethod(
@@ -500,6 +551,7 @@ public class IRItems {
                         item
                 ));
         LIMEWATER = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.ORES)
                 .setItemStack(IRItemStacks.LIMEWATER)
                 .addCraftMethod(item -> new CraftMethod(
@@ -508,6 +560,7 @@ public class IRItems {
                         item
                 ));
         SALT = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.ORES)
                 .setItemStack(IRItemStacks.SALT)
                 .addCraftMethod(item -> new CraftMethod(
@@ -516,6 +569,7 @@ public class IRItems {
                         item
                 )); // DO NOT HAVE MERCURY INGOT!!
         MAGIC_CRYSTAL = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.ORES)
                 .setItemStack(IRItemStacks.MAGIC_CRYSTAL)
                 .addCraftMethod(item -> new CraftMethod(
@@ -524,6 +578,7 @@ public class IRItems {
                         item
                 ));
         CHARGED_STONE = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.ORES)
                 .setItemStack(IRItemStacks.CHARGED_STONE)
                 .addCraftMethod(item -> new CraftMethod(
@@ -532,6 +587,7 @@ public class IRItems {
                         item
                 ));
         CARBON = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.ORES)
                 .setItemStack(IRItemStacks.CARBON)
                 .addCraftMethod(item -> new CraftMethod(
@@ -540,6 +596,7 @@ public class IRItems {
                         item
                 ));
         LED = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.ORES)
                 .setItemStack(IRItemStacks.LED)
                 .addCraftMethod(item -> new CraftMethod(
@@ -548,6 +605,7 @@ public class IRItems {
                         item
                 ));
         GAS = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.ORES)
                 .setItemStack(IRItemStacks.GAS)
                 .addCraftMethod(item -> new CraftMethod(
@@ -556,6 +614,7 @@ public class IRItems {
                         item
                 ));
         BORAX = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.ORES)
                 .setItemStack(IRItemStacks.BORAX)
                 .addCraftMethod(item -> new CraftMethod(
@@ -564,6 +623,7 @@ public class IRItems {
                         item
                 ));
         SILICA = new IndustrialRevivalItem()
+                .setAddon(INSTANCE)
                 .addItemGroup(IRItemGroups.ORES)
                 .setItemStack(IRItemStacks.SILICA)
                 .addCraftMethod(item -> new CraftMethod(

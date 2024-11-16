@@ -2,6 +2,7 @@ package org.irmc.industrialrevival.api.items;
 
 import lombok.Getter;
 import org.bukkit.World;
+import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.items.attributes.Radiation;
 import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
@@ -18,6 +19,11 @@ public class RadiativeItem extends IndustrialRevivalItem implements Radiation {
         return this;
     }
 
+    @Override
+    public RadiativeItem setAddon(@NotNull IndustrialRevivalAddon addon) {
+        super.setAddon(addon);
+        return this;
+    }
     @Override
     public RadiativeItem addItemGroup(@NotNull ItemGroup group) {
         super.addItemGroup(group);

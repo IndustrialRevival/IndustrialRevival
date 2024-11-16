@@ -10,6 +10,7 @@ import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.handlers.BlockTicker;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.objects.enums.EnergyNetComponentType;
+import org.irmc.industrialrevival.api.objects.events.ir.IRBlockTickEvent;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
@@ -77,10 +78,10 @@ public abstract class AbstractElectricGenerator extends AbstractMachine implemen
     @Override
     @OverridingMethodsMustInvokeSuper
     protected void preRegister() throws Exception {
-        addItemHandlers((BlockTicker) (block, menu, data) -> tick(block, menu));
+        addItemHandlers((BlockTicker) this::tick);
         super.preRegister();
     }
 
-    protected abstract void tick(Block block, MachineMenu menu);
+    protected abstract void tick(IRBlockTickEvent event);
 
 }

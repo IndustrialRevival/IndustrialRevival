@@ -3,11 +3,12 @@ package org.irmc.industrialrevival.api.machines;
 import org.bukkit.block.Block;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.objects.enums.GeneratorType;
+import org.irmc.industrialrevival.api.objects.events.ir.IRBlockTickEvent;
 
 public abstract class ElectricAutonomousGenerator extends AbstractElectricGenerator {
     @Override
-    protected void tick(Block block, MachineMenu menu) {
-        addEnergyProduction(menu.getLocation(), getEnergyProduction(block, menu));
+    protected void tick(IRBlockTickEvent event) {
+        addEnergyProduction(event.getMenu().getLocation(), getEnergyProduction(event.getBlock(), event.getMenu()));
     }
 
     @Override

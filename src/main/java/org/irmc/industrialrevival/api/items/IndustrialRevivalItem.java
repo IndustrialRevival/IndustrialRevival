@@ -31,6 +31,7 @@ import org.irmc.industrialrevival.utils.Constants;
 import org.irmc.pigeonlib.items.ItemUtils;
 import org.irmc.pigeonlib.pdc.PersistentDataAPI;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.util.ArrayList;
@@ -211,10 +212,10 @@ public class IndustrialRevivalItem {
      *
      * @return WILL RETURN NULL IF THE ITEM IS NOT REGISTERED SUCCESSFULLY!!
      */
+    @Nullable
     public IndustrialRevivalItem register() {
         Preconditions.checkArgument(addon != null, "Losing addon reference! Please set it before registering the item.");
         checkRegistered();
-        Preconditions.checkArgument(addon != null, "Addon cannot be null");
 
         if (!addon.getPlugin().isEnabled()) {
             throw new UnsupportedOperationException("Cannot register item before your plugin is enabled");

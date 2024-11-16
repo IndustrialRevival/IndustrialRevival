@@ -4,6 +4,7 @@ import org.bukkit.block.Block;
 import org.irmc.industrialrevival.api.items.handlers.BlockTicker;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.objects.enums.EnergyNetComponentType;
+import org.irmc.industrialrevival.api.objects.events.ir.IRBlockTickEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,11 +19,11 @@ public abstract class ElectricMachine extends EnergyComponent {
 
     @Override
     protected void preRegister() throws Exception {
-        addItemHandlers((BlockTicker) (block, menu, data) -> tick(block, menu));
+        addItemHandlers((BlockTicker) this::tick);
         super.preRegister();
     }
 
-    protected void tick(@NotNull Block block, @Nullable MachineMenu menu) {
+    protected void tick(@NotNull IRBlockTickEvent event) {
         // TODO: implement tick logic
         // machineRecipes.findNextRecipe()
     }

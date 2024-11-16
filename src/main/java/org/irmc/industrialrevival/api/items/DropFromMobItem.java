@@ -2,6 +2,7 @@ package org.irmc.industrialrevival.api.items;
 
 import lombok.Getter;
 import org.bukkit.World;
+import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.items.attributes.MobDropItem;
 import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
@@ -23,6 +24,12 @@ public class DropFromMobItem extends IndustrialRevivalItem implements MobDropIte
     public DropFromMobItem addDropMethod(@NotNull MobDropMethod dropMethod) {
         checkRegistered();
         dropMethods.add(dropMethod);
+        return this;
+    }
+
+    @Override
+    public DropFromMobItem setAddon(@NotNull IndustrialRevivalAddon addon) {
+        super.setAddon(addon);
         return this;
     }
 

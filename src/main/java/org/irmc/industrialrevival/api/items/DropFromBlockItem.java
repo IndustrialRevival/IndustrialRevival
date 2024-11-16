@@ -2,6 +2,7 @@ package org.irmc.industrialrevival.api.items;
 
 import lombok.Getter;
 import org.bukkit.World;
+import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.items.attributes.BlockDropItem;
 import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
@@ -20,6 +21,11 @@ public class DropFromBlockItem extends IndustrialRevivalItem implements BlockDro
         return blockDropMethods.toArray(new BlockDropMethod[0]);
     }
 
+    @Override
+    public DropFromBlockItem setAddon(@NotNull IndustrialRevivalAddon addon) {
+        super.setAddon(addon);
+        return this;
+    }
     @Override
     public DropFromBlockItem addItemGroup(@NotNull ItemGroup group) {
         super.addItemGroup(group);

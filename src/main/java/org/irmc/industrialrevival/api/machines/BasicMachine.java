@@ -14,6 +14,7 @@ import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
 import org.irmc.industrialrevival.api.menu.MatrixMenuDrawer;
 import org.irmc.industrialrevival.api.objects.ItemStackReference;
 import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
+import org.irmc.industrialrevival.api.objects.events.ir.IRBlockTickEvent;
 import org.irmc.industrialrevival.utils.MenuUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -56,11 +57,13 @@ public abstract class BasicMachine extends AbstractMachine implements ProcessorH
                 }
             }
         };
-        addItemHandlers((BlockTicker) (block, menu, data) -> tick(block, menu));
+        addItemHandlers((BlockTicker) this::tick);
         super.preRegister();
     }
 
-    protected void tick(@NotNull Block block, @Nullable MachineMenu menu) {
+    protected void tick(@NotNull IRBlockTickEvent event) {
+        Block block = event.getBlock();
+        MachineMenu menu = event.getMenu();
         if (menu == null) {
             processor.stopProcess(block.getLocation());
             return;

@@ -1,12 +1,18 @@
 package org.irmc.industrialrevival.api.items;
 
 import org.bukkit.World;
+import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.items.attributes.NotPlaceable;
 import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.jetbrains.annotations.NotNull;
 
 public class NotPlaceableItem extends IndustrialRevivalItem implements NotPlaceable {
+    @Override
+    public NotPlaceableItem setAddon(@NotNull IndustrialRevivalAddon addon) {
+        super.setAddon(addon);
+        return this;
+    }
     @Override
     public NotPlaceableItem addItemGroup(@NotNull ItemGroup group) {
         super.addItemGroup(group);

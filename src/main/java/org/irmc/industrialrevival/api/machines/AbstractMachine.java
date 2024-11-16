@@ -4,8 +4,10 @@ import lombok.Getter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
+import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
+import org.irmc.industrialrevival.api.items.IndustrialRevivalOreBlock;
 import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipe;
@@ -28,6 +30,11 @@ public abstract class AbstractMachine extends IndustrialRevivalItem {
     private RecipeType recipeType = null;
     private ItemStack recipeTypeIcon = null;
 
+    @Override
+    public AbstractMachine setAddon(@NotNull IndustrialRevivalAddon addon) {
+        super.setAddon(addon);
+        return this;
+    }
     @Override
     public AbstractMachine addItemGroup(@NotNull ItemGroup group) {
         super.addItemGroup(group);

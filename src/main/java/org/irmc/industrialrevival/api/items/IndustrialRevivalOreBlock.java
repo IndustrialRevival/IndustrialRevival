@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
+import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.items.attributes.VanillaSmeltingItem;
 import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
@@ -42,6 +43,11 @@ public class IndustrialRevivalOreBlock extends IndustrialRevivalItem implements 
         return this;
     }
 
+    @Override
+    public IndustrialRevivalOreBlock setAddon(@NotNull IndustrialRevivalAddon addon) {
+        super.setAddon(addon);
+        return this;
+    }
     @Override
     public IndustrialRevivalOreBlock addItemGroup(@NotNull ItemGroup group) {
         super.addItemGroup(group);

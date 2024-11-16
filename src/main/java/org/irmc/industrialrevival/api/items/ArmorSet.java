@@ -127,6 +127,11 @@ public class ArmorSet {
         }
 
         @Override
+        public ArmorPiece setAddon(@NotNull IndustrialRevivalAddon addon) {
+            super.setAddon(addon);
+            return this;
+        }
+        @Override
         public ArmorPiece addItemGroup(@NotNull ItemGroup group) {
             super.addItemGroup(group);
             return this;
