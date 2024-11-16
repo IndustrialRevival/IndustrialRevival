@@ -23,8 +23,8 @@ import org.irmc.industrialrevival.core.services.BlockDataService;
 import org.irmc.industrialrevival.core.services.IRRegistry;
 import org.irmc.industrialrevival.core.services.ItemDataService;
 import org.irmc.industrialrevival.core.services.ItemTextureService;
+import org.irmc.industrialrevival.core.services.ProfilerService;
 import org.irmc.industrialrevival.core.task.ArmorCheckTask;
-import org.irmc.industrialrevival.core.task.TickerTask;
 import org.irmc.industrialrevival.implementation.groups.IRItemGroups;
 import org.irmc.industrialrevival.implementation.items.IRItems;
 import org.irmc.industrialrevival.utils.Constants;
@@ -51,6 +51,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     private @Getter ItemTextureService itemTextureService;
     private @Getter BlockDataService blockDataService;
     private @Getter ItemDataService itemDataService;
+    private @Getter ProfilerService profilerService;
     private @Getter ServerImplementation foliaLibImpl;
     private @Getter ItemSettings itemSettings;
 
@@ -120,6 +121,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         blockDataService = new BlockDataService();
         itemTextureService = new ItemTextureService();
         itemDataService = new ItemDataService();
+        profilerService = new ProfilerService();
     }
 
     private void setupDataManager() {
@@ -161,7 +163,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     private void setupTasks() {
         int checkInterval = getConfig().getInt("options.armor-check-interval", 1);
         foliaLibImpl.runTimerAsync(new ArmorCheckTask(checkInterval), checkInterval * 20L, checkInterval * 20L);
-        foliaLibImpl.runTimerAsync(new TickerTask(checkInterval), checkInterval * 20L, checkInterval * 20L);
+        foliaLibImpl.runTimerAsync(IndustrialRevival.getInstance().getProfilerService().getTask(), checkInterval * 20L, checkInterval * 20L);
     }
 
     @Override

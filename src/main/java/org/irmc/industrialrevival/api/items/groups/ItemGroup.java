@@ -18,6 +18,7 @@ import org.irmc.industrialrevival.utils.CleanedItemGetter;
 import org.irmc.industrialrevival.utils.Constants;
 import org.jetbrains.annotations.NotNull;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -45,6 +46,10 @@ public abstract class ItemGroup {
         this.key = key;
         this.icon = icon;
         this.tier = tier;
+    }
+
+    public boolean allowedItem(IndustrialRevivalItem item) {
+        return true;
     }
 
     public void onClicked(@NotNull Player p, @NotNull SimpleMenu sm, int page) {
@@ -137,8 +142,16 @@ public abstract class ItemGroup {
 
     public void addItem(@NotNull IndustrialRevivalItem item) {
         checkLocked();
-
-        this.items.add(item);
+        if (allowedItem(item)) {
+            this.items.add(item);
+        } else {
+            IndustrialRevival.getInstance().getLogger().warning(MessageFormat.format(
+                    "Item {0} (From addon {1}) is not allowed to be added to group {2} (From addon {3})",
+                    item.getItemName(),
+                    item.getAddon().getPlugin().getName(),
+                    this.getClass().getSimpleName(),
+                    this.getKey().getKey()));
+        }
     }
 
     public void register() {

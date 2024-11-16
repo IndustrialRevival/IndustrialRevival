@@ -11,6 +11,7 @@ import org.irmc.industrialrevival.core.listeners.LimitedItemListener;
 import org.irmc.industrialrevival.core.listeners.MachineMenuListener;
 import org.irmc.industrialrevival.core.listeners.NotPlaceableListener;
 import org.irmc.industrialrevival.core.listeners.PlayerJoinListener;
+import org.irmc.industrialrevival.core.listeners.RespondTimingListener;
 import org.irmc.industrialrevival.core.listeners.UnusableItemListener;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 
@@ -35,6 +36,7 @@ public class ListenerManager {
         listeners.add(new NotPlaceableListener());
         listeners.add(new PlayerJoinListener());
         listeners.add(new UnusableItemListener());
+        listeners.add(new RespondTimingListener());
     }
 
     public void setupAll() {
