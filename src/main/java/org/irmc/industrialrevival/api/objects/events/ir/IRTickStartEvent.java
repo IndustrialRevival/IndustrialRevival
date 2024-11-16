@@ -14,7 +14,7 @@ import java.util.Map;
 
 @Getter
 public class IRTickStartEvent extends Event implements Cancellable {
-    private static final HandlerList handlerList = new HandlerList();
+    private static final HandlerList handlers = new HandlerList();
     private final Map<Location, IRBlockData> blockDataMap;
     private @Setter boolean cancelled;
     private final int checkInterval;
@@ -28,6 +28,9 @@ public class IRTickStartEvent extends Event implements Cancellable {
 
     @Override
     public @NotNull HandlerList getHandlers() {
-        return handlerList;
+        return handlers;
+    }
+    public static @NotNull HandlerList getHandlerList() {
+        return handlers;
     }
 }
