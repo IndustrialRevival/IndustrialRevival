@@ -39,20 +39,20 @@ public class SimpleMenu implements IRInventoryHolder {
     private MenuOpenHandler openHandler = (player, menu) -> {
     };
 
-    public SimpleMenu(Component title) {
+    public SimpleMenu(@NotNull Component title) {
         this.title = title;
 
         this.slots = new HashMap<>();
         this.clickHandlers = new HashMap<>();
     }
 
-    public void setItem(@Nullable ItemStack item, @NotNull ClickHandler clickHandler, int... slots) {
+    public void setItem(@Nullable ItemStack item, @NotNull ClickHandler clickHandler, @Range(from = 0, to = 53) int... slots) {
         for (int slot : slots) {
             setItem(slot, item, clickHandler);
         }
     }
 
-    public void setItem(int slot, @Nullable ItemStack itemStack) {
+    public void setItem(@Range(from = 0, to = 53) int slot, @Nullable ItemStack itemStack) {
         setItem(slot, itemStack, ClickHandler.DEFAULT);
     }
 
@@ -89,7 +89,7 @@ public class SimpleMenu implements IRInventoryHolder {
         return this.inventory.getSize();
     }
 
-    public void setSize(int size) {
+    public void setSize(@Range(from = 9, to = 54) int size) {
         Preconditions.checkArgument(size > 0, "Size must be greater than 0");
         Preconditions.checkArgument(size <= 54, "Size must be less than or equal to 54");
         Preconditions.checkArgument(size % 9 == 0, "Size must be a multiple of 9");
@@ -118,7 +118,7 @@ public class SimpleMenu implements IRInventoryHolder {
     }
 
     @Nullable
-    public ItemStack getItem(int slot) {
+    public ItemStack getItem(@Range(from = 0, to = 53) int slot) {
         return this.slots.get(slot);
     }
 
@@ -128,6 +128,7 @@ public class SimpleMenu implements IRInventoryHolder {
      *
      * @return the contents of the machine menu as an array of ItemStacks
      */
+    @NotNull
     public ItemStack[] getMenuContents() {
         return this.slots.values().toArray(new ItemStack[0]);
     }
@@ -144,11 +145,11 @@ public class SimpleMenu implements IRInventoryHolder {
     }
 
     @NotNull
-    public ClickHandler getClickHandler(int slot) {
+    public ClickHandler getClickHandler(@Range(from = 0, to = 53) int slot) {
         return this.clickHandlers.getOrDefault(slot, ClickHandler.DEFAULT);
     }
 
-    public void setClickHandler(int slot, @NotNull ClickHandler clickHandler) {
+    public void setClickHandler(@Range(from = 0, to = 53) int slot, @NotNull ClickHandler clickHandler) {
         this.clickHandlers.put(slot, clickHandler);
     }
 
@@ -217,7 +218,7 @@ public class SimpleMenu implements IRInventoryHolder {
         boolean onClick(
                 @NotNull Player player,
                 @Nullable ItemStack clickedItem,
-                int clickedSlot,
+                @Range(from = 0, to = 53) int clickedSlot,
                 @NotNull SimpleMenu clickedMenu,
                 @NotNull ClickType clickType);
     }
@@ -239,7 +240,7 @@ public class SimpleMenu implements IRInventoryHolder {
         default boolean onClick(
                 @NotNull Player player,
                 @Nullable ItemStack clickedItem,
-                int clickedSlot,
+                @Range(from = 0, to = 53) int clickedSlot,
                 @NotNull SimpleMenu clickedMenu,
                 @NotNull ClickType clickType) {
             return false;
@@ -248,7 +249,7 @@ public class SimpleMenu implements IRInventoryHolder {
         boolean onClick(
                 @NotNull Player player,
                 @Nullable ItemStack item,
-                int slot,
+                @Range(from = 0, to = 53) int slot,
                 @NotNull SimpleMenu menu,
                 @NotNull ClickType clickType,
                 @NotNull InventoryClickEvent event);
@@ -256,11 +257,11 @@ public class SimpleMenu implements IRInventoryHolder {
 
     @FunctionalInterface
     public interface MenuCloseHandler {
-        void onClose(Player player);
+        void onClose(@NotNull Player player);
     }
 
     @FunctionalInterface
     public interface MenuOpenHandler {
-        void onOpen(Player player, SimpleMenu menu);
+        void onOpen(@NotNull Player player, @NotNull SimpleMenu menu);
     }
 }

@@ -15,6 +15,7 @@ import org.irmc.industrialrevival.core.guide.IRGuideImplementation;
 import org.irmc.industrialrevival.implementation.guide.SurvivalGuideImplementation;
 import org.irmc.industrialrevival.utils.CleanedItemGetter;
 import org.irmc.industrialrevival.utils.Constants;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -29,20 +30,20 @@ public class TreeItemGroup extends ItemGroup {
     private final List<ItemObject> itemObjects = new ArrayList<>();
     private TreeItemGroup parent;
 
-    public TreeItemGroup(NamespacedKey key, ItemStack icon) {
+    public TreeItemGroup(@NotNull NamespacedKey key, @NotNull ItemStack icon) {
         super(key, icon);
 
         this.parent = this;
     }
 
-    public TreeItemGroup(NamespacedKey key, ItemStack icon, int tier) {
+    public TreeItemGroup(@NotNull NamespacedKey key, @NotNull ItemStack icon, int tier) {
         super(key, icon, tier);
 
         this.parent = this;
     }
 
     @Override
-    public final void addItem(IndustrialRevivalItem item) {
+    public final void addItem(@NotNull IndustrialRevivalItem item) {
         itemObjects.add(new ItemObject(item));
     }
 
@@ -53,14 +54,14 @@ public class TreeItemGroup extends ItemGroup {
         }
     }
 
-    public final void addItemGroup(TreeItemGroup i) {
+    public final void addItemGroup(@NotNull TreeItemGroup i) {
         i.parent = this;
         itemObjects.add(new ItemObject(i));
 
         tryResort();
     }
 
-    public void onClicked(Player p, SimpleMenu sm, int page) {
+    public void onClicked(@NotNull Player p, @NotNull SimpleMenu sm, int page) {
         boolean onlyPageOne = false;
         IRGuideImplementation guide = SurvivalGuideImplementation.INSTANCE;
 
@@ -177,12 +178,12 @@ public class TreeItemGroup extends ItemGroup {
         @Getter
         private final TreeItemGroup group;
 
-        ItemObject(IndustrialRevivalItem item) {
+        ItemObject(@NotNull IndustrialRevivalItem item) {
             this.item = item;
             this.group = null;
         }
 
-        ItemObject(TreeItemGroup group) {
+        ItemObject(@NotNull TreeItemGroup group) {
             this.item = null;
             this.group = group;
         }

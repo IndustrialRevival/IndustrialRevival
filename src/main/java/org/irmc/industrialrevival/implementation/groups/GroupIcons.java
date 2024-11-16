@@ -6,6 +6,9 @@ import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 
 public class GroupIcons {
+    public static final ItemStack GROUP_DEBUG = new CustomItemStack(
+            Material.BARRIER,
+            IndustrialRevival.getInstance().getLanguageManager().getGroupName("debug"));
     public static final ItemStack GROUP_ORE = new CustomItemStack(
             Material.GOLDEN_PICKAXE,
             IndustrialRevival.getInstance().getLanguageManager().getGroupName("ore"));

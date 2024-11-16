@@ -1,6 +1,7 @@
 package org.irmc.industrialrevival.api.items;
 
 import org.bukkit.World;
+import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.items.attributes.NotPlaceable;
 import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
@@ -8,8 +9,13 @@ import org.jetbrains.annotations.NotNull;
 
 public class NotPlaceableItem extends IndustrialRevivalItem implements NotPlaceable {
     @Override
-    public NotPlaceableItem setItemGroup(@NotNull ItemGroup group) {
-        super.setItemGroup(group);
+    public NotPlaceableItem setAddon(@NotNull IndustrialRevivalAddon addon) {
+        super.setAddon(addon);
+        return this;
+    }
+    @Override
+    public NotPlaceableItem addItemGroup(@NotNull ItemGroup group) {
+        super.addItemGroup(group);
         return this;
     }
 
@@ -46,6 +52,24 @@ public class NotPlaceableItem extends IndustrialRevivalItem implements NotPlacea
     @Override
     public NotPlaceableItem addItemDictionary(@NotNull ItemDictionary dictionary) {
         super.addItemDictionary(dictionary);
+        return this;
+    }
+
+    @Override
+    public NotPlaceableItem setEnchantable(boolean enchantable) {
+        super.setEnchantable(enchantable);
+        return this;
+    }
+
+    @Override
+    public NotPlaceableItem setDisenchantable(boolean disenchantable) {
+        super.setDisenchantable(disenchantable);
+        return this;
+    }
+
+    @Override
+    public NotPlaceableItem setHideInGuide(boolean hideInGuide) {
+        super.setHideInGuide(hideInGuide);
         return this;
     }
 }

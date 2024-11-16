@@ -43,6 +43,7 @@ public class DataUtil {
 
     @Nullable
     public static IRBlockData removeBlockData(Location location) {
+        IndustrialRevival.getInstance().getDataManager().handleBlockBreaking(location);
         return IndustrialRevival.getInstance()
                 .getBlockDataService()
                 .getBlockDataMap()

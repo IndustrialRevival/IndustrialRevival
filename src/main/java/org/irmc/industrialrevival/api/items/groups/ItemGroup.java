@@ -16,7 +16,9 @@ import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.guide.SurvivalGuideImplementation;
 import org.irmc.industrialrevival.utils.CleanedItemGetter;
 import org.irmc.industrialrevival.utils.Constants;
+import org.jetbrains.annotations.NotNull;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,19 +36,23 @@ public abstract class ItemGroup {
     @Getter
     private int tier;
 
-    protected ItemGroup(NamespacedKey key, ItemStack icon) {
+    protected ItemGroup(@NotNull NamespacedKey key, @NotNull ItemStack icon) {
         this.key = key;
         this.icon = icon;
         this.tier = 3;
     }
 
-    protected ItemGroup(NamespacedKey key, ItemStack icon, int tier) {
+    protected ItemGroup(@NotNull NamespacedKey key, @NotNull ItemStack icon, int tier) {
         this.key = key;
         this.icon = icon;
         this.tier = tier;
     }
 
-    public void onClicked(Player p, SimpleMenu sm, int page) {
+    public boolean allowedItem(IndustrialRevivalItem item) {
+        return true;
+    }
+
+    public void onClicked(@NotNull Player p, @NotNull SimpleMenu sm, int page) {
         boolean onlyPageOne = false;
         IRGuideImplementation guide = SurvivalGuideImplementation.INSTANCE;
 
@@ -129,19 +135,27 @@ public abstract class ItemGroup {
         sm.open(p);
     }
 
+    @NotNull
     public List<IndustrialRevivalItem> getItems() {
         return new ArrayList<>(items);
     }
 
-    public void addItem(IndustrialRevivalItem item) {
-        if (locked) {
-            throw new IllegalStateException("the item group is locked");
+    public void addItem(@NotNull IndustrialRevivalItem item) {
+        checkLocked();
+        if (allowedItem(item)) {
+            this.items.add(item);
+        } else {
+            IndustrialRevival.getInstance().getLogger().warning(MessageFormat.format(
+                    "Item {0} (From addon {1}) is not allowed to be added to group {2} (From addon {3})",
+                    item.getItemName(),
+                    item.getAddon().getPlugin().getName(),
+                    this.getClass().getSimpleName(),
+                    this.getKey().getKey()));
         }
-
-        this.items.add(item);
     }
 
     public void register() {
+        checkLocked();
         this.locked = true;
 
         IndustrialRevival.getInstance().getRegistry().registerItemGroup(this);
@@ -152,6 +166,7 @@ public abstract class ItemGroup {
     }
 
     public void setTier(int tier) {
+        checkLocked();
         this.tier = tier;
 
         resort();
@@ -159,5 +174,11 @@ public abstract class ItemGroup {
 
     private void resort() {
         IndustrialRevival.getInstance().getRegistry().resortItemGroups();
+    }
+
+    private void checkLocked() {
+        if (locked) {
+            throw new IllegalStateException("the item group is locked");
+        }
     }
 }

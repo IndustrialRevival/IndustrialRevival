@@ -14,6 +14,7 @@ import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
 import org.irmc.industrialrevival.api.menu.MatrixMenuDrawer;
 import org.irmc.industrialrevival.api.objects.ItemStackReference;
 import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
+import org.irmc.industrialrevival.api.objects.events.ir.IRBlockTickEvent;
 import org.irmc.industrialrevival.utils.MenuUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,8 +39,8 @@ public abstract class BasicMachine extends AbstractMachine implements ProcessorH
         new MachineMenuPreset(this.getId(), this.getItemName()) {
             @Override
             public void init() {
-                setSize(getMenuDrawer().getSize());
-                handleMenuDrawer(getMenuDrawer());
+                setSize(getMatrixMenuDrawer().getSize());
+                addMenuDrawer(getMatrixMenuDrawer());
             }
 
             @Override
@@ -56,11 +57,13 @@ public abstract class BasicMachine extends AbstractMachine implements ProcessorH
                 }
             }
         };
-        addItemHandlers((BlockTicker) (block, menu, data) -> tick(block, menu));
+        addItemHandlers((BlockTicker) this::tick);
         super.preRegister();
     }
 
-    protected void tick(@NotNull Block block, @Nullable MachineMenu menu) {
+    protected void tick(@NotNull IRBlockTickEvent event) {
+        Block block = event.getBlock();
+        MachineMenu menu = event.getMenu();
         if (menu == null) {
             processor.stopProcess(block.getLocation());
             return;
@@ -108,11 +111,14 @@ public abstract class BasicMachine extends AbstractMachine implements ProcessorH
         return this.processor;
     }
 
-    public void onDone(Block block, MachineMenu menu, MachineOperation operation) {
+    public void onDone(@NotNull Block block, @Nullable MachineMenu menu, @NotNull MachineOperation operation) {
+        if (menu == null) {
+            return;
+        }
         menu.pushItem(operation.getOutputStacks(), menu.getPreset().getSlotsByItemFlow(ItemFlow.WITHDRAW));
     }
 
-    public MatrixMenuDrawer getMenuDrawer() {
+    public MatrixMenuDrawer getMatrixMenuDrawer() {
         return new MatrixMenuDrawer(45)
                 .addLine("IIIBBBOOO")
                 .addLine("IiIBBBOoO")
@@ -128,7 +134,7 @@ public abstract class BasicMachine extends AbstractMachine implements ProcessorH
         if (INPUT_SLOTS != null) {
             return INPUT_SLOTS;
         } else {
-            INPUT_SLOTS = getMenuDrawer().getCharPositions("i");
+            INPUT_SLOTS = getMatrixMenuDrawer().getCharPositions("i");
             return INPUT_SLOTS;
         }
     }
@@ -137,12 +143,12 @@ public abstract class BasicMachine extends AbstractMachine implements ProcessorH
         if (OUTPUT_SLOTS != null) {
             return OUTPUT_SLOTS;
         } else {
-            OUTPUT_SLOTS = getMenuDrawer().getCharPositions("o");
+            OUTPUT_SLOTS = getMatrixMenuDrawer().getCharPositions("o");
             return OUTPUT_SLOTS;
         }
     }
 
-    public void onNewInstance(Block block, MachineMenu menu) {
+    public void onNewInstance(@NotNull Block block, @Nullable MachineMenu menu) {
 
     }
 }

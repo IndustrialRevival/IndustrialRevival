@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.BlockDropItem;
 import org.irmc.industrialrevival.api.items.attributes.MobDropItem;
+import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.groups.NestedItemGroup;
 import org.irmc.industrialrevival.api.items.groups.NormalItemGroup;
@@ -28,6 +29,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,6 +38,7 @@ import java.util.Set;
 public final class IRRegistry {
     private final Map<NamespacedKey, ItemGroup> itemGroups;
     private final Map<NamespacedKey, Research> researches;
+    private final Map<NamespacedKey, ItemDictionary> dictionaries;
     private final Map<NamespacedKey, DisplayGroup> displayGroups;
     private final Map<String, IndustrialRevivalItem> items;
     private final Map<String, PlayerProfile> playerProfiles;
@@ -46,9 +49,11 @@ public final class IRRegistry {
 
     private final Map<RecipeType, Set<ItemStack>> craftables;
 
+
     public IRRegistry() {
         itemGroups = new HashMap<>();
         researches = new HashMap<>();
+        dictionaries = new HashMap<>();
         displayGroups = new HashMap<>();
         items = new HashMap<>();
         playerProfiles = new HashMap<>();
@@ -66,6 +71,10 @@ public final class IRRegistry {
                 .forEach(p -> newItemGroups.put(p.getKey(), p.getValue()));
         itemGroups.clear();
         itemGroups.putAll(newItemGroups);
+    }
+
+    public void registerDictionary(@NotNull ItemDictionary dictionary) {
+        dictionaries.put(dictionary.getKey(), dictionary);
     }
 
     public void registerItem(@NotNull IndustrialRevivalItem item) {

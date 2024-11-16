@@ -45,9 +45,14 @@ import java.util.Set;
 /**
  * An industrial revival item.<br>
  * By default, the item is not registered in the game.<br>
- * To register the item, use the register method.<br>
- * The block is placeable by default if you want it to be unplaceable, please
- * see {@link NotPlaceable}
+ * To register the item, use {@link #register()}.<br>
+ * The block is placeable by default. If you want it to
+ * be unplaceable, implement the {@link NotPlaceable} interface.<br>
+ *
+ * @author balugaq
+ * @author linjinhong11
+ *
+ * @see NotPlaceable
  */
 @SuppressWarnings("unused")
 public class IndustrialRevivalItem {
@@ -61,7 +66,7 @@ public class IndustrialRevivalItem {
     @Getter
     private IndustrialRevivalAddon addon;
     @Getter
-    private ItemGroup group;
+    private final Set<ItemGroup> group = new HashSet<>();
     private IndustrialRevivalItemStack itemStack;
     private ItemState state = ItemState.UNREGISTERED;
     @Getter
@@ -70,15 +75,18 @@ public class IndustrialRevivalItem {
     private boolean enchantable = true;
     @Getter
     private boolean disenchantable = true;
-
+    @Getter
+    private boolean hideInGuide = false;
     public IndustrialRevivalItem() {
     }
 
-    public static IndustrialRevivalItem getById(String id) {
+    @NotNull
+    public static IndustrialRevivalItem getById(@NotNull String id) {
         return IndustrialRevival.getInstance().getRegistry().getItems().get(id);
     }
 
-    public static IndustrialRevivalItem getByItem(@Nullable ItemStack item) {
+    @NotNull
+    public static IndustrialRevivalItem getByItem(@NotNull ItemStack item) {
         if (item == null || item.getType() == Material.AIR) {
             return null;
         }
@@ -95,10 +103,31 @@ public class IndustrialRevivalItem {
         return null;
     }
 
-    public IndustrialRevivalItemStack getItem() {
-        return itemStack;
+    @NotNull
+    public IndustrialRevivalItem addItemGroup(@NotNull ItemGroup group) {
+        checkRegistered();
+        Preconditions.checkArgument(group != null, "ItemGroup cannot be null");
+        this.group.add(group);
+        return this;
     }
 
+    @NotNull
+    public IndustrialRevivalItem setItemStack(@NotNull IndustrialRevivalItemStack itemStack) {
+        checkRegistered();
+        Preconditions.checkArgument(itemStack != null, "ItemStack cannot be null");
+        this.itemStack = itemStack;
+        return this;
+    }
+
+    @NotNull
+    public IndustrialRevivalItem setWikiText(@NotNull String wikiText) {
+        checkRegistered();
+        Preconditions.checkArgument(wikiText != null, "WikiText cannot be null");
+        this.wikiText = Optional.of(wikiText);
+        return this;
+    }
+
+    @NotNull
     public IndustrialRevivalItem addCraftMethod(@NotNull CraftMethodHandler craftMethodHandler) {
         Preconditions.checkArgument(craftMethodHandler != null, "craftMethodHandler cannot be null");
         CraftMethod craftMethod = craftMethodHandler.getCraftMethod(this);
@@ -110,6 +139,70 @@ public class IndustrialRevivalItem {
         return this;
     }
 
+    @NotNull
+    public IndustrialRevivalItem addItemDictionary(@NotNull ItemDictionary itemDictionary) {
+        checkRegistered();
+        Preconditions.checkArgument(itemDictionary != null, "ItemDictionary cannot be null");
+        itemDictionary.tagItem(this, true);
+        return this;
+    }
+
+    @NotNull
+    public IndustrialRevivalItem setDisabled(boolean disabled) {
+        checkRegistered();
+        if (disabled) {
+            this.state = ItemState.DISABLED;
+        } else {
+            this.state = ItemState.ENABLED;
+        }
+        return this;
+    }
+
+    @NotNull
+    public IndustrialRevivalItem setEnchantable(boolean enchantable) {
+        checkRegistered();
+        this.enchantable = enchantable;
+        return this;
+    }
+
+    @NotNull
+    public IndustrialRevivalItem setDisenchantable(boolean disenchantable) {
+        checkRegistered();
+        this.disenchantable = disenchantable;
+        return this;
+    }
+
+    @NotNull
+    public IndustrialRevivalItem setDisabledInWorld(@NotNull World world, boolean disabled) {
+        Preconditions.checkArgument(world != null, "World cannot be null");
+        ConfigurationSection setting = getItemSetting();
+        List<String> worlds = setting.getStringList("disabled_in_worlds");
+
+        if (disabled) {
+            disabledInWorld.add(world.getName());
+            worlds.add(world.getName());
+        } else {
+            disabledInWorld.remove(world.getName());
+            worlds.remove(world.getName());
+        }
+
+        setting.set("disabled_in_worlds", worlds);
+        return this;
+    }
+
+    @NotNull
+    public IndustrialRevivalItem setHideInGuide(boolean hideInGuide) {
+        checkRegistered();
+        this.hideInGuide = hideInGuide;
+        return this;
+    }
+
+    @NotNull
+    public IndustrialRevivalItemStack getItem() {
+        return itemStack;
+    }
+
+    @NotNull
     public String getId() {
         return itemStack.getId();
     }
@@ -119,12 +212,13 @@ public class IndustrialRevivalItem {
      *
      * @return WILL RETURN NULL IF THE ITEM IS NOT REGISTERED SUCCESSFULLY!!
      */
+    @Nullable
     public IndustrialRevivalItem register() {
         Preconditions.checkArgument(addon != null, "Losing addon reference! Please set it before registering the item.");
         checkRegistered();
 
         if (!addon.getPlugin().isEnabled()) {
-            return null;
+            throw new UnsupportedOperationException("Cannot register item before your plugin is enabled");
         }
 
         try {
@@ -144,22 +238,23 @@ public class IndustrialRevivalItem {
         }
 
         IndustrialRevival.getInstance().getRegistry().registerItem(this);
-        this.state = ItemState.ENABLED;
+        this.state = this.state == ItemState.UNREGISTERED ? ItemState.ENABLED : this.state;
 
         return this;
     }
 
+    @NotNull
     public Component getItemName() {
         return ItemUtils.getDisplayName(getItem());
     }
 
-    @Nullable
+    @NotNull
     public <T extends ItemHandler> T getItemHandler(Class<T> clazz) {
         return (T) itemHandlers.get(clazz);
     }
 
     @CanIgnoreReturnValue
-    protected IndustrialRevivalItem addItemHandlers(ItemHandler... handlers) {
+    protected IndustrialRevivalItem addItemHandlers(@NotNull ItemHandler... handlers) {
         checkRegistered();
         for (ItemHandler handler : handlers) {
             itemHandlers.put(handler.getClass(), handler);
@@ -233,54 +328,9 @@ public class IndustrialRevivalItem {
         return state == ItemState.DISABLED || disabledInWorld.contains(world.getName());
     }
 
-    public IndustrialRevivalItem setDisabledInWorld(@NotNull World world, boolean disabled) {
-        Preconditions.checkArgument(world != null, "World cannot be null");
-        ConfigurationSection setting = getItemSetting();
-        List<String> worlds = setting.getStringList("disabled_in_worlds");
-
-        if (disabled) {
-            disabledInWorld.add(world.getName());
-            worlds.add(world.getName());
-        } else {
-            disabledInWorld.remove(world.getName());
-            worlds.remove(world.getName());
-        }
-
-        setting.set("disabled_in_worlds", worlds);
-        return this;
-    }
-
     @NotNull
     protected ConfigurationSection getItemSetting() {
         return IndustrialRevival.getInstance().getItemSettings().getSetting(getId());
-    }
-
-    public IndustrialRevivalItem setWikiText(@NotNull String wikiText) {
-        checkRegistered();
-        Preconditions.checkArgument(wikiText != null, "WikiText cannot be null");
-        this.wikiText = Optional.of(wikiText);
-        return this;
-    }
-
-    public IndustrialRevivalItem addItemDictionary(@NotNull ItemDictionary itemDictionary) {
-        checkRegistered();
-        Preconditions.checkArgument(itemDictionary != null, "ItemDictionary cannot be null");
-        itemDictionaries.add(itemDictionary);
-        return this;
-    }
-
-    public IndustrialRevivalItem setItemGroup(@NotNull ItemGroup group) {
-        checkRegistered();
-        Preconditions.checkArgument(group != null, "ItemGroup cannot be null");
-        this.group = group;
-        return this;
-    }
-
-    public IndustrialRevivalItem setItemStack(@NotNull IndustrialRevivalItemStack itemStack) {
-        checkRegistered();
-        Preconditions.checkArgument(itemStack != null, "ItemStack cannot be null");
-        this.itemStack = itemStack;
-        return this;
     }
 
     public IndustrialRevivalItem setAddon(@NotNull IndustrialRevivalAddon addon) {
@@ -295,20 +345,10 @@ public class IndustrialRevivalItem {
     }
 
     public boolean isDisabled() {
-        return state == ItemState.DISABLED;
+        return !isEnabled();
     }
 
-    public IndustrialRevivalItem setDisabled(boolean disabled) {
-        checkRegistered();
-        if (disabled) {
-            this.state = ItemState.DISABLED;
-        } else {
-            this.state = ItemState.ENABLED;
-        }
-        return this;
-    }
-
-    @Nullable
+    @NotNull
     public ItemStack[] getRecipeIngredients(RecipeType recipeType) {
         for (CraftMethod craftMethod : craftMethods) {
             if (craftMethod.getRecipeType() == recipeType) {
@@ -319,7 +359,7 @@ public class IndustrialRevivalItem {
         return null;
     }
 
-    @Nullable
+    @NotNull
     public ItemStack getRecipeOutput(RecipeType recipeType) {
         for (CraftMethod craftMethod : craftMethods) {
             if (craftMethod.getRecipeType() == recipeType) {
@@ -330,18 +370,6 @@ public class IndustrialRevivalItem {
         return null;
     }
 
-    public IndustrialRevivalItem setEnchantable(boolean enchantable) {
-        checkRegistered();
-        this.enchantable = enchantable;
-        return this;
-    }
-
-    public IndustrialRevivalItem setDisenchantable(boolean disenchantable) {
-        checkRegistered();
-        this.disenchantable = disenchantable;
-        return this;
-    }
-
     public enum ItemState {
         UNREGISTERED,
         ENABLED,
@@ -350,6 +378,6 @@ public class IndustrialRevivalItem {
 
     @FunctionalInterface
     public interface CraftMethodHandler {
-        CraftMethod getCraftMethod(IndustrialRevivalItem item);
+        @NotNull CraftMethod getCraftMethod(@NotNull IndustrialRevivalItem item);
     }
 }

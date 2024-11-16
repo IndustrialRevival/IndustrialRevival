@@ -2,6 +2,7 @@ package org.irmc.industrialrevival.api.items;
 
 import lombok.Getter;
 import org.bukkit.World;
+import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.items.attributes.Radiation;
 import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
@@ -19,8 +20,13 @@ public class RadiativeItem extends IndustrialRevivalItem implements Radiation {
     }
 
     @Override
-    public RadiativeItem setItemGroup(@NotNull ItemGroup group) {
-        super.setItemGroup(group);
+    public RadiativeItem setAddon(@NotNull IndustrialRevivalAddon addon) {
+        super.setAddon(addon);
+        return this;
+    }
+    @Override
+    public RadiativeItem addItemGroup(@NotNull ItemGroup group) {
+        super.addItemGroup(group);
         return this;
     }
 
@@ -57,6 +63,24 @@ public class RadiativeItem extends IndustrialRevivalItem implements Radiation {
     @Override
     public RadiativeItem addItemDictionary(@NotNull ItemDictionary dictionary) {
         super.addItemDictionary(dictionary);
+        return this;
+    }
+
+    @Override
+    public RadiativeItem setEnchantable(boolean enchantable) {
+        super.setEnchantable(enchantable);
+        return this;
+    }
+
+    @Override
+    public RadiativeItem setDisenchantable(boolean disenchantable) {
+        super.setDisenchantable(disenchantable);
+        return this;
+    }
+
+    @Override
+    public RadiativeItem setHideInGuide(boolean hideInGuide) {
+        super.setHideInGuide(hideInGuide);
         return this;
     }
 }

@@ -100,7 +100,7 @@ public class IndustrialRevivalItemStack extends ItemStack {
         super.setData(data);
     }
 
-    public @NotNull ItemStack cloneIR() {
+    public @NotNull IndustrialRevivalItemStack cloneIR() {
         IndustrialRevivalItemStack itemStack = new IndustrialRevivalItemStack(this.id, this);
         itemStack.unlock();
         return itemStack;
@@ -108,6 +108,10 @@ public class IndustrialRevivalItemStack extends ItemStack {
 
     @Override
     public @NotNull ItemStack clone() {
+        return super.clone();
+    }
+
+    public @NotNull ItemStack deepClone() {
         ItemStack itemStack = new ItemStack(this.getType(), this.getAmount());
         itemStack.setItemMeta(this.getItemMeta());
         return itemStack;

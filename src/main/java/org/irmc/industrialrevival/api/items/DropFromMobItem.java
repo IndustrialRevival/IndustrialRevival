@@ -2,6 +2,7 @@ package org.irmc.industrialrevival.api.items;
 
 import lombok.Getter;
 import org.bukkit.World;
+import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.items.attributes.MobDropItem;
 import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
@@ -20,15 +21,21 @@ public class DropFromMobItem extends IndustrialRevivalItem implements MobDropIte
         return dropMethods.toArray(new MobDropMethod[0]);
     }
 
-    public DropFromMobItem addDropMethod(MobDropMethod dropMethod) {
+    public DropFromMobItem addDropMethod(@NotNull MobDropMethod dropMethod) {
         checkRegistered();
         dropMethods.add(dropMethod);
         return this;
     }
 
     @Override
-    public DropFromMobItem setItemGroup(@NotNull ItemGroup group) {
-        super.setItemGroup(group);
+    public DropFromMobItem setAddon(@NotNull IndustrialRevivalAddon addon) {
+        super.setAddon(addon);
+        return this;
+    }
+
+    @Override
+    public DropFromMobItem addItemGroup(@NotNull ItemGroup group) {
+        super.addItemGroup(group);
         return this;
     }
 
@@ -65,6 +72,24 @@ public class DropFromMobItem extends IndustrialRevivalItem implements MobDropIte
     @Override
     public DropFromMobItem addItemDictionary(@NotNull ItemDictionary dictionary) {
         super.addItemDictionary(dictionary);
+        return this;
+    }
+
+    @Override
+    public DropFromMobItem setEnchantable(boolean enchantable) {
+        super.setEnchantable(enchantable);
+        return this;
+    }
+
+    @Override
+    public DropFromMobItem setDisenchantable(boolean disenchantable) {
+        super.setDisenchantable(disenchantable);
+        return this;
+    }
+
+    @Override
+    public DropFromMobItem setHideInGuide(boolean hideInGuide) {
+        super.setHideInGuide(hideInGuide);
         return this;
     }
 }

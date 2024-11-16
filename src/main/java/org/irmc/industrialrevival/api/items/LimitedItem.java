@@ -5,6 +5,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.items.attributes.Limited;
 import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
@@ -30,6 +31,11 @@ public class LimitedItem extends IndustrialRevivalItem implements Limited {
         this.onUseHandler = onUseHandler;
     }
 
+    @Override
+    public LimitedItem setAddon(@NotNull IndustrialRevivalAddon addon) {
+        super.setAddon(addon);
+        return this;
+    }
     @Override
     public LimitedItem setItemStack(@NotNull IndustrialRevivalItemStack itemStack) {
         super.setItemStack(itemStack);
@@ -72,8 +78,8 @@ public class LimitedItem extends IndustrialRevivalItem implements Limited {
     }
 
     @Override
-    public LimitedItem setItemGroup(@NotNull ItemGroup group) {
-        super.setItemGroup(group);
+    public LimitedItem addItemGroup(@NotNull ItemGroup group) {
+        super.addItemGroup(group);
         return this;
     }
 
@@ -104,6 +110,24 @@ public class LimitedItem extends IndustrialRevivalItem implements Limited {
     @Override
     public LimitedItem addItemDictionary(@NotNull ItemDictionary dictionary) {
         super.addItemDictionary(dictionary);
+        return this;
+    }
+
+    @Override
+    public LimitedItem setEnchantable(boolean enchantable) {
+        super.setEnchantable(enchantable);
+        return this;
+    }
+
+    @Override
+    public LimitedItem setDisenchantable(boolean disenchantable) {
+        super.setDisenchantable(disenchantable);
+        return this;
+    }
+
+    @Override
+    public LimitedItem setHideInGuide(boolean hideInGuide) {
+        super.setHideInGuide(hideInGuide);
         return this;
     }
 }

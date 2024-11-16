@@ -1,5 +1,8 @@
 package org.irmc.industrialrevival.api.items.attributes;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
  * This interface is an abstract interface. DON'T use it directly.<br>
  * <br>
@@ -17,4 +20,7 @@ package org.irmc.industrialrevival.api.items.attributes;
  * @see Unusable <br>
  */
 public interface ItemAttribute {
+    default List<String> getLore() {
+        return Collections.emptyList();
+    }
 }

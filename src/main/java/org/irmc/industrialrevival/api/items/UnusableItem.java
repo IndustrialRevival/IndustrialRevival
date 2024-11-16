@@ -1,6 +1,7 @@
 package org.irmc.industrialrevival.api.items;
 
 import org.bukkit.World;
+import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.items.attributes.Unusable;
 import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
@@ -9,8 +10,13 @@ import org.jetbrains.annotations.NotNull;
 
 public class UnusableItem extends IndustrialRevivalItem implements Unusable {
     @Override
-    public UnusableItem setItemGroup(@NotNull ItemGroup group) {
-        super.setItemGroup(group);
+    public UnusableItem setAddon(@NotNull IndustrialRevivalAddon addon) {
+        super.setAddon(addon);
+        return this;
+    }
+    @Override
+    public UnusableItem addItemGroup(@NotNull ItemGroup group) {
+        super.addItemGroup(group);
         return this;
     }
 
@@ -47,6 +53,24 @@ public class UnusableItem extends IndustrialRevivalItem implements Unusable {
     @Override
     public UnusableItem addItemDictionary(@NotNull ItemDictionary dictionary) {
         super.addItemDictionary(dictionary);
+        return this;
+    }
+
+    @Override
+    public UnusableItem setEnchantable(boolean enchantable) {
+        super.setEnchantable(enchantable);
+        return this;
+    }
+
+    @Override
+    public UnusableItem setDisenchantable(boolean disenchantable) {
+        super.setDisenchantable(disenchantable);
+        return this;
+    }
+
+    @Override
+    public UnusableItem setHideInGuide(boolean hideInGuide) {
+        super.setHideInGuide(hideInGuide);
         return this;
     }
 }

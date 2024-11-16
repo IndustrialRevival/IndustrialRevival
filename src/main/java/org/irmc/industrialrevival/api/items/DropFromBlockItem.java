@@ -2,6 +2,7 @@ package org.irmc.industrialrevival.api.items;
 
 import lombok.Getter;
 import org.bukkit.World;
+import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.items.attributes.BlockDropItem;
 import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
@@ -21,8 +22,13 @@ public class DropFromBlockItem extends IndustrialRevivalItem implements BlockDro
     }
 
     @Override
-    public DropFromBlockItem setItemGroup(@NotNull ItemGroup group) {
-        super.setItemGroup(group);
+    public DropFromBlockItem setAddon(@NotNull IndustrialRevivalAddon addon) {
+        super.setAddon(addon);
+        return this;
+    }
+    @Override
+    public DropFromBlockItem addItemGroup(@NotNull ItemGroup group) {
+        super.addItemGroup(group);
         return this;
     }
 
@@ -62,7 +68,25 @@ public class DropFromBlockItem extends IndustrialRevivalItem implements BlockDro
         return this;
     }
 
-    public DropFromBlockItem addDropMethod(BlockDropMethod blockDropMethod) {
+    @Override
+    public DropFromBlockItem setEnchantable(boolean enchantable) {
+        super.setEnchantable(enchantable);
+        return this;
+    }
+
+    @Override
+    public DropFromBlockItem setDisenchantable(boolean disenchantable) {
+        super.setDisenchantable(disenchantable);
+        return this;
+    }
+
+    @Override
+    public DropFromBlockItem setHideInGuide(boolean hideInGuide) {
+        super.setHideInGuide(hideInGuide);
+        return this;
+    }
+
+    public DropFromBlockItem addDropMethod(@NotNull BlockDropMethod blockDropMethod) {
         checkRegistered();
         blockDropMethods.add(blockDropMethod);
         return this;

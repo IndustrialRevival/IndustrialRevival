@@ -60,7 +60,7 @@ public class ItemDisplayer extends IndustrialRevivalItem implements InventoryBlo
                     })
                     .addExplain('I', info, SimpleMenu.ClickHandler.DEFAULT);
 
-            preset.handleMenuDrawer(drawer);
+            preset.addMenuDrawer(drawer);
             preset.setClickHandler(13, (slot, player, item, menu, clickType) -> {
                 ItemStack itemStack = menu.getItem(13);
                 if (itemStack != null) {
@@ -75,7 +75,7 @@ public class ItemDisplayer extends IndustrialRevivalItem implements InventoryBlo
         addItemHandlers((BlockPlaceHandler) this::placeBlock);
 
         setItemStack(new IndustrialRevivalItemStack("ITEM_DISPLAYER", new CustomItemStack(Material.QUARTZ_SLAB, Component.empty())));
-        setItemGroup(IRItemGroups.ELECTRIC_MACHINES);
+        addItemGroup(IRItemGroups.ELECTRIC_MACHINES);
         setEnchantable(false);
         setDisenchantable(false);
         setWikiText("Item-Displayer");

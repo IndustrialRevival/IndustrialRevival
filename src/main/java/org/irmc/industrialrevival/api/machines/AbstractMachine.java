@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
+import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
@@ -29,8 +30,13 @@ public abstract class AbstractMachine extends IndustrialRevivalItem {
     private ItemStack recipeTypeIcon = null;
 
     @Override
-    public AbstractMachine setItemGroup(@NotNull ItemGroup group) {
-        super.setItemGroup(group);
+    public AbstractMachine setAddon(@NotNull IndustrialRevivalAddon addon) {
+        super.setAddon(addon);
+        return this;
+    }
+    @Override
+    public AbstractMachine addItemGroup(@NotNull ItemGroup group) {
+        super.addItemGroup(group);
         return this;
     }
 
@@ -61,6 +67,24 @@ public abstract class AbstractMachine extends IndustrialRevivalItem {
     @Override
     public AbstractMachine addItemDictionary(@NotNull ItemDictionary dictionary) {
         super.addItemDictionary(dictionary);
+        return this;
+    }
+
+    @Override
+    public AbstractMachine setEnchantable(boolean enchantable) {
+        super.setEnchantable(enchantable);
+        return this;
+    }
+
+    @Override
+    public AbstractMachine setDisenchantable(boolean disenchantable) {
+        super.setDisenchantable(disenchantable);
+        return this;
+    }
+
+    @Override
+    public AbstractMachine setHideInGuide(boolean hideInGuide) {
+        super.setHideInGuide(hideInGuide);
         return this;
     }
 

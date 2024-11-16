@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+import org.irmc.industrialrevival.api.objects.TimingViewRequest;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.guide.CheatGuideImplementation;
 import org.irmc.industrialrevival.utils.Constants;
@@ -153,6 +154,15 @@ public class IRCommandGenerator {
                             ItemStack iritem = item.getItem().clone();
                             iritem.setAmount(finalAmount);
                             target.getInventory().addItem(iritem);
+                        }))
+                .withSubcommand(new CommandAPICommand("timings")
+                        .withPermission("industrialrevival.cmd.timings")
+                        .executes((sender, args) -> {
+                            TimingViewRequest request = new TimingViewRequest(sender);
+                            IndustrialRevival.getInstance().getProfilerService().requestTimingView(request);
+                            sender.sendMessage(IndustrialRevival.getInstance()
+                                    .getLanguageManager()
+                                    .getMsgComponent(sender, "command.timings.waiting"));
                         }));
 
         instance.register(plugin);

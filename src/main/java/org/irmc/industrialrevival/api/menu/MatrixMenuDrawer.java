@@ -2,6 +2,9 @@ package org.irmc.industrialrevival.api.menu;
 
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
+import org.irmc.industrialrevival.utils.MenuUtil;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Range;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -9,6 +12,41 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class provides an easier way to create a menu by using a matrix of characters and items.
+ * It allows adding click handlers to the items, which can be used to create interactive menus.
+ * Use the {@link MachineMenuPreset#addMenuDrawer(MatrixMenuDrawer)} method within
+ * the {@link MachineMenuPreset#init()} method to process the menu drawer configuration.
+ * <p>
+ * Example usage:
+ * <pre>
+ * MatrixMenuDrawer drawer = new MatrixMenuDrawer(45)
+ *     .addLine("BBBBBBBBB")
+ *     .addLine("IIIIBOOOO")
+ *     .addLine("IiiISOooO")
+ *     .addLine("IIIIBOOOO")
+ *     .addLine("BBBBBBBBB")
+ *     .addExplain('B', MenuUtil.BACKGROUND, ClickHandler.DEFAULT)
+ *     .addExplain('I', MenuUtil.INPUT_BORDER)
+ *     .addExplain('O', MenuUtil.OUTPUT_BORDER);
+ *
+ * new MachineMenuPreset() {
+ *     public void init() {
+ *         addMenuDrawer(drawer);
+ *     }
+ * }
+ * </pre>
+ *
+ * In this example, a 45-size matrix is created with 5 lines of characters. When calling
+ * {@link MachineMenuPreset#addMenuDrawer(MatrixMenuDrawer)} in the {@link MachineMenuPreset#init()}
+ * method, characters 'B', 'I', 'O' are replaced with corresponding item stacks, and click handlers
+ * are added to the menu. Note that if an item stack is considered a background item by
+ * {@link MenuUtil#isBackground(ItemStack)}, its click handler will be overridden by the default click handler.
+ *
+ * @author balugaq
+ * @author lijinhong11
+ */
+@SuppressWarnings("unused")
 @Getter
 public class MatrixMenuDrawer {
     private final int size;
@@ -16,11 +54,11 @@ public class MatrixMenuDrawer {
     private final Map<Character, SimpleMenu.ClickHandler> clickHandlerMap = new HashMap<>();
     private final List<String> matrix = new ArrayList<>();
 
-    public MatrixMenuDrawer(int size) {
+    public MatrixMenuDrawer(@Range(from = 1, to = 54) int size) {
         this.size = size;
     }
 
-    public MatrixMenuDrawer addLine(String line) {
+    public MatrixMenuDrawer addLine(@NotNull String line) {
         matrix.add(line);
         return this;
     }
@@ -36,15 +74,19 @@ public class MatrixMenuDrawer {
         return this;
     }
 
-    public MatrixMenuDrawer addExplain(String c, @Nonnull ItemStack itemStack) {
+    public MatrixMenuDrawer addExplain(@NotNull String c, @Nonnull ItemStack itemStack) {
         charMap.put(c.charAt(0), new ItemStack(itemStack));
         return this;
     }
 
-    public MatrixMenuDrawer addExplain(String c, @Nonnull ItemStack itemStack, @Nonnull SimpleMenu.ClickHandler clickHandler) {
+    public MatrixMenuDrawer addExplain(@NotNull String c, @Nonnull ItemStack itemStack, @Nonnull SimpleMenu.ClickHandler clickHandler) {
         charMap.put(c.charAt(0), itemStack);
         clickHandlerMap.put(c.charAt(0), clickHandler);
         return this;
+    }
+
+    public int[] getCharPositions(@NotNull String s) {
+        return getCharPositions(s.charAt(0));
     }
 
     public int[] getCharPositions(char c) {
@@ -62,11 +104,6 @@ public class MatrixMenuDrawer {
         for (int i = 0; i < positions.size(); i++) {
             result[i] = positions.get(i);
         }
-
         return result;
-    }
-
-    public int[] getCharPositions(String c) {
-        return getCharPositions(c.charAt(0));
     }
 }

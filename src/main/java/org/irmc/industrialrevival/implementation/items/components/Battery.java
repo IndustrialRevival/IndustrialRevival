@@ -24,8 +24,8 @@ public class Battery extends IndustrialRevivalItem implements NotPlaceable, Rech
     private Size size;
 
     @Override
-    public Battery setItemGroup(@NotNull ItemGroup group) {
-        super.setItemGroup(group);
+    public Battery addItemGroup(@NotNull ItemGroup group) {
+        super.addItemGroup(group);
         return this;
     }
 

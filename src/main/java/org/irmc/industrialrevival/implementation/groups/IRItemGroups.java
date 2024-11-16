@@ -5,6 +5,7 @@ import org.irmc.industrialrevival.api.items.groups.NormalItemGroup;
 import org.irmc.industrialrevival.utils.KeyUtil;
 
 public class IRItemGroups {
+    public static final ItemGroup DEBUG= new NormalItemGroup(KeyUtil.customKey("debug"), GroupIcons.GROUP_DEBUG);
     public static final ItemGroup ORES = new NormalItemGroup(KeyUtil.customKey("ores"), GroupIcons.GROUP_ORE);
     public static final ItemGroup MANUAL_MACHINES =
             new NormalItemGroup(KeyUtil.customKey("manual_machines"), GroupIcons.GROUP_MANUAL_MACHINES);

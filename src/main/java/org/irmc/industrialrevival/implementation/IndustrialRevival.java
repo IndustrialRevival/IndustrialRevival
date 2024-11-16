@@ -8,6 +8,8 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.objects.ItemSettings;
@@ -21,6 +23,7 @@ import org.irmc.industrialrevival.core.services.BlockDataService;
 import org.irmc.industrialrevival.core.services.IRRegistry;
 import org.irmc.industrialrevival.core.services.ItemDataService;
 import org.irmc.industrialrevival.core.services.ItemTextureService;
+import org.irmc.industrialrevival.core.services.ProfilerService;
 import org.irmc.industrialrevival.core.task.ArmorCheckTask;
 import org.irmc.industrialrevival.implementation.groups.IRItemGroups;
 import org.irmc.industrialrevival.implementation.items.IRItems;
@@ -30,9 +33,13 @@ import org.irmc.pigeonlib.language.LanguageManager;
 import org.irmc.pigeonlib.mcversion.MCVersion;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.Set;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 public final class IndustrialRevival extends JavaPlugin implements IndustrialRevivalAddon {
 
@@ -44,6 +51,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     private @Getter ItemTextureService itemTextureService;
     private @Getter BlockDataService blockDataService;
     private @Getter ItemDataService itemDataService;
+    private @Getter ProfilerService profilerService;
     private @Getter ServerImplementation foliaLibImpl;
     private @Getter ItemSettings itemSettings;
 
@@ -113,6 +121,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         blockDataService = new BlockDataService();
         itemTextureService = new ItemTextureService();
         itemDataService = new ItemDataService();
+        profilerService = new ProfilerService();
     }
 
     private void setupDataManager() {
@@ -154,6 +163,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     private void setupTasks() {
         int checkInterval = getConfig().getInt("options.armor-check-interval", 1);
         foliaLibImpl.runTimerAsync(new ArmorCheckTask(checkInterval), checkInterval * 20L, checkInterval * 20L);
+        foliaLibImpl.runTimerAsync(IndustrialRevival.getInstance().getProfilerService().getTask(), checkInterval * 20L, checkInterval * 20L);
     }
 
     @Override
@@ -191,5 +201,17 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         super.reloadConfig();
 
         languageManager = new LanguageManager(this);
+    }
+
+    public @Nonnull Set<Plugin> getAddons() {
+        String pluginName = instance.getName();
+
+        return Arrays.stream(instance.getServer().getPluginManager().getPlugins())
+                .filter(plugin -> {
+                    PluginDescriptionFile description = plugin.getDescription();
+                    return description.getDepend().contains(pluginName)
+                            || description.getSoftDepend().contains(pluginName);
+                })
+                .collect(Collectors.toSet());
     }
 }
