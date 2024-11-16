@@ -18,6 +18,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.BiConsumer;
 
 @Getter
 public class RecipeType {
@@ -138,6 +139,13 @@ public class RecipeType {
     private final ItemStack icon;
     private final RecipeDisplay recipeDisplay;
     private String makerId;
+    /**
+     * When a recipe is created using {@link CraftMethod#CraftMethod(RecipeType, ItemStack[], ItemStack)} or {@link CraftMethod#CraftMethod(RecipeType, ItemStack[], IndustrialRevivalItem)},
+     * the registerRecipeConsumer and unregisterRecipeConsumer
+     * will be called to register or unregister the recipe automatically.
+     */
+    private BiConsumer<ItemStack[], ItemStack> registerRecipeConsumer;
+    private BiConsumer<ItemStack[], ItemStack> unregisterRecipeConsumer;
 
     public RecipeType(NamespacedKey key, ItemStack icon) {
         this.key = key;
@@ -163,6 +171,40 @@ public class RecipeType {
         this.icon = icon;
         this.recipeDisplay = recipeDisplay;
         this.makerId = makerId;
+    }
+
+    public RecipeType(NamespacedKey key, ItemStack icon, BiConsumer<ItemStack[], ItemStack> registerRecipeConsumer, BiConsumer<ItemStack[], ItemStack> unregisterRecipeConsumer) {
+        this.key = key;
+        this.icon = icon;
+        this.recipeDisplay = DEFAULT_RECIPE_DISPLAY;
+        this.registerRecipeConsumer = registerRecipeConsumer;
+        this.unregisterRecipeConsumer = unregisterRecipeConsumer;
+    }
+
+    public RecipeType(NamespacedKey key, ItemStack icon, RecipeDisplay recipeDisplay, BiConsumer<ItemStack[], ItemStack> registerRecipeConsumer, BiConsumer<ItemStack[], ItemStack> unregisterRecipeConsumer) {
+        this.key = key;
+        this.icon = icon;
+        this.recipeDisplay = recipeDisplay;
+        this.registerRecipeConsumer = registerRecipeConsumer;
+        this.unregisterRecipeConsumer = unregisterRecipeConsumer;
+    }
+
+    public RecipeType(NamespacedKey key, ItemStack icon, String makerId, BiConsumer<ItemStack[], ItemStack> registerRecipeConsumer, BiConsumer<ItemStack[], ItemStack> unregisterRecipeConsumer) {
+        this.key = key;
+        this.icon = icon;
+        this.recipeDisplay = DEFAULT_RECIPE_DISPLAY;
+        this.makerId = makerId;
+        this.registerRecipeConsumer = registerRecipeConsumer;
+        this.unregisterRecipeConsumer = unregisterRecipeConsumer;
+    }
+
+    public RecipeType(NamespacedKey key, ItemStack icon, String makerId, RecipeDisplay recipeDisplay, BiConsumer<ItemStack[], ItemStack> registerRecipeConsumer, BiConsumer<ItemStack[], ItemStack> unregisterRecipeConsumer) {
+        this.key = key;
+        this.icon = icon;
+        this.recipeDisplay = recipeDisplay;
+        this.makerId = makerId;
+        this.registerRecipeConsumer = registerRecipeConsumer;
+        this.unregisterRecipeConsumer = unregisterRecipeConsumer;
     }
 
     @Nullable
@@ -197,6 +239,18 @@ public class RecipeType {
     public IndustrialRevivalItem getMakerItem() {
         getMaker();
         return IndustrialRevivalItem.getById(makerId);
+    }
+
+    public void registerRecipe(ItemStack[] input, ItemStack output) {
+        if (registerRecipeConsumer != null) {
+            registerRecipeConsumer.accept(input, output);
+        }
+    }
+
+    public void unregisterRecipe(ItemStack[] input, ItemStack output) {
+        if (unregisterRecipeConsumer != null) {
+            unregisterRecipeConsumer.accept(input, output);
+        }
     }
 
     @FunctionalInterface

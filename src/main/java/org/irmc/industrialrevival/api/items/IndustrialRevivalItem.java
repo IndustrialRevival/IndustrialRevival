@@ -80,12 +80,12 @@ public class IndustrialRevivalItem {
     public IndustrialRevivalItem() {
     }
 
-    @NotNull
+    @Nullable
     public static IndustrialRevivalItem getById(@NotNull String id) {
         return IndustrialRevival.getInstance().getRegistry().getItems().get(id);
     }
 
-    @NotNull
+    @Nullable
     public static IndustrialRevivalItem getByItem(@NotNull ItemStack item) {
         if (item == null || item.getType() == Material.AIR) {
             return null;

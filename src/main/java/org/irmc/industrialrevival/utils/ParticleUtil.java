@@ -5,8 +5,8 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class ParticleUtil {
     private static final double[] BLOCK_CUBE_OFFSET_Y = new double[]{0, 0, 1, 0, 1, 0, 1, 1};
     private static final double[] BLOCK_CUBE_OFFSET_Z = new double[]{0, 0, 0, 1, 0, 1, 1, 1};
 
-    public static void drawLineByTotalAmount(@Nonnull Particle particle, int totalAmount, @Nonnull Location... locations) {
+    public static void drawLineByTotalAmount(@NotNull Particle particle, int totalAmount, @NotNull Location... locations) {
         for (int i = 0; i < locations.length; i++) {
             if ((i + 1) < locations.length) {
                 Location location1 = locations[i];
@@ -35,7 +35,7 @@ public class ParticleUtil {
         }
     }
 
-    public static void drawLineByTotalAmount(@Nonnull Particle particle, int totalAmount, @Nonnull List<Location> locationList) {
+    public static void drawLineByTotalAmount(@NotNull Particle particle, int totalAmount, @NotNull List<Location> locationList) {
         Location[] locations = new Location[locationList.size()];
         for (int i = 0; i < locations.length; i++) {
             locations[i] = locationList.get(i);
@@ -43,7 +43,7 @@ public class ParticleUtil {
         ParticleUtil.drawLineByTotalAmount(particle, totalAmount, locations);
     }
 
-    public static void drawLineByDistance(@Nonnull Plugin plugin, @Nonnull Particle particle, long interval, double distance, @Nonnull Location... locations) {
+    public static void drawLineByDistance(@NotNull Plugin plugin, @NotNull Particle particle, long interval, double distance, @NotNull Location... locations) {
         int time = 0;
         for (int i = 0; i + 1 < locations.length; i++) {
             Location location1 = locations[i];
@@ -94,7 +94,7 @@ public class ParticleUtil {
         }
     }
 
-    public static void drawLineByDistance(@Nonnull Plugin plugin, @Nonnull Particle particle, long interval, double distance, @Nonnull List<Location> locationList) {
+    public static void drawLineByDistance(@NotNull Plugin plugin, @NotNull Particle particle, long interval, double distance, @NotNull List<Location> locationList) {
         Location[] locations = new Location[locationList.size()];
         for (int i = 0; i < locations.length; i++) {
             locations[i] = locationList.get(i);
@@ -102,7 +102,7 @@ public class ParticleUtil {
         ParticleUtil.drawLineByDistance(plugin, particle, interval, distance, locations);
     }
 
-    public static void drawCubeByBlock(@Nonnull Plugin plugin, @Nonnull Particle particle, long interval, Block... blocks) {
+    public static void drawCubeByBlock(@NotNull Plugin plugin, @NotNull Particle particle, long interval, Block... blocks) {
         int time = 0;
         for (Block block : blocks) {
             Location location = block.getLocation();
@@ -128,7 +128,7 @@ public class ParticleUtil {
         }
     }
 
-    public static void drawCubeByBlock(@Nonnull Plugin plugin, @Nonnull Particle particle, long interval, List<Block> blockList) {
+    public static void drawCubeByBlock(@NotNull Plugin plugin, @NotNull Particle particle, long interval, List<Block> blockList) {
         Block[] blocks = new Block[blockList.size()];
         for (int i = 0; i < blockList.size(); i++) {
             blocks[i] = blockList.get(i);

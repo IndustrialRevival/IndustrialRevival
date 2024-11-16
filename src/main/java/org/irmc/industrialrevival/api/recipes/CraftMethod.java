@@ -4,9 +4,6 @@ import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 
-/**
- * Not supported custom recipe output yet.
- */
 @Getter
 public class CraftMethod implements ProduceMethod {
     private final RecipeType recipeType;
@@ -17,11 +14,13 @@ public class CraftMethod implements ProduceMethod {
         this.recipeType = recipeType;
         this.ingredients = ingredients;
         this.output = output;
+        recipeType.registerRecipe(this.ingredients, this.output);
     }
 
     public CraftMethod(RecipeType recipeType, ItemStack[] ingredients, IndustrialRevivalItem output) {
         this.recipeType = recipeType;
         this.ingredients = ingredients;
         this.output = output.getItem();
+        recipeType.registerRecipe(this.ingredients, this.output);
     }
 }

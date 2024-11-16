@@ -33,7 +33,6 @@ import org.irmc.pigeonlib.language.LanguageManager;
 import org.irmc.pigeonlib.mcversion.MCVersion;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -203,7 +202,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         languageManager = new LanguageManager(this);
     }
 
-    public @Nonnull Set<Plugin> getAddons() {
+    public @NotNull Set<Plugin> getAddons() {
         String pluginName = instance.getName();
 
         return Arrays.stream(instance.getServer().getPluginManager().getPlugins())
