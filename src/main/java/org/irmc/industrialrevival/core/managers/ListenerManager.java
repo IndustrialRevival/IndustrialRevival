@@ -7,7 +7,6 @@ import org.irmc.industrialrevival.core.listeners.EventPrechecker;
 import org.irmc.industrialrevival.core.listeners.GuideListener;
 import org.irmc.industrialrevival.core.listeners.EventCreator;
 import org.irmc.industrialrevival.core.listeners.HandlerCaller;
-import org.irmc.industrialrevival.core.listeners.ItemHandlerListener;
 import org.irmc.industrialrevival.core.listeners.LimitedItemListener;
 import org.irmc.industrialrevival.core.listeners.MachineMenuListener;
 import org.irmc.industrialrevival.core.listeners.NotPlaceableListener;
@@ -29,10 +28,8 @@ public class ListenerManager {
         listeners.add(new EventCreator());
         listeners.add(new EventPrechecker());
         listeners.add(new HandlerCaller());
-        listeners.add(new DisabledItemListener());
         listeners.add(new DropListener());
         listeners.add(new GuideListener());
-        listeners.add(new ItemHandlerListener());
         listeners.add(new LimitedItemListener());
         listeners.add(new MachineMenuListener());
         listeners.add(new NotPlaceableListener());

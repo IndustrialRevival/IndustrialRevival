@@ -12,7 +12,7 @@ public class IRItemKillEntityEvent extends EntityDeathEvent implements RelatedIR
     private final EntityDeathEvent originalEvent;
     private final Player killer;
     public IRItemKillEntityEvent(EntityDeathEvent originalEvent, IndustrialRevivalItem iritem) {
-        super(originalEvent.getEntity(), originalEvent.getDrops(), originalEvent.getDroppedExp());
+        super(originalEvent.getEntity(), originalEvent.getDamageSource(), originalEvent.getDrops(), originalEvent.getDroppedExp());
         this.iritem = iritem;
         this.originalEvent = originalEvent;
         this.killer = originalEvent.getEntity().getKiller();

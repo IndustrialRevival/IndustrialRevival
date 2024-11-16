@@ -13,7 +13,7 @@ public class EntityExplodeIRBlockEvent extends EntityExplodeEvent implements Rel
     private final IndustrialRevivalItem iritem;
 
     public EntityExplodeIRBlockEvent(EntityExplodeEvent originalEvent, Location iritemLocation, IndustrialRevivalItem iritem) {
-        super(originalEvent.getEntity(), originalEvent.getLocation(), originalEvent.blockList(), originalEvent.getYield());
+        super(originalEvent.getEntity(), originalEvent.getLocation(), originalEvent.blockList(), originalEvent.getYield(), originalEvent.getExplosionResult());
         this.originalEvent = originalEvent;
         this.iritemLocation = iritemLocation;
         this.iritem = iritem;

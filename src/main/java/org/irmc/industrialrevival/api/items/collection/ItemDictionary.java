@@ -26,7 +26,7 @@ public abstract class ItemDictionary implements Keyed {
         return tagItem(item, true);
     }
 
-    public abstract ItemStack tagItem(@NotNull IndustrialRevivalItem item, boolean tag);
+    public abstract ItemStack tagItem(@NotNull IndustrialRevivalItem item, boolean addToList);
 
     public abstract List<IndustrialRevivalItem> getItems();
 

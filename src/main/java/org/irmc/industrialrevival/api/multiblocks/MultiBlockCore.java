@@ -11,6 +11,7 @@ import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.handlers.BlockTicker;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
+import org.irmc.industrialrevival.api.objects.events.ir.IRBlockTickEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
@@ -101,11 +102,11 @@ public abstract class MultiBlockCore extends IndustrialRevivalItem implements IM
 
         addItemHandlers(new BlockTicker() {
             @Override
-            public void onTick(@NotNull Block block, @Nullable MachineMenu menu, @Nullable IRBlockData data) {
-                tick(block, menu, data);
+            public void onTick(IRBlockTickEvent event) {
+                tick(event);
             }
         });
     }
 
-    public abstract void tick(@NotNull Block block, @Nullable MachineMenu menu, @Nullable IRBlockData data);
+    public abstract void tick(@NotNull IRBlockTickEvent event);
 }

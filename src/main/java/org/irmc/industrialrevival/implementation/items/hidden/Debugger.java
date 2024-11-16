@@ -19,6 +19,7 @@ import org.irmc.industrialrevival.api.items.handlers.ItemInteractHandler;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockBreakEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockPlaceEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.IRItemInteractEvent;
 import org.irmc.industrialrevival.core.services.IRRegistry;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.items.IRItems;
@@ -56,13 +57,13 @@ public class Debugger extends IndustrialRevivalItem {
         super();
         addItemHandlers(new ItemInteractHandler() {
             @Override
-            public void onInteract(@NotNull PlayerInteractEvent e) {
-                interact(e);
+            public void onInteract(@NotNull IRItemInteractEvent event) {
+                interact(event);
             }
         });
     }
 
-    private void interact(PlayerInteractEvent e) {
+    private void interact(IRItemInteractEvent e) {
         e.setCancelled(true);
 
         Player player = e.getPlayer();
@@ -71,6 +72,62 @@ public class Debugger extends IndustrialRevivalItem {
         }
 
         player.sendMessage(DEBUG_INFO_HEAD);
+
+        boolean isShift = player.isSneaking();
+        boolean isRightClick = e.getAction().isRightClick();
+        boolean isLeftClick = e.getAction().isLeftClick();
+        boolean clickedNormalBlock = false;
+        boolean clickedIRBlock = false;
+        boolean clickedAir = false;
+        Block block = e.getClickedBlock();
+        if (block == null) {
+            clickedAir = true;
+        } else {
+            Location location = block.getLocation();
+            IRBlockData blockData = DataUtil.getBlockData(location);
+            if (blockData != null) {
+                clickedIRBlock = true;
+            } else {
+                clickedNormalBlock = true;
+            }
+        }
+
+        if (isLeftClick && !isRightClick && !isShift) {
+            breakBlock(e);
+        }
+
+        if (isRightClick && !isLeftClick && !isShift) {
+            if (clickedNormalBlock) {
+                seeBlockState(e);
+            }
+            if (clickedIRBlock) {
+                seeIRBlockData(e);
+            }
+            if (clickedAir) {
+                seeChunkTimings(e);
+            }
+        }
+
+        if (isLeftClick && isShift && !isRightClick) {
+            if (clickedNormalBlock) {
+                forceBreakBlock(e);
+            }
+            if (clickedIRBlock) {
+                removeIRBlockData(e);
+            }
+            if (clickedAir) {
+                seeIRStatus(e);
+            }
+        }
+
+        if (isRightClick && isShift && !isLeftClick) {
+            if (clickedNormalBlock) {
+                placeDebugHead(e);
+            }
+            if (clickedAir) {
+                seeServerStatus(e);
+            }
+        }
     }
 
     private void breakBlock(PlayerInteractEvent e) {

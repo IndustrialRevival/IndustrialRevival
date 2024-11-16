@@ -14,7 +14,7 @@ public class BlockExplodeIRBlockEvent extends BlockExplodeEvent implements Relat
     private final IndustrialRevivalItem iritem;
 
     public BlockExplodeIRBlockEvent(BlockExplodeEvent originalEvent, Location iritemLocation, IndustrialRevivalItem iritem) {
-        super(originalEvent.getBlock(), originalEvent.blockList(), originalEvent.getYield());
+        super(originalEvent.getBlock(), originalEvent.getExplodedBlockState(), originalEvent.blockList(), originalEvent.getYield(), originalEvent.getExplosionResult());
         this.originalEvent = originalEvent;
         this.iritemLocation = iritemLocation;
         this.iritem = iritem;
