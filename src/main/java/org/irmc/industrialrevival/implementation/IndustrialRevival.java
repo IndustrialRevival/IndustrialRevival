@@ -33,7 +33,6 @@ import org.irmc.pigeonlib.language.LanguageManager;
 import org.irmc.pigeonlib.mcversion.MCVersion;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -127,10 +126,10 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     private void setupDataManager() {
         FileConfiguration config = getConfig();
         String storageType = config.getString("storage.type", "sqlite");
-        File sqliteDbFile = new File(Constants.STORAGE_FOLDER, "database.db");
+        File sqliteDbFile = new File(Constants.Files.STORAGE_FOLDER, "database.db");
 
-        if (!Constants.STORAGE_FOLDER.exists()) {
-            Constants.STORAGE_FOLDER.mkdirs();
+        if (!Constants.Files.STORAGE_FOLDER.exists()) {
+            Constants.Files.STORAGE_FOLDER.mkdirs();
         }
 
         if (storageType.equalsIgnoreCase("sqlite")) {
@@ -178,10 +177,13 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     }
 
     public boolean environmentCheck() {
+        // Commented out until it can work properly
+        /*
         if (MCVersion.CURRENT == MCVersion.UNKNOWN) {
             getLogger().log(Level.SEVERE, "Unsupported Minecraft version: " + getServer().getMinecraftVersion());
             return false;
         }
+         */
 
         return true;
     }
@@ -203,7 +205,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         languageManager = new LanguageManager(this);
     }
 
-    public @Nonnull Set<Plugin> getAddons() {
+    public @NotNull Set<Plugin> getAddons() {
         String pluginName = instance.getName();
 
         return Arrays.stream(instance.getServer().getPluginManager().getPlugins())
@@ -213,5 +215,13 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
                             || description.getSoftDepend().contains(pluginName);
                 })
                 .collect(Collectors.toSet());
+    }
+
+    public static void runSync(@NotNull Runnable runnable) {
+        Bukkit.getScheduler().runTask(instance, runnable);
+    }
+
+    public static void runAsync(@NotNull Runnable runnable) {
+        Bukkit.getScheduler().runTaskAsynchronously(instance, runnable);
     }
 }

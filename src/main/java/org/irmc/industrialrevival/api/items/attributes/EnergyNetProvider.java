@@ -38,7 +38,7 @@ public interface EnergyNetProvider extends EnergyNetComponent {
      */
     default long addEnergyProduction(@NotNull Location location, long energyProduction) {
         long existingEnergyProduction = 0;
-        final String dataExistingEnergyProduction = DataUtil.getData(location, Constants.ENERGY_CHARGE_KEY);
+        final String dataExistingEnergyProduction = DataUtil.getData(location, Constants.Keys.ENERGY_CHARGE_KEY);
         if (dataExistingEnergyProduction != null) {
             try {
                 existingEnergyProduction = Long.parseLong(dataExistingEnergyProduction);
@@ -48,7 +48,7 @@ public interface EnergyNetProvider extends EnergyNetComponent {
         long capacity = getCapacity();
         long charged = Math.min(capacity - existingEnergyProduction, energyProduction);
         long finalEnergy = existingEnergyProduction + charged;
-        DataUtil.setData(location, Constants.ENERGY_CHARGE_KEY, String.valueOf(finalEnergy));
+        DataUtil.setData(location, Constants.Keys.ENERGY_CHARGE_KEY, String.valueOf(finalEnergy));
         return charged;
     }
 

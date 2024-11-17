@@ -12,9 +12,9 @@ import org.jetbrains.annotations.NotNull;
 @FunctionalInterface
 public interface ItemDamageEntityHandler extends ItemHandler {
     /**
-     * This function is called when a {@link Player} attacks an {@link Entity} with a {@link org.irmc.industrialrevival.api.items.IndustrialRevivalItem}
+     * This function is called when a {@link Player} attacks an {@link Entity} with a {@link IndustrialRevivalItem}
      *
-     * @param event  // todo: add event description
+     * @param event the event that occurred
      */
     void onHit(@NotNull IRItemDamageEntityEvent event);
     @Override

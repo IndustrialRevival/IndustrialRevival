@@ -18,14 +18,14 @@ public class CheatGuideImplementation extends SurvivalGuideImplementation {
     @Override
     public void open(Player p) {
         SimpleMenu sm = new SimpleMenu(
-                IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Constants.GUIDE_CHEAT_KEY));
+                IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Constants.Keys.GUIDE_CHEAT_KEY));
         setupGuideMenu(p, sm);
         if (p.isOp()) {
             sm.open(p);
         } else {
             p.sendMessage(IndustrialRevival.getInstance()
                     .getLanguageManager()
-                    .getMsg(p, Constants.GUIDE_CHEAT_MODE_NO_PERMISSION_KEY));
+                    .getMsg(p, Constants.Keys.GUIDE_CHEAT_MODE_NO_PERMISSION_KEY));
         }
     }
 

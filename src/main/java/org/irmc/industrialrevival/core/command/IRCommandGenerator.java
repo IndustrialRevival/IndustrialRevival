@@ -21,6 +21,7 @@ import org.irmc.pigeonlib.language.MessageReplacement;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 public class IRCommandGenerator {
@@ -30,25 +31,25 @@ public class IRCommandGenerator {
         instance = new CommandAPICommand("industrialrevival")
                 .withAliases("ir")
                 .withArguments(new TextArgument("subCommand"))
-                .withPermission("industrialrevival.cmd.help")
+                .withPermission(Constants.Permissions.COMMAND_HELP)
                 .executes(info -> {
                     CommandSender sender = info.sender();
                     sendHelpMessage(sender);
                 })
                 .withSubcommand(new CommandAPICommand("help")
-                        .withPermission("industrialrevival.cmd.help")
+                        .withPermission(Constants.Permissions.COMMAND_HELP)
                         .executes(executionInfo -> {
                             CommandSender sender = executionInfo.sender();
                             sendHelpMessage(sender);
                         }))
                 .withSubcommand(new CommandAPICommand("guide")
-                        .withPermission("industrialrevival.cmd.guide")
+                        .withPermission(Constants.Permissions.COMMAND_GUIDE)
                         .executesPlayer(executionInfo -> {
                             Player player = executionInfo.sender();
-                            player.getInventory().addItem(Constants.GUIDE_BOOK_ITEM.clone());
+                            player.getInventory().addItem(Constants.ItemStacks.GUIDE_BOOK_ITEM.clone());
                         }))
                 .withSubcommand(new CommandAPICommand("reload")
-                        .withPermission("industrialrevival.cmd.reload")
+                        .withPermission(Constants.Permissions.COMMAND_RELOAD)
                         .executes(executionInfo -> {
                             IndustrialRevival.getInstance().reloadConfig();
                             IndustrialRevival.getInstance()
@@ -56,19 +57,19 @@ public class IRCommandGenerator {
                                     .sendMessage(executionInfo.sender(), "command.reload");
                         }))
                 .withSubcommand(new CommandAPICommand("info")
-                        .withPermission("industrialrevival.cmd.info")
+                        .withPermission(Constants.Permissions.COMMAND_INFO)
                         .executes(executionInfo -> {
                             CommandSender sender = executionInfo.sender();
                             sendInfoMessage(sender);
                         }))
                 .withSubcommand(new CommandAPICommand("cheat")
-                        .withPermission("industrialrevival.cmd.cheat")
+                        .withPermission(Constants.Permissions.COMMAND_CHEAT)
                         .executesPlayer(executionInfo -> {
                             Player player = executionInfo.sender();
                             CheatGuideImplementation.INSTANCE.open(player);
                         }))
                 .withSubcommand(new CommandAPICommand("give")
-                        .withPermission("industrialrevival.cmd.give")
+                        .withPermission(Constants.Permissions.COMMAND_GIVE)
                         .withArguments(new PlayerArgument("target"))
                         .withArguments(new TextArgument("id")
                                 .replaceSuggestions(ArgumentSuggestions.stringsAsync(
@@ -118,7 +119,7 @@ public class IRCommandGenerator {
                                     .getMsgComponent(sender, "command.give.success", itemName, itemAmount));
                         }))
                 .withSubcommand(new CommandAPICommand("giveSilently")
-                        .withPermission("industrialrevival.cmd.give")
+                        .withPermission(Constants.Permissions.COMMAND_GIVE)
                         .withArguments(new PlayerArgument("target"))
                         .withArguments(new TextArgument("id")
                                 .replaceSuggestions(ArgumentSuggestions.stringsAsync(
@@ -156,9 +157,9 @@ public class IRCommandGenerator {
                             target.getInventory().addItem(iritem);
                         }))
                 .withSubcommand(new CommandAPICommand("timings")
-                        .withPermission("industrialrevival.cmd.timings")
+                        .withPermission(Constants.Permissions.COMMAND_TIMINGS)
                         .executes((sender, args) -> {
-                            TimingViewRequest request = new TimingViewRequest(sender);
+                            TimingViewRequest request = new TimingViewRequest(sender, true);
                             IndustrialRevival.getInstance().getProfilerService().requestTimingView(request);
                             sender.sendMessage(IndustrialRevival.getInstance()
                                     .getLanguageManager()
@@ -202,7 +203,7 @@ public class IRCommandGenerator {
                 .getLanguageManager()
                 .getMsgComponent(sender, "command.info.server_version", serverVer));
 
-        for (Plugin addon : findAllAddons()) {
+        for (Plugin addon : IndustrialRevival.getInstance().getAddons()) {
             MessageReplacement name = MessageReplacement.replace("%addon_name%", addon.getName());
             MessageReplacement version = MessageReplacement.replace(
                     "%addon_version%", addon.getDescription().getVersion());
@@ -213,12 +214,5 @@ public class IRCommandGenerator {
         }
 
         sender.sendMessage(msg);
-    }
-
-    private static List<Plugin> findAllAddons() {
-        List<Plugin> plugins = List.of(Bukkit.getPluginManager().getPlugins());
-        return plugins.stream()
-                .filter(p -> p.getPluginMeta().getPluginDependencies().contains("IndustrialRevival"))
-                .toList();
     }
 }

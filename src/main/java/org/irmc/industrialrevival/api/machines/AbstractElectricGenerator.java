@@ -2,13 +2,11 @@ package org.irmc.industrialrevival.api.machines;
 
 import lombok.Getter;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.api.items.attributes.EnergyNetProvider;
 import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.handlers.BlockTicker;
-import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.objects.enums.EnergyNetComponentType;
 import org.irmc.industrialrevival.api.objects.events.ir.IRBlockTickEvent;
 import org.jetbrains.annotations.NotNull;
@@ -47,14 +45,14 @@ public abstract class AbstractElectricGenerator extends AbstractMachine implemen
     }
 
     @Override
-    public AbstractElectricGenerator setDisabledInWorld(@NotNull World world, boolean disabled) {
-        super.setDisabledInWorld(world, disabled);
+    public AbstractElectricGenerator setDisabledInWorld(@NotNull World world, boolean disabled, boolean saveToConfig) {
+        super.setDisabledInWorld(world, disabled, saveToConfig);
         return this;
     }
 
     @Override
-    public AbstractElectricGenerator setDisabled(boolean disabled) {
-        super.setDisabled(disabled);
+    public AbstractElectricGenerator setDisabled(boolean disabled, boolean saveToConfig) {
+        super.setDisabled(disabled, saveToConfig);
         return this;
     }
 

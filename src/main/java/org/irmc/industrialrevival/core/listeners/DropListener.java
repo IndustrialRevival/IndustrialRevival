@@ -4,6 +4,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,7 +16,10 @@ import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.ItemDroppable;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.api.objects.Pair;
+import org.irmc.industrialrevival.api.recipes.BlockDropMethod;
+import org.irmc.industrialrevival.api.recipes.MobDropMethod;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
+import org.irmc.industrialrevival.utils.DataUtil;
 
 import java.security.SecureRandom;
 import java.util.List;
@@ -26,17 +30,16 @@ public class DropListener implements Listener {
         LivingEntity entity = e.getEntity();
         Location location = entity.getLocation();
         World world = location.getWorld();
-        List<Pair<ItemStack, Double>> drops =
+        List<MobDropMethod> drops =
                 IndustrialRevival.getInstance().getRegistry().getMobDrops().get(entity.getType());
 
         if (drops != null) {
-            SecureRandom random =
-                    new SecureRandom(entity.getUniqueId().toString().getBytes());
-            for (Pair<ItemStack, Double> drop : drops) {
+            SecureRandom random = new SecureRandom(entity.getUniqueId().toString().getBytes());
+            for (MobDropMethod method : drops) {
                 double chance = random.nextDouble(100);
-                if (chance <= drop.getB()) {
-                    ItemStack item = drop.getA();
-                    // banned item should not drop
+                if (chance <= method.getChance()) {
+                    ItemStack item = method.getItemToDrop();
+                    // banned item should not method
                     IndustrialRevivalItem irItem = IndustrialRevivalItem.getByItem(item);
                     if (irItem != null && irItem.isDisabledInWorld(entity.getWorld())) {
                         Player killer = entity.getKiller();
@@ -46,7 +49,10 @@ public class DropListener implements Listener {
                         }
                         continue;
                     }
-                    world.dropItemNaturally(location, item);
+
+                    ItemStack drop = item.clone();
+                    drop.setAmount(method.getDropAmount());
+                    world.dropItemNaturally(location, drop);
                 }
             }
         }
@@ -54,59 +60,46 @@ public class DropListener implements Listener {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
-        Location loc = e.getBlock().getLocation();
-        IRBlockData data = IndustrialRevival.getInstance().getBlockDataService().getBlockData(loc);
-        boolean continueDrop = true;
-        if (data != null) {
-            IndustrialRevivalItem item = IndustrialRevivalItem.getById(data.getId());
-            if (item != null) {
-                e.setDropItems(false);
-                if (item instanceof ItemDroppable droppable) {
-                    continueDrop = droppable.dropBlockDropItems();
-                    List<ItemStack> items = droppable.drops(e.getPlayer());
-                    if (items != null && !items.isEmpty()) {
-                        World world = e.getBlock().getWorld();
-                        for (ItemStack itemStack : items) {
-                            // banned item should not drop
-                            IndustrialRevivalItem irItem = IndustrialRevivalItem.getByItem(itemStack);
-                            if (irItem != null && irItem.isDisabledInWorld(world)) {
-                                IndustrialRevival.getInstance().getLanguageManager()
-                                        .sendMessage(e.getPlayer(), "dropping_banned_item");
-                                continue;
-                            }
-                            world.dropItemNaturally(loc, itemStack);
-                        }
-                    }
+        Block block = e.getBlock();
+        Material material = block.getType();
+        Location location = block.getLocation();
+        World world = location.getWorld();
+        Player breaker = e.getPlayer();
+        IndustrialRevivalItem iritem = DataUtil.getItem(location);
+        if (iritem instanceof ItemDroppable id) {
+            if (!iritem.isDisabledInWorld(world)) {
+                List<ItemStack> drops = id.drops(breaker);
+                if (!id.dropBlockDropItems()) {
+                    return;
                 }
-                IndustrialRevival.getInstance().getDataManager().handleBlockBreaking(data.getLocation());
+
+                for (ItemStack item : drops) {
+                    world.dropItemNaturally(location, item);
+                }
             }
         }
 
-        if (continueDrop) {
-            Material material = e.getBlock().getType();
-            List<Pair<ItemStack, Double>> drops = IndustrialRevival.getInstance()
-                    .getRegistry()
-                    .getBlockDrops()
-                    .get(material);
-            Player player = e.getPlayer();
-            World world = e.getBlock().getWorld();
+        List<BlockDropMethod> methods = IndustrialRevival.getInstance().getRegistry().getBlockDrops().get(material);
+        if (methods == null) {
+            return;
+        }
 
-            drops = drops == null ? List.of() : drops;
-
-            if (drops.isEmpty() && data != null) {
-                IndustrialRevivalItem irItem = IndustrialRevivalItem.getById(data.getId());
-                drops = List.of(new Pair<>(irItem.getItem().cloneIR(), 100.0));
-            }
-
-            if (player.getGameMode() != GameMode.CREATIVE) {
-                SecureRandom random = new SecureRandom();
-                for (Pair<ItemStack, Double> drop : drops) {
-                    double chance = random.nextDouble(100);
-                    if (chance <= drop.getB()) {
-                        ItemStack item = drop.getA();
-                        world.dropItemNaturally(loc, item);
-                    }
+        SecureRandom random = new SecureRandom(material.toString().getBytes());
+        for (BlockDropMethod method : methods) {
+            double chance = random.nextDouble(100);
+            if (chance <= method.getChance()) {
+                ItemStack item = method.getItemToDrop();
+                // banned item should not method
+                IndustrialRevivalItem irItem = IndustrialRevivalItem.getByItem(item);
+                if (irItem != null && irItem.isDisabledInWorld(world)) {
+                    IndustrialRevival.getInstance().getLanguageManager()
+                            .sendMessage(breaker, "dropping_banned_item");
+                    continue;
                 }
+
+                ItemStack drop = item.clone();
+                drop.setAmount(method.getDropAmount());
+                world.dropItemNaturally(location, drop);
             }
         }
     }

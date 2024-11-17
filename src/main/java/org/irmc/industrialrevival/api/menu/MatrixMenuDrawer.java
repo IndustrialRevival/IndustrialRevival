@@ -6,7 +6,6 @@ import org.irmc.industrialrevival.utils.MenuUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,23 +62,23 @@ public class MatrixMenuDrawer {
         return this;
     }
 
-    public MatrixMenuDrawer addExplain(char c, @Nonnull ItemStack itemStack) {
+    public MatrixMenuDrawer addExplain(char c, @NotNull ItemStack itemStack) {
         charMap.put(c, new ItemStack(itemStack));
         return this;
     }
 
-    public MatrixMenuDrawer addExplain(char c, @Nonnull ItemStack itemStack, @Nonnull SimpleMenu.ClickHandler clickHandler) {
+    public MatrixMenuDrawer addExplain(char c, @NotNull ItemStack itemStack, @NotNull SimpleMenu.ClickHandler clickHandler) {
         charMap.put(c, itemStack);
         clickHandlerMap.put(c, clickHandler);
         return this;
     }
 
-    public MatrixMenuDrawer addExplain(@NotNull String c, @Nonnull ItemStack itemStack) {
+    public MatrixMenuDrawer addExplain(@NotNull String c, @NotNull ItemStack itemStack) {
         charMap.put(c.charAt(0), new ItemStack(itemStack));
         return this;
     }
 
-    public MatrixMenuDrawer addExplain(@NotNull String c, @Nonnull ItemStack itemStack, @Nonnull SimpleMenu.ClickHandler clickHandler) {
+    public MatrixMenuDrawer addExplain(@NotNull String c, @NotNull ItemStack itemStack, @NotNull SimpleMenu.ClickHandler clickHandler) {
         charMap.put(c.charAt(0), itemStack);
         clickHandlerMap.put(c.charAt(0), clickHandler);
         return this;

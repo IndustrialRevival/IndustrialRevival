@@ -48,14 +48,14 @@ public class Battery extends IndustrialRevivalItem implements NotPlaceable, Rech
     }
 
     @Override
-    public Battery setDisabledInWorld(@NotNull World world, boolean disabled) {
-        super.setDisabledInWorld(world, disabled);
+    public Battery setDisabledInWorld(@NotNull World world, boolean disabled, boolean saveToConfig) {
+        super.setDisabledInWorld(world, disabled, saveToConfig);
         return this;
     }
 
     @Override
-    public Battery setDisabled(boolean disabled) {
-        super.setDisabled(disabled);
+    public Battery setDisabled(boolean disabled, boolean saveToConfig) {
+        super.setDisabled(disabled, saveToConfig);
         return this;
     }
 

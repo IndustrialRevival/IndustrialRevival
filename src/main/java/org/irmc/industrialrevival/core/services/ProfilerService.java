@@ -10,25 +10,31 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.irmc.industrialrevival.api.ProfiledLocation;
 import org.irmc.industrialrevival.api.objects.ChunkPosition;
+import org.irmc.industrialrevival.api.objects.PerformanceSummary;
 import org.irmc.industrialrevival.api.objects.TimingViewRequest;
 import org.irmc.industrialrevival.core.task.TickerTask;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
+import org.irmc.industrialrevival.utils.NumberUtils;
 import org.irmc.industrialrevival.utils.StringUtil;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+@SuppressWarnings("unused")
 public class ProfilerService {
     private static final int MAX_ITEMS = 20;
+    @Getter
+    public PerformanceSummary summary = new PerformanceSummary(new HashMap<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(), 0);
     public final Queue<TimingViewRequest> requests = new ConcurrentLinkedQueue<>();
     public final Map<ProfiledLocation, Long> profilingData = new ConcurrentHashMap<>();
     public final Map<Location, Long> startTimes = new ConcurrentHashMap<>();
@@ -46,7 +52,7 @@ public class ProfilerService {
     }
 
     @SuppressWarnings("deprecation")
-    @Nonnull
+    @NotNull
     @ParametersAreNonnullByDefault
     private TextComponent getHoverComponent(String groundText, String backGroundText){
         TextComponent hoverComponent = new TextComponent(groundText);
@@ -58,9 +64,12 @@ public class ProfilerService {
         return hoverComponent;
     }
     public void respondToTimingView(TimingViewRequest request) {
+        Map<ProfiledLocation, Long> data = getProfilingData();
         Map<String, Long> dataByID = getProfilingDataByID();
         Map<ChunkPosition, Long> dataByChunk = getProfilingDataByChunk();
         Map<String, Long> dataByPlugin = getProfilingDataByPlugin();
+        long tt = dataByChunk.values().stream().mapToLong(Long::longValue).sum();
+        this.summary = new PerformanceSummary(data, dataByID, dataByChunk, dataByPlugin, tt);
 
         List<String> sortedID = dataByID.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Long::compareTo))
@@ -117,6 +126,7 @@ public class ProfilerService {
 
         request.getRequester().sendMessage("&a====== Profiling Data ======");
         request.getRequester().sendMessage("&aTick count: " + task.getTicked());
+        request.getRequester().sendMessage("&aTotal time: " + NumberUtils.round(NumberUtils.nsToMs(tt), 2));
         request.getRequester().sendMessage("&aInterval:" + task.getCheckInterval());
         request.getRequester().sendMessage("&aTPS: " + Arrays.toString(Bukkit.getTPS()));
         request.getRequester().sendMessage("&a===== Timing Data =====");
@@ -146,7 +156,7 @@ public class ProfilerService {
         return new ConcurrentHashMap<>(profilingData);
     }
 
-    @Nonnull
+    @NotNull
     public Map<String, Long> getProfilingDataByID() {
         Map<ProfiledLocation, Long> profilingData = getProfilingData();
         Map<String, Long> profilingDataByID = new ConcurrentHashMap<>();
@@ -156,7 +166,7 @@ public class ProfilerService {
         }
         return profilingDataByID;
     }
-    @Nonnull
+    @NotNull
     public Map<ChunkPosition, Long> getProfilingDataByChunk() {
         Map<ProfiledLocation, Long> profilingData = getProfilingData();
         Map<ChunkPosition, Long> profilingDataByChunk = new ConcurrentHashMap<>();
@@ -167,7 +177,7 @@ public class ProfilerService {
         return profilingDataByChunk;
     }
 
-    @Nonnull
+    @NotNull
     public Map<String, Long> getProfilingDataByPlugin() {
         Map<ProfiledLocation, Long> profilingData = getProfilingData();
         Map<String, Long> profilingDataByPlugin = new ConcurrentHashMap<>();
@@ -178,7 +188,7 @@ public class ProfilerService {
         return profilingDataByPlugin;
     }
 
-    @Nonnull
+    @NotNull
     public Map<ProfiledLocation, Long> getProfilingDataByID(String id) {
         Map<ProfiledLocation, Long> profilingData = getProfilingData();
         Map<ProfiledLocation, Long> profilingDataByID = new ConcurrentHashMap<>();
@@ -190,7 +200,7 @@ public class ProfilerService {
         return profilingDataByID;
     }
 
-    @Nonnull
+    @NotNull
     public Map<ProfiledLocation, Long> getProfilingDataByChunk(ChunkPosition chunkPosition) {
         Map<ProfiledLocation, Long> profilingData = getProfilingData();
         Map<ProfiledLocation, Long> profilingDataByChunk = new ConcurrentHashMap<>();
@@ -202,7 +212,7 @@ public class ProfilerService {
         return profilingDataByChunk;
     }
 
-    @Nonnull
+    @NotNull
     public Map<ProfiledLocation, Long> getProfilingDataByPlugin(String pluginName) {
         Map<ProfiledLocation, Long> profilingData = getProfilingData();
         Map<ProfiledLocation, Long> profilingDataByPlugin = new ConcurrentHashMap<>();

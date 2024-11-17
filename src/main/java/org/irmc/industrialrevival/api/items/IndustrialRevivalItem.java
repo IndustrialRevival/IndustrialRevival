@@ -21,6 +21,7 @@ import org.irmc.industrialrevival.api.items.attributes.VanillaSmeltingItem;
 import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.handlers.ItemHandler;
+import org.irmc.industrialrevival.api.multiblock.MultiBlock;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
 import org.irmc.industrialrevival.api.recipes.CraftMethod;
 import org.irmc.industrialrevival.api.recipes.RecipeContent;
@@ -80,12 +81,12 @@ public class IndustrialRevivalItem {
     public IndustrialRevivalItem() {
     }
 
-    @NotNull
+    @Nullable
     public static IndustrialRevivalItem getById(@NotNull String id) {
         return IndustrialRevival.getInstance().getRegistry().getItems().get(id);
     }
 
-    @NotNull
+    @Nullable
     public static IndustrialRevivalItem getByItem(@NotNull ItemStack item) {
         if (item == null || item.getType() == Material.AIR) {
             return null;
@@ -95,7 +96,7 @@ public class IndustrialRevivalItem {
             return getById(irStack.getId());
         }
 
-        String id = PersistentDataAPI.getString(item.getItemMeta(), Constants.ITEM_ID_KEY);
+        String id = PersistentDataAPI.getString(item.getItemMeta(), Constants.ItemStackKeys.ITEM_ID_KEY);
         if (id != null) {
             return getById(id);
         }
@@ -148,32 +149,35 @@ public class IndustrialRevivalItem {
     }
 
     @NotNull
-    public IndustrialRevivalItem setDisabled(boolean disabled) {
+    public IndustrialRevivalItem setDisabled(boolean disabled, boolean saveToConfig) {
         checkRegistered();
         if (disabled) {
             this.state = ItemState.DISABLED;
         } else {
             this.state = ItemState.ENABLED;
         }
+        // todo: save to config
         return this;
     }
 
     @NotNull
-    public IndustrialRevivalItem setEnchantable(boolean enchantable) {
+    public IndustrialRevivalItem setEnchantable(boolean enchantable, boolean saveToConfig) {
         checkRegistered();
         this.enchantable = enchantable;
+        // todo: save to config
         return this;
     }
 
     @NotNull
-    public IndustrialRevivalItem setDisenchantable(boolean disenchantable) {
+    public IndustrialRevivalItem setDisenchantable(boolean disenchantable, boolean saveToConfig) {
         checkRegistered();
         this.disenchantable = disenchantable;
+        // todo: save to config
         return this;
     }
 
     @NotNull
-    public IndustrialRevivalItem setDisabledInWorld(@NotNull World world, boolean disabled) {
+    public IndustrialRevivalItem setDisabledInWorld(@NotNull World world, boolean disabled, boolean saveToConfig) {
         Preconditions.checkArgument(world != null, "World cannot be null");
         ConfigurationSection setting = getItemSetting();
         List<String> worlds = setting.getStringList("disabled_in_worlds");
@@ -186,12 +190,14 @@ public class IndustrialRevivalItem {
             worlds.remove(world.getName());
         }
 
-        setting.set("disabled_in_worlds", worlds);
+        if (saveToConfig) {
+            setting.set("disabled_in_worlds", worlds);
+        }
         return this;
     }
 
     @NotNull
-    public IndustrialRevivalItem setHideInGuide(boolean hideInGuide) {
+    public IndustrialRevivalItem setHideInGuide(boolean hideInGuide, boolean saveToConfig) {
         checkRegistered();
         this.hideInGuide = hideInGuide;
         return this;
@@ -278,12 +284,15 @@ public class IndustrialRevivalItem {
 
     @OverridingMethodsMustInvokeSuper
     protected void postRegister() {
-        if (this instanceof MobDropItem) {
-            IndustrialRevival.getInstance().getRegistry().registerMobDrop(this);
+        if (this instanceof MultiBlock mb) {
+            IndustrialRevival.getInstance().getRegistry().registerMultiBlock(mb);
+        }
+        if (this instanceof MobDropItem mdi) {
+            IndustrialRevival.getInstance().getRegistry().registerMobDrop(mdi);
         }
 
-        if (this instanceof BlockDropItem) {
-            IndustrialRevival.getInstance().getRegistry().registerBlockDrop(this);
+        if (this instanceof BlockDropItem bdi) {
+            IndustrialRevival.getInstance().getRegistry().registerBlockDrop(bdi);
         }
 
         if (this instanceof VanillaSmeltingItem vsi) {

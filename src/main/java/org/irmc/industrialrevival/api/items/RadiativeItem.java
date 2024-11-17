@@ -49,14 +49,14 @@ public class RadiativeItem extends IndustrialRevivalItem implements Radiation {
     }
 
     @Override
-    public RadiativeItem setDisabledInWorld(@NotNull World world, boolean disabled) {
-        super.setDisabledInWorld(world, disabled);
+    public RadiativeItem setDisabledInWorld(@NotNull World world, boolean disabled, boolean saveToConfig) {
+        super.setDisabledInWorld(world, disabled, saveToConfig);
         return this;
     }
 
     @Override
-    public RadiativeItem setDisabled(boolean disabled) {
-        super.setDisabled(disabled);
+    public RadiativeItem setDisabled(boolean disabled, boolean saveToConfig) {
+        super.setDisabled(disabled, saveToConfig);
         return this;
     }
 
@@ -67,20 +67,20 @@ public class RadiativeItem extends IndustrialRevivalItem implements Radiation {
     }
 
     @Override
-    public RadiativeItem setEnchantable(boolean enchantable) {
-        super.setEnchantable(enchantable);
+    public RadiativeItem setEnchantable(boolean enchantable, boolean saveToConfig) {
+        super.setEnchantable(enchantable, saveToConfig);
         return this;
     }
 
     @Override
-    public RadiativeItem setDisenchantable(boolean disenchantable) {
-        super.setDisenchantable(disenchantable);
+    public RadiativeItem setDisenchantable(boolean disenchantable, boolean saveToConfig) {
+        super.setDisenchantable(disenchantable, saveToConfig);
         return this;
     }
 
     @Override
-    public RadiativeItem setHideInGuide(boolean hideInGuide) {
-        super.setHideInGuide(hideInGuide);
+    public RadiativeItem setHideInGuide(boolean hideInGuide, boolean saveToConfig) {
+        super.setHideInGuide(hideInGuide, saveToConfig);
         return this;
     }
 }

@@ -15,6 +15,7 @@ import org.irmc.industrialrevival.api.objects.events.ir.IRTickStartEvent;
 import org.irmc.industrialrevival.core.data.object.BlockRecord;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
@@ -97,6 +98,10 @@ public class TickerTask implements Consumer<WrappedTask> {
         }
 
         blockDataMap.remove(location);
+    }
+
+    public Map<Location, IRBlockData> getTickingBlocks() {
+        return new HashMap<>(blockDataSupplier.get());
     }
 
     /**

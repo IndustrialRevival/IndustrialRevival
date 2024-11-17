@@ -38,14 +38,14 @@ public class NotPlaceableItem extends IndustrialRevivalItem implements NotPlacea
     }
 
     @Override
-    public NotPlaceableItem setDisabledInWorld(@NotNull World world, boolean disabled) {
-        super.setDisabledInWorld(world, disabled);
+    public NotPlaceableItem setDisabledInWorld(@NotNull World world, boolean disabled, boolean saveToConfig) {
+        super.setDisabledInWorld(world, disabled, saveToConfig);
         return this;
     }
 
     @Override
-    public NotPlaceableItem setDisabled(boolean disabled) {
-        super.setDisabled(disabled);
+    public NotPlaceableItem setDisabled(boolean disabled, boolean saveToConfig) {
+        super.setDisabled(disabled, saveToConfig);
         return this;
     }
 
@@ -56,20 +56,20 @@ public class NotPlaceableItem extends IndustrialRevivalItem implements NotPlacea
     }
 
     @Override
-    public NotPlaceableItem setEnchantable(boolean enchantable) {
-        super.setEnchantable(enchantable);
+    public NotPlaceableItem setEnchantable(boolean enchantable, boolean saveToConfig) {
+        super.setEnchantable(enchantable, saveToConfig);
         return this;
     }
 
     @Override
-    public NotPlaceableItem setDisenchantable(boolean disenchantable) {
-        super.setDisenchantable(disenchantable);
+    public NotPlaceableItem setDisenchantable(boolean disenchantable, boolean saveToConfig) {
+        super.setDisenchantable(disenchantable, saveToConfig);
         return this;
     }
 
     @Override
-    public NotPlaceableItem setHideInGuide(boolean hideInGuide) {
-        super.setHideInGuide(hideInGuide);
+    public NotPlaceableItem setHideInGuide(boolean hideInGuide, boolean saveToConfig) {
+        super.setHideInGuide(hideInGuide, saveToConfig);
         return this;
     }
 }

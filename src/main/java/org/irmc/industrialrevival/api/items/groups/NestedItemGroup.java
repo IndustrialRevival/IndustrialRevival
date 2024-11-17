@@ -71,17 +71,17 @@ public class NestedItemGroup extends ItemGroup {
             onlyPageOne = true;
         }
 
-        for (int b : Constants.BOARDER_SLOT) {
-            sm.setItem(b, Constants.BACKGROUND_ITEM);
+        for (int b : Constants.Guide.GUIDE_GROUP_BORDERS) {
+            sm.setItem(b, Constants.ItemStacks.BACKGROUND_ITEM);
         }
 
-        ItemStack backButton = Constants.BACK_BUTTON.apply(p);
+        ItemStack backButton = Constants.Buttons.BACK_BUTTON.apply(p);
         sm.setItem(2, backButton, ((player, clickedItem, slot, menu, clickType) -> {
             guide.open(player);
             return false;
         }));
 
-        ItemStack previousButton = Constants.PREVIOUS_BUTTON.apply(p);
+        ItemStack previousButton = Constants.Buttons.PREVIOUS_BUTTON.apply(p);
         SimpleMenu.ClickHandler previousClickHandler = (player, clickedItem, slot, menu, clickType) -> {
             guide.onGroupClicked(player, this, page - 1);
             return false;
@@ -95,7 +95,7 @@ public class NestedItemGroup extends ItemGroup {
 
         sm.setItem(47, previousButton, previousClickHandler);
 
-        ItemStack nextButton = Constants.NEXT_BUTTON.apply(p);
+        ItemStack nextButton = Constants.Buttons.NEXT_BUTTON.apply(p);
         SimpleMenu.ClickHandler nextClickHandler = (player, clickedItem, slot, menu, clickType) -> {
             guide.onGroupClicked(player, this, page + 1);
             return false;
@@ -109,7 +109,7 @@ public class NestedItemGroup extends ItemGroup {
 
         sm.setItem(51, nextButton, nextClickHandler);
 
-        ItemStack searchButton = Constants.SEARCH_BUTTON.apply(p);
+        ItemStack searchButton = Constants.Buttons.SEARCH_BUTTON.apply(p);
         sm.setItem(6, searchButton, SimpleMenu.ClickHandler.DEFAULT); // do nothing now
 
         sm.setSize(54);

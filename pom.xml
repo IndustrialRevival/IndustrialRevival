@@ -126,6 +126,7 @@
     </repositories>
 
     <dependencies>
+        <!-- Core -->
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
@@ -133,6 +134,7 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Lombok annotations -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -140,22 +142,28 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- libraries -->
+        <!-- ItemStack Lib -->
         <dependency>
             <groupId>com.github.IndustrialRevival</groupId>
             <artifactId>PigeonLib</artifactId>
             <version>0.0.3</version>
         </dependency>
+
+        <!-- Command Generator -->
         <dependency>
             <groupId>dev.jorel</groupId>
             <artifactId>commandapi-bukkit-shade</artifactId>
             <version>9.5.1</version>
         </dependency>
+
+        <!-- Folia -->
         <dependency>
             <groupId>com.tcoded</groupId>
             <artifactId>FoliaLib</artifactId>
             <version>0.3.4</version>
         </dependency>
+
+        <!-- Database -->
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jooq</artifactId>

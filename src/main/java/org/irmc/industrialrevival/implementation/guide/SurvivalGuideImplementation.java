@@ -39,7 +39,7 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
     @Override
     public void open(Player p) {
         SimpleMenu sm = new SimpleMenu(
-                IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Constants.GUIDE_TITLE_KEY));
+                IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Constants.Keys.GUIDE_TITLE_KEY));
         setupGuideMenu(p, sm);
 
         PlayerProfile.getOrRequestProfile(p.getName()).getGuideHistory().guideOpen(this, 1);
@@ -49,7 +49,7 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
 
     @Override
     public void onItemClicked(Player p, IndustrialRevivalItem item, ClickType clickType) {
-        SimpleMenu sm = new SimpleMenu(IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Constants.GUIDE_TITLE_KEY));
+        SimpleMenu sm = new SimpleMenu(IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Constants.Keys.GUIDE_TITLE_KEY));
 
         List<CraftMethod> craftMethods = item.getCraftMethods();
         if (craftMethods == null || craftMethods.isEmpty()) {
@@ -101,24 +101,24 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
 
         sm.setSize(54);
 
-        for (int b : Constants.BOARDER_SLOT) {
-            sm.setItem(b, Constants.BACKGROUND_ITEM);
+        for (int b : Constants.Guide.GUIDE_GROUP_BORDERS) {
+            sm.setItem(b, Constants.ItemStacks.BACKGROUND_ITEM);
         }
 
-        ItemStack settingButton = Constants.SETTING_BUTTON.apply(p);
+        ItemStack settingButton = Constants.Buttons.SETTING_BUTTON.apply(p);
         sm.setItem(2, settingButton, SimpleMenu.ClickHandler.DEFAULT); // do nothing now
 
-        ItemStack searchButton = Constants.SEARCH_BUTTON.apply(p);
+        ItemStack searchButton = Constants.Buttons.SEARCH_BUTTON.apply(p);
         sm.setItem(6, searchButton, SimpleMenu.ClickHandler.DEFAULT); // do nothing now
 
         int page = pageMap.getOrDefault(p.getName(), 1);
 
-        ItemStack previousButton = Constants.PREVIOUS_BUTTON.apply(p);
+        ItemStack previousButton = Constants.Buttons.PREVIOUS_BUTTON.apply(p);
         SimpleMenu.ClickHandler previousClickHandler = (player, item, slot, menu, clickType) -> {
             pageMap.put(p.getName(), page - 1);
             SimpleMenu previousPage = new SimpleMenu(IndustrialRevival.getInstance()
                     .getLanguageManager()
-                    .getMsgComponent(player, Constants.GUIDE_TITLE_KEY));
+                    .getMsgComponent(player, Constants.Keys.GUIDE_TITLE_KEY));
             setupGuideMenu(player, previousPage);
             previousPage.open(player);
             return false;
@@ -135,12 +135,12 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
         groups.add(0, bookmarks.computeIfAbsent(p.getName(), k -> new BookMarkGroup(BOOKMARK_KEY, p)));
         List<List<ItemGroup>> partition = Lists.partition(groups.stream().toList(), 36);
 
-        ItemStack nextButton = Constants.NEXT_BUTTON.apply(p);
+        ItemStack nextButton = Constants.Buttons.NEXT_BUTTON.apply(p);
         SimpleMenu.ClickHandler nextClickHandler = (player, slot, item, menu, clickType) -> {
             pageMap.put(p.getName(), page + 1);
             SimpleMenu nextPage = new SimpleMenu(IndustrialRevival.getInstance()
                     .getLanguageManager()
-                    .getMsgComponent(player, Constants.GUIDE_TITLE_KEY));
+                    .getMsgComponent(player, Constants.Keys.GUIDE_TITLE_KEY));
             setupGuideMenu(player, nextPage);
             nextPage.open(player);
             return false;
@@ -166,7 +166,7 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
             }
         }
 
-        sm.setItem(6, Constants.SEARCH_BUTTON.apply(p), (player, item, slot, menu, clickType) -> {
+        sm.setItem(6, Constants.Buttons.SEARCH_BUTTON.apply(p), (player, item, slot, menu, clickType) -> {
             player.closeInventory();
             IndustrialRevival.getInstance().getLanguageManager().sendMessage(player, "guide.type_search");
             SearchGUI.request(player, this);
@@ -176,7 +176,7 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
 
     private static class BookMarkGroup extends ItemGroup {
         public BookMarkGroup(NamespacedKey key, Player p) {
-            super(key, Constants.BOOKMARK_BUTTON.apply(p));
+            super(key, Constants.Buttons.BOOKMARK_BUTTON.apply(p));
         }
 
         @Override
@@ -223,7 +223,7 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
                     IndustrialRevival.getInstance().getRegistry().searchItems(searchTerm);
             List<List<IndustrialRevivalItem>> partition = Lists.partition(searchResults, 36);
 
-            ItemStack previousButton = Constants.PREVIOUS_BUTTON.apply(player);
+            ItemStack previousButton = Constants.Buttons.PREVIOUS_BUTTON.apply(player);
             SimpleMenu.ClickHandler previousClickHandler = (slot, player, item, menu, clickType) -> {
                 showResults(page - 1);
                 return false;
@@ -235,7 +235,7 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
                 previousClickHandler = SimpleMenu.ClickHandler.DEFAULT;
             }
 
-            ItemStack nextButton = Constants.NEXT_BUTTON.apply(player);
+            ItemStack nextButton = Constants.Buttons.NEXT_BUTTON.apply(player);
             SimpleMenu.ClickHandler nextClickHandler = (slot, player, item, menu, clickType) -> {
                 showResults(page + 1);
                 return false;
@@ -278,17 +278,17 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
         private SimpleMenu createMenu() {
             SimpleMenu sm = new SimpleMenu(IndustrialRevival.getInstance()
                     .getLanguageManager()
-                    .getMsgComponent(player, Constants.GUIDE_TITLE_KEY));
-            for (int slot : Constants.BOARDER_SLOT) {
-                sm.setItem(slot, Constants.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT);
+                    .getMsgComponent(player, Constants.Keys.GUIDE_TITLE_KEY));
+            for (int slot : Constants.Guide.GUIDE_GROUP_BORDERS) {
+                sm.setItem(slot, Constants.ItemStacks.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT);
             }
 
-            sm.setItem(2, Constants.BACK_BUTTON.apply(player), (player, item, slot, menu, clickType) -> {
+            sm.setItem(2, Constants.Buttons.BACK_BUTTON.apply(player), (player, item, slot, menu, clickType) -> {
                 implementation.goBack(player);
                 return false;
             });
 
-            sm.setItem(6, Constants.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT);
+            sm.setItem(6, Constants.ItemStacks.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT);
 
             sm.setSize(54);
 

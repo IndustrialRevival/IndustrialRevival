@@ -76,8 +76,8 @@ public class ItemDisplayer extends IndustrialRevivalItem implements InventoryBlo
 
         setItemStack(new IndustrialRevivalItemStack("ITEM_DISPLAYER", new CustomItemStack(Material.QUARTZ_SLAB, Component.empty())));
         addItemGroup(IRItemGroups.ELECTRIC_MACHINES);
-        setEnchantable(false);
-        setDisenchantable(false);
+        setEnchantable(false, true);
+        setDisenchantable(false, true);
         setWikiText("Item-Displayer");
         setAddon(IndustrialRevival.getInstance());
 

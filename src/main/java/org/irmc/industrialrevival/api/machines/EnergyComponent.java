@@ -43,14 +43,14 @@ public abstract class EnergyComponent extends BasicMachine implements EnergyNetC
     }
 
     @Override
-    public EnergyComponent setDisabledInWorld(@NotNull World world, boolean disabled) {
-        super.setDisabledInWorld(world, disabled);
+    public EnergyComponent setDisabledInWorld(@NotNull World world, boolean disabled, boolean saveToConfig) {
+        super.setDisabledInWorld(world, disabled, saveToConfig);
         return this;
     }
 
     @Override
-    public EnergyComponent setDisabled(boolean disabled) {
-        super.setDisabled(disabled);
+    public EnergyComponent setDisabled(boolean disabled, boolean saveToConfig) {
+        super.setDisabled(disabled, saveToConfig);
         return this;
     }
 
