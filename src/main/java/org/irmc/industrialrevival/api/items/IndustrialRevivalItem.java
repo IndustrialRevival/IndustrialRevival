@@ -83,7 +83,7 @@ public class IndustrialRevivalItem {
     public IndustrialRevivalItem() {
     }
 
-    public <T extends IndustrialRevivalItem> T cast(Class<T> clazz) {
+    public <T> T cast(Class<T> clazz) {
         return (T) this;
     }
     @Nullable

@@ -66,8 +66,6 @@ public class Debugger extends IndustrialRevivalItem {
         });
     }
 
-
-
     private static String color(String s) {
         return ChatColor.translateAlternateColorCodes('&', s);
     }
