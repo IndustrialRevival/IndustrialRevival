@@ -29,7 +29,6 @@ import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareIRItemEnchan
 import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareItemCraftIRItemEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareSmithingIRItemEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareTradeSelectIRItemEvent;
-import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.DataUtil;
 
 public class EventPrechecker implements Listener {
@@ -39,30 +38,35 @@ public class EventPrechecker implements Listener {
             event.setCancelled(true);
         }
     }
+
     @EventHandler(priority = EventPriority.LOW)
     public void onEndermanMoveIRBlock(EndermanMoveIRBlockEvent event) {
         if (event.getIritem().isDisabledInWorld(event.getBlock().getWorld())) {
             event.setCancelled(true);
         }
     }
+
     @EventHandler(priority = EventPriority.LOW)
     public void onEntityChangeIRBlock(EntityChangeIRBlockEvent event) {
         if (event.getIritem().isDisabledInWorld(event.getBlock().getWorld())) {
             event.setCancelled(true);
         }
     }
+
     @EventHandler(priority = EventPriority.LOW)
     public void onEntityExplodeIRBlock(EntityExplodeIRBlockEvent event) {
         if (event.getIritem().isDisabledInWorld(event.getIritemLocation().getWorld())) {
             event.setCancelled(true);
         }
     }
+
     @EventHandler(priority = EventPriority.LOW)
     public void onEntityPickupIRItem(EntityPickupIRItemEvent event) {
         if (event.getIritem().isDisabledInWorld(event.getItem().getWorld())) {
             event.setCancelled(true);
         }
     }
+
     @EventHandler(priority = EventPriority.LOW)
     public void onInventoryMoveIRItem(InventoryMoveIRItemEvent event) {
         if (event.getIritem().isDisabledInWorld(event.getDestination().getLocation().getWorld())) {
@@ -76,12 +80,14 @@ public class EventPrechecker implements Listener {
             event.setCancelled(true);
         }
     }
+
     @EventHandler(priority = EventPriority.LOW)
     public void onIRBlockFromTo(IRBlockFromToEvent event) {
         if (event.getIritem().isDisabledInWorld(event.getToBlock().getWorld())) {
             event.setCancelled(true);
         }
     }
+
     @EventHandler(priority = EventPriority.LOW)
     public void onIRBlockPlace(IRBlockPlaceEvent event) {
         Location location = event.getBlockPlaced().getLocation();

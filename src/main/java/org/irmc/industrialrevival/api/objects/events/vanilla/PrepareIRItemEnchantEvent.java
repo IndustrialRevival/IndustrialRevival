@@ -11,22 +11,24 @@ import org.jetbrains.annotations.NotNull;
 
 @Getter
 public class PrepareIRItemEnchantEvent extends PrepareItemEnchantEvent implements Cancellable, RelatedIRItem {
+    private static final HandlerList handlers = new HandlerList();
     private final IndustrialRevivalItem iritem;
     private final PrepareItemEnchantEvent originalEvent;
     @Setter
     private boolean cancelled;
+
     public PrepareIRItemEnchantEvent(PrepareItemEnchantEvent event, IndustrialRevivalItem iritem) {
         super(event.getEnchanter(), event.getView(), event.getEnchantBlock(), event.getItem(), event.getOffers(), event.getEnchantmentBonus());
         this.originalEvent = event;
         this.iritem = iritem;
     }
-    private static final HandlerList handlers = new HandlerList();
-    @Override
-    public @NotNull HandlerList getHandlers() {
+
+    public static HandlerList getHandlerList() {
         return handlers;
     }
 
-    public static HandlerList getHandlerList() {
+    @Override
+    public @NotNull HandlerList getHandlers() {
         return handlers;
     }
 }

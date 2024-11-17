@@ -28,12 +28,13 @@ public class IRBlockTickEvent extends Event implements Cancellable, RelatedIRIte
         this.iritem = iritem;
         this.blockData = blockData;
     }
-    @Override
-    public @NotNull HandlerList getHandlers() {
+
+    public static @NotNull HandlerList getHandlerList() {
         return handlers;
     }
 
-    public static @NotNull HandlerList getHandlerList() {
+    @Override
+    public @NotNull HandlerList getHandlers() {
         return handlers;
     }
 }

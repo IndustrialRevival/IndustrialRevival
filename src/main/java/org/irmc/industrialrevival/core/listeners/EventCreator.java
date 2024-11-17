@@ -64,7 +64,6 @@ import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareGrindstoneIR
 import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareIRItemEnchantEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareSmithingIRItemEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareTradeSelectIRItemEvent;
-import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.DataUtil;
 
 import java.util.ArrayList;
@@ -73,9 +72,9 @@ import java.util.List;
 /**
  * This class creates the events and calls the corresponding event handlers.
  *
+ * @author balugaq
  * @see HandlerCaller
  * @see DefaultHandler
- * @author balugaq
  */
 public class EventCreator implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
@@ -91,7 +90,7 @@ public class EventCreator implements Listener {
                 continue;
             }
 
-            BlockExplodeIRBlockEvent event = new BlockExplodeIRBlockEvent(e, block.getLocation(),item);
+            BlockExplodeIRBlockEvent event = new BlockExplodeIRBlockEvent(e, block.getLocation(), item);
             events.add(event);
         }
 
@@ -139,6 +138,7 @@ public class EventCreator implements Listener {
 
         e.setCancelled(event.isCancelled());
     }
+
     @EventHandler(priority = EventPriority.LOWEST)
     public void onEntityExplodeIRBlock(EntityExplodeEvent e) {
         List<EntityExplodeIRBlockEvent> events = new ArrayList<>();
@@ -256,6 +256,7 @@ public class EventCreator implements Listener {
 
         e.setCancelled(event.isCancelled());
     }
+
     @EventHandler(priority = EventPriority.LOWEST)
     public void onIRItemBreakBlock(BlockBreakEvent e) {
         ItemStack itemInHand = e.getPlayer().getItemInHand();
@@ -269,6 +270,7 @@ public class EventCreator implements Listener {
 
         e.setCancelled(event.isCancelled());
     }
+
     @EventHandler(priority = EventPriority.LOWEST)
     public void onIRItemDamageEntity(EntityDamageByEntityEvent e) {
         if (!(e.getDamager() instanceof Player player)) {
@@ -404,6 +406,7 @@ public class EventCreator implements Listener {
             e.setCancelled(event.isCancelled());
         }
     }
+
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerBucketEmpty(PlayerBucketEmptyEvent e) {
         Location location = e.getBlockClicked().getLocation();
@@ -465,6 +468,7 @@ public class EventCreator implements Listener {
             e.setCancelled(event.isCancelled());
         }
     }
+
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPrepareAnvilIRItem(PrepareAnvilEvent e) {
         ItemStack itemStack = e.getResult();
@@ -476,6 +480,7 @@ public class EventCreator implements Listener {
         PrepareAnvilIRItemEvent event = new PrepareAnvilIRItemEvent(e, iritem);
         Bukkit.getServer().getPluginManager().callEvent(event);
     }
+
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPrepareGrindstoneIRItem(PrepareGrindstoneEvent e) {
         ItemStack itemStack = e.getResult();
@@ -487,6 +492,7 @@ public class EventCreator implements Listener {
         PrepareGrindstoneIRItemEvent event = new PrepareGrindstoneIRItemEvent(e, iritem);
         Bukkit.getServer().getPluginManager().callEvent(event);
     }
+
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPrepareItemEnchantIRItem(PrepareItemEnchantEvent e) {
         ItemStack itemStack = e.getItem();

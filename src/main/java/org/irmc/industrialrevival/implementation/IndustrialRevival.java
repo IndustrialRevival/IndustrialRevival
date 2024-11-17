@@ -26,11 +26,11 @@ import org.irmc.industrialrevival.core.services.ItemTextureService;
 import org.irmc.industrialrevival.core.services.ProfilerService;
 import org.irmc.industrialrevival.core.task.ArmorCheckTask;
 import org.irmc.industrialrevival.implementation.groups.IRItemGroups;
-import org.irmc.industrialrevival.implementation.items.IRItems;
+import org.irmc.industrialrevival.implementation.items.IndustrialRevivalItemSetup;
+import org.irmc.industrialrevival.implementation.items.IndustrialRevivalItems;
 import org.irmc.industrialrevival.utils.Constants;
 import org.irmc.pigeonlib.file.ConfigFileUtil;
 import org.irmc.pigeonlib.language.LanguageManager;
-import org.irmc.pigeonlib.mcversion.MCVersion;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -53,6 +53,14 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     private @Getter ProfilerService profilerService;
     private @Getter ServerImplementation foliaLibImpl;
     private @Getter ItemSettings itemSettings;
+
+    public static void runSync(@NotNull Runnable runnable) {
+        Bukkit.getScheduler().runTask(instance, runnable);
+    }
+
+    public static void runAsync(@NotNull Runnable runnable) {
+        Bukkit.getScheduler().runTaskAsynchronously(instance, runnable);
+    }
 
     @Override
     public void onLoad() {
@@ -112,7 +120,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     }
 
     private void setupIndustrialRevivalItems() {
-        IRItems.setup();
+        IndustrialRevivalItemSetup.setup();
         IRItemGroups.setup();
     }
 
@@ -215,13 +223,5 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
                             || description.getSoftDepend().contains(pluginName);
                 })
                 .collect(Collectors.toSet());
-    }
-
-    public static void runSync(@NotNull Runnable runnable) {
-        Bukkit.getScheduler().runTask(instance, runnable);
-    }
-
-    public static void runAsync(@NotNull Runnable runnable) {
-        Bukkit.getScheduler().runTaskAsynchronously(instance, runnable);
     }
 }

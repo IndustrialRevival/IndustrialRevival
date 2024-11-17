@@ -19,15 +19,20 @@ import org.jetbrains.annotations.Nullable;
  */
 @SuppressWarnings("unused")
 public class Structure {
-    private @Getter static final Rotation[] ROTATIONS = new Rotation[] {Rotation.NONE, Rotation.CLOCKWISE, Rotation.FLIPPED, Rotation.COUNTER_CLOCKWISE};
-    private @Getter final StructurePiece[][][] structure;
-    private @Getter final int[] center;
-    private @Getter final int[] size;
+    private @Getter
+    static final Rotation[] ROTATIONS = new Rotation[]{Rotation.NONE, Rotation.CLOCKWISE, Rotation.FLIPPED, Rotation.COUNTER_CLOCKWISE};
+    private @Getter
+    final StructurePiece[][][] structure;
+    private @Getter
+    final int[] center;
+    private @Getter
+    final int[] size;
 
     /**
      * Used to create a multi-block structure.
+     *
      * @param structure all the pieces of the structure
-     * @param center the center of the structure
+     * @param center    the center of the structure
      */
     public Structure(@NotNull StructurePiece[][][] structure, int[] center) {
         Preconditions.checkArgument(structure != null, "Structure cannot be null");
@@ -53,11 +58,12 @@ public class Structure {
 
         this.structure = structure;
         this.center = center;
-        this.size = new int[] {structure.length, structure[0].length, structure[0][0].length};
+        this.size = new int[]{structure.length, structure[0].length, structure[0][0].length};
     }
 
     /**
      * Used to create a multi-block structure.
+     *
      * @param structure all the pieces of the structure
      */
     public Structure(@NotNull StructurePiece[][][] structure) {
@@ -66,6 +72,7 @@ public class Structure {
 
     /**
      * Used to create a multi-block structure from a 3D array of materials.
+     *
      * @param materials all {@link Material} of the structure
      * @return the created structure
      */
@@ -75,8 +82,9 @@ public class Structure {
 
     /**
      * Used to create a multi-block structure from a 3D array of materials.
+     *
      * @param materials all {@link Material} of the structure
-     * @param center the center of the structure
+     * @param center    the center of the structure
      * @return the created structure
      */
     public static Structure of(@NotNull Material[][][] materials, int[] center) {
@@ -93,6 +101,7 @@ public class Structure {
 
     /**
      * Used to create a multi-block structure from a 3D array of items.
+     *
      * @param items all {@link IndustrialRevivalItem} of the structure
      * @return the created structure
      */
@@ -102,7 +111,8 @@ public class Structure {
 
     /**
      * Used to create a multi-block structure from a 3D array of items.
-     * @param items all {@link IndustrialRevivalItem} of the structure
+     *
+     * @param items  all {@link IndustrialRevivalItem} of the structure
      * @param center the center of the structure
      * @return the created structure
      */
@@ -120,6 +130,7 @@ public class Structure {
 
     /**
      * Used to get the centerpiece of the structure.
+     *
      * @return the centerpiece of the structure
      */
     @NotNull
@@ -130,6 +141,7 @@ public class Structure {
     /**
      * Used to check if the structure is valid.
      * Will try all possible rotations.
+     *
      * @param center the center of the structure
      * @return true if the structure is valid, false otherwise
      */
@@ -144,7 +156,8 @@ public class Structure {
 
     /**
      * Used to check if the structure is valid for a specific rotation.
-     * @param center the center of the structure
+     *
+     * @param center   the center of the structure
      * @param rotation the rotation to check
      * @return true if the structure is valid for the rotation, false otherwise
      */
@@ -159,7 +172,8 @@ public class Structure {
 
     /**
      * Used to get the incorrect location of the structure for a specific rotation.
-     * @param center the center of the structure
+     *
+     * @param center   the center of the structure
      * @param rotation the rotation to check
      * @return the incorrect location of the structure for the rotation, or null if the structure is valid
      */
@@ -175,9 +189,10 @@ public class Structure {
 
     /**
      * Used to validate a specific layer of the structure for a specific rotation.
+     *
      * @param centerLocation the center of the structure
-     * @param layerLevel the layer to check
-     * @param rotation the rotation to check
+     * @param layerLevel     the layer to check
+     * @param rotation       the rotation to check
      * @return the incorrect location of the structure for the rotation, or null if the layer is valid
      */
     @Nullable

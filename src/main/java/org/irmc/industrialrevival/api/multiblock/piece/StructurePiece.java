@@ -21,19 +21,24 @@ import java.util.Map;
 public abstract class StructurePiece {
     public static final EnumMap<Material, StructurePiece> VANILLA_CACHE = new EnumMap<>(Material.class);
     public static final Map<String, StructurePiece> IR_CACHE = new HashMap<>();
+
     static StructurePiece getByMaterial(Material m) {
         return VANILLA_CACHE.computeIfAbsent(m, MaterialStructurePiece::new);
     }
+
     static StructurePiece getByIRItem(IndustrialRevivalItem iritem) {
         return IR_CACHE.computeIfAbsent(iritem.getId(), IRBlockStructurePiece::new);
     }
+
     static StructurePiece getAny() {
         return new AnyStructurePiece();
     }
+
     static StructurePiece getSection(StructurePiece... pieces) {
         return new SectionStructurePiece(pieces);
     }
 
     public abstract boolean matches(Block b);
+
     public abstract ItemStack getDisplay();
 }

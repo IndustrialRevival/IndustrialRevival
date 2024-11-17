@@ -13,9 +13,11 @@ public class ChunkPosition {
     private final int chunkX;
     private final int chunkZ;
     private final int hash;
+
     public ChunkPosition(Location location) {
         this(location.getChunk());
     }
+
     public ChunkPosition(Chunk chunk) {
         this.chunk = chunk;
         this.chunkX = chunk.getX();

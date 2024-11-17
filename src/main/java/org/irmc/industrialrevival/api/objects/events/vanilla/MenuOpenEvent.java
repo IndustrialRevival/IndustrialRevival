@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 @Getter
 public class MenuOpenEvent extends PlayerRightClickEvent {
+    private static final HandlerList handlers = new HandlerList();
     private final PlayerRightClickEvent rightClickEvent;
     private final MachineMenu openedMenu;
 
@@ -16,13 +17,12 @@ public class MenuOpenEvent extends PlayerRightClickEvent {
         this.openedMenu = openedMenu;
     }
 
-    private static final HandlerList handlers = new HandlerList();
-    @Override
-    public @NotNull HandlerList getHandlers() {
+    public static HandlerList getHandlerList() {
         return handlers;
     }
 
-    public static HandlerList getHandlerList() {
+    @Override
+    public @NotNull HandlerList getHandlers() {
         return handlers;
     }
 }

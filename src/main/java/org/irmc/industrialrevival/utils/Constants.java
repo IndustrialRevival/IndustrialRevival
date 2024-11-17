@@ -22,6 +22,7 @@ public class Constants {
         public static final NamespacedKey GUIDE_ITEM_KEY = KeyUtil.customKey("ir_guide_item");
         public static final NamespacedKey CLEANED_IR_ITEM_ID = KeyUtil.customKey("cleaned_ir_item_id");
     }
+
     public static final class ItemStacks {
         public static final ItemStack BACKGROUND_ITEM =
                 new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " ").setCustomModel(19990);
@@ -38,6 +39,7 @@ public class Constants {
                 .setCustomModel(20000)
                 .setPDCData(ItemStackKeys.GUIDE_ITEM_KEY, PersistentDataType.STRING, GuideMode.CHEAT.name());
     }
+
     public static final class Buttons {
         public static final Function<Player, ItemStack> BACK_BUTTON = p -> new CustomItemStack(
                 Material.ENCHANTED_BOOK,
@@ -81,6 +83,7 @@ public class Constants {
                 IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Keys.GUIDE_NEXT_ONE_KEY))
                 .setCustomModel(19997);
     }
+
     public static final class Keys {
         public static final String GUIDE_TITLE_KEY = "guide.title";
         public static final String GUIDE_BACK_KEY = "guide.back";
@@ -107,6 +110,7 @@ public class Constants {
         public static final String COMMAND_GIVE = "industrialrevival.cmd.give";
         public static final String COMMAND_TIMINGS = "industrialrevival.cmd.timings";
     }
+
     public static final class Files {
         // server_folder/irstorage
         public static final File STORAGE_FOLDER = new File(IndustrialRevival.getInstance().getDataFolder().getParentFile().getParentFile(), "irstorage");
@@ -117,6 +121,7 @@ public class Constants {
     public static final class Misc {
         public static final String WIKI_URL = "https://ir.hiworldmc.com/";
     }
+
     public static final class Guide {
         public static final int[] GUIDE_GROUP_BORDERS = {0, 1, 3, 4, 5, 7, 8, 45, 46, 48, 49, 50, 52, 53};
         public static final int[] GUIDE_RECIPE_SLOTS = {12, 13, 14, 21, 22, 23, 30, 31, 32};

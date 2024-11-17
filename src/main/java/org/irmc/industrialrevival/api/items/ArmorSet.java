@@ -131,6 +131,7 @@ public class ArmorSet {
             super.setAddon(addon);
             return this;
         }
+
         @Override
         public ArmorPiece addItemGroup(@NotNull ItemGroup group) {
             super.addItemGroup(group);

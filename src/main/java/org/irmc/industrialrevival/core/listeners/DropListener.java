@@ -1,6 +1,5 @@
 package org.irmc.industrialrevival.core.listeners;
 
-import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -14,8 +13,6 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.ItemDroppable;
-import org.irmc.industrialrevival.api.objects.IRBlockData;
-import org.irmc.industrialrevival.api.objects.Pair;
 import org.irmc.industrialrevival.api.recipes.BlockDropMethod;
 import org.irmc.industrialrevival.api.recipes.MobDropMethod;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;

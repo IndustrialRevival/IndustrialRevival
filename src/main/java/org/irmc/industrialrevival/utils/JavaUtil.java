@@ -61,7 +61,7 @@ public class JavaUtil {
         return result;
     }
 
-        public static <T> T[] shuffle(T[] objects) {
+    public static <T> T[] shuffle(T[] objects) {
         List<T> collect = Arrays.stream(objects).collect(Collectors.toList());
         Collections.shuffle(collect);
         T[] result = objects.clone();
@@ -136,7 +136,7 @@ public class JavaUtil {
      *
      * @param list the input list to be shuffled
      * @param ints the int[] to shuffle the list
-     * @param <T> the type of the list
+     * @param <T>  the type of the list
      * @return the shuffled list
      */
     public static <T> List<T> shuffleByInts(List<T> list, int[] ints) {

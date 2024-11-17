@@ -18,6 +18,7 @@ public abstract class EnergyComponent extends BasicMachine implements EnergyNetC
         super.setAddon(addon);
         return this;
     }
+
     @Override
     public EnergyComponent addItemGroup(@NotNull ItemGroup group) {
         super.addItemGroup(group);

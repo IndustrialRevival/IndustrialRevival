@@ -120,15 +120,19 @@ public class StructureUtil {
     public static StructurePiece material(Material material) {
         return new MaterialStructurePiece(material);
     }
+
     public static StructurePiece ir(IndustrialRevivalItem item) {
         return new IRBlockStructurePiece(item);
     }
+
     public static StructurePiece any() {
         return new AnyStructurePiece();
     }
+
     public static StructurePiece air() {
         return new MaterialStructurePiece(Material.AIR);
     }
+
     public static StructurePiece section(StructurePiece... pieces) {
         return new SectionStructurePiece(pieces);
     }

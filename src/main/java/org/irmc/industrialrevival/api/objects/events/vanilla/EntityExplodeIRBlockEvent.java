@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 @Getter
 public class EntityExplodeIRBlockEvent extends EntityExplodeEvent implements RelatedIRItem {
+    private static final HandlerList handlers = new HandlerList();
     private final EntityExplodeEvent originalEvent;
     private final Location iritemLocation;
     private final IndustrialRevivalItem iritem;
@@ -21,13 +22,12 @@ public class EntityExplodeIRBlockEvent extends EntityExplodeEvent implements Rel
         this.iritem = iritem;
     }
 
-    private static final HandlerList handlers = new HandlerList();
-    @Override
-    public @NotNull HandlerList getHandlers() {
+    public static HandlerList getHandlerList() {
         return handlers;
     }
 
-    public static HandlerList getHandlerList() {
+    @Override
+    public @NotNull HandlerList getHandlers() {
         return handlers;
     }
 }

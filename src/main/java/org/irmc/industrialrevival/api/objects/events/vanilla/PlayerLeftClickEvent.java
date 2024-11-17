@@ -8,6 +8,8 @@ import org.jetbrains.annotations.NotNull;
 @Getter
 public class PlayerLeftClickEvent extends PlayerInteractEvent {
 
+    private static final HandlerList handlers = new HandlerList();
+
     public PlayerLeftClickEvent(PlayerInteractEvent originalEvent) {
         super(
                 originalEvent.getPlayer(),
@@ -18,13 +20,12 @@ public class PlayerLeftClickEvent extends PlayerInteractEvent {
                 originalEvent.getHand());
     }
 
-    private static final HandlerList handlers = new HandlerList();
-    @Override
-    public @NotNull HandlerList getHandlers() {
+    public static HandlerList getHandlerList() {
         return handlers;
     }
 
-    public static HandlerList getHandlerList() {
+    @Override
+    public @NotNull HandlerList getHandlers() {
         return handlers;
     }
 }

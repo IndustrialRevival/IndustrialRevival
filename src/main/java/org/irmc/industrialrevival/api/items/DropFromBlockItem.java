@@ -26,6 +26,7 @@ public class DropFromBlockItem extends IndustrialRevivalItem implements BlockDro
         super.setAddon(addon);
         return this;
     }
+
     @Override
     public DropFromBlockItem addItemGroup(@NotNull ItemGroup group) {
         super.addItemGroup(group);

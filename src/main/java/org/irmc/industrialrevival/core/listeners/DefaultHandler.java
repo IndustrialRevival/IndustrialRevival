@@ -17,20 +17,14 @@ import org.irmc.industrialrevival.api.objects.events.vanilla.MenuOpenEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PistonExtendIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PistonRetractIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PlayerBucketEmptyToIRBlockEvent;
-import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareAnvilIRItemEvent;
-import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareGrindstoneIRItemEvent;
-import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareIRItemEnchantEvent;
-import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareItemCraftIRItemEvent;
-import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareSmithingIRItemEvent;
-import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareTradeSelectIRItemEvent;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 
 /**
  * Do operation after {@link HandlerCaller} and all other operations are done
  *
+ * @author balugaq
  * @see EventCreator
  * @see HandlerCaller
- * @author balugaq
  */
 public class DefaultHandler implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -79,6 +73,7 @@ public class DefaultHandler implements Listener {
             event.setCancelled(true);
         }
     }
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onIRBlockBreak(IRBlockBreakEvent event) {
         if (event.isCancelled()) {

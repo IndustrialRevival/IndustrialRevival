@@ -41,6 +41,7 @@ public abstract class ItemDictionary implements Keyed {
     public NamespacedKey getKey() {
         return key;
     }
+
     public boolean isTagged(@NotNull ItemStack itemStack) {
         if (itemStack == null || itemStack.getType() == Material.AIR) {
             return false;
@@ -65,6 +66,7 @@ public abstract class ItemDictionary implements Keyed {
 
         return getTaggedItem(item.getItem().clone());
     }
+
     protected ItemStack getTaggedItem(@NotNull IndustrialRevivalItemStack item) {
         if (item == null) {
             return null;
@@ -72,6 +74,7 @@ public abstract class ItemDictionary implements Keyed {
 
         return getTaggedItem(item.clone());
     }
+
     protected ItemStack getTaggedItem(@NotNull ItemStack itemStack) {
         ItemStack stack = itemStack.clone();
         if (stack == null || stack.getType() == Material.AIR) {

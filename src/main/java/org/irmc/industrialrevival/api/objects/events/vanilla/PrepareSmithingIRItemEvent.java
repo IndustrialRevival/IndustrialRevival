@@ -10,25 +10,28 @@ import org.jetbrains.annotations.NotNull;
 
 @Getter
 public class PrepareSmithingIRItemEvent extends PrepareSmithingEvent implements Cancellable, RelatedIRItem {
+    private static final HandlerList handlers = new HandlerList();
     private final IndustrialRevivalItem iritem;
     private final PrepareSmithingEvent originalEvent;
     private boolean cancelled;
+
     public PrepareSmithingIRItemEvent(PrepareSmithingEvent event, IndustrialRevivalItem iritem) {
         super(event.getView(), event.getResult());
         this.originalEvent = event;
         this.iritem = iritem;
     }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
     public void setCancelled(boolean cancel) {
         this.cancelled = cancel;
         setResult(null);
     }
-    private static final HandlerList handlers = new HandlerList();
+
     @Override
     public @NotNull HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
         return handlers;
     }
 }

@@ -1,6 +1,17 @@
 package org.irmc.industrialrevival.api;
 
 import io.papermc.lib.PaperLib;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+import org.irmc.industrialrevival.api.items.handlers.BlockTicker;
+import org.irmc.industrialrevival.api.objects.IRBlockData;
+import org.irmc.industrialrevival.implementation.IndustrialRevival;
+import org.irmc.industrialrevival.utils.Constants;
+import org.irmc.industrialrevival.utils.DataUtil;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.File;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
@@ -14,45 +25,33 @@ import java.util.OptionalInt;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.logging.Level;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
-import org.irmc.industrialrevival.api.items.handlers.BlockTicker;
-import org.irmc.industrialrevival.api.objects.IRBlockData;
-import org.irmc.industrialrevival.implementation.IndustrialRevival;
-import org.irmc.industrialrevival.utils.Constants;
-import org.irmc.industrialrevival.utils.DataUtil;
 
 @SuppressWarnings({"deprecation", "unused"})
 public class ErrorReport<T extends Throwable> {
     private static final String FORMAT = """
-Error Generated at: {0}
+            Error Generated at: {0}
 
-Java Environment:
-Operating System: {1}
-Java Version: {2}
+            Java Environment:
+            Operating System: {1}
+            Java Version: {2}
 
-Server Software: {3}
-Build: {4}
-Minecraft v{5}
+            Server Software: {3}
+            Build: {4}
+            Minecraft v{5}
 
-IndustrialRevival Environment:
-IndustrialRevival v{6}
-Caused by: {7} v{8}
+            IndustrialRevival Environment:
+            IndustrialRevival v{6}
+            Caused by: {7} v{8}
 
-Installed Addons ({9}):
-{10}
+            Installed Addons ({9}):
+            {10}
 
-Installed Plugins ({11}):
-{12}
+            Installed Plugins ({11}):
+            {12}
 
-""";
+            """;
     private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm", Locale.ROOT);
     private static final AtomicInteger count = new AtomicInteger(0);
 
@@ -60,7 +59,7 @@ Installed Plugins ({11}):
     private final T throwable;
 
     private File file;
-    
+
     @ParametersAreNonnullByDefault
     public ErrorReport(T throwable, IndustrialRevivalAddon addon, Consumer<PrintStream> printer) {
         this.throwable = throwable;
@@ -68,6 +67,7 @@ Installed Plugins ({11}):
 
         IndustrialRevival.runSync(() -> print(printer));
     }
+
     @ParametersAreNonnullByDefault
     public ErrorReport(T throwable, Location l, IndustrialRevivalItem item) {
         this(throwable, item.getAddon(), stream -> {
@@ -102,7 +102,7 @@ Installed Plugins ({11}):
             stream.println();
         });
     }
-    
+
     @ParametersAreNonnullByDefault
     public ErrorReport(T throwable, IndustrialRevivalItem item) {
         this(throwable, item.getAddon(), stream -> {
@@ -114,16 +114,34 @@ Installed Plugins ({11}):
         });
     }
 
+    public static int count() {
+        return count.get();
+    }
+
+    private static @Nonnull File getNewFile() {
+        String path = Constants.Files.ERROR_REPORTS_FOLDER + dateFormat.format(LocalDateTime.now());
+        File newFile = new File(path + ".txt");
+
+        if (newFile.exists()) {
+            IntStream stream = IntStream.iterate(1, i -> i + 1).filter(i -> !new File(path + " (" + i + ").txt").exists());
+            int id = 1;
+            OptionalInt optionalInt = stream.findFirst();
+            if (optionalInt.isPresent()) {
+                id = optionalInt.getAsInt();
+            }
+
+            newFile = new File(path + " (" + id + ").txt");
+        }
+
+        return newFile;
+    }
+
     public @Nonnull File getFile() {
         return file;
     }
 
     public @Nonnull T getThrown() {
         return throwable;
-    }
-
-    public static int count() {
-        return count.get();
     }
 
     private void print(@Nonnull Consumer<PrintStream> printer) {
@@ -184,23 +202,5 @@ Installed Plugins ({11}):
                             () -> "An Error occurred while saving an Error-Report for IndustrialRevival "
                                     + IndustrialRevival.getInstance().getVersion());
         }
-    }
-
-    private static @Nonnull File getNewFile() {
-        String path = Constants.Files.ERROR_REPORTS_FOLDER + dateFormat.format(LocalDateTime.now());
-        File newFile = new File(path + ".txt");
-
-        if (newFile.exists()) {
-            IntStream stream = IntStream.iterate(1, i -> i + 1).filter(i -> !new File(path + " (" + i + ").txt").exists());
-            int id = 1;
-            OptionalInt optionalInt = stream.findFirst();
-            if (optionalInt.isPresent()) {
-                id = optionalInt.getAsInt();
-            }
-
-            newFile = new File(path + " (" + id + ").txt");
-        }
-
-        return newFile;
     }
 }

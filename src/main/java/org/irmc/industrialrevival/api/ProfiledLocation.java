@@ -2,7 +2,6 @@ package org.irmc.industrialrevival.api;
 
 import lombok.Getter;
 import org.bukkit.Location;
-import org.bukkit.plugin.Plugin;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.objects.ChunkPosition;
 import org.irmc.industrialrevival.utils.DataUtil;

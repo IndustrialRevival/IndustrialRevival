@@ -166,14 +166,14 @@ public class RecipeType {
         this.recipeDisplay = DEFAULT_RECIPE_DISPLAY;
     }
 
-    public RecipeType(IndustrialRevivalAddon addon,NamespacedKey key, ItemStack icon, RecipeDisplay recipeDisplay) {
+    public RecipeType(IndustrialRevivalAddon addon, NamespacedKey key, ItemStack icon, RecipeDisplay recipeDisplay) {
         this.addon = addon;
         this.key = key;
         this.icon = icon;
         this.recipeDisplay = recipeDisplay;
     }
 
-    public RecipeType(IndustrialRevivalAddon addon,NamespacedKey key, ItemStack icon, String makerId) {
+    public RecipeType(IndustrialRevivalAddon addon, NamespacedKey key, ItemStack icon, String makerId) {
         this.addon = addon;
         this.key = key;
         this.icon = icon;
@@ -181,7 +181,7 @@ public class RecipeType {
         this.makerId = makerId;
     }
 
-    public RecipeType(IndustrialRevivalAddon addon,NamespacedKey key, ItemStack icon, String makerId, RecipeDisplay recipeDisplay) {
+    public RecipeType(IndustrialRevivalAddon addon, NamespacedKey key, ItemStack icon, String makerId, RecipeDisplay recipeDisplay) {
         this.addon = addon;
         this.key = key;
         this.icon = icon;
@@ -189,7 +189,7 @@ public class RecipeType {
         this.makerId = makerId;
     }
 
-    public RecipeType(IndustrialRevivalAddon addon,NamespacedKey key, ItemStack icon, BiConsumer<ItemStack[], ItemStack> registerRecipeConsumer, BiConsumer<ItemStack[], ItemStack> unregisterRecipeConsumer) {
+    public RecipeType(IndustrialRevivalAddon addon, NamespacedKey key, ItemStack icon, BiConsumer<ItemStack[], ItemStack> registerRecipeConsumer, BiConsumer<ItemStack[], ItemStack> unregisterRecipeConsumer) {
         this.addon = addon;
         this.key = key;
         this.icon = icon;
@@ -198,7 +198,7 @@ public class RecipeType {
         this.unregisterRecipeConsumer = unregisterRecipeConsumer;
     }
 
-    public RecipeType(IndustrialRevivalAddon addon,NamespacedKey key, ItemStack icon, RecipeDisplay recipeDisplay, BiConsumer<ItemStack[], ItemStack> registerRecipeConsumer, BiConsumer<ItemStack[], ItemStack> unregisterRecipeConsumer) {
+    public RecipeType(IndustrialRevivalAddon addon, NamespacedKey key, ItemStack icon, RecipeDisplay recipeDisplay, BiConsumer<ItemStack[], ItemStack> registerRecipeConsumer, BiConsumer<ItemStack[], ItemStack> unregisterRecipeConsumer) {
         this.addon = addon;
         this.key = key;
         this.icon = icon;
@@ -207,7 +207,7 @@ public class RecipeType {
         this.unregisterRecipeConsumer = unregisterRecipeConsumer;
     }
 
-    public RecipeType(IndustrialRevivalAddon addon,NamespacedKey key, ItemStack icon, String makerId, BiConsumer<ItemStack[], ItemStack> registerRecipeConsumer, BiConsumer<ItemStack[], ItemStack> unregisterRecipeConsumer) {
+    public RecipeType(IndustrialRevivalAddon addon, NamespacedKey key, ItemStack icon, String makerId, BiConsumer<ItemStack[], ItemStack> registerRecipeConsumer, BiConsumer<ItemStack[], ItemStack> unregisterRecipeConsumer) {
         this.addon = addon;
         this.key = key;
         this.icon = icon;
@@ -217,7 +217,7 @@ public class RecipeType {
         this.unregisterRecipeConsumer = unregisterRecipeConsumer;
     }
 
-    public RecipeType(IndustrialRevivalAddon addon,NamespacedKey key, ItemStack icon, String makerId, RecipeDisplay recipeDisplay, BiConsumer<ItemStack[], ItemStack> registerRecipeConsumer, BiConsumer<ItemStack[], ItemStack> unregisterRecipeConsumer) {
+    public RecipeType(IndustrialRevivalAddon addon, NamespacedKey key, ItemStack icon, String makerId, RecipeDisplay recipeDisplay, BiConsumer<ItemStack[], ItemStack> registerRecipeConsumer, BiConsumer<ItemStack[], ItemStack> unregisterRecipeConsumer) {
         this.addon = addon;
         this.key = key;
         this.icon = icon;

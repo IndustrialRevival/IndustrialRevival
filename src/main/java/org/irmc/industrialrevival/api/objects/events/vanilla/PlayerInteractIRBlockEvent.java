@@ -9,21 +9,22 @@ import org.jetbrains.annotations.NotNull;
 
 @Getter
 public class PlayerInteractIRBlockEvent extends PlayerInteractEvent implements RelatedIRItem {
+    private static final HandlerList handlers = new HandlerList();
     private final PlayerInteractEvent originalEvent;
     private final IndustrialRevivalItem iritem;
+
     public PlayerInteractIRBlockEvent(PlayerInteractEvent originalEvent, IndustrialRevivalItem iritem) {
         super(originalEvent.getPlayer(), originalEvent.getAction(), originalEvent.getItem(), originalEvent.getClickedBlock(), originalEvent.getBlockFace(), originalEvent.getHand());
         this.originalEvent = originalEvent;
         this.iritem = iritem;
     }
 
-    private static final HandlerList handlers = new HandlerList();
-    @Override
-    public @NotNull HandlerList getHandlers() {
+    public static HandlerList getHandlerList() {
         return handlers;
     }
 
-    public static HandlerList getHandlerList() {
+    @Override
+    public @NotNull HandlerList getHandlers() {
         return handlers;
     }
 }

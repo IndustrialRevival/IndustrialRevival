@@ -1,6 +1,5 @@
 package org.irmc.industrialrevival.api.items.handlers;
 
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.objects.events.vanilla.IRItemInteractEvent;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;

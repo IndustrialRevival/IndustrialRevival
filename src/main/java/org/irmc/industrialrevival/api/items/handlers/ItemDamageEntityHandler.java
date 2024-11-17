@@ -2,8 +2,6 @@ package org.irmc.industrialrevival.api.items.handlers;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.objects.events.vanilla.IRItemDamageEntityEvent;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
@@ -17,6 +15,7 @@ public interface ItemDamageEntityHandler extends ItemHandler {
      * @param event the event that occurred
      */
     void onHit(@NotNull IRItemDamageEntityEvent event);
+
     @Override
     default IncompatibleItemHandlerException isCompatible(@NotNull IndustrialRevivalItem item) {
         if (!item.getItem().getType().isItem()) {
@@ -26,6 +25,7 @@ public interface ItemDamageEntityHandler extends ItemHandler {
 
         return null;
     }
+
     default Class<? extends ItemHandler> getIdentifier() {
         return ItemDamageEntityHandler.class;
     }

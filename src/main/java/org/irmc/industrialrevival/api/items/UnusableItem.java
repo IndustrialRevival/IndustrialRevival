@@ -14,6 +14,7 @@ public class UnusableItem extends IndustrialRevivalItem implements Unusable {
         super.setAddon(addon);
         return this;
     }
+
     @Override
     public UnusableItem addItemGroup(@NotNull ItemGroup group) {
         super.addItemGroup(group);

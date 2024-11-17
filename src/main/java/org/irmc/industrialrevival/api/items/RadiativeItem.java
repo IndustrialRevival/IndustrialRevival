@@ -24,6 +24,7 @@ public class RadiativeItem extends IndustrialRevivalItem implements Radiation {
         super.setAddon(addon);
         return this;
     }
+
     @Override
     public RadiativeItem addItemGroup(@NotNull ItemGroup group) {
         super.addItemGroup(group);

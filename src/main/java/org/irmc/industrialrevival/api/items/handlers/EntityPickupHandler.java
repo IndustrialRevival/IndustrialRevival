@@ -5,6 +5,7 @@ import org.irmc.industrialrevival.api.objects.events.vanilla.EntityPickupIRItemE
 @FunctionalInterface
 public interface EntityPickupHandler extends ItemHandler {
     void onEntityPickup(EntityPickupIRItemEvent event);
+
     default Class<? extends ItemHandler> getIdentifier() {
         return EntityPickupHandler.class;
     }

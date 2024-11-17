@@ -117,6 +117,11 @@ public class IndustrialRevivalItemStack extends ItemStack {
         return itemStack;
     }
 
+    @Nullable
+    public IndustrialRevivalItem getItem() {
+        return IndustrialRevivalItem.getByItem(this);
+    }
+
     void lock() {
         this.locked = true;
     }

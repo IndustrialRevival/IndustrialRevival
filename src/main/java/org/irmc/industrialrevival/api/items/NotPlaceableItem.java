@@ -13,6 +13,7 @@ public class NotPlaceableItem extends IndustrialRevivalItem implements NotPlacea
         super.setAddon(addon);
         return this;
     }
+
     @Override
     public NotPlaceableItem addItemGroup(@NotNull ItemGroup group) {
         super.addItemGroup(group);

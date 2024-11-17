@@ -34,6 +34,7 @@ public abstract class AbstractMachine extends IndustrialRevivalItem {
         super.setAddon(addon);
         return this;
     }
+
     @Override
     public AbstractMachine addItemGroup(@NotNull ItemGroup group) {
         super.addItemGroup(group);

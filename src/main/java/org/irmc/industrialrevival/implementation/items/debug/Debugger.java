@@ -1,4 +1,4 @@
-package org.irmc.industrialrevival.implementation.items.hidden;
+package org.irmc.industrialrevival.implementation.items.debug;
 
 import io.papermc.lib.PaperLib;
 import io.papermc.paper.plugin.configuration.PluginMeta;
@@ -10,22 +10,19 @@ import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
-import org.irmc.industrialrevival.api.items.handlers.BlockPlaceHandler;
 import org.irmc.industrialrevival.api.items.handlers.BlockTicker;
 import org.irmc.industrialrevival.api.items.handlers.ItemInteractHandler;
 import org.irmc.industrialrevival.api.objects.ChunkPosition;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.api.objects.PerformanceSummary;
-import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockBreakEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockPlaceEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.IRItemInteractEvent;
 import org.irmc.industrialrevival.core.services.IRRegistry;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
-import org.irmc.industrialrevival.implementation.items.IRItems;
+import org.irmc.industrialrevival.implementation.items.IndustrialRevivalItems;
 import org.irmc.industrialrevival.utils.DataUtil;
 import org.irmc.industrialrevival.utils.NumberUtils;
 import org.jetbrains.annotations.NotNull;
@@ -58,6 +55,7 @@ public class Debugger extends IndustrialRevivalItem {
     private static final ChatColor gray = ChatColor.GRAY;
     private static final ChatColor darkGray = ChatColor.DARK_GRAY;
     private static final ChatColor black = ChatColor.BLACK;
+
     public Debugger() {
         super();
         addItemHandlers(new ItemInteractHandler() {
@@ -66,6 +64,24 @@ public class Debugger extends IndustrialRevivalItem {
                 interact(event);
             }
         });
+    }
+
+    public void debug() {
+        // TODO: implement debug functions
+    }
+
+
+
+    private static String color(String s) {
+        return ChatColor.translateAlternateColorCodes('&', s);
+    }
+
+    private static void send(Player player, String s) {
+        player.sendMessage(color(s));
+    }
+
+    private static String booleanToSymbol(boolean b) {
+        return (b ? green + "✔" : red + "✘") + white;
     }
 
     private void interact(IRItemInteractEvent e) {
@@ -341,7 +357,7 @@ public class Debugger extends IndustrialRevivalItem {
             return;
         }
         send(player, "&e - Location: &7" + simpleLocationToString(location));
-        IRBlockPlaceEvent event = new IRBlockPlaceEvent(new BlockPlaceEvent(location.getBlock(), location.getBlock().getState(), block, IRItems.IRItemStacks.DEBUG_HEAD.clone(), player, true), IRItems.DEBUG_HEAD);
+        IRBlockPlaceEvent event = new IRBlockPlaceEvent(new BlockPlaceEvent(location.getBlock(), location.getBlock().getState(), block, IndustrialRevivalItems.DEBUG_HEAD.clone(), player, true), IndustrialRevivalItems.DEBUG_HEAD.getItem());
         Bukkit.getPluginManager().callEvent(event);
 
         send(player, "&aDebug Head placed.");
@@ -366,16 +382,5 @@ public class Debugger extends IndustrialRevivalItem {
 
     private String simpleLocationToString(Location location) {
         return "Location{world=" + location.getWorld().getName() + ", x=" + location.getBlockX() + ", y=" + location.getBlockY() + ", z=" + location.getBlockZ() + "}";
-    }
-
-    private static String color(String s) {
-        return ChatColor.translateAlternateColorCodes('&', s);
-    }
-    
-    private static void send(Player player, String s) {
-        player.sendMessage(color(s));
-    }
-    private static String booleanToSymbol(boolean b) {
-        return (b ? green + "✔" : red + "✘") + white;
     }
 }

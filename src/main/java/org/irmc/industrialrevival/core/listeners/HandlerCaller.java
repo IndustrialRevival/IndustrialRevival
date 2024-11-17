@@ -7,13 +7,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
-import org.irmc.industrialrevival.api.items.attributes.ItemDroppable;
 import org.irmc.industrialrevival.api.items.handlers.BlockBreakHandler;
 import org.irmc.industrialrevival.api.items.handlers.BlockExplodeHandler;
 import org.irmc.industrialrevival.api.items.handlers.BlockFromToHandler;
-import org.irmc.industrialrevival.api.items.handlers.BlockInteractHandler;
 import org.irmc.industrialrevival.api.items.handlers.BlockPistonExtendHandler;
 import org.irmc.industrialrevival.api.items.handlers.BlockPistonRetractHandler;
 import org.irmc.industrialrevival.api.items.handlers.BlockPlaceHandler;
@@ -35,7 +32,6 @@ import org.irmc.industrialrevival.api.items.handlers.PrepareSmithingHandler;
 import org.irmc.industrialrevival.api.items.handlers.PrepareTradeSelectHandler;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
-import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.api.objects.events.vanilla.BlockExplodeIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.EndermanMoveIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.EntityChangeIRBlockEvent;
@@ -44,7 +40,6 @@ import org.irmc.industrialrevival.api.objects.events.vanilla.EntityPickupIRItemE
 import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockBreakEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockFromToEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockPlaceEvent;
-import org.irmc.industrialrevival.api.objects.events.vanilla.IRItemBreakBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.IRItemDamageEntityEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.IRItemInteractEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.IRItemKillEntityEvent;
@@ -54,22 +49,20 @@ import org.irmc.industrialrevival.api.objects.events.vanilla.MenuOpenEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PistonExtendIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PistonRetractIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PlayerBucketEmptyToIRBlockEvent;
-import org.irmc.industrialrevival.api.objects.events.vanilla.PlayerInteractIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareAnvilIRItemEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareGrindstoneIRItemEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareIRItemEnchantEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareItemCraftIRItemEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareSmithingIRItemEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareTradeSelectIRItemEvent;
-import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * This class is used to call {@link ItemHandler}
  *
+ * @author balugaq
  * @see EventCreator
  * @see DefaultHandler
- * @author balugaq
  */
 public class HandlerCaller implements Listener {
     // todo: add more event handlers
@@ -85,6 +78,7 @@ public class HandlerCaller implements Listener {
             handler.onBlockExplode(e);
         }
     }
+
     @EventHandler(priority = EventPriority.NORMAL)
     public void onEndermanMoveIRBlock(EndermanMoveIRBlockEvent e) {
         IndustrialRevivalItem iritem = e.getIritem();
@@ -97,6 +91,7 @@ public class HandlerCaller implements Listener {
             handler.onEndermanMoveBlock(e);
         }
     }
+
     @EventHandler(priority = EventPriority.NORMAL)
     public void onEntityChangeBlock(EntityChangeIRBlockEvent e) {
         IndustrialRevivalItem iritem = e.getIritem();
@@ -244,6 +239,7 @@ public class HandlerCaller implements Listener {
             handler.onOpen(e.getPlayer(), menu);
         }
     }
+
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPistonExtendIRBlock(PistonExtendIRBlockEvent event) {
         BlockPistonExtendHandler handler = event.getIritem().getItemHandler(BlockPistonExtendHandler.class);

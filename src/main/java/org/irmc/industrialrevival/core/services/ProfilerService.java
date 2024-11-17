@@ -33,13 +33,14 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 @SuppressWarnings("unused")
 public class ProfilerService {
     private static final int MAX_ITEMS = 20;
-    @Getter
-    public PerformanceSummary summary = new PerformanceSummary(new HashMap<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(), 0);
     public final Queue<TimingViewRequest> requests = new ConcurrentLinkedQueue<>();
     public final Map<ProfiledLocation, Long> profilingData = new ConcurrentHashMap<>();
     public final Map<Location, Long> startTimes = new ConcurrentHashMap<>();
     @Getter
     private final TickerTask task = new TickerTask(IndustrialRevival.getInstance().getConfig().getInt("options.armor-check-interval", 1));
+    @Getter
+    public PerformanceSummary summary = new PerformanceSummary(new HashMap<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(), 0);
+
     public void requestTimingView(TimingViewRequest request) {
         if (!requests.add(request)) {
             throw new RuntimeException("Failed to add request to queue");
@@ -66,7 +67,7 @@ public class ProfilerService {
     @SuppressWarnings("deprecation")
     @NotNull
     @ParametersAreNonnullByDefault
-    private TextComponent getHoverComponent(String groundText, String backGroundText){
+    private TextComponent getHoverComponent(String groundText, String backGroundText) {
         TextComponent hoverComponent = new TextComponent(groundText);
         hoverComponent.setColor(ChatColor.GRAY);
 
@@ -75,11 +76,12 @@ public class ProfilerService {
 
         return hoverComponent;
     }
+
     public void respondToTimingView(@Nullable TimingViewRequest request) {
         if (request == null) {
             return;
         }
-        
+
         Map<ProfiledLocation, Long> data = getProfilingData();
         Map<String, Long> dataByID = getProfilingDataByID();
         Map<ChunkPosition, Long> dataByChunk = getProfilingDataByChunk();
@@ -150,6 +152,7 @@ public class ProfilerService {
         request.getRequester().sendMessage(getHoverComponent("&a" + dataByChunk.size() + " Chunks (Hover for details)", chunkBuilder.toString()));
         request.getRequester().sendMessage(getHoverComponent("&a" + dataByPlugin.size() + " Plugins (Hover for details)", pluginBuilder.toString()));
     }
+
     public void startProfiling(Location location) {
         startTimes.put(location, System.nanoTime());
     }
@@ -182,6 +185,7 @@ public class ProfilerService {
         }
         return profilingDataByID;
     }
+
     @NotNull
     public Map<ChunkPosition, Long> getProfilingDataByChunk() {
         Map<ProfiledLocation, Long> profilingData = getProfilingData();

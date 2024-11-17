@@ -10,6 +10,7 @@ public interface IndustrialRevivalAddon {
     @NotNull JavaPlugin getPlugin();
 
     @Nullable String getIssueTrackerURL();
+
     default @NotNull String getVersion() {
         return getPlugin().getDescription().getVersion();
     }

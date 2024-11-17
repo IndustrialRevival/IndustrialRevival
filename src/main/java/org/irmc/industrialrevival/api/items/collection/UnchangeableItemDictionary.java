@@ -1,10 +1,7 @@
 package org.irmc.industrialrevival.api.items.collection;
 
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,6 +11,7 @@ import java.util.List;
 public class UnchangeableItemDictionary extends SimpleItemDictionary {
     private final List<IndustrialRevivalItem> items;
     private boolean locked = false;
+
     public UnchangeableItemDictionary(NamespacedKey key, final List<IndustrialRevivalItem> items) {
         super(key);
         this.items = new ArrayList<>(items);

@@ -2,7 +2,6 @@ package org.irmc.industrialrevival.api.items.handlers;
 
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.NotPlaceable;
-import org.irmc.industrialrevival.api.objects.events.vanilla.BlockExplodeIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.EndermanMoveIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
 import org.irmc.pigeonlib.items.ItemUtils;
@@ -22,6 +21,7 @@ public interface EndermanMoveBlockHandler extends ItemHandler {
         }
         return null;
     }
+
     default Class<? extends ItemHandler> getIdentifier() {
         return EndermanMoveBlockHandler.class;
     }

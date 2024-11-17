@@ -28,7 +28,6 @@ import org.irmc.industrialrevival.api.recipes.RecipeContent;
 import org.irmc.industrialrevival.api.recipes.RecipeContents;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
-import org.irmc.industrialrevival.implementation.items.IRItems;
 import org.irmc.industrialrevival.utils.Constants;
 import org.irmc.pigeonlib.items.ItemUtils;
 import org.irmc.pigeonlib.pdc.PersistentDataAPI;
@@ -54,8 +53,8 @@ import java.util.Set;
  *
  * @author balugaq
  * @author linjinhong11
- *
  * @see NotPlaceable
+ * @noinspection ALL
  */
 @SuppressWarnings("unused")
 public class IndustrialRevivalItem {
@@ -67,9 +66,9 @@ public class IndustrialRevivalItem {
     private final Set<ItemDictionary> itemDictionaries = new HashSet<>();
     private final Set<String> disabledInWorld = new HashSet<>();
     @Getter
-    private IndustrialRevivalAddon addon;
-    @Getter
     private final Set<ItemGroup> group = new HashSet<>();
+    @Getter
+    private IndustrialRevivalAddon addon;
     private IndustrialRevivalItemStack itemStack;
     private ItemState state = ItemState.UNREGISTERED;
     @Getter
@@ -80,13 +79,13 @@ public class IndustrialRevivalItem {
     private boolean disenchantable = true;
     @Getter
     private boolean hideInGuide = false;
+
     public IndustrialRevivalItem() {
     }
 
-    public Collection<ItemHandler> getItemHandlers() {
-        return itemHandlers.values();
+    public <T extends IndustrialRevivalItem> T cast(Class<T> clazz) {
+        return (T) this;
     }
-
     @Nullable
     public static IndustrialRevivalItem getById(@NotNull String id) {
         return IndustrialRevival.getInstance().getRegistry().getItems().get(id);
@@ -108,6 +107,10 @@ public class IndustrialRevivalItem {
         }
 
         return null;
+    }
+
+    public Collection<ItemHandler> getItemHandlers() {
+        return itemHandlers.values();
     }
 
     @NotNull
@@ -263,7 +266,7 @@ public class IndustrialRevivalItem {
 
     @NotNull
     public <T extends ItemHandler> T getItemHandler(Class<T> clazz) {
-        return (T) itemHandlers.get(clazz);
+        return clazz.cast(itemHandlers.get(clazz));
     }
 
     @CanIgnoreReturnValue
@@ -311,10 +314,6 @@ public class IndustrialRevivalItem {
         }
 
         for (CraftMethod craftMethod : craftMethods) {
-            if (craftMethod.getIngredients() == IRItems.Recipes.EMPTY_RECIPE) {
-                continue;
-            }
-
             if (craftMethod.getRecipeType() == RecipeType.VANILLA_CRAFTING) {
                 NamespacedKey key = new NamespacedKey(addon.getPlugin(), "rt_crafting_" + getId().toLowerCase());
                 ShapedRecipe shapedRecipe = new ShapedRecipe(key, itemStack.clone());
@@ -379,7 +378,7 @@ public class IndustrialRevivalItem {
         return null;
     }
 
-    @NotNull
+    @Nullable
     public ItemStack getRecipeOutput(RecipeType recipeType) {
         for (CraftMethod craftMethod : craftMethods) {
             if (craftMethod.getRecipeType() == recipeType) {

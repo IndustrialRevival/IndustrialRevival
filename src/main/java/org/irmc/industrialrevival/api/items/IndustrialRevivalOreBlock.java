@@ -48,6 +48,7 @@ public class IndustrialRevivalOreBlock extends IndustrialRevivalItem implements 
         super.setAddon(addon);
         return this;
     }
+
     @Override
     public IndustrialRevivalOreBlock addItemGroup(@NotNull ItemGroup group) {
         super.addItemGroup(group);

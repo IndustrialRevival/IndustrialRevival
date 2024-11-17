@@ -17,9 +17,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CombustionFurnace extends MultiBlock {
-    private @Getter final ItemStack RECIPE_TYPE_ICON = new CustomItemStack(Material.BLAST_FURNACE, "Combustion Furnace", "A Combustion Furnace", "This block is a MultiBlock structure that can be used to create Combustion Recipes.", "For testing purposes only so far.");
-    private @Getter final Map<ItemStack[], ItemStack> RECIPES = new HashMap<>();
-    private @Getter final RecipeType RECIPE_TYPE = new RecipeType(getAddon(), getKey(), RECIPE_TYPE_ICON,
+    private @Getter
+    final ItemStack RECIPE_TYPE_ICON = new CustomItemStack(Material.BLAST_FURNACE, "Combustion Furnace", "A Combustion Furnace", "This block is a MultiBlock structure that can be used to create Combustion Recipes.", "For testing purposes only so far.");
+    private @Getter
+    final Map<ItemStack[], ItemStack> RECIPES = new HashMap<>();
+    private @Getter
+    final RecipeType RECIPE_TYPE = new RecipeType(getAddon(), getKey(), RECIPE_TYPE_ICON,
             RECIPES::put,
             (input, output) -> {
                 RECIPES.remove(input);
@@ -28,9 +31,9 @@ public class CombustionFurnace extends MultiBlock {
     public CombustionFurnace(NamespacedKey key) {
         super(key);
         StructureBuilder sb = new StructureBuilder()
-            .setPieces(StructureUtil.createCube(Material.BRICKS, 3))
-            .setColumn(1, 0, 1, StructureUtil.material(Material.FURNACE))
-            .setCenter(1, 0, 1);
+                .setPieces(StructureUtil.createCube(Material.BRICKS, 3))
+                .setColumn(1, 0, 1, StructureUtil.material(Material.FURNACE))
+                .setCenter(1, 0, 1);
         setStructure(sb.build());
     }
 

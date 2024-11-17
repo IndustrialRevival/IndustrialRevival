@@ -36,6 +36,7 @@ public class LimitedItem extends IndustrialRevivalItem implements Limited {
         super.setAddon(addon);
         return this;
     }
+
     @Override
     public LimitedItem setItemStack(@NotNull IndustrialRevivalItemStack itemStack) {
         super.setItemStack(itemStack);

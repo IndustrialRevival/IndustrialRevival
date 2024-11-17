@@ -1,7 +1,6 @@
 package org.irmc.industrialrevival.api.menu;
 
 import lombok.Getter;
-import net.kyori.adventure.text.Component;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.utils.MenuUtil;
 import org.jetbrains.annotations.NotNull;
@@ -36,7 +35,7 @@ import java.util.Map;
  *     }
  * }
  * </pre>
- *
+ * <p>
  * In this example, a 45-size matrix is created with 5 lines of characters. When calling
  * {@link MachineMenuPreset#addMenuDrawer(MatrixMenuDrawer)} in the {@link MachineMenuPreset#init()}
  * method, characters 'B', 'I', 'O' are replaced with corresponding item stacks, and click handlers
@@ -57,6 +56,7 @@ public class MatrixMenuDrawer implements Cloneable {
     public MatrixMenuDrawer(@Range(from = 1, to = 54) int size) {
         this.size = size;
     }
+
     public MatrixMenuDrawer addLine(@NotNull String line) {
         matrix.add(line);
         return this;

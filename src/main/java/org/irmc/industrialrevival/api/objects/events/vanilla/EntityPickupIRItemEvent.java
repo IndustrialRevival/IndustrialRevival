@@ -9,21 +9,22 @@ import org.jetbrains.annotations.NotNull;
 
 @Getter
 public class EntityPickupIRItemEvent extends EntityPickupItemEvent implements RelatedIRItem {
+    private static final HandlerList handlers = new HandlerList();
     private final IndustrialRevivalItem iritem;
     private final EntityPickupItemEvent originalEvent;
+
     public EntityPickupIRItemEvent(EntityPickupItemEvent event, IndustrialRevivalItem iritem) {
         super(event.getEntity(), event.getItem(), event.getRemaining());
         this.originalEvent = event;
         this.iritem = iritem;
     }
 
-    private static final HandlerList handlers = new HandlerList();
-    @Override
-    public @NotNull HandlerList getHandlers() {
+    public static HandlerList getHandlerList() {
         return handlers;
     }
 
-    public static HandlerList getHandlerList() {
+    @Override
+    public @NotNull HandlerList getHandlers() {
         return handlers;
     }
 }

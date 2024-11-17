@@ -10,9 +10,11 @@ import org.jetbrains.annotations.NotNull;
 
 @Getter
 public class IRItemKillEntityEvent extends EntityDeathEvent implements RelatedIRItem {
+    private static final HandlerList handlers = new HandlerList();
     private final IndustrialRevivalItem iritem;
     private final EntityDeathEvent originalEvent;
     private final Player killer;
+
     public IRItemKillEntityEvent(EntityDeathEvent originalEvent, IndustrialRevivalItem iritem) {
         super(originalEvent.getEntity(), originalEvent.getDamageSource(), originalEvent.getDrops(), originalEvent.getDroppedExp());
         this.iritem = iritem;
@@ -20,13 +22,12 @@ public class IRItemKillEntityEvent extends EntityDeathEvent implements RelatedIR
         this.killer = originalEvent.getEntity().getKiller();
     }
 
-    private static final HandlerList handlers = new HandlerList();
-    @Override
-    public @NotNull HandlerList getHandlers() {
+    public static HandlerList getHandlerList() {
         return handlers;
     }
 
-    public static HandlerList getHandlerList() {
+    @Override
+    public @NotNull HandlerList getHandlers() {
         return handlers;
     }
 }
