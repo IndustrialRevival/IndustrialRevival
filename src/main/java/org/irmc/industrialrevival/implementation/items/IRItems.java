@@ -855,7 +855,7 @@ public class IRItems {
         public static final IndustrialRevivalItemStack SILVER_WIRE;
 
         static {
-            EMPTY = new IndustrialRevivalItemStack("EMPTY", Material.AIR);
+            EMPTY = new IndustrialRevivalItemStack("EMPTY", Material.STRUCTURE_VOID);
             DEBUGGER = new IndustrialRevivalItemStack("DEBUGGER", Material.CLOCK);
             DEBUG_HEAD = new IndustrialRevivalItemStack("DEBUG_HEAD", Material.PLAYER_HEAD);
             LAVA_ALLOY = new IndustrialRevivalItemStack("LAVA_ALLOY", Material.MAGMA_BLOCK);
@@ -1045,7 +1045,7 @@ public class IRItems {
 
         public static final ItemStack[] PETROLEUM = new ItemStack[]{
                 null, null, null,
-                null, new CustomItemStack(Material.WATER), null,
+                null, new CustomItemStack(Material.WATER_BUCKET), null,
                 null, null, null
         };
 

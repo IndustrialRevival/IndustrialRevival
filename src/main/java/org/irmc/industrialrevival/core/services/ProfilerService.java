@@ -48,7 +48,19 @@ public class ProfilerService {
 
     @Nullable
     public TimingViewRequest pullTimingViewRequest() {
-        return requests.poll();
+        if (requests.isEmpty()) {
+            return null;
+        }
+
+        TimingViewRequest request = requests.poll();
+        while (request == null || request.getRequester() == null) {
+            if (requests.isEmpty()) {
+                return null;
+            }
+            request = requests.poll();
+        }
+
+        return request;
     }
 
     @SuppressWarnings("deprecation")
@@ -63,7 +75,11 @@ public class ProfilerService {
 
         return hoverComponent;
     }
-    public void respondToTimingView(TimingViewRequest request) {
+    public void respondToTimingView(@Nullable TimingViewRequest request) {
+        if (request == null) {
+            return;
+        }
+        
         Map<ProfiledLocation, Long> data = getProfilingData();
         Map<String, Long> dataByID = getProfilingDataByID();
         Map<ChunkPosition, Long> dataByChunk = getProfilingDataByChunk();

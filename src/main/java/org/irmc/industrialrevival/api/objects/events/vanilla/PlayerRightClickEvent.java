@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 
 @Getter
 public class PlayerRightClickEvent extends PlayerInteractEvent {
-    private final HandlerList handlers = new HandlerList();
     private final PlayerInteractEvent originalEvent;
 
     public PlayerRightClickEvent(PlayerInteractEvent originalEvent) {
@@ -21,8 +20,13 @@ public class PlayerRightClickEvent extends PlayerInteractEvent {
         this.originalEvent = originalEvent;
     }
 
+    private static final HandlerList handlers = new HandlerList();
     @Override
     public @NotNull HandlerList getHandlers() {
+        return handlers;
+    }
+
+    public static HandlerList getHandlerList() {
         return handlers;
     }
 }

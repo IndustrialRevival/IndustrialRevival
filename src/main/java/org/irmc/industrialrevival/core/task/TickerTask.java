@@ -37,10 +37,12 @@ public class TickerTask implements Consumer<WrappedTask> {
     @Override
     public void accept(WrappedTask wrappedTask) {
         Map<Location, IRBlockData> blockDataMap = blockDataSupplier.get();
-        IRTickStartEvent e = new IRTickStartEvent(blockDataMap, checkInterval, ticked);
-        Bukkit.getPluginManager().callEvent(e);
+        IRTickStartEvent startEvent = new IRTickStartEvent(blockDataMap, checkInterval, ticked);
+        IRTickDoneEvent doneEvent = new IRTickDoneEvent();
+        IndustrialRevival.runSync(() -> Bukkit.getPluginManager().callEvent(startEvent));
 
         if (blockDataMap == null) {
+            IndustrialRevival.runSync(() -> Bukkit.getPluginManager().callEvent(doneEvent));
             return;
         }
 
@@ -75,8 +77,7 @@ public class TickerTask implements Consumer<WrappedTask> {
             }
         }
 
-        IRTickDoneEvent e2 = new IRTickDoneEvent();
-        Bukkit.getPluginManager().callEvent(e2);
+        IndustrialRevival.runSync(() -> Bukkit.getPluginManager().callEvent(doneEvent));
 
         ticked++;
         IndustrialRevival.getInstance().getProfilerService().clearProfilingData();

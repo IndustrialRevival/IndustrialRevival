@@ -159,7 +159,7 @@ public abstract class AbstractMachine extends IndustrialRevivalItem {
     public AbstractMachine setRecipeTypeIcon(ItemStack recipeTypeIcon) {
         checkRegistered();
         this.recipeTypeIcon = recipeTypeIcon;
-        this.recipeType = new RecipeType(new NamespacedKey(getAddon().getPlugin(), getId().toLowerCase()), getRecipeTypeIcon());
+        this.recipeType = new RecipeType(getAddon(), new NamespacedKey(getAddon().getPlugin(), getId().toLowerCase()), getRecipeTypeIcon());
         return this;
     }
 
@@ -168,7 +168,7 @@ public abstract class AbstractMachine extends IndustrialRevivalItem {
         super.setItemStack(itemStack);
         if (recipeTypeIcon == null) {
             this.recipeTypeIcon = CleanedItemGetter.getCleanedItem(itemStack);
-            this.recipeType = new RecipeType(new NamespacedKey(getAddon().getPlugin(), getId().toLowerCase()), getRecipeTypeIcon());
+            this.recipeType = new RecipeType(getAddon(), new NamespacedKey(getAddon().getPlugin(), getId().toLowerCase()), getRecipeTypeIcon());
         }
         return this;
     }

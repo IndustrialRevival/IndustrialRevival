@@ -10,6 +10,7 @@ import org.irmc.industrialrevival.api.multiblock.StructureBuilder;
 import org.irmc.industrialrevival.api.multiblock.StructureUtil;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
+import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -18,7 +19,7 @@ import java.util.Map;
 public class CombustionFurnace extends MultiBlock {
     private @Getter final ItemStack RECIPE_TYPE_ICON = new CustomItemStack(Material.BLAST_FURNACE, "Combustion Furnace", "A Combustion Furnace", "This block is a MultiBlock structure that can be used to create Combustion Recipes.", "For testing purposes only so far.");
     private @Getter final Map<ItemStack[], ItemStack> RECIPES = new HashMap<>();
-    private @Getter final RecipeType RECIPE_TYPE = new RecipeType(getKey(), RECIPE_TYPE_ICON,
+    private @Getter final RecipeType RECIPE_TYPE = new RecipeType(getAddon(), getKey(), RECIPE_TYPE_ICON,
             RECIPES::put,
             (input, output) -> {
                 RECIPES.remove(input);
@@ -36,5 +37,6 @@ public class CombustionFurnace extends MultiBlock {
     @Override
     public void onInteract(@NotNull PlayerInteractEvent event) {
         // todo
+        IndustrialRevival.getInstance().getLogger().info("Combustion Furnace interacted by " + event.getPlayer().getName());
     }
 }

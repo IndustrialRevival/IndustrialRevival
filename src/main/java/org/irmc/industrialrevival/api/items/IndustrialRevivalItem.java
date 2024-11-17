@@ -28,6 +28,7 @@ import org.irmc.industrialrevival.api.recipes.RecipeContent;
 import org.irmc.industrialrevival.api.recipes.RecipeContents;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
+import org.irmc.industrialrevival.implementation.items.IRItems;
 import org.irmc.industrialrevival.utils.Constants;
 import org.irmc.pigeonlib.items.ItemUtils;
 import org.irmc.pigeonlib.pdc.PersistentDataAPI;
@@ -36,6 +37,7 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -81,6 +83,10 @@ public class IndustrialRevivalItem {
     public IndustrialRevivalItem() {
     }
 
+    public Collection<ItemHandler> getItemHandlers() {
+        return itemHandlers.values();
+    }
+
     @Nullable
     public static IndustrialRevivalItem getById(@NotNull String id) {
         return IndustrialRevival.getInstance().getRegistry().getItems().get(id);
@@ -109,6 +115,7 @@ public class IndustrialRevivalItem {
         checkRegistered();
         Preconditions.checkArgument(group != null, "ItemGroup cannot be null");
         this.group.add(group);
+        group.addItem(this);
         return this;
     }
 
@@ -263,7 +270,7 @@ public class IndustrialRevivalItem {
     protected IndustrialRevivalItem addItemHandlers(@NotNull ItemHandler... handlers) {
         checkRegistered();
         for (ItemHandler handler : handlers) {
-            itemHandlers.put(handler.getClass(), handler);
+            itemHandlers.put(handler.getIdentifier(), handler);
         }
         return this;
     }
@@ -304,6 +311,10 @@ public class IndustrialRevivalItem {
         }
 
         for (CraftMethod craftMethod : craftMethods) {
+            if (craftMethod.getIngredients() == IRItems.Recipes.EMPTY_RECIPE) {
+                continue;
+            }
+
             if (craftMethod.getRecipeType() == RecipeType.VANILLA_CRAFTING) {
                 NamespacedKey key = new NamespacedKey(addon.getPlugin(), "rt_crafting_" + getId().toLowerCase());
                 ShapedRecipe shapedRecipe = new ShapedRecipe(key, itemStack.clone());

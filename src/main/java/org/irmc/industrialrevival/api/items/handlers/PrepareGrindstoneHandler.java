@@ -7,4 +7,7 @@ import org.jetbrains.annotations.NotNull;
 @FunctionalInterface
 public interface PrepareGrindstoneHandler extends ItemHandler {
     void onPrepareGrindstone(@NotNull PrepareGrindstoneIRItemEvent event);
+    default Class<? extends ItemHandler> getIdentifier() {
+        return PrepareGrindstoneHandler.class;
+    }
 }

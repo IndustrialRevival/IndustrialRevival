@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
@@ -50,6 +51,7 @@ public class RecipeType {
 
     static {
         GRINDSTONE = new RecipeType(
+                IndustrialRevival.getInstance(),
                 RECIPE_TYPE_GRINDSTONE,
                 new CustomItemStack(
                         Material.DISPENSER,
@@ -59,6 +61,7 @@ public class RecipeType {
                                 .getRecipeTypeLore(RECIPE_TYPE_GRINDSTONE)));
 
         VANILLA_SMELTING = new RecipeType(
+                IndustrialRevival.getInstance(),
                 RECIPE_TYPE_VANILLA_SMELTING,
                 new CustomItemStack(
                         Material.FURNACE,
@@ -70,6 +73,7 @@ public class RecipeType {
                                 .getRecipeTypeLore(RECIPE_TYPE_VANILLA_SMELTING)));
 
         MINE = new RecipeType(
+                IndustrialRevival.getInstance(),
                 RECIPE_TYPE_MINE,
                 new CustomItemStack(
                         Material.IRON_PICKAXE,
@@ -77,6 +81,7 @@ public class RecipeType {
                         IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(RECIPE_TYPE_MINE)));
 
         KILL_MOB = new RecipeType(
+                IndustrialRevival.getInstance(),
                 RECIPE_TYPE_KILL_MOB,
                 new CustomItemStack(
                         Material.DIAMOND_SWORD,
@@ -84,6 +89,7 @@ public class RecipeType {
                         IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(RECIPE_TYPE_KILL_MOB)));
 
         INTERACT = new RecipeType(
+                IndustrialRevival.getInstance(),
                 RECIPE_TYPE_INTERACT,
                 new CustomItemStack(
                         Material.STICK,
@@ -91,15 +97,17 @@ public class RecipeType {
                         IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(RECIPE_TYPE_INTERACT)));
 
         WAIT = new RecipeType(
+                IndustrialRevival.getInstance(),
                 RECIPE_TYPE_WAIT,
                 new CustomItemStack(
                         Material.CLOCK,
                         IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(RECIPE_TYPE_WAIT),
                         IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(RECIPE_TYPE_WAIT)));
 
-        NULL = new RecipeType(RECIPE_TYPE_NULL, new CustomItemStack(Material.AIR));
+        NULL = new RecipeType(IndustrialRevival.getInstance(), RECIPE_TYPE_NULL, new CustomItemStack(Material.AIR));
 
         VANILLA_CRAFTING = new RecipeType(
+                IndustrialRevival.getInstance(),
                 RECIPE_TYPE_VANILLA_CRAFTING,
                 new CustomItemStack(
                         Material.CRAFTING_TABLE,
@@ -111,6 +119,7 @@ public class RecipeType {
                                 .getRecipeTypeLore(RECIPE_TYPE_VANILLA_CRAFTING)));
 
         SMELTING = new RecipeType(
+                IndustrialRevival.getInstance(),
                 RECIPE_TYPE_SMELTING,
                 new CustomItemStack(
                         Material.FURNACE,
@@ -118,12 +127,14 @@ public class RecipeType {
                         IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(RECIPE_TYPE_SMELTING)));
 
         CRAFTING = new RecipeType(
+                IndustrialRevival.getInstance(),
                 RECIPE_TYPE_CRAFTING,
                 new CustomItemStack(
                         Material.CRAFTING_TABLE,
                         IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(RECIPE_TYPE_CRAFTING),
                         IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(RECIPE_TYPE_CRAFTING)));
         ELECTROLYSIS = new RecipeType(
+                IndustrialRevival.getInstance(),
                 RECIPE_TYPE_ELECTROLYSIS,
                 new CustomItemStack(
                         Material.CAULDRON,
@@ -135,6 +146,7 @@ public class RecipeType {
                                 .getRecipeTypeLore(RECIPE_TYPE_ELECTROLYSIS)));
     }
 
+    private final IndustrialRevivalAddon addon;
     private final NamespacedKey key;
     private final ItemStack icon;
     private final RecipeDisplay recipeDisplay;
@@ -147,33 +159,38 @@ public class RecipeType {
     private BiConsumer<ItemStack[], ItemStack> registerRecipeConsumer;
     private BiConsumer<ItemStack[], ItemStack> unregisterRecipeConsumer;
 
-    public RecipeType(NamespacedKey key, ItemStack icon) {
+    public RecipeType(IndustrialRevivalAddon addon, NamespacedKey key, ItemStack icon) {
+        this.addon = addon;
         this.key = key;
         this.icon = icon;
         this.recipeDisplay = DEFAULT_RECIPE_DISPLAY;
     }
 
-    public RecipeType(NamespacedKey key, ItemStack icon, RecipeDisplay recipeDisplay) {
+    public RecipeType(IndustrialRevivalAddon addon,NamespacedKey key, ItemStack icon, RecipeDisplay recipeDisplay) {
+        this.addon = addon;
         this.key = key;
         this.icon = icon;
         this.recipeDisplay = recipeDisplay;
     }
 
-    public RecipeType(NamespacedKey key, ItemStack icon, String makerId) {
+    public RecipeType(IndustrialRevivalAddon addon,NamespacedKey key, ItemStack icon, String makerId) {
+        this.addon = addon;
         this.key = key;
         this.icon = icon;
         this.recipeDisplay = DEFAULT_RECIPE_DISPLAY;
         this.makerId = makerId;
     }
 
-    public RecipeType(NamespacedKey key, ItemStack icon, String makerId, RecipeDisplay recipeDisplay) {
+    public RecipeType(IndustrialRevivalAddon addon,NamespacedKey key, ItemStack icon, String makerId, RecipeDisplay recipeDisplay) {
+        this.addon = addon;
         this.key = key;
         this.icon = icon;
         this.recipeDisplay = recipeDisplay;
         this.makerId = makerId;
     }
 
-    public RecipeType(NamespacedKey key, ItemStack icon, BiConsumer<ItemStack[], ItemStack> registerRecipeConsumer, BiConsumer<ItemStack[], ItemStack> unregisterRecipeConsumer) {
+    public RecipeType(IndustrialRevivalAddon addon,NamespacedKey key, ItemStack icon, BiConsumer<ItemStack[], ItemStack> registerRecipeConsumer, BiConsumer<ItemStack[], ItemStack> unregisterRecipeConsumer) {
+        this.addon = addon;
         this.key = key;
         this.icon = icon;
         this.recipeDisplay = DEFAULT_RECIPE_DISPLAY;
@@ -181,7 +198,8 @@ public class RecipeType {
         this.unregisterRecipeConsumer = unregisterRecipeConsumer;
     }
 
-    public RecipeType(NamespacedKey key, ItemStack icon, RecipeDisplay recipeDisplay, BiConsumer<ItemStack[], ItemStack> registerRecipeConsumer, BiConsumer<ItemStack[], ItemStack> unregisterRecipeConsumer) {
+    public RecipeType(IndustrialRevivalAddon addon,NamespacedKey key, ItemStack icon, RecipeDisplay recipeDisplay, BiConsumer<ItemStack[], ItemStack> registerRecipeConsumer, BiConsumer<ItemStack[], ItemStack> unregisterRecipeConsumer) {
+        this.addon = addon;
         this.key = key;
         this.icon = icon;
         this.recipeDisplay = recipeDisplay;
@@ -189,7 +207,8 @@ public class RecipeType {
         this.unregisterRecipeConsumer = unregisterRecipeConsumer;
     }
 
-    public RecipeType(NamespacedKey key, ItemStack icon, String makerId, BiConsumer<ItemStack[], ItemStack> registerRecipeConsumer, BiConsumer<ItemStack[], ItemStack> unregisterRecipeConsumer) {
+    public RecipeType(IndustrialRevivalAddon addon,NamespacedKey key, ItemStack icon, String makerId, BiConsumer<ItemStack[], ItemStack> registerRecipeConsumer, BiConsumer<ItemStack[], ItemStack> unregisterRecipeConsumer) {
+        this.addon = addon;
         this.key = key;
         this.icon = icon;
         this.recipeDisplay = DEFAULT_RECIPE_DISPLAY;
@@ -198,7 +217,8 @@ public class RecipeType {
         this.unregisterRecipeConsumer = unregisterRecipeConsumer;
     }
 
-    public RecipeType(NamespacedKey key, ItemStack icon, String makerId, RecipeDisplay recipeDisplay, BiConsumer<ItemStack[], ItemStack> registerRecipeConsumer, BiConsumer<ItemStack[], ItemStack> unregisterRecipeConsumer) {
+    public RecipeType(IndustrialRevivalAddon addon,NamespacedKey key, ItemStack icon, String makerId, RecipeDisplay recipeDisplay, BiConsumer<ItemStack[], ItemStack> registerRecipeConsumer, BiConsumer<ItemStack[], ItemStack> unregisterRecipeConsumer) {
+        this.addon = addon;
         this.key = key;
         this.icon = icon;
         this.recipeDisplay = recipeDisplay;

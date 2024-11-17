@@ -30,4 +30,7 @@ public interface ItemBreakBlockHandler extends ItemHandler {
 
         return null;
     }
+    default Class<? extends ItemHandler> getIdentifier() {
+        return ItemBreakBlockHandler.class;
+    }
 }

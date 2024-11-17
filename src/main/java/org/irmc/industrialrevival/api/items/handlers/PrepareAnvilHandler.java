@@ -9,4 +9,7 @@ import org.jetbrains.annotations.NotNull;
 @FunctionalInterface
 public interface PrepareAnvilHandler extends ItemHandler {
     void onPrepareAnvil(@NotNull PrepareAnvilIRItemEvent event);
+    default Class<? extends ItemHandler> getIdentifier() {
+        return PrepareAnvilHandler.class;
+    }
 }

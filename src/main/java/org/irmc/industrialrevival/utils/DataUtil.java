@@ -18,7 +18,11 @@ import org.jetbrains.annotations.Nullable;
 public class DataUtil {
     @Nullable
     public static IndustrialRevivalItem getItem(Location location) {
-        return IndustrialRevivalItem.getById(getBlockData(location).getId());
+        IRBlockData blockData = getBlockData(location);
+        if (blockData == null) {
+            return null;
+        }
+        return IndustrialRevivalItem.getById(blockData.getId());
     }
     @Nullable
     public static IRBlockData getBlockData(Location location) {

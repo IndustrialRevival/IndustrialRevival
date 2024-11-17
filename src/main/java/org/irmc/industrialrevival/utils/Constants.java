@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
+import org.irmc.industrialrevival.api.objects.enums.GuideMode;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 
 import java.io.File;
@@ -28,14 +29,14 @@ public class Constants {
                 Material.ENCHANTED_BOOK,
                 IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(null, "guide.book_item_name"))
                 .setCustomModel(19999)
-                .setPDCData(ItemStackKeys.GUIDE_ITEM_KEY, PersistentDataType.INTEGER, 1);
+                .setPDCData(ItemStackKeys.GUIDE_ITEM_KEY, PersistentDataType.STRING, GuideMode.SURVIVAL.name());
         public static final ItemStack CHEAT_GUIDE_BOOK_ITEM = new CustomItemStack(
                 Material.ENCHANTED_BOOK,
                 IndustrialRevival.getInstance()
                         .getLanguageManager()
                         .getMsgComponent(null, "guide.cheat_book_item_name"))
                 .setCustomModel(20000)
-                .setPDCData(ItemStackKeys.GUIDE_ITEM_KEY, PersistentDataType.INTEGER, 2);
+                .setPDCData(ItemStackKeys.GUIDE_ITEM_KEY, PersistentDataType.STRING, GuideMode.CHEAT.name());
     }
     public static final class Buttons {
         public static final Function<Player, ItemStack> BACK_BUTTON = p -> new CustomItemStack(

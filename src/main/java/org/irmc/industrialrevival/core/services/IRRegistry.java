@@ -86,7 +86,8 @@ public final class IRRegistry {
     public void registerCraftable(RecipeType recipeType, ItemStack itemStack) {
         Set<ItemStack> craftableSet = craftables.get(recipeType);
         if (craftableSet == null) {
-            throw new IllegalArgumentException("RecipeType not registered");
+            registerRecipeType(recipeType);
+            craftableSet = craftables.get(recipeType);
         }
         craftableSet.add(itemStack);
     }

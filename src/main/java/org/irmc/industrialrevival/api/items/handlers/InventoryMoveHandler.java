@@ -9,6 +9,10 @@ import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandler
 import org.irmc.pigeonlib.items.ItemUtils;
 import org.jetbrains.annotations.NotNull;
 
+@FunctionalInterface
 public interface InventoryMoveHandler extends ItemHandler {
     void onInventoryMove(@NotNull InventoryMoveIRItemEvent event);
+    default Class<? extends ItemHandler> getIdentifier() {
+        return InventoryMoveHandler.class;
+    }
 }

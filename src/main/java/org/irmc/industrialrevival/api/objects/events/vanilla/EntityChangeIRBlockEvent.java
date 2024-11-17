@@ -1,9 +1,11 @@
 package org.irmc.industrialrevival.api.objects.events.vanilla;
 
 import lombok.Getter;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.objects.events.interfaces.RelatedIRItem;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 public class EntityChangeIRBlockEvent extends EntityChangeBlockEvent implements RelatedIRItem {
@@ -14,5 +16,15 @@ public class EntityChangeIRBlockEvent extends EntityChangeBlockEvent implements 
         super(originalEvent.getEntity(), originalEvent.getBlock(), originalEvent.getBlockData());
         this.originalEvent = originalEvent;
         this.iritem = iritem;
+    }
+
+    private static final HandlerList handlers = new HandlerList();
+    @Override
+    public @NotNull HandlerList getHandlers() {
+        return handlers;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
     }
 }

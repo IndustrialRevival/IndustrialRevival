@@ -25,7 +25,7 @@ public class GuideListener implements Listener {
                         SurvivalGuideImplementation.INSTANCE.open(e.getPlayer());
                         e.setCancelled(true);
                     }
-                    case CREATIVE -> {
+                    case CHEAT -> {
                         CheatGuideImplementation.INSTANCE.open(e.getPlayer());
                         e.setCancelled(true);
                     }

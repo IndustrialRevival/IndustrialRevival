@@ -8,6 +8,7 @@ import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandler
 import org.irmc.pigeonlib.items.ItemUtils;
 import org.jetbrains.annotations.NotNull;
 
+@FunctionalInterface
 public interface BlockPistonRetractHandler extends ItemHandler {
     boolean onPistonRetract(PistonRetractIRBlockEvent event);
     @Override
@@ -19,5 +20,9 @@ public interface BlockPistonRetractHandler extends ItemHandler {
             return new IncompatibleItemHandlerException("This item cannot be placed", item.getId());
         }
         return null;
+    }
+
+    default Class<? extends ItemHandler> getIdentifier() {
+        return BlockPistonRetractHandler.class;
     }
 }

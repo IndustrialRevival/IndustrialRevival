@@ -22,4 +22,8 @@ public interface EntityExplodeHandler extends ItemHandler {
         }
         return null;
     }
+
+    default Class<? extends ItemHandler> getIdentifier() {
+        return EntityExplodeHandler.class;
+    }
 }

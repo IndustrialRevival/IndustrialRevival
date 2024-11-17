@@ -19,4 +19,8 @@ public interface ItemInteractHandler extends ItemHandler {
 
         return null;
     }
+
+    default Class<? extends ItemHandler> getIdentifier() {
+        return ItemInteractHandler.class;
+    }
 }

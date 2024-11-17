@@ -29,6 +29,7 @@ import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareIRItemEnchan
 import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareItemCraftIRItemEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareSmithingIRItemEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareTradeSelectIRItemEvent;
+import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.DataUtil;
 
 public class EventPrechecker implements Listener {

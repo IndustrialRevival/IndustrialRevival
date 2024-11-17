@@ -3,9 +3,11 @@ package org.irmc.industrialrevival.api.objects.events.vanilla;
 import lombok.Getter;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.objects.events.interfaces.RelatedIRItem;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 public class IRItemDamageEntityEvent extends EntityDamageByEntityEvent implements RelatedIRItem {
@@ -23,5 +25,15 @@ public class IRItemDamageEntityEvent extends EntityDamageByEntityEvent implement
             throw new IllegalArgumentException("Damager is not a player");
         }
         this.hit = originalEvent.getEntity();
+    }
+
+    private static final HandlerList handlers = new HandlerList();
+    @Override
+    public @NotNull HandlerList getHandlers() {
+        return handlers;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
     }
 }

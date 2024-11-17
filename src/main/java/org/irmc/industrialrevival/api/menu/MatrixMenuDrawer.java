@@ -1,6 +1,7 @@
 package org.irmc.industrialrevival.api.menu;
 
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.utils.MenuUtil;
 import org.jetbrains.annotations.NotNull;
@@ -47,7 +48,7 @@ import java.util.Map;
  */
 @SuppressWarnings("unused")
 @Getter
-public class MatrixMenuDrawer {
+public class MatrixMenuDrawer implements Cloneable {
     private final int size;
     private final Map<Character, ItemStack> charMap = new HashMap<>();
     private final Map<Character, SimpleMenu.ClickHandler> clickHandlerMap = new HashMap<>();
@@ -56,7 +57,6 @@ public class MatrixMenuDrawer {
     public MatrixMenuDrawer(@Range(from = 1, to = 54) int size) {
         this.size = size;
     }
-
     public MatrixMenuDrawer addLine(@NotNull String line) {
         matrix.add(line);
         return this;
@@ -73,6 +73,11 @@ public class MatrixMenuDrawer {
         return this;
     }
 
+    public MatrixMenuDrawer addBackground(char c, @NotNull SimpleMenu.ClickHandler clickHandler) {
+        clickHandlerMap.put(c, clickHandler);
+        return this;
+    }
+
     public MatrixMenuDrawer addExplain(@NotNull String c, @NotNull ItemStack itemStack) {
         charMap.put(c.charAt(0), new ItemStack(itemStack));
         return this;
@@ -80,6 +85,11 @@ public class MatrixMenuDrawer {
 
     public MatrixMenuDrawer addExplain(@NotNull String c, @NotNull ItemStack itemStack, @NotNull SimpleMenu.ClickHandler clickHandler) {
         charMap.put(c.charAt(0), itemStack);
+        clickHandlerMap.put(c.charAt(0), clickHandler);
+        return this;
+    }
+
+    public MatrixMenuDrawer addBackground(@NotNull String c, @NotNull SimpleMenu.ClickHandler clickHandler) {
         clickHandlerMap.put(c.charAt(0), clickHandler);
         return this;
     }
@@ -104,5 +114,13 @@ public class MatrixMenuDrawer {
             result[i] = positions.get(i);
         }
         return result;
+    }
+
+    public MatrixMenuDrawer clone() {
+        MatrixMenuDrawer drawer = new MatrixMenuDrawer(size);
+        drawer.charMap.putAll(charMap);
+        drawer.clickHandlerMap.putAll(clickHandlerMap);
+        drawer.matrix.addAll(matrix);
+        return drawer;
     }
 }

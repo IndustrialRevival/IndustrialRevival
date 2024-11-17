@@ -7,4 +7,7 @@ import org.jetbrains.annotations.NotNull;
 @FunctionalInterface
 public interface PrepareItemEnchantHandler extends ItemHandler {
     void onPrepareEnchant(@NotNull PrepareIRItemEnchantEvent event);
+    default Class<? extends ItemHandler> getIdentifier() {
+        return PrepareItemEnchantHandler.class;
+    }
 }

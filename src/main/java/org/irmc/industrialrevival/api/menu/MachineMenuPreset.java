@@ -25,24 +25,6 @@ public class MachineMenuPreset extends SimpleMenu {
         this.locked = false;
     }
 
-    public void addMenuDrawer(@NotNull MatrixMenuDrawer drawer) {
-        int i = 0, j = 0;
-        for (String line : drawer.getMatrix()) {
-            for (char slotSymbol : line.toCharArray()) {
-                if (drawer.getCharMap().containsKey(slotSymbol)) {
-                    ItemStack itemStack = drawer.getCharMap().get(slotSymbol);
-                    if (MenuUtil.isBackground(itemStack)) {
-                        setItem(i * 9 + j, MenuUtil.BACKGROUND, ClickHandler.DEFAULT);
-                    } else {
-                        setItem(i * 9 + j, itemStack, drawer.getClickHandlerMap().get(slotSymbol));
-                    }
-                }
-                j += 1;
-            }
-            i += 1;
-        }
-    }
-
     /**
      * Called when the menu be registered to the registry.
      * Override this method to initialize the menu BACKGROUND items.

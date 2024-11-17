@@ -21,4 +21,8 @@ public interface EntityChangeBlockHandler extends ItemHandler {
         }
         return null;
     }
+
+    default Class<? extends ItemHandler> getIdentifier() {
+        return EntityChangeBlockHandler.class;
+    }
 }

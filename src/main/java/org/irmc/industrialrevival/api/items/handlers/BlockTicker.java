@@ -29,4 +29,7 @@ public interface BlockTicker extends ItemHandler {
         }
         return null;
     }
+    default Class<? extends ItemHandler> getIdentifier() {
+        return BlockTicker.class;
+    }
 }

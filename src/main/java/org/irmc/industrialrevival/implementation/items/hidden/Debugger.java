@@ -30,6 +30,7 @@ import org.irmc.industrialrevival.utils.DataUtil;
 import org.irmc.industrialrevival.utils.NumberUtils;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -48,7 +49,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @SuppressWarnings("deprecation")
 public class Debugger extends IndustrialRevivalItem {
-    private static final String DEBUG_INFO_HEAD = "[IndustrialRevival Debugger]";
+    private static final String DEBUG_INFO_HEAD = "&e&l[IndustrialRevival Debugger]";
     private static final ChatColor red = ChatColor.RED;
     private static final ChatColor green = ChatColor.GREEN;
     private static final ChatColor yellow = ChatColor.YELLOW;
@@ -59,7 +60,12 @@ public class Debugger extends IndustrialRevivalItem {
     private static final ChatColor black = ChatColor.BLACK;
     public Debugger() {
         super();
-        addItemHandlers((ItemInteractHandler) this::interact);
+        addItemHandlers(new ItemInteractHandler() {
+            @Override
+            public void onInteract(@NotNull IRItemInteractEvent event) {
+                interact(event);
+            }
+        });
     }
 
     private void interact(IRItemInteractEvent e) {
@@ -67,10 +73,10 @@ public class Debugger extends IndustrialRevivalItem {
 
         Player player = e.getPlayer();
         if (!player.isOp()) {
-            player.sendMessage(red + "You do not have permission to use this item.");
+            send(player, "&cYou do not have permission to use this item.");
         }
 
-        player.sendMessage(DEBUG_INFO_HEAD);
+        send(player, DEBUG_INFO_HEAD);
 
         boolean isShift = player.isSneaking();
         boolean isRightClick = e.getAction().isRightClick();
@@ -130,48 +136,47 @@ public class Debugger extends IndustrialRevivalItem {
     }
 
     private void breakBlock(PlayerInteractEvent e) {
-        BlockBreakEvent event = new BlockBreakEvent(e.getClickedBlock(), e.getPlayer());
-        Bukkit.getServer().getPluginManager().callEvent(event);
+        e.setCancelled(false);
     }
 
     private void seeBlockState(PlayerInteractEvent e) {
         Block block = e.getClickedBlock();
         Player player = e.getPlayer();
-        player.sendMessage("Checking block state: ");
+        send(player, "&eChecking block state: ");
         if (block == null) {
-            player.sendMessage("No block was clicked.");
+            send(player, "&eNo block was clicked.");
             return;
         }
-        player.sendMessage(" - Location: " + simpleLocationToString(block.getLocation()));
-        player.sendMessage(" - Type: " + block.getType().toString());
-        player.sendMessage(" - Biome: " + block.getBiome().toString());
-        player.sendMessage(" - Redstone Power: " + block.getBlockPower());
-        player.sendMessage(" - Light level: " + block.getLightLevel());
-        player.sendMessage(" - Light from sky: " + block.getLightFromSky());
-        player.sendMessage(" - Humidity: " + block.getHumidity());
-        player.sendMessage(" - Temperature: " + block.getTemperature());
-        player.sendMessage(" - Chunk x: " + block.getChunk().getX());
-        player.sendMessage(" - Chunk z: " + block.getChunk().getZ());
+        send(player, "&e - Location: &a" + simpleLocationToString(block.getLocation()));
+        send(player, "&e - Type: &a" + block.getType().toString());
+        send(player, "&e - Biome: &a" + block.getBiome().toString());
+        send(player, "&e - Redstone Power: &a" + block.getBlockPower());
+        send(player, "&e - Light level: &a" + block.getLightLevel());
+        send(player, "&e - Light from sky: &a" + block.getLightFromSky());
+        send(player, "&e - Humidity: &a" + block.getHumidity());
+        send(player, "&e - Temperature: &a" + block.getTemperature());
+        send(player, "&e - Chunk x: &a" + block.getChunk().getX());
+        send(player, "&e - Chunk z: &a" + block.getChunk().getZ());
     }
 
     private void seeIRBlockData(PlayerInteractEvent e) {
         Block block = e.getClickedBlock();
         Player player = e.getPlayer();
-        player.sendMessage("Checking IR block data: ");
+        send(player, "&eChecking IR block data: ");
         if (block == null) {
-            player.sendMessage("No block was clicked.");
+            send(player, "&cNo block was clicked.");
             return;
         }
 
         IRBlockData data = DataUtil.getBlockData(block.getLocation());
         if (data == null) {
-            player.sendMessage("This block has no IR block data.");
+            send(player, "&cThis block has no IR block data.");
             return;
         }
         Location location = data.getLocation();
 
-        player.sendMessage(" - Location: " + simpleLocationToString(location));
-        player.sendMessage(" - ID: " + data.getId());
+        send(player, "&e - Location: " + simpleLocationToString(location));
+        send(player, "&e - ID: " + data.getId());
         IndustrialRevivalItem iritem = IndustrialRevivalItem.getById(data.getId());
         boolean hasTicker;
         boolean ticking;
@@ -189,175 +194,188 @@ public class Debugger extends IndustrialRevivalItem {
             ticking = false;
         }
 
-        player.sendMessage(" - Ticker: " + (hasTicker ? "√" : "×"));
-        player.sendMessage(" - Ticking: " + (ticking ? "√" : "×"));
+        send(player, "&e - Ticker: " + booleanToSymbol(hasTicker));
+        send(player, "&e - Ticking: " + booleanToSymbol(ticking));
         if (hasTicker) {
             String id = data.getId();
             PerformanceSummary summary = IndustrialRevival.getInstance().getProfilerService().getSummary();
             long timingsOfThisBlock = summary.getDataByLocation().get(location);
             long totalTimingsOfThisBlock = summary.getDataByID().get(id);
             long avgTimingsOfThisBlock = totalTimingsOfThisBlock / summary.getDataByID().size();
-            player.sendMessage("- Timings: ");
-            player.sendMessage("  - This Timings: " + NumberUtils.round(NumberUtils.nsToMs(timingsOfThisBlock), 2) + "ms");
-            player.sendMessage("  - Average Timings: " + NumberUtils.round(NumberUtils.nsToMs(avgTimingsOfThisBlock), 2) + "ms");
-            player.sendMessage("  - Total Timings: " + NumberUtils.round(NumberUtils.nsToMs(totalTimingsOfThisBlock), 2) + "ms");
+            send(player, "&e- Timings: ");
+            send(player, "&e  - This Timings: &7" + NumberUtils.round(NumberUtils.nsToMs(timingsOfThisBlock), 2) + "ms");
+            send(player, "&e  - Average Timings: &7" + NumberUtils.round(NumberUtils.nsToMs(avgTimingsOfThisBlock), 2) + "ms");
+            send(player, "&e  - Total Timings: &7" + NumberUtils.round(NumberUtils.nsToMs(totalTimingsOfThisBlock), 2) + "ms");
         }
 
         Map<String, String> dataMap = data.getData();
         if (!dataMap.isEmpty()) {
-            player.sendMessage(" - Data: [");
+            send(player, " - Data: [");
             for (String key : dataMap.keySet()) {
-                player.sendMessage("   - " + key + ": " + dataMap.get(key));
+                send(player, "   - " + key + ": " + dataMap.get(key));
             }
-            player.sendMessage(" ]");
+            send(player, " ]");
         }
     }
 
     private void seeChunkTimings(PlayerInteractEvent e) {
         Player player = e.getPlayer();
-        player.sendMessage("Checking chunk timings: ");
+        send(player, "&eChecking chunk timings: ");
         Chunk chunk = player.getChunk();
         ChunkPosition position = new ChunkPosition(chunk);
         PerformanceSummary summary = IndustrialRevival.getInstance().getProfilerService().getSummary();
 
-        long chunkTimings = summary.getDataByChunk().get(position);
-        long avgTimingsPerMachine = chunkTimings / summary.getDataByLocation().keySet().stream().filter(location -> location.getChunk().equals(chunk)).toList().size();
+        Long chunkTimings = summary.getDataByChunk().get(position);
+        if (chunkTimings == null) {
+            chunkTimings = 0L;
+        }
+        int machineCount = summary.getDataByLocation().keySet().stream().filter(location -> location.getChunk().equals(chunk)).toList().size();
+        long avgTimingsPerMachine;
+        if (machineCount == 0) {
+            avgTimingsPerMachine = 0L;
+        } else {
+            avgTimingsPerMachine = chunkTimings / machineCount;
+        }
+
         long avgTimingsPerChunk = summary.getTotalTime();
-        player.sendMessage("- Timings: ");
-        player.sendMessage("  - Total Chunk Timings: " + NumberUtils.round(NumberUtils.nsToMs(chunkTimings), 2) + "ms");
-        player.sendMessage("  - Average Timings Per Machine in This Chunk: " + NumberUtils.round(NumberUtils.nsToMs(avgTimingsPerMachine), 2) + "ms");
-        player.sendMessage("  - Average Timings Per Chunk: " + NumberUtils.round(NumberUtils.nsToMs(avgTimingsPerChunk), 2) + "ms");
+        send(player, "&e- Timings: ");
+        send(player, "&e  - Total Chunk Timings: &7" + NumberUtils.round(NumberUtils.nsToMs(chunkTimings), 2) + "ms");
+        send(player, "&e  - Average Timings Per Machine in This Chunk: &7" + NumberUtils.round(NumberUtils.nsToMs(avgTimingsPerMachine), 2) + "ms");
+        send(player, "&e  - Average Timings Per Chunk: &7" + NumberUtils.round(NumberUtils.nsToMs(avgTimingsPerChunk), 2) + "ms");
     }
 
     private void forceBreakBlock(PlayerInteractEvent e) {
         Block block = e.getClickedBlock();
         Player player = e.getPlayer();
-        player.sendMessage("Force-breaking block: ");
+        send(player, "&eForce-breaking block: ");
         if (block == null) {
-            player.sendMessage("No block was clicked.");
+            send(player, "&cNo block was clicked.");
             return;
         }
-        player.sendMessage(" - Location: " + simpleLocationToString(block.getLocation()));
-        player.sendMessage(" - Type: " + block.getType().toString());
+        send(player, "&e - Location: " + simpleLocationToString(block.getLocation()));
+        send(player, "&e - Type: " + block.getType().toString());
         IRBlockData data = DataUtil.getBlockData(block.getLocation());
         if (data != null) {
-            player.sendMessage("Cannot force-break an IR block before removing its data.");
+            send(player, "&cCannot force-break an IR block before removing its data.");
             return;
         }
         block.setType(Material.AIR);
-        player.sendMessage("Block force-broken.");
+        send(player, "&eBlock force-broken.");
     }
 
     private void removeIRBlockData(PlayerInteractEvent e) {
         Block block = e.getClickedBlock();
         Player player = e.getPlayer();
-        player.sendMessage("Removing IR block data: ");
+        send(player, "&eRemoving IR block data: ");
         if (block == null) {
-            player.sendMessage("No block was clicked.");
+            send(player, "&cNo block was clicked.");
             return;
         }
         IRBlockData data = DataUtil.getBlockData(block.getLocation());
         if (data == null) {
-            player.sendMessage("This block has no IR block data.");
+            send(player, "&cThis block has no IR block data.");
             return;
         }
 
         Location location = data.getLocation();
-        player.sendMessage(" - Location: " + simpleLocationToString(location));
-        player.sendMessage(" - ID: " + data.getId());
+        send(player, "&e - Location: " + simpleLocationToString(location));
+        send(player, "&e - ID: " + data.getId());
 
         DataUtil.removeBlockData(location);
-        player.sendMessage("IR block data removed.");
+        send(player, "&aIR block data removed.");
     }
 
     private void seeIRStatus(PlayerInteractEvent e) {
         Player player = e.getPlayer();
-        player.sendMessage("Checking Industrial Revival status: ");
+        send(player, "&eChecking Industrial Revival status: ");
 
         PluginMeta pluginMeta = IndustrialRevival.getInstance().getPlugin().getPluginMeta();
-        player.sendMessage(" - Enabled: " + booleanToSymbol(IndustrialRevival.getInstance().isEnabled()));
-        player.sendMessage(" - Environment check: " + booleanToSymbol(IndustrialRevival.getInstance().environmentCheck()));
-        player.sendMessage(" - Name: " + IndustrialRevival.getInstance().getPlugin().getName());
-        player.sendMessage(" - Version: " + pluginMeta.getVersion());
-        player.sendMessage(" - Authors: " + pluginMeta.getAuthors());
-        player.sendMessage(" - Description: " + pluginMeta.getDescription());
-        player.sendMessage(" - Website: " + pluginMeta.getWebsite());
-        player.sendMessage(" - API version: " + pluginMeta.getAPIVersion());
-        player.sendMessage(" - Issue tracker: " + IndustrialRevival.getInstance().getIssueTrackerURL());
-        player.sendMessage(" - Installed addons: " + IndustrialRevival.getInstance().getAddons().size());
+        send(player, "&e - Enabled: &7" + booleanToSymbol(IndustrialRevival.getInstance().isEnabled()));
+        send(player, "&e - Environment check: &7" + booleanToSymbol(IndustrialRevival.getInstance().environmentCheck()));
+        send(player, "&e - Name: &7" + IndustrialRevival.getInstance().getPlugin().getName());
+        send(player, "&e - Version: &7" + pluginMeta.getVersion());
+        send(player, "&e - Authors: &7" + pluginMeta.getAuthors());
+        send(player, "&e - Description: &7" + pluginMeta.getDescription());
+        send(player, "&e - Website: &7" + pluginMeta.getWebsite());
+        send(player, "&e - API version: &7" + pluginMeta.getAPIVersion());
+        send(player, "&e - Issue tracker: &7" + IndustrialRevival.getInstance().getIssueTrackerURL());
+        send(player, "&e - Installed addons: &7" + IndustrialRevival.getInstance().getAddons().size());
 
         IRRegistry registry = IndustrialRevival.getInstance().getRegistry();
-        player.sendMessage(" - Loaded items: " + registry.getItems().size());
-        player.sendMessage(" - Loaded item groups: " + registry.getItemGroups());
-        player.sendMessage(" - Loaded recipe types: " + registry.getCraftables().size());
-        player.sendMessage(" - Loaded menu presets: " + registry.getMenuPresets().size());
-        player.sendMessage(" - Loaded player profiles: " + registry.getPlayerProfiles().size());
-        player.sendMessage(" - Loaded display groups: " + registry.getDisplayGroups());
-        player.sendMessage(" - Loaded researches: " + registry.getResearches().size());
+        send(player, "&e - Loaded items: &7" + registry.getItems().size());
+        send(player, "&e - Loaded item groups: &7" + registry.getItemGroups().size());
+        send(player, "&e - Loaded recipe types: &7" + registry.getCraftables().size());
+        send(player, "&e - Loaded menu presets: &7" + registry.getMenuPresets().size());
+        send(player, "&e - Loaded player profiles: &7" + registry.getPlayerProfiles().size());
+        send(player, "&e - Loaded display groups: &7" + registry.getDisplayGroups().size());
+        send(player, "&e - Loaded researches: &7" + registry.getResearches().size());
         AtomicInteger recipes = new AtomicInteger();
         registry.getCraftables().forEach((type, craftables) -> {
             recipes.addAndGet(craftables.size());
         });
-        player.sendMessage(" - Loaded recipes: " + recipes.get());
+        send(player, "&e - Loaded recipes: &7" + recipes.get());
         AtomicInteger mobDrops = new AtomicInteger();
         registry.getMobDrops().forEach((type, drops) -> {
             mobDrops.addAndGet(drops.size());
         });
-        player.sendMessage(" - Loaded mob drops: " + mobDrops.get());
+        send(player, "&e - Loaded mob drops: &7" + mobDrops.get());
         AtomicInteger blockDrops = new AtomicInteger();
         registry.getBlockDrops().forEach((type, drops) -> {
             blockDrops.addAndGet(drops.size());
         });
-        player.sendMessage(" - Loaded block drops: " + blockDrops.get());
-        player.sendMessage(" - Loaded listeners: " + IndustrialRevival.getInstance().getListenerManager().getListenerCount());
+        send(player, "&e - Loaded block drops: &7" + blockDrops.get());
+        send(player, "&e - Loaded listeners: &7" + IndustrialRevival.getInstance().getListenerManager().getListenerCount());
     }
 
     private void placeDebugHead(PlayerInteractEvent e) {
         Player player = e.getPlayer();
-        player.sendMessage("Placing Debug Head: ");
+        send(player, "&ePlacing Debug Head: ");
         Block block = e.getClickedBlock();
         if (block == null) {
-            player.sendMessage("No block was clicked.");
+            send(player, "&cNo block was clicked.");
             return;
         }
         Location location = block.getRelative(e.getBlockFace()).getLocation();
-        player.sendMessage(" - Location: " + simpleLocationToString(location));
-        IRBlockPlaceEvent event = new IRBlockPlaceEvent(new BlockPlaceEvent(location.getBlock(), location.getBlock().getState(), block, IRItems.IRItemStacks.DEBUG_HEAD.clone(), player, true), IRItems.DEBUG_HEAD);
-        IndustrialRevival.getInstance().getItemTextureService().blockPlacing(event);
-        IndustrialRevival.getInstance().getDataManager().handleBlockPlacing(block.getLocation(), IRItems.IRItemStacks.DEBUG_HEAD.getId());
-
-        BlockPlaceHandler handler = IRItems.DEBUG_HEAD.getItemHandler(BlockPlaceHandler.class);
-
-        if (handler != null) {
-            handler.onBlockPlace(event);
+        if (location.getBlock().getType() != Material.AIR) {
+            send(player, "&cCannot place Debug Head");
+            return;
         }
+        send(player, "&e - Location: &7" + simpleLocationToString(location));
+        IRBlockPlaceEvent event = new IRBlockPlaceEvent(new BlockPlaceEvent(location.getBlock(), location.getBlock().getState(), block, IRItems.IRItemStacks.DEBUG_HEAD.clone(), player, true), IRItems.DEBUG_HEAD);
+        Bukkit.getPluginManager().callEvent(event);
 
-        player.sendMessage("Debug Head placed.");
+        send(player, "&aDebug Head placed.");
     }
 
     private void seeServerStatus(PlayerInteractEvent e) {
         Player player = e.getPlayer();
         Server server = Bukkit.getServer();
-        player.sendMessage("Checking server status: ");
-        player.sendMessage(" - Server software: " + (PaperLib.isPaper() ? "Paper" : PaperLib.isSpigot() ? "Spigot" : Bukkit.getName()));
-        player.sendMessage(" - Name: " + server.getName());
-        player.sendMessage(" - Server Version: " + server.getVersion());
-        player.sendMessage(" - Bukkit version: " + server.getBukkitVersion());
-        player.sendMessage(" - Minecraft version: " + server.getMinecraftVersion());
-        player.sendMessage(" - Version message: " + Bukkit.getVersionMessage());
-        player.sendMessage(" - Plugins: " + server.getPluginManager().getPlugins().length);
-        player.sendMessage(" - TPS: " + server.getTPS()[0]);
-        player.sendMessage(" - Average tick time: " + server.getAverageTickTime());
-        player.sendMessage(" - Online players: " + server.getOnlinePlayers().size());
-        player.sendMessage(" - Max players: " + server.getMaxPlayers());
-        player.sendMessage(" - Worlds: " + server.getWorlds().size());
+        send(player, "&eChecking server status: ");
+        send(player, "&e - Server software: &7" + (PaperLib.isPaper() ? "&aPaper" : PaperLib.isSpigot() ? "&bSpigot" : "&c" + Bukkit.getName()));
+        send(player, "&e - Name: &7" + server.getName());
+        send(player, "&e - Server Version: &7" + server.getVersion());
+        send(player, "&e - Bukkit version: &7" + server.getBukkitVersion());
+        send(player, "&e - Minecraft version: &7" + server.getMinecraftVersion());
+        send(player, "&e - Plugins: &7" + server.getPluginManager().getPlugins().length);
+        send(player, "&e - TPS: &b" + Arrays.toString(Arrays.stream(server.getTPS()).map(number -> NumberUtils.round(number, 2)).toArray()));
+        send(player, "&e - Average tick time: &7" + NumberUtils.round(server.getAverageTickTime(), 2));
+        send(player, "&e - Online players: &7" + server.getOnlinePlayers().size());
+        send(player, "&e - Max players: &7" + server.getMaxPlayers());
+        send(player, "&e - Worlds: &7" + server.getWorlds().size());
     }
 
     private String simpleLocationToString(Location location) {
         return "Location{world=" + location.getWorld().getName() + ", x=" + location.getBlockX() + ", y=" + location.getBlockY() + ", z=" + location.getBlockZ() + "}";
     }
 
-    private String booleanToSymbol(boolean b) {
+    private static String color(String s) {
+        return ChatColor.translateAlternateColorCodes('&', s);
+    }
+    
+    private static void send(Player player, String s) {
+        player.sendMessage(color(s));
+    }
+    private static String booleanToSymbol(boolean b) {
         return (b ? green + "✔" : red + "✘") + white;
     }
 }
