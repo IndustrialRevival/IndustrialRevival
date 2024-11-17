@@ -177,10 +177,13 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     }
 
     public boolean environmentCheck() {
+        // Commented out until it can work properly
+        /*
         if (MCVersion.CURRENT == MCVersion.UNKNOWN) {
             getLogger().log(Level.SEVERE, "Unsupported Minecraft version: " + getServer().getMinecraftVersion());
             return false;
         }
+         */
 
         return true;
     }
