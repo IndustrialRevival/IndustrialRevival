@@ -66,10 +66,6 @@ public class Debugger extends IndustrialRevivalItem {
         });
     }
 
-    public void debug() {
-        // TODO: implement debug functions
-    }
-
 
 
     private static String color(String s) {

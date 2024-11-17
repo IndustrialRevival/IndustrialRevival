@@ -10,7 +10,7 @@ import org.irmc.industrialrevival.implementation.items.debug.Debugger;
 public class IndustrialRevivalItemSetup {
     public static final IndustrialRevival INSTANCE = IndustrialRevival.getInstance();
     public static final ItemStack[] EMPTY_RECIPE = new ItemStack[] {};
-    
+
     public static final Debugger DEBUGGER = new Debugger()
             .setAddon(INSTANCE)
             .addItemGroup(IRItemGroups.DEBUG)
