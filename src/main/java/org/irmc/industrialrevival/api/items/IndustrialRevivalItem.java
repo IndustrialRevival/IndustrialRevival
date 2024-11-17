@@ -96,7 +96,7 @@ public class IndustrialRevivalItem {
             return getById(irStack.getId());
         }
 
-        String id = PersistentDataAPI.getString(item.getItemMeta(), Constants.ITEM_ID_KEY);
+        String id = PersistentDataAPI.getString(item.getItemMeta(), Constants.ItemStackKeys.ITEM_ID_KEY);
         if (id != null) {
             return getById(id);
         }

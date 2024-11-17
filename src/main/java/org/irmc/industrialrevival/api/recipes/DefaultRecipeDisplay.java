@@ -28,17 +28,17 @@ import java.util.UUID;
 public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
     protected static final Map<UUID, Integer> pageRecord = new HashMap<>();
 
-    private static final int[] recipeSlots = Constants.RECIPE_SLOT;
+    private static final int[] recipeSlots = Constants.Guide.GUIDE_RECIPE_SLOTS;
 
     @Override
     public void display(Player p, SimpleMenu sm, IndustrialRevivalItem item) {
         IRGuideImplementation guide = SurvivalGuideImplementation.INSTANCE;
-        sm.setItem(0, Constants.BACK_BUTTON.apply(p), ((player, clickedItem, slot, menu, clickType) -> {
+        sm.setItem(0, Constants.Buttons.BACK_BUTTON.apply(p), ((player, clickedItem, slot, menu, clickType) -> {
             guide.goBack(player);
             return false;
         }));
 
-        int[] recipeSlots = Constants.RECIPE_SLOT;
+        int[] recipeSlots = Constants.Guide.GUIDE_RECIPE_SLOTS;
 
         List<RecipeContent> recipeContents = RecipeContents.getRecipeContents(item.getId());
         if (recipeContents.isEmpty()) {
@@ -50,15 +50,15 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
                                     .getLanguageManager()
                                     .getMsgComponent(p, "misc.recipe_not_found")));
 
-            sm.setItem(Constants.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT, 1, 2, 3, 4, 5, 6, 7, 8);
-            sm.setItem(7, Constants.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT);
+            sm.setItem(Constants.ItemStacks.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT, 1, 2, 3, 4, 5, 6, 7, 8);
+            sm.setItem(7, Constants.ItemStacks.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT);
             sm.setItem(25, CleanedItemGetter.getCleanedItem(item.getItem()));
         } else {
             recipeContents = getRecipeContentsByPage(recipeContents, pageRecord.getOrDefault(p.getUniqueId(), 1));
             showRecipeContent(p, sm, recipeContents.get(0), recipeContents);
         }
 
-        sm.setItem(28, Constants.ADD_TO_BOOKMARK_BUTTON.apply(p), (player, clickedItem, slot, menu, clickType) -> {
+        sm.setItem(28, Constants.Buttons.ADD_TO_BOOKMARK_BUTTON.apply(p), (player, clickedItem, slot, menu, clickType) -> {
             SurvivalGuideImplementation.INSTANCE.addBookmark(player, item);
             return false;
         });
@@ -97,7 +97,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
                     return false;
                 });
             } else {
-                sm.setItem(i, Constants.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT);
+                sm.setItem(i, Constants.ItemStacks.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT);
             }
             index++;
         }
@@ -115,7 +115,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
             // do nothing
             return false;
         };
-        ItemStack previousOne = Constants.PREVIOUS_ONE_BUTTON.apply(p);
+        ItemStack previousOne = Constants.Buttons.PREVIOUS_ONE_BUTTON.apply(p);
         if (currentPage == 1) {
             previousOne.setType(Material.BLACK_STAINED_GLASS_PANE);
             previousOne.editMeta(m -> m.displayName(Component.empty()));
@@ -143,7 +143,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
 
         int totalPage = recipeContents.size() % 5 == 0 ? recipeContents.size() / 5 : recipeContents.size() / 5 + 1;
 
-        ItemStack nextOne = Constants.NEXT_ONE_BUTTON.apply(p);
+        ItemStack nextOne = Constants.Buttons.NEXT_ONE_BUTTON.apply(p);
         if (currentPage == totalPage || recipeContents.size() < 6) {
             nextOne.setType(Material.BLACK_STAINED_GLASS_PANE);
             nextOne.editMeta(m -> m.displayName(Component.empty()));
@@ -177,7 +177,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
 
     private void showUsage(Player p, String itemId) {
         SimpleMenu sm = new SimpleMenu(
-                IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Constants.GUIDE_TITLE_KEY));
+                IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Constants.Keys.GUIDE_TITLE_KEY));
         Collection<List<RecipeContent>> recipeContents =
                 RecipeContents.getRecipeContents().values();
         List<RecipeContent> allAvailableRecipeContents = new ArrayList<>();
@@ -196,11 +196,11 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
         IRGuideImplementation guide = SurvivalGuideImplementation.INSTANCE;
 
         if (allAvailableRecipeContents.isEmpty()) {
-            sm.setItem(0, Constants.BACK_BUTTON.apply(p), ((player, clickedItem, slot, menu, clickType) -> {
+            sm.setItem(0, Constants.Buttons.BACK_BUTTON.apply(p), ((player, clickedItem, slot, menu, clickType) -> {
                 guide.goBack(player);
                 return false;
             }));
-            sm.setItem(Constants.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT, 1, 2, 3, 4, 5, 6, 7, 8);
+            sm.setItem(Constants.ItemStacks.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT, 1, 2, 3, 4, 5, 6, 7, 8);
 
             sm.setItem(
                     recipeSlots[4],
@@ -228,7 +228,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
             return false;
         };
 
-        ItemStack previousOne = Constants.PREVIOUS_ONE_BUTTON.apply(p);
+        ItemStack previousOne = Constants.Buttons.PREVIOUS_ONE_BUTTON.apply(p);
         if (currentPage == 1) {
             previousOne.setType(Material.BLACK_STAINED_GLASS_PANE);
             previousOne.editMeta(m -> m.displayName(Component.empty()));
@@ -257,7 +257,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
 
         int totalPage = recipeContents.size() % 5 == 0 ? recipeContents.size() / 5 : recipeContents.size() / 5 + 1;
 
-        ItemStack nextOne = Constants.NEXT_ONE_BUTTON.apply(p);
+        ItemStack nextOne = Constants.Buttons.NEXT_ONE_BUTTON.apply(p);
         if (currentPage == totalPage || recipeContents.size() < 6) {
             nextOne.setType(Material.BLACK_STAINED_GLASS_PANE);
             nextOne.editMeta(m -> m.displayName(Component.empty()));
@@ -271,7 +271,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
 
     private void setBorder(SimpleMenu sm, Player p, RecipeContent rc) {
         IRGuideImplementation guide = SurvivalGuideImplementation.INSTANCE;
-        sm.setItem(0, Constants.BACK_BUTTON.apply(p), ((player, clickedItem, slot, menu, clickType) -> {
+        sm.setItem(0, Constants.Buttons.BACK_BUTTON.apply(p), ((player, clickedItem, slot, menu, clickType) -> {
             guide.goBack(player);
             pageRecord.remove(player.getUniqueId());
             return false;
@@ -286,14 +286,14 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
 
         IndustrialRevivalItem item = rc.result();
 
-        ItemStack wikiPageItem = Constants.WIKI_PAGE_BUTTON.apply(p);
+        ItemStack wikiPageItem = Constants.Buttons.WIKI_PAGE_BUTTON.apply(p);
         SimpleMenu.ClickHandler wikiHandler;
         if (item.getWikiText().isEmpty()) {
             wikiPageItem.setType(Material.BLACK_STAINED_GLASS_PANE);
             wikiHandler = SimpleMenu.ClickHandler.DEFAULT;
             wikiPageItem.editMeta(m -> m.displayName(Component.empty()));
         } else {
-            String url = Constants.WIKI_URL + item.getWikiText().get();
+            String url = Constants.Misc.WIKI_URL + item.getWikiText().get();
             ClickEvent clickEvent = ClickEvent.openUrl(url);
             Component text =
                     IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, "misc.wiki_page");

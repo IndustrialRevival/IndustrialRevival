@@ -15,8 +15,11 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.handlers.BlockPlaceHandler;
+import org.irmc.industrialrevival.api.items.handlers.BlockTicker;
 import org.irmc.industrialrevival.api.items.handlers.ItemInteractHandler;
+import org.irmc.industrialrevival.api.objects.ChunkPosition;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
+import org.irmc.industrialrevival.api.objects.PerformanceSummary;
 import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockBreakEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockPlaceEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.IRItemInteractEvent;
@@ -24,6 +27,7 @@ import org.irmc.industrialrevival.core.services.IRRegistry;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.items.IRItems;
 import org.irmc.industrialrevival.utils.DataUtil;
+import org.irmc.industrialrevival.utils.NumberUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -55,12 +59,7 @@ public class Debugger extends IndustrialRevivalItem {
     private static final ChatColor black = ChatColor.BLACK;
     public Debugger() {
         super();
-        addItemHandlers(new ItemInteractHandler() {
-            @Override
-            public void onInteract(@NotNull IRItemInteractEvent event) {
-                interact(event);
-            }
-        });
+        addItemHandlers((ItemInteractHandler) this::interact);
     }
 
     private void interact(IRItemInteractEvent e) {
@@ -173,13 +172,37 @@ public class Debugger extends IndustrialRevivalItem {
 
         player.sendMessage(" - Location: " + simpleLocationToString(location));
         player.sendMessage(" - ID: " + data.getId());
-        /* TODO:
-            - Check if the block has ticker.
-            - Check if the block is ticking.
-            - Check the machine's tick timings.
-            - Check the machine's avg tick timings.
-            - Check the machine's total tick timings.
-         */
+        IndustrialRevivalItem iritem = IndustrialRevivalItem.getById(data.getId());
+        boolean hasTicker;
+        boolean ticking;
+        BlockTicker ticker = iritem.getItemHandler(BlockTicker.class);
+        if (ticker == null) {
+            hasTicker = false;
+        } else {
+            hasTicker = true;
+        }
+
+        IRBlockData blockData = IndustrialRevival.getInstance().getProfilerService().getTask().getTickingBlocks().get(location);
+        if (blockData != null) {
+            ticking = true;
+        } else {
+            ticking = false;
+        }
+
+        player.sendMessage(" - Ticker: " + (hasTicker ? "√" : "×"));
+        player.sendMessage(" - Ticking: " + (ticking ? "√" : "×"));
+        if (hasTicker) {
+            String id = data.getId();
+            PerformanceSummary summary = IndustrialRevival.getInstance().getProfilerService().getSummary();
+            long timingsOfThisBlock = summary.getDataByLocation().get(location);
+            long totalTimingsOfThisBlock = summary.getDataByID().get(id);
+            long avgTimingsOfThisBlock = totalTimingsOfThisBlock / summary.getDataByID().size();
+            player.sendMessage("- Timings: ");
+            player.sendMessage("  - This Timings: " + NumberUtils.round(NumberUtils.nsToMs(timingsOfThisBlock), 2) + "ms");
+            player.sendMessage("  - Average Timings: " + NumberUtils.round(NumberUtils.nsToMs(avgTimingsOfThisBlock), 2) + "ms");
+            player.sendMessage("  - Total Timings: " + NumberUtils.round(NumberUtils.nsToMs(totalTimingsOfThisBlock), 2) + "ms");
+        }
+
         Map<String, String> dataMap = data.getData();
         if (!dataMap.isEmpty()) {
             player.sendMessage(" - Data: [");
@@ -194,11 +217,16 @@ public class Debugger extends IndustrialRevivalItem {
         Player player = e.getPlayer();
         player.sendMessage("Checking chunk timings: ");
         Chunk chunk = player.getChunk();
-        /* TODO:
-            - Check the chunk's tick timings.
-            - Check the chunk's avg tick timings.
-            - Check the chunk's total tick timings.
-         */
+        ChunkPosition position = new ChunkPosition(chunk);
+        PerformanceSummary summary = IndustrialRevival.getInstance().getProfilerService().getSummary();
+
+        long chunkTimings = summary.getDataByChunk().get(position);
+        long avgTimingsPerMachine = chunkTimings / summary.getDataByLocation().keySet().stream().filter(location -> location.getChunk().equals(chunk)).toList().size();
+        long avgTimingsPerChunk = summary.getTotalTime();
+        player.sendMessage("- Timings: ");
+        player.sendMessage("  - Total Chunk Timings: " + NumberUtils.round(NumberUtils.nsToMs(chunkTimings), 2) + "ms");
+        player.sendMessage("  - Average Timings Per Machine in This Chunk: " + NumberUtils.round(NumberUtils.nsToMs(avgTimingsPerMachine), 2) + "ms");
+        player.sendMessage("  - Average Timings Per Chunk: " + NumberUtils.round(NumberUtils.nsToMs(avgTimingsPerChunk), 2) + "ms");
     }
 
     private void forceBreakBlock(PlayerInteractEvent e) {

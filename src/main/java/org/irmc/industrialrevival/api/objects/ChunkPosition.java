@@ -9,10 +9,10 @@ import java.text.MessageFormat;
 @SuppressWarnings("unused")
 @Getter
 public class ChunkPosition {
-    private Chunk chunk;
-    private int chunkX;
-    private int chunkZ;
-    private int hash;
+    private final Chunk chunk;
+    private final int chunkX;
+    private final int chunkZ;
+    private final int hash;
     public ChunkPosition(Location location) {
         this(location.getChunk());
     }
@@ -20,7 +20,7 @@ public class ChunkPosition {
         this.chunk = chunk;
         this.chunkX = chunk.getX();
         this.chunkZ = chunk.getZ();
-        this.hash += chunk.hashCode();
+        this.hash = chunk.hashCode();
     }
 
     public boolean equals(Object obj) {

@@ -43,7 +43,7 @@ public class IndustrialRevivalItemStack extends ItemStack {
 
         this.id = id;
 
-        editMeta(meta -> PersistentDataAPI.setString(meta, Constants.ITEM_ID_KEY, id));
+        editMeta(meta -> PersistentDataAPI.setString(meta, Constants.ItemStackKeys.ITEM_ID_KEY, id));
     }
 
     public IndustrialRevivalItemStack(@NotNull String id, @NotNull Material material, String name, String... lore) {

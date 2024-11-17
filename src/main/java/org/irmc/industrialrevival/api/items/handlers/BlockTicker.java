@@ -15,6 +15,9 @@ import org.jetbrains.annotations.Nullable;
 @FunctionalInterface
 public interface BlockTicker extends ItemHandler {
     void onTick(IRBlockTickEvent event);
+    default boolean isSynchronized() {
+        return false;
+    }
 
     @Override
     default IncompatibleItemHandlerException isCompatible(@NotNull IndustrialRevivalItem item) {

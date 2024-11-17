@@ -19,7 +19,7 @@ public class ItemDataService {
             return Optional.empty();
         }
         return Optional.ofNullable(
-                stack.getItemMeta().getPersistentDataContainer().get(Constants.ITEM_ID_KEY, PersistentDataType.STRING));
+                stack.getItemMeta().getPersistentDataContainer().get(Constants.ItemStackKeys.ITEM_ID_KEY, PersistentDataType.STRING));
     }
 
     public Optional<RadiationLevel> getRadiationLevel(ItemStack stack) {
@@ -32,7 +32,7 @@ public class ItemDataService {
         }
         return Optional.of(RadiationLevel.valueOf(stack.getItemMeta()
                 .getPersistentDataContainer()
-                .get(Constants.RADIATION_LEVEL_KEY, PersistentDataType.STRING)));
+                .get(Constants.ItemStackKeys.RADIATION_LEVEL_KEY, PersistentDataType.STRING)));
     }
 
     public void setRadiationLevel(ItemStack stack, RadiationLevel radiationLevel) {
@@ -44,7 +44,7 @@ public class ItemDataService {
             return;
         }
         ItemMeta meta = stack.getItemMeta();
-        DataUtil.setPDC(meta, Constants.RADIATION_LEVEL_KEY, radiationLevel.name());
+        DataUtil.setPDC(meta, Constants.ItemStackKeys.RADIATION_LEVEL_KEY, radiationLevel.name());
         stack.setItemMeta(meta);
     }
 }

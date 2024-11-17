@@ -221,7 +221,7 @@ public class RecipeType {
                 return null;
             }
 
-            String id = PersistentDataAPI.getString(icon.getItemMeta(), Constants.CLEANED_IR_ITEM_ID, "");
+            String id = PersistentDataAPI.getString(icon.getItemMeta(), Constants.ItemStackKeys.CLEANED_IR_ITEM_ID, "");
             if (!id.isBlank()) {
                 makerId = id;
                 return IndustrialRevivalItem.getById(id).getItem();

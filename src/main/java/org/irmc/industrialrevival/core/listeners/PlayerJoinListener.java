@@ -16,7 +16,7 @@ public class PlayerJoinListener implements Listener {
 
         if (!p.hasPlayedBefore()) {
             PlayerInventory inv = p.getInventory();
-            inv.addItem(Constants.GUIDE_BOOK_ITEM.clone());
+            inv.addItem(Constants.ItemStacks.GUIDE_BOOK_ITEM.clone());
         }
     }
 }
