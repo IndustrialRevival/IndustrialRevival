@@ -16,10 +16,12 @@ import org.irmc.industrialrevival.api.items.groups.NestedItemGroup;
 import org.irmc.industrialrevival.api.items.groups.NormalItemGroup;
 import org.irmc.industrialrevival.api.items.groups.SubItemGroup;
 import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
+import org.irmc.industrialrevival.api.multiblock.MultiBlock;
 import org.irmc.industrialrevival.api.objects.Pair;
 import org.irmc.industrialrevival.api.objects.display.DisplayGroup;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
 import org.irmc.industrialrevival.api.recipes.BlockDropMethod;
+import org.irmc.industrialrevival.api.recipes.CraftMethod;
 import org.irmc.industrialrevival.api.recipes.MobDropMethod;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.api.researches.Research;
@@ -43,9 +45,10 @@ public final class IRRegistry {
     private final Map<String, IndustrialRevivalItem> items;
     private final Map<String, PlayerProfile> playerProfiles;
     private final Map<String, MachineMenuPreset> menuPresets;
+    private final Map<String, MultiBlock> multiBlocks;
 
-    private final Map<EntityType, List<Pair<ItemStack, Double>>> mobDrops;
-    private final Map<Material, List<Pair<ItemStack, Double>>> blockDrops;
+    private final Map<EntityType, List<MobDropMethod>> mobDrops;
+    private final Map<Material, List<BlockDropMethod>> blockDrops;
 
     private final Map<RecipeType, Set<ItemStack>> craftables;
 
@@ -58,9 +61,42 @@ public final class IRRegistry {
         items = new HashMap<>();
         playerProfiles = new HashMap<>();
         menuPresets = new HashMap<>();
+        multiBlocks = new HashMap<>();
         mobDrops = new HashMap<>();
         blockDrops = new HashMap<>();
         craftables = new HashMap<>();
+    }
+
+    public void registerMultiBlock(MultiBlock multiBlock) {
+        multiBlocks.put(multiBlock.getId(), multiBlock);
+    }
+
+    public void unregisterMultiBlock(MultiBlock multiBlock) {
+        multiBlocks.remove(multiBlock.getId());
+    }
+
+    public void registerRecipeType(RecipeType recipeType) {
+        craftables.put(recipeType, new HashSet<>());
+    }
+
+    public void unregisterRecipeType(RecipeType recipeType) {
+        craftables.remove(recipeType);
+    }
+
+    public void registerCraftable(RecipeType recipeType, ItemStack itemStack) {
+        Set<ItemStack> craftableSet = craftables.get(recipeType);
+        if (craftableSet == null) {
+            throw new IllegalArgumentException("RecipeType not registered");
+        }
+        craftableSet.add(itemStack);
+    }
+
+    public void unregisterCraftable(RecipeType recipeType, ItemStack itemStack) {
+        Set<ItemStack> craftableSet = craftables.get(recipeType);
+        if (craftableSet == null) {
+            return;
+        }
+        craftableSet.remove(itemStack);
     }
 
     public void resortItemGroups() {
@@ -80,6 +116,11 @@ public final class IRRegistry {
     public void registerItem(@NotNull IndustrialRevivalItem item) {
         Preconditions.checkArgument(item != null, "Item cannot be null");
         items.put(item.getId(), item);
+
+        for (CraftMethod method : item.getCraftMethods()) {
+            registerRecipeType(method.getRecipeType());
+            registerCraftable(method.getRecipeType(), method.getOutput());
+        }
     }
 
     public void registerItemGroup(@NotNull ItemGroup itemGroup) {
@@ -87,34 +128,24 @@ public final class IRRegistry {
         itemGroups.put(itemGroup.getKey(), itemGroup);
     }
 
-    public void registerMobDrop(@NotNull IndustrialRevivalItem mobDropItem) {
+    public void registerMobDrop(@NotNull MobDropItem mobDropItem) {
         Preconditions.checkArgument(mobDropItem != null, "Item cannot be null");
-        if (!(mobDropItem instanceof MobDropItem mdi)) {
-            throw new IllegalArgumentException("Item must implement MobDropItem interface");
-        }
 
-        MobDropMethod[] methods = mdi.getDropMethods();
+        MobDropMethod[] methods = mobDropItem.getDropMethods();
         for (MobDropMethod method : methods) {
-            List<Pair<ItemStack, Double>> methodDrops = mobDrops.getOrDefault(method.getMobType(), new ArrayList<>());
-            ItemStack itemToDrop = method.getItemToDrop().clone();
-            itemToDrop.setAmount(method.getDropAmount());
-            methodDrops.add(new Pair<>(itemToDrop, method.getChance()));
+            List<MobDropMethod> methodDrops = mobDrops.getOrDefault(method.getMobType(), new ArrayList<>());
+            methodDrops.add(method);
             mobDrops.put(method.getMobType(), methodDrops);
         }
     }
 
-    public void registerBlockDrop(@NotNull IndustrialRevivalItem blockDropItem) {
+    public void registerBlockDrop(@NotNull BlockDropItem blockDropItem) {
         Preconditions.checkArgument(blockDropItem != null, "Item cannot be null");
-        if (!(blockDropItem instanceof BlockDropItem bdi)) {
-            throw new IllegalArgumentException("Item must implement BlockDropItem interface");
-        }
 
-        BlockDropMethod[] methods = bdi.getDropMethods();
+        BlockDropMethod[] methods = blockDropItem.getDropMethods();
         for (BlockDropMethod method : methods) {
-            List<Pair<ItemStack, Double>> methodDrops = blockDrops.getOrDefault(method.getBlockType(), new ArrayList<>());
-            ItemStack itemToDrop = method.getItemToDrop().clone();
-            itemToDrop.setAmount(method.getDropAmount());
-            methodDrops.add(new Pair<>(itemToDrop, method.getChance()));
+            List<BlockDropMethod> methodDrops = blockDrops.getOrDefault(method.getBlockType(), new ArrayList<>());
+            methodDrops.add(method);
             blockDrops.put(method.getBlockType(), methodDrops);
         }
     }
@@ -152,27 +183,31 @@ public final class IRRegistry {
             unregisterBlockDrop(item);
         }
 
+        for (CraftMethod method : item.getCraftMethods()) {
+            unregisterCraftable(method.getRecipeType(), method.getOutput());
+        }
         items.remove(item.getId());
-        item.setDisabled(true);
+        item.setDisabled(true, true);
     }
 
     public void unregisterMobDrop(IndustrialRevivalItem mobDropItem) {
         if (!(mobDropItem instanceof MobDropItem mdi)) {
             throw new IllegalArgumentException("Item must implement MobDropItem interface");
         }
+
         MobDropMethod[] methods = mdi.getDropMethods();
         for (MobDropMethod method : methods) {
-            List<Pair<ItemStack, Double>> methodDrops = mobDrops.get(method.getMobType());
+            List<MobDropMethod> methodDrops = mobDrops.get(method.getMobType());
             if (methodDrops == null) {
                 continue;
             }
-            methodDrops.removeIf(p -> ItemUtils.isItemSimilar(p.getFirst(), mobDropItem.getItem()));
+            methodDrops.remove(method);
             if (methodDrops.isEmpty()) {
                 mobDrops.remove(method.getMobType());
             }
         }
 
-        mobDropItem.setDisabled(true);
+        mobDropItem.setDisabled(true, true);
     }
 
     public void unregisterBlockDrop(IndustrialRevivalItem blockDropItem) {
@@ -181,23 +216,25 @@ public final class IRRegistry {
         }
         BlockDropMethod[] methods = bdi.getDropMethods();
         for (BlockDropMethod method : methods) {
-            List<Pair<ItemStack, Double>> methodDrops = blockDrops.get(method.getBlockType());
+            List<BlockDropMethod> methodDrops = blockDrops.get(method.getBlockType());
             if (methodDrops == null) {
                 continue;
             }
-            methodDrops.removeIf(p -> ItemUtils.isItemSimilar(p.getFirst(), blockDropItem.getItem()));
+
+            methodDrops.remove(method);
             if (methodDrops.isEmpty()) {
                 blockDrops.remove(method.getBlockType());
             }
         }
 
-        blockDropItem.setDisabled(true);
+        blockDropItem.setDisabled(true, true);
     }
 
     public void unregisterDisplayGroup(NamespacedKey key) {
         displayGroups.remove(key);
     }
 
+    // todo: pinyin search
     public List<IndustrialRevivalItem> searchItems(String term) {
         return items.values().stream()
                 .filter(i -> {

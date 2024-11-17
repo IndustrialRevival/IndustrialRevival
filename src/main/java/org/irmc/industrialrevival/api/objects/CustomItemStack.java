@@ -125,6 +125,17 @@ public class CustomItemStack extends ItemStack {
         return this;
     }
 
+    public CustomItemStack modifyLore(Consumer<List<Component>> consumer) {
+        List<Component> lore = getItemMeta().lore();
+        if (lore == null) {
+            lore = new ArrayList<>();
+            consumer.accept(lore);
+        }
+
+        getItemMeta().lore(lore);
+        return this;
+    }
+
     public CustomItemStack setCustomModel(int data) {
         ItemMeta im = getItemMeta();
         im.setCustomModelData(data == 0 ? null : data);

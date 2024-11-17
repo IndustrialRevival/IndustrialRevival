@@ -6,7 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Rotation;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
-import org.irmc.industrialrevival.api.multiblock.piece.IndustrialRevivalStructurePiece;
+import org.irmc.industrialrevival.api.multiblock.piece.IRBlockStructurePiece;
 import org.irmc.industrialrevival.api.multiblock.piece.MaterialStructurePiece;
 import org.irmc.industrialrevival.api.multiblock.piece.StructurePiece;
 import org.jetbrains.annotations.NotNull;
@@ -22,8 +22,7 @@ public class Structure {
     private @Getter static final Rotation[] ROTATIONS = new Rotation[] {Rotation.NONE, Rotation.CLOCKWISE, Rotation.FLIPPED, Rotation.COUNTER_CLOCKWISE};
     private @Getter final StructurePiece[][][] structure;
     private @Getter final int[] center;
-    // todo: 将size改为3个int，分别表示x,y,z方向的长度
-    private @Getter final int size;
+    private @Getter final int[] size;
 
     /**
      * Used to create a multi-block structure.
@@ -54,7 +53,7 @@ public class Structure {
 
         this.structure = structure;
         this.center = center;
-        this.size = structure.length;
+        this.size = new int[] {structure.length, structure[0].length, structure[0][0].length};
     }
 
     /**
@@ -112,7 +111,7 @@ public class Structure {
         for (int x = 0; x < items.length; x++) {
             for (int y = 0; y < items[x].length; y++) {
                 for (int z = 0; z < items[x][y].length; z++) {
-                    structure[x][y][z] = new IndustrialRevivalStructurePiece(items[x][y][z]);
+                    structure[x][y][z] = new IRBlockStructurePiece(items[x][y][z]);
                 }
             }
         }

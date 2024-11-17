@@ -6,6 +6,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
+import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
@@ -15,6 +16,10 @@ import org.jetbrains.annotations.Nullable;
 @UtilityClass
 @SuppressWarnings("unused")
 public class DataUtil {
+    @Nullable
+    public static IndustrialRevivalItem getItem(Location location) {
+        return IndustrialRevivalItem.getById(getBlockData(location).getId());
+    }
     @Nullable
     public static IRBlockData getBlockData(Location location) {
         return IndustrialRevival.getInstance().getBlockDataService().getBlockData(location);

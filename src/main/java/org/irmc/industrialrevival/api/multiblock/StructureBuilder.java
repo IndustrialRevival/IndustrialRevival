@@ -36,6 +36,10 @@ public class StructureBuilder {
         return this;
     }
 
+    public StructureBuilder setCenter(int x, int y, int z) {
+        return this.setCenter(new int[] {x, y, z});
+    }
+
     public Structure build() {
         return new Structure(this.pieces, this.center);
     }

@@ -5,6 +5,7 @@ import org.bukkit.Keyed;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
@@ -12,10 +13,8 @@ import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.jetbrains.annotations.NotNull;
 
-// todo: 实现右键中心方块，交互多方块
-// todo: 多方块注册到registry，玩家交互方块时，for each check 注册的多方块，match时判断是否match多个
 @SuppressWarnings("unused")
-public class MultiBlock extends IndustrialRevivalItem implements Keyed {
+public abstract class MultiBlock extends IndustrialRevivalItem implements Keyed {
     private @Getter NamespacedKey key;
     private @Getter Structure structure;
     private @Getter int[] center;
@@ -63,14 +62,14 @@ public class MultiBlock extends IndustrialRevivalItem implements Keyed {
     }
 
     @Override
-    public MultiBlock setDisabledInWorld(@NotNull World world, boolean disabled) {
-        super.setDisabledInWorld(world, disabled);
+    public MultiBlock setDisabledInWorld(@NotNull World world, boolean disabled, boolean saveToConfig) {
+        super.setDisabledInWorld(world, disabled, saveToConfig);
         return this;
     }
 
     @Override
-    public MultiBlock setDisabled(boolean disabled) {
-        super.setDisabled(disabled);
+    public MultiBlock setDisabled(boolean disabled, boolean saveToConfig) {
+        super.setDisabled(disabled, saveToConfig);
         return this;
     }
 
@@ -81,20 +80,22 @@ public class MultiBlock extends IndustrialRevivalItem implements Keyed {
     }
 
     @Override
-    public MultiBlock setEnchantable(boolean enchantable) {
-        super.setEnchantable(enchantable);
+    public MultiBlock setEnchantable(boolean enchantable, boolean saveToConfig) {
+        super.setEnchantable(enchantable, saveToConfig);
         return this;
     }
 
     @Override
-    public MultiBlock setDisenchantable(boolean disenchantable) {
-        super.setDisenchantable(disenchantable);
+    public MultiBlock setDisenchantable(boolean disenchantable, boolean saveToConfig) {
+        super.setDisenchantable(disenchantable, saveToConfig);
         return this;
     }
 
     @Override
-    public MultiBlock setHideInGuide(boolean hideInGuide) {
-        super.setHideInGuide(hideInGuide);
+    public MultiBlock setHideInGuide(boolean hideInGuide, boolean saveToConfig) {
+        super.setHideInGuide(hideInGuide, saveToConfig);
         return this;
     }
+
+    public abstract void onInteract(@NotNull PlayerInteractEvent event);
 }

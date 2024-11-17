@@ -53,14 +53,14 @@ public abstract class AbstractMachine extends IndustrialRevivalItem {
     }
 
     @Override
-    public AbstractMachine setDisabledInWorld(@NotNull World world, boolean disabled) {
-        super.setDisabledInWorld(world, disabled);
+    public AbstractMachine setDisabledInWorld(@NotNull World world, boolean disabled, boolean saveToConfig) {
+        super.setDisabledInWorld(world, disabled, saveToConfig);
         return this;
     }
 
     @Override
-    public AbstractMachine setDisabled(boolean disabled) {
-        super.setDisabled(disabled);
+    public AbstractMachine setDisabled(boolean disabled, boolean saveToConfig) {
+        super.setDisabled(disabled, saveToConfig);
         return this;
     }
 
@@ -71,20 +71,20 @@ public abstract class AbstractMachine extends IndustrialRevivalItem {
     }
 
     @Override
-    public AbstractMachine setEnchantable(boolean enchantable) {
-        super.setEnchantable(enchantable);
+    public AbstractMachine setEnchantable(boolean enchantable, boolean saveToConfig) {
+        super.setEnchantable(enchantable, saveToConfig);
         return this;
     }
 
     @Override
-    public AbstractMachine setDisenchantable(boolean disenchantable) {
-        super.setDisenchantable(disenchantable);
+    public AbstractMachine setDisenchantable(boolean disenchantable, boolean saveToConfig) {
+        super.setDisenchantable(disenchantable, saveToConfig);
         return this;
     }
 
     @Override
-    public AbstractMachine setHideInGuide(boolean hideInGuide) {
-        super.setHideInGuide(hideInGuide);
+    public AbstractMachine setHideInGuide(boolean hideInGuide, boolean saveToConfig) {
+        super.setHideInGuide(hideInGuide, saveToConfig);
         return this;
     }
 

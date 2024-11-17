@@ -96,14 +96,14 @@ public class LimitedItem extends IndustrialRevivalItem implements Limited {
     }
 
     @Override
-    public LimitedItem setDisabledInWorld(@NotNull World world, boolean disabled) {
-        super.setDisabledInWorld(world, disabled);
+    public LimitedItem setDisabledInWorld(@NotNull World world, boolean disabled, boolean saveToConfig) {
+        super.setDisabledInWorld(world, disabled, saveToConfig);
         return this;
     }
 
     @Override
-    public LimitedItem setDisabled(boolean disabled) {
-        super.setDisabled(disabled);
+    public LimitedItem setDisabled(boolean disabled, boolean saveToConfig) {
+        super.setDisabled(disabled, saveToConfig);
         return this;
     }
 
@@ -114,20 +114,20 @@ public class LimitedItem extends IndustrialRevivalItem implements Limited {
     }
 
     @Override
-    public LimitedItem setEnchantable(boolean enchantable) {
-        super.setEnchantable(enchantable);
+    public LimitedItem setEnchantable(boolean enchantable, boolean saveToConfig) {
+        super.setEnchantable(enchantable, saveToConfig);
         return this;
     }
 
     @Override
-    public LimitedItem setDisenchantable(boolean disenchantable) {
-        super.setDisenchantable(disenchantable);
+    public LimitedItem setDisenchantable(boolean disenchantable, boolean saveToConfig) {
+        super.setDisenchantable(disenchantable, saveToConfig);
         return this;
     }
 
     @Override
-    public LimitedItem setHideInGuide(boolean hideInGuide) {
-        super.setHideInGuide(hideInGuide);
+    public LimitedItem setHideInGuide(boolean hideInGuide, boolean saveToConfig) {
+        super.setHideInGuide(hideInGuide, saveToConfig);
         return this;
     }
 }

@@ -242,12 +242,14 @@ public class RecipeType {
     }
 
     public void registerRecipe(ItemStack[] input, ItemStack output) {
+        IndustrialRevival.getInstance().getRegistry().registerCraftable(this, output);
         if (registerRecipeConsumer != null) {
             registerRecipeConsumer.accept(input, output);
         }
     }
 
     public void unregisterRecipe(ItemStack[] input, ItemStack output) {
+        IndustrialRevival.getInstance().getRegistry().unregisterCraftable(this, output);
         if (unregisterRecipeConsumer != null) {
             unregisterRecipeConsumer.accept(input, output);
         }

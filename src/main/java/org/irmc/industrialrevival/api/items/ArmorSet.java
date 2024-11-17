@@ -156,14 +156,14 @@ public class ArmorSet {
         }
 
         @Override
-        public ArmorPiece setDisabledInWorld(@NotNull World world, boolean disabled) {
-            super.setDisabledInWorld(world, disabled);
+        public ArmorPiece setDisabledInWorld(@NotNull World world, boolean disabled, boolean saveToConfig) {
+            super.setDisabledInWorld(world, disabled, saveToConfig);
             return this;
         }
 
         @Override
-        public ArmorPiece setDisabled(boolean disabled) {
-            super.setDisabled(disabled);
+        public ArmorPiece setDisabled(boolean disabled, boolean saveToConfig) {
+            super.setDisabled(disabled, saveToConfig);
             return this;
         }
 
@@ -174,20 +174,20 @@ public class ArmorSet {
         }
 
         @Override
-        public ArmorPiece setEnchantable(boolean enchantable) {
-            super.setEnchantable(enchantable);
+        public ArmorPiece setEnchantable(boolean enchantable, boolean saveToConfig) {
+            super.setEnchantable(enchantable, saveToConfig);
             return this;
         }
 
         @Override
-        public ArmorPiece setDisenchantable(boolean disenchantable) {
-            super.setDisenchantable(disenchantable);
+        public ArmorPiece setDisenchantable(boolean disenchantable, boolean saveToConfig) {
+            super.setDisenchantable(disenchantable, saveToConfig);
             return this;
         }
 
         @Override
-        public ArmorPiece setHideInGuide(boolean hideInGuide) {
-            super.setHideInGuide(hideInGuide);
+        public ArmorPiece setHideInGuide(boolean hideInGuide, boolean saveToConfig) {
+            super.setHideInGuide(hideInGuide, saveToConfig);
             return this;
         }
     }

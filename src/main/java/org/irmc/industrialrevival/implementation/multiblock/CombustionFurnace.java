@@ -3,12 +3,14 @@ package org.irmc.industrialrevival.implementation.multiblock;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.multiblock.MultiBlock;
 import org.irmc.industrialrevival.api.multiblock.StructureBuilder;
 import org.irmc.industrialrevival.api.multiblock.StructureUtil;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,9 +26,15 @@ public class CombustionFurnace extends MultiBlock {
 
     public CombustionFurnace(NamespacedKey key) {
         super(key);
-        StructureBuilder sb = new StructureBuilder();
-        sb.setPieces(StructureUtil.createCube(Material.BRICKS, 3));
-        sb.setColumn(1, 0, 1, StructureUtil.material(Material.FURNACE));
+        StructureBuilder sb = new StructureBuilder()
+            .setPieces(StructureUtil.createCube(Material.BRICKS, 3))
+            .setColumn(1, 0, 1, StructureUtil.material(Material.FURNACE))
+            .setCenter(1, 0, 1);
         setStructure(sb.build());
+    }
+
+    @Override
+    public void onInteract(@NotNull PlayerInteractEvent event) {
+        // todo
     }
 }

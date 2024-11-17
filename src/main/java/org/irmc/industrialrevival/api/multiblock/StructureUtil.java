@@ -3,8 +3,9 @@ package org.irmc.industrialrevival.api.multiblock;
 import org.bukkit.Material;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.multiblock.piece.AnyStructurePiece;
-import org.irmc.industrialrevival.api.multiblock.piece.IndustrialRevivalStructurePiece;
+import org.irmc.industrialrevival.api.multiblock.piece.IRBlockStructurePiece;
 import org.irmc.industrialrevival.api.multiblock.piece.MaterialStructurePiece;
+import org.irmc.industrialrevival.api.multiblock.piece.SectionStructurePiece;
 import org.irmc.industrialrevival.api.multiblock.piece.StructurePiece;
 
 public class StructureUtil {
@@ -22,7 +23,7 @@ public class StructureUtil {
         StructurePiece[][] layer = new StructurePiece[size][size];
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                layer[i][j] = new IndustrialRevivalStructurePiece(item);
+                layer[i][j] = new IRBlockStructurePiece(item);
             }
         }
         return layer;
@@ -39,7 +40,7 @@ public class StructureUtil {
     public static StructurePiece[] createRow(IndustrialRevivalItem item, int size) {
         StructurePiece[] row = new StructurePiece[size];
         for (int i = 0; i < size; i++) {
-            row[i] = new IndustrialRevivalStructurePiece(item);
+            row[i] = new IRBlockStructurePiece(item);
         }
         return row;
     }
@@ -63,7 +64,7 @@ public class StructureUtil {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 if (i == 0 || i == size - 1 || j == 0 || j == size - 1) {
-                    outline[i][j] = new IndustrialRevivalStructurePiece(item);
+                    outline[i][j] = new IRBlockStructurePiece(item);
                 } else {
                     outline[i][j] = null;
                 }
@@ -93,7 +94,7 @@ public class StructureUtil {
                 if (i == 0 || i == size - 1 || j == 0 || j == size - 1) {
                     hollow[i][j] = null;
                 } else {
-                    hollow[i][j] = new IndustrialRevivalStructurePiece(item);
+                    hollow[i][j] = new IRBlockStructurePiece(item);
                 }
             }
         }
@@ -119,16 +120,16 @@ public class StructureUtil {
     public static StructurePiece material(Material material) {
         return new MaterialStructurePiece(material);
     }
-
     public static StructurePiece ir(IndustrialRevivalItem item) {
-        return new IndustrialRevivalStructurePiece(item);
+        return new IRBlockStructurePiece(item);
     }
-
     public static StructurePiece any() {
         return new AnyStructurePiece();
     }
-
     public static StructurePiece air() {
         return new MaterialStructurePiece(Material.AIR);
+    }
+    public static StructurePiece section(StructurePiece... pieces) {
+        return new SectionStructurePiece(pieces);
     }
 }

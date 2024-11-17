@@ -39,14 +39,14 @@ public class UnusableItem extends IndustrialRevivalItem implements Unusable {
     }
 
     @Override
-    public UnusableItem setDisabledInWorld(@NotNull World world, boolean disabled) {
-        super.setDisabledInWorld(world, disabled);
+    public UnusableItem setDisabledInWorld(@NotNull World world, boolean disabled, boolean saveToConfig) {
+        super.setDisabledInWorld(world, disabled, saveToConfig);
         return this;
     }
 
     @Override
-    public UnusableItem setDisabled(boolean disabled) {
-        super.setDisabled(disabled);
+    public UnusableItem setDisabled(boolean disabled, boolean saveToConfig) {
+        super.setDisabled(disabled, saveToConfig);
         return this;
     }
 
@@ -57,20 +57,20 @@ public class UnusableItem extends IndustrialRevivalItem implements Unusable {
     }
 
     @Override
-    public UnusableItem setEnchantable(boolean enchantable) {
-        super.setEnchantable(enchantable);
+    public UnusableItem setEnchantable(boolean enchantable, boolean saveToConfig) {
+        super.setEnchantable(enchantable, saveToConfig);
         return this;
     }
 
     @Override
-    public UnusableItem setDisenchantable(boolean disenchantable) {
-        super.setDisenchantable(disenchantable);
+    public UnusableItem setDisenchantable(boolean disenchantable, boolean saveToConfig) {
+        super.setDisenchantable(disenchantable, saveToConfig);
         return this;
     }
 
     @Override
-    public UnusableItem setHideInGuide(boolean hideInGuide) {
-        super.setHideInGuide(hideInGuide);
+    public UnusableItem setHideInGuide(boolean hideInGuide, boolean saveToConfig) {
+        super.setHideInGuide(hideInGuide, saveToConfig);
         return this;
     }
 }

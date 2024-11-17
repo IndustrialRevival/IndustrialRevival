@@ -11,9 +11,14 @@ public class MaterialStructurePiece extends StructurePiece {
         this.material = material;
     }
 
+    // DO NOT USE THIS METHOD
     @Override
     public boolean matches(Block b) {
-        return b.getType().equals(this.material);
+        return matches(b.getType());
+    }
+
+    public boolean matches(Material material) {
+        return material.equals(this.material);
     }
 
     @Override

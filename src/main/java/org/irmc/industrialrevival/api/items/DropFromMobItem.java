@@ -58,14 +58,14 @@ public class DropFromMobItem extends IndustrialRevivalItem implements MobDropIte
     }
 
     @Override
-    public DropFromMobItem setDisabledInWorld(@NotNull World world, boolean disabled) {
-        super.setDisabledInWorld(world, disabled);
+    public DropFromMobItem setDisabledInWorld(@NotNull World world, boolean disabled, boolean saveToConfig) {
+        super.setDisabledInWorld(world, disabled, saveToConfig);
         return this;
     }
 
     @Override
-    public DropFromMobItem setDisabled(boolean disabled) {
-        super.setDisabled(disabled);
+    public DropFromMobItem setDisabled(boolean disabled, boolean saveToConfig) {
+        super.setDisabled(disabled, saveToConfig);
         return this;
     }
 
@@ -76,20 +76,20 @@ public class DropFromMobItem extends IndustrialRevivalItem implements MobDropIte
     }
 
     @Override
-    public DropFromMobItem setEnchantable(boolean enchantable) {
-        super.setEnchantable(enchantable);
+    public DropFromMobItem setEnchantable(boolean enchantable, boolean saveToConfig) {
+        super.setEnchantable(enchantable, saveToConfig);
         return this;
     }
 
     @Override
-    public DropFromMobItem setDisenchantable(boolean disenchantable) {
-        super.setDisenchantable(disenchantable);
+    public DropFromMobItem setDisenchantable(boolean disenchantable, boolean saveToConfig) {
+        super.setDisenchantable(disenchantable, saveToConfig);
         return this;
     }
 
     @Override
-    public DropFromMobItem setHideInGuide(boolean hideInGuide) {
-        super.setHideInGuide(hideInGuide);
+    public DropFromMobItem setHideInGuide(boolean hideInGuide, boolean saveToConfig) {
+        super.setHideInGuide(hideInGuide, saveToConfig);
         return this;
     }
 }

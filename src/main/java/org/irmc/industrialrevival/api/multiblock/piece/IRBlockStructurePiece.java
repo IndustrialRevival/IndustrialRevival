@@ -1,5 +1,6 @@
 package org.irmc.industrialrevival.api.multiblock.piece;
 
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
@@ -7,20 +8,24 @@ import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.utils.DataUtil;
 import org.jetbrains.annotations.NotNull;
 
-public class IndustrialRevivalStructurePiece extends StructurePiece {
+public class IRBlockStructurePiece extends StructurePiece {
     private final IndustrialRevivalItem iritem;
 
-    public IndustrialRevivalStructurePiece(String string) {
+    public IRBlockStructurePiece(String string) {
         this(IndustrialRevivalItem.getById(string));
     }
 
-    public IndustrialRevivalStructurePiece(IndustrialRevivalItem iritem) {
+    public IRBlockStructurePiece(IndustrialRevivalItem iritem) {
         this.iritem = iritem;
     }
 
     @Override
     public boolean matches(Block b) {
-        IRBlockData blockData = DataUtil.getBlockData(b.getLocation());
+        return matches(b.getLocation());
+    }
+
+    public boolean matches(Location location) {
+        IRBlockData blockData = DataUtil.getBlockData(location);
         if (blockData == null) {
             return false;
         }
