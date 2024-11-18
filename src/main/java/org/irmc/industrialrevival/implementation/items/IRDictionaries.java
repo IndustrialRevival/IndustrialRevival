@@ -15,20 +15,7 @@ public class IRDictionaries {
     static {
         IR_ORE = new UnchangeableItemDictionary(
                 KeyUtil.customKey("dict_ore"),
-                List.of(
-                        IndustrialRevivalItems.ALUMINIUM_ORE,
-                        IndustrialRevivalItems.CHROMIUM_ORE,
-                        IndustrialRevivalItems.LEAD_ORE,
-                        IndustrialRevivalItems.COBALT_ORE,
-                        IndustrialRevivalItems.MAGNESIUM_ORE,
-                        IndustrialRevivalItems.MAGNET_ORE,
-                        IndustrialRevivalItems.URANIUM_ORE,
-                        IndustrialRevivalItems.TIN_ORE,
-                        IndustrialRevivalItems.MERCURY_ORE,
-                        IndustrialRevivalItems.SILVER_ORE,
-                        IndustrialRevivalItems.NICKEL_ORE,
-                        IndustrialRevivalItems.TUNGSTEN_ORE,
-                        IndustrialRevivalItems.ZINC_ORE));
+                List.of());
 
         IR_ORE_PRODUCTION = new UnchangeableItemDictionary(KeyUtil.customKey("dict_ore_production"), List.of());
     }
