@@ -18,7 +18,7 @@ public class GuideListener implements Listener {
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) {
             ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
             if (item != null && item.getType() != Material.AIR) {
-                String smode = PersistentDataAPI.getString(item.getItemMeta(), Constants.ItemStackKeys.GUIDE_ITEM_KEY, GuideMode.SURVIVAL.name());
+                String smode = PersistentDataAPI.getString(item.getItemMeta(), Constants.ItemStackKeys.GUIDE_ITEM_KEY, GuideMode.UNKNOWN.name());
                 GuideMode mode = GuideMode.valueOf(smode);
                 switch (mode) {
                     case SURVIVAL -> {
