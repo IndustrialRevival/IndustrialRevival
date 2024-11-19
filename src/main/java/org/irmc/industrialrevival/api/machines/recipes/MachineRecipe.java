@@ -15,13 +15,13 @@ import java.util.Map;
 @SuppressWarnings("unused")
 public class MachineRecipe {
     private final int processTime;
-    private final int energy;
+    private final long energy;
     private final Map<ItemStackReference, Integer> inputs;
     private final Map<ItemStack, Integer> outputs;
 
     public MachineRecipe(
             int processTime,
-            int energy,
+            long energy,
             @NotNull Map<ItemStack, Integer> inputs,
             @NotNull Map<ItemStack, Integer> outputs
     ) {
@@ -35,7 +35,7 @@ public class MachineRecipe {
 
     public MachineRecipe(
             int processTime,
-            int energy,
+            long energy,
             @NotNull List<ItemStack> inputs,
             @NotNull List<ItemStack> outputs
     ) {
@@ -49,7 +49,7 @@ public class MachineRecipe {
 
     public MachineRecipe(
             int processTime,
-            int energy,
+            long energy,
             @NotNull Iterable<ItemStack> inputs,
             @NotNull Iterable<ItemStack> outputs
     ) {
@@ -63,7 +63,7 @@ public class MachineRecipe {
 
     public MachineRecipe(
             int processTime,
-            int energy,
+            long energy,
             @NotNull Collection<ItemStack> inputs,
             @NotNull Collection<ItemStack> outputs
     ) {
@@ -77,7 +77,7 @@ public class MachineRecipe {
 
     public MachineRecipe(
             int processTime,
-            int energy,
+            long energy,
             @NotNull ItemStack input,
             @NotNull ItemStack output
     ) {
@@ -91,7 +91,7 @@ public class MachineRecipe {
 
     public MachineRecipe(
             int processTime,
-            int energy,
+            long energy,
             @NotNull ItemStackReference input,
             @NotNull ItemStackReference output
     ) {

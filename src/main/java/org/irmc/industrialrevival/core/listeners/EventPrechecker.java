@@ -4,7 +4,10 @@ import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryType;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+import org.irmc.industrialrevival.api.items.attributes.NotHopperable;
+import org.irmc.industrialrevival.api.items.attributes.NotPlaceable;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.api.objects.events.vanilla.BlockExplodeIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.EndermanMoveIRBlockEvent;
@@ -72,6 +75,10 @@ public class EventPrechecker implements Listener {
         if (event.getIritem().isDisabledInWorld(event.getDestination().getLocation().getWorld())) {
             event.setCancelled(true);
         }
+
+        if (event.getDestination().getType().equals(InventoryType.HOPPER) && event.getIritem() instanceof NotHopperable) {
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler(priority = EventPriority.LOW)
@@ -97,6 +104,10 @@ public class EventPrechecker implements Listener {
         }
 
         if (event.getIritem().isDisabledInWorld(event.getBlockPlaced().getWorld())) {
+            event.setCancelled(true);
+        }
+
+        if (event.getIritem() instanceof NotPlaceable) {
             event.setCancelled(true);
         }
     }

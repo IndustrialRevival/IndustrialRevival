@@ -29,66 +29,6 @@ public abstract class AbstractMachine extends IndustrialRevivalItem {
     private RecipeType recipeType = null;
     private ItemStack recipeTypeIcon = null;
 
-    @Override
-    public AbstractMachine setAddon(@NotNull IndustrialRevivalAddon addon) {
-        super.setAddon(addon);
-        return this;
-    }
-
-    @Override
-    public AbstractMachine addItemGroup(@NotNull ItemGroup group) {
-        super.addItemGroup(group);
-        return this;
-    }
-
-    @Override
-    public AbstractMachine addCraftMethod(@NotNull CraftMethodHandler handler) {
-        super.addCraftMethod(handler);
-        return this;
-    }
-
-    @Override
-    public AbstractMachine setWikiText(@NotNull String wikiText) {
-        super.setWikiText(wikiText);
-        return this;
-    }
-
-    @Override
-    public AbstractMachine setDisabledInWorld(@NotNull World world, boolean disabled, boolean saveToConfig) {
-        super.setDisabledInWorld(world, disabled, saveToConfig);
-        return this;
-    }
-
-    @Override
-    public AbstractMachine setDisabled(boolean disabled, boolean saveToConfig) {
-        super.setDisabled(disabled, saveToConfig);
-        return this;
-    }
-
-    @Override
-    public AbstractMachine addItemDictionary(@NotNull ItemDictionary dictionary) {
-        super.addItemDictionary(dictionary);
-        return this;
-    }
-
-    @Override
-    public AbstractMachine setEnchantable(boolean enchantable, boolean saveToConfig) {
-        super.setEnchantable(enchantable, saveToConfig);
-        return this;
-    }
-
-    @Override
-    public AbstractMachine setDisenchantable(boolean disenchantable, boolean saveToConfig) {
-        super.setDisenchantable(disenchantable, saveToConfig);
-        return this;
-    }
-
-    @Override
-    public AbstractMachine setHideInGuide(boolean hideInGuide, boolean saveToConfig) {
-        super.setHideInGuide(hideInGuide, saveToConfig);
-        return this;
-    }
-
     public AbstractMachine addRecipe(int processTime, int energy, ItemStack[] consume, ItemStack[] produce) {
         checkRegistered();
         machineRecipes.addRecipe(processTime, energy, consume, produce);

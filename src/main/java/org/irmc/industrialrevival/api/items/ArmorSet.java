@@ -50,10 +50,11 @@ public class ArmorSet {
         armor.put(
                 armorType,
                 new ArmorPiece()
-                        .setPotionEffects(potionEffects)
                         .addItemGroup(group)
                         .setItemStack(new IndustrialRevivalItemStack(namespacedKeyToId(armorType), itemStack))
                         .addCraftMethod(item -> new CraftMethod(type, recipe, item))
+                        .cast(ArmorPiece.class)
+                        .setPotionEffects(potionEffects)
         );
     }
 
@@ -123,72 +124,6 @@ public class ArmorSet {
         public ArmorPiece setParent(@NotNull ArmorSet parent) {
             checkRegistered();
             this.parent = parent;
-            return this;
-        }
-
-        @Override
-        public ArmorPiece setAddon(@NotNull IndustrialRevivalAddon addon) {
-            super.setAddon(addon);
-            return this;
-        }
-
-        @Override
-        public ArmorPiece addItemGroup(@NotNull ItemGroup group) {
-            super.addItemGroup(group);
-            return this;
-        }
-
-        @Override
-        public ArmorPiece setItemStack(@NotNull IndustrialRevivalItemStack itemStack) {
-            super.setItemStack(itemStack);
-            return this;
-        }
-
-        @Override
-        public ArmorPiece addCraftMethod(@NotNull CraftMethodHandler handler) {
-            super.addCraftMethod(handler);
-            return this;
-        }
-
-        @Override
-        public ArmorPiece setWikiText(@NotNull String wikiText) {
-            super.setWikiText(wikiText);
-            return this;
-        }
-
-        @Override
-        public ArmorPiece setDisabledInWorld(@NotNull World world, boolean disabled, boolean saveToConfig) {
-            super.setDisabledInWorld(world, disabled, saveToConfig);
-            return this;
-        }
-
-        @Override
-        public ArmorPiece setDisabled(boolean disabled, boolean saveToConfig) {
-            super.setDisabled(disabled, saveToConfig);
-            return this;
-        }
-
-        @Override
-        public ArmorPiece addItemDictionary(@NotNull ItemDictionary dictionary) {
-            super.addItemDictionary(dictionary);
-            return this;
-        }
-
-        @Override
-        public ArmorPiece setEnchantable(boolean enchantable, boolean saveToConfig) {
-            super.setEnchantable(enchantable, saveToConfig);
-            return this;
-        }
-
-        @Override
-        public ArmorPiece setDisenchantable(boolean disenchantable, boolean saveToConfig) {
-            super.setDisenchantable(disenchantable, saveToConfig);
-            return this;
-        }
-
-        @Override
-        public ArmorPiece setHideInGuide(boolean hideInGuide, boolean saveToConfig) {
-            super.setHideInGuide(hideInGuide, saveToConfig);
             return this;
         }
     }

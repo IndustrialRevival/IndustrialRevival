@@ -2,6 +2,7 @@ package org.irmc.industrialrevival.core.managers;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
+import org.irmc.industrialrevival.core.listeners.BulkDensityListener;
 import org.irmc.industrialrevival.core.listeners.DefaultHandler;
 import org.irmc.industrialrevival.core.listeners.DropListener;
 import org.irmc.industrialrevival.core.listeners.EventCreator;
@@ -28,6 +29,7 @@ public class ListenerManager {
     }
 
     private void loadAll() {
+        listeners.add(new BulkDensityListener());
         listeners.add(new DefaultHandler());
         listeners.add(new DropListener());
         listeners.add(new EventCreator());

@@ -23,25 +23,7 @@ public class LimitedItem extends IndustrialRevivalItem implements Limited {
     @Getter
     private int limit = 0;
 
-    public LimitedItem(
-            @Range(from = 0, to = Integer.MAX_VALUE) int limit,
-            @NotNull BiConsumer<Player, ItemStack> onUseHandler) {
-        super();
-        this.limit = limit;
-        this.onUseHandler = onUseHandler;
-    }
-
-    @Override
-    public LimitedItem setAddon(@NotNull IndustrialRevivalAddon addon) {
-        super.setAddon(addon);
-        return this;
-    }
-
-    @Override
-    public LimitedItem setItemStack(@NotNull IndustrialRevivalItemStack itemStack) {
-        super.setItemStack(itemStack);
-        this.LIMITED_COUNT_LEFT = new NamespacedKey(IndustrialRevival.getInstance(), "lcl_" + getId().toLowerCase());
-        return this;
+    public LimitedItem() {
     }
 
     public LimitedItem setLimit(@Range(from = 0, to = Integer.MAX_VALUE) int limit) {
@@ -76,59 +58,5 @@ public class LimitedItem extends IndustrialRevivalItem implements Limited {
         if (getCountLeft(item) == 0) {
             item.setAmount(0);
         }
-    }
-
-    @Override
-    public LimitedItem addItemGroup(@NotNull ItemGroup group) {
-        super.addItemGroup(group);
-        return this;
-    }
-
-    @Override
-    public LimitedItem addCraftMethod(@NotNull CraftMethodHandler handler) {
-        super.addCraftMethod(handler);
-        return this;
-    }
-
-    @Override
-    public LimitedItem setWikiText(@NotNull String wikiText) {
-        super.setWikiText(wikiText);
-        return this;
-    }
-
-    @Override
-    public LimitedItem setDisabledInWorld(@NotNull World world, boolean disabled, boolean saveToConfig) {
-        super.setDisabledInWorld(world, disabled, saveToConfig);
-        return this;
-    }
-
-    @Override
-    public LimitedItem setDisabled(boolean disabled, boolean saveToConfig) {
-        super.setDisabled(disabled, saveToConfig);
-        return this;
-    }
-
-    @Override
-    public LimitedItem addItemDictionary(@NotNull ItemDictionary dictionary) {
-        super.addItemDictionary(dictionary);
-        return this;
-    }
-
-    @Override
-    public LimitedItem setEnchantable(boolean enchantable, boolean saveToConfig) {
-        super.setEnchantable(enchantable, saveToConfig);
-        return this;
-    }
-
-    @Override
-    public LimitedItem setDisenchantable(boolean disenchantable, boolean saveToConfig) {
-        super.setDisenchantable(disenchantable, saveToConfig);
-        return this;
-    }
-
-    @Override
-    public LimitedItem setHideInGuide(boolean hideInGuide, boolean saveToConfig) {
-        super.setHideInGuide(hideInGuide, saveToConfig);
-        return this;
     }
 }
