@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+// todo: add item flow control
 /**
  * This class provides an easier way to create a menu by using a matrix of characters and items.
  * It allows adding click handlers to the items, which can be used to create interactive menus.

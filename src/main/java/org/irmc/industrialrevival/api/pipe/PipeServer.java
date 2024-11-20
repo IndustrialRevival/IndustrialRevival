@@ -1,13 +1,23 @@
 package org.irmc.industrialrevival.api.pipe;
 
 import org.bukkit.Location;
-import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public interface PipeServer {
-    Pipe getPipe();
-    PipeFlowType getType();
-
-    default Location getLocation() {
+    @NotNull Pipe getPipe();
+    @NotNull PipeFlowType getType();
+    @NotNull default Location getPipeLocation() {
         return getPipe().getLocation();
     }
+    @NotNull List<ItemStack> getContents();
+    boolean isWhitelist();
+    default boolean isBlacklist() {
+        return !isWhitelist();
+    }
+    boolean compatibleDictionary();
+    @Nullable Location getConnectedContainerLocation();
 }

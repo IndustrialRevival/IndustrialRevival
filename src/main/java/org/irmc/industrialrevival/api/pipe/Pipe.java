@@ -1,13 +1,15 @@
 package org.irmc.industrialrevival.api.pipe;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Location;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 public class Pipe {
     private final PipeFaces pipeFaces = new PipeFaces();
     private final Location location;
-    public Pipe(Location location) {
+    public Pipe(@NotNull Location location) {
         this.location = location;
     }
 

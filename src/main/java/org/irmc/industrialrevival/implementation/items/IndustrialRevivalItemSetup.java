@@ -5,6 +5,7 @@ import org.irmc.industrialrevival.api.recipes.CraftMethod;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.groups.IRItemGroups;
+import org.irmc.industrialrevival.implementation.items.debug.Container;
 import org.irmc.industrialrevival.implementation.items.debug.DebugHead;
 import org.irmc.industrialrevival.implementation.items.debug.Debugger;
 import org.irmc.industrialrevival.implementation.items.debug.Empty;
@@ -24,6 +25,17 @@ public class IndustrialRevivalItemSetup {
             ))
             .cast(Empty.class);
 
+    public static final Container CONTAINER = new Container()
+            .setAddon(INSTANCE)
+            .addItemGroup(IRItemGroups.DEBUG)
+            .setItemStack(IndustrialRevivalItems.CONTAINER)
+            .addCraftMethod(item -> new CraftMethod(
+                    RecipeType.NULL,
+                    EMPTY_RECIPE,
+                    item
+            ))
+            .cast(Container.class);
+
     public static final DebugHead DEBUG_HEAD = new DebugHead()
             .setAddon(INSTANCE)
             .addItemGroup(IRItemGroups.DEBUG)
@@ -34,6 +46,7 @@ public class IndustrialRevivalItemSetup {
                     item
             ))
             .cast(DebugHead.class);
+
     public static final Debugger DEBUGGER = new Debugger()
             .setAddon(INSTANCE)
             .addItemGroup(IRItemGroups.DEBUG)
@@ -47,6 +60,7 @@ public class IndustrialRevivalItemSetup {
 
     public static void setup() {
         EMPTY.register();
+        CONTAINER.register();
         DEBUG_HEAD.register();
         DEBUGGER.register();
     }

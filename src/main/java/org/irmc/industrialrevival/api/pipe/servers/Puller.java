@@ -5,10 +5,11 @@ import org.bukkit.Location;
 import org.irmc.industrialrevival.api.pipe.Pipe;
 import org.irmc.industrialrevival.api.pipe.PipeFlowType;
 import org.irmc.industrialrevival.api.pipe.PipeServer;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
-public class Puller extends Pipe implements PipeServer {
-    public Puller(Location location) {
+public abstract class Puller extends Pipe implements PipeServer {
+    public Puller(@NotNull Location location) {
         super(location);
     }
 
