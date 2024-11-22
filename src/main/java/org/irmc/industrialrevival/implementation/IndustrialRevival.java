@@ -120,8 +120,8 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     }
 
     private void setupIndustrialRevivalItems() {
-        IndustrialRevivalItemSetup.setup();
         IRItemGroups.setup();
+        IndustrialRevivalItemSetup.setup();
     }
 
     private void setupServices() {
