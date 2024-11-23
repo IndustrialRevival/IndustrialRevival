@@ -46,14 +46,22 @@ import java.util.Set;
 
 /**
  * An industrial revival item.<br>
- * By default, the item is not registered in the game.<br>
- * To register the item, use {@link #register()}.<br>
+ *
+ * IndustrialRevivalItem is a builder class for creating items.
+ * It provides a set of methods for adding attributes to the item.
+ * See more {@link IndustrialRevivalItemSetup}
+ *
+ * By default, the item is not registered in the game.
+ * To register the item, use {@link #register()}.
  * The block is placeable by default. If you want it to
- * be unplaceable, implement the {@link NotPlaceable} interface.<br>
+ * be unplaceable, implement the {@link NotPlaceable} interface.
+ *
+ * See more in package {@link org.irmc.industrialrevival.api.items}
  *
  * @author balugaq
  * @author linjinhong11
  * @see NotPlaceable
+ * @see IndustrialRevivalItemSetup
  * @noinspection ALL
  */
 @SuppressWarnings("unused")

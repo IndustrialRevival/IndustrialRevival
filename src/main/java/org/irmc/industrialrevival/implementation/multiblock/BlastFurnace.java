@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CombustionFurnace extends MultiBlock {
+public class BlastFurnace extends MultiBlock {
     private @Getter
     final ItemStack RECIPE_TYPE_ICON = new CustomItemStack(Material.BLAST_FURNACE, "Combustion Furnace", "A Combustion Furnace", "This block is a MultiBlock structure that can be used to create Combustion Recipes.", "For testing purposes only so far.");
     private @Getter
@@ -28,18 +28,44 @@ public class CombustionFurnace extends MultiBlock {
                 RECIPES.remove(input);
             });
 
-    public CombustionFurnace(NamespacedKey key) {
+    public BlastFurnace(NamespacedKey key) {
         super(key);
+        Material iron = Material.IRON_BLOCK;
+        Material lava = Material.LAVA;
+        Material glass = Material.GRAY_STAINED_GLASS;
+        Material composter = Material.COMPOSTER;
+        Material table = Material.SMITHING_TABLE;
         StructureBuilder sb = new StructureBuilder()
-                .setPieces(StructureUtil.createCube(Material.BRICKS, 3))
-                .setColumn(1, 0, 1, StructureUtil.material(Material.FURNACE))
-                .setCenter(1, 0, 1);
+            .setPieces(
+                StructureUtil.createStructure(new Material[][][] {
+                        {
+                            {iron, iron, iron},
+                            {iron, iron, iron},
+                            {iron, iron, iron}
+                        },
+                        {
+                            {iron, glass, iron},
+                            {glass, lava, glass},
+                            {iron, table, iron}
+                        },
+                        {
+                            {iron, glass, iron},
+                            {glass, lava, glass},
+                            {iron, composter, iron}
+                        },
+                        {
+                            {iron, iron, iron},
+                            {iron, iron, iron},
+                            {iron, iron, iron}
+                        }
+                })
+            );
         setStructure(sb.build());
     }
 
     @Override
     public void onInteract(@NotNull PlayerInteractEvent event) {
         // todo
-        IndustrialRevival.getInstance().getLogger().info("Combustion Furnace interacted by " + event.getPlayer().getName());
+        IndustrialRevival.getInstance().getLogger().info("BlastFurnace interacted by " + event.getPlayer().getName());
     }
 }

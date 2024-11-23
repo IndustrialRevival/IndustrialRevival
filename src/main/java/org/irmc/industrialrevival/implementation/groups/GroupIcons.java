@@ -48,4 +48,7 @@ public class GroupIcons {
     public static final ItemStack GROUP_COMPONENTS = new CustomItemStack(
             Material.IRON_INGOT,
             IndustrialRevival.getInstance().getLanguageManager().getGroupName("components"));
+    public static final ItemStack GROUP_MULTIBLOCK = new CustomItemStack(
+            Material.BRICK,
+            IndustrialRevival.getInstance().getLanguageManager().getGroupName("multiblock"));
 }

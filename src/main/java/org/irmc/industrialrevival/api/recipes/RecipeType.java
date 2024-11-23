@@ -34,6 +34,7 @@ public class RecipeType {
     public static final NamespacedKey RECIPE_TYPE_SMELTING = KeyUtil.customKey("smelting");
     public static final NamespacedKey RECIPE_TYPE_CRAFTING = KeyUtil.customKey("crafting");
     public static final NamespacedKey RECIPE_TYPE_ELECTROLYSIS = KeyUtil.customKey("electrolysis");
+    public static final NamespacedKey RECIPE_TYPE_MULTIBLOCK = KeyUtil.customKey("multiblock");
 
     public static final RecipeType GRINDSTONE;
     public static final RecipeType VANILLA_SMELTING;
@@ -46,6 +47,7 @@ public class RecipeType {
     public static final RecipeType SMELTING;
     public static final RecipeType CRAFTING;
     public static final RecipeType ELECTROLYSIS;
+    public static final RecipeType MULTIBLOCK;
     static final RecipeDisplay DEFAULT_RECIPE_DISPLAY = new DefaultRecipeDisplay();
     private static final Map<UUID, Integer> pageRecord = new HashMap<>();
 
@@ -144,6 +146,17 @@ public class RecipeType {
                         IndustrialRevival.getInstance()
                                 .getLanguageManager()
                                 .getRecipeTypeLore(RECIPE_TYPE_ELECTROLYSIS)));
+        MULTIBLOCK = new RecipeType(
+                IndustrialRevival.getInstance(),
+                RECIPE_TYPE_MULTIBLOCK,
+                new CustomItemStack(
+                        Material.IRON_BLOCK,
+                        IndustrialRevival.getInstance()
+                                .getLanguageManager()
+                                .getRecipeTypeName(RECIPE_TYPE_MULTIBLOCK),
+                        IndustrialRevival.getInstance()
+                                .getLanguageManager()
+                                .getRecipeTypeLore(RECIPE_TYPE_MULTIBLOCK)));
     }
 
     private final IndustrialRevivalAddon addon;

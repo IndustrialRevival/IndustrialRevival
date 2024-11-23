@@ -7,13 +7,13 @@ import org.irmc.industrialrevival.api.objects.ChunkPosition;
 import org.irmc.industrialrevival.utils.DataUtil;
 
 @Getter
-public class ProfiledLocation {
+public class ProfiledBlock {
     private Location location;
     private ChunkPosition chunkPosition;
     private IndustrialRevivalItem item;
     private String plugin;
 
-    public ProfiledLocation(Location location) {
+    public ProfiledBlock(Location location) {
         this.location = location;
         this.chunkPosition = new ChunkPosition(location.getChunk());
         this.item = IndustrialRevivalItem.getById(DataUtil.getBlockData(location).getId());
@@ -25,7 +25,7 @@ public class ProfiledLocation {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof ProfiledLocation other)) {
+        if (!(obj instanceof ProfiledBlock other)) {
             return false;
         }
         return this.location.equals(other.location) && this.chunkPosition.equals(other.chunkPosition) && this.item.equals(other.item) && this.plugin.equals(other.plugin);

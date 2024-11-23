@@ -23,6 +23,7 @@ public class IRItemGroups {
     public static final ItemGroup DEFENSE = new NormalItemGroup(KeyUtil.customKey("defense"), GroupIcons.GROUP_DEFENSE);
     public static final ItemGroup FOOD = new NormalItemGroup(KeyUtil.customKey("food"), GroupIcons.GROUP_FOOD);
     public static final ItemGroup MISC = new NormalItemGroup(KeyUtil.customKey("misc"), GroupIcons.GROUP_MISC);
+    public static final ItemGroup MULTIBLOCK = new NormalItemGroup(KeyUtil.customKey("multiblock"), GroupIcons.GROUP_MULTIBLOCK);
 
     public static void setup() {
         DEBUG.register();

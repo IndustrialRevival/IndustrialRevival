@@ -32,6 +32,19 @@ public class StructureBuilder {
         return this;
     }
 
+    public StructureBuilder replaceAll(StructurePiece piece, StructurePiece replacement) {
+        for (int layerIndex = 0; layerIndex < pieces.length; layerIndex++) {
+            for (int rowIndex = 0; rowIndex < pieces[layerIndex].length; rowIndex++) {
+                for (int colIndex = 0; colIndex < pieces[layerIndex][rowIndex].length; colIndex++) {
+                    if (pieces[layerIndex][rowIndex][colIndex] == piece) {
+                        pieces[layerIndex][rowIndex][colIndex] = replacement;
+                    }
+                }
+            }
+        }
+        return this;
+    }
+
     public StructureBuilder setCenter(int[] center) {
         this.center = center;
         return this;
