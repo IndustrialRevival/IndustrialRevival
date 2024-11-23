@@ -7,8 +7,9 @@ import org.jetbrains.annotations.NotNull;
 public class StructureBuilder {
     public int[] center;
     public StructurePiece[][][] pieces;
+
     public StructureBuilder() {
-        center = new int[] {0, 0, 0};
+        center = new int[]{0, 0, 0};
     }
 
     public StructureBuilder setColumn(int layerIndex, int rowIndex, int colIndex, @NotNull StructurePiece piece) {
@@ -31,13 +32,26 @@ public class StructureBuilder {
         return this;
     }
 
+    public StructureBuilder replaceAll(StructurePiece piece, StructurePiece replacement) {
+        for (int layerIndex = 0; layerIndex < pieces.length; layerIndex++) {
+            for (int rowIndex = 0; rowIndex < pieces[layerIndex].length; rowIndex++) {
+                for (int colIndex = 0; colIndex < pieces[layerIndex][rowIndex].length; colIndex++) {
+                    if (pieces[layerIndex][rowIndex][colIndex] == piece) {
+                        pieces[layerIndex][rowIndex][colIndex] = replacement;
+                    }
+                }
+            }
+        }
+        return this;
+    }
+
     public StructureBuilder setCenter(int[] center) {
         this.center = center;
         return this;
     }
 
     public StructureBuilder setCenter(int x, int y, int z) {
-        return this.setCenter(new int[] {x, y, z});
+        return this.setCenter(new int[]{x, y, z});
     }
 
     public Structure build() {

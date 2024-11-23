@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+// todo: add item flow control
 /**
  * This class provides an easier way to create a menu by using a matrix of characters and items.
  * It allows adding click handlers to the items, which can be used to create interactive menus.
@@ -35,7 +36,7 @@ import java.util.Map;
  *     }
  * }
  * </pre>
- *
+ * <p>
  * In this example, a 45-size matrix is created with 5 lines of characters. When calling
  * {@link MachineMenuPreset#addMenuDrawer(MatrixMenuDrawer)} in the {@link MachineMenuPreset#init()}
  * method, characters 'B', 'I', 'O' are replaced with corresponding item stacks, and click handlers
@@ -47,7 +48,7 @@ import java.util.Map;
  */
 @SuppressWarnings("unused")
 @Getter
-public class MatrixMenuDrawer {
+public class MatrixMenuDrawer implements Cloneable {
     private final int size;
     private final Map<Character, ItemStack> charMap = new HashMap<>();
     private final Map<Character, SimpleMenu.ClickHandler> clickHandlerMap = new HashMap<>();
@@ -73,6 +74,11 @@ public class MatrixMenuDrawer {
         return this;
     }
 
+    public MatrixMenuDrawer addBackground(char c, @NotNull SimpleMenu.ClickHandler clickHandler) {
+        clickHandlerMap.put(c, clickHandler);
+        return this;
+    }
+
     public MatrixMenuDrawer addExplain(@NotNull String c, @NotNull ItemStack itemStack) {
         charMap.put(c.charAt(0), new ItemStack(itemStack));
         return this;
@@ -80,6 +86,11 @@ public class MatrixMenuDrawer {
 
     public MatrixMenuDrawer addExplain(@NotNull String c, @NotNull ItemStack itemStack, @NotNull SimpleMenu.ClickHandler clickHandler) {
         charMap.put(c.charAt(0), itemStack);
+        clickHandlerMap.put(c.charAt(0), clickHandler);
+        return this;
+    }
+
+    public MatrixMenuDrawer addBackground(@NotNull String c, @NotNull SimpleMenu.ClickHandler clickHandler) {
         clickHandlerMap.put(c.charAt(0), clickHandler);
         return this;
     }
@@ -104,5 +115,13 @@ public class MatrixMenuDrawer {
             result[i] = positions.get(i);
         }
         return result;
+    }
+
+    public MatrixMenuDrawer clone() {
+        MatrixMenuDrawer drawer = new MatrixMenuDrawer(size);
+        drawer.charMap.putAll(charMap);
+        drawer.clickHandlerMap.putAll(clickHandlerMap);
+        drawer.matrix.addAll(matrix);
+        return drawer;
     }
 }

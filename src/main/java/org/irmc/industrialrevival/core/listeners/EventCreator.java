@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,6 +22,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -44,7 +46,10 @@ import org.irmc.industrialrevival.api.objects.events.vanilla.EntityPickupIRItemE
 import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockBreakEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockFromToEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockPlaceEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.IRItemBreakBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.IRItemDamageEntityEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.IRItemInteractEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.IRItemKillEntityEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.InventoryMoveIRItemEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.MenuCloseEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.MenuOpenEvent;
@@ -67,9 +72,9 @@ import java.util.List;
 /**
  * This class creates the events and calls the corresponding event handlers.
  *
+ * @author balugaq
  * @see HandlerCaller
  * @see DefaultHandler
- * @author balugaq
  */
 public class EventCreator implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
@@ -85,7 +90,7 @@ public class EventCreator implements Listener {
                 continue;
             }
 
-            BlockExplodeIRBlockEvent event = new BlockExplodeIRBlockEvent(e, block.getLocation(),item);
+            BlockExplodeIRBlockEvent event = new BlockExplodeIRBlockEvent(e, block.getLocation(), item);
             events.add(event);
         }
 
@@ -133,6 +138,7 @@ public class EventCreator implements Listener {
 
         e.setCancelled(event.isCancelled());
     }
+
     @EventHandler(priority = EventPriority.LOWEST)
     public void onEntityExplodeIRBlock(EntityExplodeEvent e) {
         List<EntityExplodeIRBlockEvent> events = new ArrayList<>();
@@ -189,7 +195,11 @@ public class EventCreator implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onIRBlockBreak(BlockBreakEvent e) {
-        IRBlockData data = DataUtil.getBlockData(e.getBlock().getLocation());
+        Block block = e.getBlock();
+        if (block == null) {
+            return;
+        }
+        IRBlockData data = DataUtil.getBlockData(block.getLocation());
         if (data == null) {
             return;
         }
@@ -246,6 +256,21 @@ public class EventCreator implements Listener {
 
         e.setCancelled(event.isCancelled());
     }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onIRItemBreakBlock(BlockBreakEvent e) {
+        ItemStack itemInHand = e.getPlayer().getItemInHand();
+        IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(itemInHand);
+        if (iritem == null) {
+            return;
+        }
+
+        IRItemBreakBlockEvent event = new IRItemBreakBlockEvent(e, iritem);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+
+        e.setCancelled(event.isCancelled());
+    }
+
     @EventHandler(priority = EventPriority.LOWEST)
     public void onIRItemDamageEntity(EntityDamageByEntityEvent e) {
         if (!(e.getDamager() instanceof Player player)) {
@@ -271,6 +296,37 @@ public class EventCreator implements Listener {
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
+    public void onIRItemInteract(PlayerInteractEvent e) {
+        ItemStack itemInHand = e.getPlayer().getItemInHand();
+        IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(itemInHand);
+        if (iritem == null) {
+            return;
+        }
+
+        IRItemInteractEvent event = new IRItemInteractEvent(e, iritem);
+        Bukkit.getServer().getPluginManager().callEvent(event);
+
+        e.setCancelled(event.isCancelled());
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onIRItemKillEntity(EntityDeathEvent e) {
+        Entity entity = e.getDamageSource().getCausingEntity();
+        if (entity instanceof Player player) {
+            ItemStack itemInHand = player.getInventory().getItemInMainHand();
+            IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(itemInHand);
+            if (iritem == null) {
+                return;
+            }
+
+            IRItemKillEntityEvent event = new IRItemKillEntityEvent(e, iritem);
+            Bukkit.getServer().getPluginManager().callEvent(event);
+
+            e.setCancelled(event.isCancelled());
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onMenuClose(InventoryCloseEvent e) {
         Location location = e.getInventory().getLocation();
         IRBlockData data = DataUtil.getBlockData(location);
@@ -289,7 +345,11 @@ public class EventCreator implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onMenuOpen(PlayerRightClickEvent e) {
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            MachineMenu menu = DataUtil.getBlockData(e.getClickedBlock().getLocation()).getMachineMenu();
+            IRBlockData data = DataUtil.getBlockData(e.getClickedBlock().getLocation());
+            if (data == null) {
+                return;
+            }
+            MachineMenu menu = data.getMachineMenu();
             if (menu != null) {
                 MenuOpenEvent event = new MenuOpenEvent(e, menu);
                 Bukkit.getServer().getPluginManager().callEvent(event);
@@ -346,6 +406,7 @@ public class EventCreator implements Listener {
             e.setCancelled(event.isCancelled());
         }
     }
+
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerBucketEmpty(PlayerBucketEmptyEvent e) {
         Location location = e.getBlockClicked().getLocation();
@@ -407,8 +468,9 @@ public class EventCreator implements Listener {
             e.setCancelled(event.isCancelled());
         }
     }
+
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onPrepareAnvil(PrepareAnvilEvent e) {
+    public void onPrepareAnvilIRItem(PrepareAnvilEvent e) {
         ItemStack itemStack = e.getResult();
         IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(itemStack);
         if (iritem == null) {
@@ -418,8 +480,9 @@ public class EventCreator implements Listener {
         PrepareAnvilIRItemEvent event = new PrepareAnvilIRItemEvent(e, iritem);
         Bukkit.getServer().getPluginManager().callEvent(event);
     }
+
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onPrepareGrindstone(PrepareGrindstoneEvent e) {
+    public void onPrepareGrindstoneIRItem(PrepareGrindstoneEvent e) {
         ItemStack itemStack = e.getResult();
         IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(itemStack);
         if (iritem == null) {
@@ -429,8 +492,9 @@ public class EventCreator implements Listener {
         PrepareGrindstoneIRItemEvent event = new PrepareGrindstoneIRItemEvent(e, iritem);
         Bukkit.getServer().getPluginManager().callEvent(event);
     }
+
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onPrepareItemEnchant(PrepareItemEnchantEvent e) {
+    public void onPrepareItemEnchantIRItem(PrepareItemEnchantEvent e) {
         ItemStack itemStack = e.getItem();
         IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(itemStack);
         if (iritem == null) {
@@ -456,7 +520,7 @@ public class EventCreator implements Listener {
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onPrepareTradeSelect(TradeSelectEvent e) {
+    public void onPrepareTradeSelectIRItem(TradeSelectEvent e) {
         MerchantRecipe recipe = e.getMerchant().getRecipe(e.getIndex());
         List<ItemStack> testItems = new ArrayList<>();
         testItems.addAll(recipe.getIngredients());

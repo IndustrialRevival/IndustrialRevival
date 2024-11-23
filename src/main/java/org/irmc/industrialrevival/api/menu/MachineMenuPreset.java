@@ -6,9 +6,7 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
-import org.irmc.industrialrevival.utils.MenuUtil;
 import org.jetbrains.annotations.NotNull;
-
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
@@ -25,24 +23,6 @@ public class MachineMenuPreset extends SimpleMenu {
         this.locked = false;
     }
 
-    public void addMenuDrawer(@NotNull MatrixMenuDrawer drawer) {
-        int i = 0, j = 0;
-        for (String line : drawer.getMatrix()) {
-            for (char slotSymbol : line.toCharArray()) {
-                if (drawer.getCharMap().containsKey(slotSymbol)) {
-                    ItemStack itemStack = drawer.getCharMap().get(slotSymbol);
-                    if (MenuUtil.isBackground(itemStack)) {
-                        setItem(i * 9 + j, MenuUtil.BACKGROUND, ClickHandler.DEFAULT);
-                    } else {
-                        setItem(i * 9 + j, itemStack, drawer.getClickHandlerMap().get(slotSymbol));
-                    }
-                }
-                j += 1;
-            }
-            i += 1;
-        }
-    }
-
     /**
      * Called when the menu be registered to the registry.
      * Override this method to initialize the menu BACKGROUND items.
@@ -55,8 +35,9 @@ public class MachineMenuPreset extends SimpleMenu {
     /**
      * Called when a machine data be loaded.
      * Override this method to initialize the menu items based on the machine data.
+     *
      * @param block The block of the machine
-     * @param menu The menu of the machine, null if the machine has no menu.
+     * @param menu  The menu of the machine, null if the machine has no menu.
      */
     public void newInstance(@NotNull Block block, @Nullable MachineMenu menu) {
 

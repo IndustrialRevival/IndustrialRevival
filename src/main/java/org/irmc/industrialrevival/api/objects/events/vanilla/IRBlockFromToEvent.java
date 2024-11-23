@@ -11,9 +11,10 @@ import org.jetbrains.annotations.NotNull;
 
 @Getter
 public class IRBlockFromToEvent extends BlockFromToEvent implements RelatedIRItem {
-    private final HandlerList handlers = new HandlerList();
+    private static final HandlerList handlers = new HandlerList();
     private final BlockFromToEvent originalEvent;
     private final IndustrialRevivalItem iritem;
+
     public IRBlockFromToEvent(BlockFromToEvent originalEvent, Block block, BlockFace face, IndustrialRevivalItem iritem) {
         super(block, face);
         this.originalEvent = originalEvent;
@@ -24,6 +25,10 @@ public class IRBlockFromToEvent extends BlockFromToEvent implements RelatedIRIte
         super(block, toBlock);
         this.originalEvent = originalEvent;
         this.iritem = iritem;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
     }
 
     @Override

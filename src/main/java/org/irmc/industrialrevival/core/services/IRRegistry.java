@@ -17,7 +17,6 @@ import org.irmc.industrialrevival.api.items.groups.NormalItemGroup;
 import org.irmc.industrialrevival.api.items.groups.SubItemGroup;
 import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
 import org.irmc.industrialrevival.api.multiblock.MultiBlock;
-import org.irmc.industrialrevival.api.objects.Pair;
 import org.irmc.industrialrevival.api.objects.display.DisplayGroup;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
 import org.irmc.industrialrevival.api.recipes.BlockDropMethod;
@@ -25,7 +24,6 @@ import org.irmc.industrialrevival.api.recipes.CraftMethod;
 import org.irmc.industrialrevival.api.recipes.MobDropMethod;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.api.researches.Research;
-import org.irmc.pigeonlib.items.ItemUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -86,7 +84,8 @@ public final class IRRegistry {
     public void registerCraftable(RecipeType recipeType, ItemStack itemStack) {
         Set<ItemStack> craftableSet = craftables.get(recipeType);
         if (craftableSet == null) {
-            throw new IllegalArgumentException("RecipeType not registered");
+            registerRecipeType(recipeType);
+            craftableSet = craftables.get(recipeType);
         }
         craftableSet.add(itemStack);
     }

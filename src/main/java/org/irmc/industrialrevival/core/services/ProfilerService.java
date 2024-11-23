@@ -8,7 +8,7 @@ import net.md_5.bungee.api.chat.hover.content.Content;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.irmc.industrialrevival.api.ProfiledLocation;
+import org.irmc.industrialrevival.api.ProfiledBlock;
 import org.irmc.industrialrevival.api.objects.ChunkPosition;
 import org.irmc.industrialrevival.api.objects.PerformanceSummary;
 import org.irmc.industrialrevival.api.objects.TimingViewRequest;
@@ -33,13 +33,14 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 @SuppressWarnings("unused")
 public class ProfilerService {
     private static final int MAX_ITEMS = 20;
-    @Getter
-    public PerformanceSummary summary = new PerformanceSummary(new HashMap<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(), 0);
     public final Queue<TimingViewRequest> requests = new ConcurrentLinkedQueue<>();
-    public final Map<ProfiledLocation, Long> profilingData = new ConcurrentHashMap<>();
+    public final Map<ProfiledBlock, Long> profilingData = new ConcurrentHashMap<>();
     public final Map<Location, Long> startTimes = new ConcurrentHashMap<>();
     @Getter
     private final TickerTask task = new TickerTask(IndustrialRevival.getInstance().getConfig().getInt("options.armor-check-interval", 1));
+    @Getter
+    public PerformanceSummary summary = new PerformanceSummary(new HashMap<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(), 0);
+
     public void requestTimingView(TimingViewRequest request) {
         if (!requests.add(request)) {
             throw new RuntimeException("Failed to add request to queue");
@@ -48,13 +49,25 @@ public class ProfilerService {
 
     @Nullable
     public TimingViewRequest pullTimingViewRequest() {
-        return requests.poll();
+        if (requests.isEmpty()) {
+            return null;
+        }
+
+        TimingViewRequest request = requests.poll();
+        while (request == null || request.getRequester() == null) {
+            if (requests.isEmpty()) {
+                return null;
+            }
+            request = requests.poll();
+        }
+
+        return request;
     }
 
     @SuppressWarnings("deprecation")
     @NotNull
     @ParametersAreNonnullByDefault
-    private TextComponent getHoverComponent(String groundText, String backGroundText){
+    private TextComponent getHoverComponent(String groundText, String backGroundText) {
         TextComponent hoverComponent = new TextComponent(groundText);
         hoverComponent.setColor(ChatColor.GRAY);
 
@@ -63,8 +76,13 @@ public class ProfilerService {
 
         return hoverComponent;
     }
-    public void respondToTimingView(TimingViewRequest request) {
-        Map<ProfiledLocation, Long> data = getProfilingData();
+
+    public void respondToTimingView(@Nullable TimingViewRequest request) {
+        if (request == null) {
+            return;
+        }
+
+        Map<ProfiledBlock, Long> data = getProfilingData();
         Map<String, Long> dataByID = getProfilingDataByID();
         Map<ChunkPosition, Long> dataByChunk = getProfilingDataByChunk();
         Map<String, Long> dataByPlugin = getProfilingDataByPlugin();
@@ -134,6 +152,7 @@ public class ProfilerService {
         request.getRequester().sendMessage(getHoverComponent("&a" + dataByChunk.size() + " Chunks (Hover for details)", chunkBuilder.toString()));
         request.getRequester().sendMessage(getHoverComponent("&a" + dataByPlugin.size() + " Plugins (Hover for details)", pluginBuilder.toString()));
     }
+
     public void startProfiling(Location location) {
         startTimes.put(location, System.nanoTime());
     }
@@ -142,8 +161,8 @@ public class ProfilerService {
         long endTime = System.nanoTime();
         long startTime = startTimes.get(location);
         long timeTaken = endTime - startTime;
-        ProfiledLocation profiledLocation = new ProfiledLocation(location);
-        profilingData.put(profiledLocation, timeTaken);
+        ProfiledBlock profiledBlock = new ProfiledBlock(location);
+        profilingData.put(profiledBlock, timeTaken);
         startTimes.remove(location);
     }
 
@@ -152,84 +171,85 @@ public class ProfilerService {
         startTimes.clear();
     }
 
-    public Map<ProfiledLocation, Long> getProfilingData() {
+    public Map<ProfiledBlock, Long> getProfilingData() {
         return new ConcurrentHashMap<>(profilingData);
     }
 
     @NotNull
     public Map<String, Long> getProfilingDataByID() {
-        Map<ProfiledLocation, Long> profilingData = getProfilingData();
+        Map<ProfiledBlock, Long> profilingData = getProfilingData();
         Map<String, Long> profilingDataByID = new ConcurrentHashMap<>();
-        for (ProfiledLocation profiledLocation : profilingData.keySet()) {
-            String id = profiledLocation.getItem().getId();
-            profilingDataByID.merge(id, profilingData.get(profiledLocation), Long::sum);
+        for (ProfiledBlock profiledBlock : profilingData.keySet()) {
+            String id = profiledBlock.getItem().getId();
+            profilingDataByID.merge(id, profilingData.get(profiledBlock), Long::sum);
         }
         return profilingDataByID;
     }
+
     @NotNull
     public Map<ChunkPosition, Long> getProfilingDataByChunk() {
-        Map<ProfiledLocation, Long> profilingData = getProfilingData();
+        Map<ProfiledBlock, Long> profilingData = getProfilingData();
         Map<ChunkPosition, Long> profilingDataByChunk = new ConcurrentHashMap<>();
-        for (ProfiledLocation profiledLocation : profilingData.keySet()) {
-            ChunkPosition chunkPosition = new ChunkPosition(profiledLocation.getLocation());
-            profilingDataByChunk.merge(chunkPosition, profilingData.get(profiledLocation), Long::sum);
+        for (ProfiledBlock profiledBlock : profilingData.keySet()) {
+            ChunkPosition chunkPosition = new ChunkPosition(profiledBlock.getLocation());
+            profilingDataByChunk.merge(chunkPosition, profilingData.get(profiledBlock), Long::sum);
         }
         return profilingDataByChunk;
     }
 
     @NotNull
     public Map<String, Long> getProfilingDataByPlugin() {
-        Map<ProfiledLocation, Long> profilingData = getProfilingData();
+        Map<ProfiledBlock, Long> profilingData = getProfilingData();
         Map<String, Long> profilingDataByPlugin = new ConcurrentHashMap<>();
-        for (ProfiledLocation profiledLocation : profilingData.keySet()) {
-            String pluginName = profiledLocation.getPlugin();
-            profilingDataByPlugin.merge(pluginName, profilingData.get(profiledLocation), Long::sum);
+        for (ProfiledBlock profiledBlock : profilingData.keySet()) {
+            String pluginName = profiledBlock.getPlugin();
+            profilingDataByPlugin.merge(pluginName, profilingData.get(profiledBlock), Long::sum);
         }
         return profilingDataByPlugin;
     }
 
     @NotNull
-    public Map<ProfiledLocation, Long> getProfilingDataByID(String id) {
-        Map<ProfiledLocation, Long> profilingData = getProfilingData();
-        Map<ProfiledLocation, Long> profilingDataByID = new ConcurrentHashMap<>();
-        for (ProfiledLocation profiledLocation : profilingData.keySet()) {
-            if (profiledLocation.getItem().getId().equals(id)) {
-                profilingDataByID.put(profiledLocation, profilingData.get(profiledLocation));
+    public Map<ProfiledBlock, Long> getProfilingDataByID(String id) {
+        Map<ProfiledBlock, Long> profilingData = getProfilingData();
+        Map<ProfiledBlock, Long> profilingDataByID = new ConcurrentHashMap<>();
+        for (ProfiledBlock profiledBlock : profilingData.keySet()) {
+            if (profiledBlock.getItem().getId().equals(id)) {
+                profilingDataByID.put(profiledBlock, profilingData.get(profiledBlock));
             }
         }
         return profilingDataByID;
     }
 
     @NotNull
-    public Map<ProfiledLocation, Long> getProfilingDataByChunk(ChunkPosition chunkPosition) {
-        Map<ProfiledLocation, Long> profilingData = getProfilingData();
-        Map<ProfiledLocation, Long> profilingDataByChunk = new ConcurrentHashMap<>();
-        for (ProfiledLocation profiledLocation : profilingData.keySet()) {
-            if (new ChunkPosition(profiledLocation.getLocation()).equals(chunkPosition)) {
-                profilingDataByChunk.put(profiledLocation, profilingData.get(profiledLocation));
+    public Map<ProfiledBlock, Long> getProfilingDataByChunk(ChunkPosition chunkPosition) {
+        Map<ProfiledBlock, Long> profilingData = getProfilingData();
+        Map<ProfiledBlock, Long> profilingDataByChunk = new ConcurrentHashMap<>();
+        for (ProfiledBlock profiledBlock : profilingData.keySet()) {
+            if (new ChunkPosition(profiledBlock.getLocation()).equals(chunkPosition)) {
+                profilingDataByChunk.put(profiledBlock, profilingData.get(profiledBlock));
             }
         }
         return profilingDataByChunk;
     }
 
     @NotNull
-    public Map<ProfiledLocation, Long> getProfilingDataByPlugin(String pluginName) {
-        Map<ProfiledLocation, Long> profilingData = getProfilingData();
-        Map<ProfiledLocation, Long> profilingDataByPlugin = new ConcurrentHashMap<>();
-        for (ProfiledLocation profiledLocation : profilingData.keySet()) {
-            if (profiledLocation.getPlugin().equals(pluginName)) {
-                profilingDataByPlugin.put(profiledLocation, profilingData.get(profiledLocation));
+    public Map<ProfiledBlock, Long> getProfilingDataByPlugin(String pluginName) {
+        Map<ProfiledBlock, Long> profilingData = getProfilingData();
+        Map<ProfiledBlock, Long> profilingDataByPlugin = new ConcurrentHashMap<>();
+        for (ProfiledBlock profiledBlock : profilingData.keySet()) {
+            if (profiledBlock.getPlugin().equals(pluginName)) {
+                profilingDataByPlugin.put(profiledBlock, profilingData.get(profiledBlock));
             }
         }
         return profilingDataByPlugin;
     }
 
     public long getTotalMachine(String id) {
-        Map<ProfiledLocation, Long> profiledLocations = getProfilingData();
+        Map<ProfiledBlock, Long> profiledLocations = getProfilingData();
         long totalAmount = 0;
-        for (ProfiledLocation profiledLocation : profiledLocations.keySet()) {
-            if (profiledLocation.getItem().getId().equals(id)) {
-                totalAmount += profiledLocations.get(profiledLocation);
+        for (ProfiledBlock profiledBlock : profiledLocations.keySet()) {
+            if (profiledBlock.getItem().getId().equals(id)) {
+                totalAmount += profiledLocations.get(profiledBlock);
             }
         }
 

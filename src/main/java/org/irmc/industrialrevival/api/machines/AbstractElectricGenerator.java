@@ -20,48 +20,6 @@ public abstract class AbstractElectricGenerator extends AbstractMachine implemen
     @Getter
     private long capacity;
 
-    @Override
-    public AbstractElectricGenerator addItemGroup(@NotNull ItemGroup group) {
-        super.addItemGroup(group);
-        return this;
-    }
-
-    @Override
-    public AbstractElectricGenerator setItemStack(@NotNull IndustrialRevivalItemStack itemStack) {
-        super.setItemStack(itemStack);
-        return this;
-    }
-
-    @Override
-    public AbstractElectricGenerator addCraftMethod(@NotNull CraftMethodHandler handler) {
-        super.addCraftMethod(handler);
-        return this;
-    }
-
-    @Override
-    public AbstractElectricGenerator setWikiText(@NotNull String wikiText) {
-        super.setWikiText(wikiText);
-        return this;
-    }
-
-    @Override
-    public AbstractElectricGenerator setDisabledInWorld(@NotNull World world, boolean disabled, boolean saveToConfig) {
-        super.setDisabledInWorld(world, disabled, saveToConfig);
-        return this;
-    }
-
-    @Override
-    public AbstractElectricGenerator setDisabled(boolean disabled, boolean saveToConfig) {
-        super.setDisabled(disabled, saveToConfig);
-        return this;
-    }
-
-    @Override
-    public AbstractElectricGenerator addItemDictionary(@NotNull ItemDictionary dictionary) {
-        super.addItemDictionary(dictionary);
-        return this;
-    }
-
     public AbstractElectricGenerator setCapacity(long capacity) {
         checkRegistered();
         this.capacity = capacity;

@@ -3,11 +3,11 @@ package org.irmc.industrialrevival.api.items.handlers;
 import org.bukkit.Material;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.NotPlaceable;
-import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockFromToEvent;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
 import org.jetbrains.annotations.NotNull;
 
+@FunctionalInterface
 public interface BlockFromToHandler extends ItemHandler {
     void onBlockFromTo(IRBlockFromToEvent event);
 
@@ -22,5 +22,9 @@ public interface BlockFromToHandler extends ItemHandler {
             return new IncompatibleItemHandlerException("This item cannot be placed", item.getId());
         }
         return null;
+    }
+
+    default Class<? extends ItemHandler> getIdentifier() {
+        return BlockFromToHandler.class;
     }
 }

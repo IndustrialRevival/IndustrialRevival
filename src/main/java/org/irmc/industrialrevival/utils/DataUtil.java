@@ -11,15 +11,20 @@ import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
-
 import org.jetbrains.annotations.Nullable;
+
 @UtilityClass
 @SuppressWarnings("unused")
 public class DataUtil {
     @Nullable
     public static IndustrialRevivalItem getItem(Location location) {
-        return IndustrialRevivalItem.getById(getBlockData(location).getId());
+        IRBlockData blockData = getBlockData(location);
+        if (blockData == null) {
+            return null;
+        }
+        return IndustrialRevivalItem.getById(blockData.getId());
     }
+
     @Nullable
     public static IRBlockData getBlockData(Location location) {
         return IndustrialRevival.getInstance().getBlockDataService().getBlockData(location);

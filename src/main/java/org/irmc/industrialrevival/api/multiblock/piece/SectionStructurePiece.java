@@ -9,7 +9,6 @@ import org.irmc.industrialrevival.api.objects.CustomItemStack;
 /**
  * A piece that represents a section of a structure. It allows the following pieces to be placed in any order.
  * {@link SectionStructurePiece} just as wonderful as "a or b"
- *
  */
 public class SectionStructurePiece extends StructurePiece {
     @Getter
@@ -18,10 +17,11 @@ public class SectionStructurePiece extends StructurePiece {
             "",
             "Section Structure Piece",
             "Allow the following pieces to be placed in any order:").modifyLore(lore -> {
-                for (StructurePiece p : pieces) {
-                    lore.add(new CustomItemStack(p.getDisplay()).displayName());
-                }
+        for (StructurePiece p : pieces) {
+            lore.add(new CustomItemStack(p.getDisplay()).displayName());
+        }
     });
+
     public SectionStructurePiece(StructurePiece... piece) {
         this.pieces = piece;
     }

@@ -9,6 +9,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.irmc.industrialrevival.utils.MenuUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
@@ -44,6 +45,24 @@ public class SimpleMenu implements IRInventoryHolder {
 
         this.slots = new HashMap<>();
         this.clickHandlers = new HashMap<>();
+    }
+
+    public void addMenuDrawer(@NotNull MatrixMenuDrawer drawer) {
+        int i = 0, j = 0;
+        for (String line : drawer.getMatrix()) {
+            for (char slotSymbol : line.toCharArray()) {
+                if (drawer.getCharMap().containsKey(slotSymbol)) {
+                    ItemStack itemStack = drawer.getCharMap().get(slotSymbol);
+                    if (MenuUtil.isBackground(itemStack)) {
+                        setItem(i * 9 + j, MenuUtil.BACKGROUND, ClickHandler.DEFAULT);
+                    } else {
+                        setItem(i * 9 + j, itemStack, drawer.getClickHandlerMap().get(slotSymbol));
+                    }
+                }
+                j += 1;
+            }
+            i += 1;
+        }
     }
 
     public void setItem(@Nullable ItemStack item, @NotNull ClickHandler clickHandler, @Range(from = 0, to = 53) int... slots) {

@@ -22,9 +22,9 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class TickerTask implements Consumer<WrappedTask> {
+    public static final Map<Location, Integer> bugsCount = new ConcurrentHashMap<>();
     private final Supplier<Map<Location, IRBlockData>> blockDataSupplier =
             IndustrialRevival.getInstance().getBlockDataService()::getBlockDataMap;
-    public static final Map<Location, Integer> bugsCount = new ConcurrentHashMap<>();
     // TODO: When place or break a block, bugsCount should be reset to 0.
     @Getter
     private final int checkInterval;
@@ -34,13 +34,16 @@ public class TickerTask implements Consumer<WrappedTask> {
     public TickerTask(int checkInterval) {
         this.checkInterval = checkInterval;
     }
+
     @Override
     public void accept(WrappedTask wrappedTask) {
         Map<Location, IRBlockData> blockDataMap = blockDataSupplier.get();
-        IRTickStartEvent e = new IRTickStartEvent(blockDataMap, checkInterval, ticked);
-        Bukkit.getPluginManager().callEvent(e);
+        IRTickStartEvent startEvent = new IRTickStartEvent(blockDataMap, checkInterval, ticked);
+        IRTickDoneEvent doneEvent = new IRTickDoneEvent();
+        IndustrialRevival.runSync(() -> Bukkit.getPluginManager().callEvent(startEvent));
 
         if (blockDataMap == null) {
+            IndustrialRevival.runSync(() -> Bukkit.getPluginManager().callEvent(doneEvent));
             return;
         }
 
@@ -75,8 +78,7 @@ public class TickerTask implements Consumer<WrappedTask> {
             }
         }
 
-        IRTickDoneEvent e2 = new IRTickDoneEvent();
-        Bukkit.getPluginManager().callEvent(e2);
+        IndustrialRevival.runSync(() -> Bukkit.getPluginManager().callEvent(doneEvent));
 
         ticked++;
         IndustrialRevival.getInstance().getProfilerService().clearProfilingData();
@@ -106,6 +108,7 @@ public class TickerTask implements Consumer<WrappedTask> {
 
     /**
      * Called when an existing chunk is loaded.
+     *
      * @param chunk The chunk that was loaded.
      */
     public void loadChunk(Chunk chunk) {
@@ -122,6 +125,7 @@ public class TickerTask implements Consumer<WrappedTask> {
 
     /**
      * Called when an existing block is loaded.
+     *
      * @param location The location of the block that was loaded.
      */
     public void loadBlock(Location location) {

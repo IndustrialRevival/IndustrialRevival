@@ -1,11 +1,16 @@
 package org.irmc.industrialrevival.core.listeners;
 
+import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+import org.irmc.industrialrevival.api.items.attributes.InventoryBlock;
 import org.irmc.industrialrevival.api.items.attributes.NotHopperable;
+import org.irmc.industrialrevival.api.menu.MachineMenu;
+import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.api.objects.events.vanilla.EndermanMoveIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.EntityChangeIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.EntityExplodeIRBlockEvent;
@@ -17,20 +22,16 @@ import org.irmc.industrialrevival.api.objects.events.vanilla.MenuOpenEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PistonExtendIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PistonRetractIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PlayerBucketEmptyToIRBlockEvent;
-import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareAnvilIRItemEvent;
-import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareGrindstoneIRItemEvent;
-import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareIRItemEnchantEvent;
-import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareItemCraftIRItemEvent;
-import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareSmithingIRItemEvent;
-import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareTradeSelectIRItemEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.PlayerRightClickEvent;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
+import org.irmc.industrialrevival.utils.DataUtil;
 
 /**
  * Do operation after {@link HandlerCaller} and all other operations are done
  *
+ * @author balugaq
  * @see EventCreator
  * @see HandlerCaller
- * @author balugaq
  */
 public class DefaultHandler implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -69,16 +70,6 @@ public class DefaultHandler implements Listener {
         event.setCancelled(true);
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onInventoryMoveIRItem(InventoryMoveIRItemEvent event) {
-        if (event.isCancelled()) {
-            return;
-        }
-
-        if (event.getDestination().getType().equals(InventoryType.HOPPER) && event.getIritem() instanceof NotHopperable) {
-            event.setCancelled(true);
-        }
-    }
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onIRBlockBreak(IRBlockBreakEvent event) {
         if (event.isCancelled()) {
@@ -141,6 +132,33 @@ public class DefaultHandler implements Listener {
             return;
         }
 
+        event.setCancelled(true);
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerRightClick(PlayerRightClickEvent event) {
+        if (event.isCancelled()) {
+            return;
+        }
+
+        if (!event.getAction().isRightClick()) {
+            return;
+        }
+
+        Location location = event.getClickedBlock().getLocation();
+        IndustrialRevivalItem iritem = DataUtil.getItem(location);
+
+        if (iritem == null) {
+            return;
+        }
+
+        if (iritem instanceof InventoryBlock) {
+            IRBlockData blockData = DataUtil.getBlockData(location);
+            MachineMenu menu = blockData.getMachineMenu();
+            if (menu != null) {
+                menu.open(event.getPlayer());
+            }
+        }
         event.setCancelled(true);
     }
 }

@@ -8,4 +8,7 @@ public interface ItemHandler {
     default IncompatibleItemHandlerException isCompatible(@NotNull IndustrialRevivalItem item) {
         return null;
     }
+
+    @NotNull
+    Class<? extends ItemHandler> getIdentifier();
 }

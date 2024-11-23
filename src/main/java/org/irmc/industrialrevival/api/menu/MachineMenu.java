@@ -14,7 +14,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.api.objects.ItemStackReference;
 import org.irmc.pigeonlib.items.ItemUtils;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
@@ -26,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-@SuppressWarnings({ "deprecation", "unused" })
+@SuppressWarnings({"deprecation", "unused"})
 @Getter
 public class MachineMenu extends SimpleMenu {
     private final Location location;

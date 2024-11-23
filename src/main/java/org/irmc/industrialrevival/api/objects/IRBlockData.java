@@ -4,7 +4,6 @@ import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
-import org.irmc.industrialrevival.utils.DataUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,6 +28,7 @@ public class IRBlockData {
         this.config = config;
         this.machineMenu = menu;
     }
+
     private void setData(String key, String value) {
         config.set(key, value);
         if (value == null) {

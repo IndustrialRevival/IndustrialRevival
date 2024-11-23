@@ -3,12 +3,11 @@ package org.irmc.industrialrevival.core.listeners;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
-import org.irmc.industrialrevival.api.items.attributes.ItemDroppable;
 import org.irmc.industrialrevival.api.items.handlers.BlockBreakHandler;
 import org.irmc.industrialrevival.api.items.handlers.BlockExplodeHandler;
 import org.irmc.industrialrevival.api.items.handlers.BlockFromToHandler;
@@ -22,6 +21,8 @@ import org.irmc.industrialrevival.api.items.handlers.EntityPickupHandler;
 import org.irmc.industrialrevival.api.items.handlers.InventoryMoveHandler;
 import org.irmc.industrialrevival.api.items.handlers.ItemDamageEntityHandler;
 import org.irmc.industrialrevival.api.items.handlers.ItemHandler;
+import org.irmc.industrialrevival.api.items.handlers.ItemInteractHandler;
+import org.irmc.industrialrevival.api.items.handlers.ItemKillEntityHandler;
 import org.irmc.industrialrevival.api.items.handlers.PlayerBucketEmptyHandler;
 import org.irmc.industrialrevival.api.items.handlers.PrepareAnvilHandler;
 import org.irmc.industrialrevival.api.items.handlers.PrepareGrindstoneHandler;
@@ -29,7 +30,8 @@ import org.irmc.industrialrevival.api.items.handlers.PrepareItemCraftHandler;
 import org.irmc.industrialrevival.api.items.handlers.PrepareItemEnchantHandler;
 import org.irmc.industrialrevival.api.items.handlers.PrepareSmithingHandler;
 import org.irmc.industrialrevival.api.items.handlers.PrepareTradeSelectHandler;
-import org.irmc.industrialrevival.api.objects.IRBlockData;
+import org.irmc.industrialrevival.api.menu.MachineMenu;
+import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.objects.events.vanilla.BlockExplodeIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.EndermanMoveIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.EntityChangeIRBlockEvent;
@@ -39,7 +41,11 @@ import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockBreakEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockFromToEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockPlaceEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.IRItemDamageEntityEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.IRItemInteractEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.IRItemKillEntityEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.InventoryMoveIRItemEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.MenuCloseEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.MenuOpenEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PistonExtendIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PistonRetractIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PlayerBucketEmptyToIRBlockEvent;
@@ -49,15 +55,14 @@ import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareIRItemEnchan
 import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareItemCraftIRItemEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareSmithingIRItemEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareTradeSelectIRItemEvent;
-import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * This class is used to call {@link ItemHandler}
  *
+ * @author balugaq
  * @see EventCreator
  * @see DefaultHandler
- * @author balugaq
  */
 public class HandlerCaller implements Listener {
     // todo: add more event handlers
@@ -73,8 +78,9 @@ public class HandlerCaller implements Listener {
             handler.onBlockExplode(e);
         }
     }
+
     @EventHandler(priority = EventPriority.NORMAL)
-    public void onEndermanMoveIRBlockEvent(EndermanMoveIRBlockEvent e) {
+    public void onEndermanMoveIRBlock(EndermanMoveIRBlockEvent e) {
         IndustrialRevivalItem iritem = e.getIritem();
         if (!checkValid(iritem)) {
             return;
@@ -85,6 +91,7 @@ public class HandlerCaller implements Listener {
             handler.onEndermanMoveBlock(e);
         }
     }
+
     @EventHandler(priority = EventPriority.NORMAL)
     public void onEntityChangeBlock(EntityChangeIRBlockEvent e) {
         IndustrialRevivalItem iritem = e.getIritem();
@@ -187,6 +194,49 @@ public class HandlerCaller implements Listener {
         ItemDamageEntityHandler handler = iritem.getItemHandler(ItemDamageEntityHandler.class);
         if (handler != null) {
             handler.onHit(e);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onIRItemInteract(IRItemInteractEvent e) {
+        IndustrialRevivalItem iritem = e.getIritem();
+        if (!checkValid(iritem)) {
+            return;
+        }
+
+        ItemInteractHandler handler = iritem.getItemHandler(ItemInteractHandler.class);
+        if (handler != null) {
+            handler.onInteract(e);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onIRItemKillEntity(IRItemKillEntityEvent e) {
+        IndustrialRevivalItem iritem = e.getIritem();
+        if (!checkValid(iritem)) {
+            return;
+        }
+
+        ItemKillEntityHandler handler = iritem.getItemHandler(ItemKillEntityHandler.class);
+        if (handler != null) {
+            handler.onKill(e);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onMenuClose(MenuCloseEvent e) {
+        SimpleMenu.MenuCloseHandler handler = e.getMenu().getCloseHandler();
+        if (handler != null) {
+            handler.onClose((Player) e.getPlayer());
+        }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onMenuOpen(MenuOpenEvent e) {
+        MachineMenu menu = e.getOpenedMenu();
+        SimpleMenu.MenuOpenHandler handler = menu.getOpenHandler();
+        if (handler != null) {
+            handler.onOpen(e.getPlayer(), menu);
         }
     }
 

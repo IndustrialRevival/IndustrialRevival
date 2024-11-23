@@ -8,7 +8,6 @@ import org.irmc.industrialrevival.api.objects.enums.GeneratorType;
 import org.irmc.industrialrevival.utils.Constants;
 import org.irmc.industrialrevival.utils.DataUtil;
 import org.jetbrains.annotations.NotNull;
-
 import org.jetbrains.annotations.Nullable;
 
 /**

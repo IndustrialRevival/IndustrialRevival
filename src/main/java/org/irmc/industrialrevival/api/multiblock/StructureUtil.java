@@ -117,18 +117,38 @@ public class StructureUtil {
         return cube;
     }
 
+    public static StructurePiece[][][] createStructure(Material[][][] materials) {
+        StructurePiece[][][] structure = new StructurePiece[materials.length][materials[0].length][materials[0][0].length];
+        for (int i = 0; i < materials.length; i++) {
+            for (int j = 0; j < materials[i].length; j++) {
+                for (int k = 0; k < materials[i][j].length; k++) {
+                    if (materials[i][j][k] != null) {
+                        structure[i][j][k] = new MaterialStructurePiece(materials[i][j][k]);
+                    } else {
+                        structure[i][j][k] = new MaterialStructurePiece(Material.AIR);
+                    }
+                }
+            }
+        }
+        return structure;
+    }
+
     public static StructurePiece material(Material material) {
         return new MaterialStructurePiece(material);
     }
+
     public static StructurePiece ir(IndustrialRevivalItem item) {
         return new IRBlockStructurePiece(item);
     }
+
     public static StructurePiece any() {
         return new AnyStructurePiece();
     }
+
     public static StructurePiece air() {
         return new MaterialStructurePiece(Material.AIR);
     }
+
     public static StructurePiece section(StructurePiece... pieces) {
         return new SectionStructurePiece(pieces);
     }

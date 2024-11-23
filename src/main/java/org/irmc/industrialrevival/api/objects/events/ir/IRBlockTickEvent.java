@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 @Getter
 public class IRBlockTickEvent extends Event implements Cancellable, RelatedIRItem {
-    private static final HandlerList HANDLERS = new HandlerList();
+    private static final HandlerList handlers = new HandlerList();
     private final Block block;
     private final MachineMenu menu;
     private final IndustrialRevivalItem iritem;
@@ -28,12 +28,13 @@ public class IRBlockTickEvent extends Event implements Cancellable, RelatedIRIte
         this.iritem = iritem;
         this.blockData = blockData;
     }
-    @Override
-    public @NotNull HandlerList getHandlers() {
-        return HANDLERS;
-    }
 
     public static @NotNull HandlerList getHandlerList() {
-        return HANDLERS;
+        return handlers;
+    }
+
+    @Override
+    public @NotNull HandlerList getHandlers() {
+        return handlers;
     }
 }

@@ -16,9 +16,9 @@ import java.util.Map;
 public class IRTickStartEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
     private final Map<Location, IRBlockData> blockDataMap;
-    private @Setter boolean cancelled;
     private final int checkInterval;
     private final long ticked;
+    private @Setter boolean cancelled;
 
     public IRTickStartEvent(Map<Location, IRBlockData> blockDataMap, int checkInterval, long ticked) {
         this.blockDataMap = new HashMap<>(blockDataMap);
@@ -26,11 +26,12 @@ public class IRTickStartEvent extends Event implements Cancellable {
         this.ticked = ticked;
     }
 
-    @Override
-    public @NotNull HandlerList getHandlers() {
+    public static @NotNull HandlerList getHandlerList() {
         return handlers;
     }
-    public static @NotNull HandlerList getHandlerList() {
+
+    @Override
+    public @NotNull HandlerList getHandlers() {
         return handlers;
     }
 }

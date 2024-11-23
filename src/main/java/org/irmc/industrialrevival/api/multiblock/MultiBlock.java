@@ -18,9 +18,11 @@ public abstract class MultiBlock extends IndustrialRevivalItem implements Keyed 
     private @Getter NamespacedKey key;
     private @Getter Structure structure;
     private @Getter int[] center;
+
     public MultiBlock(NamespacedKey key) {
         this.key = key;
     }
+
     public boolean matchStructure(@NotNull Location location) {
         return structure.isValid(location);
     }
@@ -37,6 +39,7 @@ public abstract class MultiBlock extends IndustrialRevivalItem implements Keyed 
         super.setAddon(addon);
         return this;
     }
+
     @Override
     public MultiBlock addItemGroup(@NotNull ItemGroup group) {
         super.addItemGroup(group);

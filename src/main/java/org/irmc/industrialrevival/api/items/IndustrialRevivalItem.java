@@ -36,6 +36,7 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -45,15 +46,23 @@ import java.util.Set;
 
 /**
  * An industrial revival item.<br>
- * By default, the item is not registered in the game.<br>
- * To register the item, use {@link #register()}.<br>
+ *
+ * IndustrialRevivalItem is a builder class for creating items.
+ * It provides a set of methods for adding attributes to the item.
+ * See more {@link IndustrialRevivalItemSetup}
+ *
+ * By default, the item is not registered in the game.
+ * To register the item, use {@link #register()}.
  * The block is placeable by default. If you want it to
- * be unplaceable, implement the {@link NotPlaceable} interface.<br>
+ * be unplaceable, implement the {@link NotPlaceable} interface.
+ *
+ * See more in package {@link org.irmc.industrialrevival.api.items}
  *
  * @author balugaq
  * @author linjinhong11
- *
  * @see NotPlaceable
+ * @see IndustrialRevivalItemSetup
+ * @noinspection ALL
  */
 @SuppressWarnings("unused")
 public class IndustrialRevivalItem {
@@ -65,9 +74,9 @@ public class IndustrialRevivalItem {
     private final Set<ItemDictionary> itemDictionaries = new HashSet<>();
     private final Set<String> disabledInWorld = new HashSet<>();
     @Getter
-    private IndustrialRevivalAddon addon;
-    @Getter
     private final Set<ItemGroup> group = new HashSet<>();
+    @Getter
+    private IndustrialRevivalAddon addon;
     private IndustrialRevivalItemStack itemStack;
     private ItemState state = ItemState.UNREGISTERED;
     @Getter
@@ -78,9 +87,13 @@ public class IndustrialRevivalItem {
     private boolean disenchantable = true;
     @Getter
     private boolean hideInGuide = false;
+
     public IndustrialRevivalItem() {
     }
 
+    public <T> T cast(Class<T> clazz) {
+        return (T) this;
+    }
     @Nullable
     public static IndustrialRevivalItem getById(@NotNull String id) {
         return IndustrialRevival.getInstance().getRegistry().getItems().get(id);
@@ -104,11 +117,16 @@ public class IndustrialRevivalItem {
         return null;
     }
 
+    public Collection<ItemHandler> getItemHandlers() {
+        return itemHandlers.values();
+    }
+
     @NotNull
     public IndustrialRevivalItem addItemGroup(@NotNull ItemGroup group) {
         checkRegistered();
         Preconditions.checkArgument(group != null, "ItemGroup cannot be null");
         this.group.add(group);
+        group.addItem(this);
         return this;
     }
 
@@ -256,14 +274,14 @@ public class IndustrialRevivalItem {
 
     @NotNull
     public <T extends ItemHandler> T getItemHandler(Class<T> clazz) {
-        return (T) itemHandlers.get(clazz);
+        return clazz.cast(itemHandlers.get(clazz));
     }
 
     @CanIgnoreReturnValue
     protected IndustrialRevivalItem addItemHandlers(@NotNull ItemHandler... handlers) {
         checkRegistered();
         for (ItemHandler handler : handlers) {
-            itemHandlers.put(handler.getClass(), handler);
+            itemHandlers.put(handler.getIdentifier(), handler);
         }
         return this;
     }
@@ -368,7 +386,7 @@ public class IndustrialRevivalItem {
         return null;
     }
 
-    @NotNull
+    @Nullable
     public ItemStack getRecipeOutput(RecipeType recipeType) {
         for (CraftMethod craftMethod : craftMethods) {
             if (craftMethod.getRecipeType() == recipeType) {

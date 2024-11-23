@@ -21,4 +21,8 @@ public interface BlockPlaceHandler extends ItemHandler {
         }
         return null;
     }
+
+    default Class<? extends ItemHandler> getIdentifier() {
+        return BlockPlaceHandler.class;
+    }
 }

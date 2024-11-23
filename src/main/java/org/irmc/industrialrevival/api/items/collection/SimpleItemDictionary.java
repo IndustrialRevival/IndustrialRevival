@@ -1,10 +1,7 @@
 package org.irmc.industrialrevival.api.items.collection;
 
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.jetbrains.annotations.NotNull;
 
