@@ -41,6 +41,6 @@ public class IRBlockStructurePiece extends StructurePiece {
     @Override
     @NotNull
     public ItemStack getDisplay() {
-        return iritem.getItem();
+        return iritem.getItem().getItemStack();
     }
 }

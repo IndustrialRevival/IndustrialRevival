@@ -100,13 +100,14 @@ public class IndustrialRevivalItem {
     }
 
     @Nullable
+    public static IndustrialRevivalItem getByItem(@NotNull IndustrialRevivalItemStack irStack) {
+        return getById(irStack.getId());
+    }
+
+    @Nullable
     public static IndustrialRevivalItem getByItem(@NotNull ItemStack item) {
         if (item == null || item.getType() == Material.AIR) {
             return null;
-        }
-
-        if (item instanceof IndustrialRevivalItemStack irStack) {
-            return getById(irStack.getId());
         }
 
         String id = PersistentDataAPI.getString(item.getItemMeta(), Constants.ItemStackKeys.ITEM_ID_KEY);
@@ -269,7 +270,7 @@ public class IndustrialRevivalItem {
 
     @NotNull
     public Component getItemName() {
-        return ItemUtils.getDisplayName(getItem());
+        return ItemUtils.getDisplayName(getItem().clone());
     }
 
     @NotNull
@@ -295,7 +296,7 @@ public class IndustrialRevivalItem {
             }
         }
 
-        if (this instanceof ItemDroppable && !ItemUtils.isActualBlock(getItem().getType())) {
+        if (this instanceof ItemDroppable && !ItemUtils.isActualBlock(getItem().getItemStack().getType())) {
             throw new UnsupportedOperationException("Only actual block can be drop items!");
         }
     }
@@ -395,6 +396,10 @@ public class IndustrialRevivalItem {
         }
 
         return null;
+    }
+
+    public ItemStack getItemStack() {
+        return itemStack.getItemStack();
     }
 
     public enum ItemState {

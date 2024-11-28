@@ -20,7 +20,7 @@ public class CraftMethod implements ProduceMethod {
     public CraftMethod(RecipeType recipeType, ItemStack[] ingredients, IndustrialRevivalItem output) {
         this.recipeType = recipeType;
         this.ingredients = ingredients;
-        this.output = output.getItem();
+        this.output = output.getItem().getItemStack();
         recipeType.registerRecipe(this.ingredients, this.output);
     }
 }

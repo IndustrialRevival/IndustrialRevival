@@ -11,7 +11,7 @@ public interface ItemKillEntityHandler extends ItemHandler {
 
     @Override
     default IncompatibleItemHandlerException isCompatible(@NotNull IndustrialRevivalItem item) {
-        if (!item.getItem().getType().isItem()) {
+        if (!item.getItem().getItemStack().getType().isItem()) {
             return new IncompatibleItemHandlerException(
                     "Only materials that are items can have a use item kill entity handler", item.getId());
         }

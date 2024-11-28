@@ -40,7 +40,7 @@ public class ItemTextureService {
             }
 
             Location location = data.getLocation();
-            blockModelMap.put(location.hashCode(), new BlockModel(location, item.getItem()));
+            blockModelMap.put(location.hashCode(), new BlockModel(location, item.getItem().getItemStack()));
         }
     }
 

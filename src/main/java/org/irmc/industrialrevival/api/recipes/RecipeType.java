@@ -243,12 +243,12 @@ public class RecipeType {
     @Nullable
     public ItemStack getMaker() {
         if (makerId != null) {
-            return IndustrialRevivalItem.getById(makerId).getItem();
+            return IndustrialRevivalItem.getById(makerId).getItem().getItemStack();
         }
 
-        if (icon instanceof IndustrialRevivalItemStack iris) {
-            makerId = iris.getId();
-            return IndustrialRevivalItem.getById(makerId).getItem();
+        IndustrialRevivalItem item = IndustrialRevivalItem.getById(makerId);
+        if (item != null) {
+            return item.getItem().getItemStack();
         } else {
             if (icon == null || icon.getType() == Material.AIR) {
                 return null;
@@ -257,7 +257,7 @@ public class RecipeType {
             String id = PersistentDataAPI.getString(icon.getItemMeta(), Constants.ItemStackKeys.CLEANED_IR_ITEM_ID, "");
             if (!id.isBlank()) {
                 makerId = id;
-                return IndustrialRevivalItem.getById(id).getItem();
+                return IndustrialRevivalItem.getById(id).getItem().getItemStack();
             }
 
             return icon;

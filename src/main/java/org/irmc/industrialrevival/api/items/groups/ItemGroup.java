@@ -75,7 +75,7 @@ public abstract class ItemGroup {
                 if (item != null) {
                     sm.setItem(
                             i,
-                            CleanedItemGetter.getCleanedItem(item.getItem()),
+                            CleanedItemGetter.getCleanedItem(item.getItem().getItemStack()),
                             (player, clickedItem, slot, menu, clickType) -> {
                                 guide.onItemClicked(player, item, clickType);
                                 return false;
