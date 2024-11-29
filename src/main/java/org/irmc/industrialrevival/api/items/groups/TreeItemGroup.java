@@ -190,7 +190,7 @@ public class TreeItemGroup extends ItemGroup {
 
         public ItemStack getIcon() {
             if (item != null) {
-                return CleanedItemGetter.getCleanedItem(item.getItem());
+                return CleanedItemGetter.getCleanedItem(item.getItem().getItemStack());
             } else {
                 if (group != null) {
                     return group.getIcon();

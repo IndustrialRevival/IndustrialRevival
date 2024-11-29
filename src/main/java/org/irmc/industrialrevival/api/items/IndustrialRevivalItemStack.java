@@ -5,7 +5,6 @@ import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.MaterialData;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.Constants;
@@ -15,12 +14,28 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
-@SuppressWarnings("unused")
-public class IndustrialRevivalItemStack extends ItemStack {
+@SuppressWarnings("deprecation")
+public class IndustrialRevivalItemStack {
+    private final ItemStack itemStack;
     @Getter
     private final String id;
 
     private boolean locked;
+
+    public IndustrialRevivalItemStack(@NotNull String id, @NotNull ItemStack itemStack) {
+        this.itemStack = new ItemStack(itemStack.getType(), itemStack.getAmount());
+        // clone
+        this.itemStack.setItemMeta(itemStack.getItemMeta());
+        this.itemStack.addEnchantments(itemStack.getEnchantments());
+        this.itemStack.setDurability(itemStack.getDurability());
+        // clone end
+
+        Preconditions.checkArgument(id.equals(id.toUpperCase()), "ID must be uppercase");
+
+        this.id = id;
+
+        itemStack.editMeta(meta -> PersistentDataAPI.setString(meta, Constants.ItemStackKeys.ITEM_ID_KEY, id));
+    }
 
     public IndustrialRevivalItemStack(@NotNull String id, @NotNull Material material) {
         this(
@@ -29,21 +44,6 @@ public class IndustrialRevivalItemStack extends ItemStack {
                         material,
                         IndustrialRevival.getInstance().getLanguageManager().getItemName(id),
                         IndustrialRevival.getInstance().getLanguageManager().getItemLore(id)));
-    }
-
-    public IndustrialRevivalItemStack(@NotNull String id, @NotNull ItemStack itemStack) {
-        super(itemStack.getType(), itemStack.getAmount());
-        // clone
-        setItemMeta(itemStack.getItemMeta());
-        addEnchantments(itemStack.getEnchantments());
-        setDurability(itemStack.getDurability());
-        // clone end
-
-        Preconditions.checkArgument(id.equals(id.toUpperCase()), "ID must be uppercase");
-
-        this.id = id;
-
-        editMeta(meta -> PersistentDataAPI.setString(meta, Constants.ItemStackKeys.ITEM_ID_KEY, id));
     }
 
     public IndustrialRevivalItemStack(@NotNull String id, @NotNull Material material, String name, String... lore) {
@@ -62,42 +62,32 @@ public class IndustrialRevivalItemStack extends ItemStack {
         this(id, new CustomItemStack(itemStack, consumer));
     }
 
-    @Override
+    public IndustrialRevivalItemStack(String id, IndustrialRevivalItemStack industrialRevivalItemStack) {
+        this(id, industrialRevivalItemStack.getItemStack().clone());
+    }
+
     public boolean setItemMeta(@Nullable ItemMeta itemMeta) {
         if (locked) {
             throw new IllegalStateException("Item is not mutable");
         }
 
-        return super.setItemMeta(itemMeta);
+        return itemStack.setItemMeta(itemMeta);
     }
 
-    @Override
     public void setAmount(int amount) {
         if (locked) {
             throw new IllegalStateException("Item is not mutable");
         }
 
-        super.setAmount(amount);
+        itemStack.setAmount(amount);
     }
 
-    @Override
     public void setType(@NotNull Material type) {
         if (locked) {
             throw new IllegalStateException("Item is not mutable");
         }
 
-        super.setType(type);
-    }
-
-    @Deprecated
-    @Override
-    @SuppressWarnings("deprecation")
-    public void setData(@Nullable MaterialData data) {
-        if (locked) {
-            throw new IllegalStateException("Item is not mutable");
-        }
-
-        super.setData(data);
+        itemStack.setType(type);
     }
 
     public @NotNull IndustrialRevivalItemStack cloneIR() {
@@ -108,18 +98,23 @@ public class IndustrialRevivalItemStack extends ItemStack {
 
     @Override
     public @NotNull ItemStack clone() {
-        return super.clone();
+        return itemStack.clone();
     }
 
     public @NotNull ItemStack deepClone() {
-        ItemStack itemStack = new ItemStack(this.getType(), this.getAmount());
-        itemStack.setItemMeta(this.getItemMeta());
+        ItemStack itemStack = new ItemStack(this.itemStack.getType(), this.itemStack.getAmount());
+        itemStack.setItemMeta(this.itemStack.getItemMeta());
         return itemStack;
     }
 
     @Nullable
     public IndustrialRevivalItem getItem() {
         return IndustrialRevivalItem.getByItem(this);
+    }
+
+    @NotNull
+    public ItemStack getItemStack() {
+        return itemStack;
     }
 
     void lock() {

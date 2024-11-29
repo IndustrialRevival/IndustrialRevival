@@ -13,7 +13,7 @@ public interface EntityExplodeHandler extends ItemHandler {
 
     @Override
     default IncompatibleItemHandlerException isCompatible(@NotNull IndustrialRevivalItem item) {
-        if (!ItemUtils.isActualBlock(item.getItem().getType())) {
+        if (!ItemUtils.isActualBlock(item.getItem().getItemStack().getType())) {
             return new IncompatibleItemHandlerException("Only actual blocks can be broken", item.getId());
         }
         if (item instanceof NotPlaceable) {

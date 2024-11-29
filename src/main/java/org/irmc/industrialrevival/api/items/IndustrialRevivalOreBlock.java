@@ -46,7 +46,7 @@ public class IndustrialRevivalOreBlock extends IndustrialRevivalItem implements 
     @Override
     @NotNull
     public RecipeChoice getRecipeInput() {
-        return new IRRecipeChoice(getItem());
+        return new IRRecipeChoice(getItem().getItemStack());
     }
 
     @Override
