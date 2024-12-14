@@ -1,8 +1,9 @@
 name: IndustrialRevival
 version: '${project.version}'
 main: org.irmc.industrialrevival.implementation.IndustrialRevival
-api-version: '1.20'
-authors: [ mmmjjkx and IndustrialRevival community ]
+api-version: '1.21.4'
+authors: [ mmmjjkx, balugaq and IndustrialRevival community ]
+website: "https://github.com/IndustrialRevival/IndustrialRevival"
 permissions:
   industrialrevival.cmd.guide:
     description: get the guide of IndustrialRevival

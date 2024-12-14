@@ -3,6 +3,7 @@ package org.irmc.industrialrevival.api.recipes;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
 import lombok.experimental.UtilityClass;
+import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 
@@ -13,21 +14,21 @@ import java.util.Map;
 
 @UtilityClass
 public class RecipeContents {
-    private static final Map<String, List<RecipeContent>> recipeContents = new HashMap<>();
+    private static final Map<NamespacedKey, List<RecipeContent>> recipeContents = new HashMap<>();
 
-    public static void addRecipeContent(String itemId, RecipeContent content) {
+    public static void addRecipeContent(NamespacedKey itemId, RecipeContent content) {
         recipeContents.computeIfAbsent(itemId, k -> new ArrayList<>()).add(content);
     }
 
     @NotNull
-    public static List<RecipeContent> getRecipeContents(String itemId) {
+    public static List<RecipeContent> getRecipeContents(NamespacedKey itemId) {
         return recipeContents.getOrDefault(itemId, new ArrayList<>()).stream()
                 .filter(i -> i.recipeType() != RecipeType.NULL)
                 .toList();
     }
 
     @Unmodifiable
-    public static Map<String, List<RecipeContent>> getRecipeContents() {
+    public static Map<NamespacedKey, List<RecipeContent>> getRecipeContents() {
         return Object2ObjectMaps.unmodifiable(new Object2ObjectArrayMap<>(recipeContents));
     }
 

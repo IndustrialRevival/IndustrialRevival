@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 public interface PrepareTradeSelectHandler extends ItemHandler {
     void onPrepareTradeSelect(@NotNull PrepareTradeSelectIRItemEvent event);
 
-    default Class<? extends ItemHandler> getIdentifier() {
+    default @NotNull Class<? extends ItemHandler> getIdentifier() {
         return PrepareTradeSelectHandler.class;
     }
 }

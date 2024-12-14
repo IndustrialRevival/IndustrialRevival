@@ -108,6 +108,10 @@
 
     <repositories>
         <repository>
+            <id>central</id>
+            <url>https://repo1.maven.org/maven2/</url>
+        </repository>
+        <repository>
             <id>jitpack</id>
             <url>https://jitpack.io</url>
         </repository>
@@ -130,37 +134,52 @@
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.21.1-R0.1-SNAPSHOT</version>
+            <version>1.21.3-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Lombok annotations -->
+        <!-- Annotations -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.34</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>23.0.0</version>
+            <scope>provided</scope>
+        </dependency>
 
-        <!-- ItemStack Lib -->
+        <!-- Main Lib -->
         <dependency>
             <groupId>com.github.IndustrialRevival</groupId>
             <artifactId>PigeonLib</artifactId>
-            <version>0.0.3</version>
+            <version>0.0.4.1</version>
+            <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.papermc.paper</groupId>
+                    <artifactId>paper-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
-        <!-- Command Generator -->
+        <!-- Command Maker -->
         <dependency>
             <groupId>dev.jorel</groupId>
             <artifactId>commandapi-bukkit-shade</artifactId>
-            <version>9.5.1</version>
+            <version>9.7.0</version>
+            <scope>compile</scope>
         </dependency>
 
-        <!-- Folia -->
+        <!-- Folia compatability -->
         <dependency>
-            <groupId>com.tcoded</groupId>
+            <groupId>com.github.technicallycoded</groupId>
             <artifactId>FoliaLib</artifactId>
-            <version>0.3.4</version>
+            <version>main-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
 
         <!-- Database -->

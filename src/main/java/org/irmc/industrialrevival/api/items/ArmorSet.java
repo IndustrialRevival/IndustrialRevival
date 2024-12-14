@@ -2,11 +2,9 @@ package org.irmc.industrialrevival.api.items;
 
 import lombok.Getter;
 import org.bukkit.NamespacedKey;
-import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
-import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.objects.enums.ArmorProtectionType;
 import org.irmc.industrialrevival.api.objects.enums.ArmorType;
@@ -51,7 +49,7 @@ public class ArmorSet {
                 armorType,
                 new ArmorPiece()
                         .addItemGroup(group)
-                        .setItemStack(new IndustrialRevivalItemStack(namespacedKeyToId(armorType), itemStack))
+                        .setItemStack(new IndustrialRevivalItemStack(getNamespacedKey(armorType), itemStack))
                         .addCraftMethod(item -> new CraftMethod(type, recipe, item))
                         .cast(ArmorPiece.class)
                         .setPotionEffects(potionEffects)
@@ -93,8 +91,8 @@ public class ArmorSet {
         lock = true;
     }
 
-    private String namespacedKeyToId(@NotNull ArmorType armorType) {
-        return key.getNamespace().toUpperCase() + "_" + key.getKey().toUpperCase() + "_" + armorType.toString();
+    private NamespacedKey getNamespacedKey(@NotNull ArmorType armorType) {
+        return new NamespacedKey(key.getNamespace(), key.getKey() + "_" + armorType.toString().toLowerCase());
     }
 
     private void checkLock() {

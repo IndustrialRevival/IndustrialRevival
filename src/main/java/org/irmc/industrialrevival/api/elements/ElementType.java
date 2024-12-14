@@ -1,6 +1,7 @@
 package org.irmc.industrialrevival.api.elements;
 
 import lombok.Getter;
+import org.irmc.industrialrevival.api.items.attributes.ChemReactable;
 
 @SuppressWarnings("unused")
 @Getter
@@ -158,7 +159,6 @@ public enum ElementType {
         return ElementType.values()[(this.ordinal() - 1 + ElementType.values().length) % ElementType.values().length];
     }
 
-
     public enum ElementGroup {
         IA,
         IIA,
@@ -178,16 +178,59 @@ public enum ElementType {
         O
     }
 
-    @Getter
-    public static class Valence {
-        private final int[] valences;
+    public static final class ReactCondition {
+        public static final ReactCondition NONE = new ReactCondition(Type.NONE);
+        public static final ReactCondition LIGHT = new ReactCondition(Type.LIGHT);
+        public static final ReactCondition ELECTROLYSIS = new ReactCondition(Type.ELECTROLYSIS);
+        public static final ReactCondition HEATING = new ReactCondition(Type.HEATING);
+        public static final ReactCondition HIGH_TEMPERATURE = new ReactCondition(Type.HIGH_TEMPERATURE);
 
-        public Valence(int... valences) {
-            this.valences = valences;
+        private final Type type;
+        private final ChemReactable reactable;
+
+        private ReactCondition(Type type) {
+            this.type = type;
+            this.reactable = null;
         }
 
+        private ReactCondition(Type type, ChemReactable reactable) {
+            this.type = type;
+            this.reactable = reactable;
+        }
+
+        /**
+         * Gets the type of the reacting condition.
+         * @return The type of the reacting condition.
+         */
+        public Type getType() {
+            return type;
+        }
+
+        /**
+         * Null if the react condition is not a catalyst.
+         * @return The chem reactable item that is catalyzing the reaction.
+         */
+        public ChemReactable getReactable() {
+            return reactable;
+        }
+
+        public static ReactCondition asCatalyzer(ChemReactable reactable) {
+            return new ReactCondition(Type.CATALYZER, reactable);
+        }
+
+        public enum Type {
+            NONE,
+            LIGHT,
+            ELECTROLYSIS,
+            HEATING,
+            HIGH_TEMPERATURE,
+            CATALYZER
+        }
+    }
+
+    public record Valence(int... valences) {
         public static Valence of(int... valences) {
-            return new Valence(valences);
-        }
+                return new Valence(valences);
+            }
     }
 }

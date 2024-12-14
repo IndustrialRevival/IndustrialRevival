@@ -94,8 +94,9 @@ public class IndustrialRevivalItem {
     public <T> T cast(Class<T> clazz) {
         return (T) this;
     }
+
     @Nullable
-    public static IndustrialRevivalItem getById(@NotNull String id) {
+    public static IndustrialRevivalItem getById(@NotNull NamespacedKey id) {
         return IndustrialRevival.getInstance().getRegistry().getItems().get(id);
     }
 
@@ -228,7 +229,7 @@ public class IndustrialRevivalItem {
     }
 
     @NotNull
-    public String getId() {
+    public NamespacedKey getId() {
         return itemStack.getId();
     }
 
@@ -270,7 +271,7 @@ public class IndustrialRevivalItem {
 
     @NotNull
     public Component getItemName() {
-        return ItemUtils.getDisplayName(getItem().clone());
+        return ItemUtils.getDisplayName(getItem().getItemStack());
     }
 
     @NotNull
@@ -315,7 +316,7 @@ public class IndustrialRevivalItem {
         }
 
         if (this instanceof VanillaSmeltingItem vsi) {
-            NamespacedKey key = new NamespacedKey(addon.getPlugin(), "rt_smelting_" + getId().toLowerCase());
+            NamespacedKey key = new NamespacedKey(addon.getPlugin(), "irrt_" + getId().getNamespace() + "_" + getId().getKey());
             FurnaceRecipe fr = new FurnaceRecipe(
                     key, vsi.getRecipeOutput(), vsi.getRecipeInput(), vsi.getExp(), vsi.getCookingTime());
 
@@ -324,8 +325,8 @@ public class IndustrialRevivalItem {
 
         for (CraftMethod craftMethod : craftMethods) {
             if (craftMethod.getRecipeType() == RecipeType.VANILLA_CRAFTING) {
-                NamespacedKey key = new NamespacedKey(addon.getPlugin(), "rt_crafting_" + getId().toLowerCase());
-                ShapedRecipe shapedRecipe = new ShapedRecipe(key, itemStack.clone());
+                NamespacedKey key = new NamespacedKey(addon.getPlugin(), "irrt_" + getId().getNamespace() + "_" + getId().getKey());
+                ShapedRecipe shapedRecipe = new ShapedRecipe(key, itemStack.cloneItemStack());
                 shapedRecipe.shape("abc", "def", "ghi");
                 char[] chars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'};
                 for (int i = 0; i < 9; i++) {

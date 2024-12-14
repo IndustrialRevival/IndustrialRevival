@@ -58,12 +58,7 @@ public class Debugger extends IndustrialRevivalItem {
 
     public Debugger() {
         super();
-        addItemHandlers(new ItemInteractHandler() {
-            @Override
-            public void onInteract(@NotNull IRItemInteractEvent event) {
-                interact(event);
-            }
-        });
+        addItemHandlers((ItemInteractHandler) this::interact);
     }
 
     private static String color(String s) {
@@ -351,7 +346,7 @@ public class Debugger extends IndustrialRevivalItem {
             return;
         }
         send(player, "&e - Location: &7" + simpleLocationToString(location));
-        IRBlockPlaceEvent event = new IRBlockPlaceEvent(new BlockPlaceEvent(location.getBlock(), location.getBlock().getState(), block, IndustrialRevivalItems.DEBUG_HEAD.clone(), player, true), IndustrialRevivalItems.DEBUG_HEAD.getItem());
+        IRBlockPlaceEvent event = new IRBlockPlaceEvent(new BlockPlaceEvent(location.getBlock(), location.getBlock().getState(), block, IndustrialRevivalItems.DEBUG_HEAD.cloneItemStack(), player, true), IndustrialRevivalItems.DEBUG_HEAD.getIRItem());
         Bukkit.getPluginManager().callEvent(event);
 
         send(player, "&aDebug Head placed.");
