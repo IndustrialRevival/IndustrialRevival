@@ -22,7 +22,7 @@ public interface BlockBreakHandler extends ItemHandler {
         return null;
     }
 
-    default Class<? extends ItemHandler> getIdentifier() {
+    default @NotNull Class<? extends ItemHandler> getIdentifier() {
         return BlockBreakHandler.class;
     }
 }

@@ -28,7 +28,7 @@ public interface BlockInteractHandler extends ItemHandler {
         return null;
     }
 
-    default Class<? extends ItemHandler> getIdentifier() {
+    default @NotNull Class<? extends ItemHandler> getIdentifier() {
         return BlockInteractHandler.class;
     }
 }

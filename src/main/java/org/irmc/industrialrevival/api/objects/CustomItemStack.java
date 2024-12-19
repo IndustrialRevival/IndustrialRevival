@@ -1,22 +1,23 @@
 package org.irmc.industrialrevival.api.objects;
 
 import net.kyori.adventure.text.Component;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+import org.bukkit.*;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
+@Deprecated
+@Warning(reason = "Moving to org.irmc.pigeonLib")
+@ApiStatus.ScheduledForRemoval(inVersion = "1.0")
 public class CustomItemStack extends ItemStack {
     public CustomItemStack(ItemStack item, Consumer<ItemMeta> meta) {
         super(item);

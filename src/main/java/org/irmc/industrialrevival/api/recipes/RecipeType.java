@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
-import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
@@ -16,9 +15,6 @@ import org.irmc.industrialrevival.utils.KeyUtil;
 import org.irmc.pigeonlib.pdc.PersistentDataAPI;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 import java.util.function.BiConsumer;
 
 @Getter
@@ -49,7 +45,6 @@ public class RecipeType {
     public static final RecipeType ELECTROLYSIS;
     public static final RecipeType MULTIBLOCK;
     static final RecipeDisplay DEFAULT_RECIPE_DISPLAY = new DefaultRecipeDisplay();
-    private static final Map<UUID, Integer> pageRecord = new HashMap<>();
 
     static {
         GRINDSTONE = new RecipeType(
@@ -163,7 +158,7 @@ public class RecipeType {
     private final NamespacedKey key;
     private final ItemStack icon;
     private final RecipeDisplay recipeDisplay;
-    private String makerId;
+    private NamespacedKey makerId;
     /**
      * When a recipe is created using {@link CraftMethod#CraftMethod(RecipeType, ItemStack[], ItemStack)} or {@link CraftMethod#CraftMethod(RecipeType, ItemStack[], IndustrialRevivalItem)},
      * the registerRecipeConsumer and unregisterRecipeConsumer
@@ -186,7 +181,7 @@ public class RecipeType {
         this.recipeDisplay = recipeDisplay;
     }
 
-    public RecipeType(IndustrialRevivalAddon addon, NamespacedKey key, ItemStack icon, String makerId) {
+    public RecipeType(IndustrialRevivalAddon addon, NamespacedKey key, ItemStack icon, NamespacedKey makerId) {
         this.addon = addon;
         this.key = key;
         this.icon = icon;
@@ -194,7 +189,7 @@ public class RecipeType {
         this.makerId = makerId;
     }
 
-    public RecipeType(IndustrialRevivalAddon addon, NamespacedKey key, ItemStack icon, String makerId, RecipeDisplay recipeDisplay) {
+    public RecipeType(IndustrialRevivalAddon addon, NamespacedKey key, ItemStack icon, NamespacedKey makerId, RecipeDisplay recipeDisplay) {
         this.addon = addon;
         this.key = key;
         this.icon = icon;
@@ -220,7 +215,7 @@ public class RecipeType {
         this.unregisterRecipeConsumer = unregisterRecipeConsumer;
     }
 
-    public RecipeType(IndustrialRevivalAddon addon, NamespacedKey key, ItemStack icon, String makerId, BiConsumer<ItemStack[], ItemStack> registerRecipeConsumer, BiConsumer<ItemStack[], ItemStack> unregisterRecipeConsumer) {
+    public RecipeType(IndustrialRevivalAddon addon, NamespacedKey key, ItemStack icon, NamespacedKey makerId, BiConsumer<ItemStack[], ItemStack> registerRecipeConsumer, BiConsumer<ItemStack[], ItemStack> unregisterRecipeConsumer) {
         this.addon = addon;
         this.key = key;
         this.icon = icon;
@@ -230,7 +225,7 @@ public class RecipeType {
         this.unregisterRecipeConsumer = unregisterRecipeConsumer;
     }
 
-    public RecipeType(IndustrialRevivalAddon addon, NamespacedKey key, ItemStack icon, String makerId, RecipeDisplay recipeDisplay, BiConsumer<ItemStack[], ItemStack> registerRecipeConsumer, BiConsumer<ItemStack[], ItemStack> unregisterRecipeConsumer) {
+    public RecipeType(IndustrialRevivalAddon addon, NamespacedKey key, ItemStack icon, NamespacedKey makerId, RecipeDisplay recipeDisplay, BiConsumer<ItemStack[], ItemStack> registerRecipeConsumer, BiConsumer<ItemStack[], ItemStack> unregisterRecipeConsumer) {
         this.addon = addon;
         this.key = key;
         this.icon = icon;
@@ -242,10 +237,6 @@ public class RecipeType {
 
     @Nullable
     public ItemStack getMaker() {
-        if (makerId != null) {
-            return IndustrialRevivalItem.getById(makerId).getItem().getItemStack();
-        }
-
         IndustrialRevivalItem item = IndustrialRevivalItem.getById(makerId);
         if (item != null) {
             return item.getItem().getItemStack();

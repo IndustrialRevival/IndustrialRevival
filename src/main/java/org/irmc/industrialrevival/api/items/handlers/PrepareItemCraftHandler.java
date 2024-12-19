@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 public interface PrepareItemCraftHandler extends ItemHandler {
     void onPrepareItemCraft(@NotNull PrepareItemCraftIRItemEvent event);
 
-    default Class<? extends ItemHandler> getIdentifier() {
+    default @NotNull Class<? extends ItemHandler> getIdentifier() {
         return PrepareItemCraftHandler.class;
     }
 }

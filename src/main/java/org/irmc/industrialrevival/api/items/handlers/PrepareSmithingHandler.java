@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 public interface PrepareSmithingHandler extends ItemHandler {
     void onPrepareSmithing(@NotNull PrepareSmithingIRItemEvent event);
 
-    default Class<? extends ItemHandler> getIdentifier() {
+    default @NotNull Class<? extends ItemHandler> getIdentifier() {
         return PrepareSmithingHandler.class;
     }
 }

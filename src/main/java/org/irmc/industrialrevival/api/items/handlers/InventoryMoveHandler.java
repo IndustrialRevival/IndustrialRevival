@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 public interface InventoryMoveHandler extends ItemHandler {
     void onInventoryMove(@NotNull InventoryMoveIRItemEvent event);
 
-    default Class<? extends ItemHandler> getIdentifier() {
+    default @NotNull Class<? extends ItemHandler> getIdentifier() {
         return InventoryMoveHandler.class;
     }
 }

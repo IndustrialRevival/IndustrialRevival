@@ -1,15 +1,15 @@
 package org.irmc.industrialrevival.implementation;
 
 import com.tcoded.folialib.FoliaLib;
-import com.tcoded.folialib.impl.ServerImplementation;
+import com.tcoded.folialib.impl.PlatformScheduler;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
+import io.papermc.paper.plugin.configuration.PluginMeta;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.objects.ItemSettings;
@@ -27,12 +27,11 @@ import org.irmc.industrialrevival.core.services.ProfilerService;
 import org.irmc.industrialrevival.core.task.ArmorCheckTask;
 import org.irmc.industrialrevival.implementation.groups.IRItemGroups;
 import org.irmc.industrialrevival.implementation.items.IndustrialRevivalItemSetup;
-import org.irmc.industrialrevival.implementation.items.IndustrialRevivalItems;
 import org.irmc.industrialrevival.utils.Constants;
 import org.irmc.pigeonlib.file.ConfigFileUtil;
 import org.irmc.pigeonlib.language.LanguageManager;
-import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -51,15 +50,11 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     private @Getter BlockDataService blockDataService;
     private @Getter ItemDataService itemDataService;
     private @Getter ProfilerService profilerService;
-    private @Getter ServerImplementation foliaLibImpl;
+    private @Getter PlatformScheduler foliaLibImpl;
     private @Getter ItemSettings itemSettings;
 
-    public static void runSync(@NotNull Runnable runnable) {
+    public static void runSync(@Nonnull Runnable runnable) {
         Bukkit.getScheduler().runTask(instance, runnable);
-    }
-
-    public static void runAsync(@NotNull Runnable runnable) {
-        Bukkit.getScheduler().runTaskAsynchronously(instance, runnable);
     }
 
     @Override
@@ -69,7 +64,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         CommandAPI.onLoad(new CommandAPIBukkitConfig(this));
         IRCommandGenerator.registerCommand(this);
 
-        foliaLibImpl = new FoliaLib(this).getImpl();
+        foliaLibImpl = new FoliaLib(this).getScheduler();
 
         completeFiles();
 
@@ -82,10 +77,13 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
 
     @Override
     public void onEnable() {
+        /*
         if (!environmentCheck()) {
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
+
+         */
 
         getLogger().info("IndustrialRevival is being enabled!");
 
@@ -116,7 +114,9 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         ConfigFileUtil.completeLangFile(this, "language/en-US.yml");
         ConfigFileUtil.completeLangFile(this, "language/zh-CN.yml");
 
-        saveResource("items-settings.yml", false);
+        if (!new File(getDataFolder(), "items-settings.yml").exists()) {
+            saveResource("items-settings.yml", false);
+        }
     }
 
     private void setupIndustrialRevivalItems() {
@@ -137,7 +137,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         File sqliteDbFile = new File(Constants.Files.STORAGE_FOLDER, "database.db");
 
         if (!Constants.Files.STORAGE_FOLDER.exists()) {
-            Constants.Files.STORAGE_FOLDER.mkdirs();
+            boolean _ = Constants.Files.STORAGE_FOLDER.mkdirs();
         }
 
         if (storageType.equalsIgnoreCase("sqlite")) {
@@ -185,7 +185,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     }
 
     public boolean environmentCheck() {
-        // Commented out until it can work properly
+        // Actually we don't need this.
         /*
         if (MCVersion.CURRENT == MCVersion.UNKNOWN) {
             getLogger().log(Level.SEVERE, "Unsupported Minecraft version: " + getServer().getMinecraftVersion());
@@ -197,7 +197,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     }
 
     @Override
-    public @NotNull JavaPlugin getPlugin() {
+    public @Nonnull JavaPlugin getPlugin() {
         return this;
     }
 
@@ -213,14 +213,14 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         languageManager = new LanguageManager(this);
     }
 
-    public @NotNull Set<Plugin> getAddons() {
+    public @Nonnull Set<Plugin> getAddons() {
         String pluginName = instance.getName();
 
         return Arrays.stream(instance.getServer().getPluginManager().getPlugins())
                 .filter(plugin -> {
-                    PluginDescriptionFile description = plugin.getDescription();
-                    return description.getDepend().contains(pluginName)
-                            || description.getSoftDepend().contains(pluginName);
+                    PluginMeta description = plugin.getPluginMeta();
+                    return description.getPluginDependencies().contains(pluginName)
+                            || description.getPluginSoftDependencies().contains(pluginName);
                 })
                 .collect(Collectors.toSet());
     }

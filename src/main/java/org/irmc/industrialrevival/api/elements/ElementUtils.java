@@ -56,7 +56,7 @@ public final class ElementUtils {
     public static List<ElementType> getByValence(int... valences) {
         List<ElementType> elements = new ArrayList<>();
         for (ElementType e : ElementType.values()) {
-            if (Arrays.equals(e.getValence().getValences(), valences)) {
+            if (Arrays.equals(e.getValence().valences(), valences)) {
                 elements.add(e);
             }
         }
