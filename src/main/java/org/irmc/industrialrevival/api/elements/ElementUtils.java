@@ -1,10 +1,12 @@
 package org.irmc.industrialrevival.api.elements;
 
+import org.irmc.industrialrevival.api.elements.melt_types.OreMeltedType;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ElementUtils {
+public final class ElementUtils {
     public static final int UNKNOWN = Integer.MIN_VALUE;
     public static ElementType getBySymbol(String s) {
         try {
@@ -151,7 +153,14 @@ public class ElementUtils {
         return elements;
     }
 
-    public List<ElementType> getAllElements() {
+    public static List<ElementType> getAllElements() {
         return Arrays.asList(ElementType.values());
+    }
+    public static MeltedType toMeltedType(ElementType e) {
+        if (e.isMetal()) {
+            return OreMeltedType.of(e);
+        }
+
+        return null;
     }
 }
