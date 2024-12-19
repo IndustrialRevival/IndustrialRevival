@@ -182,7 +182,7 @@ public enum ElementType {
     public static class Valence {
         private final int[] valences;
 
-        public Valence(int... valences) {
+        protected Valence(int... valences) {
             this.valences = valences;
         }
 
