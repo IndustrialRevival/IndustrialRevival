@@ -38,6 +38,14 @@ public class CustomItemStack extends ItemStack {
         this(new ItemStack(type), meta);
     }
 
+    public CustomItemStack(Material type, int amount) {
+        super(type, amount);
+    }
+
+    public CustomItemStack(Material type, int amount, Consumer<ItemMeta> meta) {
+        this(new ItemStack(type, amount), meta);
+    }
+
     public CustomItemStack(ItemStack item, String name, String... lore) {
         this(item, im -> {
             if (name != null) {
