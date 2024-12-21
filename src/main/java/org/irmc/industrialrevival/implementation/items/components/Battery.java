@@ -1,6 +1,7 @@
 package org.irmc.industrialrevival.implementation.items.components;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.Component;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
@@ -19,9 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@RequiredArgsConstructor
 public class Battery extends IndustrialRevivalItem implements NotPlaceable, Rechargeable {
-    private Type type;
-    private Size size;
+    private final Type type;
+    private final Size size;
 
     @Override
     public Battery addItemGroup(@NotNull ItemGroup group) {
@@ -38,12 +40,6 @@ public class Battery extends IndustrialRevivalItem implements NotPlaceable, Rech
     @Override
     public Battery addCraftMethod(@NotNull CraftMethodHandler handler) {
         super.addCraftMethod(handler);
-        return this;
-    }
-
-    @Override
-    public Battery setWikiText(@NotNull String wikiText) {
-        super.setWikiText(wikiText);
         return this;
     }
 
@@ -68,18 +64,6 @@ public class Battery extends IndustrialRevivalItem implements NotPlaceable, Rech
     @Override
     public Battery setAddon(@NotNull IndustrialRevivalAddon addon) {
         super.setAddon(addon);
-        return this;
-    }
-
-    public Battery setType(Type type) {
-        checkRegistered();
-        this.type = type;
-        return this;
-    }
-
-    public Battery setSize(Size size) {
-        checkRegistered();
-        this.size = size;
         return this;
     }
 
