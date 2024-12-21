@@ -2,7 +2,6 @@ package org.irmc.industrialrevival.api.objects.display;
 
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -12,15 +11,15 @@ import org.bukkit.entity.BlockDisplay;
 import org.bukkit.entity.Display;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Pose;
-import org.bukkit.entity.TextDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.LazyMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.util.Transformation;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,57 +30,8 @@ import java.util.Set;
 
 @Getter
 public class BlockModelBuilder extends AbstractModelBuilder implements Cloneable {
-    public void ifPresent(Object object, Runnable runnable) {
-        if (object != null) {
-            runnable.run();
-        }
-    }
-    public @NotNull BlockModelBuilder clone() {
-        BlockModelBuilder clone = new BlockModelBuilder();
-        clone.blockData = this.blockData;
-        clone.transformation = this.transformation;
-        clone.interpolationDuration = this.interpolationDuration;
-        clone.teleportDuration = this.teleportDuration;
-        clone.viewRange = this.viewRange;
-        clone.shadowRadius = this.shadowRadius;
-        clone.shadowStrength = this.shadowStrength;
-        clone.displayWidth = this.displayWidth;
-        clone.displayHeight = this.displayHeight;
-        clone.interpolationDelay = this.interpolationDelay;
-        clone.billboard = this.billboard;
-        clone.glowColorOverride = this.glowColorOverride;
-        clone.brightness = this.brightness;
-        clone.velocity = this.velocity;
-        clone.yaw = this.yaw;
-        clone.pitch = this.pitch;
-        clone.fireTicks = this.fireTicks;
-        clone.visualFire = this.visualFire;
-        clone.freezeTicks = this.freezeTicks;
-        clone.invisible = this.invisible;
-        clone.noPhysics = this.noPhysics;
-        clone.lockFreezeTicks = this.lockFreezeTicks;
-        clone.persistent = this.persistent;
-        clone.passengers = new ArrayList<>(this.passengers);
-        clone.fallDistance = this.fallDistance;
-        clone.ticksLived = this.ticksLived;
-        clone.customNameVisible = this.customNameVisible;
-        clone.visibleByDefault = this.visibleByDefault;
-        clone.glowing = this.glowing;
-        clone.invulnerable = this.invulnerable;
-        clone.silent = this.silent;
-        clone.gravity = this.gravity;
-        clone.portalCooldown = this.portalCooldown;
-        clone.scoreboardTag = new HashSet<>(this.scoreboardTag);
-        clone.sneaking = this.sneaking;
-        clone.pose = this.pose;
-        clone.fixedPose = this.fixedPose;
-        clone.metadata = new HashMap<>(this.metadata);
-        clone.customName = this.customName;
-        return clone;
-    }
-
+    private TransformationBuilder transformationBuilder;
     private BlockData blockData;
-    private Transformation transformation;
     private Integer interpolationDuration;
     private Integer teleportDuration;
     private Float viewRange;
@@ -119,8 +69,57 @@ public class BlockModelBuilder extends AbstractModelBuilder implements Cloneable
     private Boolean fixedPose;
     private Map<String, List<MetadataValue>> metadata;
     private Component customName;
-
     public BlockModelBuilder() {
+    }
+
+    public void ifPresent(Object object, Runnable runnable) {
+        if (object != null) {
+            runnable.run();
+        }
+    }
+
+    public @NotNull BlockModelBuilder clone() {
+        BlockModelBuilder clone = new BlockModelBuilder();
+        clone.blockData = this.blockData;
+        clone.interpolationDuration = this.interpolationDuration;
+        clone.teleportDuration = this.teleportDuration;
+        clone.viewRange = this.viewRange;
+        clone.shadowRadius = this.shadowRadius;
+        clone.shadowStrength = this.shadowStrength;
+        clone.displayWidth = this.displayWidth;
+        clone.displayHeight = this.displayHeight;
+        clone.interpolationDelay = this.interpolationDelay;
+        clone.billboard = this.billboard;
+        clone.glowColorOverride = this.glowColorOverride;
+        clone.brightness = this.brightness;
+        clone.velocity = this.velocity;
+        clone.yaw = this.yaw;
+        clone.pitch = this.pitch;
+        clone.fireTicks = this.fireTicks;
+        clone.visualFire = this.visualFire;
+        clone.freezeTicks = this.freezeTicks;
+        clone.invisible = this.invisible;
+        clone.noPhysics = this.noPhysics;
+        clone.lockFreezeTicks = this.lockFreezeTicks;
+        clone.persistent = this.persistent;
+        clone.passengers = new ArrayList<>(this.passengers);
+        clone.fallDistance = this.fallDistance;
+        clone.ticksLived = this.ticksLived;
+        clone.customNameVisible = this.customNameVisible;
+        clone.visibleByDefault = this.visibleByDefault;
+        clone.glowing = this.glowing;
+        clone.invulnerable = this.invulnerable;
+        clone.silent = this.silent;
+        clone.gravity = this.gravity;
+        clone.portalCooldown = this.portalCooldown;
+        clone.scoreboardTag = new HashSet<>(this.scoreboardTag);
+        clone.sneaking = this.sneaking;
+        clone.pose = this.pose;
+        clone.fixedPose = this.fixedPose;
+        clone.metadata = new HashMap<>(this.metadata);
+        clone.customName = this.customName;
+        clone.transformationBuilder = this.transformationBuilder;
+        return clone;
     }
 
     public BlockModelBuilder build() {
@@ -130,7 +129,6 @@ public class BlockModelBuilder extends AbstractModelBuilder implements Cloneable
     public BlockDisplay buildAt(Location location) {
         BlockDisplay display = location.getWorld().spawn(location, BlockDisplay.class);
         ifPresent(this.blockData, () -> display.setBlock(this.blockData));
-        ifPresent(this.transformation, () -> display.setTransformation(this.transformation));
         ifPresent(this.interpolationDuration, () -> display.setInterpolationDuration(this.interpolationDuration));
         ifPresent(this.teleportDuration, () -> display.setTeleportDuration(this.teleportDuration));
         ifPresent(this.viewRange, () -> display.setViewRange(this.viewRange));
@@ -167,8 +165,10 @@ public class BlockModelBuilder extends AbstractModelBuilder implements Cloneable
         ifPresent(this.pose, () -> display.setPose(this.pose, this.fixedPose));
         ifPresent(this.metadata, () -> this.metadata.forEach((key, values) -> values.forEach(value -> display.setMetadata(key, value))));
         ifPresent(this.customName, () -> display.customName(this.customName));
+        ifPresent(this.transformationBuilder, () -> display.setTransformation(this.transformationBuilder.build()));
         return display;
     }
+
     // Block Display methods
     public @NotNull BlockModelBuilder block(BlockData blockData) {
         this.blockData = blockData;
@@ -195,11 +195,6 @@ public class BlockModelBuilder extends AbstractModelBuilder implements Cloneable
     }
 
     // Display methods
-    public @NotNull BlockModelBuilder transformation(@NotNull Transformation transformation) {
-        this.transformation = transformation;
-        return this;
-    }
-
     public @NotNull BlockModelBuilder interpolationDuration(int duration) {
         this.interpolationDuration = duration;
         return this;
@@ -415,5 +410,68 @@ public class BlockModelBuilder extends AbstractModelBuilder implements Cloneable
     public @NotNull BlockModelBuilder customName(Component name) {
         this.customName = name;
         return this;
+    }
+
+    // Transformation
+    private void initBuilder() {
+        if (this.transformationBuilder == null) {
+            this.transformationBuilder = new TransformationBuilder();
+        }
+    }
+
+    public @NotNull BlockModelBuilder setTranslation(Vector3f translation) {
+        return setTranslation(translation.x, translation.y, translation.z);
+    }
+
+    public @NotNull BlockModelBuilder setTranslation(float x, float y, float z) {
+        initBuilder();
+        this.transformationBuilder.setTranslationX(x).setTranslationY(y).setTranslationZ(z);
+        return this;
+    }
+
+    public @NotNull BlockModelBuilder setTranslation(float f) {
+        return setTranslation(f, f, f);
+    }
+
+    public @NotNull BlockModelBuilder setLeftRotation(Quaternionf rotation) {
+        return setLeftRotation(rotation.x, rotation.y, rotation.z, rotation.w);
+    }
+
+    public @NotNull BlockModelBuilder setLeftRotation(float x, float y, float z, float w) {
+        initBuilder();
+        this.transformationBuilder.setLeftRotationX(x).setLeftRotationY(y).setLeftRotationZ(z).setLeftRotationW(w);
+        return this;
+    }
+
+    public @NotNull BlockModelBuilder setLeftRotation(float f) {
+        return setLeftRotation(f, f, f, f);
+    }
+
+    public @NotNull BlockModelBuilder setSize(Vector3f size) {
+        return setSize(size.x, size.y, size.z);
+    }
+
+
+    public @NotNull BlockModelBuilder setSize(float x, float y, float z) {
+        this.transformationBuilder.setScaleX(x).setScaleY(y).setScaleZ(z);
+        return this;
+    }
+
+    public @NotNull BlockModelBuilder setSize(float size) {
+        return setSize(size, size, size);
+    }
+
+    public @NotNull BlockModelBuilder setRightRotation(Quaternionf rotation) {
+        return setRightRotation(rotation.x, rotation.y, rotation.z, rotation.w);
+    }
+
+    public @NotNull BlockModelBuilder setRightRotation(float x, float y, float z, float w) {
+        initBuilder();
+        this.transformationBuilder.setRightRotationX(x).setRightRotationY(y).setRightRotationZ(z).setRightRotationW(w);
+        return this;
+    }
+
+    public @NotNull BlockModelBuilder setRightRotation(float f) {
+        return setRightRotation(f, f, f, f);
     }
 }

@@ -4,10 +4,6 @@ import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Color;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.entity.BlockDisplay;
 import org.bukkit.entity.Display;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemDisplay;
@@ -17,9 +13,10 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.LazyMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.util.Transformation;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,57 +27,8 @@ import java.util.Set;
 
 @Getter
 public class ItemModelBuilder extends AbstractModelBuilder implements Cloneable {
-    public void ifPresent(Object object, Runnable runnable) {
-        if (object != null) {
-            runnable.run();
-        }
-    }
-    public @NotNull ItemModelBuilder clone() {
-        ItemModelBuilder clone = new ItemModelBuilder();
-        clone.itemStack = this.itemStack;
-        clone.transformation = this.transformation;
-        clone.interpolationDuration = this.interpolationDuration;
-        clone.teleportDuration = this.teleportDuration;
-        clone.viewRange = this.viewRange;
-        clone.shadowRadius = this.shadowRadius;
-        clone.shadowStrength = this.shadowStrength;
-        clone.displayWidth = this.displayWidth;
-        clone.displayHeight = this.displayHeight;
-        clone.interpolationDelay = this.interpolationDelay;
-        clone.billboard = this.billboard;
-        clone.glowColorOverride = this.glowColorOverride;
-        clone.brightness = this.brightness;
-        clone.velocity = this.velocity;
-        clone.yaw = this.yaw;
-        clone.pitch = this.pitch;
-        clone.fireTicks = this.fireTicks;
-        clone.visualFire = this.visualFire;
-        clone.freezeTicks = this.freezeTicks;
-        clone.invisible = this.invisible;
-        clone.noPhysics = this.noPhysics;
-        clone.lockFreezeTicks = this.lockFreezeTicks;
-        clone.persistent = this.persistent;
-        clone.passengers = new ArrayList<>(this.passengers);
-        clone.fallDistance = this.fallDistance;
-        clone.ticksLived = this.ticksLived;
-        clone.customNameVisible = this.customNameVisible;
-        clone.visibleByDefault = this.visibleByDefault;
-        clone.glowing = this.glowing;
-        clone.invulnerable = this.invulnerable;
-        clone.silent = this.silent;
-        clone.gravity = this.gravity;
-        clone.portalCooldown = this.portalCooldown;
-        clone.scoreboardTag = new HashSet<>(this.scoreboardTag);
-        clone.sneaking = this.sneaking;
-        clone.pose = this.pose;
-        clone.fixedPose = this.fixedPose;
-        clone.metadata = new HashMap<>(this.metadata);
-        clone.customName = this.customName;
-        return clone;
-    }
-
+    private TransformationBuilder transformationBuilder;
     private ItemStack itemStack;
-    private Transformation transformation;
     private Integer interpolationDuration;
     private Integer teleportDuration;
     private Float viewRange;
@@ -118,8 +66,57 @@ public class ItemModelBuilder extends AbstractModelBuilder implements Cloneable 
     private Boolean fixedPose;
     private Map<String, List<MetadataValue>> metadata;
     private Component customName;
-
     public ItemModelBuilder() {
+    }
+
+    public void ifPresent(Object object, Runnable runnable) {
+        if (object != null) {
+            runnable.run();
+        }
+    }
+
+    public @NotNull ItemModelBuilder clone() {
+        ItemModelBuilder clone = new ItemModelBuilder();
+        clone.itemStack = this.itemStack;
+        clone.interpolationDuration = this.interpolationDuration;
+        clone.teleportDuration = this.teleportDuration;
+        clone.viewRange = this.viewRange;
+        clone.shadowRadius = this.shadowRadius;
+        clone.shadowStrength = this.shadowStrength;
+        clone.displayWidth = this.displayWidth;
+        clone.displayHeight = this.displayHeight;
+        clone.interpolationDelay = this.interpolationDelay;
+        clone.billboard = this.billboard;
+        clone.glowColorOverride = this.glowColorOverride;
+        clone.brightness = this.brightness;
+        clone.velocity = this.velocity;
+        clone.yaw = this.yaw;
+        clone.pitch = this.pitch;
+        clone.fireTicks = this.fireTicks;
+        clone.visualFire = this.visualFire;
+        clone.freezeTicks = this.freezeTicks;
+        clone.invisible = this.invisible;
+        clone.noPhysics = this.noPhysics;
+        clone.lockFreezeTicks = this.lockFreezeTicks;
+        clone.persistent = this.persistent;
+        clone.passengers = new ArrayList<>(this.passengers);
+        clone.fallDistance = this.fallDistance;
+        clone.ticksLived = this.ticksLived;
+        clone.customNameVisible = this.customNameVisible;
+        clone.visibleByDefault = this.visibleByDefault;
+        clone.glowing = this.glowing;
+        clone.invulnerable = this.invulnerable;
+        clone.silent = this.silent;
+        clone.gravity = this.gravity;
+        clone.portalCooldown = this.portalCooldown;
+        clone.scoreboardTag = new HashSet<>(this.scoreboardTag);
+        clone.sneaking = this.sneaking;
+        clone.pose = this.pose;
+        clone.fixedPose = this.fixedPose;
+        clone.metadata = new HashMap<>(this.metadata);
+        clone.customName = this.customName;
+        clone.transformationBuilder = this.transformationBuilder;
+        return clone;
     }
 
     public ItemModelBuilder build() {
@@ -129,7 +126,6 @@ public class ItemModelBuilder extends AbstractModelBuilder implements Cloneable 
     public ItemDisplay buildAt(Location location) {
         ItemDisplay display = location.getWorld().spawn(location, ItemDisplay.class);
         ifPresent(this.itemStack, () -> display.setItemStack(this.itemStack));
-        ifPresent(this.transformation, () -> display.setTransformation(this.transformation));
         ifPresent(this.interpolationDuration, () -> display.setInterpolationDuration(this.interpolationDuration));
         ifPresent(this.teleportDuration, () -> display.setTeleportDuration(this.teleportDuration));
         ifPresent(this.viewRange, () -> display.setViewRange(this.viewRange));
@@ -166,8 +162,10 @@ public class ItemModelBuilder extends AbstractModelBuilder implements Cloneable 
         ifPresent(this.pose, () -> display.setPose(this.pose, this.fixedPose));
         ifPresent(this.metadata, () -> this.metadata.forEach((key, values) -> values.forEach(value -> display.setMetadata(key, value))));
         ifPresent(this.customName, () -> display.customName(this.customName));
+        ifPresent(this.transformationBuilder, () -> display.setTransformation(this.transformationBuilder.build()));
         return display;
     }
+
     // Item Display methods
     public @NotNull ItemModelBuilder itemStack(ItemStack itemStack) {
         this.itemStack = itemStack;
@@ -175,11 +173,6 @@ public class ItemModelBuilder extends AbstractModelBuilder implements Cloneable 
     }
 
     // Display methods
-    public @NotNull ItemModelBuilder transformation(@NotNull Transformation transformation) {
-        this.transformation = transformation;
-        return this;
-    }
-
     public @NotNull ItemModelBuilder interpolationDuration(int duration) {
         this.interpolationDuration = duration;
         return this;
@@ -395,5 +388,68 @@ public class ItemModelBuilder extends AbstractModelBuilder implements Cloneable 
     public @NotNull ItemModelBuilder customName(Component name) {
         this.customName = name;
         return this;
+    }
+
+    // Transformation
+    private void initBuilder() {
+        if (this.transformationBuilder == null) {
+            this.transformationBuilder = new TransformationBuilder();
+        }
+    }
+
+    public @NotNull ItemModelBuilder setTranslation(Vector3f translation) {
+        return setTranslation(translation.x, translation.y, translation.z);
+    }
+
+    public @NotNull ItemModelBuilder setTranslation(float x, float y, float z) {
+        initBuilder();
+        this.transformationBuilder.setTranslationX(x).setTranslationY(y).setTranslationZ(z);
+        return this;
+    }
+
+    public @NotNull ItemModelBuilder setTranslation(float f) {
+        return setTranslation(f, f, f);
+    }
+
+    public @NotNull ItemModelBuilder setLeftRotation(Quaternionf rotation) {
+        return setLeftRotation(rotation.x, rotation.y, rotation.z, rotation.w);
+    }
+
+    public @NotNull ItemModelBuilder setLeftRotation(float x, float y, float z, float w) {
+        initBuilder();
+        this.transformationBuilder.setLeftRotationX(x).setLeftRotationY(y).setLeftRotationZ(z).setLeftRotationW(w);
+        return this;
+    }
+
+    public @NotNull ItemModelBuilder setLeftRotation(float f) {
+        return setLeftRotation(f, f, f, f);
+    }
+
+    public @NotNull ItemModelBuilder setSize(Vector3f size) {
+        return setSize(size.x, size.y, size.z);
+    }
+
+
+    public @NotNull ItemModelBuilder setSize(float x, float y, float z) {
+        this.transformationBuilder.setScaleX(x).setScaleY(y).setScaleZ(z);
+        return this;
+    }
+
+    public @NotNull ItemModelBuilder setSize(float size) {
+        return setSize(size, size, size);
+    }
+
+    public @NotNull ItemModelBuilder setRightRotation(Quaternionf rotation) {
+        return setRightRotation(rotation.x, rotation.y, rotation.z, rotation.w);
+    }
+
+    public @NotNull ItemModelBuilder setRightRotation(float x, float y, float z, float w) {
+        initBuilder();
+        this.transformationBuilder.setRightRotationX(x).setRightRotationY(y).setRightRotationZ(z).setRightRotationW(w);
+        return this;
+    }
+
+    public @NotNull ItemModelBuilder setRightRotation(float f) {
+        return setRightRotation(f, f, f, f);
     }
 }

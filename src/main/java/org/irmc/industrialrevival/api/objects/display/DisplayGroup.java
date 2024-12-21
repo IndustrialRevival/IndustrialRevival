@@ -3,7 +3,6 @@ package org.irmc.industrialrevival.api.objects.display;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.entity.Display;
-import org.bukkit.entity.Interaction;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;

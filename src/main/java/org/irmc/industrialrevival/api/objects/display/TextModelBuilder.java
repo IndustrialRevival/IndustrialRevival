@@ -16,6 +16,8 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Transformation;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,13 +28,65 @@ import java.util.Set;
 
 @Getter
 public class TextModelBuilder extends AbstractModelBuilder implements Cloneable {
+    private TransformationBuilder transformationBuilder;
+    private Component text;
+    private Integer lineWidth;
+    private Color backgroundColor;
+    private Byte textOpacity;
+    private Boolean shadowed;
+    private Boolean seeThrough;
+    private Boolean defaultBackground;
+    private TextDisplay.TextAlignment alignment;
+    private Transformation transformation;
+    private Integer interpolationDuration;
+    private Integer teleportDuration;
+    private Float viewRange;
+    private Float shadowRadius;
+    private Float shadowStrength;
+    private Float displayWidth;
+    private Float displayHeight;
+    private Integer interpolationDelay;
+    private Display.Billboard billboard;
+    private Color glowColorOverride;
+    private Display.Brightness brightness;
+    private Vector velocity;
+    private Float yaw;
+    private Float pitch;
+    private Integer fireTicks;
+    private Boolean visualFire;
+    private Integer freezeTicks;
+    private Boolean invisible;
+    private Boolean noPhysics;
+    private Boolean lockFreezeTicks;
+    private Boolean persistent;
+    private List<Entity> passengers;
+    private Float fallDistance;
+    private Integer ticksLived;
+    private Boolean customNameVisible;
+    private Boolean visibleByDefault;
+    private Boolean glowing;
+    private Boolean invulnerable;
+    private Boolean silent;
+    private Boolean gravity;
+    private Integer portalCooldown;
+    private Set<String> scoreboardTag;
+    private Boolean sneaking;
+    private Pose pose;
+    private Boolean fixedPose;
+    private Map<String, List<MetadataValue>> metadata;
+    private Component customName;
+    public TextModelBuilder() {
+    }
+
     public void ifPresent(Object object, Runnable runnable) {
         if (object != null) {
             runnable.run();
         }
     }
+
     public @NotNull TextModelBuilder clone() {
         TextModelBuilder clone = new TextModelBuilder();
+        clone.transformationBuilder = this.transformationBuilder;
         clone.text = Component.text(((TextComponent) this.text).content());
         clone.lineWidth = this.lineWidth;
         clone.backgroundColor = this.backgroundColor;
@@ -80,56 +134,6 @@ public class TextModelBuilder extends AbstractModelBuilder implements Cloneable 
         clone.metadata = new HashMap<>(this.metadata);
         clone.customName = this.customName;
         return clone;
-    }
-
-    private Component text;
-    private Integer lineWidth;
-    private Color backgroundColor;
-    private Byte textOpacity;
-    private Boolean shadowed;
-    private Boolean seeThrough;
-    private Boolean defaultBackground;
-    private TextDisplay.TextAlignment alignment;
-    private Transformation transformation;
-    private Integer interpolationDuration;
-    private Integer teleportDuration;
-    private Float viewRange;
-    private Float shadowRadius;
-    private Float shadowStrength;
-    private Float displayWidth;
-    private Float displayHeight;
-    private Integer interpolationDelay;
-    private Display.Billboard billboard;
-    private Color glowColorOverride;
-    private Display.Brightness brightness;
-    private Vector velocity;
-    private Float yaw;
-    private Float pitch;
-    private Integer fireTicks;
-    private Boolean visualFire;
-    private Integer freezeTicks;
-    private Boolean invisible;
-    private Boolean noPhysics;
-    private Boolean lockFreezeTicks;
-    private Boolean persistent;
-    private List<Entity> passengers;
-    private Float fallDistance;
-    private Integer ticksLived;
-    private Boolean customNameVisible;
-    private Boolean visibleByDefault;
-    private Boolean glowing;
-    private Boolean invulnerable;
-    private Boolean silent;
-    private Boolean gravity;
-    private Integer portalCooldown;
-    private Set<String> scoreboardTag;
-    private Boolean sneaking;
-    private Pose pose;
-    private Boolean fixedPose;
-    private Map<String, List<MetadataValue>> metadata;
-    private Component customName;
-
-    public TextModelBuilder() {
     }
 
     public TextModelBuilder build() {
@@ -183,6 +187,7 @@ public class TextModelBuilder extends AbstractModelBuilder implements Cloneable 
         ifPresent(this.pose, () -> display.setPose(this.pose, this.fixedPose));
         ifPresent(this.metadata, () -> this.metadata.forEach((key, values) -> values.forEach(value -> display.setMetadata(key, value))));
         ifPresent(this.customName, () -> display.customName(this.customName));
+        ifPresent(this.transformationBuilder, () -> display.setTransformation(this.transformationBuilder.build()));
         return display;
     }
 
@@ -196,7 +201,7 @@ public class TextModelBuilder extends AbstractModelBuilder implements Cloneable 
         this.lineWidth = width;
         return this;
     }
-    
+
     public @NotNull TextModelBuilder backgroundColor(Color color) {
         this.backgroundColor = color;
         return this;
@@ -237,11 +242,6 @@ public class TextModelBuilder extends AbstractModelBuilder implements Cloneable 
 
 
     // Display methods
-    public @NotNull TextModelBuilder transformation(@NotNull Transformation transformation) {
-        this.transformation = transformation;
-        return this;
-    }
-
     public @NotNull TextModelBuilder interpolationDuration(int duration) {
         this.interpolationDuration = duration;
         return this;
@@ -457,5 +457,68 @@ public class TextModelBuilder extends AbstractModelBuilder implements Cloneable 
     public @NotNull TextModelBuilder customName(Component name) {
         this.customName = name;
         return this;
+    }
+
+    // Transformation
+    private void initBuilder() {
+        if (this.transformationBuilder == null) {
+            this.transformationBuilder = new TransformationBuilder();
+        }
+    }
+
+    public @NotNull TextModelBuilder setTranslation(Vector3f translation) {
+        return setTranslation(translation.x, translation.y, translation.z);
+    }
+
+    public @NotNull TextModelBuilder setTranslation(float x, float y, float z) {
+        initBuilder();
+        this.transformationBuilder.setTranslationX(x).setTranslationY(y).setTranslationZ(z);
+        return this;
+    }
+
+    public @NotNull TextModelBuilder setTranslation(float f) {
+        return setTranslation(f, f, f);
+    }
+
+    public @NotNull TextModelBuilder setLeftRotation(Quaternionf rotation) {
+        return setLeftRotation(rotation.x, rotation.y, rotation.z, rotation.w);
+    }
+
+    public @NotNull TextModelBuilder setLeftRotation(float x, float y, float z, float w) {
+        initBuilder();
+        this.transformationBuilder.setLeftRotationX(x).setLeftRotationY(y).setLeftRotationZ(z).setLeftRotationW(w);
+        return this;
+    }
+
+    public @NotNull TextModelBuilder setLeftRotation(float f) {
+        return setLeftRotation(f, f, f, f);
+    }
+
+    public @NotNull TextModelBuilder setSize(Vector3f size) {
+        return setSize(size.x, size.y, size.z);
+    }
+
+
+    public @NotNull TextModelBuilder setSize(float x, float y, float z) {
+        this.transformationBuilder.setScaleX(x).setScaleY(y).setScaleZ(z);
+        return this;
+    }
+
+    public @NotNull TextModelBuilder setSize(float size) {
+        return setSize(size, size, size);
+    }
+
+    public @NotNull TextModelBuilder setRightRotation(Quaternionf rotation) {
+        return setRightRotation(rotation.x, rotation.y, rotation.z, rotation.w);
+    }
+
+    public @NotNull TextModelBuilder setRightRotation(float x, float y, float z, float w) {
+        initBuilder();
+        this.transformationBuilder.setRightRotationX(x).setRightRotationY(y).setRightRotationZ(z).setRightRotationW(w);
+        return this;
+    }
+
+    public @NotNull TextModelBuilder setRightRotation(float f) {
+        return setRightRotation(f, f, f, f);
     }
 }
