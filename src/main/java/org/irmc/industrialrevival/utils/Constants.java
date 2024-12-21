@@ -82,6 +82,10 @@ public class Constants {
                 Material.LIME_STAINED_GLASS_PANE,
                 IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Keys.GUIDE_NEXT_ONE_KEY))
                 .setCustomModel(19997);
+        public static final Function<Player, ItemStack> HISTORY_BUTTON = p -> new CustomItemStack(
+                Material.CLOCK,
+                IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, "guide.history_button"))
+                .setCustomModel(19997);
     }
 
     public static final class Keys {

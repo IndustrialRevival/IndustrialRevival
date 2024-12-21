@@ -8,6 +8,7 @@ import dev.jorel.commandapi.arguments.TextArgument;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -72,21 +73,38 @@ public class IRCommandGenerator {
                         .withArguments(new PlayerArgument("target"))
                         .withArguments(new TextArgument("id")
                                 .replaceSuggestions(ArgumentSuggestions.stringsAsync(
-                                        info -> CompletableFuture.supplyAsync(() -> IndustrialRevival.getInstance()
+                                        _ -> CompletableFuture.supplyAsync(() -> IndustrialRevival.getInstance()
                                                 .getRegistry()
                                                 .getItems()
                                                 .keySet()
-                                                .toArray(new String[0])))))
+                                                .stream().map(NamespacedKey::toString)
+                                                .toArray(String[]::new)))))
                         .withOptionalArguments(new IntegerArgument("amount"))
                         .executes((sender, args) -> {
                             Player target = (Player) args.get("target");
-                            String itemID = (String) args.get("id");
+                            String itemID = (String) args.getOrDefault("id", "");
                             Integer amount = (Integer) args.get("amount");
+
+                            NamespacedKey key = NamespacedKey.fromString(itemID);
+                            if (itemID.indexOf(':') == -1) {
+                                itemID = "industrialrevival:" + itemID;
+                            } else {
+                                if (key == null) {
+                                    sender.sendMessage(IndustrialRevival.getInstance()
+                                            .getLanguageManager()
+                                            .getMsgComponent(sender, "command.give.invalid_item_id"));
+                                    return;
+                                }
+                            }
+
+                            key = NamespacedKey.fromString(itemID);
+
                             int finalAmount = amount == null ? 1 : amount;
                             IndustrialRevivalItem item = IndustrialRevival.getInstance()
                                     .getRegistry()
                                     .getItems()
-                                    .get(itemID);
+                                    .get(key);
+
                             if (target == null) {
                                 sender.sendMessage(IndustrialRevival.getInstance()
                                         .getLanguageManager()
@@ -122,21 +140,38 @@ public class IRCommandGenerator {
                         .withArguments(new PlayerArgument("target"))
                         .withArguments(new TextArgument("id")
                                 .replaceSuggestions(ArgumentSuggestions.stringsAsync(
-                                        info -> CompletableFuture.supplyAsync(() -> IndustrialRevival.getInstance()
+                                        _ -> CompletableFuture.supplyAsync(() -> IndustrialRevival.getInstance()
                                                 .getRegistry()
                                                 .getItems()
                                                 .keySet()
-                                                .toArray(new String[0])))))
+                                                .stream().map(NamespacedKey::toString)
+                                                .toArray(String[]::new)))))
                         .withOptionalArguments(new IntegerArgument("amount"))
                         .executes((sender, args) -> {
                             Player target = (Player) args.get("target");
-                            String itemID = (String) args.get("id");
+                            String itemID = (String) args.getOrDefault("id", "");
                             Integer amount = (Integer) args.get("amount");
+
+                            NamespacedKey key = NamespacedKey.fromString(itemID);
+                            if (itemID.indexOf(':') == -1) {
+                                itemID = "industrialrevival:" + itemID;
+                            } else {
+                                if (key == null) {
+                                    sender.sendMessage(IndustrialRevival.getInstance()
+                                            .getLanguageManager()
+                                            .getMsgComponent(sender, "command.give.invalid_item_id"));
+                                    return;
+                                }
+                            }
+
+                            key = NamespacedKey.fromString(itemID);
+
                             int finalAmount = amount == null ? 1 : amount;
                             IndustrialRevivalItem item = IndustrialRevival.getInstance()
                                     .getRegistry()
                                     .getItems()
-                                    .get(itemID);
+                                    .get(key);
+
                             if (target == null) {
                                 sender.sendMessage(IndustrialRevival.getInstance()
                                         .getLanguageManager()

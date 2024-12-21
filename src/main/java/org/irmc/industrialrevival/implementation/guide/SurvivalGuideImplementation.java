@@ -18,6 +18,8 @@ import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.Constants;
 import org.irmc.industrialrevival.utils.KeyUtil;
 import org.irmc.pigeonlib.chat.ChatInput;
+import org.irmc.pigeonlib.items.ItemUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +30,8 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
     public static final SurvivalGuideImplementation INSTANCE = new SurvivalGuideImplementation();
 
     private static final NamespacedKey BOOKMARK_KEY = KeyUtil.customKey("bookmark_group");
+    private static final NamespacedKey HISTORY_KEY = KeyUtil.customKey("history_group");
+
     private final Map<String, BookMarkGroup> bookmarks;
     private final Map<String, Integer> pageMap;
 
@@ -56,7 +60,7 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
             return;
         }
 
-        craftMethods.get(0).getRecipeType().getRecipeDisplay().display(p, sm, item);
+        craftMethods.getFirst().getRecipeType().getRecipeDisplay().display(p, sm, item);
 
         sm.open(p);
 
@@ -71,7 +75,7 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
 
     @Override
     public void onGroupClicked(Player p, ItemGroup group, int page) {
-        SimpleMenu sm = new SimpleMenu(group.getIcon().getItemMeta().displayName());
+        SimpleMenu sm = new SimpleMenu(ItemUtils.getDisplayName(group.getIcon()));
 
         sm.setSize(54);
 
@@ -91,8 +95,15 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
     }
 
     public void addBookmark(Player p, IndustrialRevivalItem item) {
-        BookMarkGroup group = bookmarks.computeIfAbsent(p.getName(), k -> new BookMarkGroup(BOOKMARK_KEY, p));
+        BookMarkGroup group = bookmarks.computeIfAbsent(p.getName(), k -> new BookMarkGroup(p));
         group.addItem(item);
+    }
+
+    public void removeBookmark(Player p, IndustrialRevivalItem item) {
+        BookMarkGroup group = bookmarks.get(p.getName());
+        if (group != null) {
+            group.removeItem(item);
+        }
     }
 
     void setupGuideMenu(Player p, SimpleMenu sm) {
@@ -132,7 +143,7 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
 
         sm.setItem(47, previousButton, previousClickHandler);
 
-        groups.add(0, bookmarks.computeIfAbsent(p.getName(), k -> new BookMarkGroup(BOOKMARK_KEY, p)));
+        groups.add(0, bookmarks.computeIfAbsent(p.getName(), k -> new BookMarkGroup(p)));
         List<List<ItemGroup>> partition = Lists.partition(groups.stream().toList(), 36);
 
         ItemStack nextButton = Constants.Buttons.NEXT_BUTTON.apply(p);
@@ -175,17 +186,35 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
     }
 
     private static class BookMarkGroup extends ItemGroup {
-        public BookMarkGroup(NamespacedKey key, Player p) {
-            super(key, Constants.Buttons.BOOKMARK_BUTTON.apply(p));
+        public BookMarkGroup(Player p) {
+            super(BOOKMARK_KEY, Constants.Buttons.BOOKMARK_BUTTON.apply(p));
         }
 
         @Override
-        public void addItem(IndustrialRevivalItem item) {
+        public void addItem(@NotNull IndustrialRevivalItem item) {
             if (getItems().contains(item)) {
                 return;
             }
 
             super.addItem(item);
+        }
+
+        @Override
+        public void register() {
+        }
+
+        public void removeItem(IndustrialRevivalItem item) {
+            getItems().remove(item);
+        }
+    }
+
+    private static class HistoryGroup extends ItemGroup {
+        public HistoryGroup(Player p) {
+            super(HISTORY_KEY, Constants.Buttons.HISTORY_BUTTON.apply(p));
+        }
+
+        @Override
+        public void addItem(@NotNull IndustrialRevivalItem item) {
         }
 
         @Override
@@ -224,7 +253,7 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
             List<List<IndustrialRevivalItem>> partition = Lists.partition(searchResults, 36);
 
             ItemStack previousButton = Constants.Buttons.PREVIOUS_BUTTON.apply(player);
-            SimpleMenu.ClickHandler previousClickHandler = (slot, player, item, menu, clickType) -> {
+            SimpleMenu.ClickHandler previousClickHandler = (_, _, _, _, _) -> {
                 showResults(page - 1);
                 return false;
             };
@@ -236,7 +265,7 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
             }
 
             ItemStack nextButton = Constants.Buttons.NEXT_BUTTON.apply(player);
-            SimpleMenu.ClickHandler nextClickHandler = (slot, player, item, menu, clickType) -> {
+            SimpleMenu.ClickHandler nextClickHandler = (_, _, _, _, _) -> {
                 showResults(page + 1);
                 return false;
             };
@@ -261,7 +290,7 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
             int startIndex = 9;
             for (IndustrialRevivalItem item : items) {
                 ItemStack stack = item.getItemStack().clone();
-                sm.setItem(startIndex, stack, (player, item1, slot, menu, clickType) -> {
+                sm.setItem(startIndex, stack, (player, _, _, _, clickType) -> {
                     implementation.onItemClicked(player, item, clickType);
                     return false;
                 });
@@ -283,7 +312,7 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
                 sm.setItem(slot, Constants.ItemStacks.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT);
             }
 
-            sm.setItem(2, Constants.Buttons.BACK_BUTTON.apply(player), (player, item, slot, menu, clickType) -> {
+            sm.setItem(2, Constants.Buttons.BACK_BUTTON.apply(player), (player, _, _, _, _) -> {
                 implementation.goBack(player);
                 return false;
             });

@@ -1,6 +1,7 @@
 package org.irmc.industrialrevival.api.elements;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.irmc.industrialrevival.api.recipes.MeltMethod;
 
 import java.util.ArrayList;
@@ -9,7 +10,9 @@ import java.util.List;
 @Getter
 public class MeltedTank implements Cloneable {
     private final List<MeltedObject> meltedObjects;
+    @Setter
     private int capacity;
+    @Setter
     private int fuels;
 
     public MeltedTank() {
@@ -30,10 +33,7 @@ public class MeltedTank implements Cloneable {
             hold += meltedObject.getAmount();
         }
 
-        if (hold >= capacity) {
-            return true;
-        }
-        return false;
+        return hold >= capacity;
     }
 
     public boolean isEmpty() {
@@ -42,17 +42,11 @@ public class MeltedTank implements Cloneable {
             hold += meltedObject.getAmount();
         }
 
-        if (hold == 0) {
-            return true;
-        }
-        return false;
+        return hold == 0;
     }
 
     public boolean hasFuel() {
-        if (fuels > 0) {
-            return true;
-        }
-        return false;
+        return fuels > 0;
     }
 
     public void addFuel(int fuel) {
@@ -94,14 +88,6 @@ public class MeltedTank implements Cloneable {
         for (MeltedObject obj : meltedObject) {
             removeMelted(obj);
         }
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
-    public void setFuels(int fuels) {
-        this.fuels = fuels;
     }
 
     public void clear() {
@@ -222,6 +208,7 @@ public class MeltedTank implements Cloneable {
         return meltedObjects;
     }
 
+    @Override
     public MeltedTank clone() {
         return new MeltedTank(new ArrayList<>(meltedObjects), capacity, fuels);
     }
