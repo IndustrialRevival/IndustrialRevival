@@ -31,7 +31,7 @@ public class CheatGuideImplementation extends SurvivalGuideImplementation {
 
     @Override
     public void onItemClicked(Player player, IndustrialRevivalItem item, ClickType clickType) {
-        ItemStack itemStack = item.getItem().clone();
+        ItemStack itemStack = item.getItemStack().clone();
         int amount = itemStack.getAmount();
         if (clickType.isRightClick()) {
             amount = Math.max(itemStack.getMaxStackSize(), itemStack.getAmount());

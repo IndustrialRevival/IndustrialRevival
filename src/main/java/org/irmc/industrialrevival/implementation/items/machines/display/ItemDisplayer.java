@@ -21,6 +21,7 @@ import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.groups.IRItemGroups;
 import org.irmc.industrialrevival.utils.DataUtil;
+import org.irmc.industrialrevival.utils.KeyUtil;
 import org.irmc.industrialrevival.utils.MenuUtil;
 import org.irmc.pigeonlib.items.HeadItem;
 
@@ -48,12 +49,12 @@ public class ItemDisplayer extends IndustrialRevivalItem implements InventoryBlo
                     .addLine("BBBBBBBBB")
                     .addExplain('B', MenuUtil.BACKGROUND)
                     .addExplain('N', MenuUtil.INPUT_BORDER)
-                    .addExplain('S', heightMinus, (slot, player, item, menu, clickType) -> {
+                    .addExplain('S', heightMinus, (_, _, _, menu, _) -> {
                         MachineMenu menu1 = (MachineMenu) menu;
                         ItemDisplayer.this.minusHeight(menu1.getLocation());
                         return false;
                     })
-                    .addExplain('P', heightPlus, (slot, player, item, menu, clickType) -> {
+                    .addExplain('P', heightPlus, (_, _, _, menu, _) -> {
                         MachineMenu menu1 = (MachineMenu) menu;
                         ItemDisplayer.this.plusHeight(menu1.getLocation());
                         return false;
@@ -61,7 +62,7 @@ public class ItemDisplayer extends IndustrialRevivalItem implements InventoryBlo
                     .addExplain('I', info, SimpleMenu.ClickHandler.DEFAULT);
 
             preset.addMenuDrawer(drawer);
-            preset.setClickHandler(13, (slot, player, item, menu, clickType) -> {
+            preset.setClickHandler(13, (_, _, _, menu, _) -> {
                 ItemStack itemStack = menu.getItem(13);
                 if (itemStack != null) {
                     itemDisplay.setItemStack(itemStack);
@@ -74,7 +75,7 @@ public class ItemDisplayer extends IndustrialRevivalItem implements InventoryBlo
 
         addItemHandlers((BlockPlaceHandler) this::placeBlock);
 
-        setItemStack(new IndustrialRevivalItemStack("ITEM_DISPLAYER", new CustomItemStack(Material.QUARTZ_SLAB, Component.empty())));
+        setItemStack(new IndustrialRevivalItemStack(KeyUtil.customKey("item_displayer"), new ItemStack(Material.QUARTZ_SLAB)));
         addItemGroup(IRItemGroups.ELECTRIC_MACHINES);
         setEnchantable(false, true);
         setDisenchantable(false, true);

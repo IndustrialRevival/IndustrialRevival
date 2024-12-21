@@ -1,7 +1,6 @@
 package org.irmc.industrialrevival.api.machines;
 
 import lombok.Getter;
-import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
@@ -96,7 +95,7 @@ public abstract class AbstractMachine extends IndustrialRevivalItem {
     public AbstractMachine setRecipeTypeIcon(ItemStack recipeTypeIcon) {
         checkRegistered();
         this.recipeTypeIcon = recipeTypeIcon;
-        this.recipeType = new RecipeType(getAddon(), new NamespacedKey(getAddon().getPlugin(), getId().toLowerCase()), getRecipeTypeIcon());
+        this.recipeType = new RecipeType(getAddon(), getId(), getRecipeTypeIcon());
         return this;
     }
 
@@ -105,7 +104,7 @@ public abstract class AbstractMachine extends IndustrialRevivalItem {
         super.setItemStack(itemStack);
         if (recipeTypeIcon == null) {
             this.recipeTypeIcon = CleanedItemGetter.getCleanedItem(itemStack.getItemStack());
-            this.recipeType = new RecipeType(getAddon(), new NamespacedKey(getAddon().getPlugin(), getId().toLowerCase()), getRecipeTypeIcon());
+            this.recipeType = new RecipeType(getAddon(), getId(), getRecipeTypeIcon());
         }
         return this;
     }

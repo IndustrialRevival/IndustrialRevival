@@ -1,6 +1,5 @@
 package org.irmc.industrialrevival.implementation.items.debug;
 
-import io.papermc.lib.PaperLib;
 import io.papermc.paper.plugin.configuration.PluginMeta;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -25,7 +24,6 @@ import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.items.IndustrialRevivalItems;
 import org.irmc.industrialrevival.utils.DataUtil;
 import org.irmc.industrialrevival.utils.NumberUtils;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -153,8 +151,8 @@ public class Debugger extends IndustrialRevivalItem {
             return;
         }
         send(player, "&e - Location: &a" + simpleLocationToString(block.getLocation()));
-        send(player, "&e - Type: &a" + block.getType().toString());
-        send(player, "&e - Biome: &a" + block.getBiome().toString());
+        send(player, "&e - Type: &a" + block.getType());
+        send(player, "&e - Biome: &a" + block.getBiome());
         send(player, "&e - Redstone Power: &a" + block.getBlockPower());
         send(player, "&e - Light level: &a" + block.getLightLevel());
         send(player, "&e - Light from sky: &a" + block.getLightFromSky());
@@ -182,9 +180,12 @@ public class Debugger extends IndustrialRevivalItem {
 
         send(player, "&e - Location: " + simpleLocationToString(location));
         send(player, "&e - ID: " + data.getId());
+
         IndustrialRevivalItem iritem = IndustrialRevivalItem.getById(data.getId());
+
         boolean hasTicker;
         boolean ticking;
+
         BlockTicker ticker = iritem.getItemHandler(BlockTicker.class);
         if (ticker == null) {
             hasTicker = false;
@@ -193,16 +194,12 @@ public class Debugger extends IndustrialRevivalItem {
         }
 
         IRBlockData blockData = IndustrialRevival.getInstance().getProfilerService().getTask().getTickingBlocks().get(location);
-        if (blockData != null) {
-            ticking = true;
-        } else {
-            ticking = false;
-        }
+        ticking = blockData != null;
 
         send(player, "&e - Ticker: " + booleanToSymbol(hasTicker));
         send(player, "&e - Ticking: " + booleanToSymbol(ticking));
         if (hasTicker) {
-            String id = data.getId();
+            String id = data.getId().toString();
             PerformanceSummary summary = IndustrialRevival.getInstance().getProfilerService().getSummary();
             long timingsOfThisBlock = summary.getDataByLocation().get(location);
             long totalTimingsOfThisBlock = summary.getDataByID().get(id);
@@ -296,7 +293,6 @@ public class Debugger extends IndustrialRevivalItem {
 
         PluginMeta pluginMeta = IndustrialRevival.getInstance().getPlugin().getPluginMeta();
         send(player, "&e - Enabled: &7" + booleanToSymbol(IndustrialRevival.getInstance().isEnabled()));
-        send(player, "&e - Environment check: &7" + booleanToSymbol(IndustrialRevival.getInstance().environmentCheck()));
         send(player, "&e - Name: &7" + IndustrialRevival.getInstance().getPlugin().getName());
         send(player, "&e - Version: &7" + pluginMeta.getVersion());
         send(player, "&e - Authors: &7" + pluginMeta.getAuthors());
@@ -356,7 +352,7 @@ public class Debugger extends IndustrialRevivalItem {
         Player player = e.getPlayer();
         Server server = Bukkit.getServer();
         send(player, "&eChecking server status: ");
-        send(player, "&e - Server software: &7" + (PaperLib.isPaper() ? "&aPaper" : PaperLib.isSpigot() ? "&bSpigot" : "&c" + Bukkit.getName()));
+        send(player, "&e - Server software: &7" + Bukkit.getName());
         send(player, "&e - Name: &7" + server.getName());
         send(player, "&e - Server Version: &7" + server.getVersion());
         send(player, "&e - Bukkit version: &7" + server.getBukkitVersion());

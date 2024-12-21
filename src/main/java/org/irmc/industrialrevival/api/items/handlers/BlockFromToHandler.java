@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 public interface BlockFromToHandler extends ItemHandler {
     void onBlockFromTo(IRBlockFromToEvent event);
 
-    public @Override
+    @Override
     default IncompatibleItemHandlerException isCompatible(@NotNull IndustrialRevivalItem item) {
         Material material = item.getItem().getItemStack().getType();
         if (material != Material.LAVA_BUCKET && material != Material.WATER_BUCKET && material != Material.DRAGON_EGG) {

@@ -57,23 +57,14 @@ class ConnectionPool {
                     usedConnections.add(connection);
                     return connection;
                 } else {
-                    throw new SQLException("Maximum pool size reached, no available connections");
+                    Connection connection = usedConnections.removeFirst();
+                    connectionPool.add(connection);
+                    return connection;
                 }
             } else {
-                Connection connection = connectionPool.remove(connectionPool.size() - 1);
+                Connection connection = connectionPool.removeLast();
                 usedConnections.add(connection);
                 return connection;
-            }
-        } finally {
-            lock.unlock();
-        }
-    }
-
-    public void releaseConnection(Connection connection) {
-        lock.lock();
-        try {
-            if (usedConnections.remove(connection)) {
-                connectionPool.add(connection);
             }
         } finally {
             lock.unlock();

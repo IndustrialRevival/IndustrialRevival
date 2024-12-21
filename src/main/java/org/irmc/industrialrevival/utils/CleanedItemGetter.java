@@ -3,7 +3,6 @@ package org.irmc.industrialrevival.utils;
 import lombok.experimental.UtilityClass;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataType;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.pigeonlib.items.ItemUtils;
@@ -20,7 +19,7 @@ public class CleanedItemGetter {
         return ItemUtils.getCleanedItem(itemStack, meta -> {
             IndustrialRevivalItem item = IndustrialRevivalItem.getByItem(itemStack);
             if (item != null) {
-                PersistentDataAPI.set(meta, CLEANED_ITEM_ID_KEY, PersistentDataType.STRING, item.getId());
+                PersistentDataAPI.setNamespacedKey(meta, CLEANED_ITEM_ID_KEY, item.getId());
             }
         });
     }

@@ -101,7 +101,7 @@ public class IRCommandGenerator {
                                 return;
                             }
 
-                            ItemStack iritem = item.getItem().clone();
+                            ItemStack iritem = item.getItemStack().clone();
                             iritem.setAmount(finalAmount);
                             target.getInventory().addItem(iritem);
 
@@ -151,7 +151,7 @@ public class IRCommandGenerator {
                                 return;
                             }
 
-                            ItemStack iritem = item.getItem().clone();
+                            ItemStack iritem = item.getItemStack().clone();
                             iritem.setAmount(finalAmount);
                             target.getInventory().addItem(iritem);
                         }))
@@ -205,7 +205,7 @@ public class IRCommandGenerator {
         for (Plugin addon : IndustrialRevival.getInstance().getAddons()) {
             MessageReplacement name = MessageReplacement.replace("%addon_name%", addon.getName());
             MessageReplacement version = MessageReplacement.replace(
-                    "%addon_version%", addon.getDescription().getVersion());
+                    "%addon_version%", addon.getPluginMeta().getVersion());
             msg = msg.append(Component.newline());
             msg = msg.append(IndustrialRevival.getInstance()
                     .getLanguageManager()

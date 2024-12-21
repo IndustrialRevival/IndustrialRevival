@@ -245,17 +245,17 @@ public class RecipeType {
                 return null;
             }
 
-            String id = PersistentDataAPI.getString(icon.getItemMeta(), Constants.ItemStackKeys.CLEANED_IR_ITEM_ID, "");
-            if (!id.isBlank()) {
+            NamespacedKey id = PersistentDataAPI.getNamespacedKey(icon.getItemMeta(), Constants.ItemStackKeys.CLEANED_IR_ITEM_ID);
+            if (id != null) {
                 makerId = id;
-                return IndustrialRevivalItem.getById(id).getItem().getItemStack();
+                return IndustrialRevivalItem.getById(id).getItemStack().clone();
             }
 
             return icon;
         }
     }
 
-    public RecipeType setMaker(String makerId) {
+    public RecipeType setMaker(NamespacedKey makerId) {
         this.makerId = makerId;
         return this;
     }

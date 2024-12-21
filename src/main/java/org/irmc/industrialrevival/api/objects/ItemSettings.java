@@ -14,6 +14,10 @@ public class ItemSettings {
         this.itemCfg = itemCfg;
     }
 
+    public YamlConfiguration getItemCfg() {
+        return itemCfg;
+    }
+
     public ConfigurationSection getSetting(NamespacedKey id) {
         return itemCfg.createSection("specific_items." + id.toString());
     }

@@ -8,10 +8,10 @@ import org.irmc.industrialrevival.utils.DataUtil;
 
 @Getter
 public class ProfiledBlock {
-    private Location location;
-    private ChunkPosition chunkPosition;
-    private IndustrialRevivalItem item;
-    private String plugin;
+    private final Location location;
+    private final ChunkPosition chunkPosition;
+    private final IndustrialRevivalItem item;
+    private final String plugin;
 
     public ProfiledBlock(Location location) {
         this.location = location;

@@ -14,10 +14,10 @@ public interface BlockPistonRetractHandler extends ItemHandler {
     @Override
     default IncompatibleItemHandlerException isCompatible(@NotNull IndustrialRevivalItem item) {
         if (!ItemUtils.isActualBlock(item.getItem().getItemStack().getType())) {
-            return new IncompatibleItemHandlerException("Only actual blocks can be placed", item.getId().toString());
+            return new IncompatibleItemHandlerException("Only actual blocks can be placed", item.getId());
         }
         if (item instanceof NotPlaceable) {
-            return new IncompatibleItemHandlerException("This item cannot be placed", item.getId().toString());
+            return new IncompatibleItemHandlerException("This item cannot be placed", item.getId());
         }
         return null;
     }

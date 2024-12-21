@@ -2,6 +2,7 @@ package org.irmc.industrialrevival.core.data;
 
 import com.google.gson.Gson;
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.core.data.object.BlockRecord;
@@ -21,7 +22,7 @@ import java.sql.SQLException;
 import java.util.Base64;
 import java.util.List;
 
-public non-sealed class AbstractDataManager implements IDataManager {
+public abstract non-sealed class AbstractDataManager implements IDataManager {
     private final ConnectionPool pool;
 
     private final String url;
@@ -38,18 +39,15 @@ public non-sealed class AbstractDataManager implements IDataManager {
         try {
             this.pool = new ConnectionPool(url, username, password);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to initialize connection pool", e);
         }
     }
 
     @Override
-    public void handleBlockPlacing(Location loc, String machineId) {
-        try {
-            Connection conn = pool.getConnection();
-            conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+    public void handleBlockPlacing(Location loc, NamespacedKey machineId) {
+        try (Connection conn = pool.getConnection()) {
             DSLContext dsl = DSL.using(conn, dialect);
             dsl.insertInto(DSL.table(DSL.name("block_record")))
-                    // world, x, y, z, machineId, data
                     .columns(
                             DSL.field("world"),
                             DSL.field("x"),
@@ -62,53 +60,42 @@ public non-sealed class AbstractDataManager implements IDataManager {
                             DSL.val(loc.getBlockX()),
                             DSL.val(loc.getBlockY()),
                             DSL.val(loc.getBlockZ()),
-                            DSL.val(machineId),
+                            DSL.val(machineId.asString()),
                             DSL.val("")
                     )
                     .execute();
-
-            pool.releaseConnection(conn);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to handle block placing", e);
         }
     }
 
     @Override
     public void handleBlockBreaking(Location loc) {
-        try {
-            Connection conn = pool.getConnection();
-            conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+        try (Connection conn = pool.getConnection()) {
             DSLContext dsl = DSL.using(conn, dialect);
             dsl.deleteFrom(DSL.table(DSL.name("block_record")))
-                    .where(DSL.field(DSL.name("world")).eq(loc.getWorld().getName()))
-                    .and(DSL.field(DSL.name("x")).eq(loc.getBlockX()))
-                    .and(DSL.field(DSL.name("y")).eq(loc.getBlockY()))
-                    .and(DSL.field(DSL.name("z")).eq(loc.getBlockZ()))
-                    .executeAsync()
-                    .toCompletableFuture()
-                    .join();
-
-            pool.releaseConnection(conn);
+                    .where(DSL.field("world").eq(loc.getWorld().getName()))
+                    .and(DSL.field("x").eq(loc.getBlockX()))
+                    .and(DSL.field("y").eq(loc.getBlockY()))
+                    .and(DSL.field("z").eq(loc.getBlockZ()))
+                    .execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to handle block breaking", e);
         }
     }
 
     @Override
     public @NotNull YamlConfiguration getBlockData(@NotNull Location location) {
         String b64;
-        try {
-            Connection conn = pool.getConnection();
+        try (Connection conn = pool.getConnection()) {
             DSLContext dsl = DSL.using(conn, dialect);
-            Object tmp = dsl.select(DSL.field(DSL.name("data")))
-                    .from(DSL.table(DSL.name("block_record")))
-                    .where(DSL.field(DSL.name("world")).eq(location.getWorld().getName()))
-                    .and(DSL.field(DSL.name("x")).eq(location.getBlockX()))
-                    .and(DSL.field(DSL.name("y")).eq(location.getBlockY()))
-                    .and(DSL.field(DSL.name("z")).eq(location.getBlockZ()))
-                    .fetchOne(DSL.field(DSL.name("data")));
-
-            pool.releaseConnection(conn);
+            Object tmp = dsl.select(DSL.field("data"))
+                    .from(DSL.table("block_record"))
+                    .where(DSL.field("world").eq(location.getWorld().getName()))
+                    .and(DSL.field("x").eq(location.getBlockX()))
+                    .and(DSL.field("y").eq(location.getBlockY()))
+                    .and(DSL.field("z").eq(location.getBlockZ()))
+                    .fetchOne(DSL.field("data"));
 
             if (tmp == null) {
                 return new YamlConfiguration();
@@ -124,154 +111,149 @@ public non-sealed class AbstractDataManager implements IDataManager {
 
     @Override
     public void updateBlockData(@NotNull Location location, @NotNull BlockRecord record) {
-        try {
-            String b64 = Base64.getEncoder().encodeToString(record.data().getBytes());
-            DSLContext dsl = DSL.using(pool.getConnection(), dialect);
-            dsl.update(DSL.table(DSL.name("block_record")))
-                    .set(DSL.field(DSL.name("data")), DSL.val(b64))
-                    .where(DSL.field(DSL.name("world")).eq(location.getWorld().getName()))
-                    .and(DSL.field(DSL.name("x")).eq(location.getBlockX()))
-                    .and(DSL.field(DSL.name("y")).eq(location.getBlockY()))
-                    .and(DSL.field(DSL.name("z")).eq(location.getBlockZ()))
-                    .executeAsync()
-                    .toCompletableFuture()
-                    .join();
+        String b64 = Base64.getEncoder().encodeToString(record.data().getBytes());
+        try (Connection conn = pool.getConnection()) {
+            DSLContext dsl = DSL.using(conn, dialect);
+            dsl.update(DSL.table("block_record"))
+                    .set(DSL.field("data"), DSL.val(b64))
+                    .where(DSL.field("world").eq(location.getWorld().getName()))
+                    .and(DSL.field("x").eq(location.getBlockX()))
+                    .and(DSL.field("y").eq(location.getBlockY()))
+                    .and(DSL.field("z").eq(location.getBlockZ()))
+                    .execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to update block data", e);
         }
     }
 
     @Override
     public List<BlockRecord> getAllBlockRecords() {
-        try {
-            DSLContext dsl = DSL.using(pool.getConnection(), dialect);
+        try (Connection conn = pool.getConnection()) {
+            DSLContext dsl = DSL.using(conn, dialect);
             return dsl.select(
-                            DSL.field(DSL.name("world")),
-                            DSL.field(DSL.name("x")),
-                            DSL.field(DSL.name("y")),
-                            DSL.field(DSL.name("z")),
-                            DSL.field(DSL.name("machineId")),
-                            DSL.field(DSL.name("data")))
-                    .from(DSL.table(DSL.name("block_record")))
+                            DSL.field("world"),
+                            DSL.field("x"),
+                            DSL.field("y"),
+                            DSL.field("z"),
+                            DSL.field("machineId"),
+                            DSL.field("data"))
+                    .from(DSL.table("block_record"))
                     .fetchInto(BlockRecord.class);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to get all block records", e);
         }
     }
 
     @Override
     public ItemStack getMenuItem(Location location, int slot) {
-        try {
-            DSLContext dsl = DSL.using(pool.getConnection(), dialect);
+        try (Connection conn = pool.getConnection()) {
+            DSLContext dsl = DSL.using(conn, dialect);
             Record2<Object, Object> results = dsl.select(
-                            DSL.field(DSL.name("itemJson")), DSL.field(DSL.name("itemClass")))
-                    .from(DSL.table(DSL.name("menu_items")))
-                    .where(DSL.field(DSL.name("world")).eq(location.getWorld().getName()))
-                    .and(DSL.field(DSL.name("x")).eq(location.getBlockX()))
-                    .and(DSL.field(DSL.name("y")).eq(location.getBlockY()))
-                    .and(DSL.field(DSL.name("z")).eq(location.getBlockZ()))
-                    .and(DSL.field(DSL.name("slot")).eq(slot))
+                            DSL.field("itemJson"), DSL.field("itemClass"))
+                    .from(DSL.table("menu_items"))
+                    .where(DSL.field("world").eq(location.getWorld().getName()))
+                    .and(DSL.field("x").eq(location.getBlockX()))
+                    .and(DSL.field("y").eq(location.getBlockY()))
+                    .and(DSL.field("z").eq(location.getBlockZ()))
+                    .and(DSL.field("slot").eq(slot))
                     .fetchOne();
+
             if (results == null) {
                 return null;
             } else {
                 Gson gson = new Gson();
                 String json = results.getValue(0, String.class);
                 String className = results.getValue(1, String.class);
-                Class<? extends ItemStack> clazz;
                 try {
-                    clazz = (Class<? extends ItemStack>) Class.forName(className);
+                    Class<? extends ItemStack> clazz = (Class<? extends ItemStack>) Class.forName(className);
+                    return gson.fromJson(json, clazz);
                 } catch (ClassNotFoundException e) {
-                    clazz = ItemStack.class;
+                    return gson.fromJson(json, ItemStack.class);
                 }
-                return gson.fromJson(json, clazz);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to get menu item", e);
         }
     }
 
     @Override
     public GuideSettings getGuideSettings(@NotNull String playerName) {
-        try {
-            DSLContext dsl = DSL.using(pool.getConnection(), dialect);
+        try (Connection conn = pool.getConnection()) {
+            DSLContext dsl = DSL.using(conn, dialect);
             Record3<Object, Object, Object> results = dsl.select(
-                            DSL.field(DSL.name("fireWorksEnabled")),
-                            DSL.field(DSL.name("learningAnimationEnabled")),
-                            DSL.field(DSL.name("language")))
-                    .from(DSL.table(DSL.name("guide_settings")))
-                    .where(DSL.field(DSL.name("username")).eq(playerName))
+                            DSL.field("fireWorksEnabled"),
+                            DSL.field("learningAnimationEnabled"),
+                            DSL.field("language"))
+                    .from(DSL.table("guide_settings"))
+                    .where(DSL.field("username").eq(playerName))
                     .fetchOne();
+
             if (results == null) {
                 return GuideSettings.DEFAULT_SETTINGS;
             } else {
                 return new GuideSettings(
-                        results.get(0, Boolean.class), results.get(1, Boolean.class), results.get(2, String.class));
+                        results.get(0, Boolean.class),
+                        results.get(1, Boolean.class),
+                        results.get(2, String.class));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to get guide settings", e);
         }
     }
 
     @Override
     public void saveGuideSettings(@NotNull String playerName, @NotNull GuideSettings settings) {
-        try {
-            DSLContext dsl = DSL.using(pool.getConnection(), dialect);
-            dsl.insertInto(DSL.table(DSL.name("guide_settings")))
-                    .select(DSL.select(
-                            DSL.val(playerName),
-                            DSL.val(settings.isFireWorksEnabled()),
-                            DSL.val(settings.isLearningAnimationEnabled()),
-                            DSL.val(settings.getLanguage())))
-                    .bind("username", DSL.val(playerName))
-                    .bind("fireWorksEnabled", DSL.val(settings.isFireWorksEnabled()))
-                    .bind("learningAnimationEnabled", DSL.val(settings.isLearningAnimationEnabled()))
-                    .bind("language", DSL.val(settings.getLanguage()))
-                    .executeAsync()
-                    .toCompletableFuture()
-                    .join();
+        try (Connection conn = pool.getConnection()) {
+            DSLContext dsl = DSL.using(conn, dialect);
+            dsl.insertInto(DSL.table("guide_settings"))
+                    .set(DSL.field("username"), DSL.val(playerName))
+                    .set(DSL.field("fireWorksEnabled"), DSL.val(settings.isFireWorksEnabled()))
+                    .set(DSL.field("learningAnimationEnabled"), DSL.val(settings.isLearningAnimationEnabled()))
+                    .set(DSL.field("language"), DSL.val(settings.getLanguage()))
+                    .onDuplicateKeyUpdate()
+                    .set(DSL.field("fireWorksEnabled"), DSL.val(settings.isFireWorksEnabled()))
+                    .set(DSL.field("learningAnimationEnabled"), DSL.val(settings.isLearningAnimationEnabled()))
+                    .set(DSL.field("language"), DSL.val(settings.getLanguage()))
+                    .execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to save guide settings", e);
         }
     }
 
     @Override
     public @NotNull YamlConfiguration getResearchStatus(String playerName) {
-        String yaml;
-        try {
-            DSLContext dsl = DSL.using(pool.getConnection(), dialect);
-            Object tmp = dsl.select(DSL.field(DSL.name("researchStatus")))
-                    .from(DSL.table(DSL.name("research_status")))
-                    .where(DSL.field(DSL.name("username")).eq(playerName))
-                    .fetchOne(DSL.field(DSL.name("researchStatus")));
+        try (Connection conn = pool.getConnection()) {
+            DSLContext dsl = DSL.using(conn, dialect);
+            Object tmp = dsl.select(DSL.field("researchStatus"))
+                    .from(DSL.table("research_status"))
+                    .where(DSL.field("username").eq(playerName))
+                    .fetchOne(DSL.field("researchStatus"));
+
             if (tmp == null) {
                 return new YamlConfiguration();
             } else {
-                yaml = (String) tmp;
+                String yaml = new String(Base64.getDecoder().decode((String) tmp));
+                return YamlConfiguration.loadConfiguration(new StringReader(yaml));
             }
         } catch (SQLException e) {
             return new YamlConfiguration();
         }
-
-        yaml = new String(Base64.getDecoder().decode(yaml));
-        return YamlConfiguration.loadConfiguration(new StringReader(yaml));
     }
 
     @Override
     public void saveResearchStatus(String playerName, YamlConfiguration researchStatus) {
         String yaml = researchStatus.saveToString();
         String b64 = Base64.getEncoder().encodeToString(yaml.getBytes());
-        try {
-            DSLContext dsl = DSL.using(pool.getConnection(), dialect);
-            dsl.insertInto(DSL.table(DSL.name("research_status")))
-                    .select(DSL.select(DSL.val(playerName), DSL.val(b64)))
-                    .bind("username", DSL.val(playerName))
-                    .bind("researchStatus", DSL.val(b64))
-                    .executeAsync()
-                    .toCompletableFuture()
-                    .join();
+        try (Connection conn = pool.getConnection()) {
+            DSLContext dsl = DSL.using(conn, dialect);
+            dsl.insertInto(DSL.table("research_status"))
+                    .set(DSL.field("username"), DSL.val(playerName))
+                    .set(DSL.field("researchStatus"), DSL.val(b64))
+                    .onDuplicateKeyUpdate()
+                    .set(DSL.field("researchStatus"), DSL.val(b64))
+                    .execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to save research status", e);
         }
     }
 

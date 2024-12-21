@@ -23,7 +23,6 @@ public class IndustrialRevivalItemStack {
         this.itemStack = itemStack;
         this.id = id;
 
-        //TODO: Add namespaced key persistent data type
         itemStack.editMeta(meta -> PersistentDataAPI.setString(meta, Constants.ItemStackKeys.ITEM_ID_KEY, id.toString()));
     }
 

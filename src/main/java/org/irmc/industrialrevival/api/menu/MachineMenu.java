@@ -1,7 +1,9 @@
 package org.irmc.industrialrevival.api.menu;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -55,6 +57,10 @@ public class MachineMenu extends SimpleMenu {
 
         sb.append(" - ").append(percentage).append('%');
         return ChatColor.translateAlternateColorCodes('&', sb.toString());
+    }
+
+    public static Component getProgressBarComponent(int remainingTicks, int total) {
+        return LegacyComponentSerializer.legacyAmpersand().deserialize(getProgressBar(remainingTicks, total));
     }
 
     private static short getDurability(@NotNull ItemStack item, int remainingTicks, int total) {
@@ -130,7 +136,7 @@ public class MachineMenu extends SimpleMenu {
     }
 
     public int consumeItem(@NotNull ItemStack item, @Range(from = 0, to = 53) int... slots) {
-        if (item == null || item.getType().isAir()) {
+        if (item.getType().isAir()) {
             return 0;
         }
 
@@ -173,6 +179,7 @@ public class MachineMenu extends SimpleMenu {
         return consumedCount;
     }
 
+    @CanIgnoreReturnValue
     public int consumeItem(@NotNull Map<ItemStackReference, Integer> itemRefMap, @Range(from = 0, to = 53) int... slots) {
         int consumedCount = 0;
         for (ItemStackReference itemRef : itemRefMap.keySet()) {
@@ -284,6 +291,7 @@ public class MachineMenu extends SimpleMenu {
     }
 
     @NotNull
+    @CanIgnoreReturnValue
     public Map<ItemStack, Integer> pushItem(@NotNull Map<ItemStack, Integer> items, @Range(from = 0, to = 53) int... slots) {
         if (items == null || items.isEmpty()) {
             throw new IllegalArgumentException("Cannot push null or empty map");
@@ -300,7 +308,7 @@ public class MachineMenu extends SimpleMenu {
     }
 
     public boolean fits(@NotNull ItemStack item, @Range(from = 0, to = 53) int... slots) {
-        if (item == null || item.getType() == Material.AIR) {
+        if (item.getType() == Material.AIR) {
             return true;
         }
 
@@ -338,7 +346,7 @@ public class MachineMenu extends SimpleMenu {
     }
 
     public boolean fits(@NotNull List<ItemStack> items, @Range(from = 0, to = 53) int... slots) {
-        if (items == null || items.isEmpty()) {
+        if (items.isEmpty()) {
             return false;
         }
 
@@ -397,7 +405,7 @@ public class MachineMenu extends SimpleMenu {
     }
 
     public boolean fits(@NotNull Map<ItemStack, Integer> items, @Range(from = 0, to = 53) int... slots) {
-        if (items == null || items.isEmpty()) {
+        if (items.isEmpty()) {
             return false;
         }
 

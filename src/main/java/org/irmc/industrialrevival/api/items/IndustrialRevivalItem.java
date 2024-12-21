@@ -76,6 +76,7 @@ public class IndustrialRevivalItem {
     @Getter
     private final Set<ItemGroup> group = new HashSet<>();
     @Getter
+    @NotNull
     private IndustrialRevivalAddon addon;
     private IndustrialRevivalItemStack itemStack;
     private ItemState state = ItemState.UNREGISTERED;
@@ -111,7 +112,7 @@ public class IndustrialRevivalItem {
             return null;
         }
 
-        String id = PersistentDataAPI.getString(item.getItemMeta(), Constants.ItemStackKeys.ITEM_ID_KEY);
+        @Nullable NamespacedKey id = PersistentDataAPI.getNamespacedKey(item.getItemMeta(), Constants.ItemStackKeys.ITEM_ID_KEY);
         if (id != null) {
             return getById(id);
         }
@@ -176,7 +177,10 @@ public class IndustrialRevivalItem {
         } else {
             this.state = ItemState.ENABLED;
         }
-        // todo: save to config
+
+        if (saveToConfig) {
+            IndustrialRevival.getInstance().getItemSettings().disableItem(getId());
+        }
         return this;
     }
 
@@ -184,7 +188,10 @@ public class IndustrialRevivalItem {
     public IndustrialRevivalItem setEnchantable(boolean enchantable, boolean saveToConfig) {
         checkRegistered();
         this.enchantable = enchantable;
-        // todo: save to config
+
+        if (saveToConfig) {
+            getItemSetting().set("enchantable", enchantable);
+        }
         return this;
     }
 
@@ -192,7 +199,10 @@ public class IndustrialRevivalItem {
     public IndustrialRevivalItem setDisenchantable(boolean disenchantable, boolean saveToConfig) {
         checkRegistered();
         this.disenchantable = disenchantable;
-        // todo: save to config
+
+        if (saveToConfig) {
+            getItemSetting().set("disenchantable", disenchantable);
+        }
         return this;
     }
 
@@ -274,7 +284,7 @@ public class IndustrialRevivalItem {
         return ItemUtils.getDisplayName(getItem().getItemStack());
     }
 
-    @NotNull
+    @Nullable
     public <T extends ItemHandler> T getItemHandler(Class<T> clazz) {
         return clazz.cast(itemHandlers.get(clazz));
     }
@@ -316,7 +326,7 @@ public class IndustrialRevivalItem {
         }
 
         if (this instanceof VanillaSmeltingItem vsi) {
-            NamespacedKey key = new NamespacedKey(addon.getPlugin(), "irrt_" + getId().getNamespace() + "_" + getId().getKey());
+            NamespacedKey key = new NamespacedKey(addon.getPlugin(), "irsi_" + getId().getNamespace() + "_" + getId().getKey());
             FurnaceRecipe fr = new FurnaceRecipe(
                     key, vsi.getRecipeOutput(), vsi.getRecipeInput(), vsi.getExp(), vsi.getCookingTime());
 
@@ -325,7 +335,7 @@ public class IndustrialRevivalItem {
 
         for (CraftMethod craftMethod : craftMethods) {
             if (craftMethod.getRecipeType() == RecipeType.VANILLA_CRAFTING) {
-                NamespacedKey key = new NamespacedKey(addon.getPlugin(), "irrt_" + getId().getNamespace() + "_" + getId().getKey());
+                NamespacedKey key = new NamespacedKey(addon.getPlugin(), "irvc_" + getId().getNamespace() + "_" + getId().getKey());
                 ShapedRecipe shapedRecipe = new ShapedRecipe(key, itemStack.cloneItemStack());
                 shapedRecipe.shape("abc", "def", "ghi");
                 char[] chars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'};

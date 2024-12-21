@@ -260,7 +260,7 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
 
             int startIndex = 9;
             for (IndustrialRevivalItem item : items) {
-                ItemStack stack = item.getItem().clone();
+                ItemStack stack = item.getItemStack().clone();
                 sm.setItem(startIndex, stack, (player, item1, slot, menu, clickType) -> {
                     implementation.onItemClicked(player, item, clickType);
                     return false;

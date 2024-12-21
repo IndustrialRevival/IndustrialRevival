@@ -11,10 +11,6 @@ import org.jetbrains.annotations.NotNull;
 public class IRBlockStructurePiece extends StructurePiece {
     private final IndustrialRevivalItem iritem;
 
-    public IRBlockStructurePiece(String string) {
-        this(IndustrialRevivalItem.getById(string));
-    }
-
     public IRBlockStructurePiece(IndustrialRevivalItem iritem) {
         this.iritem = iritem;
     }

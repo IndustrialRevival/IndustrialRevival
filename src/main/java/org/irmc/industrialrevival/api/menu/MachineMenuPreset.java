@@ -2,6 +2,8 @@ package org.irmc.industrialrevival.api.menu;
 
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
@@ -12,11 +14,15 @@ import org.jetbrains.annotations.Range;
 
 @Getter
 public class MachineMenuPreset extends SimpleMenu {
-    private final String id;
+    private final NamespacedKey id;
 
     private boolean locked;
 
-    public MachineMenuPreset(@NotNull String id, @NotNull Component title) {
+    public MachineMenuPreset(@NotNull NamespacedKey id, @NotNull String title) {
+        this(id, LegacyComponentSerializer.legacyAmpersand().deserialize(title));
+    }
+
+    public MachineMenuPreset(@NotNull NamespacedKey id, @NotNull Component title) {
         super(title);
 
         this.id = id;

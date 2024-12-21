@@ -1,6 +1,5 @@
 package org.irmc.industrialrevival.api;
 
-import io.papermc.lib.PaperLib;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
@@ -163,7 +162,7 @@ public class ErrorReport<T extends Throwable> {
                     dateFormat.format(LocalDateTime.now()),
                     System.getProperty("os.name"),
                     System.getProperty("java.version"),
-                    (PaperLib.isSpigot() && !PaperLib.isPaper() ? "Spigot" : Bukkit.getName()),
+                    "Paper or its fork",
                     Bukkit.getVersion(),
                     Bukkit.getBukkitVersion(),
                     IndustrialRevival.getInstance().getVersion(),

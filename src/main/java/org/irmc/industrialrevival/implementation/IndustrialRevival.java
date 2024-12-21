@@ -33,6 +33,7 @@ import org.irmc.pigeonlib.language.LanguageManager;
 
 import javax.annotation.Nonnull;
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Set;
@@ -68,8 +69,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
 
         completeFiles();
 
-        itemSettings =
-                new ItemSettings(YamlConfiguration.loadConfiguration(new File(getDataFolder(), "items-settings.yml")));
+        itemSettings = new ItemSettings(YamlConfiguration.loadConfiguration(new File(getDataFolder(), "items-settings.yml")));
 
         System.setProperty("org.jooq.no-logo", "true");
         System.setProperty("org.jooq.no-tips", "true");
@@ -77,14 +77,6 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
 
     @Override
     public void onEnable() {
-        /*
-        if (!environmentCheck()) {
-            Bukkit.getPluginManager().disablePlugin(this);
-            return;
-        }
-
-         */
-
         getLogger().info("IndustrialRevival is being enabled!");
 
         getLogger().info("Setting up data manager...");
@@ -175,25 +167,21 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
 
     @Override
     public void onDisable() {
+        try {
+            itemSettings.getItemCfg().save(new File(getDataFolder(), "items-settings.yml"));
+        } catch (IOException e) {
+            getLogger().log(Level.SEVERE, "Failed to save items-settings.yml", e);
+        }
+
         if (blockDataService != null) {
             blockDataService.saveAllData();
         }
+
         if (dataManager != null) {
             dataManager.close();
         }
+
         getLogger().info("IndustrialRevival has been disabled!");
-    }
-
-    public boolean environmentCheck() {
-        // Actually we don't need this.
-        /*
-        if (MCVersion.CURRENT == MCVersion.UNKNOWN) {
-            getLogger().log(Level.SEVERE, "Unsupported Minecraft version: " + getServer().getMinecraftVersion());
-            return false;
-        }
-         */
-
-        return true;
     }
 
     @Override

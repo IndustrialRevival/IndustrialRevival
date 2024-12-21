@@ -109,10 +109,7 @@ public class JavaUtil {
      * @return a random int[] contains 0 1 2 ...... length-1
      */
     public static int[] generateRandomInts(int length) {
-        int[] result = new int[length];
-        for (int i = 0; i < result.length; i++) {
-            result[i] = i;
-        }
+        int[] result = generateInts(length);
         return JavaUtil.shuffle(result);
     }
 

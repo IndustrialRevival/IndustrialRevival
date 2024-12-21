@@ -2,6 +2,7 @@ package org.irmc.industrialrevival.core.services;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -32,7 +33,7 @@ public class ItemTextureService {
 
     private void setup(Collection<IRBlockData> blockData) {
         for (IRBlockData data : blockData) {
-            String id = data.getId();
+            NamespacedKey id = data.getId();
             IndustrialRevivalItem item = IndustrialRevivalItem.getById(id);
             if (item == null) {
                 // just ignore

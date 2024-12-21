@@ -8,6 +8,7 @@ import net.md_5.bungee.api.chat.hover.content.Content;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.irmc.industrialrevival.api.ProfiledBlock;
 import org.irmc.industrialrevival.api.objects.ChunkPosition;
 import org.irmc.industrialrevival.api.objects.PerformanceSummary;
@@ -83,19 +84,19 @@ public class ProfilerService {
         }
 
         Map<ProfiledBlock, Long> data = getProfilingData();
-        Map<String, Long> dataByID = getProfilingDataByID();
+        @NotNull Map<NamespacedKey, Long> dataByID = getProfilingDataByID();
         Map<ChunkPosition, Long> dataByChunk = getProfilingDataByChunk();
         Map<String, Long> dataByPlugin = getProfilingDataByPlugin();
         long tt = dataByChunk.values().stream().mapToLong(Long::longValue).sum();
         this.summary = new PerformanceSummary(data, dataByID, dataByChunk, dataByPlugin, tt);
 
-        List<String> sortedID = dataByID.entrySet().stream()
+        List<NamespacedKey> sortedID = dataByID.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Long::compareTo))
                 .map(Map.Entry::getKey)
                 .toList();
         StringBuilder idBuilder = new StringBuilder();
         int got = 0;
-        for (String id : sortedID) {
+        for (NamespacedKey id : sortedID) {
             if (got >= MAX_ITEMS) {
                 break;
             }
@@ -176,11 +177,11 @@ public class ProfilerService {
     }
 
     @NotNull
-    public Map<String, Long> getProfilingDataByID() {
+    public Map<NamespacedKey, Long> getProfilingDataByID() {
         Map<ProfiledBlock, Long> profilingData = getProfilingData();
-        Map<String, Long> profilingDataByID = new ConcurrentHashMap<>();
+        Map<NamespacedKey, Long> profilingDataByID = new ConcurrentHashMap<>();
         for (ProfiledBlock profiledBlock : profilingData.keySet()) {
-            String id = profiledBlock.getItem().getId();
+            NamespacedKey id = profiledBlock.getItem().getId();
             profilingDataByID.merge(id, profilingData.get(profiledBlock), Long::sum);
         }
         return profilingDataByID;
@@ -244,7 +245,7 @@ public class ProfilerService {
         return profilingDataByPlugin;
     }
 
-    public long getTotalMachine(String id) {
+    public long getTotalMachine(NamespacedKey id) {
         Map<ProfiledBlock, Long> profiledLocations = getProfilingData();
         long totalAmount = 0;
         for (ProfiledBlock profiledBlock : profiledLocations.keySet()) {

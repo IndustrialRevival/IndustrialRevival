@@ -3,6 +3,7 @@ package org.irmc.industrialrevival.api.recipes;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
@@ -55,7 +56,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
             sm.setItem(25, CleanedItemGetter.getCleanedItem(item.getItem().getItemStack()));
         } else {
             recipeContents = getRecipeContentsByPage(recipeContents, pageRecord.getOrDefault(p.getUniqueId(), 1));
-            showRecipeContent(p, sm, recipeContents.get(0), recipeContents);
+            showRecipeContent(p, sm, recipeContents.getFirst(), recipeContents);
         }
 
         sm.setItem(28, Constants.Buttons.ADD_TO_BOOKMARK_BUTTON.apply(p), (player, clickedItem, slot, menu, clickType) -> {
@@ -175,7 +176,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
         return result;
     }
 
-    private void showUsage(Player p, String itemId) {
+    private void showUsage(Player p, NamespacedKey itemId) {
         SimpleMenu sm = new SimpleMenu(
                 IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Constants.Keys.GUIDE_TITLE_KEY));
         Collection<List<RecipeContent>> recipeContents =
@@ -310,13 +311,13 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
 
         sm.setItem(19, rc.recipeType().getIcon());
 
-        ItemStack resultItem = rc.result().getItem().clone();
+        ItemStack resultItem = rc.result().getItemStack().clone();
         ItemUtils.addLore(
                 resultItem,
                 IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, "misc.recipe_show_usage"),
                 true);
 
-        sm.setItem(25, resultItem, (player, clickedItem, slot, menu, clickType) -> {
+        sm.setItem(25, resultItem, (player, _, _, _, clickType) -> {
             if (clickType == ClickType.RIGHT || clickType == ClickType.SHIFT_RIGHT) {
                 showUsage(player, item.getId());
             }

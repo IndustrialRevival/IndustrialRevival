@@ -1,6 +1,7 @@
 package org.irmc.industrialrevival.core.data;
 
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.core.data.object.BlockRecord;
@@ -16,7 +17,7 @@ public sealed interface IDataManager permits AbstractDataManager {
 
     void saveGuideSettings(@NotNull String playerName, @NotNull GuideSettings settings);
 
-    void handleBlockPlacing(Location loc, String machineId);
+    void handleBlockPlacing(Location loc, NamespacedKey machineId);
 
     void handleBlockBreaking(Location loc);
 

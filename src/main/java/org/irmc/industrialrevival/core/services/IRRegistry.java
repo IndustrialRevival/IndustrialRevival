@@ -40,10 +40,11 @@ public final class IRRegistry {
     private final Map<NamespacedKey, Research> researches;
     private final Map<NamespacedKey, ItemDictionary> dictionaries;
     private final Map<NamespacedKey, DisplayGroup> displayGroups;
-    private final Map<String, IndustrialRevivalItem> items;
+    private final Map<NamespacedKey, MachineMenuPreset> menuPresets;
+    private final Map<NamespacedKey, IndustrialRevivalItem> items;
     private final Map<String, PlayerProfile> playerProfiles;
-    private final Map<String, MachineMenuPreset> menuPresets;
-    private final Map<String, MultiBlock> multiBlocks;
+
+    private final Map<NamespacedKey, MultiBlock> multiBlocks;
 
     private final Map<EntityType, List<MobDropMethod>> mobDrops;
     private final Map<Material, List<BlockDropMethod>> blockDrops;

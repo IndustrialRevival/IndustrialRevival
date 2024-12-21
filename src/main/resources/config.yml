@@ -11,16 +11,18 @@ options:
 
 storage:
   # the type of storage to use
-  # usable types: sqlite, mysql, postgres, mariadb
+  # usable types: sqlite, mysql, postgres
   # sqlite db file location: server_root/irstorage/database.db
   type: sqlite
   max-connections: 10
-  mysql:
-    # the host of the mysql server
+  # the connection information for the database server
+  # only needed if the type is mysql or postgres
+  remote:
+    # the host of the database server
     host: localhost
-    # the port of the mysql server
+    # the port of the database server
     port: 3306
-    # the username to use to connect to the mysql server
+    # the username to use to connect to the database server
     username: root
-    # the password to use to connect to the mysql server
+    # the password to use to connect to the database server
     password: password
