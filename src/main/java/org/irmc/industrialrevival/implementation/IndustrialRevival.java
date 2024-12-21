@@ -101,8 +101,9 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     }
 
     private void completeFiles() {
+        //TODO: 重写一堆东西
         ConfigFileUtil.completeFile(this, "config.yml");
-        ConfigFileUtil.completeLangFile(this, "language/en-US.yml");
+        //ConfigFileUtil.completeLangFile(this, "language/en-US.yml");
         ConfigFileUtil.completeLangFile(this, "language/zh-CN.yml");
 
         if (!new File(getDataFolder(), "items-settings.yml").exists()) {
