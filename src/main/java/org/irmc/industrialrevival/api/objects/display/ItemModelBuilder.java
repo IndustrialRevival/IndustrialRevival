@@ -21,245 +21,379 @@ import org.bukkit.util.Transformation;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
-@Getter
-public class ItemModelBuilder {
-    private final @NotNull ItemDisplay display;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-    public ItemModelBuilder(@NotNull Location location) {
-        display = location.getWorld().spawn(location, ItemDisplay.class);
+@Getter
+public class ItemModelBuilder extends AbstractModelBuilder implements Cloneable {
+    public void ifPresent(Object object, Runnable runnable) {
+        if (object != null) {
+            runnable.run();
+        }
+    }
+    public @NotNull ItemModelBuilder clone() {
+        ItemModelBuilder clone = new ItemModelBuilder();
+        clone.itemStack = this.itemStack;
+        clone.transformation = this.transformation;
+        clone.interpolationDuration = this.interpolationDuration;
+        clone.teleportDuration = this.teleportDuration;
+        clone.viewRange = this.viewRange;
+        clone.shadowRadius = this.shadowRadius;
+        clone.shadowStrength = this.shadowStrength;
+        clone.displayWidth = this.displayWidth;
+        clone.displayHeight = this.displayHeight;
+        clone.interpolationDelay = this.interpolationDelay;
+        clone.billboard = this.billboard;
+        clone.glowColorOverride = this.glowColorOverride;
+        clone.brightness = this.brightness;
+        clone.velocity = this.velocity;
+        clone.yaw = this.yaw;
+        clone.pitch = this.pitch;
+        clone.fireTicks = this.fireTicks;
+        clone.visualFire = this.visualFire;
+        clone.freezeTicks = this.freezeTicks;
+        clone.invisible = this.invisible;
+        clone.noPhysics = this.noPhysics;
+        clone.lockFreezeTicks = this.lockFreezeTicks;
+        clone.persistent = this.persistent;
+        clone.passengers = new ArrayList<>(this.passengers);
+        clone.fallDistance = this.fallDistance;
+        clone.ticksLived = this.ticksLived;
+        clone.customNameVisible = this.customNameVisible;
+        clone.visibleByDefault = this.visibleByDefault;
+        clone.glowing = this.glowing;
+        clone.invulnerable = this.invulnerable;
+        clone.silent = this.silent;
+        clone.gravity = this.gravity;
+        clone.portalCooldown = this.portalCooldown;
+        clone.scoreboardTag = new HashSet<>(this.scoreboardTag);
+        clone.sneaking = this.sneaking;
+        clone.pose = this.pose;
+        clone.fixedPose = this.fixedPose;
+        clone.metadata = new HashMap<>(this.metadata);
+        clone.customName = this.customName;
+        return clone;
     }
 
-    public ItemDisplay build() {
+    private ItemStack itemStack;
+    private Transformation transformation;
+    private Integer interpolationDuration;
+    private Integer teleportDuration;
+    private Float viewRange;
+    private Float shadowRadius;
+    private Float shadowStrength;
+    private Float displayWidth;
+    private Float displayHeight;
+    private Integer interpolationDelay;
+    private Display.Billboard billboard;
+    private Color glowColorOverride;
+    private Display.Brightness brightness;
+    private Vector velocity;
+    private Float yaw;
+    private Float pitch;
+    private Integer fireTicks;
+    private Boolean visualFire;
+    private Integer freezeTicks;
+    private Boolean invisible;
+    private Boolean noPhysics;
+    private Boolean lockFreezeTicks;
+    private Boolean persistent;
+    private List<Entity> passengers;
+    private Float fallDistance;
+    private Integer ticksLived;
+    private Boolean customNameVisible;
+    private Boolean visibleByDefault;
+    private Boolean glowing;
+    private Boolean invulnerable;
+    private Boolean silent;
+    private Boolean gravity;
+    private Integer portalCooldown;
+    private Set<String> scoreboardTag;
+    private Boolean sneaking;
+    private Pose pose;
+    private Boolean fixedPose;
+    private Map<String, List<MetadataValue>> metadata;
+    private Component customName;
+
+    public ItemModelBuilder() {
+    }
+
+    public ItemModelBuilder build() {
+        return clone();
+    }
+
+    public ItemDisplay buildAt(Location location) {
+        ItemDisplay display = location.getWorld().spawn(location, ItemDisplay.class);
+        ifPresent(this.itemStack, () -> display.setItemStack(this.itemStack));
+        ifPresent(this.transformation, () -> display.setTransformation(this.transformation));
+        ifPresent(this.interpolationDuration, () -> display.setInterpolationDuration(this.interpolationDuration));
+        ifPresent(this.teleportDuration, () -> display.setTeleportDuration(this.teleportDuration));
+        ifPresent(this.viewRange, () -> display.setViewRange(this.viewRange));
+        ifPresent(this.shadowRadius, () -> display.setShadowRadius(this.shadowRadius));
+        ifPresent(this.shadowStrength, () -> display.setShadowStrength(this.shadowStrength));
+        ifPresent(this.displayWidth, () -> display.setDisplayWidth(this.displayWidth));
+        ifPresent(this.displayHeight, () -> display.setDisplayHeight(this.displayHeight));
+        ifPresent(this.interpolationDelay, () -> display.setInterpolationDelay(this.interpolationDelay));
+        ifPresent(this.billboard, () -> display.setBillboard(this.billboard));
+        ifPresent(this.glowColorOverride, () -> display.setGlowColorOverride(this.glowColorOverride));
+        ifPresent(this.brightness, () -> display.setBrightness(this.brightness));
+        ifPresent(this.velocity, () -> display.setVelocity(this.velocity));
+        ifPresent(this.yaw, () -> display.setRotation(this.yaw, this.pitch));
+        ifPresent(this.pitch, () -> display.setRotation(this.yaw, this.pitch));
+        ifPresent(this.fireTicks, () -> display.setFireTicks(this.fireTicks));
+        ifPresent(this.visualFire, () -> display.setVisualFire(this.visualFire));
+        ifPresent(this.freezeTicks, () -> display.setFreezeTicks(this.freezeTicks));
+        ifPresent(this.invisible, () -> display.setInvisible(this.invisible));
+        ifPresent(this.noPhysics, () -> display.setNoPhysics(this.noPhysics));
+        ifPresent(this.lockFreezeTicks, () -> display.lockFreezeTicks(this.lockFreezeTicks));
+        ifPresent(this.persistent, () -> display.setPersistent(this.persistent));
+        ifPresent(this.passengers, () -> this.passengers.forEach(display::addPassenger));
+        ifPresent(this.fallDistance, () -> display.setFallDistance(this.fallDistance));
+        ifPresent(this.ticksLived, () -> display.setTicksLived(this.ticksLived));
+        ifPresent(this.customNameVisible, () -> display.setCustomNameVisible(this.customNameVisible));
+        ifPresent(this.visibleByDefault, () -> display.setVisibleByDefault(this.visibleByDefault));
+        ifPresent(this.glowing, () -> display.setGlowing(this.glowing));
+        ifPresent(this.invulnerable, () -> display.setInvulnerable(this.invulnerable));
+        ifPresent(this.silent, () -> display.setSilent(this.silent));
+        ifPresent(this.gravity, () -> display.setGravity(this.gravity));
+        ifPresent(this.portalCooldown, () -> display.setPortalCooldown(this.portalCooldown));
+        ifPresent(this.scoreboardTag, () -> this.scoreboardTag.forEach(display::addScoreboardTag));
+        ifPresent(this.sneaking, () -> display.setSneaking(this.sneaking));
+        ifPresent(this.pose, () -> display.setPose(this.pose, this.fixedPose));
+        ifPresent(this.metadata, () -> this.metadata.forEach((key, values) -> values.forEach(value -> display.setMetadata(key, value))));
+        ifPresent(this.customName, () -> display.customName(this.customName));
         return display;
     }
-
     // Item Display methods
     public @NotNull ItemModelBuilder itemStack(ItemStack itemStack) {
-        display.setItemStack(itemStack);
+        this.itemStack = itemStack;
         return this;
-    }
-
-    public @NotNull ItemModelBuilder itemDisplayTransform(ItemDisplay.@NotNull ItemDisplayTransform transform) {
-        display.setItemDisplayTransform(transform);
-        return this;
-    }
-
-    public ItemModelBuilder transform(ItemDisplay.@NotNull ItemDisplayTransform transform) {
-        return itemDisplayTransform(transform);
     }
 
     // Display methods
     public @NotNull ItemModelBuilder transformation(@NotNull Transformation transformation) {
-        display.setTransformation(transformation);
+        this.transformation = transformation;
         return this;
     }
 
     public @NotNull ItemModelBuilder interpolationDuration(int duration) {
-        display.setInterpolationDuration(duration);
+        this.interpolationDuration = duration;
         return this;
     }
 
     public @NotNull ItemModelBuilder teleportDuration(int duration) {
-        display.setTeleportDuration(duration);
+        this.teleportDuration = duration;
         return this;
     }
 
     public @NotNull ItemModelBuilder viewRange(float viewRange) {
-        display.setViewRange(viewRange);
+        this.viewRange = viewRange;
         return this;
     }
 
     public @NotNull ItemModelBuilder shadowRadius(float shadowRadius) {
-        display.setShadowRadius(shadowRadius);
+        this.shadowRadius = shadowRadius;
         return this;
     }
 
     public @NotNull ItemModelBuilder shadowStrength(float shadowStrength) {
-        display.setShadowStrength(shadowStrength);
+        this.shadowStrength = shadowStrength;
         return this;
     }
 
     public @NotNull ItemModelBuilder displayWidth(float displayWidth) {
-        display.setDisplayWidth(displayWidth);
+        this.displayWidth = displayWidth;
         return this;
     }
 
     public @NotNull ItemModelBuilder displayHeight(float displayHeight) {
-        display.setDisplayHeight(displayHeight);
+        this.displayHeight = displayHeight;
         return this;
     }
 
     public @NotNull ItemModelBuilder interpolationDelay(int delay) {
-        display.setInterpolationDelay(delay);
+        this.interpolationDelay = delay;
         return this;
     }
 
     public @NotNull ItemModelBuilder billboard(Display.@NotNull Billboard billboard) {
-        display.setBillboard(billboard);
-        return this;
-    }
-
-    public @NotNull ItemModelBuilder glowColorOverride(int r, int g, int b) {
-        display.setGlowColorOverride(Color.fromRGB(r, g, b));
-        return this;
-    }
-
-    public @NotNull ItemModelBuilder glowColorOverride(int color) {
-        display.setGlowColorOverride(Color.fromRGB(color));
+        this.billboard = billboard;
         return this;
     }
 
     public @NotNull ItemModelBuilder glowColorOverride(Color color) {
-        display.setGlowColorOverride(color);
+        this.glowColorOverride = color;
         return this;
     }
 
+    public @NotNull ItemModelBuilder glowColorOverride(int color) {
+        return glowColorOverride(Color.fromRGB(color));
+    }
+
+    public @NotNull ItemModelBuilder glowColorOverride(int r, int g, int b) {
+        return glowColorOverride(Color.fromRGB(r, g, b));
+    }
+
     public @NotNull ItemModelBuilder brightness(Display.Brightness brightness) {
-        display.setBrightness(brightness);
+        this.brightness = brightness;
         return this;
     }
 
     // Entity methods
     public @NotNull ItemModelBuilder velocity(@NotNull Vector velocity) {
-        display.setVelocity(velocity);
+        this.velocity = velocity;
         return this;
     }
 
     public @NotNull ItemModelBuilder rotation(float yaw, float pitch) {
-        display.setRotation(yaw, pitch);
-        return this;
-    }
-
-    public @NotNull ItemModelBuilder teleport(@NotNull Location location) {
-        display.teleport(location);
+        this.yaw = yaw;
+        this.pitch = pitch;
         return this;
     }
 
     public @NotNull ItemModelBuilder fireTicks(int ticks) {
-        display.setFireTicks(ticks);
+        this.fireTicks = ticks;
         return this;
     }
 
     public @NotNull ItemModelBuilder visualFire(boolean visualFire) {
-        display.setVisualFire(visualFire);
+        this.visualFire = visualFire;
         return this;
     }
 
     public @NotNull ItemModelBuilder freezeTicks(int ticks) {
-        display.setFreezeTicks(ticks);
+        this.freezeTicks = ticks;
         return this;
     }
 
     public @NotNull ItemModelBuilder invisible(boolean invisible) {
-        display.setInvisible(invisible);
+        this.invisible = invisible;
         return this;
     }
 
     public @NotNull ItemModelBuilder noPhysics(boolean noPhysics) {
-        display.setNoPhysics(noPhysics);
+        this.noPhysics = noPhysics;
         return this;
     }
 
     public @NotNull ItemModelBuilder lockFreezeTicks(boolean lockFreezeTicks) {
-        display.lockFreezeTicks(lockFreezeTicks);
+        this.lockFreezeTicks = lockFreezeTicks;
         return this;
     }
 
     public @NotNull ItemModelBuilder persistent(boolean persistent) {
-        display.setPersistent(persistent);
+        this.persistent = persistent;
         return this;
     }
 
     public @NotNull ItemModelBuilder passenger(@NotNull Entity passenger) {
-        display.addPassenger(passenger);
+        if (passengers == null) {
+            passengers = new ArrayList<>();
+        }
+        this.passengers.add(passenger);
         return this;
     }
 
     public @NotNull ItemModelBuilder fallDistance(float fallDistance) {
-        display.setFallDistance(fallDistance);
+        this.fallDistance = fallDistance;
         return this;
     }
 
     public @NotNull ItemModelBuilder ticksLived(int tickLived) {
-        display.setTicksLived(tickLived);
+        this.ticksLived = tickLived;
         return this;
     }
 
     public @NotNull ItemModelBuilder customNameVisible(boolean customNameVisible) {
-        display.setCustomNameVisible(customNameVisible);
+        this.customNameVisible = customNameVisible;
         return this;
     }
 
     public @NotNull ItemModelBuilder visibleByDefault(boolean visibleByDefault) {
-        display.setVisibleByDefault(visibleByDefault);
+        this.visibleByDefault = visibleByDefault;
         return this;
     }
 
     public @NotNull ItemModelBuilder glowing(boolean glowing) {
-        display.setGlowing(glowing);
+        this.glowing = glowing;
         return this;
     }
 
     public @NotNull ItemModelBuilder invulnerable(boolean invulnerable) {
-        display.setInvulnerable(invulnerable);
+        this.invulnerable = invulnerable;
         return this;
     }
 
     public @NotNull ItemModelBuilder silent(boolean silent) {
-        display.setSilent(silent);
+        this.silent = silent;
         return this;
     }
 
     public @NotNull ItemModelBuilder gravity(boolean gravity) {
-        display.setGravity(gravity);
+        this.gravity = gravity;
         return this;
     }
 
     public @NotNull ItemModelBuilder portalCooldown(int cooldown) {
-        display.setPortalCooldown(cooldown);
+        this.portalCooldown = cooldown;
         return this;
     }
 
     public @NotNull ItemModelBuilder scoreboardTags(@NotNull String tag) {
-        display.addScoreboardTag(tag);
+        if (scoreboardTag == null) {
+            scoreboardTag = new HashSet<>();
+        }
+        this.scoreboardTag.add(tag);
         return this;
     }
 
     public @NotNull ItemModelBuilder sneaking(boolean sneaking) {
-        display.setSneaking(sneaking);
+        this.sneaking = sneaking;
         return this;
     }
 
     public @NotNull ItemModelBuilder pose(@NotNull Pose pose, boolean fixed) {
-        display.setPose(pose, fixed);
+        this.pose = pose;
+        this.fixedPose = fixed;
         return this;
     }
 
     // Metadatable methods
     public @NotNull ItemModelBuilder metaData(@NotNull String key, @NotNull MetadataValue value) {
-        display.setMetadata(key, value);
+        if (metadata == null) {
+            metadata = new HashMap<>();
+        }
+
+        if (metadata.containsKey(key)) {
+            metadata.get(key).add(value);
+        } else {
+            List<MetadataValue> values = new ArrayList<>();
+            values.add(value);
+            metadata.put(key, values);
+        }
         return this;
     }
 
     public @NotNull ItemModelBuilder fixedMetaData(@NotNull Plugin plugin, @NotNull String key, Object object) {
         FixedMetadataValue value = new FixedMetadataValue(plugin, object);
-        display.setMetadata(key, value);
-        return this;
+        return metaData(key, value);
     }
 
     public @NotNull ItemModelBuilder lazyMetaData(@NotNull Plugin plugin, @NotNull String key, Object object) {
-        display.setMetadata(key, new LazyMetadataValue(plugin, () -> object));
-        return this;
+        return metaData(key, new LazyMetadataValue(plugin, () -> object));
     }
 
     public @NotNull ItemModelBuilder lazyMetaData(@NotNull Plugin plugin, @NotNull String key, LazyMetadataValue.@NotNull CacheStrategy strategy, Object object) {
-        display.setMetadata(key, new LazyMetadataValue(plugin, strategy, () -> object));
-        return this;
+        return metaData(key, new LazyMetadataValue(plugin, strategy, () -> object));
     }
 
     // Nameable methods
     public @NotNull ItemModelBuilder customName(Component name) {
-        display.customName(name);
+        this.customName = name;
         return this;
     }
 }
