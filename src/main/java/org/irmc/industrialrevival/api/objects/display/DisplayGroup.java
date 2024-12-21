@@ -6,36 +6,54 @@ import org.bukkit.entity.Interaction;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 public class DisplayGroup {
-    // TODO
-    private final String plugin;
-    private final List<Display> displays;
-    private final Interaction interaction;
+    private final @NotNull IndustrialRevivalAddon addon;
+    private final List<Display> displays = new ArrayList<>();
+    private Interaction interaction;
 
-    public DisplayGroup(@NotNull IndustrialRevivalAddon addon, List<Display> displays, Interaction interaction) {
+    public DisplayGroup(@NotNull IndustrialRevivalAddon addon) {
         if (!addon.getPlugin().isEnabled()) {
             throw new UnsupportedOperationException("Plugin is not enabled");
         }
-        plugin = addon.getPlugin().getName();
-        this.displays = displays;
+        this.addon = addon;
+    }
+
+    public @NotNull DisplayGroup add(Display display) {
+        displays.add(display);
+        return this;
+    }
+
+    public @NotNull DisplayGroup hide() {
+        for (Display display : displays) {
+            display.setInvisible(true);
+        }
+        return this;
+    }
+
+    public @NotNull DisplayGroup show() {
+        for (Display display : displays) {
+            display.setInvisible(false);
+        }
+        return this;
+    }
+
+    public @NotNull DisplayGroup remove() {
+        for (Display display : displays) {
+            display.remove();
+        }
+        displays.clear();
+        if (interaction != null) {
+            interaction.remove();
+        }
+        return this;
+    }
+
+    public @NotNull DisplayGroup setInteraction(Interaction interaction) {
         this.interaction = interaction;
-    }
-
-    public boolean display() {
-        // TODO
-        return false;
-    }
-
-    public boolean hide() {
-        // TODO
-        return false;
-    }
-
-    public boolean remove() {
-        // TODO
-        return false;
+        return this;
     }
 }
