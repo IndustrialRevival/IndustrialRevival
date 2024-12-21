@@ -23,6 +23,14 @@ public class ItemStackReference {
         this.dictionary = dictionary;
     }
 
+    public ItemStackReference of(ItemStack itemStack) {
+        return new ItemStackReference(itemStack);
+    }
+
+    public ItemStackReference of(ItemDictionary dictionary) {
+        return new ItemStackReference(dictionary);
+    }
+
     public boolean itemsMatch(ItemStack incomingItemStack) {
         if (this.referenceType == ReferenceType.ITEMSTACK) {
             return ItemUtils.isItemSimilar(this.itemStack, incomingItemStack);

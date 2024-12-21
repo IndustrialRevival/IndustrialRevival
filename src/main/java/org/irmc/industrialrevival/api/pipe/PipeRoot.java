@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 @Getter
 public class PipeRoot {
@@ -34,28 +35,33 @@ public class PipeRoot {
     }
 
     public void searchPipes(Location from) {
-        Pipe pipe = PipeRecorder.getPipe(from);
+        Stack<Location> stack = new Stack<>();
+        stack.push(from);
+        while (!stack.isEmpty()) {
+            Location current = stack.pop();
+            Pipe pipe = PipeRecorder.getPipe(current);
 
-        if (pipe == null) {
-            return;
-        }
-
-        for (PipeFace face : pipe.getPipeFaces().getFaces()) {
-            Pipe relativePipe = pipe.getRelative(face);
-
-            if (relativePipe != null && !pipes.containsKey(relativePipe.getLocation())) {
-                pipes.put(relativePipe.getLocation(), relativePipe);
+            if (pipe == null) {
+                continue;
             }
 
-            if (relativePipe instanceof PipeServer server) {
-                switch (server.getType()) {
-                    case PULL -> pullers.add(relativePipe.getLocation());
-                    case PUSH -> pushers.add(relativePipe.getLocation());
+            for (PipeFace face : pipe.getPipeFaces().getFaces()) {
+                Pipe relativePipe = pipe.getRelative(face);
+
+                if (relativePipe != null && !pipes.containsKey(relativePipe.getLocation())) {
+                    pipes.put(relativePipe.getLocation(), relativePipe);
                 }
-            }
 
-            if (relativePipe != null) {
-                searchPipes(relativePipe.getLocation());
+                if (relativePipe instanceof PipeServer server) {
+                    switch (server.getType()) {
+                        case PULL -> pullers.add(relativePipe.getLocation());
+                        case PUSH -> pushers.add(relativePipe.getLocation());
+                    }
+                }
+
+                if (relativePipe != null) {
+                    stack.push(relativePipe.getLocation());
+                }
             }
         }
     }
