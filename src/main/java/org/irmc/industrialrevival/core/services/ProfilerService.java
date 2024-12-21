@@ -1,11 +1,10 @@
 package org.irmc.industrialrevival.core.services;
 
 import lombok.Getter;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.chat.hover.content.Content;
-import net.md_5.bungee.api.chat.hover.content.Text;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
@@ -65,15 +64,12 @@ public class ProfilerService {
         return request;
     }
 
-    @SuppressWarnings("deprecation")
     @NotNull
     @ParametersAreNonnullByDefault
-    private TextComponent getHoverComponent(String groundText, String backGroundText) {
-        TextComponent hoverComponent = new TextComponent(groundText);
-        hoverComponent.setColor(ChatColor.GRAY);
-
-        Content content = new Text(TextComponent.fromLegacyText(backGroundText));
-        hoverComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, content));
+    private Component getHoverComponent(String groundText, String backGroundText) {
+        Component hoverComponent = Component.text(groundText);
+        hoverComponent = hoverComponent.color(NamedTextColor.GRAY);
+        hoverComponent = hoverComponent.hoverEvent(HoverEvent.showText(LegacyComponentSerializer.legacyAmpersand().deserialize(backGroundText)));
 
         return hoverComponent;
     }
@@ -210,7 +206,7 @@ public class ProfilerService {
     }
 
     @NotNull
-    public Map<ProfiledBlock, Long> getProfilingDataByID(String id) {
+    public Map<ProfiledBlock, Long> getProfilingDataByID(NamespacedKey id) {
         Map<ProfiledBlock, Long> profilingData = getProfilingData();
         Map<ProfiledBlock, Long> profilingDataByID = new ConcurrentHashMap<>();
         for (ProfiledBlock profiledBlock : profilingData.keySet()) {

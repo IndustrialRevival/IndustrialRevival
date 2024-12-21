@@ -12,6 +12,9 @@ public class IRBlockStructurePiece extends StructurePiece {
     private final IndustrialRevivalItem iritem;
 
     public IRBlockStructurePiece(IndustrialRevivalItem iritem) {
+        if (!iritem.getItemStack().getType().isBlock()) {
+            throw new IllegalArgumentException("The industrial revival item must be a block");
+        }
         this.iritem = iritem;
     }
 

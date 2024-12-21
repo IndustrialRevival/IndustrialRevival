@@ -6,7 +6,6 @@ import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import io.papermc.paper.plugin.configuration.PluginMeta;
 import lombok.Getter;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -55,7 +54,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     private @Getter ItemSettings itemSettings;
 
     public static void runSync(@Nonnull Runnable runnable) {
-        Bukkit.getScheduler().runTask(instance, runnable);
+        getInstance().getFoliaLibImpl().runNextTick(_ -> runnable.run());
     }
 
     @Override
