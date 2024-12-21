@@ -12,6 +12,7 @@ public class IRBlockStructurePiece extends StructurePiece {
     private final IndustrialRevivalItem iritem;
 
     public IRBlockStructurePiece(IndustrialRevivalItem iritem) {
+        if (iritem.g)
         this.iritem = iritem;
     }
 
