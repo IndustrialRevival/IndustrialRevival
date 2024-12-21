@@ -1,10 +1,7 @@
 package org.irmc.industrialrevival.core.command;
 
 import dev.jorel.commandapi.CommandAPICommand;
-import dev.jorel.commandapi.arguments.ArgumentSuggestions;
-import dev.jorel.commandapi.arguments.IntegerArgument;
-import dev.jorel.commandapi.arguments.PlayerArgument;
-import dev.jorel.commandapi.arguments.TextArgument;
+import dev.jorel.commandapi.arguments.*;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
@@ -18,10 +15,10 @@ import org.irmc.industrialrevival.api.objects.TimingViewRequest;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.guide.CheatGuideImplementation;
 import org.irmc.industrialrevival.utils.Constants;
+import org.irmc.pigeonlib.items.ItemUtils;
 import org.irmc.pigeonlib.language.MessageReplacement;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 public class IRCommandGenerator {
@@ -31,13 +28,11 @@ public class IRCommandGenerator {
         instance = new CommandAPICommand("industrialrevival")
                 .withAliases("ir")
                 .withArguments(new TextArgument("subCommand"))
-                .withPermission(Constants.Permissions.COMMAND_HELP)
                 .executes(info -> {
                     CommandSender sender = info.sender();
                     sendHelpMessage(sender);
                 })
                 .withSubcommand(new CommandAPICommand("help")
-                        .withPermission(Constants.Permissions.COMMAND_HELP)
                         .executes(executionInfo -> {
                             CommandSender sender = executionInfo.sender();
                             sendHelpMessage(sender);
@@ -71,7 +66,7 @@ public class IRCommandGenerator {
                 .withSubcommand(new CommandAPICommand("give")
                         .withPermission(Constants.Permissions.COMMAND_GIVE)
                         .withArguments(new PlayerArgument("target"))
-                        .withArguments(new TextArgument("id")
+                        .withArguments(new NamespacedKeyArgument("id")
                                 .replaceSuggestions(ArgumentSuggestions.stringsAsync(
                                         _ -> CompletableFuture.supplyAsync(() -> IndustrialRevival.getInstance()
                                                 .getRegistry()
@@ -82,28 +77,14 @@ public class IRCommandGenerator {
                         .withOptionalArguments(new IntegerArgument("amount"))
                         .executes((sender, args) -> {
                             Player target = (Player) args.get("target");
-                            String itemID = (String) args.getOrDefault("id", "");
+                            NamespacedKey itemID = (NamespacedKey) args.get("id");
                             Integer amount = (Integer) args.get("amount");
-
-                            NamespacedKey key = NamespacedKey.fromString(itemID);
-                            if (itemID.indexOf(':') == -1) {
-                                itemID = "industrialrevival:" + itemID;
-                            } else {
-                                if (key == null) {
-                                    sender.sendMessage(IndustrialRevival.getInstance()
-                                            .getLanguageManager()
-                                            .getMsgComponent(sender, "command.give.invalid_item_id"));
-                                    return;
-                                }
-                            }
-
-                            key = NamespacedKey.fromString(itemID);
 
                             int finalAmount = amount == null ? 1 : amount;
                             IndustrialRevivalItem item = IndustrialRevival.getInstance()
                                     .getRegistry()
                                     .getItems()
-                                    .get(key);
+                                    .get(itemID);
 
                             if (target == null) {
                                 sender.sendMessage(IndustrialRevival.getInstance()
@@ -126,8 +107,7 @@ public class IRCommandGenerator {
                             MessageReplacement itemName = MessageReplacement.replace(
                                     "%item%",
                                     MiniMessage.miniMessage()
-                                            .serialize(Objects.requireNonNull(
-                                                    iritem.getItemMeta().displayName())));
+                                            .serialize(ItemUtils.getDisplayName(iritem)));
                             MessageReplacement itemAmount =
                                     MessageReplacement.replace("%amount%", String.valueOf(finalAmount));
 
@@ -138,7 +118,7 @@ public class IRCommandGenerator {
                 .withSubcommand(new CommandAPICommand("giveSilently")
                         .withPermission(Constants.Permissions.COMMAND_GIVE)
                         .withArguments(new PlayerArgument("target"))
-                        .withArguments(new TextArgument("id")
+                        .withArguments(new NamespacedKeyArgument("id")
                                 .replaceSuggestions(ArgumentSuggestions.stringsAsync(
                                         _ -> CompletableFuture.supplyAsync(() -> IndustrialRevival.getInstance()
                                                 .getRegistry()
@@ -149,28 +129,13 @@ public class IRCommandGenerator {
                         .withOptionalArguments(new IntegerArgument("amount"))
                         .executes((sender, args) -> {
                             Player target = (Player) args.get("target");
-                            String itemID = (String) args.getOrDefault("id", "");
-                            Integer amount = (Integer) args.get("amount");
+                            NamespacedKey itemID = (NamespacedKey) args.get("id");
+                            Integer amount = (Integer) args.getOrDefault("amount", 1);
 
-                            NamespacedKey key = NamespacedKey.fromString(itemID);
-                            if (itemID.indexOf(':') == -1) {
-                                itemID = "industrialrevival:" + itemID;
-                            } else {
-                                if (key == null) {
-                                    sender.sendMessage(IndustrialRevival.getInstance()
-                                            .getLanguageManager()
-                                            .getMsgComponent(sender, "command.give.invalid_item_id"));
-                                    return;
-                                }
-                            }
-
-                            key = NamespacedKey.fromString(itemID);
-
-                            int finalAmount = amount == null ? 1 : amount;
                             IndustrialRevivalItem item = IndustrialRevival.getInstance()
                                     .getRegistry()
                                     .getItems()
-                                    .get(key);
+                                    .get(itemID);
 
                             if (target == null) {
                                 sender.sendMessage(IndustrialRevival.getInstance()
@@ -187,7 +152,7 @@ public class IRCommandGenerator {
                             }
 
                             ItemStack iritem = item.getItemStack().clone();
-                            iritem.setAmount(finalAmount);
+                            iritem.setAmount(amount);
                             target.getInventory().addItem(iritem);
                         }))
                 .withSubcommand(new CommandAPICommand("timings")
@@ -223,7 +188,7 @@ public class IRCommandGenerator {
         msg = msg.append(Component.newline());
 
         MessageReplacement ver = MessageReplacement.replace(
-                "%version%", IndustrialRevival.getInstance().getPluginMeta().getVersion());
+                "%version%", IndustrialRevival.getInstance().getVersion());
 
         msg = msg.append(IndustrialRevival.getInstance()
                 .getLanguageManager()

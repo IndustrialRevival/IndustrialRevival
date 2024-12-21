@@ -29,4 +29,13 @@ public class SubItemGroup extends ItemGroup {
 
         nig.tryResort();
     }
+
+    @Override
+    public void register() {
+        if (!nig.isRegistered()) {
+            nig.register();
+        }
+
+        super.register();
+    }
 }

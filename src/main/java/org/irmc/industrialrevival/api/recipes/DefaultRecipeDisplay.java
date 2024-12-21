@@ -34,7 +34,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
     @Override
     public void display(Player p, SimpleMenu sm, IndustrialRevivalItem item) {
         IRGuideImplementation guide = SurvivalGuideImplementation.INSTANCE;
-        sm.setItem(0, Constants.Buttons.BACK_BUTTON.apply(p), ((player, clickedItem, slot, menu, clickType) -> {
+        sm.setItem(0, Constants.Buttons.BACK_BUTTON.apply(p), ((player, _, _, _, _) -> {
             guide.goBack(player);
             return false;
         }));
@@ -56,10 +56,12 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
             sm.setItem(25, CleanedItemGetter.getCleanedItem(item.getItem().getItemStack()));
         } else {
             recipeContents = getRecipeContentsByPage(recipeContents, pageRecord.getOrDefault(p.getUniqueId(), 1));
-            showRecipeContent(p, sm, recipeContents.getFirst(), recipeContents);
+            if (!recipeContents.isEmpty()) {
+                showRecipeContent(p, sm, recipeContents.getFirst(), recipeContents);
+            }
         }
 
-        sm.setItem(28, Constants.Buttons.ADD_TO_BOOKMARK_BUTTON.apply(p), (player, clickedItem, slot, menu, clickType) -> {
+        sm.setItem(28, Constants.Buttons.ADD_TO_BOOKMARK_BUTTON.apply(p), (player, _, _, _, _) -> {
             SurvivalGuideImplementation.INSTANCE.addBookmark(player, item);
             return false;
         });
@@ -78,6 +80,10 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
             recipe = item.getRecipeIngredients(rc.recipeType());
         }
 
+        if (recipe.length < 1) {
+            return;
+        }
+
         for (int i = 0; i < 9; i++) {
             ItemStack recipeItem = recipe[i];
             if (recipeItem != null) {
@@ -92,7 +98,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
         for (int i = 2; i < 7; i++) {
             RecipeContent recipeContent = recipeContents.get(index);
             if (recipeContent != null) {
-                sm.setItem(i, recipeContent.getMakerItem(), (player, clickedItem, slot, menu, clickType) -> {
+                sm.setItem(i, recipeContent.getMakerItem(), (player, _, _, menu, _) -> {
                     pageRecord.put(player.getUniqueId(), 1);
                     showRecipeContent(player, menu, recipeContent, recipeContents);
                     return false;
@@ -105,7 +111,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
 
         int currentPage = pageRecord.getOrDefault(p.getUniqueId(), 1);
 
-        SimpleMenu.ClickHandler previousHandler = (player, clickedItem, slot, menu, clickType) -> {
+        SimpleMenu.ClickHandler previousHandler = (player, _, _, _, _) -> {
             if (currentPage > 1) {
                 pageRecord.put(player.getUniqueId(), currentPage - 1);
                 List<RecipeContent> recipeContentsByPage = getRecipeContentsByPage(recipeContents, currentPage - 1);
@@ -124,7 +130,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
 
         sm.setItem(1, previousOne, previousHandler);
 
-        SimpleMenu.ClickHandler nextHandler = (player, clickedItem, slot, menu, clickType) -> {
+        SimpleMenu.ClickHandler nextHandler = (player, _, _, _, _) -> {
             if (recipeContents.size() < 6) {
                 return false;
             }
@@ -197,7 +203,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
         IRGuideImplementation guide = SurvivalGuideImplementation.INSTANCE;
 
         if (allAvailableRecipeContents.isEmpty()) {
-            sm.setItem(0, Constants.Buttons.BACK_BUTTON.apply(p), ((player, clickedItem, slot, menu, clickType) -> {
+            sm.setItem(0, Constants.Buttons.BACK_BUTTON.apply(p), ((player, _, _, _, _) -> {
                 guide.goBack(player);
                 return false;
             }));
@@ -216,7 +222,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
 
         int currentPage = pageRecord.getOrDefault(p.getUniqueId(), 1);
 
-        SimpleMenu.ClickHandler previousHandler = (player, clickedItem, slot, menu, clickType) -> {
+        SimpleMenu.ClickHandler previousHandler = (player, _, _, _, _) -> {
             if (currentPage > 1) {
                 pageRecord.put(player.getUniqueId(), currentPage - 1);
                 List<RecipeContent> recipeContentsByPage =
@@ -237,7 +243,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
 
         sm.setItem(1, previousOne, previousHandler);
 
-        SimpleMenu.ClickHandler nextHandler = (player, clickedItem, slot, menu, clickType) -> {
+        SimpleMenu.ClickHandler nextHandler = (player, _, _, _, _) -> {
             if (recipeContents.size() < 6) {
                 return false;
             }
@@ -272,7 +278,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
 
     private void setBorder(SimpleMenu sm, Player p, RecipeContent rc) {
         IRGuideImplementation guide = SurvivalGuideImplementation.INSTANCE;
-        sm.setItem(0, Constants.Buttons.BACK_BUTTON.apply(p), ((player, clickedItem, slot, menu, clickType) -> {
+        sm.setItem(0, Constants.Buttons.BACK_BUTTON.apply(p), ((player, _, _, _, _) -> {
             guide.goBack(player);
             pageRecord.remove(player.getUniqueId());
             return false;
@@ -289,19 +295,19 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
 
         ItemStack wikiPageItem = Constants.Buttons.WIKI_PAGE_BUTTON.apply(p);
         SimpleMenu.ClickHandler wikiHandler;
-        if (item.getWikiText().isEmpty()) {
+        if (item.getWikiText() == null) {
             wikiPageItem.setType(Material.BLACK_STAINED_GLASS_PANE);
             wikiHandler = SimpleMenu.ClickHandler.DEFAULT;
             wikiPageItem.editMeta(m -> m.displayName(Component.empty()));
         } else {
-            String url = Constants.Misc.WIKI_URL + item.getWikiText().get();
+            String url = Constants.Misc.WIKI_URL + item.getWikiText();
             ClickEvent clickEvent = ClickEvent.openUrl(url);
             Component text =
                     IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, "misc.wiki_page");
             text = text.clickEvent(clickEvent);
 
             Component finalText = text;
-            wikiHandler = (player, clickedItem, slot, menu, clickType) -> {
+            wikiHandler = (_, _, _, _, _) -> {
                 p.sendMessage(finalText);
                 return false;
             };

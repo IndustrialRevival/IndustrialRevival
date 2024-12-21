@@ -2,6 +2,7 @@ package org.irmc.industrialrevival.implementation.items;
 
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
+import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.recipes.CraftMethod;
@@ -26,7 +27,7 @@ import org.irmc.industrialrevival.utils.KeyUtil;
  * Here's an example of how to build an item:
  *
  * <p>
- * If item is a normal item, it should be built as:
+ * If an item is a normal item, it should be built as:
  * <pre>{@code
  * public static final MySpecialItem my_special_item = new MySpecialItem()
  *     .setAddon(my_addon)                       // my_addon -> {@link IndustrialRevivalAddon }
@@ -41,7 +42,7 @@ import org.irmc.industrialrevival.utils.KeyUtil;
  *     .doOtherThingsInMySpecialItem();          // this method should return the instance of {@code MySpecialItem }
  * }</pre>
  *
- * If item is a multiblock, it should be built as:
+ * If an item is a multiblock, it should be built as:
  * <pre>{@code
  * public static final MyMultiblock my_multiblock = new MyMultiblock(namespacedKey) // namespacedKey is the key of the multiblock, see more {@link KeyUtil}
  *     .setAddon(my_addon)                       // my_addon -> {@link IndustrialRevivalAddon }
@@ -176,6 +177,12 @@ public class IndustrialRevivalItemSetup {
                     item
             ))
             .cast(ProfessionalLaboratory.class);
+
+    public static final IndustrialRevivalItem ALUMINUM_ORE = new IndustrialRevivalItem()
+            .setAddon(INSTANCE)
+            .addItemGroup(IRItemGroups.ORES)
+            .setItemStack(IndustrialRevivalItems.ALUMINUM_ORE);
+
     public static void setup() {
         EMPTY.register();
         CONTAINER.register();
@@ -188,5 +195,6 @@ public class IndustrialRevivalItemSetup {
         WOODEN_PRESS.register();
         RESEARCH_TABLE.register();
         PROFESSIONAL_LABORATORY.register();
+        ALUMINUM_ORE.register();
     }
 }

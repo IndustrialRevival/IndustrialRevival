@@ -41,7 +41,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -80,8 +79,8 @@ public class IndustrialRevivalItem {
     private IndustrialRevivalAddon addon;
     private IndustrialRevivalItemStack itemStack;
     private ItemState state = ItemState.UNREGISTERED;
-    @Getter
-    private Optional<String> wikiText;
+    @Getter @Nullable
+    private String wikiText;
     @Getter
     private boolean enchantable = true;
     @Getter
@@ -145,7 +144,7 @@ public class IndustrialRevivalItem {
     public IndustrialRevivalItem setWikiText(@NotNull String wikiText) {
         checkRegistered();
         Preconditions.checkArgument(wikiText != null, "WikiText cannot be null");
-        this.wikiText = Optional.of(wikiText);
+        this.wikiText = wikiText;
         return this;
     }
 
@@ -411,6 +410,10 @@ public class IndustrialRevivalItem {
 
     public ItemStack getItemStack() {
         return itemStack.getItemStack();
+    }
+
+    public final boolean isRegistered() {
+        return IndustrialRevival.getInstance().getRegistry().getItems().containsKey(getId());
     }
 
     public enum ItemState {
