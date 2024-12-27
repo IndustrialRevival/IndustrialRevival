@@ -100,11 +100,7 @@ public class MenuUtil {
             return true;
         }
 
-        if (ItemUtils.isItemSimilar(itemStack, CANCEL)) {
-            return true;
-        }
-
-        return false;
+        return ItemUtils.isItemSimilar(itemStack, CANCEL);
     }
 
     @Nullable
@@ -187,7 +183,7 @@ public class MenuUtil {
     }
 
     public static boolean fits(@Nonnull MachineMenu machineMenu, @Nonnull ItemStack item, int... slots) {
-        if (item == null || item.getType() == Material.AIR) {
+        if (item.getType() == Material.AIR) {
             return true;
         }
 
@@ -210,7 +206,7 @@ public class MenuUtil {
     }
 
     public static boolean fits(@Nonnull MachineMenu machineMenu, @Nonnull ItemStack[] items, int... slots) {
-        if (items == null || items.length == 0) {
+        if (items.length == 0) {
             return false;
         }
 
@@ -225,7 +221,7 @@ public class MenuUtil {
     }
 
     public static boolean fits(@Nonnull MachineMenu machineMenu, @Nonnull List<ItemStack> items, int... slots) {
-        if (items == null || items.isEmpty()) {
+        if (items.isEmpty()) {
             return false;
         }
 

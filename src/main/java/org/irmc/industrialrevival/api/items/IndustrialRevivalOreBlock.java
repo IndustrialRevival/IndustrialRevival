@@ -1,14 +1,9 @@
 package org.irmc.industrialrevival.api.items;
 
 import lombok.Getter;
-import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
-import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.items.attributes.VanillaSmeltingItem;
-import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
-import org.irmc.industrialrevival.api.items.groups.ItemGroup;
-import org.irmc.industrialrevival.api.objects.IRRecipeChoice;
 import org.jetbrains.annotations.NotNull;
 
 /**

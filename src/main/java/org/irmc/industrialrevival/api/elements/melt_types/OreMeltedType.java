@@ -15,8 +15,8 @@ public class OreMeltedType extends MeltedType {
         this.identifier = Component.text(elementType.name().toLowerCase());
         // Didn't find a better way to get the name or melted name for ore melted types
         // todo: Should change getItemName to getText in the future
-        this.name = IndustrialRevival.getInstance().getLanguageManager().getItemName("ore_melted_type_name_" + elementType.name().toLowerCase());
-        this.meltedName = IndustrialRevival.getInstance().getLanguageManager().getItemName("ore_melted_type_melted_name_" + elementType.name().toLowerCase());
+        this.name = IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(null, "ore_melted_type_name." + elementType.name().toLowerCase());
+        this.meltedName = IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(null, "ore_melted_type_melted_name." + elementType.name().toLowerCase());
     }
 
     public static OreMeltedType of(ElementType elementType) {

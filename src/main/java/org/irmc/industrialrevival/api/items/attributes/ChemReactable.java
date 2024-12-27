@@ -2,9 +2,9 @@ package org.irmc.industrialrevival.api.items.attributes;
 
 import org.irmc.industrialrevival.api.elements.ElementProportion;
 import org.irmc.industrialrevival.api.elements.ElementType;
-import org.irmc.industrialrevival.api.elements.ReactResult;
+import org.irmc.industrialrevival.api.elements.reaction.ReactResult;
 
-public interface ChemReactable {
+public interface ChemReactable extends ItemAttribute {
     /**
      * Returns the element proportions of the item.
      *
@@ -33,11 +33,4 @@ public interface ChemReactable {
      * @return the result of the reaction.
      */
     ReactResult react(ElementType.ReactCondition[] conditions, ChemReactable... other);
-
-    /**
-     * Checks if the item is a gas or gas storage.
-     *
-     * @return true if the item is a gas or gas storage that stores a type of gas, false otherwise.
-     */
-    boolean isGasOrGasStorage();
 }

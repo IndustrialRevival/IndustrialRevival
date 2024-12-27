@@ -15,7 +15,6 @@ import org.irmc.industrialrevival.api.objects.TimingViewRequest;
 import org.irmc.industrialrevival.core.task.TickerTask;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.NumberUtils;
-import org.irmc.industrialrevival.utils.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,7 +36,7 @@ public class ProfilerService {
     public final Map<ProfiledBlock, Long> profilingData = new ConcurrentHashMap<>();
     public final Map<Location, Long> startTimes = new ConcurrentHashMap<>();
     @Getter
-    private final TickerTask task = new TickerTask(IndustrialRevival.getInstance().getConfig().getInt("options.armor-check-interval", 1));
+    private final TickerTask task = new TickerTask(IndustrialRevival.getInstance().getConfig().getInt("options.armor-check-interval", 20));
     @Getter
     public PerformanceSummary summary = new PerformanceSummary(new HashMap<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(), 0);
 
@@ -98,7 +97,7 @@ public class ProfilerService {
             }
             long totalTime = dataByID.get(id);
             String idFormat = MessageFormat.format(
-                    StringUtil.color("{0} - total: {1} | avg: {2}"),
+                    "{0} - total: {1} | avg: {2}",
                     id, totalTime, totalTime / getTotalMachine(id));
             idBuilder.append(idFormat).append("\n");
             got++;
@@ -116,7 +115,7 @@ public class ProfilerService {
             }
             long totalTime = dataByChunk.get(chunkPosition);
             String chunkFormat = MessageFormat.format(
-                    StringUtil.color("{0} - total: {1}"),
+                    "{0} - total: {1} | avg: {2}",
                     chunkPosition.humanize(), totalTime, totalTime / dataByChunk.size());
             chunkBuilder.append(chunkFormat).append("\n");
             got++;
@@ -133,12 +132,13 @@ public class ProfilerService {
             }
             long totalTime = dataByPlugin.get(pluginName);
             String pluginFormat = MessageFormat.format(
-                    StringUtil.color("{0} - total: {1}"),
+                    "{0} - total: {1}",
                     pluginName, totalTime);
             pluginBuilder.append(pluginFormat).append("\n");
             got++;
         }
 
+        //TODO: localization
         request.getRequester().sendMessage("&a====== Profiling Data ======");
         request.getRequester().sendMessage("&aTick count: " + task.getTicked());
         request.getRequester().sendMessage("&aTotal time: " + NumberUtils.round(NumberUtils.nsToMs(tt), 2));
