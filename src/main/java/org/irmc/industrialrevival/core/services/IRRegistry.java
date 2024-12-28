@@ -51,7 +51,6 @@ public final class IRRegistry {
 
     private final Map<RecipeType, Set<ItemStack>> craftables;
 
-
     public IRRegistry() {
         itemGroups = new HashMap<>();
         researches = new HashMap<>();

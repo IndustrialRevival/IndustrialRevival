@@ -25,17 +25,18 @@ public class IRItemGroups {
     public static final ItemGroup MISC = new NormalItemGroup(KeyUtil.customKey("misc"), GroupIcons.GROUP_MISC);
     public static final ItemGroup MULTIBLOCK = new NormalItemGroup(KeyUtil.customKey("multiblock"), GroupIcons.GROUP_MULTIBLOCK);
 
+    //This method automatically registers all the item groups in this class
     public static void setup() {
-        DEBUG.register();
-        ORES.register();
-        MANUAL_MACHINES.register();
-        MATERIALS.register();
-        SMELTING.register();
-        ELECTRIC_MACHINES.register();
-        TOOLS.register();
-        ARMORS.register();
-        DEFENSE.register();
-        FOOD.register();
-        MISC.register();
+        for (var f : IRItemGroups.class.getDeclaredFields()) {
+            try {
+                if (f.get(null) instanceof ItemGroup i) {
+                    if (!i.isRegistered()) {
+                        i.register();
+                    }
+                }
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

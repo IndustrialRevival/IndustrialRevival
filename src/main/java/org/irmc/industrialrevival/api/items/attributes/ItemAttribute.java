@@ -1,5 +1,7 @@
 package org.irmc.industrialrevival.api.items.attributes;
 
+import org.jetbrains.annotations.ApiStatus;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -19,8 +21,6 @@ import java.util.List;
  * @see VanillaSmeltingItem <br>
  * @see Unusable <br>
  */
+@ApiStatus.NonExtendable
 public interface ItemAttribute {
-    default List<String> getLore() {
-        return Collections.emptyList();
-    }
 }

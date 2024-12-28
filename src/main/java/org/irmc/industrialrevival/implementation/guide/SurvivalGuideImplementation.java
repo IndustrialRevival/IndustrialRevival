@@ -125,7 +125,7 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
         int page = pageMap.getOrDefault(p.getName(), 1);
 
         ItemStack previousButton = Constants.Buttons.PREVIOUS_BUTTON.apply(p);
-        SimpleMenu.ClickHandler previousClickHandler = (player, item, slot, menu, clickType) -> {
+        SimpleMenu.ClickHandler previousClickHandler = (player, _, _, _, _) -> {
             pageMap.put(p.getName(), page - 1);
             SimpleMenu previousPage = new SimpleMenu(IndustrialRevival.getInstance()
                     .getLanguageManager()
@@ -237,6 +237,7 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
             IndustrialRevival.getInstance().getLanguageManager().sendMessage(player, "guide.type_search");
             ChatInput.waitForPlayer(IndustrialRevival.getInstance(), player, s -> {
                 if (s.equalsIgnoreCase("#cancel")) {
+                    implementation.goBack(player);
                     return;
                 }
 

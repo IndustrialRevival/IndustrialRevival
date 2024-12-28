@@ -8,9 +8,12 @@ import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.utils.Constants;
 import org.irmc.pigeonlib.items.CustomItemStack;
 import org.irmc.pigeonlib.pdc.PersistentDataAPI;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@Deprecated
+@ApiStatus.ScheduledForRemoval(inVersion = "1.0")
 public class IndustrialRevivalItemStack {
     private final ItemStack itemStack;
     @Getter

@@ -50,6 +50,9 @@ public class TreeItemGroup extends ItemGroup {
     @Override
     public final void register() {
         for (ItemObject i : itemObjects) {
+            if (i.group != null && !i.group.isRegistered()) {
+                i.group.register();
+            }
             i.tryRegister();
         }
     }
@@ -202,6 +205,9 @@ public class TreeItemGroup extends ItemGroup {
         public void tryRegister() {
             if (group != null && !group.isRegistered()) {
                 group.register();
+            }
+            if (item != null && !item.isRegistered()) {
+                item.register();
             }
         }
     }

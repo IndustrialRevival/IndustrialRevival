@@ -26,15 +26,17 @@ import java.util.List;
 public abstract class ItemGroup {
     @Getter
     private final NamespacedKey key;
-
     @Getter
     private final ItemStack icon;
 
     private final List<IndustrialRevivalItem> items = new LinkedList<>();
+
     boolean locked = false;
 
     @Getter
     private int tier;
+    @Getter
+    private boolean onlyVisibleByAdmins = false;
 
     protected ItemGroup(@NotNull NamespacedKey key, @NotNull ItemStack icon) {
         this.key = key;
@@ -141,7 +143,6 @@ public abstract class ItemGroup {
     }
 
     public void addItem(@NotNull IndustrialRevivalItem item) {
-        checkLocked();
         if (allowedItem(item)) {
             this.items.add(item);
         } else {
@@ -155,10 +156,15 @@ public abstract class ItemGroup {
     }
 
     public void register() {
-        checkLocked();
-        this.locked = true;
+        if (isRegistered()) {
+            throw new IllegalStateException("the item group is already registered");
+        }
+
+        locked = true;
 
         IndustrialRevival.getInstance().getRegistry().registerItemGroup(this);
+
+        resort();
     }
 
     public final boolean isRegistered() {
@@ -168,8 +174,11 @@ public abstract class ItemGroup {
     public void setTier(int tier) {
         checkLocked();
         this.tier = tier;
+    }
 
-        resort();
+    public void setOnlyVisibleByAdmins(boolean onlyVisibleByAdmins) {
+        checkLocked();
+        this.onlyVisibleByAdmins = onlyVisibleByAdmins;
     }
 
     private void resort() {

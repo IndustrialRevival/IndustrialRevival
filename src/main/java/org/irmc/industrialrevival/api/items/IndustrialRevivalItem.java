@@ -30,6 +30,7 @@ import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.Constants;
 import org.irmc.pigeonlib.items.ItemUtils;
+import org.irmc.pigeonlib.language.LanguageManager;
 import org.irmc.pigeonlib.pdc.PersistentDataAPI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -41,7 +42,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -80,8 +80,9 @@ public class IndustrialRevivalItem {
     private IndustrialRevivalAddon addon;
     private IndustrialRevivalItemStack itemStack;
     private ItemState state = ItemState.UNREGISTERED;
-    @Getter
-    private Optional<String> wikiText;
+    private boolean autoGetNameAndLoreFromLang = true;
+    @Getter @Nullable
+    private String wikiText;
     @Getter
     private boolean enchantable = true;
     @Getter
@@ -142,10 +143,17 @@ public class IndustrialRevivalItem {
     }
 
     @NotNull
+    public IndustrialRevivalItem setAutoGetNameAndLoreFromLang(boolean autoGetNameAndLoreFromLang) {
+        checkRegistered();
+        this.autoGetNameAndLoreFromLang = autoGetNameAndLoreFromLang;
+        return this;
+    }
+
+    @NotNull
     public IndustrialRevivalItem setWikiText(@NotNull String wikiText) {
         checkRegistered();
         Preconditions.checkArgument(wikiText != null, "WikiText cannot be null");
-        this.wikiText = Optional.of(wikiText);
+        this.wikiText = wikiText;
         return this;
     }
 
@@ -253,8 +261,25 @@ public class IndustrialRevivalItem {
         Preconditions.checkArgument(addon != null, "Losing addon reference! Please set it before registering the item.");
         checkRegistered();
 
+        if (!IndustrialRevival.getInstance().isEnabled()) {
+            throw new UnsupportedOperationException("Cannot register item before IndustrialRevival is enabled");
+        }
+
         if (!addon.getPlugin().isEnabled()) {
             throw new UnsupportedOperationException("Cannot register item before your plugin is enabled");
+        }
+
+        if (autoGetNameAndLoreFromLang) {
+            LanguageManager lm = new LanguageManager(addon.getPlugin());
+            Component name = lm.getItemName(getId().getKey());
+            if (name != null) {
+                itemStack.getItemStack().getItemMeta().displayName(name);
+            }
+
+            List<Component> lore = lm.getItemLore(getId().getKey());
+            if (lore != null && !lore.isEmpty()) {
+                itemStack.getItemStack().getItemMeta().lore(lore);
+            }
         }
 
         try {
@@ -411,6 +436,10 @@ public class IndustrialRevivalItem {
 
     public ItemStack getItemStack() {
         return itemStack.getItemStack();
+    }
+
+    public final boolean isRegistered() {
+        return IndustrialRevival.getInstance().getRegistry().getItems().containsKey(getId());
     }
 
     public enum ItemState {

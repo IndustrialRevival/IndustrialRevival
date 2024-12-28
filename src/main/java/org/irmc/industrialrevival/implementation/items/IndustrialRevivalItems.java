@@ -155,8 +155,7 @@ public class IndustrialRevivalItems {
     public static final IndustrialRevivalItemStack BORON_NITRIDE_ORE = new MiniIndustrialRevivalItemStack("BORON_NITRIDE_ORE", Material.IRON_INGOT);
     public static final IndustrialRevivalItemStack LITHIUM_ORE = new MiniIndustrialRevivalItemStack("LITHIUM_ORE", Material.IRON_INGOT);
     public static final IndustrialRevivalItemStack MAGNESIUM_ORE = new MiniIndustrialRevivalItemStack("MAGNESIUM_ORE", Material.IRON_INGOT);
-    public static final IndustrialRevivalItemStack ALUMINUM_ORE = new MiniIndustrialRevivalItemStack("ALUMINUM_ORE", Material.IRON_INGOT);
-    public static final IndustrialRevivalItemStack COPPER_ORE = new MiniIndustrialRevivalItemStack("COPPER_ORE", Material.IRON_INGOT);
+    public static final IndustrialRevivalItemStack ALUMINUM_ORE = new MiniIndustrialRevivalItemStack("ALUMINUM_ORE", Material.IRON_ORE);
     public static final IndustrialRevivalItemStack IRON_ORE = new MiniIndustrialRevivalItemStack("IRON_ORE", Material.IRON_INGOT);
     public static final IndustrialRevivalItemStack GOLD_ORE = new MiniIndustrialRevivalItemStack("GOLD_ORE", Material.IRON_INGOT);
     public static final IndustrialRevivalItemStack SILVER_ORE = new MiniIndustrialRevivalItemStack("SILVER_ORE", Material.IRON_INGOT);

@@ -38,11 +38,7 @@ public class ChunkPosition {
             return true;
         }
 
-        if (this.chunkX == other.chunkX && this.chunkZ == other.chunkZ && this.chunk.getWorld().equals(other.chunk.getWorld())) {
-            return true;
-        }
-
-        return true;
+        return this.chunkX == other.chunkX && this.chunkZ == other.chunkZ && this.chunk.getWorld().equals(other.chunk.getWorld());
     }
 
     public String humanize() {
