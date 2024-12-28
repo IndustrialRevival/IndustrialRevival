@@ -24,6 +24,7 @@ import org.irmc.industrialrevival.core.services.ItemDataService;
 import org.irmc.industrialrevival.core.services.ItemTextureService;
 import org.irmc.industrialrevival.core.services.ProfilerService;
 import org.irmc.industrialrevival.core.task.ArmorCheckTask;
+import org.irmc.industrialrevival.core.task.DeEnderDragonTask;
 import org.irmc.industrialrevival.implementation.groups.IRItemGroups;
 import org.irmc.industrialrevival.implementation.items.IndustrialRevivalItemSetup;
 import org.irmc.industrialrevival.utils.Constants;
@@ -163,6 +164,9 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         int checkInterval = getConfig().getInt("options.armor-check-interval", 1);
         foliaLibImpl.runTimerAsync(new ArmorCheckTask(checkInterval), checkInterval * 20L, checkInterval * 20L);
         foliaLibImpl.runTimerAsync(IndustrialRevival.getInstance().getProfilerService().getTask(), checkInterval * 20L, checkInterval * 20L);
+        int deEnderDragonCheckInterval = getConfig().getInt("options.de-ender-dragon-check.interval", 20);
+        int deEnderDragonCheckRadius = getConfig().getInt("options.de-ender-dragon-check.radius", 20);
+        foliaLibImpl.runTimerAsync(new DeEnderDragonTask(deEnderDragonCheckRadius), deEnderDragonCheckInterval * 20L, deEnderDragonCheckInterval);
     }
 
     @Override
