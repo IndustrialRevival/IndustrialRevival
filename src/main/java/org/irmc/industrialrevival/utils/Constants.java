@@ -8,9 +8,17 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.api.objects.enums.GuideMode;
+import org.irmc.industrialrevival.core.guide.IRGuideImplementation;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 @UtilityClass
@@ -21,6 +29,7 @@ public class Constants {
         public static final NamespacedKey RADIATION_LEVEL_KEY = KeyUtil.customKey("ir_radiation_level");
         public static final NamespacedKey GUIDE_ITEM_KEY = KeyUtil.customKey("ir_guide_item");
         public static final NamespacedKey CLEANED_IR_ITEM_ID = KeyUtil.customKey("cleaned_ir_item_id");
+        public static final NamespacedKey LANGUAGE_KEY = KeyUtil.customKey("ir_language");
     }
 
     public static final class ItemStacks {
@@ -86,6 +95,14 @@ public class Constants {
                 Material.CLOCK,
                 IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, "guide.history_button"))
                 .setCustomModel(19997);
+        public static final Function<Player, ItemStack> LANGUAGE_BUTTON = p -> new CustomItemStack(
+                Material.BOOK,
+                IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, "guide.language_button"))
+                .setCustomModel(19998);
+        public static final BiFunction<Player, IRGuideImplementation, ItemStack> GUIDE_MODE_SWITCH_BUTTON = (p, impl) -> new CustomItemStack(
+                Material.COMPASS,
+                IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, impl.getGuideMode() == GuideMode.SURVIVAL ? "guide.guide_mode_survival_button" : "guide.guide_mode_cheat_button"))
+                .setCustomModel(19993);
     }
 
     public static final class Keys {
@@ -130,5 +147,46 @@ public class Constants {
     public static final class Guide {
         public static final int[] GUIDE_GROUP_BORDERS = {0, 1, 3, 4, 5, 7, 8, 45, 46, 48, 49, 50, 52, 53};
         public static final int[] GUIDE_RECIPE_SLOTS = {12, 13, 14, 21, 22, 23, 30, 31, 32};
+    }
+
+    public static final class Languages {
+        public static final List<String> SUPPORTED_LANGUAGES = new ArrayList<>();
+        public static final String DEFAULT_LANGUAGE = "zh-CN";
+        static {
+            SUPPORTED_LANGUAGES.add("zh-CN");
+        }
+
+        // Locale -> Hashcode
+        private static final Map<String, String> textures = new HashMap<>();
+        static {
+            // note: haiman already collected all the textures for each language
+            textures.put("zh-CN", "7f9bc035cdc80f1ab5e1198f29f3ad3fdd2b42d9a69aeb64de990681800b98dc");
+            textures.put("zh-TW", "702a4afb2e1e2e3a1894a8b74272f95cfa994ce53907f9ac140bd3c932f9f");
+            textures.put("en-GB", "879d99d9c46474e2713a7e84a95e4ce7e8ff8ea4d164413a592e4435d2c6f9dc");
+            textures.put("en-US", "cd91456877f54bf1ace251e4cee40dba597d2cc40362cb8f4ed711e50b0be5b3");
+        }
+
+        // Locale -> Display Icon
+        private static final Map<String, ItemStack> languages = new HashMap<>();
+        private static ItemStack getLanguageButton(Locale locale) {
+            CustomItemStack cis = new CustomItemStack(Material.PLAYER_HEAD);
+            cis.editMeta(meta -> {
+                meta.getPersistentDataContainer().set(ItemStackKeys.LANGUAGE_KEY, PersistentDataType.STRING, locale.getLanguage());
+            });
+            // todo: add texture
+            return cis;
+        }
+
+        static {
+            languages.put("zh-CN", getLanguageButton(Locale.SIMPLIFIED_CHINESE));
+        }
+
+        public static Map<String, ItemStack> getLanguageButtons() {
+            return new HashMap<>(languages);
+        }
+
+        public static Map<String, String> getTextures() {
+            return new HashMap<>(textures);
+        }
     }
 }
