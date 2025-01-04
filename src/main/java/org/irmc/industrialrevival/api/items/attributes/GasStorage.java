@@ -4,8 +4,6 @@ public interface GasStorage extends ChemReactable {
 
     CatheterInsertionMethod getCatheterInsertionMethod();
 
-    Percentage
-
     enum CatheterInsertionMethod {
         NONE,
         UP,
