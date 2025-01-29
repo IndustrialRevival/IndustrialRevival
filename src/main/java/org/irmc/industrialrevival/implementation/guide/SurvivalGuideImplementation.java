@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
+import org.irmc.industrialrevival.api.objects.enums.GuideMode;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
 import org.irmc.industrialrevival.api.recipes.CraftMethod;
 import org.irmc.industrialrevival.core.guide.GuideHistory;
@@ -95,6 +96,11 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
             PlayerProfile.getOrRequestProfile(player.getName());
             goBack(player);
         }
+    }
+
+    @Override
+    public GuideMode getGuideMode() {
+        return GuideMode.SURVIVAL;
     }
 
     public void addBookmark(Player p, IndustrialRevivalItem item) {
