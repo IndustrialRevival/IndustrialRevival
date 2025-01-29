@@ -4,7 +4,12 @@ import lombok.experimental.UtilityClass;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.irmc.industrialrevival.api.machines.process.IOperation;
+import org.irmc.industrialrevival.api.machines.process.MachineOperation;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
+import org.irmc.industrialrevival.api.menu.MatrixMenuDrawer;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
@@ -21,6 +26,13 @@ import java.util.Map;
 @SuppressWarnings({"deprecation", "unused"})
 @UtilityClass
 public class MenuUtil {
+    public static final MatrixMenuDrawer CLASSIC_MENU = new MatrixMenuDrawer(54)
+            .addLine("BBBBBBBBB")
+            .addLine("IIIIPOOOO")
+            .addLine("IiiIBOooO")
+            .addLine("IiiIBOooO")
+            .addLine("IIIIBOOOO")
+            .addLine("BBBBBBBBB");
     public static final ItemStack BACKGROUND = new CustomItemStack(
             Material.BLACK_STAINED_GLASS_PANE,
             "",
@@ -104,7 +116,7 @@ public class MenuUtil {
     }
 
     @Nullable
-    public static ItemStack pushItem(@Nonnull MachineMenu machineMenu, @Nonnull ItemStack item, int... slots) {
+    public static ItemStack pushItem(@Nonnull SimpleMenu simpleMenu, @Nonnull ItemStack item, int... slots) {
         if (item == null || item.getType() == Material.AIR) {
             throw new IllegalArgumentException("Cannot push null or AIR");
         }
@@ -116,11 +128,11 @@ public class MenuUtil {
                 break;
             }
 
-            ItemStack existing = machineMenu.getItem(slot);
+            ItemStack existing = simpleMenu.getItem(slot);
 
             if (existing == null || existing.getType() == Material.AIR) {
                 int received = Math.min(leftAmount, item.getMaxStackSize());
-                machineMenu.setItem(slot, ItemUtils.cloneItem(item, received));
+                simpleMenu.setItem(slot, ItemUtils.cloneItem(item, received));
                 leftAmount -= received;
                 item.setAmount(Math.max(0, leftAmount));
             } else {
@@ -148,7 +160,7 @@ public class MenuUtil {
     }
 
     @Nonnull
-    public static Map<ItemStack, Integer> pushItem(@Nonnull MachineMenu machineMenu, @Nonnull ItemStack[] items, int... slots) {
+    public static Map<ItemStack, Integer> pushItem(@Nonnull SimpleMenu simpleMenu, @Nonnull ItemStack[] items, int... slots) {
         if (items == null || items.length == 0) {
             throw new IllegalArgumentException("Cannot push null or empty array");
         }
@@ -160,11 +172,11 @@ public class MenuUtil {
             }
         }
 
-        return pushItem(machineMenu, listItems, slots);
+        return pushItem(simpleMenu, listItems, slots);
     }
 
     @Nonnull
-    public static Map<ItemStack, Integer> pushItem(@Nonnull MachineMenu machineMenu, @Nonnull List<ItemStack> items, int... slots) {
+    public static Map<ItemStack, Integer> pushItem(@Nonnull SimpleMenu simpleMenu, @Nonnull List<ItemStack> items, int... slots) {
         if (items == null || items.isEmpty()) {
             throw new IllegalArgumentException("Cannot push null or empty list");
         }
@@ -172,7 +184,7 @@ public class MenuUtil {
         Map<ItemStack, Integer> itemMap = new HashMap<>();
         for (ItemStack item : items) {
             if (item != null && item.getType() != Material.AIR) {
-                ItemStack leftOver = pushItem(machineMenu, item, slots);
+                ItemStack leftOver = pushItem(simpleMenu, item, slots);
                 if (leftOver != null) {
                     itemMap.put(leftOver, itemMap.getOrDefault(leftOver, 0) + leftOver.getAmount());
                 }
@@ -182,14 +194,31 @@ public class MenuUtil {
         return itemMap;
     }
 
-    public static boolean fits(@Nonnull MachineMenu machineMenu, @Nonnull ItemStack item, int... slots) {
+    @Nonnull
+    public static Map<ItemStack, Integer> pushItem(@Nonnull SimpleMenu simpleMenu, @Nonnull Map<ItemStack, Integer> items, int... slots) {
+        if (items == null || items.isEmpty()) {
+            throw new IllegalArgumentException("Cannot push null or empty map");
+        }
+
+        List<ItemStack> listItems = new ArrayList<>();
+        for (Map.Entry<ItemStack, Integer> entry : items.entrySet()) {
+            ItemStack item = entry.getKey();
+            if (item != null && item.getType() != Material.AIR) {
+                listItems.add(item.asQuantity(entry.getValue()));
+            }
+        }
+
+        return pushItem(simpleMenu, listItems, slots);
+    }
+
+    public static boolean fits(@Nonnull SimpleMenu simpleMenu, @Nonnull ItemStack item, int... slots) {
         if (item.getType() == Material.AIR) {
             return true;
         }
 
         int incoming = item.getAmount();
         for (int slot : slots) {
-            ItemStack stack = machineMenu.getItem(slot);
+            ItemStack stack = simpleMenu.getItem(slot);
 
             if (stack == null || stack.getType() == Material.AIR) {
                 incoming -= item.getMaxStackSize();
@@ -205,7 +234,7 @@ public class MenuUtil {
         return false;
     }
 
-    public static boolean fits(@Nonnull MachineMenu machineMenu, @Nonnull ItemStack[] items, int... slots) {
+    public static boolean fits(@Nonnull SimpleMenu simpleMenu, @Nonnull ItemStack[] items, int... slots) {
         if (items.length == 0) {
             return false;
         }
@@ -217,10 +246,10 @@ public class MenuUtil {
             }
         }
 
-        return fits(machineMenu, listItems, slots);
+        return fits(simpleMenu, listItems, slots);
     }
 
-    public static boolean fits(@Nonnull MachineMenu machineMenu, @Nonnull List<ItemStack> items, int... slots) {
+    public static boolean fits(@Nonnull SimpleMenu simpleMenu, @Nonnull List<ItemStack> items, int... slots) {
         if (items.isEmpty()) {
             return false;
         }
@@ -231,7 +260,7 @@ public class MenuUtil {
         }
 
         for (int slot : slots) {
-            ItemStack stack = machineMenu.getItem(slot);
+            ItemStack stack = simpleMenu.getItem(slot);
             if (stack != null && stack.getType() != Material.AIR) {
                 cloneMenu.set(slot, stack.clone());
             } else {
@@ -277,5 +306,40 @@ public class MenuUtil {
         }
 
         return true;
+    }
+
+    public static boolean fits(@Nonnull SimpleMenu simpleMenu, @Nonnull Map<ItemStack, Integer> items, int... slots) {
+        List<ItemStack> listItems = new ArrayList<>();
+        for (Map.Entry<ItemStack, Integer> entry : items.entrySet()) {
+            ItemStack item = entry.getKey();
+            if (item != null && item.getType() != Material.AIR) {
+                listItems.add(item.asQuantity(entry.getValue()));
+            }
+        }
+        return fits(simpleMenu, listItems, slots);
+    }
+
+    public static ItemStack getProgressBar(Material material, IOperation operation) {
+        int current = operation.getCurrentProgress();
+        int max = operation.getTotalProgress();
+        int currentPercentage = (int) (current * 100.0f / max);
+        String lore = "" + ChatColor.GREEN;
+        for (int i = 0; i < currentPercentage / 10; i++) {
+            lore += "=";
+        }
+        lore += ChatColor.GRAY;
+        for (int i = 0; i < (100 - currentPercentage) / 10; i++) {
+            lore += "=";
+        }
+        lore += " " + current + " / " + max + " (" + currentPercentage + "%)";
+
+        ItemStack itemStack = new CustomItemStack(material);
+        ItemMeta meta = itemStack.getItemMeta();
+        if (meta instanceof Damageable damageable) {
+            damageable.setDamage(damageable.getMaxDamage() * currentPercentage / 100);
+        }
+        itemStack.setItemMeta(meta);
+        itemStack.setLore(List.of(lore));
+        return itemStack;
     }
 }

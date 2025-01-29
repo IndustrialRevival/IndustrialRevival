@@ -2,7 +2,9 @@ package org.irmc.industrialrevival.api.machines.recipes;
 
 import com.google.common.base.Preconditions;
 import lombok.Getter;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.objects.ItemStackReference;
 import org.jetbrains.annotations.NotNull;
 
@@ -213,6 +215,27 @@ public class MachineRecipe {
             }
         }
         return true;
+    }
+
+    public void consumeInputs(SimpleMenu menu, int[] slots) {
+        for (int slot : slots) {
+            ItemStack itemStack = menu.getItem(slot);
+            if (itemStack == null || itemStack.getType() == Material.AIR) {
+                continue;
+            }
+
+            for (Map.Entry<ItemStackReference, Integer> entry : inputs.entrySet()) {
+                ItemStackReference itemStackReference = entry.getKey();
+                int amount = entry.getValue();
+                if (itemStackReference.itemsMatch(itemStack)) {
+                    if (itemStack.getAmount() < amount) {
+                        continue;
+                    }
+                    // consume the input
+                    itemStack.setAmount(itemStack.getAmount() - amount);
+                }
+            }
+        }
     }
 
 }

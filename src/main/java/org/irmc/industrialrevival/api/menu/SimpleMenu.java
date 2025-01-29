@@ -40,6 +40,10 @@ public class SimpleMenu implements IRInventoryHolder {
     private MenuOpenHandler openHandler = (player, menu) -> {
     };
 
+    public SimpleMenu(@NotNull String title) {
+        this(Component.text(title));
+    }
+
     public SimpleMenu(@NotNull Component title) {
         this.title = title;
 
@@ -217,6 +221,10 @@ public class SimpleMenu implements IRInventoryHolder {
             p.closeInventory();
             getCloseHandler().onClose(p);
         }
+    }
+
+    public boolean hasViewer() {
+        return !inventory.getViewers().isEmpty();
     }
 
     @FunctionalInterface

@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 
+@Deprecated(forRemoval = true)
 @Getter
 public class Pipe {
     private final PipeFaces pipeFaces = new PipeFaces();
