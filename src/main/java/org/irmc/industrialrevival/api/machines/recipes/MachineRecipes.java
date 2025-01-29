@@ -73,4 +73,8 @@ public class MachineRecipes {
         }
         recipes.add(new MachineRecipe(processTime, energyCost, inputsMap, outputsMap));
     }
+
+    public void removeRecipe(MachineRecipe recipe) {
+        recipes.remove(recipe);
+    }
 }
