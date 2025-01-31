@@ -23,7 +23,7 @@ public class ProfessionalLaboratory extends MultiBlock {
 
     private final RecipeType RECIPE_TYPE = new RecipeType(getAddon(), getKey(), RECIPE_TYPE_ICON,
             RECIPES::put,
-            (input, _) -> RECIPES.remove(input));
+            (input, output) -> RECIPES.remove(input));
 
     public ProfessionalLaboratory(NamespacedKey key) {
         super(key);
@@ -82,7 +82,8 @@ public class ProfessionalLaboratory extends MultiBlock {
                         {quartz, quartz, quartz, quartz, quartz}
                     }
                 })
-            );
+            )
+            .setCenter(1, 2, 2);
         setStructure(sb.build());
     }
 

@@ -17,7 +17,7 @@ public class MeltedTank implements Cloneable {
 
     public MeltedTank() {
         this.meltedObjects = new ArrayList<>();
-        this.capacity = 4000;
+        this.capacity = Smeltery.MAX_FUEL_CAPACITY;
         this.fuels = 0;
     }
 

@@ -12,6 +12,11 @@ public class StructureBuilder {
         center = new int[]{0, 0, 0};
     }
 
+    public StructureBuilder(int x, int y, int z) {
+        this();
+        this.center = new int[]{x, y, z};
+    }
+
     public StructureBuilder setColumn(int layerIndex, int rowIndex, int colIndex, @NotNull StructurePiece piece) {
         pieces[layerIndex][rowIndex][colIndex] = piece;
         return this;

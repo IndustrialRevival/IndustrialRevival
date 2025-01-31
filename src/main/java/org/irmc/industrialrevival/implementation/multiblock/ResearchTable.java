@@ -60,7 +60,8 @@ public class ResearchTable extends MultiBlock {
                     }
                 })
             )
-            .replaceAll(new MaterialStructurePiece(air), new AnyStructurePiece());
+            .replaceAll(new MaterialStructurePiece(air), new AnyStructurePiece())
+            .setCenter(1, 0, 1);
         setStructure(sb.build());
     }
 

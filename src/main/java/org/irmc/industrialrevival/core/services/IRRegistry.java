@@ -21,7 +21,9 @@ import org.irmc.industrialrevival.api.objects.display.DisplayGroup;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
 import org.irmc.industrialrevival.api.recipes.BlockDropMethod;
 import org.irmc.industrialrevival.api.recipes.CraftMethod;
+import org.irmc.industrialrevival.api.recipes.MeltMethod;
 import org.irmc.industrialrevival.api.recipes.MobDropMethod;
+import org.irmc.industrialrevival.api.recipes.ProduceMethod;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.api.researches.Research;
 import org.jetbrains.annotations.NotNull;
@@ -33,6 +35,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter
 public final class IRRegistry {
@@ -50,6 +53,7 @@ public final class IRRegistry {
     private final Map<Material, List<BlockDropMethod>> blockDrops;
 
     private final Map<RecipeType, Set<ItemStack>> craftables;
+    private final Set<ProduceMethod> produceMethods;
 
     public IRRegistry() {
         itemGroups = new HashMap<>();
@@ -63,6 +67,7 @@ public final class IRRegistry {
         mobDrops = new HashMap<>();
         blockDrops = new HashMap<>();
         craftables = new HashMap<>();
+        produceMethods = new HashSet<>();
     }
 
     public void registerMultiBlock(MultiBlock multiBlock) {
@@ -119,6 +124,7 @@ public final class IRRegistry {
         for (CraftMethod method : item.getCraftMethods()) {
             registerRecipeType(method.getRecipeType());
             registerCraftable(method.getRecipeType(), method.getOutput());
+            registerProduceMethod(method);
         }
     }
 
@@ -135,6 +141,7 @@ public final class IRRegistry {
             List<MobDropMethod> methodDrops = mobDrops.getOrDefault(method.getMobType(), new ArrayList<>());
             methodDrops.add(method);
             mobDrops.put(method.getMobType(), methodDrops);
+            registerProduceMethod(method);
         }
     }
 
@@ -146,6 +153,7 @@ public final class IRRegistry {
             List<BlockDropMethod> methodDrops = blockDrops.getOrDefault(method.getBlockType(), new ArrayList<>());
             methodDrops.add(method);
             blockDrops.put(method.getBlockType(), methodDrops);
+            registerProduceMethod(method);
         }
     }
 
@@ -184,6 +192,7 @@ public final class IRRegistry {
 
         for (CraftMethod method : item.getCraftMethods()) {
             unregisterCraftable(method.getRecipeType(), method.getOutput());
+            unregisterProduceMethod(method);
         }
         items.remove(item.getId());
         item.setDisabled(true, true);
@@ -204,6 +213,7 @@ public final class IRRegistry {
             if (methodDrops.isEmpty()) {
                 mobDrops.remove(method.getMobType());
             }
+            unregisterProduceMethod(method);
         }
 
         mobDropItem.setDisabled(true, true);
@@ -224,6 +234,7 @@ public final class IRRegistry {
             if (methodDrops.isEmpty()) {
                 blockDrops.remove(method.getBlockType());
             }
+            unregisterProduceMethod(method);
         }
 
         blockDropItem.setDisabled(true, true);
@@ -242,5 +253,20 @@ public final class IRRegistry {
                     return noColoredName.toLowerCase().contains(term.toLowerCase());
                 })
                 .toList();
+    }
+
+    public void registerProduceMethod(ProduceMethod produceMethod) {
+        produceMethods.add(produceMethod);
+    }
+
+    public void unregisterProduceMethod(ProduceMethod produceMethod) {
+        produceMethods.remove(produceMethod);
+    }
+
+    public Set<MeltMethod> getMeltMethods() {
+        return produceMethods.stream()
+                .filter(m -> m instanceof MeltMethod)
+                .map(m -> (MeltMethod) m)
+                .collect(Collectors.toSet());
     }
 }

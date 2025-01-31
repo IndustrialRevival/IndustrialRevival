@@ -100,6 +100,7 @@ public class IndustrialRevivalItems {
     public static final IndustrialRevivalItemStack TWENTY_TWO_K_GOLD = new MiniIndustrialRevivalItemStack("TWENTY_TWO_K_GOLD", Material.GOLD_INGOT);
     // 24K gold
     public static final IndustrialRevivalItemStack TWENTY_FOUR_K_GOLD = new MiniIndustrialRevivalItemStack("TWENTY_FOUR_K_GOLD", Material.GOLD_INGOT);
+    // Magic gold lol
     // 26K gold
     public static final IndustrialRevivalItemStack TWENTY_SIX_K_GOLD = new MiniIndustrialRevivalItemStack("TWENTY_SIX_K_GOLD", Material.GOLD_INGOT);
     // 28K gold

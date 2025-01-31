@@ -13,6 +13,8 @@ import org.irmc.industrialrevival.api.machines.process.MachineProcessor;
 import org.irmc.industrialrevival.api.machines.process.ProcessorHolder;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipe;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipes;
+import org.irmc.industrialrevival.api.menu.MachineMenu;
+import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
 import org.irmc.industrialrevival.api.menu.MatrixMenuDrawer;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.multiblock.MultiBlock;
@@ -21,6 +23,7 @@ import org.irmc.industrialrevival.api.multiblock.StructureUtil;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.utils.Debug;
+import org.irmc.industrialrevival.utils.KeyUtil;
 import org.irmc.industrialrevival.utils.MenuUtil;
 import org.irmc.pigeonlib.items.ItemUtils;
 import org.jetbrains.annotations.NotNull;
@@ -31,13 +34,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Getter
 public class BlastFurnace extends MultiBlock implements ProcessorHolder<MachineOperation> {
+    private static final Map<Location, MachineMenu> menus = new HashMap<>();
     private static final float FUEL_TICK_RATE = 0.05f;
     private static final ItemStack ICON_NO_ENOUGH_FUEL = new CustomItemStack(Material.RED_STAINED_GLASS_PANE, "No enough fuel");
     private static final Material PROGRESS_BAR_MATERIAL = Material.FLINT_AND_STEEL;
     private static final ItemStack FUEL_BORDER = new CustomItemStack(Material.COAL_BLOCK, "Fuel Input", "A Fuel Input");
     private static final ItemStack HALTED = new CustomItemStack(Material.RED_STAINED_GLASS_PANE, "Halted");
     private static final MachineRecipes recipes = new MachineRecipes();
+    private static final MachineMenuPreset preset = new MachineMenuPreset(KeyUtil.customKey("blast_furnace"), "Blast Furnace");
     private static final MatrixMenuDrawer menuDrawer = new MatrixMenuDrawer(5*9)
             .addLine("IIIIIBBBB")
             .addLine("IiiiIBOOO")
@@ -48,6 +54,9 @@ public class BlastFurnace extends MultiBlock implements ProcessorHolder<MachineO
             .addExplain("O", MenuUtil.OUTPUT_BORDER)
             .addExplain("B", MenuUtil.BACKGROUND)
             .addExplain("F", FUEL_BORDER);
+    static {
+        preset.addMenuDrawer(menuDrawer);
+    }
     private final MachineProcessor<MachineOperation> processor = new MachineProcessor<>(this);
     private final Map<Location, Float> fuels = new HashMap<>();
     private @Getter
@@ -110,7 +119,8 @@ public class BlastFurnace extends MultiBlock implements ProcessorHolder<MachineO
                             {iron, iron, iron}
                         }
                 })
-            );
+            )
+            .setCenter(2, 2, 1);
         setStructure(sb.build());
     }
 
@@ -118,14 +128,17 @@ public class BlastFurnace extends MultiBlock implements ProcessorHolder<MachineO
     public void onInteract(@NotNull PlayerInteractEvent event) {
         Player player = event.getPlayer();
         Debug.log("BlastFurnace interacted by " + player.getName());
-        SimpleMenu menu = new SimpleMenu("Blast Furnace");
-        menu.addMenuDrawer(menuDrawer);
-        menu.open(player);
         Location location = event.getClickedBlock().getLocation();
+        if (!menus.containsKey(location)) {
+            MachineMenu menu = new MachineMenu(location, preset);
+            menus.put(location, menu);
+        }
+        MachineMenu menu = menus.get(location);
+        menu.open(player);
         work(menu, location);
     }
 
-    private void work(@Nonnull SimpleMenu menu, @Nonnull Location location) {
+    private void work(@Nonnull MachineMenu menu, @Nonnull Location location) {
         MachineOperation operation = processor.getProcess(location);
         if (operation != null) {
             if (operation.isDone()) {
@@ -173,7 +186,7 @@ public class BlastFurnace extends MultiBlock implements ProcessorHolder<MachineO
     }
 
     @Nullable
-    public MachineOperation findNextRecipe(SimpleMenu menu) {
+    public MachineOperation findNextRecipe(MachineMenu menu) {
         Map<ItemStack, Integer> inputMap = new HashMap<>();
         for (int slot : getInputSlots()) {
             ItemStack itemStack = menu.getItem(slot);
@@ -216,7 +229,7 @@ public class BlastFurnace extends MultiBlock implements ProcessorHolder<MachineO
         }
     }
 
-    public void updateStatus(SimpleMenu menu, Location location) {
+    public void updateStatus(MachineMenu menu, Location location) {
         if (menu.hasViewer()) {
             MachineOperation operation = processor.getProcess(location);
             if (operation == null) {

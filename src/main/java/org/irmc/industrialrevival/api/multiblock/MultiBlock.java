@@ -13,11 +13,13 @@ import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.jetbrains.annotations.NotNull;
 
+// todo: structure display in guide
+@Getter
 @SuppressWarnings("unused")
 public abstract class MultiBlock extends IndustrialRevivalItem implements Keyed {
-    private @Getter NamespacedKey key;
-    private @Getter Structure structure;
-    private @Getter int[] center;
+    private NamespacedKey key;
+    private Structure structure;
+    private int[] center;
 
     public MultiBlock(NamespacedKey key) {
         this.key = key;

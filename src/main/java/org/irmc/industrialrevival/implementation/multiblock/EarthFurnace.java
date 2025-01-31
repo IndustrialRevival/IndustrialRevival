@@ -47,7 +47,8 @@ public class EarthFurnace extends MultiBlock {
                         {slab, smoker, slab}
                     }
                 })
-            );
+            )
+            .setCenter(1, 1, 1);
         setStructure(sb.build());
     }
 
