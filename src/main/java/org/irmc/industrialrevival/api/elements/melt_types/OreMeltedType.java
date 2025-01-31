@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Range;
  * @since 1.0
  */
 @Getter
-public class OreMeltedType extends MeltedType implements Meltable {
+public class OreMeltedType extends MeltedType {
     private final ElementType elementType;
     private final NamespacedKey identifier;
     private final Component name;
@@ -37,24 +37,6 @@ public class OreMeltedType extends MeltedType implements Meltable {
 
     public static OreMeltedType of(ElementType elementType) {
         return new OreMeltedType(elementType);
-    }
-
-    @Override
-    public MeltedType getMeltedType(ItemStack itemStack) {
-        return this;
-    }
-
-    @Override
-    public @Range(from = 0, to = Smeltery.MAX_FUEL_CAPACITY) int getMeltingPoint(ItemStack itemStack) {
-        return getFuelUse(itemStack);
-    }
-
-    @Override
-    public int getFuelUse(ItemStack itemStack) {
-        if (IndustrialRevivalItem.getByItem(itemStack) instanceof ElementItem elementItem) {
-            return (int) elementItem.getElementType().getMeltingPoint();
-        }
-        return 0;
     }
 
     @Override
