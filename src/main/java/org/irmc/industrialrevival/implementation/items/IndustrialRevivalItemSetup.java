@@ -13,6 +13,7 @@ import org.irmc.industrialrevival.implementation.items.debug.Container;
 import org.irmc.industrialrevival.implementation.items.debug.DebugHead;
 import org.irmc.industrialrevival.implementation.items.debug.Debugger;
 import org.irmc.industrialrevival.implementation.items.debug.Empty;
+import org.irmc.industrialrevival.implementation.items.register.ElementOres;
 import org.irmc.industrialrevival.implementation.multiblock.BlastFurnace;
 import org.irmc.industrialrevival.implementation.multiblock.CokeOven;
 import org.irmc.industrialrevival.implementation.multiblock.EarthFurnace;
@@ -196,5 +197,6 @@ public class IndustrialRevivalItemSetup {
         RESEARCH_TABLE.register();
         PROFESSIONAL_LABORATORY.register();
         ALUMINUM_ORE.register();
+        ElementOres.register();
     }
 }

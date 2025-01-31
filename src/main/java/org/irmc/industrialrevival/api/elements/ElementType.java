@@ -233,4 +233,14 @@ public enum ElementType {
                 return new Valence(valences);
             }
     }
+
+    public static boolean isRadioactive(ElementType element) {
+        if (element.ordinal() > 91) {
+            return true;
+        }
+        return switch (element) {
+            case URANIUM, THORIUM, RADIUM, POLONIUM, RADON, ACTINIUM, PROTACTINIUM, FRANCIUM, ASTATINE -> true;
+            default -> false;
+        };
+    }
 }

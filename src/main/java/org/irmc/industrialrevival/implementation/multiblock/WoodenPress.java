@@ -37,11 +37,18 @@ public class WoodenPress extends MultiBlock {
         StructureBuilder sb = new StructureBuilder()
             .setPieces(
                 StructureUtil.createStructure(new Material[][][] {
-                    {{piston, composter, piston}},
-                    {{piston, glass, piston}},
-                    {{piston, barrel, piston}}
+                    {
+                        {piston, composter, piston}
+                    },
+                    {
+                        {piston, glass, piston}
+                    },
+                    {
+                        {piston, barrel, piston}
+                    }
                 })
-            );
+            )
+            .setCenter(0, 0, 1);
         setStructure(sb.build());
     }
 
