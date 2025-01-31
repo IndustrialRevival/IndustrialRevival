@@ -41,10 +41,7 @@ public class OreMeltedType extends MeltedType implements Meltable {
 
     @Override
     public MeltedType getMeltedType(ItemStack itemStack) {
-        if (IndustrialRevivalItem.getByItem(itemStack) instanceof ElementItem elementItem) {
-            return of(elementItem.getElementType());
-        }
-        return null;
+        return this;
     }
 
     @Override

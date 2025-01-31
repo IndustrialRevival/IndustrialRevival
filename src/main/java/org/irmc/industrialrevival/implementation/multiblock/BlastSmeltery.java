@@ -192,7 +192,7 @@ public class BlastSmeltery extends MultiBlock {
 
         List<TextComponent> lines = new ArrayList<>();
         for (MeltedObject meltedObject : smeltery.getTank().getMeltedObjects()) {
-            TextComponent text = Component.text(BLOCKS + " / " + meltedObject.getAmount(), meltedObject.getType().getColor());
+            TextComponent text = Component.text(BLOCKS + meltedObject.getType().getMeltedName() + " / " + meltedObject.getAmount(), meltedObject.getType().getColor());
             lines.add(text);
         }
 
