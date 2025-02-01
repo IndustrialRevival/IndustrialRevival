@@ -6,6 +6,8 @@ import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import io.papermc.paper.plugin.configuration.PluginMeta;
 import lombok.Getter;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -25,9 +27,11 @@ import org.irmc.industrialrevival.core.services.ItemTextureService;
 import org.irmc.industrialrevival.core.services.ProfilerService;
 import org.irmc.industrialrevival.core.task.ArmorCheckTask;
 import org.irmc.industrialrevival.core.task.DeEnderDragonTask;
+import org.irmc.industrialrevival.core.world.populators.ElementOreGenerator;
 import org.irmc.industrialrevival.implementation.groups.IRItemGroups;
 import org.irmc.industrialrevival.implementation.items.IndustrialRevivalItemSetup;
 import org.irmc.industrialrevival.utils.Constants;
+import org.irmc.industrialrevival.utils.WorldUtil;
 import org.irmc.pigeonlib.file.ConfigFileUtil;
 import org.irmc.pigeonlib.language.LanguageManager;
 
@@ -53,6 +57,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     private @Getter ProfilerService profilerService;
     private @Getter PlatformScheduler foliaLibImpl;
     private @Getter ItemSettings itemSettings;
+    private @Getter ElementOreGenerator elementOreGenerator;
 
     public static void runSync(@Nonnull Runnable runnable) {
         getInstance().getFoliaLibImpl().runNextTick(_ -> runnable.run());
@@ -98,6 +103,13 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         getLogger().info("Setting up tasks...");
         setupTasks();
 
+        getLogger().info("Adding block populators...");
+        this.elementOreGenerator = new ElementOreGenerator();
+        World overworld = Bukkit.getWorld("world");
+        if (overworld != null) {
+            WorldUtil.addPopulatorTo(overworld, elementOreGenerator);
+        }
+
         getComponentLogger().info(LanguageManager.parseToComponent("<green>Industrial Revival has been enabled!"));
     }
 
@@ -130,7 +142,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         File sqliteDbFile = new File(Constants.Files.STORAGE_FOLDER, "database.db");
 
         if (!Constants.Files.STORAGE_FOLDER.exists()) {
-            boolean _ = Constants.Files.STORAGE_FOLDER.mkdirs();
+            Constants.Files.STORAGE_FOLDER.mkdirs();
         }
 
         if (storageType.equalsIgnoreCase("sqlite")) {

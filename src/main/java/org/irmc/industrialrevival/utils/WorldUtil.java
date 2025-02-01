@@ -2,6 +2,7 @@ package org.irmc.industrialrevival.utils;
 
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -12,11 +13,12 @@ import org.irmc.industrialrevival.core.task.DeEnderDragonTask;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@UtilityClass
 public class WorldUtil {
 
     @CanIgnoreReturnValue
     @Nullable
-    public World addPopulatorTo(@NotNull String worldName, @NotNull BlockPopulator populator) {
+    public static World addPopulatorTo(@NotNull String worldName, @NotNull BlockPopulator populator) {
         Preconditions.checkNotNull(worldName, "worldName cannot be null");
         Preconditions.checkNotNull(populator, "populator cannot be null");
 
@@ -31,7 +33,7 @@ public class WorldUtil {
 
     @CanIgnoreReturnValue
     @NotNull
-    public World addPopulatorTo(@NotNull World world, @NotNull BlockPopulator populator) {
+    public static World addPopulatorTo(@NotNull World world, @NotNull BlockPopulator populator) {
         Preconditions.checkNotNull(world, "world cannot be null");
         Preconditions.checkNotNull(populator, "populator cannot be null");
 
@@ -41,13 +43,13 @@ public class WorldUtil {
 
     @CanIgnoreReturnValue
     @Nullable
-    public World createWorld(@NotNull WorldCreator worldCreator) {
+    public static World createWorld(@NotNull WorldCreator worldCreator) {
         return createWorld(worldCreator, false);
     }
 
     @CanIgnoreReturnValue
     @Nullable
-    public World createWorld(@NotNull WorldCreator worldCreator, boolean deEnderDragon) {
+    public static World createWorld(@NotNull WorldCreator worldCreator, boolean deEnderDragon) {
         Preconditions.checkNotNull(worldCreator, "worldCreator cannot be null");
 
         World world;

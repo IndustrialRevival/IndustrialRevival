@@ -15,6 +15,7 @@ import org.irmc.industrialrevival.implementation.items.debug.Debugger;
 import org.irmc.industrialrevival.implementation.items.debug.Empty;
 import org.irmc.industrialrevival.implementation.items.register.ElementOres;
 import org.irmc.industrialrevival.implementation.multiblock.BlastFurnace;
+import org.irmc.industrialrevival.implementation.multiblock.BlastSmeltery;
 import org.irmc.industrialrevival.implementation.multiblock.CokeOven;
 import org.irmc.industrialrevival.implementation.multiblock.EarthFurnace;
 import org.irmc.industrialrevival.implementation.multiblock.ProfessionalLaboratory;
@@ -179,10 +180,16 @@ public class IndustrialRevivalItemSetup {
             ))
             .cast(ProfessionalLaboratory.class);
 
-    public static final IndustrialRevivalItem ALUMINUM_ORE = new IndustrialRevivalItem()
+    public static final BlastSmeltery BLAST_SMELTERY = new BlastSmeltery(KeyUtil.customKey("blast_smeltery"))
             .setAddon(INSTANCE)
-            .addItemGroup(IRItemGroups.ORES)
-            .setItemStack(IndustrialRevivalItems.ALUMINUM_ORE);
+            .addItemGroup(IRItemGroups.MULTIBLOCK)
+            .setItemStack(IndustrialRevivalItems.BLAST_SMELTERY)
+            .addCraftMethod(item -> new CraftMethod(
+                    RecipeType.MULTIBLOCK,
+                    EMPTY_RECIPE,
+                    item
+            ))
+            .cast(BlastSmeltery.class);
 
     public static void setup() {
         EMPTY.register();
@@ -196,7 +203,7 @@ public class IndustrialRevivalItemSetup {
         WOODEN_PRESS.register();
         RESEARCH_TABLE.register();
         PROFESSIONAL_LABORATORY.register();
-        ALUMINUM_ORE.register();
+        BLAST_SMELTERY.register();
         ElementOres.register();
     }
 }
