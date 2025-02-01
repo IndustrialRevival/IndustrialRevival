@@ -17,15 +17,17 @@ public class ElementOres {
         if (LOADED) {
             return;
         }
-        for (ElementType elementType : ElementType.values()) {
-            new ElementItem()
-                    .setElementType(elementType)
-                    .setAddon(IndustrialRevival.getInstance())
-                    .addItemGroup(IRItemGroups.ORES)
-                    .setItemStack(new IndustrialRevivalItemStack(KeyUtil.customKey(elementType.name().toUpperCase() + "_ORE"), Material.IRON_ORE))
-                    .register();
-        }
         LOADED = true;
+        for (ElementType elementType : ElementType.values()) {
+            if (!elementType.isGas()) {
+                new ElementItem()
+                        .setElementType(elementType)
+                        .setAddon(IndustrialRevival.getInstance())
+                        .addItemGroup(IRItemGroups.ORES)
+                        .setItemStack(new IndustrialRevivalItemStack(KeyUtil.customKey(elementType.name().toUpperCase() + "_ORE"), Material.IRON_ORE))
+                        .register();
+            }
+        }
     }
 
     public static IndustrialRevivalItem of(ElementType elementType) {

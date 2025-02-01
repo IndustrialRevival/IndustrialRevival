@@ -234,12 +234,19 @@ public enum ElementType {
             }
     }
 
-    public static boolean isRadioactive(ElementType element) {
-        if (element.ordinal() > 91) {
+    public boolean isRadioactive() {
+        if (this.ordinal() > 91) {
             return true;
         }
-        return switch (element) {
+        return switch (this) {
             case URANIUM, THORIUM, RADIUM, POLONIUM, RADON, ACTINIUM, PROTACTINIUM, FRANCIUM, ASTATINE -> true;
+            default -> false;
+        };
+    }
+
+    public boolean isGas() {
+        return switch (this) {
+            case HYDROGEN, NITROGEN, OXYGEN, FLUORINE, CHLORINE, HELIUM, NEON, ARGON, KRYPTON, XENON, RADON -> true;
             default -> false;
         };
     }
