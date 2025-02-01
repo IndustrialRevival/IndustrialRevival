@@ -243,7 +243,7 @@ public enum ElementType {
             default -> false;
         };
     }
-
+            
     public boolean isGas() {
         return switch (this) {
             case HYDROGEN, NITROGEN, OXYGEN, FLUORINE, CHLORINE, HELIUM, NEON, ARGON, KRYPTON, XENON, RADON -> true;
