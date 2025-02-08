@@ -6,6 +6,7 @@ import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SimpleItemDictionary extends ItemDictionary {
@@ -33,7 +34,7 @@ public class SimpleItemDictionary extends ItemDictionary {
 
     @Override
     public List<IndustrialRevivalItem> getItems() {
-        return items;
+        return Collections.unmodifiableList(items);
     }
 
     @Override

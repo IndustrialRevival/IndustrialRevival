@@ -1,5 +1,11 @@
 package org.irmc.industrialrevival.implementation;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketEvent;
 import com.tcoded.folialib.FoliaLib;
 import com.tcoded.folialib.impl.PlatformScheduler;
 import dev.jorel.commandapi.CommandAPI;
@@ -40,6 +46,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
@@ -75,6 +82,8 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         completeFiles();
 
         itemSettings = new ItemSettings(YamlConfiguration.loadConfiguration(new File(getDataFolder(), "items-settings.yml")));
+
+        setupProtocolLib();
 
         System.setProperty("org.jooq.no-logo", "true");
         System.setProperty("org.jooq.no-tips", "true");
@@ -179,6 +188,23 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         int deEnderDragonCheckInterval = getConfig().getInt("options.de-ender-dragon-check.interval", 20);
         int deEnderDragonCheckRadius = getConfig().getInt("options.de-ender-dragon-check.radius", 20);
         foliaLibImpl.runTimerAsync(new DeEnderDragonTask(deEnderDragonCheckRadius), deEnderDragonCheckInterval * 20L, deEnderDragonCheckInterval);
+    }
+
+    private void setupProtocolLib() {
+        ProtocolManager manager = ProtocolLibrary.getProtocolManager();
+
+        manager.addPacketListener(
+                new PacketAdapter(
+                        this,
+                        ListenerPriority.HIGHEST,
+                        PacketType.Play.Client.PICK_ITEM
+                ) {
+                    @Override
+                    public void onPacketReceiving(PacketEvent event) {
+
+                    }
+                }
+        );
     }
 
     @Override

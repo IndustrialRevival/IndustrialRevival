@@ -1,6 +1,7 @@
 package org.irmc.industrialrevival.api;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import org.irmc.pigeonlib.language.LanguageManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

@@ -10,7 +10,6 @@ import java.util.List;
 
 public class UnchangeableItemDictionary extends SimpleItemDictionary {
     private final List<IndustrialRevivalItem> items;
-    private boolean locked = false;
 
     public UnchangeableItemDictionary(NamespacedKey key, final List<IndustrialRevivalItem> items) {
         super(key);
@@ -18,16 +17,15 @@ public class UnchangeableItemDictionary extends SimpleItemDictionary {
         for (IndustrialRevivalItem item : items) {
             item.addItemDictionary(this);
         }
-        locked = true;
     }
 
     @Override
     public ItemStack tagItem(@NotNull IndustrialRevivalItem item, boolean addToList) {
-        if (addToList) {
-            throw new UnsupportedOperationException("Cannot add items to an unchangeable item dictionary");
+        if (items.contains(item)) {
+            return getTaggedItem(item);
         }
 
-        return getTaggedItem(item);
+        throw new IllegalArgumentException("Cannot tag item that is not in the dictionary.");
     }
 
     @Override
