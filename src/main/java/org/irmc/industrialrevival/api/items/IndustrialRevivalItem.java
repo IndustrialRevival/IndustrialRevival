@@ -36,13 +36,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * An industrial revival item.<br>
@@ -466,6 +460,11 @@ public class IndustrialRevivalItem {
         return null;
     }
 
+    @Override
+    public final int hashCode() {
+        return Objects.hash(getId(), itemStack, itemHandlers, craftMethods, itemDictionaries, disabledInWorld, group, addon, state, autoGetNameAndLoreFromLang, wikiText, enchantable, disenchantable, hideInGuide);
+    }
+    
     @Deprecated
     public ItemStack getItemStack() {
         return itemStack.getItemStack();

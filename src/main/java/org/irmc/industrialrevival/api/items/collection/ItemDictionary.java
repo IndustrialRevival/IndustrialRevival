@@ -38,7 +38,7 @@ public abstract class ItemDictionary implements Keyed {
 
     @Override
     @NotNull
-    public NamespacedKey getKey() {
+    public final NamespacedKey getKey() {
         return key;
     }
 

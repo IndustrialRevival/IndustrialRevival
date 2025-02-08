@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.api.objects.ItemStackReference;
 import org.irmc.pigeonlib.items.ItemUtils;
@@ -440,5 +441,9 @@ public class MachineMenu extends SimpleMenu {
     @NotNull
     public ClickHandler getClickHandler(@Range(from = 0, to = 53) int slot) {
         return preset.getClickHandler(slot);
+    }
+
+    public IndustrialRevivalItem getIRItem() {
+        return IndustrialRevivalItem.getById(preset.getId());
     }
 }
