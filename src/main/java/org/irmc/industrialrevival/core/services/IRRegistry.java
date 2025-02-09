@@ -7,6 +7,8 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
+import org.irmc.industrialrevival.api.elements.MeltedType;
+import org.irmc.industrialrevival.api.elements.TinkerType;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.BlockDropItem;
 import org.irmc.industrialrevival.api.items.attributes.MobDropItem;
@@ -27,6 +29,7 @@ import org.irmc.industrialrevival.api.recipes.ProduceMethod;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.api.researches.Research;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -54,6 +57,7 @@ public final class IRRegistry {
 
     private final Map<RecipeType, Set<ItemStack>> craftables;
     private final Set<ProduceMethod> produceMethods;
+    public final Map<MeltedType, Map<TinkerType, IndustrialRevivalItem>> tinkerMap;
 
     public IRRegistry() {
         itemGroups = new HashMap<>();
@@ -68,6 +72,7 @@ public final class IRRegistry {
         blockDrops = new HashMap<>();
         craftables = new HashMap<>();
         produceMethods = new HashSet<>();
+        tinkerMap = new HashMap<>();
     }
 
     public void registerMultiBlock(MultiBlock multiBlock) {
@@ -268,5 +273,34 @@ public final class IRRegistry {
                 .filter(m -> m instanceof MeltMethod)
                 .map(m -> (MeltMethod) m)
                 .collect(Collectors.toSet());
+    }
+
+    public void registerTinkerItem(@NotNull MeltedType meltedType, @NotNull TinkerType tinkerType, @NotNull IndustrialRevivalItem item) {
+        if (!tinkerMap.containsKey(meltedType)) {
+            tinkerMap.put(meltedType, new HashMap<>());
+        }
+
+        tinkerMap.get(meltedType).put(tinkerType, item);
+    }
+
+    @Nullable
+    public IndustrialRevivalItem getTinkerItem(@NotNull MeltedType meltedType, @NotNull TinkerType tinkerType) {
+        if (tinkerMap.containsKey(meltedType) && tinkerMap.get(meltedType).containsKey(tinkerType)) {
+            return tinkerMap.get(meltedType).get(tinkerType);
+        }
+        return null;
+    }
+
+    @Nullable
+    public Set<TinkerType> getActiveTinkerTypes(@NotNull MeltedType meltedType) {
+        if (tinkerMap.containsKey(meltedType)) {
+            return tinkerMap.get(meltedType).keySet();
+        }
+        return null;
+    }
+
+    @NotNull
+    public Set<MeltedType> getAllMeltedTypes() {
+        return tinkerMap.keySet();
     }
 }

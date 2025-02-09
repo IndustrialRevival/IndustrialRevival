@@ -18,7 +18,7 @@ import java.util.Map;
  * This class is an instance of a smeltery.
  * Should use it like this:
  * Smeltery smeltery = new Smeltery();
- * smeltery.tick(); // to update the smeltery
+ * smeltery.tick(); // to update the smeltery / fuse alloys
  * smeltery.getTank().getContents(); // to get the contents of the tank
  * smeltery.getRecipes(); // to get the list of recipes
  * smeltery.clone(); // to create a copy of the smeltery

@@ -72,6 +72,13 @@ public class IndustrialRevivalItem {
     @Getter
     @NotNull
     private IndustrialRevivalAddon addon;
+    @Getter
+    private NamespacedKey id;
+    @Getter
+    private ItemStack icon;
+    @Getter
+    private ItemStack recipeOutput;
+    @Deprecated
     private IndustrialRevivalItemStack itemStack;
     private ItemState state = ItemState.UNREGISTERED;
     private boolean autoGetNameAndLoreFromLang = true;
@@ -87,7 +94,7 @@ public class IndustrialRevivalItem {
     public IndustrialRevivalItem() {
     }
 
-    public <T> T cast(Class<T> clazz) {
+    public <T extends IndustrialRevivalItem> T cast(Class<T> clazz) {
         return (T) this;
     }
 
@@ -96,6 +103,7 @@ public class IndustrialRevivalItem {
         return IndustrialRevival.getInstance().getRegistry().getItems().get(id);
     }
 
+    @Deprecated
     @Nullable
     public static IndustrialRevivalItem getByItem(@NotNull IndustrialRevivalItemStack irStack) {
         return getById(irStack.getId());
@@ -120,6 +128,25 @@ public class IndustrialRevivalItem {
     }
 
     @NotNull
+    public IndustrialRevivalItem setId(@NotNull NamespacedKey id) {
+        this.id = id;
+        return this;
+    }
+
+    @NotNull
+    public IndustrialRevivalItem setIcon(@NotNull ItemStack icon) {
+        this.icon = icon;
+        return this;
+    }
+
+
+    @NotNull
+    public IndustrialRevivalItem setRecipeOutput(@NotNull ItemStack recipeOutput) {
+        this.recipeOutput = recipeOutput;
+        return this;
+    }
+
+    @NotNull
     public IndustrialRevivalItem addItemGroup(@NotNull ItemGroup group) {
         checkRegistered();
         Preconditions.checkArgument(group != null, "ItemGroup cannot be null");
@@ -128,6 +155,7 @@ public class IndustrialRevivalItem {
         return this;
     }
 
+    @Deprecated
     @NotNull
     public IndustrialRevivalItem setItemStack(@NotNull IndustrialRevivalItemStack itemStack) {
         checkRegistered();
@@ -137,9 +165,9 @@ public class IndustrialRevivalItem {
     }
 
     @NotNull
-    public IndustrialRevivalItem setAutoGetNameAndLoreFromLang(boolean autoGetNameAndLoreFromLang) {
+    public IndustrialRevivalItem autoGetNameAndLoreFromLang() {
         checkRegistered();
-        this.autoGetNameAndLoreFromLang = autoGetNameAndLoreFromLang;
+        this.autoGetNameAndLoreFromLang = true;
         return this;
     }
 
@@ -232,9 +260,13 @@ public class IndustrialRevivalItem {
     public IndustrialRevivalItem setHideInGuide(boolean hideInGuide, boolean saveToConfig) {
         checkRegistered();
         this.hideInGuide = hideInGuide;
+        if (saveToConfig) {
+            getItemSetting().set("hide_in_guide", hideInGuide);
+        }
         return this;
     }
 
+    @Deprecated
     @NotNull
     public IndustrialRevivalItemStack getItem() {
         return itemStack;
@@ -407,7 +439,7 @@ public class IndustrialRevivalItem {
     }
 
     @NotNull
-    public ItemStack[] getRecipeIngredients(RecipeType recipeType) {
+    public ItemStack[] getRecipeIngredients(@NotNull RecipeType recipeType) {
         for (CraftMethod craftMethod : craftMethods) {
             if (craftMethod.getRecipeType() == recipeType) {
                 return craftMethod.getIngredients();
@@ -418,7 +450,7 @@ public class IndustrialRevivalItem {
     }
 
     @Nullable
-    public ItemStack getRecipeOutput(RecipeType recipeType) {
+    public ItemStack getRecipeOutput(@NotNull RecipeType recipeType) {
         for (CraftMethod craftMethod : craftMethods) {
             if (craftMethod.getRecipeType() == recipeType) {
                 return craftMethod.getOutput();
@@ -432,7 +464,8 @@ public class IndustrialRevivalItem {
     public final int hashCode() {
         return Objects.hash(getId(), itemStack, itemHandlers, craftMethods, itemDictionaries, disabledInWorld, group, addon, state, autoGetNameAndLoreFromLang, wikiText, enchantable, disenchantable, hideInGuide);
     }
-
+    
+    @Deprecated
     public ItemStack getItemStack() {
         return itemStack.getItemStack();
     }

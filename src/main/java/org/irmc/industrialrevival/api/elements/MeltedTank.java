@@ -7,6 +7,10 @@ import org.irmc.industrialrevival.api.recipes.MeltMethod;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A tank serves for {@link Smeltery}
+ * Used to store melted objects and fuel
+ */
 @Getter
 public class MeltedTank implements Cloneable {
     private final List<MeltedObject> meltedObjects;
