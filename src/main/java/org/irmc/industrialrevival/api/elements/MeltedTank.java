@@ -3,6 +3,7 @@ package org.irmc.industrialrevival.api.elements;
 import lombok.Getter;
 import lombok.Setter;
 import org.irmc.industrialrevival.api.recipes.MeltMethod;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,11 +64,18 @@ public class MeltedTank implements Cloneable {
 
     public void addMelted(MeltedObject meltedObject) {
         for (MeltedObject obj : meltedObjects) {
-            if (obj.getType().getName().equals(meltedObject.getType().getName())) {
+            if (obj.getType().getIdentifier().equals(meltedObject.getType().getIdentifier())) {
+                // check capacity
+                if (obj.getAmount() + meltedObject.getAmount() > capacity) {
+                    return;
+                }
                 obj.setAmount(obj.getAmount() + meltedObject.getAmount());
                 return;
             }
         }
+
+        // new object, add it
+        meltedObjects.add(meltedObject);
     }
 
     public void addMelted(MeltedObject... meltedObject) {
@@ -116,6 +124,18 @@ public class MeltedTank implements Cloneable {
 
     public void merge(MeltedTank tank) {
         addAll(tank);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj instanceof MeltedTank meltedTank) {
+            return equals(meltedTank);
+        }
+
+        return false;
     }
 
     public boolean equals(MeltedTank tank) {
@@ -208,8 +228,20 @@ public class MeltedTank implements Cloneable {
         produce(meltMethod);
     }
 
-    public List<MeltedObject> getContents() {
-        return meltedObjects;
+    @Nullable
+    public MeltedObject getBottomObject() {
+        if (meltedObjects.isEmpty()) {
+            return null;
+        }
+        return meltedObjects.get(0);
+    }
+
+    @Nullable
+    public MeltedObject getTopObject() {
+        if (meltedObjects.isEmpty()) {
+            return null;
+        }
+        return meltedObjects.get(meltedObjects.size() - 1);
     }
 
     @Override

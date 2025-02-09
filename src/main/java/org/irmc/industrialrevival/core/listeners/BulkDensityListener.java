@@ -16,37 +16,37 @@ import java.util.Map;
  */
 public class BulkDensityListener implements Listener {
     private static final double BULK_DENSITY_FACTOR = 0.001;
-    private final Map<ChunkPosition, Double> healthMap = new HashMap<>();
+    private final Map<ChunkPosition, Double> damageMap = new HashMap<>();
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onIRBlockPlace(IRBlockPlaceEvent event) {
         ChunkPosition chunkPosition = new ChunkPosition(event.getBlock().getChunk());
 
-        double health;
+        double damage;
         if (event.getIritem().getItemHandler(BlockTicker.class) != null) {
-            health = 0.003;
+            damage = 0.003D;
         } else {
-            health = 0.001;
+            damage = 0.001D;
         }
 
-        healthMap.merge(chunkPosition, health, (original, incoming) -> BULK_DENSITY_FACTOR * (original + incoming) * (original + incoming));
+        damageMap.merge(chunkPosition, damage, (original, incoming) -> BULK_DENSITY_FACTOR * (original + incoming) * (original + incoming));
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onIRBlockBreak(IRBlockBreakEvent event) {
         ChunkPosition chunkPosition = new ChunkPosition(event.getBlock().getChunk());
 
-        double health;
+        double damage;
         if (event.getIritem().getItemHandler(BlockTicker.class) != null) {
-            health = 0.003;
+            damage = 0.003D;
         } else {
-            health = 0.001;
+            damage = 0.001D;
         }
 
-        healthMap.merge(chunkPosition, health, (original, incoming) -> BULK_DENSITY_FACTOR * (original - incoming) * (original - incoming));
+        damageMap.merge(chunkPosition, damage, (original, incoming) -> BULK_DENSITY_FACTOR * (original - incoming) * (original - incoming));
     }
 
-    public Map<ChunkPosition, Double> getHealthMap() {
-        return new HashMap<>(healthMap);
+    public Map<ChunkPosition, Double> getDamageMap() {
+        return new HashMap<>(damageMap);
     }
 }

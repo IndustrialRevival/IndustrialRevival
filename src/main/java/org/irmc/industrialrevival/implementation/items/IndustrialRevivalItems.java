@@ -187,4 +187,6 @@ public class IndustrialRevivalItems {
     public static final IndustrialRevivalItemStack GOLD_NUGGET = new MiniIndustrialRevivalItemStack("GOLD_NUGGET", Material.IRON_INGOT);
     public static final IndustrialRevivalItemStack SILVER_NUGGET = new MiniIndustrialRevivalItemStack("SILVER_NUGGET", Material.IRON_INGOT);
     public static final IndustrialRevivalItemStack COPPER_WIRE = new MiniIndustrialRevivalItemStack("COPPER_WIRE", Material.STRING);
+    public static final IndustrialRevivalItemStack TEST_MODEL = new MiniIndustrialRevivalItemStack("TEST_MODEL", Material.IRON_INGOT);
+    public static final IndustrialRevivalItemStack TEST_PRODUCT = new MiniIndustrialRevivalItemStack("TEST_PRODUCT", Material.IRON_INGOT);
 }

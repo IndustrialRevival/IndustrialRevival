@@ -2,8 +2,12 @@ package org.irmc.industrialrevival.implementation.items;
 
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
+import org.irmc.industrialrevival.api.elements.TinkerType;
+import org.irmc.industrialrevival.api.elements.TinkerTypes;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
+import org.irmc.industrialrevival.api.items.TinkerModelItem;
+import org.irmc.industrialrevival.api.items.TinkerProductItem;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.recipes.CraftMethod;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
@@ -191,6 +195,20 @@ public class IndustrialRevivalItemSetup {
             ))
             .cast(BlastSmeltery.class);
 
+    public static final TinkerModelItem TEST_MODEL = new TinkerModelItem()
+            .setTinkerType(TinkerTypes.BLOCK)
+            .setAddon(INSTANCE)
+            .addItemGroup(IRItemGroups.DEBUG)
+            .setItemStack(IndustrialRevivalItems.TEST_MODEL)
+            .cast(TinkerModelItem.class);
+
+    public static final TinkerProductItem TEST_PRODUCT = new TinkerProductItem()
+            .setTinkerType(TinkerTypes.BLOCK)
+            .setAddon(INSTANCE)
+            .addItemGroup(IRItemGroups.DEBUG)
+            .setItemStack(IndustrialRevivalItems.TEST_PRODUCT)
+            .cast(TinkerProductItem.class);
+
     public static void setup() {
         EMPTY.register();
         CONTAINER.register();
@@ -204,6 +222,8 @@ public class IndustrialRevivalItemSetup {
         RESEARCH_TABLE.register();
         PROFESSIONAL_LABORATORY.register();
         BLAST_SMELTERY.register();
+        TEST_MODEL.register();
+        TEST_PRODUCT.register();
         ElementOres.register();
     }
 }
