@@ -36,6 +36,7 @@ import java.util.Map;
 
 @Getter
 public class BlastFurnace extends MultiBlock implements ProcessorHolder<MachineOperation> {
+    // todo: save
     private static final Map<Location, MachineMenu> menus = new HashMap<>();
     private static final float FUEL_TICK_RATE = 0.05f;
     private static final ItemStack ICON_NO_ENOUGH_FUEL = new CustomItemStack(Material.RED_STAINED_GLASS_PANE, "No enough fuel");

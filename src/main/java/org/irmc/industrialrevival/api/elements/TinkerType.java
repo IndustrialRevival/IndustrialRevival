@@ -1,6 +1,7 @@
 package org.irmc.industrialrevival.api.elements;
 
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import org.bukkit.NamespacedKey;
 
 /**
@@ -16,5 +17,10 @@ public abstract class TinkerType {
     public TinkerType(NamespacedKey key, int level) {
         this.key = key;
         this.level = level;
+    }
+
+    public Component name() {
+        // todo: add localization support
+        return Component.text(key.getKey());
     }
 }

@@ -12,6 +12,7 @@ import org.irmc.industrialrevival.api.elements.TinkerType;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.BlockDropItem;
 import org.irmc.industrialrevival.api.items.attributes.MobDropItem;
+import org.irmc.industrialrevival.api.items.attributes.TinkerProduct;
 import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.groups.NestedItemGroup;
@@ -57,7 +58,7 @@ public final class IRRegistry {
 
     private final Map<RecipeType, Set<ItemStack>> craftables;
     private final Set<ProduceMethod> produceMethods;
-    public final Map<MeltedType, Map<TinkerType, IndustrialRevivalItem>> tinkerMap;
+    public final Map<MeltedType, Map<TinkerType, TinkerProduct>> tinkerMap;
 
     public IRRegistry() {
         itemGroups = new HashMap<>();
@@ -275,16 +276,16 @@ public final class IRRegistry {
                 .collect(Collectors.toSet());
     }
 
-    public void registerTinkerItem(@NotNull MeltedType meltedType, @NotNull TinkerType tinkerType, @NotNull IndustrialRevivalItem item) {
+    public void registerTinkerItem(@NotNull MeltedType meltedType, @NotNull TinkerProduct product) {
         if (!tinkerMap.containsKey(meltedType)) {
             tinkerMap.put(meltedType, new HashMap<>());
         }
 
-        tinkerMap.get(meltedType).put(tinkerType, item);
+        tinkerMap.get(meltedType).put(product.getTinkerType(), product);
     }
 
     @Nullable
-    public IndustrialRevivalItem getTinkerItem(@NotNull MeltedType meltedType, @NotNull TinkerType tinkerType) {
+    public TinkerProduct getTinkerItem(@NotNull MeltedType meltedType, @NotNull TinkerType tinkerType) {
         if (tinkerMap.containsKey(meltedType) && tinkerMap.get(meltedType).containsKey(tinkerType)) {
             return tinkerMap.get(meltedType).get(tinkerType);
         }

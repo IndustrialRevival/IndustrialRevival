@@ -16,8 +16,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.irmc.industrialrevival.api.elements.MeltedObject;
 import org.irmc.industrialrevival.api.elements.Smeltery;
+import org.irmc.industrialrevival.api.elements.TinkerType;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.Meltable;
+import org.irmc.industrialrevival.api.items.attributes.TinkerModel;
+import org.irmc.industrialrevival.api.items.attributes.TinkerProduct;
 import org.irmc.industrialrevival.api.items.handlers.BlockTicker;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
@@ -26,8 +29,10 @@ import org.irmc.industrialrevival.api.multiblock.MultiBlock;
 import org.irmc.industrialrevival.api.multiblock.StructureBuilder;
 import org.irmc.industrialrevival.api.multiblock.StructureUtil;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
+import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.KeyUtil;
 import org.irmc.industrialrevival.utils.MenuUtil;
+import org.irmc.pigeonlib.items.ItemUtils;
 import org.irmc.pigeonlib.pdc.PersistentDataAPI;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,6 +42,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 public class BlastSmeltery extends MultiBlock {
@@ -44,26 +50,72 @@ public class BlastSmeltery extends MultiBlock {
     private static final String BLOCKS = String.valueOf(BLOCK_CHAR) + BLOCK_CHAR + BLOCK_CHAR + BLOCK_CHAR + BLOCK_CHAR;
     private static final ItemStack STORAGE_ICON = new CustomItemStack(Material.BARREL, "Blast Smeltery Storage", "", "0 / 0");
     private static final ItemStack FUEL_ICON = new CustomItemStack(Material.BUCKET, "Blast Smeltery Fuel", "", "0 / 0");
+    private static final ItemStack MODEL_ICON = new CustomItemStack(Material.GOLD_BLOCK, "Tinker Model", "", "");
+    private static final ItemStack CRAFT_ICON = new CustomItemStack(Material.CRAFTING_TABLE, "Tinker Crafting", "", "");
+    private static final ItemStack PRODUCT_ICON = new CustomItemStack(Material.GOLDEN_PICKAXE, "Tinker Product", "", "");
     private static final NamespacedKey MELTING_KEY = KeyUtil.customKey("melting");
     private static final String MELTING_PREFIX = "Melting - ";
     // todo: save
     private static final Map<Location, MachineMenu> menus = new HashMap<>();
     // todo: save
     private static final Map<Location, Smeltery> instances = new HashMap<>();
+    private static final Map<UUID, Location> lastInteracted = new HashMap<>();
     private static final Set<Location> ticking = new HashSet<>();
     private static final MachineMenuPreset preset = new MachineMenuPreset(KeyUtil.customKey("blast_smeltery"), "Blast Smeltery");
     private static final MatrixMenuDrawer menuDrawer = new MatrixMenuDrawer(4 * 9)
             .addLine("iiiiIBBBL")
             .addLine("iiiiISSSL")
-            .addLine("iiiiISSSL")
-            .addLine("iiiiISSSL")
-            .addLine("iiiiISSSL")
+            .addLine("iiiiIMmML")
+            .addLine("iiiiIBCBL")
+            .addLine("iiiiIPpPL")
             .addLine("iiiiIBBBL")
             .addExplain("I", MenuUtil.INPUT_BORDER)
             .addExplain("B", MenuUtil.BACKGROUND)
             .addExplain("S", STORAGE_ICON)
             .addExplain("L", FUEL_ICON)
-            .addExplain("i", new ItemStack(Material.AIR), ((player, clickedItem, clickedSlot, clickedMenu, clickType) -> {
+            .addExplain("M", MODEL_ICON)
+            .addExplain("C", CRAFT_ICON, (player, clickedItem, clickedSlot, clickedMenu, clickType) -> {
+                Location location = lastInteracted.get(player.getUniqueId());
+                if (location == null) {
+                    return false;
+                }
+
+                Smeltery smeltery = instances.get(location);
+                if (smeltery == null) {
+                    return false;
+                }
+
+                ItemStack modelStack = clickedMenu.getItem(getModelSlot());
+                if (modelStack != null && modelStack.getType() != Material.AIR && IndustrialRevivalItem.getByItem(modelStack) instanceof TinkerModel tinkerModel) {
+                    TinkerType tinkerType = tinkerModel.getTinkerType();
+
+                    ItemStack existingProduct = clickedMenu.getItem(getProductSlot());
+                    if (existingProduct != null && existingProduct.getType() != Material.AIR) {
+                        player.sendMessage(Component.text("Already contains a tinker product."));
+                        return false;
+                    }
+
+                    MeltedObject bottom = smeltery.getTank().getBottomObject();
+                    if (bottom == null || tinkerType.getLevel() > bottom.getAmount()) {
+                        player.sendMessage(Component.text("Not enough bottom material for this tinker type."));
+                        return false;
+                    }
+
+                    TinkerProduct product = IndustrialRevival.getInstance().getRegistry().getTinkerItem(bottom.getType(), tinkerType);
+                    if (product == null) {
+                        player.sendMessage(Component.text(bottom.getType().getName() + " cannot be tinkered with " + tinkerType.name() + "."));
+                        return false;
+                    }
+
+                    ItemStack productStack = product.getProduct().clone();
+                    clickedMenu.setItem(getProductSlot(), productStack);
+                    player.sendMessage(Component.text("Tinkered " + ItemUtils.getDisplayName(productStack)));
+                }
+
+                return false;
+            })
+            .addExplain("P", PRODUCT_ICON)
+            .addExplain("i", new CustomItemStack(Material.GRAY_STAINED_GLASS_PANE, " ", " "), ((player, clickedItem, clickedSlot, clickedMenu, clickType) -> {
                 ItemStack cursor = player.getItemOnCursor();
                 if (cursor == null || cursor.getType() == Material.AIR) {
                     if (clickedItem == null || clickedItem.getType() == Material.AIR) {
@@ -251,6 +303,7 @@ public class BlastSmeltery extends MultiBlock {
 
             MachineMenu menu = menus.get(location);
             ticking.add(location);
+            lastInteracted.put(player.getUniqueId(), location);
             menu.open(player);
         }
     }
@@ -291,5 +344,13 @@ public class BlastSmeltery extends MultiBlock {
                 }
             }
         }
+    }
+
+    public static int getModelSlot() {
+        return menuDrawer.getCharPositions('m')[0];
+    }
+
+    public static int getProductSlot() {
+        return menuDrawer.getCharPositions('p')[0];
     }
 }
