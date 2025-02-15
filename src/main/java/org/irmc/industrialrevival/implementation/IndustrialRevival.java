@@ -183,11 +183,11 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
 
     private void setupTasks() {
         int checkInterval = getConfig().getInt("options.armor-check-interval", 1);
-        foliaLibImpl.runTimerAsync(new ArmorCheckTask(checkInterval), checkInterval * 20L, checkInterval * 20L);
-        foliaLibImpl.runTimerAsync(IndustrialRevival.getInstance().getProfilerService().getTask(), checkInterval * 20L, checkInterval * 20L);
+        foliaLibImpl.runTimerAsync(new ArmorCheckTask(checkInterval), checkInterval, checkInterval);
+        foliaLibImpl.runTimerAsync(IndustrialRevival.getInstance().getProfilerService().getTask(), checkInterval, checkInterval);
         int deEnderDragonCheckInterval = getConfig().getInt("options.de-ender-dragon-check.interval", 20);
         int deEnderDragonCheckRadius = getConfig().getInt("options.de-ender-dragon-check.radius", 20);
-        foliaLibImpl.runTimerAsync(new DeEnderDragonTask(deEnderDragonCheckRadius), deEnderDragonCheckInterval * 20L, deEnderDragonCheckInterval);
+        foliaLibImpl.runTimerAsync(new DeEnderDragonTask(deEnderDragonCheckRadius), deEnderDragonCheckInterval, deEnderDragonCheckInterval);
     }
 
     private void setupProtocolLib() {

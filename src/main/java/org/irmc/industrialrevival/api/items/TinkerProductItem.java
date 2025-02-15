@@ -29,6 +29,13 @@ public class TinkerProductItem extends IndustrialRevivalItem implements TinkerPr
     @Override
     public void postRegister() {
         super.postRegister();
+        if (this.tinkerType == null) {
+            throw new IllegalArgumentException("TinkerType must be set for TinkerProductItem");
+        }
+
+        if (this.meltedType == null) {
+            throw new IllegalArgumentException("MeltedType must be set for TinkerProductItem");
+        }
         IndustrialRevival.getInstance().getRegistry().registerTinkerItem(getMeltedType(), this);
     }
 

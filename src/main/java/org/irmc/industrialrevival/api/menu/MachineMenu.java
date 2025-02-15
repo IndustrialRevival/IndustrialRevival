@@ -35,7 +35,7 @@ public class MachineMenu extends SimpleMenu {
     private final MachineMenuPreset preset;
 
     public MachineMenu(@NotNull Location location, @NotNull MachineMenuPreset preset) {
-        super(preset.getTitle());
+        super(preset);
         this.location = location;
         this.preset = preset;
     }

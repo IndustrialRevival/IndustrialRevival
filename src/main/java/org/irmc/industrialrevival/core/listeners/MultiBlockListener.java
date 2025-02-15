@@ -49,6 +49,7 @@ public class MultiBlockListener implements Listener {
             return;
         }
 
+        event.setCancelled(true);
         if (matched.size() > 1) {
             IndustrialRevival.getInstance().getLogger().warning(MessageFormat.format("Matched {0} multi-blocks, it may cause unexpected behavior", matched.size()));
             IndustrialRevival.getInstance().getLogger().warning("Conflicting multi-block: ");
