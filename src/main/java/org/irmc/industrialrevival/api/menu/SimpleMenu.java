@@ -9,26 +9,36 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.irmc.industrialrevival.utils.Debug;
 import org.irmc.industrialrevival.utils.MenuUtil;
+import org.irmc.pigeonlib.items.ItemUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.IntStream;
 
 public class SimpleMenu implements IRInventoryHolder {
-    private final Map<Integer, ItemStack> slots;
-    private final Map<Integer, ClickHandler> clickHandlers;
-
-    private boolean dirty;
-
-    private int size = -1;
+    protected final Map<Integer, ItemStack> slots;
+    protected Map<Integer, ItemStack> getSlots() {
+        return slots;
+    }
+    protected final Map<Integer, ClickHandler> clickHandlers;
+    protected Map<Integer, ClickHandler> getClickHandlers() {
+        return clickHandlers;
+    }
 
     @Getter
-    private Component title;
+    protected boolean dirty;
+
+    protected int size = -1;
+
+    @Getter
+    protected Component title;
 
     private Inventory inventory;
 
@@ -51,22 +61,48 @@ public class SimpleMenu implements IRInventoryHolder {
         this.clickHandlers = new HashMap<>();
     }
 
+    public SimpleMenu(MachineMenuPreset preset) {
+        this.title = preset.getTitle();
+        this.slots = preset.getSlots();
+        this.clickHandlers = preset.getClickHandlers();
+        this.size = preset.getSize();
+        this.closeHandler = preset.getCloseHandler();
+        this.openHandler = preset.getOpenHandler();
+        this.dirty = true;
+    }
+
     public void addMenuDrawer(@NotNull MatrixMenuDrawer drawer) {
-        int i = 0, j = 0;
+        Debug.log("Called SimpleMenu.addMenuDrawer(MatrixMenuDrawer)");
+        Debug.log("Adding menu drawer: " + getTitle());
+        Debug.log("Size: " + drawer.getSize());
+        setSize(drawer.getSize());
+        int i = 0;
         for (String line : drawer.getMatrix()) {
+            int j = 0;
             for (char slotSymbol : line.toCharArray()) {
+                int slot = i * 9 + j;
                 if (drawer.getCharMap().containsKey(slotSymbol)) {
                     ItemStack itemStack = drawer.getCharMap().get(slotSymbol);
                     if (MenuUtil.isBackground(itemStack)) {
-                        setItem(i * 9 + j, MenuUtil.BACKGROUND, ClickHandler.DEFAULT);
+                        Debug.log("Setting background slot: " + slot);
+                        setItem(slot, MenuUtil.BACKGROUND, ClickHandler.DEFAULT);
                     } else {
-                        setItem(i * 9 + j, itemStack, drawer.getClickHandlerMap().get(slotSymbol));
+                        Debug.log("Setting item slot: " + slot + " with symbol: " + slotSymbol);
+                        setItem(slot, itemStack, Optional.ofNullable(drawer.getClickHandlerMap().get(slotSymbol)).orElse(ClickHandler.DEFAULT));
                     }
+                } else if (drawer.getClickHandlerMap().containsKey(slotSymbol)) {
+                    Debug.log("Setting click handler slot: " + slot + " with symbol: " + slotSymbol);
+                    setItem(slot, null, drawer.getClickHandlerMap().get(slotSymbol));
                 }
                 j += 1;
             }
             i += 1;
         }
+
+        Debug.log("Size: " + this.size);
+        Debug.log("Slots size: " + this.slots.size());
+        Debug.log("Click handlers size: " + this.clickHandlers.size());
+        Debug.log("End SimpleMenu.addMenuDrawer(MatrixMenuDrawer)");
     }
 
     public void setItem(@Nullable ItemStack item, @NotNull ClickHandler clickHandler, @Range(from = 0, to = 53) int... slots) {
@@ -80,10 +116,14 @@ public class SimpleMenu implements IRInventoryHolder {
     }
 
     public void setItem(@Range(from = 0, to = 53) int slot, @Nullable ItemStack itemStack, @NotNull ClickHandler clickHandler) {
+        Debug.log("Called SimpleMenu.setItem(int, ItemStack, ClickHandler)");
         if (slot < 0 || slot >= 54) {
-            throw new IllegalArgumentException("Invalid slot: " + slot);
+            Debug.severe("Invalid slot: " + slot);
+            Debug.stackTraceManually();
+            return;
         }
 
+        Debug.log("Setting slot " + slot + " to " + ItemUtils.getDisplayName(itemStack));
         if (itemStack == null) {
             this.slots.remove(slot);
             this.clickHandlers.remove(slot);
@@ -97,8 +137,10 @@ public class SimpleMenu implements IRInventoryHolder {
 
         this.slots.put(slot, itemStack);
         this.clickHandlers.put(slot, clickHandler);
+        Debug.log("Slots size: " + this.slots.size());
 
         markDirty();
+        Debug.log("End call");
     }
 
     public void setTitle(@NotNull Component title) {
@@ -123,10 +165,13 @@ public class SimpleMenu implements IRInventoryHolder {
 
     private void setupInventory() {
         if (this.inventory == null || this.dirty) {
+            Debug.log("Creating inventory");
+            Debug.log("Current Size: " + this.size);
             if (this.size == -1) {
                 this.size = calculateInventorySize();
             }
 
+            Debug.log("Final Size: " + this.size);
             this.inventory = Bukkit.createInventory(this, this.size, getTitle());
             for (int i = 0; i < this.size; i++) {
                 ItemStack item = getItem(i);
@@ -167,7 +212,7 @@ public class SimpleMenu implements IRInventoryHolder {
                 .toArray();
     }
 
-    @NotNull
+    @Nullable
     public ClickHandler getClickHandler(@Range(from = 0, to = 53) int slot) {
         return this.clickHandlers.getOrDefault(slot, ClickHandler.DEFAULT);
     }
@@ -192,7 +237,9 @@ public class SimpleMenu implements IRInventoryHolder {
 
     private int calculateInventorySize() {
         Set<Integer> slots = this.slots.keySet();
-        int maxValue = slots.stream().sorted().findFirst().orElse(0);
+        Debug.log("Slots: " + slots.size());
+        int maxValue = slots.stream().sorted().toList().reversed().get(0);
+        Debug.log("Max value: " + maxValue);
 
         return (maxValue % 9 + 1) == 0 ? maxValue + 1 : (maxValue / 9 + 1) * 9;
     }

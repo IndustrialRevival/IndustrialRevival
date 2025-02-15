@@ -2,8 +2,10 @@ package org.irmc.industrialrevival.implementation.items;
 
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
+import org.irmc.industrialrevival.api.elements.ElementType;
 import org.irmc.industrialrevival.api.elements.TinkerType;
 import org.irmc.industrialrevival.api.elements.TinkerTypes;
+import org.irmc.industrialrevival.api.elements.melt_types.OreMeltedType;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.api.items.TinkerModelItem;
@@ -203,6 +205,7 @@ public class IndustrialRevivalItemSetup {
             .cast(TinkerModelItem.class);
 
     public static final TinkerProductItem TEST_PRODUCT = new TinkerProductItem()
+            .setMeltedType(OreMeltedType.of(ElementType.IRON))
             .setTinkerType(TinkerTypes.BLOCK)
             .setAddon(INSTANCE)
             .addItemGroup(IRItemGroups.DEBUG)
