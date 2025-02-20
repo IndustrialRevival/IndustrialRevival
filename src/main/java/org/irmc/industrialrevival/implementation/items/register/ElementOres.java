@@ -4,6 +4,7 @@ import lombok.experimental.UtilityClass;
 import org.bukkit.Material;
 import org.irmc.industrialrevival.api.elements.ElementType;
 import org.irmc.industrialrevival.api.items.ElementItem;
+import org.irmc.industrialrevival.api.items.ElementOre;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
@@ -20,7 +21,7 @@ public class ElementOres {
         LOADED = true;
         for (ElementType elementType : ElementType.values()) {
             if (!elementType.isGas()) {
-                new ElementItem()
+                new ElementOre()
                         .setElementType(elementType)
                         .setAddon(IndustrialRevival.getInstance())
                         .addItemGroup(IRItemGroups.ORES)

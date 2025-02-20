@@ -2,6 +2,7 @@ package org.irmc.industrialrevival.implementation.multiblock;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import lombok.Getter;
+import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.Style;
@@ -278,6 +279,13 @@ public class BlastSmeltery extends MultiBlock implements Tickable {
         int capacity = smeltery.getTank().getCapacity();
         int split = capacity / getFuelSlots().length;
         int lavas = (fuels - 1) / split + 1;
+        if (lavas < 0) {
+            lavas = 0;
+        }
+        if (lavas > getFuelSlots().length) {
+            lavas = getFuelSlots().length;
+        }
+        Debug.log("fuels=" + fuels + ", split=" + split + ", lavas=" + lavas);
         List<TextComponent> lore = new ArrayList<>();
         lore.add(Component.text("Fuel: " + fuels + " / " + capacity, TextColor.color(16734003)));
 
@@ -330,6 +338,11 @@ public class BlastSmeltery extends MultiBlock implements Tickable {
         }
     }
 
+    @Override
+    public Time getTime() {
+        return Time.TICK_DONE;
+    }
+
     public void tick(Location location) {
         Smeltery smeltery = instances.get(location);
         MachineMenu menu = menus.get(location);
@@ -353,10 +366,11 @@ public class BlastSmeltery extends MultiBlock implements Tickable {
                 continue;
             }
             if (isMeltingStack(input)) {
+                // too shit, todo: rewrite
                 Debug.log("93 BlastSmeltery tick isMeltingStack(input) with slot=" + slot + ", fuel=" + fuels);
                 if (IndustrialRevivalItem.getByItem(input) instanceof Meltable meltable) {
                     if (meltable.getFuelUse(input) >= getMeltingLevel(input)) {
-                        smeltery.getTank().addMelted(new MeltedObject(meltable.getMeltedType(input), input.getAmount()));
+                        smeltery.getTank().addMelted(new MeltedObject(meltable.getMeltedType(input), meltable.getTinkerType(input).getLevel()));
                         menu.setItem(slot, new ItemStack(Material.AIR));
                     } else if (meltable.getMeltingPoint(input) > fuels) {
                         continue;
@@ -377,5 +391,10 @@ public class BlastSmeltery extends MultiBlock implements Tickable {
 
     public static int getProductSlot() {
         return menuDrawer.getCharPositions('p')[0];
+    }
+
+    @Override
+    public @NotNull Key key() {
+        return super.key();
     }
 }
