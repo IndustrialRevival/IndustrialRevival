@@ -2,7 +2,6 @@ package org.irmc.industrialrevival.api.menu;
 
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
-import org.irmc.industrialrevival.utils.MenuUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
 
@@ -13,12 +12,14 @@ import java.util.Map;
 
 // todo: add item flow control
 /**
- * This class provides an easier way to create a menu by using a matrix of characters and items.
- * It allows adding click handlers to the items, which can be used to create interactive menus.
- * Use the {@link MachineMenuPreset#addMenuDrawer(MatrixMenuDrawer)} method within
- * the {@link MachineMenuPreset#init()} method to process the menu drawer configuration.
- * <p>
- * Example usage:
+ * Provides a matrix-based menu creation system for defining inventory layouts using character mappings.
+ * Allows creation of interactive menus by associating characters with items and click handlers.
+ *
+ * <p>Typical usage involves defining menu structure with character matrices, mapping characters to
+ * inventory items, and attaching click handlers. The drawer can then be applied to a MachineMenuPreset
+ * during initialization.</p>
+ *
+ * <h3>Example Usage:</h3>
  * <pre>
  * MatrixMenuDrawer drawer = new MatrixMenuDrawer(45)
  *     .addLine("BBBBBBBBB")
@@ -29,22 +30,13 @@ import java.util.Map;
  *     .addExplain('B', MenuUtil.BACKGROUND, ClickHandler.DEFAULT)
  *     .addExplain('I', MenuUtil.INPUT_BORDER)
  *     .addExplain('O', MenuUtil.OUTPUT_BORDER);
- *
- * new MachineMenuPreset() {
- *     public void init() {
- *         addMenuDrawer(drawer);
- *     }
- * }
  * </pre>
- * <p>
- * In this example, a 45-size matrix is created with 5 lines of characters. When calling
- * {@link MachineMenuPreset#addMenuDrawer(MatrixMenuDrawer)} in the {@link MachineMenuPreset#init()}
- * method, characters 'B', 'I', 'O' are replaced with corresponding item stacks, and click handlers
- * are added to the menu. Note that if an item stack is considered a background item by
- * {@link MenuUtil#isBackground(ItemStack)}, its click handler will be overridden by the default click handler.
  *
+ * @version 1.2
  * @author balugaq
  * @author lijinhong11
+ * @see MachineMenuPreset
+ * @see SimpleMenu.ClickHandler
  */
 @SuppressWarnings("unused")
 @Getter
@@ -54,51 +46,117 @@ public class MatrixMenuDrawer implements Cloneable {
     private final Map<Character, SimpleMenu.ClickHandler> clickHandlerMap = new HashMap<>();
     private final List<String> matrix = new ArrayList<>();
 
+    /**
+     * Constructs a MatrixMenuDrawer with specified inventory size
+     * @param size Valid inventory size (1-54 slots)
+     */
     public MatrixMenuDrawer(@Range(from = 1, to = 54) int size) {
         this.size = size;
     }
 
+    /**
+     * Adds a line to the menu matrix
+     * @param line String representing menu row (should match inventory row length)
+     * @return This drawer instance for chaining
+     * @throws IllegalArgumentException If line length doesn't match expected row size
+     */
     public MatrixMenuDrawer addLine(@NotNull String line) {
+        if (line.length() > 9 || line.length() < 1) {
+            throw new IllegalArgumentException("Line length should be between 1 (included) and 9 (included)");
+        }
+
         matrix.add(line);
         return this;
     }
 
+
+    /**
+     * Maps character to menu item without click handler
+     * @param c Matrix character to define
+     * @param itemStack Item to display at character positions
+     * @return This drawer instance for chaining
+     */
     public MatrixMenuDrawer addExplain(char c, @NotNull ItemStack itemStack) {
         charMap.put(c, new ItemStack(itemStack));
         return this;
     }
 
+    /**
+     * Maps character to menu item with click handler
+     * @param c Matrix character to define
+     * @param itemStack Item to display at character positions
+     * @param clickHandler Click handler for the item
+     * @return This drawer instance for chaining
+     * @apiNote Background items (as per MenuUtil.isBackground()) will override handler
+     */
     public MatrixMenuDrawer addExplain(char c, @NotNull ItemStack itemStack, @NotNull SimpleMenu.ClickHandler clickHandler) {
         charMap.put(c, itemStack);
         clickHandlerMap.put(c, clickHandler);
         return this;
     }
 
+    /**
+     * Maps character to background item with click handler
+     * @param c Matrix character to define
+     * @param clickHandler Click handler for the item
+     * @return This drawer instance for chaining
+     */
     public MatrixMenuDrawer addBackground(char c, @NotNull SimpleMenu.ClickHandler clickHandler) {
         clickHandlerMap.put(c, clickHandler);
         return this;
     }
 
+    /**
+     * Maps character to menu item with click handler
+     * @param c Matrix character to define
+     * @param itemStack Item to display at character positions
+     * @return This drawer instance for chaining
+     * @apiNote Background items (as per MenuUtil.isBackground()) will override handler
+     */
     public MatrixMenuDrawer addExplain(@NotNull String c, @NotNull ItemStack itemStack) {
         charMap.put(c.charAt(0), new ItemStack(itemStack));
         return this;
     }
 
+    /**
+     * Maps character to menu item with click handler
+     * @param c Matrix character to define
+     * @param itemStack Item to display at character positions
+     * @param clickHandler Click handler for the item
+     * @return This drawer instance for chaining
+     * @apiNote Background items (as per MenuUtil.isBackground()) will override handler
+     */
     public MatrixMenuDrawer addExplain(@NotNull String c, @NotNull ItemStack itemStack, @NotNull SimpleMenu.ClickHandler clickHandler) {
         charMap.put(c.charAt(0), itemStack);
         clickHandlerMap.put(c.charAt(0), clickHandler);
         return this;
     }
 
+    /**
+     * Maps character to background item with click handler
+     * @param c Matrix character to define
+     * @param clickHandler Click handler for the item
+     * @return This drawer instance for chaining
+     */
     public MatrixMenuDrawer addBackground(@NotNull String c, @NotNull SimpleMenu.ClickHandler clickHandler) {
         clickHandlerMap.put(c.charAt(0), clickHandler);
         return this;
     }
 
+    /**
+     * Finds all inventory slots containing specified character
+     * @param s String to locate, only first character is used
+     * @return Array of slot indexes (0-based) where character appears
+     */
     public int[] getCharPositions(@NotNull String s) {
         return getCharPositions(s.charAt(0));
     }
 
+    /**
+     * Finds all inventory slots containing specified character
+     * @param c Character to locate
+     * @return Array of slot indexes (0-based) where character appears
+     */
     public int[] getCharPositions(char c) {
         List<Integer> positions = new ArrayList<>();
         for (int i = 0; i < matrix.size(); i++) {
@@ -117,7 +175,12 @@ public class MatrixMenuDrawer implements Cloneable {
         return result;
     }
 
-    public int getCharPosition(char c) {
+    /**
+     * Finds the inventory slot containing specified character
+     * @param c Character to locate
+     * @return Slot index (0-based) where character appears, or -1 if not found
+     */
+    public int findFirst(char c) {
         for (int i = 0; i < matrix.size(); i++) {
             String line = matrix.get(i);
             for (int j = 0; j < line.length(); j++) {
@@ -129,10 +192,20 @@ public class MatrixMenuDrawer implements Cloneable {
         return -1;
     }
 
-    public int getCharPosition(@NotNull String s) {
-        return getCharPosition(s.charAt(0));
+    /**
+     * Finds the inventory slot containing specified character
+     * @param s String to locate, only first character is used
+     * @return Slot index (0-based) where character appears, or -1 if not found
+     */
+    public int findFirst(@NotNull String s) {
+        return findFirst(s.charAt(0));
     }
 
+    /**
+     * Creates a deep copy of the drawer configuration
+     * @return New MatrixMenuDrawer instance with copied mappings and matrix
+     */
+    @Override
     public MatrixMenuDrawer clone() {
         MatrixMenuDrawer drawer = new MatrixMenuDrawer(size);
         drawer.charMap.putAll(charMap);
