@@ -7,6 +7,11 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+/**
+ * An element part to describe a chemical compound.
+ * @author balugaq
+ * @see Chemical
+ */
 @Getter
 @AllArgsConstructor
 @ParametersAreNonnullByDefault

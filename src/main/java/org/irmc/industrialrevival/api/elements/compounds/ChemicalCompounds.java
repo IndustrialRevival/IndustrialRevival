@@ -6,6 +6,23 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
+/**
+ * This class contains all the built-in {@link ChemicalCompound}.
+ * <p>
+ * The compounds are defined as static fields of this class, and can be accessed using their names.
+ * For example, to get the compound "CaSO4", you can use the following code:
+ * <pre>
+ *     ChemicalCompound compound = ChemicalCompounds.CaSO4;
+ * </pre>
+ * <p>
+ * The compounds are defined using the {@link ChemicalCompound} class, which is a simple wrapper around a name and a map of
+ * {@link Compound}s and their amounts. The {@link Compound} class is a simple wrapper around an element type and its amount.
+ *
+ * @author balugaq
+ * @see ChemicalCompound
+ * @see Chemical
+ * @see Element
+ */
 public class ChemicalCompounds {
     //<editor-fold desc="Compounds ions">
     public static @NotNull ChemicalCompound SO4 = new IonCompound(Component.text("SO4"), Map.of(
