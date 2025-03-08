@@ -117,6 +117,22 @@ public class MatrixMenuDrawer implements Cloneable {
         return result;
     }
 
+    public int getCharPosition(char c) {
+        for (int i = 0; i < matrix.size(); i++) {
+            String line = matrix.get(i);
+            for (int j = 0; j < line.length(); j++) {
+                if (line.charAt(j) == c) {
+                    return i * 9 + j;
+                }
+            }
+        }
+        return -1;
+    }
+
+    public int getCharPosition(@NotNull String s) {
+        return getCharPosition(s.charAt(0));
+    }
+
     public MatrixMenuDrawer clone() {
         MatrixMenuDrawer drawer = new MatrixMenuDrawer(size);
         drawer.charMap.putAll(charMap);
