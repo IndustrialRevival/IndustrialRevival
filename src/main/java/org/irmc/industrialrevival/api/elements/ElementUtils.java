@@ -1,14 +1,32 @@
 package org.irmc.industrialrevival.api.elements;
 
+import lombok.experimental.UtilityClass;
 import org.irmc.industrialrevival.api.elements.melt_types.OreMeltedType;
+import org.irmc.industrialrevival.utils.ColorUtil;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Provides utility methods for working with {@link ElementType}s.
+ *
+ * @author balugaq
+ */
+@UtilityClass
 public final class ElementUtils {
+    /* A common value for unknown values */
     public static final int UNKNOWN = Integer.MIN_VALUE;
-    public static ElementType getBySymbol(String s) {
+
+    /**
+     * Returns the {@link ElementType} with the given symbol.
+     * @param s the symbol of the element type to get
+     * @return the element type with the given symbol, or null if not found
+     */
+    @Nullable
+    public static ElementType getBySymbol(@NotNull String s) {
         try {
             return ElementType.valueOf(s.toUpperCase());
         } catch (IllegalArgumentException e) {
@@ -16,6 +34,12 @@ public final class ElementUtils {
         }
     }
 
+    /**
+     * Returns the {@link ElementType} with the given mass.
+     * @param mass the atomic mass of the element type to get
+     * @return the element type with the given mass, or null if not found
+     */
+    @Nullable
     public static ElementType getByRelativeAtomicMass(double mass) {
         for (ElementType e : ElementType.values()) {
             if (Math.abs(e.getRelativeAtomicMass() - mass) < 0.001) {
@@ -25,6 +49,13 @@ public final class ElementUtils {
         return null;
     }
 
+    /**
+     * Returns a list of all {@link ElementType}s with the given atomic mass range.
+     * @param min the minimum atomic mass
+     * @param max the maximum atomic mass
+     * @return a list of all element types with the given atomic mass range
+     */
+    @NotNull
     public static List<ElementType> getByRelativeAtomicMass(double min, double max) {
         List<ElementType> elements = new ArrayList<>();
         for (ElementType e : ElementType.values()) {
@@ -35,7 +66,12 @@ public final class ElementUtils {
         return elements;
     }
 
-    public static ElementType getByProtonNumber(int protonNumber) {
+    /**
+     * Returns the {@link ElementType} with the given proton number.
+     * @param protonNumber  the proton number of the element type to get
+     * @return the element type with the given proton number, or null if not found
+     */
+    public static @Nullable ElementType getByProtonNumber(int protonNumber) {
         for (ElementType e : ElementType.values()) {
             if (e.getProtonNumber() == protonNumber) {
                 return e;
@@ -44,7 +80,12 @@ public final class ElementUtils {
         return null;
     }
 
-    public static ElementType getByNeutronNumber(int neutronNumber) {
+    /**
+     * Returns the {@link ElementType} with the given neutron number.
+     * @param neutronNumber the neutron number of the element type to get
+     * @return the element type with the given neutron number, or null if not found
+     */
+    public static @Nullable ElementType getByNeutronNumber(int neutronNumber) {
         for (ElementType e : ElementType.values()) {
             if (e.getNeutronNumber() == neutronNumber) {
                 return e;
@@ -53,7 +94,13 @@ public final class ElementUtils {
         return null;
     }
 
-    public static List<ElementType> getByValence(int... valences) {
+    /**
+     * Returns a list of all {@link ElementType}s with the given valence.
+     * @param valences the valences of the element types to get
+     * @return a list of all {@link ElementType}s with the given valence
+     * @see ElementType.Valence
+     */
+    public static @NotNull List<ElementType> getByValence(int... valences) {
         List<ElementType> elements = new ArrayList<>();
         for (ElementType e : ElementType.values()) {
             if (Arrays.equals(e.getValence().valences(), valences)) {
@@ -63,7 +110,12 @@ public final class ElementUtils {
         return elements;
     }
 
-    public static List<ElementType> getByGroup(ElementType.ElementGroup group) {
+    /**
+     * Returns a list of all {@link ElementType}s with the given group.
+     * @param group the group of the element types to get
+     * @return a list of all {@link ElementType}s with the given group
+     */
+    public static @NotNull List<ElementType> getByGroup(@NotNull ElementType.ElementGroup group) {
         List<ElementType> elements = new ArrayList<>();
         for (ElementType e : ElementType.values()) {
             if (e.getElementGroup() == group) {
@@ -73,7 +125,12 @@ public final class ElementUtils {
         return elements;
     }
 
-    public static List<ElementType> getByPeriod(int period) {
+    /**
+     * Returns a list of all {@link ElementType}s with the given period.
+     * @param period the period of the element types to get
+     * @return a list of all {@link ElementType}s with the given period
+     */
+    public static @NotNull List<ElementType> getByPeriod(int period) {
         List<ElementType> elements = new ArrayList<>();
         for (ElementType e : ElementType.values()) {
             if (e.getPeriod() == period) {
@@ -83,17 +140,70 @@ public final class ElementUtils {
         return elements;
     }
 
-    public static List<ElementType> getByIsMetal(boolean isMetal) {
+    /**
+     * Returns a list of all metallic {@link ElementType}s.
+     * @return a list of all metallic {@link ElementType}s
+     */
+    @NotNull
+    public static List<ElementType> getAllMetals() {
         List<ElementType> elements = new ArrayList<>();
         for (ElementType e : ElementType.values()) {
-            if (e.isMetal() == isMetal) {
+            if (e.isMetal()) {
                 elements.add(e);
             }
         }
         return elements;
     }
 
-    public static List<ElementType> getByMeltingPoint(double meltingPoint) {
+    /**
+     * Returns a list of all non-metallic {@link ElementType}s.
+     * @return a list of all non-metallic {@link ElementType}s
+     */
+    @NotNull
+    public static List<ElementType> getAllNonMetals() {
+        List<ElementType> elements = new ArrayList<>();
+        for (ElementType e : ElementType.values()) {
+            if (!e.isMetal()) {
+                elements.add(e);
+            }
+        }
+        return elements;
+    }
+
+    /**
+     * Returns a list of all gaseous {@link ElementType}s.
+     * @return a list of all gaseous {@link ElementType}s
+     */
+    public static @NotNull List<ElementType> getAllGas() {
+        List<ElementType> elements = new ArrayList<>();
+        for (ElementType e : ElementType.values()) {
+            if (e.isGas()) {
+                elements.add(e);
+            }
+        }
+        return elements;
+    }
+
+    /**
+     * Returns a list of all non-gaseous {@link ElementType}s.
+     * @return a list of all non-gaseous {@link ElementType}s
+     */
+    public static @NotNull List<ElementType> getAllNonGas() {
+        List<ElementType> elements = new ArrayList<>();
+        for (ElementType e : ElementType.values()) {
+            if (!e.isGas()) {
+                elements.add(e);
+            }
+        }
+        return elements;
+    }
+
+    /**
+     * Returns a list of all {@link ElementType}s with the given melting point.
+     * @param meltingPoint the melting point of the element types to get
+     * @return a list of all {@link ElementType}s with the given melting point
+     */
+    public static @NotNull List<ElementType> getByMeltingPoint(double meltingPoint) {
         List<ElementType> elements = new ArrayList<>();
         for (ElementType e : ElementType.values()) {
             if (Math.abs(e.getMeltingPoint() - meltingPoint) < 0.001) {
@@ -103,7 +213,13 @@ public final class ElementUtils {
         return elements;
     }
 
-    public static List<ElementType> getByMeltingPoint(double min, double max) {
+    /**
+     * Returns a list of all {@link ElementType}s with the given melting point.
+     * @param min the minimum melting point
+     * @param max the maximum melting point
+     * @return
+     */
+    public static @NotNull List<ElementType> getByMeltingPoint(double min, double max) {
         List<ElementType> elements = new ArrayList<>();
         for (ElementType e : ElementType.values()) {
             if (e.getMeltingPoint() >= min && e.getMeltingPoint() <= max) {
@@ -113,7 +229,12 @@ public final class ElementUtils {
         return elements;
     }
 
-    public static List<ElementType> getByBoilingPoint(double boilingPoint) {
+    /**
+     * Returns a list of all {@link ElementType}s with the given boiling point.
+     * @param boilingPoint the boiling point of the element types to get
+     * @return a list of all {@link ElementType}s with the given boiling point
+     */
+    public static @NotNull List<ElementType> getByBoilingPoint(double boilingPoint) {
         List<ElementType> elements = new ArrayList<>();
         for (ElementType e : ElementType.values()) {
             if (Math.abs(e.getBoilingPoint() - boilingPoint) < 0.001) {
@@ -123,7 +244,13 @@ public final class ElementUtils {
         return elements;
     }
 
-    public static List<ElementType> getByBoilingPoint(double min, double max) {
+    /**
+     * Returns a list of all {@link ElementType}s with the given boiling point.
+     * @param min the minimum boiling point
+     * @param max the maximum boiling point
+     * @return a list of all {@link ElementType}s with the given boiling point
+     */
+    public static @NotNull List<ElementType> getByBoilingPoint(double min, double max) {
         List<ElementType> elements = new ArrayList<>();
         for (ElementType e : ElementType.values()) {
             if (e.getBoilingPoint() >= min && e.getBoilingPoint() <= max) {
@@ -133,7 +260,12 @@ public final class ElementUtils {
         return elements;
     }
 
-    public static List<ElementType> getByDensity(double density) {
+    /**
+     * Returns a list of all {@link ElementType}s with the given density.
+     * @param density the density of the element types to get
+     * @return a list of all {@link ElementType}s with the given density
+     */
+    public static @NotNull List<ElementType> getByDensity(double density) {
         List<ElementType> elements = new ArrayList<>();
         for (ElementType e : ElementType.values()) {
             if (Math.abs(e.getDensity() - density) < 0.001) {
@@ -143,7 +275,13 @@ public final class ElementUtils {
         return elements;
     }
 
-    public static List<ElementType> getByDensity(double min, double max) {
+    /**
+     * Returns a list of all {@link ElementType}s with the given density.
+     * @param min the minimum density
+     * @param max the maximum density
+     * @return a list of all {@link ElementType}s with the given density
+     */
+    public static @NotNull List<ElementType> getByDensity(double min, double max) {
         List<ElementType> elements = new ArrayList<>();
         for (ElementType e : ElementType.values()) {
             if (e.getDensity() >= min && e.getDensity() <= max) {
@@ -153,10 +291,20 @@ public final class ElementUtils {
         return elements;
     }
 
-    public static List<ElementType> getAllElements() {
+    /**
+     * Returns a list of all {@link ElementType}s.
+     * @return a list of all {@link ElementType}s
+     */
+    public static @NotNull List<ElementType> getAllElements() {
         return Arrays.asList(ElementType.values());
     }
-    public static MeltedType toMeltedType(ElementType e) {
+
+    /**
+     * Returns the melting type for the given element type.
+     * @param e the element type to get the melting type for
+     * @return the melting type for the given element type, or null if not found
+     */
+    public static @Nullable MeltedType toMeltedType(@NotNull ElementType e) {
         if (e.isMetal()) {
             return OreMeltedType.of(e);
         }
@@ -164,34 +312,15 @@ public final class ElementUtils {
         return null;
     }
 
-    public static int getRGBFromHSV(float h, float s, float v) {
-        float c = v * s;
-        float x = c * (1 - Math.abs((h * 6) % 2 - 1));
-        float m = v - c;
-
-        float r = 0, g = 0, b = 0;
-        if (0 <= h && h < 1/6f) {
-            r = c; g = x; b = 0;
-        } else if (1/6f <= h && h < 1/3f) {
-            r = x; g = c; b = 0;
-        } else if (1/3f <= h && h < 1/2f) {
-            r = 0; g = c; b = x;
-        } else if (1/2f <= h && h < 2/3f) {
-            r = 0; g = x; b = c;
-        } else if (2/3f <= h && h < 5/6f) {
-            r = x; g = 0; b = c;
-        } else if (5/6f <= h && h < 1f) {
-            r = c; g = 0; b = x;
-        }
-
-        int red = (int)((r + m) * 255);
-        int green = (int)((g + m) * 255);
-        int blue = (int)((b + m) * 255);
-
-        return (red << 16) | (green << 8) | blue;
-    }
-
-    public static int getAtomicColor(ElementType elementType) {
+    /**
+     * A useful method to get a color for an element based on its properties.
+     * Just prevents code duplication.
+     *
+     * @param elementType the element type to get the color for
+     * @return the color as an integer in the format 0xRRGGBB
+     * @author balugaq
+     */
+    public static int getAtomicColor(@NotNull ElementType elementType) {
         double atomicMass = elementType.getRelativeAtomicMass();
         int neutrons = elementType.getNeutronNumber();
         boolean isMetal = elementType.isMetal();
@@ -213,9 +342,16 @@ public final class ElementUtils {
         float s = (float) Math.min(baseHsv[1] * (1.0 + sBoost), 1.0);
         float v = baseHsv[2] * vDamp;
 
-        return getRGBFromHSV(h, s, v);
+        return ColorUtil.getRGBFromHSV(h, s, v);
     }
 
+    /**
+     * Gets the base HSV values for an element based on its properties.
+     * @param n       the atomic number
+     * @param group   the group
+     * @param isMetal whether the element is metallic or not
+     * @return the base HSV values as an array of floats
+     */
     public static float[] getBaseHsv(int n, int group, boolean isMetal) {
         if (n == 1) {
             return new float[]{0.33f, 0.8f, 0.9f};

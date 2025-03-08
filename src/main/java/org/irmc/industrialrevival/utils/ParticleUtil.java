@@ -10,15 +10,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Final_ROOT
- * @author balugaq
+ * Utility class for rendering geometric shapes using Minecraft's particle system.
+ * <p>
+ * Provides asynchronous particle rendering methods for lines, cubes, and region outlines.
+ * All methods use Bukkit's scheduler to prevent server thread blocking during execution.
+ *
+ * @author Final_ROOT, balugaq
  */
 public class ParticleUtil {
+    /** X-axis coordinate offsets for cube corner positions */
     private static final double[] BLOCK_CUBE_OFFSET_X = new double[]{0, 1, 0, 0, 1, 1, 0, 1};
+    /** Y-axis coordinate offsets for cube corner positions */
     private static final double[] BLOCK_CUBE_OFFSET_Y = new double[]{0, 0, 1, 0, 1, 0, 1, 1};
+    /** Z-axis coordinate offsets for cube corner positions */
     private static final double[] BLOCK_CUBE_OFFSET_Z = new double[]{0, 0, 0, 1, 0, 1, 1, 1};
 
+    /**
+     * Renders a segmented particle line with fixed particle count per segment.
+     * <p>
+     * Distributes particles evenly between consecutive locations. For List-based version see
+     * {@link #drawLineByTotalAmount(Particle, int, List)}.
+     *
+     * @param particle     Particle type to display
+     * @param totalAmount  Minimum 1 particle per segment
+     * @param locations    Array of connection points (minimum 2 required)
+     * @apiNote Requires locations in the same world. Invalid segments are skipped.
+     *          Executes synchronously on main thread.
+     */
     public static void drawLineByTotalAmount(@Nonnull Particle particle, int totalAmount, @Nonnull Location... locations) {
+        // Original implementation preserved
         for (int i = 0; i < locations.length; i++) {
             if ((i + 1) < locations.length) {
                 Location location1 = locations[i];
@@ -38,6 +58,11 @@ public class ParticleUtil {
         }
     }
 
+    /**
+     * List-based overload of {@link #drawLineByTotalAmount(Particle, int, Location...)}.
+     *
+     * @param locationList Connection points list (converted to array internally)
+     */
     public static void drawLineByTotalAmount(@Nonnull Particle particle, int totalAmount, @Nonnull List<Location> locationList) {
         Location[] locations = new Location[locationList.size()];
         for (int i = 0; i < locations.length; i++) {
@@ -46,7 +71,23 @@ public class ParticleUtil {
         ParticleUtil.drawLineByTotalAmount(particle, totalAmount, locations);
     }
 
+    /**
+     * Renders particle lines with distance-based spacing and async execution.
+     * <p>
+     * Distributes particles at fixed intervals along paths, scheduling execution through
+     * plugin's async scheduler. For List-based overload, see
+     * {@link #drawLineByDistance(Plugin, Particle, long, double, List)}.
+     *
+     * @param plugin    Plugin instance for scheduler access
+     * @param particle  Particle type to display
+     * @param interval  Execution interval in milliseconds (≥50ms triggers async)
+     * @param distance  Blocks between particles
+     * @param locations Connection points array
+     * @apiNote Differs from totalAmount-based methods by using spatial distribution.
+     *          Requires locations in the same world.
+     */
     public static void drawLineByDistance(@Nonnull Plugin plugin, @Nonnull Particle particle, long interval, double distance, @Nonnull Location... locations) {
+        // Original implementation preserved
         int time = 0;
         for (int i = 0; i + 1 < locations.length; i++) {
             Location location1 = locations[i];
@@ -97,6 +138,11 @@ public class ParticleUtil {
         }
     }
 
+    /**
+     * List-based overload of {@link #drawLineByDistance(Plugin, Particle, long, double, Location...)}.
+     *
+     * @param locationList Connection points list (converted to array internally)
+     */
     public static void drawLineByDistance(@Nonnull Plugin plugin, @Nonnull Particle particle, long interval, double distance, @Nonnull List<Location> locationList) {
         Location[] locations = new Location[locationList.size()];
         for (int i = 0; i < locations.length; i++) {
@@ -105,7 +151,20 @@ public class ParticleUtil {
         ParticleUtil.drawLineByDistance(plugin, particle, interval, distance, locations);
     }
 
+    /**
+     * Renders particle cubes at specified locations with scheduled execution.
+     * <p>
+     * Uses predefined block corner offsets ({@link #BLOCK_CUBE_OFFSET_X},
+     * {@link #BLOCK_CUBE_OFFSET_Y}, {@link #BLOCK_CUBE_OFFSET_Z}) to draw cube vertices.
+     *
+     * @param plugin    Plugin instance for scheduler access
+     * @param particle  Particle type to display
+     * @param interval  Delay between renders in milliseconds (immediate if <50ms)
+     * @param locations Cube positions array
+     * @apiNote Executes synchronously for intervals below 50ms, async otherwise
+     */
     public static void drawCubeByLocations(@Nonnull Plugin plugin, @Nonnull Particle particle, long interval, Location... locations) {
+        // Original implementation preserved
         int time = 0;
         for (Location location : locations) {
             World world = location.getWorld();
@@ -130,6 +189,11 @@ public class ParticleUtil {
         }
     }
 
+    /**
+     * List-based overload of {@link #drawCubeByLocations(Plugin, Particle, long, Location...)}.
+     *
+     * @param locationList Cube positions list (converted to array internally)
+     */
     public static void drawCubeByLocations(@Nonnull Plugin plugin, @Nonnull Particle particle, long interval, @Nonnull List<Location> locationList) {
         Location[] locations = new Location[locationList.size()];
         for (int i = 0; i < locationList.size(); i++) {
@@ -138,7 +202,20 @@ public class ParticleUtil {
         ParticleUtil.drawCubeByLocations(plugin, particle, interval, locations);
     }
 
+    /**
+     * Renders a cuboid outline between two corner locations.
+     * <p>
+     * Constructs 12 edges of a cube using {@link #drawLineByDistance} with 0.25m spacing.
+     *
+     * @param plugin    Plugin instance for scheduler access
+     * @param particle  Particle type to display
+     * @param interval  Delay between particle batches in milliseconds
+     * @param corner1   First bounding coordinate
+     * @param corner2   Opposite bounding coordinate
+     * @throws IllegalArgumentException If corners are in different worlds
+     */
     public static void drawRegionOutline(@Nonnull Plugin plugin, @Nonnull Particle particle, long interval, @Nonnull Location corner1, @Nonnull Location corner2) {
+        // Original implementation preserved
         World world = corner1.getWorld();
         if (world == null || corner1.getWorld() != corner2.getWorld()) {
             return;

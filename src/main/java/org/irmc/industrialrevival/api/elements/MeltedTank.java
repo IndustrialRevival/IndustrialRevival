@@ -3,6 +3,7 @@ package org.irmc.industrialrevival.api.elements;
 import lombok.Getter;
 import lombok.Setter;
 import org.irmc.industrialrevival.api.recipes.MeltMethod;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.List;
  */
 @Getter
 public class MeltedTank implements Cloneable {
-    private final List<MeltedObject> meltedObjects;
+    private final @NotNull List<MeltedObject> meltedObjects;
     @Setter
     private int capacity;
     @Setter
@@ -26,7 +27,7 @@ public class MeltedTank implements Cloneable {
         this.fuels = 0;
     }
 
-    public MeltedTank(List<MeltedObject> meltedObjects, int capacity, int fuels) {
+    public MeltedTank(@NotNull List<MeltedObject> meltedObjects, int capacity, int fuels) {
         this.meltedObjects = meltedObjects;
         this.capacity = capacity;
         this.fuels = fuels;
@@ -62,7 +63,7 @@ public class MeltedTank implements Cloneable {
         this.fuels -= fuel;
     }
 
-    public void addMelted(MeltedObject meltedObject) {
+    public void addMelted(@NotNull MeltedObject meltedObject) {
         for (MeltedObject obj : meltedObjects) {
             if (obj.getType().getIdentifier().equals(meltedObject.getType().getIdentifier())) {
                 // check capacity
@@ -78,13 +79,13 @@ public class MeltedTank implements Cloneable {
         meltedObjects.add(meltedObject);
     }
 
-    public void addMelted(MeltedObject... meltedObject) {
+    public void addMelted(MeltedObject @NotNull ... meltedObject) {
         for (MeltedObject obj : meltedObject) {
             addMelted(obj);
         }
     }
 
-    public void removeMelted(MeltedObject meltedObject) {
+    public void removeMelted(@NotNull MeltedObject meltedObject) {
         for (MeltedObject obj : meltedObjects) {
             if (obj.getType().getName().equals(meltedObject.getType().getName())) {
                 obj.setAmount(obj.getAmount() - meltedObject.getAmount());
@@ -96,7 +97,7 @@ public class MeltedTank implements Cloneable {
         }
     }
 
-    public void removeMelted(MeltedObject... meltedObject) {
+    public void removeMelted(MeltedObject @NotNull ... meltedObject) {
         for (MeltedObject obj : meltedObject) {
             removeMelted(obj);
         }
@@ -106,7 +107,7 @@ public class MeltedTank implements Cloneable {
         meltedObjects.clear();
     }
 
-    public void addAll(MeltedTank tank) {
+    public void addAll(@NotNull MeltedTank tank) {
         for (MeltedObject meltedObject : tank.getMeltedObjects()) {
             addMelted(meltedObject);
         }
@@ -114,7 +115,7 @@ public class MeltedTank implements Cloneable {
         setFuels(tank.getFuels());
     }
 
-    public void removeAll(MeltedTank tank) {
+    public void removeAll(@NotNull MeltedTank tank) {
         for (MeltedObject meltedObject : tank.getMeltedObjects()) {
             removeMelted(meltedObject);
         }
@@ -122,7 +123,7 @@ public class MeltedTank implements Cloneable {
         setFuels(tank.getFuels());
     }
 
-    public void merge(MeltedTank tank) {
+    public void merge(@NotNull MeltedTank tank) {
         addAll(tank);
     }
 
@@ -138,7 +139,7 @@ public class MeltedTank implements Cloneable {
         return false;
     }
 
-    public boolean equals(MeltedTank tank) {
+    public boolean equals(@NotNull MeltedTank tank) {
         if (this.capacity != tank.getCapacity()) {
             return false;
         }
@@ -166,7 +167,7 @@ public class MeltedTank implements Cloneable {
         return true;
     }
 
-    public boolean matchRecipe(MeltMethod meltMethod) {
+    public boolean matchRecipe(@NotNull MeltMethod meltMethod) {
         List<MeltedObject> inputs = meltMethod.getInputs();
         if (inputs.size() > meltedObjects.size()) {
             return false;
@@ -202,7 +203,7 @@ public class MeltedTank implements Cloneable {
         return false;
     }
 
-    public void consume(MeltMethod meltMethod) {
+    public void consume(@NotNull MeltMethod meltMethod) {
         List<MeltedObject> inputs = meltMethod.getInputs();
         for (MeltedObject input : inputs) {
             removeMelted(input);
@@ -210,17 +211,17 @@ public class MeltedTank implements Cloneable {
         }
     }
 
-    public void produce(MeltMethod meltMethod) {
+    public void produce(@NotNull MeltMethod meltMethod) {
         List<MeltedObject> outputs = meltMethod.getOutputs();
         for (MeltedObject output : outputs) {
             addMelted(output);
         }
     }
 
-    public void performRecipe(MeltMethod meltMethod) {
+    public void performRecipe(@NotNull MeltMethod meltMethod) {
         performRecipe(meltMethod, false);
     }
-    public void performRecipe(MeltMethod meltMethod, boolean force) {
+    public void performRecipe(@NotNull MeltMethod meltMethod, boolean force) {
         if (!force && !matchRecipe(meltMethod)) {
             return;
         }
@@ -245,7 +246,7 @@ public class MeltedTank implements Cloneable {
     }
 
     @Override
-    public MeltedTank clone() {
+    public @NotNull MeltedTank clone() {
         return new MeltedTank(new ArrayList<>(meltedObjects), capacity, fuels);
     }
 }

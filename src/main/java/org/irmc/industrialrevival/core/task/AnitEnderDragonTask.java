@@ -17,7 +17,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 @Getter
-public class DeEnderDragonTask implements Consumer<WrappedTask> {
+public class AnitEnderDragonTask implements Consumer<WrappedTask> {
     @NotNull
     private static final Set<String> preventEndDragon = new HashSet<>();
     @NotNull
@@ -25,7 +25,7 @@ public class DeEnderDragonTask implements Consumer<WrappedTask> {
     private static boolean isEnabled;
     @Range(from = 1, to = 576)
     private final int checkRadius;
-    public DeEnderDragonTask(@Range(from = 1, to = 576) int checkRadius) {
+    public AnitEnderDragonTask(@Range(from = 1, to = 576) int checkRadius) {
         Preconditions.checkArgument(checkRadius > 0, "checkRadius must be greater than 0");
         Preconditions.checkArgument(checkRadius <= 576, "checkRadius must be less than or equal to 576");
 

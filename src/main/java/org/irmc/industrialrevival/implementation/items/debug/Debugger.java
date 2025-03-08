@@ -205,9 +205,9 @@ public class Debugger extends IndustrialRevivalItem {
             long totalTimingsOfThisBlock = summary.getDataByID().get(id);
             long avgTimingsOfThisBlock = totalTimingsOfThisBlock / summary.getDataByID().size();
             send(player, "&e- Timings: ");
-            send(player, "&e  - This Timings: &7" + NumberUtils.round(NumberUtils.nsToMs(timingsOfThisBlock), 2) + "ms");
-            send(player, "&e  - Average Timings: &7" + NumberUtils.round(NumberUtils.nsToMs(avgTimingsOfThisBlock), 2) + "ms");
-            send(player, "&e  - Total Timings: &7" + NumberUtils.round(NumberUtils.nsToMs(totalTimingsOfThisBlock), 2) + "ms");
+            send(player, "&e  - This Timings: &7" + NumberUtils.round(NumberUtils.ns2Ms(timingsOfThisBlock), 2) + "ms");
+            send(player, "&e  - Average Timings: &7" + NumberUtils.round(NumberUtils.ns2Ms(avgTimingsOfThisBlock), 2) + "ms");
+            send(player, "&e  - Total Timings: &7" + NumberUtils.round(NumberUtils.ns2Ms(totalTimingsOfThisBlock), 2) + "ms");
         }
 
         Map<String, String> dataMap = data.getData();
@@ -241,9 +241,9 @@ public class Debugger extends IndustrialRevivalItem {
 
         long avgTimingsPerChunk = summary.getTotalTime();
         send(player, "&e- Timings: ");
-        send(player, "&e  - Total Chunk Timings: &7" + NumberUtils.round(NumberUtils.nsToMs(chunkTimings), 2) + "ms");
-        send(player, "&e  - Average Timings Per Machine in This Chunk: &7" + NumberUtils.round(NumberUtils.nsToMs(avgTimingsPerMachine), 2) + "ms");
-        send(player, "&e  - Average Timings Per Chunk: &7" + NumberUtils.round(NumberUtils.nsToMs(avgTimingsPerChunk), 2) + "ms");
+        send(player, "&e  - Total Chunk Timings: &7" + NumberUtils.round(NumberUtils.ns2Ms(chunkTimings), 2) + "ms");
+        send(player, "&e  - Average Timings Per Machine in This Chunk: &7" + NumberUtils.round(NumberUtils.ns2Ms(avgTimingsPerMachine), 2) + "ms");
+        send(player, "&e  - Average Timings Per Chunk: &7" + NumberUtils.round(NumberUtils.ns2Ms(avgTimingsPerChunk), 2) + "ms");
     }
 
     private void forceBreakBlock(PlayerInteractEvent e) {

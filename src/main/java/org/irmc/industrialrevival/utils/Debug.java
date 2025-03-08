@@ -4,10 +4,17 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.logging.Level;
 
+/**
+ * This utility class provides debugging and logging functionalities for the IndustrialRevival plugin.
+ * It includes methods to log messages, warnings, errors, and debug information, as well as to send messages to players.
+ *
+ * @author balugaq
+ */
 @SuppressWarnings({"unused", "deprecation"})
 public class Debug {
     private static final JavaPlugin plugin = IndustrialRevival.getInstance();
@@ -15,6 +22,11 @@ public class Debug {
     // todo: make debug mode configurable
     private static boolean debug = false;
 
+    /**
+     * Logs debug information for multiple objects.
+     *
+     * @param objects The objects to log.
+     */
     public static void debug(Object @Nullable ... objects) {
         if (objects == null) {
             debug("null");
@@ -31,6 +43,11 @@ public class Debug {
         debug(sb.toString());
     }
 
+    /**
+     * Logs debug information for a single object.
+     *
+     * @param object The object to log.
+     */
     public static void debug(@Nullable Object object) {
         if (object == null) {
             debug("null");
@@ -39,6 +56,11 @@ public class Debug {
         debug(object.toString());
     }
 
+    /**
+     * Logs debug information for multiple messages.
+     *
+     * @param messages The messages to log.
+     */
     public static void debug(String @Nullable ... messages) {
         if (messages == null) {
             debug("null");
@@ -53,12 +75,23 @@ public class Debug {
         }
     }
 
+    /**
+     * Logs a debug message.
+     *
+     * @param message The message to log.
+     */
     public static void debug(String message) {
         if (debug) {
             log(debugPrefix + message);
         }
     }
 
+    /**
+     * Sends a message to a player for multiple objects.
+     *
+     * @param player The player to send the message to.
+     * @param objects The objects to include in the message.
+     */
     public static void sendMessage(@Nullable Player player, Object @Nullable ... objects) {
         if (player == null) {
             return;
@@ -78,6 +111,12 @@ public class Debug {
         sendMessage(player, sb.toString());
     }
 
+    /**
+     * Sends a message to a player for a single object.
+     *
+     * @param player The player to send the message to.
+     * @param object The object to include in the message.
+     */
     public static void sendMessage(@Nullable Player player, @Nullable Object object) {
         if (object == null) {
             sendMessage(player, "null");
@@ -86,6 +125,12 @@ public class Debug {
         sendMessage(player, object.toString());
     }
 
+    /**
+     * Sends multiple messages to a player.
+     *
+     * @param player The player to send the messages to.
+     * @param messages The messages to send.
+     */
     public static void sendMessages(@Nullable Player player, String @Nullable ... messages) {
         if (player == null) {
             return;
@@ -99,6 +144,12 @@ public class Debug {
         }
     }
 
+    /**
+     * Sends a message to a player.
+     *
+     * @param player The player to send the message to.
+     * @param message The message to send.
+     */
     public static void sendMessage(@Nullable Player player, @Nullable String message) {
         if (player == null) {
             return;
@@ -110,6 +161,9 @@ public class Debug {
         player.sendMessage("[" + plugin.getLogger().getName() + "]" + message);
     }
 
+    /**
+     * Logs a manually generated stack trace.
+     */
     public static void stackTraceManually() {
         try {
             throw new Error();
@@ -118,6 +172,11 @@ public class Debug {
         }
     }
 
+    /**
+     * Logs multiple objects.
+     *
+     * @param object The objects to log.
+     */
     public static void log(Object @Nullable ... object) {
         if (object == null) {
             log("null");
@@ -135,6 +194,11 @@ public class Debug {
         log(sb.toString());
     }
 
+    /**
+     * Logs a single object.
+     *
+     * @param object The object to log.
+     */
     public static void log(@Nullable Object object) {
         if (object == null) {
             log("null");
@@ -143,6 +207,11 @@ public class Debug {
         log(object.toString());
     }
 
+    /**
+     * Logs multiple messages.
+     *
+     * @param messages The messages to log.
+     */
     public static void log(String @Nullable ... messages) {
         if (messages == null) {
             log("null");
@@ -153,6 +222,11 @@ public class Debug {
         }
     }
 
+    /**
+     * Logs a message.
+     *
+     * @param message The message to log.
+     */
     public static void log(@Nullable String message) {
         if (message == null) {
             log("null");
@@ -161,6 +235,11 @@ public class Debug {
         plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&', message));
     }
 
+    /**
+     * Logs a throwable (e.g., an exception).
+     *
+     * @param e The throwable to log.
+     */
     public static void log(@Nullable Throwable e) {
         if (e == null) {
             log("null");
@@ -169,22 +248,45 @@ public class Debug {
         e.printStackTrace();
     }
 
+    /**
+     * Logs an empty message.
+     */
     public static void log() {
         log("");
     }
 
+    /**
+     * Logs a warning message.
+     *
+     * @param message The warning message to log.
+     */
     public static void warning(@Nullable String message) {
         plugin.getLogger().warning(message);
     }
 
+    /**
+     * Logs an error message.
+     *
+     * @param message The error message to log.
+     */
     public static void error(@Nullable String message) {
         plugin.getLogger().severe(message);
     }
 
+    /**
+     * Logs a severe error message.
+     *
+     * @param message The severe error message to log.
+     */
     public static void severe(@Nullable String message) {
         error(message);
     }
 
+    /**
+     * Logs a warning for a single object.
+     *
+     * @param object The object to log as a warning.
+     */
     public static void warning(@Nullable Object object) {
         if (object == null) {
             warning("null");
@@ -193,6 +295,11 @@ public class Debug {
         warning(object.toString());
     }
 
+    /**
+     * Logs an error for a single object.
+     *
+     * @param object The object to log as an error.
+     */
     public static void error(@Nullable Object object) {
         if (object == null) {
             error("null");
@@ -201,6 +308,11 @@ public class Debug {
         error(object.toString());
     }
 
+    /**
+     * Logs a severe error for a single object.
+     *
+     * @param object The object to log as a severe error.
+     */
     public static void severe(@Nullable Object object) {
         if (object == null) {
             severe("null");
@@ -209,6 +321,11 @@ public class Debug {
         error(object.toString());
     }
 
+    /**
+     * Logs multiple warning messages.
+     *
+     * @param messages The warning messages to log.
+     */
     public static void warning(@Nullable String @Nullable ... messages) {
         if (messages == null) {
             warning("null");
@@ -223,6 +340,11 @@ public class Debug {
         }
     }
 
+    /**
+     * Logs multiple error messages.
+     *
+     * @param messages The error messages to log.
+     */
     public static void error(@Nullable String @Nullable ... messages) {
         if (messages == null) {
             error("null");
@@ -237,6 +359,11 @@ public class Debug {
         }
     }
 
+    /**
+     * Logs multiple severe error messages.
+     *
+     * @param messages The severe error messages to log.
+     */
     public static void severe(@Nullable String @Nullable ... messages) {
         if (messages == null) {
             severe("null");
@@ -251,6 +378,11 @@ public class Debug {
         }
     }
 
+    /**
+     * Logs multiple warning objects.
+     *
+     * @param objects The objects to log as warnings.
+     */
     public static void warning(@Nullable Object @Nullable ... objects) {
         if (objects == null) {
             warning("null");
@@ -265,6 +397,11 @@ public class Debug {
         }
     }
 
+    /**
+     * Logs multiple error objects.
+     *
+     * @param objects The objects to log as errors.
+     */
     public static void error(@Nullable Object @Nullable ... objects) {
         if (objects == null) {
             error("null");
@@ -279,6 +416,11 @@ public class Debug {
         }
     }
 
+    /**
+     * Logs multiple severe error objects.
+     *
+     * @param objects The objects to log as severe errors.
+     */
     public static void severe(@Nullable Object @Nullable ... objects) {
         if (objects == null) {
             severe("null");
@@ -293,40 +435,90 @@ public class Debug {
         }
     }
 
+    /**
+     * Logs a message and a throwable.
+     *
+     * @param message The message to log.
+     * @param e The throwable to log.
+     */
     public static void log(@Nullable String message, Throwable e) {
         log(message);
         log(e);
     }
 
+    /**
+     * Logs an object and a throwable.
+     *
+     * @param object The object to log.
+     * @param e The throwable to log.
+     */
     public static void log(@Nullable Object object, Throwable e) {
         log(object);
         log(e);
     }
 
+    /**
+     * Logs a message, a throwable, and multiple objects.
+     *
+     * @param message The message to log.
+     * @param e The throwable to log.
+     * @param objects The objects to log.
+     */
     public static void log(@Nullable String message, @Nullable Throwable e, Object @Nullable ... objects) {
         log(message, e);
         log(objects);
     }
 
+    /**
+     * Logs an object, a throwable, and multiple objects.
+     *
+     * @param object The object to log.
+     * @param e The throwable to log.
+     * @param objects The objects to log.
+     */
     public static void log(@Nullable Object object, @Nullable Throwable e, Object @Nullable ... objects) {
         log(object, e);
         log(objects);
     }
 
+    /**
+     * Logs a message, a throwable, and multiple messages.
+     *
+     * @param message The message to log.
+     * @param e The throwable to log.
+     * @param messages The messages to log.
+     */
     public static void log(@Nullable String message, @Nullable Throwable e, String @Nullable ... messages) {
         log(message, e);
         log(messages);
     }
 
+    /**
+     * Logs an object, a throwable, and multiple messages.
+     *
+     * @param object The object to log.
+     * @param e The throwable to log.
+     * @param messages The messages to log.
+     */
     public static void log(@Nullable Object object, @Nullable Throwable e, String @Nullable ... messages) {
         log(object, e);
         log(messages);
     }
 
+    /**
+     * Logs a fine-grained message.
+     *
+     * @param message The message to log.
+     */
     public static void fine(@Nullable String message) {
         plugin.getLogger().fine(message);
     }
 
+    /**
+     * Logs a fine-grained object.
+     *
+     * @param object The object to log.
+     */
     public static void fine(@Nullable Object object) {
         if (object == null) {
             fine("null");
@@ -335,6 +527,11 @@ public class Debug {
         fine(object.toString());
     }
 
+    /**
+     * Logs multiple fine-grained messages.
+     *
+     * @param messages The messages to log.
+     */
     public static void fine(@Nullable String @Nullable ... messages) {
         if (messages == null) {
             fine("null");
@@ -349,6 +546,11 @@ public class Debug {
         }
     }
 
+    /**
+     * Logs multiple fine-grained objects.
+     *
+     * @param objects The objects to log.
+     */
     public static void fine(@Nullable Object @Nullable ... objects) {
         if (objects == null) {
             fine("null");
@@ -363,67 +565,153 @@ public class Debug {
         }
     }
 
+    /**
+     * Logs a fine-grained message and a throwable.
+     *
+     * @param message The message to log.
+     * @param e The throwable to log.
+     */
     public static void fine(@Nullable String message, Throwable e) {
         fine(message);
         log(e);
     }
 
+    /**
+     * Logs a fine-grained object and a throwable.
+     *
+     * @param object The object to log.
+     * @param e The throwable to log.
+     */
     public static void fine(@Nullable Object object, Throwable e) {
         fine(object);
         log(e);
     }
 
+    /**
+     * Logs a fine-grained message, a throwable, and multiple objects.
+     *
+     * @param message The message to log.
+     * @param e The throwable to log.
+     * @param objects The objects to log.
+     */
     public static void fine(@Nullable String message, @Nullable Throwable e, Object @Nullable ... objects) {
         fine(message, e);
         log(objects);
     }
 
+    /**
+     * Logs a fine-grained object, a throwable, and multiple objects.
+     *
+     * @param object The object to log.
+     * @param e The throwable to log.
+     * @param objects The objects to log.
+     */
     public static void fine(@Nullable Object object, @Nullable Throwable e, Object @Nullable ... objects) {
         fine(object, e);
         log(objects);
     }
 
+    /**
+     * Logs a fine-grained message, a throwable, and multiple messages.
+     *
+     * @param message The message to log.
+     * @param e The throwable to log.
+     * @param messages The messages to log.
+     */
     public static void fine(@Nullable String message, @Nullable Throwable e, String @Nullable ... messages) {
         fine(message, e);
         log(messages);
     }
 
+    /**
+     * Logs a fine-grained object, a throwable, and multiple messages.
+     *
+     * @param object The object to log.
+     * @param e The throwable to log.
+     * @param messages The messages to log.
+     */
     public static void fine(@Nullable Object object, @Nullable Throwable e, String @Nullable ... messages) {
         fine(object, e);
         log(messages);
     }
 
+    /**
+     * Logs a debug message and a throwable.
+     *
+     * @param message The message to log.
+     * @param e The throwable to log.
+     */
     public static void debug(@Nullable String message, Throwable e) {
         debug(message);
         log(e);
     }
 
+    /**
+     * Logs a debug object and a throwable.
+     *
+     * @param object The object to log.
+     * @param e The throwable to log.
+     */
     public static void debug(@Nullable Object object, Throwable e) {
         debug(object);
         log(e);
     }
 
+    /**
+     * Logs a debug message, a throwable, and multiple objects.
+     *
+     * @param message The message to log.
+     * @param e The throwable to log.
+     * @param objects The objects to log.
+     */
     public static void debug(@Nullable String message, @Nullable Throwable e, Object @Nullable ... objects) {
         debug(message, e);
         log(objects);
     }
 
+    /**
+     * Logs a debug object, a throwable, and multiple objects.
+     *
+     * @param object The object to log.
+     * @param e The throwable to log.
+     * @param objects The objects to log.
+     */
     public static void debug(@Nullable Object object, @Nullable Throwable e, Object @Nullable ... objects) {
         debug(object, e);
         log(objects);
     }
 
+    /**
+     * Logs a debug message, a throwable, and multiple messages.
+     *
+     * @param message The message to log.
+     * @param e The throwable to log.
+     * @param messages The messages to log.
+     */
     public static void debug(@Nullable String message, @Nullable Throwable e, String @Nullable ... messages) {
         debug(message, e);
         log(messages);
     }
 
+    /**
+     * Logs a debug object, a throwable, and multiple messages.
+     *
+     * @param object The object to log.
+     * @param e The throwable to log.
+     * @param messages The messages to log.
+     */
     public static void debug(@Nullable Object object, @Nullable Throwable e, String @Nullable ... messages) {
         debug(object, e);
         log(messages);
     }
 
-    public static void log(Level level, @Nullable String message) {
+    /**
+     * Logs a message at a specific log level.
+     *
+     * @param level The log level.
+     * @param message The message to log.
+     */
+    public static void log(@NotNull Level level, @Nullable String message) {
         plugin.getLogger().log(level, message);
     }
 }
