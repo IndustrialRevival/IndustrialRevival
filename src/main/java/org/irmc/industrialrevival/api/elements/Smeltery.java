@@ -8,6 +8,7 @@ import org.irmc.industrialrevival.api.items.attributes.TankFuel;
 import org.irmc.industrialrevival.api.recipes.MeltMethod;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.pigeonlib.items.ItemUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,7 +46,7 @@ public class Smeltery implements Cloneable {
         this.recipes = recipes;
     }
 
-    public Smeltery clone() {
+    public @NotNull Smeltery clone() {
         return new Smeltery(tank.clone(), new ArrayList<>(recipes));
     }
 
@@ -55,7 +56,7 @@ public class Smeltery implements Cloneable {
         }
     }
 
-    public static boolean isFuel(ItemStack itemStack) {
+    public static boolean isFuel(@NotNull ItemStack itemStack) {
         for (Material material : fuelsMap.keySet()) {
             if (ItemUtils.isItemSimilar(itemStack, new ItemStack(material))) {
                 return true;
@@ -65,7 +66,7 @@ public class Smeltery implements Cloneable {
         return IndustrialRevivalItem.getByItem(itemStack) instanceof TankFuel;
     }
 
-    public static int getFuelAmount(ItemStack itemStack) {
+    public static int getFuelAmount(@NotNull ItemStack itemStack) {
         for (Map.Entry<Material, Integer> entry : fuelsMap.entrySet()) {
             if (ItemUtils.isItemSimilar(itemStack, new ItemStack(entry.getKey()))) {
                 return entry.getValue();

@@ -14,6 +14,7 @@ import org.irmc.industrialrevival.api.items.ElementItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.KeyUtil;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
 
 /**
@@ -24,23 +25,39 @@ import org.jetbrains.annotations.Range;
  */
 @Getter
 public class OreMeltedType extends MeltedType {
-    private final ElementType elementType;
-    private final NamespacedKey identifier;
+    private final @NotNull ElementType elementType;
+    private final @NotNull NamespacedKey identifier;
     private final Component name;
     private final Component meltedName;
-    protected OreMeltedType(ElementType elementType) {
+
+    /**
+     * Constructor for OreMeltedType
+     * @param elementType the element type of the ore
+     */
+    protected OreMeltedType(@NotNull ElementType elementType) {
         this.elementType = elementType;
         this.identifier = KeyUtil.customKey("ore_melted_type_" + elementType.name().toLowerCase());
         this.name = IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(null, "ore_melted_type_name." + elementType.name().toLowerCase());
         this.meltedName = IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(null, "ore_melted_type_melted_name." + elementType.name().toLowerCase());
     }
 
-    public static OreMeltedType of(ElementType elementType) {
+    /**
+     * Gets the {@link OreMeltedType} of the given element type.
+     *
+     * @param elementType the element type of the ore
+     * @return the {@link OreMeltedType} of the given element type.
+     */
+    public static @NotNull OreMeltedType of(@NotNull ElementType elementType) {
         return new OreMeltedType(elementType);
     }
 
+    /**
+     * Gets the {@link TextColor} of the ore.
+     * @return the {@link TextColor} of the ore.
+     * @see ElementUtils#getAtomicColor(ElementType)
+     */
     @Override
-    public TextColor getColor() {
+    public @NotNull TextColor getColor() {
         return TextColor.color(ElementUtils.getAtomicColor(getElementType()));
     }
 }

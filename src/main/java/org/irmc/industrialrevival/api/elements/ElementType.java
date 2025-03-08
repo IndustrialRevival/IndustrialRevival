@@ -2,6 +2,8 @@ package org.irmc.industrialrevival.api.elements;
 
 import lombok.Getter;
 import org.irmc.industrialrevival.api.items.attributes.ChemReactable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("unused")
 @Getter
@@ -186,7 +188,7 @@ public enum ElementType {
         public static final ReactCondition HIGH_TEMPERATURE = new ReactCondition(Type.HIGH_TEMPERATURE);
 
         private final Type type;
-        private final ChemReactable reactable;
+        private final @Nullable ChemReactable reactable;
 
         private ReactCondition(Type type) {
             this.type = type;
@@ -210,11 +212,11 @@ public enum ElementType {
          * Null if the react condition is not a catalyst.
          * @return The chem reactable item that is catalyzing the reaction.
          */
-        public ChemReactable getReactable() {
+        public @Nullable ChemReactable getReactable() {
             return reactable;
         }
 
-        public static ReactCondition asCatalyzer(ChemReactable reactable) {
+        public static @NotNull ReactCondition asCatalyzer(ChemReactable reactable) {
             return new ReactCondition(Type.CATALYZER, reactable);
         }
 
@@ -229,7 +231,7 @@ public enum ElementType {
     }
 
     public record Valence(int... valences) {
-        public static Valence of(int... valences) {
+        public static @NotNull Valence of(int... valences) {
                 return new Valence(valences);
             }
     }
