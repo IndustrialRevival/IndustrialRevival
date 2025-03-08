@@ -23,9 +23,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This utility class provides methods for managing menus and item interactions in the IndustrialRevival plugin.
+ * It includes functionalities for drawing menus, handling item flows, pushing items into menus, and checking if items fit into specific slots.
+ *
+ * @author balugaq
+ */
 @SuppressWarnings({"deprecation", "unused"})
 @UtilityClass
 public class MenuUtil {
+    /**
+     * A predefined matrix menu drawer for classic-style menus.
+     */
     public static final MatrixMenuDrawer CLASSIC_MENU = new MatrixMenuDrawer(54)
             .addLine("BBBBBBBBB")
             .addLine("IIIIPOOOO")
@@ -33,42 +42,69 @@ public class MenuUtil {
             .addLine("IiiIBOooO")
             .addLine("IIIIBOOOO")
             .addLine("BBBBBBBBB");
+
+    /**
+     * A background item used in menus.
+     */
     public static final ItemStack BACKGROUND = new CustomItemStack(
             Material.BLACK_STAINED_GLASS_PANE,
             "",
             ""
     ).toPureItemStack();
 
+    /**
+     * An input border item used in menus.
+     */
     public static final ItemStack INPUT_BORDER = new CustomItemStack(
             Material.BLUE_STAINED_GLASS_PANE,
             "",
             ""
     ).toPureItemStack();
 
+    /**
+     * An output border item used in menus.
+     */
     public static final ItemStack OUTPUT_BORDER = new CustomItemStack(
             Material.ORANGE_STAINED_GLASS_PANE,
             "",
             ""
     ).toPureItemStack();
 
+    /**
+     * A clicker border item used in menus.
+     */
     public static final ItemStack CLICKER_BORDER = new CustomItemStack(
             Material.YELLOW_STAINED_GLASS_PANE,
             "",
             ""
     ).toPureItemStack();
 
+    /**
+     * A confirm button item used in menus.
+     */
     public static final ItemStack CONFIRM = new CustomItemStack(
             Material.LIME_STAINED_GLASS_PANE,
             ChatColor.GREEN + "Confirm",
             ChatColor.GRAY + "Click to confirm."
     ).toPureItemStack();
 
+    /**
+     * A cancel button item used in menus.
+     */
     public static final ItemStack CANCEL = new CustomItemStack(
             Material.RED_STAINED_GLASS_PANE,
             ChatColor.RED + "Cancel",
             ChatColor.GRAY + "Click to cancel."
     ).toPureItemStack();
 
+    /**
+     * Retrieves items from a menu based on the specified item flow and item stack.
+     *
+     * @param menu      The menu to retrieve items from.
+     * @param itemFlow  The item flow to filter by.
+     * @param itemStack The item stack to filter by.
+     * @return A map of item stacks and their amounts.
+     */
     @NotNull
     public static Map<ItemStack, Integer> getMenuItemsByItemFlow(@NotNull MachineMenu menu, @NotNull ItemFlow itemFlow, @Nullable ItemStack itemStack) {
         final int[] slots = menu.getPreset().getSlotsByItemFlow(itemFlow, itemStack);
@@ -82,6 +118,14 @@ public class MenuUtil {
         return items;
     }
 
+    /**
+     * Retrieves items from a simple menu based on the specified item flow and item stack.
+     *
+     * @param menu      The menu to retrieve items from.
+     * @param itemFlow  The item flow to filter by.
+     * @param itemStack The item stack to filter by.
+     * @return A map of item stacks and their amounts.
+     */
     @NotNull
     public static Map<ItemStack, Integer> getMenuItemsByItemFlow(@NotNull SimpleMenu menu, @NotNull ItemFlow itemFlow, @Nullable ItemStack itemStack) {
         if (menu instanceof MachineMenu machineMenu) {
@@ -91,6 +135,12 @@ public class MenuUtil {
         }
     }
 
+    /**
+     * Checks if an item stack is a background item.
+     *
+     * @param itemStack The item stack to check.
+     * @return True if the item stack is a background item, false otherwise.
+     */
     public static boolean isBackground(@NotNull ItemStack itemStack) {
         if (ItemUtils.isItemSimilar(itemStack, BACKGROUND)) {
             return true;
@@ -115,6 +165,14 @@ public class MenuUtil {
         return ItemUtils.isItemSimilar(itemStack, CANCEL);
     }
 
+    /**
+     * Pushes an item into a menu at the specified slots.
+     *
+     * @param simpleMenu The menu to push the item into.
+     * @param item       The item to push.
+     * @param slots      The slots to push the item into.
+     * @return The remaining item stack if it couldn't be fully pushed, or null if it was fully pushed.
+     */
     @Nullable
     public static ItemStack pushItem(@Nonnull SimpleMenu simpleMenu, @Nonnull ItemStack item, int... slots) {
         if (item == null || item.getType() == Material.AIR) {
@@ -159,6 +217,14 @@ public class MenuUtil {
         }
     }
 
+    /**
+     * Pushes multiple items into a menu at the specified slots.
+     *
+     * @param simpleMenu The menu to push the items into.
+     * @param items      The items to push.
+     * @param slots      The slots to push the items into.
+     * @return A map of remaining item stacks and their amounts.
+     */
     @Nonnull
     public static Map<ItemStack, Integer> pushItem(@Nonnull SimpleMenu simpleMenu, @Nonnull ItemStack[] items, int... slots) {
         if (items == null || items.length == 0) {
@@ -175,6 +241,16 @@ public class MenuUtil {
         return pushItem(simpleMenu, listItems, slots);
     }
 
+    /**
+     * Pushes a list of item stacks into the specified slots of a SimpleMenu.
+     * If the items cannot be fully pushed into the slots, the remaining items are returned in a map.
+     *
+     * @param simpleMenu The SimpleMenu to push the items into.
+     * @param items      The list of item stacks to push.
+     * @param slots      The slots in the menu where the items should be pushed.
+     * @return A map of remaining item stacks and their amounts if they couldn't be fully pushed, otherwise an empty map.
+     * @throws IllegalArgumentException If the items list is null or empty.
+     */
     @Nonnull
     public static Map<ItemStack, Integer> pushItem(@Nonnull SimpleMenu simpleMenu, @Nonnull List<ItemStack> items, int... slots) {
         if (items == null || items.isEmpty()) {
@@ -194,6 +270,17 @@ public class MenuUtil {
         return itemMap;
     }
 
+    /**
+     * Pushes a map of item stacks into the specified slots of a SimpleMenu.
+     * The map contains item stacks as keys and their amounts as values.
+     * If the items cannot be fully pushed into the slots, the remaining items are returned in a map.
+     *
+     * @param simpleMenu The SimpleMenu to push the items into.
+     * @param items      The map of item stacks and their amounts to push.
+     * @param slots      The slots in the menu where the items should be pushed.
+     * @return A map of remaining item stacks and their amounts if they couldn't be fully pushed, otherwise an empty map.
+     * @throws IllegalArgumentException If the items map is null or empty.
+     */
     @Nonnull
     public static Map<ItemStack, Integer> pushItem(@Nonnull SimpleMenu simpleMenu, @Nonnull Map<ItemStack, Integer> items, int... slots) {
         if (items == null || items.isEmpty()) {
@@ -211,6 +298,14 @@ public class MenuUtil {
         return pushItem(simpleMenu, listItems, slots);
     }
 
+    /**
+     * Checks if an item stack can fit into the specified slots of a SimpleMenu.
+     *
+     * @param simpleMenu The SimpleMenu to check.
+     * @param item       The item stack to check.
+     * @param slots      The slots in the menu to check.
+     * @return True if the item can fit into the slots, false otherwise.
+     */
     public static boolean fits(@Nonnull SimpleMenu simpleMenu, @Nonnull ItemStack item, int... slots) {
         if (item.getType() == Material.AIR) {
             return true;
@@ -234,6 +329,14 @@ public class MenuUtil {
         return false;
     }
 
+    /**
+     * Checks if an array of item stacks can fit into the specified slots of a SimpleMenu.
+     *
+     * @param simpleMenu The SimpleMenu to check.
+     * @param items      The array of item stacks to check.
+     * @param slots      The slots in the menu to check.
+     * @return True if all items can fit into the slots, false otherwise.
+     */
     public static boolean fits(@Nonnull SimpleMenu simpleMenu, @Nonnull ItemStack[] items, int... slots) {
         if (items.length == 0) {
             return false;
@@ -249,6 +352,14 @@ public class MenuUtil {
         return fits(simpleMenu, listItems, slots);
     }
 
+    /**
+     * Checks if a list of item stacks can fit into the specified slots of a SimpleMenu.
+     *
+     * @param simpleMenu The SimpleMenu to check.
+     * @param items      The list of item stacks to check.
+     * @param slots      The slots in the menu to check.
+     * @return True if all items can fit into the slots, false otherwise.
+     */
     public static boolean fits(@Nonnull SimpleMenu simpleMenu, @Nonnull List<ItemStack> items, int... slots) {
         if (items.isEmpty()) {
             return false;
@@ -308,6 +419,13 @@ public class MenuUtil {
         return true;
     }
 
+    /**
+     * Checks if a map of item stacks can fit into the specified slots of a SimpleMenu.
+     * @param simpleMenu The SimpleMenu to check.
+     * @param items      The map of item stacks and their amounts to check.
+     * @param slots      The slots in the menu to check.
+     * @return True if all items can fit into the slots, false otherwise.
+     */
     public static boolean fits(@Nonnull SimpleMenu simpleMenu, @Nonnull Map<ItemStack, Integer> items, int... slots) {
         List<ItemStack> listItems = new ArrayList<>();
         for (Map.Entry<ItemStack, Integer> entry : items.entrySet()) {
@@ -319,7 +437,13 @@ public class MenuUtil {
         return fits(simpleMenu, listItems, slots);
     }
 
-    public static ItemStack getProgressBar(Material material, IOperation operation) {
+    /**
+     * Gets a progress bar item for the specified operation.
+     * @param material  The material of the progress bar.
+     * @param operation The operation to generate the progress.
+     * @return The progress bar item.
+     */
+    public static ItemStack getProgressBar(@Nonnull Material material, @Nonnull IOperation operation) {
         int current = operation.getCurrentProgress();
         int max = operation.getTotalProgress();
         int currentPercentage = (int) (current * 100.0f / max);

@@ -141,7 +141,7 @@ public class ProfilerService {
         //TODO: localization
         request.getRequester().sendMessage("&a====== Profiling Data ======");
         request.getRequester().sendMessage("&aTick count: " + task.getTicked());
-        request.getRequester().sendMessage("&aTotal time: " + NumberUtils.round(NumberUtils.nsToMs(tt), 2));
+        request.getRequester().sendMessage("&aTotal time: " + NumberUtils.round(NumberUtils.ns2Ms(tt), 2));
         request.getRequester().sendMessage("&aInterval:" + task.getCheckInterval());
         request.getRequester().sendMessage("&aTPS: " + Arrays.toString(Bukkit.getTPS()));
         request.getRequester().sendMessage("&a===== Timing Data =====");

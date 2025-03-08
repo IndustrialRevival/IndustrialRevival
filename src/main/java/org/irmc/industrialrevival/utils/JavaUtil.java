@@ -11,11 +11,23 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * This utility class provides various Java-related helper methods for array, list, and set operations,
+ * including conversions, shuffling, and other common manipulations. It is designed to simplify common
+ * Java tasks such as converting arrays to sets or lists, reversing arrays or lists, and generating
+ * random or sequential arrays.
+ *
  * @author Final_ROOT
  * @author balugaq
  */
 public class JavaUtil {
 
+    /**
+     * Converts a variable number of objects into a Set.
+     *
+     * @param objects The objects to convert into a Set.
+     * @param <T> The type of the objects.
+     * @return A Set containing the provided objects.
+     */
     @SafeVarargs
     @Nonnull
     public static <T> Set<T> toSet(@Nonnull T... objects) {
@@ -24,6 +36,13 @@ public class JavaUtil {
         return result;
     }
 
+    /**
+     * Converts a variable number of objects into a List.
+     *
+     * @param objects The objects to convert into a List.
+     * @param <T> The type of the objects.
+     * @return A List containing the provided objects.
+     */
     @SafeVarargs
     @Nonnull
     public static <T> List<T> toList(@Nonnull T... objects) {
@@ -32,6 +51,12 @@ public class JavaUtil {
         return result;
     }
 
+    /**
+     * Converts a List of Integers into an array of ints.
+     *
+     * @param list The List of Integers to convert.
+     * @return An array of ints containing the elements of the List.
+     */
     @Nonnull
     public static int[] toArray(@Nonnull List<Integer> list) {
         int[] result = new int[list.size()];
@@ -41,6 +66,12 @@ public class JavaUtil {
         return result;
     }
 
+    /**
+     * Reverses the order of elements in an array of ints.
+     *
+     * @param objects The array of ints to reverse.
+     * @return A new array with the elements in reverse order.
+     */
     @Nonnull
     public static int[] reserve(@Nonnull int[] objects) {
         int[] result = objects.clone();
@@ -50,6 +81,13 @@ public class JavaUtil {
         return result;
     }
 
+    /**
+     * Reverses the order of elements in a List.
+     *
+     * @param objectList The List to reverse.
+     * @param <T> The type of the elements in the List.
+     * @return A new List with the elements in reverse order.
+     */
     @Nonnull
     public static <T> List<T> reserve(@Nonnull List<T> objectList) {
         List<T> result = new ArrayList<>(objectList);
@@ -59,6 +97,12 @@ public class JavaUtil {
         return result;
     }
 
+    /**
+     * Shuffles the elements of an array of ints.
+     *
+     * @param objects The array of ints to shuffle.
+     * @return A new array with the elements shuffled.
+     */
     @Nonnull
     public static int[] shuffle(@Nonnull int[] objects) {
         List<Integer> collect = Arrays.stream(objects).boxed().collect(Collectors.toList());
@@ -70,6 +114,13 @@ public class JavaUtil {
         return result;
     }
 
+    /**
+     * Shuffles the elements of an array of objects.
+     *
+     * @param objects The array of objects to shuffle.
+     * @param <T> The type of the objects in the array.
+     * @return A new array with the elements shuffled.
+     */
     @Nonnull
     public static <T> T[] shuffle(@Nonnull T[] objects) {
         List<T> collect = Arrays.stream(objects).collect(Collectors.toList());
@@ -81,6 +132,13 @@ public class JavaUtil {
         return result;
     }
 
+    /**
+     * Shuffles the elements of a List.
+     *
+     * @param objectList The List to shuffle.
+     * @param <T> The type of the elements in the List.
+     * @return A new List with the elements shuffled.
+     */
     @Nonnull
     public static <T> List<T> shuffle(@Nonnull List<T> objectList) {
         List<T> list = new ArrayList<>(objectList);
@@ -88,6 +146,13 @@ public class JavaUtil {
         return list;
     }
 
+    /**
+     * Creates a dispersed array of double values based on the provided size and values.
+     *
+     * @param size The size of the resulting array.
+     * @param value The values to disperse.
+     * @return An array of double values dispersed based on the provided size and values.
+     */
     @Nonnull
     public static double[] disperse(int size, @Nonnull Number... value) {
         if (size == 1 && value.length > 0) {
@@ -105,6 +170,12 @@ public class JavaUtil {
         return result;
     }
 
+    /**
+     * Splits a string into an array of individual characters.
+     *
+     * @param string The string to split.
+     * @return An array of strings, each representing a single character from the input string.
+     */
     @Nonnull
     public static String[] split(@Nonnull String string) {
         String[] result = new String[string.length()];
@@ -115,11 +186,10 @@ public class JavaUtil {
     }
 
     /**
-     * Generate random int[] contains 0 1 2 ...... length-1
-     * for example, while the input length = 3, the output may be [0, 1, 2] or [0, 2, 1] or [1, 0, 2] or [1, 2, 0] or [2, 0, 1] or [2, 1, 0]
+     * Generates an array of random integers from 0 to length-1.
      *
-     * @param length the length of the int[]
-     * @return a random int[]
+     * @param length The length of the array.
+     * @return An array of integers containing values from 0 to length-1 in random order.
      */
     @Nonnull
     public static int[] generateRandomInts(int length) {
@@ -130,6 +200,12 @@ public class JavaUtil {
         return JavaUtil.shuffle(result);
     }
 
+    /**
+     * Generates an array of sequential integers from 0 to length-1.
+     *
+     * @param length The length of the array.
+     * @return An array of integers containing values from 0 to length-1 in order.
+     */
     @Nonnull
     public static int[] generateInts(int length) {
         int[] result = new int[length];
@@ -140,19 +216,12 @@ public class JavaUtil {
     }
 
     /**
-     * shuffle a list by int[]
-     * outputList[0] = inputList[int[0]]
-     * for example:
-     * input:
-     * list: [a, b, c, d, e, f]
-     * int:[2, 1, 0, 4, 5, 3]
-     * output:
-     * list: [c, b, a, e, f, d]
+     * Shuffles a List based on the provided array of indices.
      *
-     * @param list the input list
-     * @param ints the int[]
-     * @param <T>  the type of the list
-     * @return the shuffled list
+     * @param list The List to shuffle.
+     * @param ints The array of indices to use for shuffling.
+     * @param <T> The type of the elements in the List.
+     * @return A new List with the elements shuffled according to the provided indices.
      */
     @Nonnull
     public static <T> List<T> shuffleByInts(@Nonnull List<T> list, @Nonnull int[] ints) {
@@ -163,6 +232,13 @@ public class JavaUtil {
         return result;
     }
 
+    /**
+     * Adds a value to the beginning of an array of strings.
+     *
+     * @param value The value to add.
+     * @param values The array of strings to which the value will be added.
+     * @return A new array with the value added to the beginning.
+     */
     @Nonnull
     public static String[] addToFirst(@Nonnull String value, @Nonnull String... values) {
         String[] result = new String[values.length + 1];
@@ -171,6 +247,14 @@ public class JavaUtil {
         return result;
     }
 
+    /**
+     * Checks if a source object matches any of the target objects.
+     *
+     * @param source The source object to compare.
+     * @param targets The target objects to compare against.
+     * @param <T> The type of the objects.
+     * @return True if the source object matches any of the target objects, false otherwise.
+     */
     @SafeVarargs
     public static <T> boolean matchOnce(@Nonnull T source, @Nonnull T... targets) {
         for (T object : targets) {
@@ -181,6 +265,12 @@ public class JavaUtil {
         return false;
     }
 
+    /**
+     * Measures the execution time of a Runnable task.
+     *
+     * @param runnable The task to measure.
+     * @return The execution time in nanoseconds.
+     */
     public static long testTime(@Nonnull Runnable runnable) {
         long beginTime = System.nanoTime();
         runnable.run();
@@ -188,7 +278,11 @@ public class JavaUtil {
     }
 
     /**
-     * @return In most case, it will not return null. (￣▽￣)"
+     * Returns the first non-null object from the provided array of objects.
+     *
+     * @param objects The array of objects to search.
+     * @param <T> The type of the objects.
+     * @return The first non-null object, or null if all objects are null.
      */
     @SafeVarargs
     @Nullable
