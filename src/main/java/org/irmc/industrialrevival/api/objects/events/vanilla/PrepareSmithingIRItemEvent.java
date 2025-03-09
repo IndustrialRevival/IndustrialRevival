@@ -1,7 +1,9 @@
 package org.irmc.industrialrevival.api.objects.events.vanilla;
 
+import com.destroystokyo.paper.event.inventory.PrepareResultEvent;
 import lombok.Getter;
 import org.bukkit.event.Cancellable;
+import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
@@ -9,7 +11,7 @@ import org.irmc.industrialrevival.api.objects.events.interfaces.RelatedIRItem;
 import org.jetbrains.annotations.NotNull;
 
 @Getter
-public class PrepareSmithingIRItemEvent extends PrepareSmithingEvent implements Cancellable, RelatedIRItem {
+public class PrepareSmithingIRItemEvent extends PrepareResultEvent implements Cancellable, RelatedIRItem {
     private static final HandlerList handlers = new HandlerList();
     private final IndustrialRevivalItem iritem;
     private final PrepareSmithingEvent originalEvent;
@@ -27,7 +29,7 @@ public class PrepareSmithingIRItemEvent extends PrepareSmithingEvent implements 
 
     public void setCancelled(boolean cancel) {
         this.cancelled = cancel;
-        setResult(null);
+        originalEvent.setResult(null);
     }
 
     @Override

@@ -20,6 +20,7 @@ public class IRTickStartEvent extends Event {
     private final long ticked;
 
     public IRTickStartEvent(Map<Location, IRBlockData> blockDataMap, int checkInterval, long ticked) {
+        super(true);
         this.blockDataMap = new HashMap<>(blockDataMap);
         this.checkInterval = checkInterval;
         this.ticked = ticked;

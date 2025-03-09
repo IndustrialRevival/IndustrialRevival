@@ -56,7 +56,7 @@ public abstract class BasicMachine extends AbstractMachine implements ProcessorH
                     return getOutputSlots();
                 }
             }
-        };
+        }.register();
         addItemHandlers((BlockTicker) this::tick);
         super.preRegister();
     }

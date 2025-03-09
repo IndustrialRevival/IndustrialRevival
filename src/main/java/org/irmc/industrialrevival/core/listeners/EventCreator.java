@@ -96,7 +96,7 @@ public class EventCreator implements Listener {
 
         for (BlockExplodeIRBlockEvent event : events) {
             Bukkit.getServer().getPluginManager().callEvent(event);
-            e.setCancelled(event.isCancelled());
+            
         }
     }
 
@@ -117,7 +117,7 @@ public class EventCreator implements Listener {
             EndermanMoveIRBlockEvent event = new EndermanMoveIRBlockEvent(e, item);
             Bukkit.getServer().getPluginManager().callEvent(event);
 
-            e.setCancelled(event.isCancelled());
+            
         }
     }
 
@@ -136,7 +136,7 @@ public class EventCreator implements Listener {
         EntityChangeIRBlockEvent event = new EntityChangeIRBlockEvent(e, item);
         Bukkit.getServer().getPluginManager().callEvent(event);
 
-        e.setCancelled(event.isCancelled());
+        
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -159,8 +159,8 @@ public class EventCreator implements Listener {
 
         for (EntityExplodeIRBlockEvent event : events) {
             Bukkit.getServer().getPluginManager().callEvent(event);
-            if (event.isCancelled()) {
-                e.blockList().remove(event.getLocation().getBlock());
+            if (event.getOriginalEvent().isCancelled()) {
+                e.blockList().remove(event.getOriginalEvent().getLocation().getBlock());
             }
         }
     }
@@ -176,7 +176,7 @@ public class EventCreator implements Listener {
         EntityPickupIRItemEvent event = new EntityPickupIRItemEvent(e, iritem);
         Bukkit.getServer().getPluginManager().callEvent(event);
 
-        e.setCancelled(event.isCancelled());
+        
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -190,7 +190,7 @@ public class EventCreator implements Listener {
         InventoryMoveIRItemEvent event = new InventoryMoveIRItemEvent(e, iritem);
         Bukkit.getServer().getPluginManager().callEvent(event);
 
-        e.setCancelled(event.isCancelled());
+        
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -211,7 +211,7 @@ public class EventCreator implements Listener {
 
         IRBlockBreakEvent event = new IRBlockBreakEvent(e, item);
         Bukkit.getServer().getPluginManager().callEvent(event);
-        e.setCancelled(event.isCancelled());
+        
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -235,26 +235,19 @@ public class EventCreator implements Listener {
         }
         Bukkit.getServer().getPluginManager().callEvent(event);
 
-        e.setCancelled(event.isCancelled());
+        
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onIRBlockPlace(BlockPlaceEvent e) {
-        Block block = e.getBlockPlaced();
-        IRBlockData data = DataUtil.getBlockData(block.getLocation());
-        if (data == null) {
-            return;
+        ItemStack itemStack = e.getItemInHand();
+        IndustrialRevivalItem item = IndustrialRevivalItem.getByItem(itemStack);
+        if (item != null) {
+            IRBlockPlaceEvent event = new IRBlockPlaceEvent(e, item);
+            Bukkit.getServer().getPluginManager().callEvent(event);
+
+            
         }
-
-        IndustrialRevivalItem item = IndustrialRevivalItem.getById(data.getId());
-        if (item == null) {
-            return;
-        }
-
-        IRBlockPlaceEvent event = new IRBlockPlaceEvent(e, item);
-        Bukkit.getServer().getPluginManager().callEvent(event);
-
-        e.setCancelled(event.isCancelled());
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -268,7 +261,7 @@ public class EventCreator implements Listener {
         IRItemBreakBlockEvent event = new IRItemBreakBlockEvent(e, iritem);
         Bukkit.getServer().getPluginManager().callEvent(event);
 
-        e.setCancelled(event.isCancelled());
+        
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -291,8 +284,6 @@ public class EventCreator implements Listener {
 
         IRItemDamageEntityEvent event = new IRItemDamageEntityEvent(e, iritem);
         Bukkit.getServer().getPluginManager().callEvent(event);
-
-        e.setCancelled(event.isCancelled());
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -305,8 +296,6 @@ public class EventCreator implements Listener {
 
         IRItemInteractEvent event = new IRItemInteractEvent(e, iritem);
         Bukkit.getServer().getPluginManager().callEvent(event);
-
-        e.setCancelled(event.isCancelled());
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -322,7 +311,7 @@ public class EventCreator implements Listener {
             IRItemKillEntityEvent event = new IRItemKillEntityEvent(e, iritem);
             Bukkit.getServer().getPluginManager().callEvent(event);
 
-            e.setCancelled(event.isCancelled());
+            
         }
     }
 
@@ -344,8 +333,8 @@ public class EventCreator implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onMenuOpen(PlayerRightClickEvent e) {
-        if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            IRBlockData data = DataUtil.getBlockData(e.getClickedBlock().getLocation());
+        if (e.getOriginalEvent().getAction() == Action.RIGHT_CLICK_BLOCK) {
+            IRBlockData data = DataUtil.getBlockData(e.getOriginalEvent().getClickedBlock().getLocation());
             if (data == null) {
                 return;
             }
@@ -354,7 +343,7 @@ public class EventCreator implements Listener {
                 MenuOpenEvent event = new MenuOpenEvent(e, menu);
                 Bukkit.getServer().getPluginManager().callEvent(event);
 
-                e.setCancelled(event.isCancelled());
+                
             }
         }
     }
@@ -379,7 +368,7 @@ public class EventCreator implements Listener {
 
         for (PistonExtendIRBlockEvent event : events) {
             Bukkit.getServer().getPluginManager().callEvent(event);
-            e.setCancelled(event.isCancelled());
+            
         }
     }
 
@@ -403,7 +392,7 @@ public class EventCreator implements Listener {
 
         for (PistonRetractIRBlockEvent event : events) {
             Bukkit.getServer().getPluginManager().callEvent(event);
-            e.setCancelled(event.isCancelled());
+            
         }
     }
 
@@ -423,7 +412,7 @@ public class EventCreator implements Listener {
         PlayerBucketEmptyToIRBlockEvent event = new PlayerBucketEmptyToIRBlockEvent(e, item);
         Bukkit.getServer().getPluginManager().callEvent(event);
 
-        e.setCancelled(event.isCancelled());
+        
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -446,7 +435,7 @@ public class EventCreator implements Listener {
         PlayerInteractIRBlockEvent event = new PlayerInteractIRBlockEvent(e, item);
         Bukkit.getServer().getPluginManager().callEvent(event);
 
-        e.setCancelled(event.isCancelled());
+        
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -455,7 +444,7 @@ public class EventCreator implements Listener {
             PlayerLeftClickEvent event = new PlayerLeftClickEvent(e);
             Bukkit.getServer().getPluginManager().callEvent(event);
 
-            e.setCancelled(event.isCancelled());
+            
         }
     }
 
@@ -465,7 +454,7 @@ public class EventCreator implements Listener {
             PlayerRightClickEvent event = new PlayerRightClickEvent(e);
             Bukkit.getServer().getPluginManager().callEvent(event);
 
-            e.setCancelled(event.isCancelled());
+            
         }
     }
 
@@ -504,7 +493,7 @@ public class EventCreator implements Listener {
         PrepareIRItemEnchantEvent event = new PrepareIRItemEnchantEvent(e, iritem);
         Bukkit.getServer().getPluginManager().callEvent(event);
 
-        e.setCancelled(event.isCancelled());
+        
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -534,7 +523,7 @@ public class EventCreator implements Listener {
             PrepareTradeSelectIRItemEvent event = new PrepareTradeSelectIRItemEvent(e, recipe, iritem);
             Bukkit.getServer().getPluginManager().callEvent(event);
 
-            e.setCancelled(event.isCancelled());
+            
             if (event.isCancelled()) {
                 break;
             }

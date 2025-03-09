@@ -27,6 +27,7 @@ public class MachineMenuPreset extends SimpleMenu {
 
         this.id = id;
         this.locked = false;
+        init();
     }
 
     /**

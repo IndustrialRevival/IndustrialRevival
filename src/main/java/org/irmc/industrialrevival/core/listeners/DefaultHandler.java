@@ -1,6 +1,7 @@
 package org.irmc.industrialrevival.core.listeners;
 
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -22,6 +23,7 @@ import org.irmc.industrialrevival.api.objects.events.vanilla.MenuOpenEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PistonExtendIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PistonRetractIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PlayerBucketEmptyToIRBlockEvent;
+import org.irmc.industrialrevival.api.objects.events.vanilla.PlayerInteractIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.PlayerRightClickEvent;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.DataUtil;
@@ -45,48 +47,49 @@ public class DefaultHandler implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEndermanMoveIrBlock(EndermanMoveIRBlockEvent event) {
-        if (event.isCancelled()) {
+        if (event.getOriginalEvent().isCancelled()) {
             return;
         }
 
-        event.setCancelled(true);
+        event.getOriginalEvent().setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityChangeIRBlock(EntityChangeIRBlockEvent event) {
-        if (event.isCancelled()) {
+        if (event.getOriginalEvent().isCancelled()) {
             return;
         }
 
-        event.setCancelled(true);
+        event.getOriginalEvent().setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityExplodeIRBlock(EntityExplodeIRBlockEvent event) {
-        if (event.isCancelled()) {
+        if (event.getOriginalEvent().isCancelled()) {
             return;
         }
 
-        event.setCancelled(true);
+        event.getOriginalEvent().setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onIRBlockBreak(IRBlockBreakEvent event) {
-        if (event.isCancelled()) {
+        if (event.getOriginalEvent().isCancelled()) {
             return;
         }
 
-        IndustrialRevival.getInstance().getItemTextureService().blockBreaking(event);
-        IndustrialRevival.getInstance().getDataManager().handleBlockBreaking(event.getBlock().getLocation());
+        //IndustrialRevival.getInstance().getItemTextureService().blockBreaking(event);
+        IndustrialRevival.getInstance().getBlockDataService().handleBlockBreaking(event.getOriginalEvent().getBlock().getLocation());
+        IndustrialRevival.getInstance().getDataManager().handleBlockBreaking(event.getOriginalEvent().getBlock().getLocation());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onIRBlockFromTo(IRBlockFromToEvent event) {
-        if (event.isCancelled()) {
+        if (event.getOriginalEvent().isCancelled()) {
             return;
         }
 
-        event.setCancelled(true);
+        event.getOriginalEvent().setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -95,57 +98,61 @@ public class DefaultHandler implements Listener {
             return;
         }
 
-        IndustrialRevival.getInstance().getItemTextureService().blockPlacing(event);
-        IndustrialRevival.getInstance().getDataManager().handleBlockPlacing(event.getBlockPlaced().getLocation(), event.getIritem().getId());
+        Location location = event.getOriginalEvent().getBlockPlaced().getLocation();
+        NamespacedKey id = event.getIritem().getId();
+
+        //IndustrialRevival.getInstance().getItemTextureService().blockPlacing(event);
+        IndustrialRevival.getInstance().getDataManager().handleBlockPlacing(location, id);
+        IndustrialRevival.getInstance().getBlockDataService().handleBlockPlacing(location, id);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onMenuOpen(MenuOpenEvent event) {
-        if (event.isCancelled()) {
+        if (event.getRightClickEvent().getOriginalEvent().isCancelled()) {
             return;
         }
 
-        event.getOpenedMenu().open(event.getPlayer());
+        event.getOpenedMenu().open(event.getRightClickEvent().getOriginalEvent().getPlayer());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPistonExtendIRBlock(PistonExtendIRBlockEvent event) {
-        if (event.isCancelled()) {
+        if (event.getOriginalEvent().isCancelled()) {
             return;
         }
 
-        event.setCancelled(true);
+        event.getOriginalEvent().setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPistonRetractIRBlock(PistonRetractIRBlockEvent event) {
-        if (event.isCancelled()) {
+        if (event.getOriginalEvent().isCancelled()) {
             return;
         }
 
-        event.setCancelled(true);
+        event.getOriginalEvent().setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerBucketEmptyToIRBlock(PlayerBucketEmptyToIRBlockEvent event) {
-        if (event.isCancelled()) {
+        if (event.getOriginalEvent().isCancelled()) {
             return;
         }
 
-        event.setCancelled(true);
+        event.getOriginalEvent().setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerRightClick(PlayerRightClickEvent event) {
-        if (event.isCancelled()) {
+        if (event.getOriginalEvent().isCancelled()) {
             return;
         }
 
-        if (!event.getAction().isRightClick()) {
+        if (!event.getOriginalEvent().getAction().isRightClick()) {
             return;
         }
 
-        Location location = event.getClickedBlock().getLocation();
+        Location location = event.getOriginalEvent().getClickedBlock().getLocation();
         IndustrialRevivalItem iritem = DataUtil.getItem(location);
 
         if (iritem == null) {
@@ -156,9 +163,9 @@ public class DefaultHandler implements Listener {
             IRBlockData blockData = DataUtil.getBlockData(location);
             MachineMenu menu = blockData.getMachineMenu();
             if (menu != null) {
-                menu.open(event.getPlayer());
+                menu.open(event.getOriginalEvent().getPlayer());
             }
         }
-        event.setCancelled(true);
+        event.getOriginalEvent().setCancelled(true);
     }
 }

@@ -20,7 +20,7 @@ public class BulkDensityListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onIRBlockPlace(IRBlockPlaceEvent event) {
-        ChunkPosition chunkPosition = new ChunkPosition(event.getBlock().getChunk());
+        ChunkPosition chunkPosition = new ChunkPosition(event.getOriginalEvent().getBlock().getChunk());
 
         double damage;
         if (event.getIritem().getItemHandler(BlockTicker.class) != null) {
@@ -34,7 +34,7 @@ public class BulkDensityListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onIRBlockBreak(IRBlockBreakEvent event) {
-        ChunkPosition chunkPosition = new ChunkPosition(event.getBlock().getChunk());
+        ChunkPosition chunkPosition = new ChunkPosition(event.getOriginalEvent().getBlock().getChunk());
 
         double damage;
         if (event.getIritem().getItemHandler(BlockTicker.class) != null) {

@@ -23,8 +23,8 @@ public class PerformanceSummary {
         this.dataByChunk = dataByChunk;
         this.dataByPlugin = dataByPlugin;
         this.dataByLocation = new HashMap<>();
-        for (ProfiledBlock profiledBlock : data.keySet()) {
-            dataByLocation.put(profiledBlock.getLocation(), data.get(profiledBlock));
+        for (Map.Entry<ProfiledBlock, Long> entry : data.entrySet()) {
+            this.dataByLocation.put(entry.getKey().getLocation(), entry.getValue());
         }
         this.totalTime = totalTime;
     }

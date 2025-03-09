@@ -1,5 +1,7 @@
 package org.irmc.industrialrevival.implementation.items;
 
+import net.kyori.adventure.text.Component;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.elements.ElementType;
@@ -9,6 +11,8 @@ import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.api.items.TinkerModelItem;
 import org.irmc.industrialrevival.api.items.TinkerProductItem;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
+import org.irmc.industrialrevival.api.machines.BasicMachine;
+import org.irmc.industrialrevival.api.machines.recipes.MachineRecipe;
 import org.irmc.industrialrevival.api.recipes.CraftMethod;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
@@ -210,6 +214,19 @@ public class IndustrialRevivalItemSetup {
             .setItemStack(IndustrialRevivalItems.TEST_PRODUCT)
             .cast(TinkerProductItem.class);
 
+    public static final BasicMachine TEST_MACHINE = new BasicMachine() {
+        @Override
+        public Component getItemName() {
+            return Component.text("Test Machine");
+        }
+    }
+            .setAddon(INSTANCE)
+            .addItemGroup(IRItemGroups.DEBUG)
+            .setItemStack(IndustrialRevivalItems.TEST_MACHINE)
+            .cast(BasicMachine.class)
+            .addRecipe(new MachineRecipe(10, 1, new ItemStack(Material.STONE), new ItemStack(Material.DIAMOND)))
+            .cast(BasicMachine.class);
+
     public static void setup() {
         EMPTY.register();
         CONTAINER.register();
@@ -226,5 +243,6 @@ public class IndustrialRevivalItemSetup {
         TEST_MODEL.register();
         TEST_PRODUCT.register();
         ElementOres.register();
+        TEST_MACHINE.register();
     }
 }

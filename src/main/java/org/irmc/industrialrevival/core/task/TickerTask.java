@@ -14,9 +14,12 @@ import org.irmc.industrialrevival.api.objects.events.ir.IRTickDoneEvent;
 import org.irmc.industrialrevival.api.objects.events.ir.IRTickStartEvent;
 import org.irmc.industrialrevival.core.data.object.BlockRecord;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
+import org.irmc.industrialrevival.utils.Debug;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -40,13 +43,16 @@ public class TickerTask implements Consumer<WrappedTask> {
         Map<Location, IRBlockData> blockDataMap = blockDataSupplier.get();
         IRTickStartEvent startEvent = new IRTickStartEvent(blockDataMap, checkInterval, ticked);
         IRTickDoneEvent doneEvent = new IRTickDoneEvent();
-        IndustrialRevival.runSync(() -> Bukkit.getPluginManager().callEvent(startEvent));
+        IndustrialRevival.runAsync(() -> Bukkit.getPluginManager().callEvent(startEvent));
+        IndustrialRevival.getInstance().getProfilerService().clearProfilingData();
 
         if (blockDataMap == null) {
-            IndustrialRevival.runSync(() -> Bukkit.getPluginManager().callEvent(doneEvent));
+            Debug.debug("No blocks to tick");
+            IndustrialRevival.runAsync(() -> Bukkit.getPluginManager().callEvent(doneEvent));
             return;
         }
 
+        Debug.debug("Ticking " + blockDataMap.size() + " blocks");
         for (Map.Entry<Location, IRBlockData> entry : blockDataMap.entrySet()) {
             IRBlockData blockData = entry.getValue();
 
@@ -67,7 +73,7 @@ public class TickerTask implements Consumer<WrappedTask> {
                         ticker.onTick(event);
                     }
                     IndustrialRevival.getInstance().getProfilerService().stopProfiling(entry.getKey());
-                } catch (Exception ex) {
+                } catch (Throwable ex) {
                     ex.printStackTrace();
                     bugsCount.put(entry.getKey(), bugsCount.getOrDefault(entry.getKey(), 0) + 1);
                     if (bugsCount.get(entry.getKey()) >= 4) {
@@ -78,10 +84,9 @@ public class TickerTask implements Consumer<WrappedTask> {
             }
         }
 
-        IndustrialRevival.runSync(() -> Bukkit.getPluginManager().callEvent(doneEvent));
+        IndustrialRevival.runAsync(() -> Bukkit.getPluginManager().callEvent(doneEvent));
 
         ticked++;
-        IndustrialRevival.getInstance().getProfilerService().clearProfilingData();
     }
 
     private void addTickingBlock(Location location, IRBlockData blockData) {
@@ -137,7 +142,7 @@ public class TickerTask implements Consumer<WrappedTask> {
         addTickingBlock(location, blockData);
     }
 
-    private void reportBug(Location location, IRBlockData blockData, Exception e) {
+    private void reportBug(Location location, IRBlockData blockData, Throwable e) {
         // todo
         String message = "An error caught while ticking a block at " + location + ":\n" + e.getMessage();
     }
