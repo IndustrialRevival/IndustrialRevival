@@ -12,10 +12,18 @@ import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import io.papermc.paper.plugin.configuration.PluginMeta;
 import lombok.Getter;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.translation.GlobalTranslator;
+import net.kyori.adventure.translation.TranslationRegistry;
+import net.kyori.adventure.translation.Translator;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
@@ -45,7 +53,10 @@ import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
@@ -69,6 +80,10 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         getInstance().getFoliaLibImpl().runNextTick(_ -> runnable.run());
     }
 
+    public static void runAsync(@Nonnull Runnable runnable) {
+        getInstance().getFoliaLibImpl().runAsync(_ -> runnable.run());
+    }
+
     @Override
     public void onLoad() {
         instance = this;
@@ -80,7 +95,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
 
         completeFiles();
 
-        itemSettings = new ItemSettings(YamlConfiguration.loadConfiguration(new File(getDataFolder(), "items-settings.yml")));
+        itemSettings = new ItemSettings(YamlConfiguration.loadConfiguration(Constants.Files.ITEM_SETTINGS_FILE));
 
         setupProtocolLib();
 
@@ -127,7 +142,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         //ConfigFileUtil.completeLangFile(this, "language/en-US.yml");
         ConfigFileUtil.completeLangFile(this, "language/zh-CN.yml");
 
-        if (!new File(getDataFolder(), "items-settings.yml").exists()) {
+        if (!Constants.Files.ITEM_SETTINGS_FILE.exists()) {
             saveResource("items-settings.yml", false);
         }
     }
@@ -147,7 +162,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     private void setupDataManager() {
         FileConfiguration config = getConfig();
         String storageType = config.getString("storage.type", "sqlite");
-        File sqliteDbFile = new File(Constants.Files.STORAGE_FOLDER, "database.db");
+        File sqliteDbFile = Constants.Files.SQLITE_DB_FILE;
 
         if (!Constants.Files.STORAGE_FOLDER.exists()) {
             Constants.Files.STORAGE_FOLDER.mkdirs();

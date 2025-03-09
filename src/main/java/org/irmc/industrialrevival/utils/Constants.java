@@ -24,10 +24,10 @@ import java.util.function.Function;
  * This class contains constant values used throughout the IndustrialRevival plugin.
  * It is structured into nested classes to organize related constants.
  *
- * @author balugaq
+ * @author balugaq, lijinhong11
+ * @since 1.0
  */
 @UtilityClass
-@SuppressWarnings({"unused"})
 public class Constants {
 
     /**
@@ -260,6 +260,7 @@ public class Constants {
      * This class contains key constants used for language and guide-related messages.
      */
     public static final class Keys {
+        //<editor-fold desc="Guide">
         public static final String GUIDE_TITLE_KEY = "guide.title";
         public static final String GUIDE_BACK_KEY = "guide.back";
         public static final String GUIDE_CHEAT_KEY = "guide.cheat_title";
@@ -272,7 +273,11 @@ public class Constants {
         public static final String GUIDE_NEXT_KEY = "guide.next";
         public static final String GUIDE_PREVIOUS_ONE_KEY = "guide.previous_one";
         public static final String GUIDE_NEXT_ONE_KEY = "guide.next_one";
+        //</editor-fold>
+
+        //<editor-fold desc="Block data keys">
         public static final String ENERGY_CHARGE_KEY = "energy_charge";
+        //</editor-fold>
     }
 
     /**
@@ -293,6 +298,7 @@ public class Constants {
      * This class contains file path constants used for storage and error reporting.
      */
     public static final class Files {
+        //<editor-fold desc="Folders">
         /**
          * The folder for storing IndustrialRevival-related data.
          */
@@ -302,6 +308,24 @@ public class Constants {
          * The folder for storing error reports.
          */
         public static final File ERROR_REPORTS_FOLDER = new File(IndustrialRevival.getInstance().getDataFolder(), "error-reports");
+
+        /**
+         * The folder for storing language files.
+         */
+        public static final File LANGUAGES_FOLDER = new File(IndustrialRevival.getInstance().getDataFolder(), "languages");
+        //</editor-fold>
+
+        //<editor-fold desc="Files">
+        /**
+         * The file for storing item settings.
+         */
+        public static final File ITEM_SETTINGS_FILE = new File(IndustrialRevival.getInstance().getDataFolder(), "items-settings.yml");
+
+        /**
+         * The file for storing all the block / player data for SQLite
+         */
+        public static final File SQLITE_DB_FILE = new File(Constants.Files.STORAGE_FOLDER, "database.db");
+        //</editor-fold>
     }
 
     /**
