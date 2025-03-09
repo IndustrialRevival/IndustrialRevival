@@ -13,6 +13,7 @@ import java.util.List;
 /**
  * A tank serves for {@link Smeltery}
  * Used to store melted objects and fuel
+ *
  * @author balugaq
  * @see Smeltery
  */
@@ -35,9 +36,10 @@ public class MeltedTank implements Cloneable {
 
     /**
      * Create a new tank with initial melted objects and fuel
+     *
      * @param meltedObjects initial melted objects
-     * @param capacity capacity of the tank
-     * @param fuels initial fuel amount
+     * @param capacity      capacity of the tank
+     * @param fuels         initial fuel amount
      */
     public MeltedTank(@NotNull List<MeltedObject> meltedObjects, int capacity, int fuels) {
         this.meltedObjects = meltedObjects;
@@ -47,6 +49,7 @@ public class MeltedTank implements Cloneable {
 
     /**
      * Check if the tank is full
+     *
      * @return true if the tank is full, false otherwise
      */
     public boolean isFull() {
@@ -60,6 +63,7 @@ public class MeltedTank implements Cloneable {
 
     /**
      * Check if the tank is empty
+     *
      * @return true if the tank is empty, false otherwise
      */
     public boolean isEmpty() {
@@ -73,6 +77,7 @@ public class MeltedTank implements Cloneable {
 
     /**
      * Check if the tank has fuel
+     *
      * @return true if the tank has fuel, false otherwise
      */
     public boolean hasFuel() {
@@ -81,6 +86,7 @@ public class MeltedTank implements Cloneable {
 
     /**
      * Add fuel to the tank
+     *
      * @param fuel amount of fuel to add
      */
     public void addFuel(int fuel) {
@@ -89,6 +95,7 @@ public class MeltedTank implements Cloneable {
 
     /**
      * Remove fuel from the tank
+     *
      * @param fuel amount of fuel to remove
      */
     public void removeFuel(int fuel) {
@@ -97,6 +104,7 @@ public class MeltedTank implements Cloneable {
 
     /**
      * Add a melted object to the tank
+     *
      * @param meltedObject the melted object to add
      */
     public void addMelted(@NotNull MeltedObject meltedObject) {
@@ -117,6 +125,7 @@ public class MeltedTank implements Cloneable {
 
     /**
      * Add a melted object to the tank
+     *
      * @param meltedObject the melted object to add
      */
     public void addMelted(MeltedObject @NotNull ... meltedObject) {
@@ -127,6 +136,7 @@ public class MeltedTank implements Cloneable {
 
     /**
      * Remove a melted object from the tank
+     *
      * @param meltedObject the melted object to remove
      */
     public void removeMelted(@NotNull MeltedObject meltedObject) {
@@ -143,6 +153,7 @@ public class MeltedTank implements Cloneable {
 
     /**
      * Remove a melted object from the tank
+     *
      * @param meltedObject the melted object to remove
      */
     public void removeMelted(MeltedObject @NotNull ... meltedObject) {
@@ -153,6 +164,7 @@ public class MeltedTank implements Cloneable {
 
     /**
      * Clear the tank
+     *
      * @apiNote Be careful when using this method, it will remove all melted objects and fuel!
      */
     public void clear() {
@@ -161,6 +173,7 @@ public class MeltedTank implements Cloneable {
 
     /**
      * Add all melted objects and fuel from another tank to this tank
+     *
      * @param tank the tank to add from
      */
     public void addAll(@NotNull MeltedTank tank) {
@@ -173,6 +186,7 @@ public class MeltedTank implements Cloneable {
 
     /**
      * Remove all melted objects and fuel from another tank from this tank
+     *
      * @param tank the tank to remove from
      */
     public void removeAll(@NotNull MeltedTank tank) {
@@ -185,6 +199,7 @@ public class MeltedTank implements Cloneable {
 
     /**
      * Merge another tank into this tank
+     *
      * @param tank the tank to merge into this tank
      */
     public void merge(@NotNull MeltedTank tank) {
@@ -193,6 +208,7 @@ public class MeltedTank implements Cloneable {
 
     /**
      * Check if this tank is equal to another tank
+     *
      * @param obj the object to compare to
      * @return true if the two tanks are equal, false otherwise
      */
@@ -210,6 +226,7 @@ public class MeltedTank implements Cloneable {
 
     /**
      * Check if this tank is equal to another tank
+     *
      * @param tank the tank to compare to
      * @return true if the two tanks are equal, false otherwise
      */
@@ -243,6 +260,7 @@ public class MeltedTank implements Cloneable {
 
     /**
      * Check if this tank can perform the given recipe
+     *
      * @param meltMethod the recipe to check
      * @return true if the tank can perform the recipe, false otherwise
      */
@@ -284,6 +302,7 @@ public class MeltedTank implements Cloneable {
 
     /**
      * Consume the given inputs
+     *
      * @param meltMethod the recipe to get inputs
      */
     public void consume(@NotNull MeltMethod meltMethod) {
@@ -296,6 +315,7 @@ public class MeltedTank implements Cloneable {
 
     /**
      * Produce the given products
+     *
      * @param meltMethod the recipe to get products
      */
     public void produce(@NotNull MeltMethod meltMethod) {
@@ -307,6 +327,7 @@ public class MeltedTank implements Cloneable {
 
     /**
      * Perform the given recipe
+     *
      * @param meltMethod the recipe to perform
      */
     public void performRecipe(@NotNull MeltMethod meltMethod) {
@@ -315,8 +336,9 @@ public class MeltedTank implements Cloneable {
 
     /**
      * Perform the given recipe
+     *
      * @param meltMethod the recipe to perform
-     * @param force true to force the recipe, false to check if the tank can perform the recipe
+     * @param force      true to force the recipe, false to check if the tank can perform the recipe
      */
     public void performRecipe(@NotNull MeltMethod meltMethod, boolean force) {
         if (!force && !matchRecipe(meltMethod)) {
@@ -328,6 +350,7 @@ public class MeltedTank implements Cloneable {
 
     /**
      * Get the bottom object in the tank (the first object)
+     *
      * @return the bottom object in the tank, or null if the tank is empty
      */
     @Nullable
@@ -340,6 +363,7 @@ public class MeltedTank implements Cloneable {
 
     /**
      * Get the top object in the tank (the last object)
+     *
      * @return the top object in the tank, or null if the tank is empty
      */
     @Nullable
@@ -352,6 +376,7 @@ public class MeltedTank implements Cloneable {
 
     /**
      * Clone the tank
+     *
      * @return a new tank with the same content as this tank
      */
     @Override

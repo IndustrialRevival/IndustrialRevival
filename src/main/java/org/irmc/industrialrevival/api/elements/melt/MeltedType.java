@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a type of melted.
+ *
  * @author balugaq
  * @see MeltedObject
  * @see Smeltery
@@ -15,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 public abstract class MeltedType {
     /**
      * The identifier of the melted type.
+     *
      * @return the identifier
      */
     @NotNull
@@ -22,6 +24,7 @@ public abstract class MeltedType {
 
     /**
      * The name of the melted type.
+     *
      * @return the name
      */
     @NotNull
@@ -29,6 +32,7 @@ public abstract class MeltedType {
 
     /**
      * The name of the melted object.
+     *
      * @return the name of the melted object
      */
     @NotNull
@@ -36,6 +40,7 @@ public abstract class MeltedType {
 
     /**
      * The color of the melted object.
+     *
      * @return the color of the melted object
      */
     @NotNull

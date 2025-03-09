@@ -1,5 +1,11 @@
 package org.irmc.industrialrevival.api.elements;
 
+/**
+ * Enum for element groups
+ *
+ * @author balugaq
+ * @see ElementType
+ */
 public enum ElementGroup {
     IA,
     IIA,

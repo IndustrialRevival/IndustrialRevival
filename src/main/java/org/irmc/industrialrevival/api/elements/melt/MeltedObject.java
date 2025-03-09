@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * An object that describes the melted object and its amount.
+ *
  * @author balugaq
  * @see Smeltery
  */
@@ -18,7 +19,8 @@ public class MeltedObject {
 
     /**
      * Constructor.
-     * @param type the type of the melted object.
+     *
+     * @param type   the type of the melted object.
      * @param amount the amount of the melted object.
      */
     public MeltedObject(@NotNull MeltedType type, int amount) {

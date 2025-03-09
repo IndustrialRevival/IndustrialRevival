@@ -20,6 +20,7 @@ public abstract class TinkerType {
     private final boolean meltable;
     /* Define if the material can be outputted from the smeltery */
     private final boolean outputAble;
+
     public TinkerType(@NotNull NamespacedKey key, int level, boolean meltable, boolean outputAble) {
         this.key = key;
         this.level = level;
@@ -27,6 +28,11 @@ public abstract class TinkerType {
         this.outputAble = outputAble;
     }
 
+    /**
+     * Get the name of the type. (e.g. "pickaxe")
+     *
+     * @return the name of the type.
+     */
     public @NotNull Component name() {
         // todo: add localization support
         return Component.text(key.getKey());

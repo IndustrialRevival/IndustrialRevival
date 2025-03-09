@@ -23,11 +23,14 @@ import java.util.Set;
 @Getter
 public class ChemicalCompound {
     public static final Set<ChemicalCompound> ALL_CHEMICALS = new HashSet<>();
-    @NotNull public Component name;
-    @NotNull public Map<Compound, Double> compounds;
+    @NotNull
+    public Component name;
+    @NotNull
+    public Map<Compound, Double> compounds;
 
     /**
      * Creates a new chemical compound with the given name and compounds.
+     *
      * @param name      the name of the chemical compound
      * @param compounds the map of constituent compounds and their respective amounts
      */
@@ -43,6 +46,7 @@ public class ChemicalCompound {
 
     /**
      * Used to find a chemical compound by its name like {@code forName("SO4")} or {@code forName("Ca(OH)2")} are both valid.
+     *
      * @param name the name of the chemical compound to find
      * @return the chemical compound with the given name, or null if no such compound exists
      */

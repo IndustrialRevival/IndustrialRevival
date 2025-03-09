@@ -5,6 +5,14 @@ import org.irmc.industrialrevival.api.items.attributes.ChemReactable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * ReactCondition represents a condition for reacting an item with another item.
+ * It can be a simple condition like "none", "light" or "high temperature",
+ * or a more complex one like "electrolysis" or "heating".
+ *
+ * @author lijinhong11, balugaq
+ * @see ChemReactable
+ */
 public final class ReactCondition {
     /* Default react conditions */
     public static final ReactCondition NONE = new ReactCondition(Type.NONE);
@@ -15,8 +23,7 @@ public final class ReactCondition {
 
     /**
      * -- GETTER --
-     *  Gets the type of the reacting condition.
-     *
+     * Gets the type of the reacting condition.
      */
     @Getter
     private final Type type;
@@ -32,17 +39,17 @@ public final class ReactCondition {
         this.catalyst = catalyst;
     }
 
+    public static @NotNull ReactCondition asCatalyzer(ChemReactable reactable) {
+        return new ReactCondition(Type.CATALYZER, reactable);
+    }
+
     /**
-     * Null if the react condition is not a catalyst.
+     * Null if the {@link ChemReactable} is not a catalyst.
      *
      * @return The chem reactable item that is catalyzing the reaction.
      */
     public @Nullable ChemReactable getCatalyst() {
         return catalyst;
-    }
-
-    public static @NotNull ReactCondition asCatalyzer(ChemReactable reactable) {
-        return new ReactCondition(Type.CATALYZER, reactable);
     }
 
     public enum Type {

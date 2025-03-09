@@ -4,6 +4,15 @@ import lombok.Getter;
 import org.irmc.industrialrevival.utils.ElementUtils;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Represents an element type.
+ * <p>
+ * An element type is defined by its symbol, proton number, neutron number, valence, group, period,
+ * density, melting point, boiling point, and other properties.
+ *
+ * @author balugaq, lijinhong11
+ * @since 1.0
+ */
 @SuppressWarnings("unused")
 @Getter
 public enum ElementType {
@@ -160,12 +169,6 @@ public enum ElementType {
         return ElementType.values()[(this.ordinal() - 1 + ElementType.values().length) % ElementType.values().length];
     }
 
-    public record Valence(int... valences) {
-        public static @NotNull Valence of(int... valences) {
-                return new Valence(valences);
-            }
-    }
-
     public boolean isRadioactive() {
         if (this.ordinal() > 91) {
             return true;
@@ -175,11 +178,17 @@ public enum ElementType {
             default -> false;
         };
     }
-            
+
     public boolean isGas() {
         return switch (this) {
             case HYDROGEN, NITROGEN, OXYGEN, FLUORINE, CHLORINE, HELIUM, NEON, ARGON, KRYPTON, XENON, RADON -> true;
             default -> false;
         };
+    }
+
+    public record Valence(int... valences) {
+        public static @NotNull Valence of(int... valences) {
+            return new Valence(valences);
+        }
     }
 }

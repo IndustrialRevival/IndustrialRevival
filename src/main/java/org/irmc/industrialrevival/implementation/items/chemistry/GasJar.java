@@ -66,7 +66,7 @@ public class GasJar extends IndustrialRevivalItem implements GasStorage {
      * @return the chemical compound of the item.
      */
     @Override
-    public ChemicalCompound getChemicalCompound(ItemStack itemStack) {
+    public ChemicalCompound getChemicalCompound(@NotNull ItemStack itemStack) {
         String key = PersistentDataAPI.getOrDefault(itemStack.getItemMeta(), STORED_REACTABLE_KEY, PersistentDataType.STRING, "");
         if (key.isEmpty()) {
             return null;
