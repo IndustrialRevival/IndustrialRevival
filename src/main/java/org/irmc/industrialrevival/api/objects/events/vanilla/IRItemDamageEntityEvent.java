@@ -3,14 +3,16 @@ package org.irmc.industrialrevival.api.objects.events.vanilla;
 import lombok.Getter;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityEvent;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.objects.events.interfaces.RelatedIRItem;
 import org.jetbrains.annotations.NotNull;
 
 @Getter
-public class IRItemDamageEntityEvent extends EntityDamageByEntityEvent implements RelatedIRItem {
+public class IRItemDamageEntityEvent extends EntityEvent implements RelatedIRItem {
     private static final HandlerList handlers = new HandlerList();
     private final EntityDamageByEntityEvent originalEvent;
     private final Player player;
@@ -18,7 +20,7 @@ public class IRItemDamageEntityEvent extends EntityDamageByEntityEvent implement
     private final IndustrialRevivalItem iritem;
 
     public IRItemDamageEntityEvent(EntityDamageByEntityEvent originalEvent, IndustrialRevivalItem iritem) {
-        super(originalEvent.getDamager(), originalEvent.getEntity(), originalEvent.getCause(), originalEvent.getDamageSource(), originalEvent.getDamage());
+        super(originalEvent.getEntity());
         this.originalEvent = originalEvent;
         this.iritem = iritem;
         if (originalEvent.getDamager() instanceof Player) {

@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -71,7 +72,8 @@ public class Debugger extends IndustrialRevivalItem {
         return (b ? green + "✔" : red + "✘") + white;
     }
 
-    private void interact(IRItemInteractEvent e) {
+    private void interact(IRItemInteractEvent event) {
+        PlayerInteractEvent e = event.getOriginalEvent();
         e.setCancelled(true);
 
         Player player = e.getPlayer();
@@ -199,14 +201,16 @@ public class Debugger extends IndustrialRevivalItem {
         send(player, "&e - Ticker: " + booleanToSymbol(hasTicker));
         send(player, "&e - Ticking: " + booleanToSymbol(ticking));
         if (hasTicker) {
-            String id = data.getId().toString();
+            NamespacedKey id = data.getId();
             PerformanceSummary summary = IndustrialRevival.getInstance().getProfilerService().getSummary();
-            long timingsOfThisBlock = summary.getDataByLocation().get(location);
-            long totalTimingsOfThisBlock = summary.getDataByID().get(id);
-            long avgTimingsOfThisBlock = totalTimingsOfThisBlock / summary.getDataByID().size();
+            long timingsOfThisBlock = summary.getDataByLocation().getOrDefault(location, 0L);
+            long totalTimingsOfThisBlock = summary.getDataByID().getOrDefault(id, 0L);
             send(player, "&e- Timings: ");
             send(player, "&e  - This Timings: &7" + NumberUtils.round(NumberUtils.ns2Ms(timingsOfThisBlock), 2) + "ms");
-            send(player, "&e  - Average Timings: &7" + NumberUtils.round(NumberUtils.ns2Ms(avgTimingsOfThisBlock), 2) + "ms");
+            if (totalTimingsOfThisBlock > 0 && summary.getDataByID().size() > 0) {
+                long avgTimingsOfThisBlock = totalTimingsOfThisBlock / summary.getDataByID().size();
+                send(player, "&e  - Average Timings: &7" + NumberUtils.round(NumberUtils.ns2Ms(avgTimingsOfThisBlock), 2) + "ms");
+            }
             send(player, "&e  - Total Timings: &7" + NumberUtils.round(NumberUtils.ns2Ms(totalTimingsOfThisBlock), 2) + "ms");
         }
 

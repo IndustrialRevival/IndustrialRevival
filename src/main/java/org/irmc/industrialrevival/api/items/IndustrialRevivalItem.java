@@ -5,6 +5,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
@@ -59,7 +60,7 @@ import java.util.*;
  * @noinspection ALL
  */
 @SuppressWarnings("unused")
-public class IndustrialRevivalItem {
+public class IndustrialRevivalItem implements Keyed {
     private final Map<Class<? extends ItemHandler>, ItemHandler> itemHandlers = new HashMap<>();
 
     @Getter
@@ -472,6 +473,11 @@ public class IndustrialRevivalItem {
 
     public final boolean isRegistered() {
         return IndustrialRevival.getInstance().getRegistry().getItems().containsKey(getId());
+    }
+
+    @Override
+    public @NotNull NamespacedKey getKey() {
+        return id;
     }
 
     public enum ItemState {

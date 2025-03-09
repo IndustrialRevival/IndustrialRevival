@@ -5,8 +5,16 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
+/**
+ * Used to manage each items' settings in the `items-settings.yml` file.
+ *
+ * @author lijinhong11
+ * @since 1.0
+ */
+@ParametersAreNonnullByDefault
 public class ItemSettings {
     private final YamlConfiguration itemCfg;
 

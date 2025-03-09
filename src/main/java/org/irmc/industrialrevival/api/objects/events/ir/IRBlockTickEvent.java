@@ -23,6 +23,7 @@ public class IRBlockTickEvent extends Event implements Cancellable, RelatedIRIte
     private boolean cancelled;
 
     public IRBlockTickEvent(Block block, MachineMenu menu, IndustrialRevivalItem iritem, IRBlockData blockData) {
+        super(true);
         this.block = block;
         this.menu = menu;
         this.iritem = iritem;

@@ -1,16 +1,19 @@
 package org.irmc.industrialrevival.api.objects.events.vanilla;
 
+import com.destroystokyo.paper.event.inventory.PrepareResultEvent;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.event.Cancellable;
+import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
+import org.bukkit.event.inventory.InventoryEvent;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.objects.events.interfaces.RelatedIRItem;
 import org.jetbrains.annotations.NotNull;
 
 @Getter
-public class PrepareIRItemEnchantEvent extends PrepareItemEnchantEvent implements Cancellable, RelatedIRItem {
+public class PrepareIRItemEnchantEvent extends InventoryEvent implements Cancellable, RelatedIRItem {
     private static final HandlerList handlers = new HandlerList();
     private final IndustrialRevivalItem iritem;
     private final PrepareItemEnchantEvent originalEvent;
@@ -18,7 +21,7 @@ public class PrepareIRItemEnchantEvent extends PrepareItemEnchantEvent implement
     private boolean cancelled;
 
     public PrepareIRItemEnchantEvent(PrepareItemEnchantEvent event, IndustrialRevivalItem iritem) {
-        super(event.getEnchanter(), event.getView(), event.getEnchantBlock(), event.getItem(), event.getOffers(), event.getEnchantmentBonus());
+        super(event.getView());
         this.originalEvent = event;
         this.iritem = iritem;
     }

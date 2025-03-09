@@ -12,14 +12,14 @@ import org.irmc.industrialrevival.api.objects.events.vanilla.PlayerRightClickEve
 public class LimitedItemListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onLimitedUseItem(PlayerRightClickEvent e) {
-        ItemStack is = e.getItem();
+        ItemStack is = e.getOriginalEvent().getItem();
         if (is != null && is.getType() != Material.AIR) {
             IndustrialRevivalItem item = IndustrialRevivalItem.getByItem(is);
-            if (item != null && item.isDisabledInWorld(e.getPlayer().getWorld())) {
+            if (item != null && item.isDisabledInWorld(e.getOriginalEvent().getPlayer().getWorld())) {
                 return;
             }
             if (item instanceof LimitedItem li) {
-                li.doUse(e.getPlayer(), is);
+                li.doUse(e.getOriginalEvent().getPlayer(), is);
             }
         }
     }

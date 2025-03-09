@@ -11,6 +11,7 @@ public class IRTickDoneEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
 
     public IRTickDoneEvent() {
+        super(true);
     }
 
     public static @NotNull HandlerList getHandlerList() {

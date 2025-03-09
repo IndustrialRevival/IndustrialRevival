@@ -19,8 +19,7 @@ import java.util.logging.Level;
 public class Debug {
     private static final JavaPlugin plugin = IndustrialRevival.getInstance();
     private static final String debugPrefix = "[Debug] ";
-    // todo: make debug mode configurable
-    private static boolean debug = false;
+    private static boolean debug = IndustrialRevival.getInstance().getConfig().getBoolean("debug", false);
 
     /**
      * Logs debug information for multiple objects.

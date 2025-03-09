@@ -189,4 +189,5 @@ public class IndustrialRevivalItems {
     public static final IndustrialRevivalItemStack COPPER_WIRE = new MiniIndustrialRevivalItemStack("COPPER_WIRE", Material.STRING);
     public static final IndustrialRevivalItemStack TEST_MODEL = new MiniIndustrialRevivalItemStack("TEST_MODEL", Material.IRON_INGOT);
     public static final IndustrialRevivalItemStack TEST_PRODUCT = new MiniIndustrialRevivalItemStack("TEST_PRODUCT", Material.IRON_INGOT);
+    public static final IndustrialRevivalItemStack TEST_MACHINE = new MiniIndustrialRevivalItemStack("TEST_MACHINE", Material.IRON_BLOCK);
 }
