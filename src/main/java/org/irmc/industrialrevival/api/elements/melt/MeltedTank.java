@@ -1,7 +1,8 @@
-package org.irmc.industrialrevival.api.elements;
+package org.irmc.industrialrevival.api.elements.melt;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.irmc.industrialrevival.api.elements.Smeltery;
 import org.irmc.industrialrevival.api.recipes.MeltMethod;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

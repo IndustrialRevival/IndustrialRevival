@@ -3,6 +3,7 @@ package org.irmc.industrialrevival.api.elements;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.irmc.industrialrevival.api.elements.melt.MeltedTank;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.TankFuel;
 import org.irmc.industrialrevival.api.recipes.MeltMethod;

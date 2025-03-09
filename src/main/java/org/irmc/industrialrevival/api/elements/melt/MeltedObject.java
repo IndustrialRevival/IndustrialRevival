@@ -1,4 +1,4 @@
-package org.irmc.industrialrevival.api.elements;
+package org.irmc.industrialrevival.api.elements.melt;
 
 import lombok.Getter;
 import lombok.Setter;

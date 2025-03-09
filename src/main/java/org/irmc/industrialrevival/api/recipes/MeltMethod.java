@@ -1,7 +1,7 @@
 package org.irmc.industrialrevival.api.recipes;
 
 import lombok.Getter;
-import org.irmc.industrialrevival.api.elements.MeltedObject;
+import org.irmc.industrialrevival.api.elements.melt.MeltedObject;
 
 import java.util.List;
 

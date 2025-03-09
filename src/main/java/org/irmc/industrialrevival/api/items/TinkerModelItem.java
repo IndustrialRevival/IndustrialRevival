@@ -1,7 +1,7 @@
 package org.irmc.industrialrevival.api.items;
 
 import lombok.Getter;
-import org.irmc.industrialrevival.api.elements.TinkerType;
+import org.irmc.industrialrevival.api.elements.tinker.TinkerType;
 import org.irmc.industrialrevival.api.items.attributes.TinkerModel;
 
 @Getter

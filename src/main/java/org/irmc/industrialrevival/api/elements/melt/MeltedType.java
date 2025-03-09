@@ -1,4 +1,4 @@
-package org.irmc.industrialrevival.api.elements;
+package org.irmc.industrialrevival.api.elements.melt;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;

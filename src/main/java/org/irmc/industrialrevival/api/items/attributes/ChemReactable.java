@@ -1,16 +1,16 @@
 package org.irmc.industrialrevival.api.items.attributes;
 
-import org.irmc.industrialrevival.api.elements.ElementProportion;
-import org.irmc.industrialrevival.api.elements.ElementType;
+import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
+import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
 import org.irmc.industrialrevival.api.elements.reaction.ReactResult;
 
 public interface ChemReactable extends ItemAttribute {
     /**
-     * Returns the element proportions of the item.
+     * Returns the chemical compound of the item.
      *
-     * @return the element proportions of the item.
+     * @return the chemical compound of the item.
      */
-    ElementProportion[] getElementProportions();
+    ChemicalCompound getChemicalCompound();
 
     /**
      * Returns the quality of each item. (Unit: grams)
@@ -24,7 +24,7 @@ public interface ChemReactable extends ItemAttribute {
      * @param other the other item(s) to react with.
      * @return true if the items can react, false otherwise.
      */
-    boolean canReact(ElementType.ReactCondition[] conditions, ChemReactable... other);
+    boolean canReact(ReactCondition[] conditions, ChemReactable... other);
 
     /**
      * Reacts two or more items.
@@ -32,5 +32,5 @@ public interface ChemReactable extends ItemAttribute {
      * @param other the other item(s) to react with.
      * @return the result of the reaction.
      */
-    ReactResult react(ElementType.ReactCondition[] conditions, ChemReactable... other);
+    ReactResult react(ReactCondition[] conditions, ChemReactable... other);
 }
