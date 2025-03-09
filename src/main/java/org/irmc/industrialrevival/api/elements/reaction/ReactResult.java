@@ -11,6 +11,8 @@ import javax.annotation.Nullable;
  * @param otherReactables  The other reactables involved in the reaction.
  */
 public record ReactResult(@Nullable Sediment sediments, @Nullable Gas gases, ChemReactable... otherReactables) {
+    public static final ReactResult FAILED = new ReactResult(null, null);
+
     /**
      * The sediment created by the reaction.
      * @param reactables The reactables involved in the reaction.
