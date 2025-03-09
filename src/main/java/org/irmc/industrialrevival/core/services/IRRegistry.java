@@ -11,6 +11,7 @@ import org.irmc.industrialrevival.api.elements.melt.MeltedType;
 import org.irmc.industrialrevival.api.elements.tinker.TinkerType;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.BlockDropItem;
+import org.irmc.industrialrevival.api.items.attributes.ChemReactable;
 import org.irmc.industrialrevival.api.items.attributes.MobDropItem;
 import org.irmc.industrialrevival.api.items.attributes.TinkerProduct;
 import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
@@ -49,6 +50,7 @@ public final class IRRegistry {
     private final Map<NamespacedKey, DisplayGroup> displayGroups;
     private final Map<NamespacedKey, MachineMenuPreset> menuPresets;
     private final Map<NamespacedKey, IndustrialRevivalItem> items;
+    private final Map<NamespacedKey, ChemReactable> chemReactables;
     private final Map<String, PlayerProfile> playerProfiles;
 
     private final Map<NamespacedKey, MultiBlock> multiBlocks;
@@ -66,6 +68,7 @@ public final class IRRegistry {
         dictionaries = new HashMap<>();
         displayGroups = new HashMap<>();
         items = new HashMap<>();
+        chemReactables = new HashMap<>();
         playerProfiles = new HashMap<>();
         menuPresets = new HashMap<>();
         multiBlocks = new HashMap<>();
