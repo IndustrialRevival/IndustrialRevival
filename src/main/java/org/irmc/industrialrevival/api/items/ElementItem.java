@@ -3,12 +3,11 @@ package org.irmc.industrialrevival.api.items;
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.elements.ElementType;
-import org.irmc.industrialrevival.api.elements.TinkerType;
-import org.irmc.industrialrevival.api.elements.TinkerTypes;
+import org.irmc.industrialrevival.api.elements.tinker.TinkerType;
 import org.irmc.industrialrevival.api.items.attributes.Meltable;
-import org.irmc.industrialrevival.api.elements.MeltedType;
+import org.irmc.industrialrevival.api.elements.melt.MeltedType;
 import org.irmc.industrialrevival.api.elements.Smeltery;
-import org.irmc.industrialrevival.api.elements.melt_types.OreMeltedType;
+import org.irmc.industrialrevival.api.elements.melt.OreMeltedType;
 import org.jetbrains.annotations.Range;
 
 @Getter

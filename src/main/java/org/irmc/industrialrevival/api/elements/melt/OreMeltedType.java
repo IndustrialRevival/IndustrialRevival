@@ -1,21 +1,14 @@
-package org.irmc.industrialrevival.api.elements.melt_types;
+package org.irmc.industrialrevival.api.elements.melt;
 
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.elements.ElementType;
-import org.irmc.industrialrevival.api.elements.ElementUtils;
-import org.irmc.industrialrevival.api.items.attributes.Meltable;
-import org.irmc.industrialrevival.api.elements.MeltedType;
-import org.irmc.industrialrevival.api.elements.Smeltery;
-import org.irmc.industrialrevival.api.items.ElementItem;
-import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
+import org.irmc.industrialrevival.utils.ElementUtils;
 import org.irmc.industrialrevival.utils.KeyUtil;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Range;
 
 /**
  * This class represents a melted type of elements in {@link ElementType}
@@ -32,6 +25,7 @@ public class OreMeltedType extends MeltedType {
 
     /**
      * Constructor for OreMeltedType
+     *
      * @param elementType the element type of the ore
      */
     protected OreMeltedType(@NotNull ElementType elementType) {
@@ -53,6 +47,7 @@ public class OreMeltedType extends MeltedType {
 
     /**
      * Gets the {@link TextColor} of the ore.
+     *
      * @return the {@link TextColor} of the ore.
      * @see ElementUtils#getAtomicColor(ElementType)
      */

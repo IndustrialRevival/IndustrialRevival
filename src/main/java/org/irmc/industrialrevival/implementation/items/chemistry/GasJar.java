@@ -3,8 +3,8 @@ package org.irmc.industrialrevival.implementation.items.chemistry;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
-import org.irmc.industrialrevival.api.elements.ElementProportion;
-import org.irmc.industrialrevival.api.elements.ElementType;
+import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
+import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
 import org.irmc.industrialrevival.api.elements.reaction.ReactResult;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.ChemReactable;
@@ -13,8 +13,10 @@ import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.KeyUtil;
 import org.irmc.pigeonlib.objects.percentage.PositiveHundredPercentage;
 import org.irmc.pigeonlib.pdc.PersistentDataAPI;
+import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,23 +59,38 @@ public class GasJar extends IndustrialRevivalItem implements GasStorage {
         PersistentDataAPI.set(item.getItemMeta(), STORED_REACTABLE_KEY, PersistentDataType.STRING, gas.getKey().toString());
     }
 
+    /**
+     * Returns the chemical compound of the item.
+     *
+     * @param itemStack the item stack to get the chemical compound from.
+     * @return the chemical compound of the item.
+     */
     @Override
-    public ElementProportion[] getElementProportions(ItemStack item) {
-        String key = PersistentDataAPI.getOrDefault(item.getItemMeta(), STORED_REACTABLE_KEY, PersistentDataType.STRING, "");
+    public ChemicalCompound getChemicalCompound(@NotNull ItemStack itemStack) {
+        String key = PersistentDataAPI.getOrDefault(itemStack.getItemMeta(), STORED_REACTABLE_KEY, PersistentDataType.STRING, "");
         if (key.isEmpty()) {
-            return new ElementProportion[0];
+            return null;
         }
 
-        ChemReactable reactable = IndustrialRevival.getInstance().getRegistry().getChemReactables().get(NamespacedKey.fromString(key));
-        if (reactable == null) {
-            return new ElementProportion[0];
-        }
+        return IndustrialRevival.getInstance().getRegistry().getChemReactables().get(NamespacedKey.fromString(key)).getChemicalCompound(itemStack);
+    }
 
-        return reactable.getElementProportions(item); // gas will host the element proportions
+    /**
+     * Checks if two or more items can react.
+     *
+     * @param conditions the conditions to check.
+     * @param other      the other item(s) to react with.
+     * @return true if the items can react, false otherwise.
+     */
+    @ParametersAreNonnullByDefault
+    @MustBeInvokedByOverriders
+    @Override
+    public boolean canReact(ReactCondition[] conditions, ChemReactable... other) {
+        return false;
     }
 
     @Override
-    public int getMass(ItemStack item) {
+    public int getMass(@NotNull ItemStack item) {
         String key = PersistentDataAPI.getOrDefault(item.getItemMeta(), STORED_REACTABLE_KEY, PersistentDataType.STRING, "");
         if (key.isEmpty()) {
             return 0;
@@ -88,7 +105,7 @@ public class GasJar extends IndustrialRevivalItem implements GasStorage {
     }
 
     @Override
-    public ReactResult react(ItemStack item, ElementType.ReactCondition[] conditions, ChemReactable... other) {
+    public ReactResult react(@NotNull ItemStack item, @NotNull ReactCondition[] conditions, @NotNull ChemReactable... other) {
         if (getMass(item) == 0) {
             return ReactResult.FAILED;
         }

@@ -1,4 +1,4 @@
-package org.irmc.industrialrevival.api.elements;
+package org.irmc.industrialrevival.api.elements.tinker;
 
 import org.irmc.industrialrevival.utils.KeyUtil;
 
@@ -10,7 +10,7 @@ import org.irmc.industrialrevival.utils.KeyUtil;
  */
 public class TinkerTypes {
     public static final int INGOT_LEVEL = 144;
-    public static final TinkerType ORE = new IRTinkerType(KeyUtil.customKey("tinker_ore"), (int) INGOT_LEVEL);
+    public static final TinkerType ORE = new IRTinkerType(KeyUtil.customKey("tinker_ore"), (int) INGOT_LEVEL, true, false);
     public static final TinkerType NUGGET = new IRTinkerType(KeyUtil.customKey("tinker_nugget"), (int) INGOT_LEVEL / 9);
     public static final TinkerType INGOT = new IRTinkerType(KeyUtil.customKey("tinker_ingot"), (int) INGOT_LEVEL);
     public static final TinkerType BLOCK = new IRTinkerType(KeyUtil.customKey("tinker_block"), (int) INGOT_LEVEL * 9);

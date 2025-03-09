@@ -1,10 +1,9 @@
 package org.irmc.industrialrevival.api.items;
 
 import org.bukkit.inventory.ItemStack;
-import org.irmc.industrialrevival.api.elements.ElementType;
 import org.irmc.industrialrevival.api.elements.Smeltery;
-import org.irmc.industrialrevival.api.elements.TinkerType;
-import org.irmc.industrialrevival.api.elements.TinkerTypes;
+import org.irmc.industrialrevival.api.elements.tinker.TinkerType;
+import org.irmc.industrialrevival.api.elements.tinker.TinkerTypes;
 import org.jetbrains.annotations.Range;
 
 public class ElementOre extends ElementItem {

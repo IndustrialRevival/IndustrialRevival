@@ -1,26 +1,36 @@
 package org.irmc.industrialrevival.api.items.attributes;
 
+import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
+import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
 import org.bukkit.Keyed;
 import org.bukkit.inventory.ItemStack;
-import org.irmc.industrialrevival.api.elements.ElementProportion;
-import org.irmc.industrialrevival.api.elements.ElementType;
 import org.irmc.industrialrevival.api.elements.reaction.ReactResult;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
+import org.jetbrains.annotations.NotNull;
 
 public interface ChemReactable extends ItemAttribute, Keyed {
     /**
-     * Returns the element proportions of the item.
+     * Returns the chemical compound of the item.
      *
-     * @return the element proportions of the item.
+     * @param itemStack the item stack to get the chemical compound from.
+     * @return the chemical compound of the item.
      */
-    ElementProportion[] getElementProportions(ItemStack item);
+    ChemicalCompound getChemicalCompound(@NotNull ItemStack itemStack);
 
     /**
      * Returns the quality of each item. (Unit: grams)
      *
      * @return the quality of each item.
      */
-    int getMass(ItemStack item);
+
+    int getMass(@NotNull ItemStack itemStack);
+
+    /**
+     * Checks if two or more items can react.
+     * @param other the other item(s) to react with.
+     * @return true if the items can react, false otherwise.
+     */
+    boolean canReact(@NotNull ReactCondition[] conditions, @NotNull ChemReactable... other);
 
     /**
      * Reacts two or more items.
@@ -30,9 +40,22 @@ public interface ChemReactable extends ItemAttribute, Keyed {
      * @param other the other item(s) to react with.
      * @return the result of the reaction.
      */
-    ReactResult react(ItemStack item, ElementType.ReactCondition[] conditions, ChemReactable... other);
 
+    ReactResult react(@NotNull ItemStack item, @NotNull ReactCondition[] conditions, @NotNull ChemReactable... other);
+
+    /**
+     * Registers the item as a reactable.
+     */
     default void registerReactable() {
         IndustrialRevival.getInstance().getRegistry().getChemReactables().put(this.getKey(), this);
+    }
+
+    /**
+     * Returns true if the item is a catalyst for the given condition.
+     * @param condition the condition to check.
+     * @return true if the item is a catalyst for the given condition, false otherwise.
+     */
+    default boolean isCatalyst(@NotNull ReactCondition condition) {
+        return false;
     }
 }

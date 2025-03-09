@@ -302,6 +302,11 @@ public class Constants {
          * The folder for storing error reports.
          */
         public static final File ERROR_REPORTS_FOLDER = new File(IndustrialRevival.getInstance().getDataFolder(), "error-reports");
+
+        /**
+         * The folder for storing language files.
+         */
+        public static final File LANGUAGES_FOLDER = new File(IndustrialRevival.getInstance().getDataFolder(), "languages");
     }
 
     /**

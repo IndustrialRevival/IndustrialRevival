@@ -1,7 +1,6 @@
 package org.irmc.industrialrevival.api.elements.compounds;
 
 import net.kyori.adventure.text.Component;
-import org.irmc.industrialrevival.api.elements.compounds.classes.Ion;
 import org.irmc.industrialrevival.api.elements.compounds.classes.Oxide;
 import org.jetbrains.annotations.NotNull;
 

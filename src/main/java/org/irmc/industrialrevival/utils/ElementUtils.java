@@ -1,8 +1,10 @@
-package org.irmc.industrialrevival.api.elements;
+package org.irmc.industrialrevival.utils;
 
 import lombok.experimental.UtilityClass;
-import org.irmc.industrialrevival.api.elements.melt_types.OreMeltedType;
-import org.irmc.industrialrevival.utils.ColorUtil;
+import org.irmc.industrialrevival.api.elements.ElementGroup;
+import org.irmc.industrialrevival.api.elements.ElementType;
+import org.irmc.industrialrevival.api.elements.melt.MeltedType;
+import org.irmc.industrialrevival.api.elements.melt.OreMeltedType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -115,7 +117,7 @@ public final class ElementUtils {
      * @param group the group of the element types to get
      * @return a list of all {@link ElementType}s with the given group
      */
-    public static @NotNull List<ElementType> getByGroup(@NotNull ElementType.ElementGroup group) {
+    public static @NotNull List<ElementType> getByGroup(@NotNull ElementGroup group) {
         List<ElementType> elements = new ArrayList<>();
         for (ElementType e : ElementType.values()) {
             if (e.getElementGroup() == group) {
