@@ -85,7 +85,7 @@ public class SimpleMenu implements IRInventoryHolder {
                     ItemStack itemStack = drawer.getCharMap().get(slotSymbol);
                     if (MenuUtil.isBackground(itemStack)) {
                         Debug.log("Setting background slot: " + slot);
-                        setItem(slot, MenuUtil.BACKGROUND, ClickHandler.DEFAULT);
+                        setItem(slot, itemStack, ClickHandler.DEFAULT);
                     } else {
                         Debug.log("Setting item slot: " + slot + " with symbol: " + slotSymbol);
                         setItem(slot, itemStack, Optional.ofNullable(drawer.getClickHandlerMap().get(slotSymbol)).orElse(ClickHandler.DEFAULT));
