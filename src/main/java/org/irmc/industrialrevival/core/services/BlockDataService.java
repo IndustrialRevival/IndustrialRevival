@@ -1,6 +1,7 @@
 package org.irmc.industrialrevival.core.services;
 
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
@@ -36,6 +37,19 @@ public class BlockDataService {
         return blockDataMap.get(location);
     }
 
+    public void handleBlockPlacing(Location loc, NamespacedKey machineId) {
+        YamlConfiguration configuration = new YamlConfiguration();
+        MachineMenuPreset preset = IndustrialRevival.getInstance().getRegistry().getMenuPresets().get(machineId);
+        MachineMenu menu = new MachineMenu(loc, preset);
+        IRBlockData blockData = new IRBlockData(machineId, loc, configuration, menu);
+        blockDataMap.put(loc, blockData);
+        preset.newInstance(loc.getBlock(), menu);
+    }
+
+    public void handleBlockBreaking(Location loc) {
+        blockDataMap.remove(loc);
+    }
+
     public void saveAllData() {
         for (IRBlockData data : blockDataMap.values()) {
             String dataString = data.getConfig().saveToString();
@@ -45,7 +59,7 @@ public class BlockDataService {
                     location.getBlockX(),
                     location.getBlockY(),
                     location.getBlockZ(),
-                    data.getId(),
+                    data.getId().toString(),
                     dataString);
             IndustrialRevival.getInstance().getDataManager().updateBlockData(data.getLocation(), blockRecord);
         }

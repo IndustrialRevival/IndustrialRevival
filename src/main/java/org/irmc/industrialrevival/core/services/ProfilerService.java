@@ -38,7 +38,7 @@ public class ProfilerService {
     @Getter
     private final TickerTask task = new TickerTask(IndustrialRevival.getInstance().getConfig().getInt("options.armor-check-interval", 20));
     @Getter
-    public PerformanceSummary summary = new PerformanceSummary(new HashMap<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(), 0);
+    public PerformanceSummary summary = new PerformanceSummary(getProfilingData(), new HashMap<>(), new HashMap<>(), new HashMap<>(), 0);
 
     public void requestTimingView(TimingViewRequest request) {
         if (!requests.add(request)) {
@@ -139,15 +139,15 @@ public class ProfilerService {
         }
 
         //TODO: localization
-        request.getRequester().sendMessage("&a====== Profiling Data ======");
-        request.getRequester().sendMessage("&aTick count: " + task.getTicked());
-        request.getRequester().sendMessage("&aTotal time: " + NumberUtils.round(NumberUtils.ns2Ms(tt), 2));
-        request.getRequester().sendMessage("&aInterval:" + task.getCheckInterval());
-        request.getRequester().sendMessage("&aTPS: " + Arrays.toString(Bukkit.getTPS()));
-        request.getRequester().sendMessage("&a===== Timing Data =====");
-        request.getRequester().sendMessage(getHoverComponent("&a" + dataByID.size() + " Blocks (Hover for details)", idBuilder.toString()));
-        request.getRequester().sendMessage(getHoverComponent("&a" + dataByChunk.size() + " Chunks (Hover for details)", chunkBuilder.toString()));
-        request.getRequester().sendMessage(getHoverComponent("&a" + dataByPlugin.size() + " Plugins (Hover for details)", pluginBuilder.toString()));
+        request.getRequester().sendMessage("§a====== Profiling Data ======");
+        request.getRequester().sendMessage("§aTick count: " + task.getTicked());
+        request.getRequester().sendMessage("§aTotal time: " + NumberUtils.round(NumberUtils.ns2Ms(tt), 2));
+        request.getRequester().sendMessage("§aInterval:" + task.getCheckInterval());
+        request.getRequester().sendMessage("§aTPS: " + Arrays.toString(Bukkit.getTPS()));
+        request.getRequester().sendMessage("§a===== Timing Data =====");
+        request.getRequester().sendMessage(getHoverComponent("§a" + dataByID.size() + " Blocks (Hover for details)", idBuilder.toString()));
+        request.getRequester().sendMessage(getHoverComponent("§a" + dataByChunk.size() + " Chunks (Hover for details)", chunkBuilder.toString()));
+        request.getRequester().sendMessage(getHoverComponent("§a" + dataByPlugin.size() + " Plugins (Hover for details)", pluginBuilder.toString()));
     }
 
     public void startProfiling(Location location) {

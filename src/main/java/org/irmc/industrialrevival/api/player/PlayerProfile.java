@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 import org.irmc.industrialrevival.core.guide.GuideHistory;
 import org.irmc.industrialrevival.core.guide.GuideSettings;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
@@ -17,6 +18,12 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Contains information related to {@link Player} and Industrial Revival.
+ *
+ * @author lijinhong11
+ * @since 1.0
+ */
 public class PlayerProfile {
     @Getter
     private final String playerName;

@@ -18,6 +18,7 @@ import org.irmc.industrialrevival.api.menu.MatrixMenuDrawer;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
+import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockPlaceEvent;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.groups.IRItemGroups;
 import org.irmc.industrialrevival.utils.DataUtil;
@@ -112,8 +113,8 @@ public class ItemDisplayer extends IndustrialRevivalItem implements InventoryBlo
         }
     }
 
-    private void placeBlock(BlockPlaceEvent e) {
-        Block self = e.getBlockPlaced();
+    private void placeBlock(IRBlockPlaceEvent e) {
+        Block self = e.getOriginalEvent().getBlockPlaced();
         Location selfLoc = self.getLocation();
         Location itemLoc = selfLoc.clone().add(0, defaultDistanceFromMachine, 0);
         Location nameLoc = itemLoc.clone().add(0, twoDisplaySpacing, 0);

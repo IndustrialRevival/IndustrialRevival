@@ -101,7 +101,7 @@ public class HandlerCaller implements Listener {
 
         EntityChangeBlockHandler handler = iritem.getItemHandler(EntityChangeBlockHandler.class);
         if (handler != null) {
-            handler.onEntityChangeBlock(e);
+            handler.onEntityChangeBlock(e.getOriginalEvent());
         }
     }
 
@@ -173,7 +173,7 @@ public class HandlerCaller implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onIRBlockPlace(IRBlockPlaceEvent event) {
         IndustrialRevivalItem iritem = event.getIritem();
-        if (!checkValid(iritem, event.getBlock().getWorld())) {
+        if (!checkValid(iritem, event.getOriginalEvent().getBlock().getWorld())) {
             return;
         }
 
@@ -227,7 +227,7 @@ public class HandlerCaller implements Listener {
     public void onMenuClose(MenuCloseEvent e) {
         SimpleMenu.MenuCloseHandler handler = e.getMenu().getCloseHandler();
         if (handler != null) {
-            handler.onClose((Player) e.getPlayer());
+            handler.onClose((Player) e.getOriginalEvent().getPlayer());
         }
     }
 
@@ -236,7 +236,7 @@ public class HandlerCaller implements Listener {
         MachineMenu menu = e.getOpenedMenu();
         SimpleMenu.MenuOpenHandler handler = menu.getOpenHandler();
         if (handler != null) {
-            handler.onOpen(e.getPlayer(), menu);
+            handler.onOpen(e.getRightClickEvent().getOriginalEvent().getPlayer(), menu);
         }
     }
 
@@ -246,7 +246,7 @@ public class HandlerCaller implements Listener {
         if (handler != null) {
             boolean pass = handler.onPistonExtend(event);
             if (!pass) {
-                event.setCancelled(true);
+                event.getOriginalEvent().setCancelled(true);
             }
         }
     }
@@ -257,7 +257,7 @@ public class HandlerCaller implements Listener {
         if (handler != null) {
             boolean pass = handler.onPistonRetract(event);
             if (!pass) {
-                event.setCancelled(true);
+                event.getOriginalEvent().setCancelled(true);
             }
         }
     }
@@ -265,7 +265,7 @@ public class HandlerCaller implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerBucketEmptyToIRBlock(PlayerBucketEmptyToIRBlockEvent event) {
         IndustrialRevivalItem iritem = event.getIritem();
-        if (!checkValid(iritem, event.getBlock().getWorld())) {
+        if (!checkValid(iritem, event.getOriginalEvent().getBlock().getWorld())) {
             return;
         }
 
