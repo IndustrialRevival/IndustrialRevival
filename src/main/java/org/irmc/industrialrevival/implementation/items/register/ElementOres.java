@@ -2,11 +2,10 @@ package org.irmc.industrialrevival.implementation.items.register;
 
 import lombok.experimental.UtilityClass;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.elements.ElementType;
-import org.irmc.industrialrevival.api.items.ElementItem;
 import org.irmc.industrialrevival.api.items.ElementOre;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
-import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.groups.IRItemGroups;
 import org.irmc.industrialrevival.utils.KeyUtil;
@@ -25,7 +24,8 @@ public class ElementOres {
                         .setElementType(elementType)
                         .setAddon(IndustrialRevival.getInstance())
                         .addItemGroup(IRItemGroups.ORES)
-                        .setItemStack(new IndustrialRevivalItemStack(KeyUtil.customKey(elementType.name().toUpperCase() + "_ORE"), Material.IRON_ORE))
+                        .setId(elementType.name().toLowerCase() + "_ore")
+                        .setIcon(new ItemStack(Material.IRON_ORE))
                         .register();
             }
         }

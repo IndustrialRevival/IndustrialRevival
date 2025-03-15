@@ -1,7 +1,6 @@
 package org.irmc.industrialrevival.api.pipe;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 

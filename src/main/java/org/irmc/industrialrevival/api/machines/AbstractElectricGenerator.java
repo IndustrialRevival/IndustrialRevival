@@ -28,7 +28,7 @@ public abstract class AbstractElectricGenerator extends AbstractMachine implemen
 
     @Override
     @OverridingMethodsMustInvokeSuper
-    protected void preRegister() throws Exception {
+    public void preRegister() throws Exception {
         addItemHandlers((BlockTicker) this::tick);
         super.preRegister();
     }

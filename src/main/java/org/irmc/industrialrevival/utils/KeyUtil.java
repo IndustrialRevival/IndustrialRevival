@@ -2,7 +2,6 @@ package org.irmc.industrialrevival.utils;
 
 import lombok.experimental.UtilityClass;
 import org.bukkit.NamespacedKey;
-import org.bukkit.plugin.Plugin;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 
 /**

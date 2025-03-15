@@ -7,7 +7,6 @@ import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
-import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.api.items.attributes.NotPlaceable;
 import org.irmc.industrialrevival.api.items.attributes.Rechargeable;
 import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
@@ -28,12 +27,6 @@ public class Battery extends IndustrialRevivalItem implements NotPlaceable, Rech
     @Override
     public Battery addItemGroup(@NotNull ItemGroup group) {
         super.addItemGroup(group);
-        return this;
-    }
-
-    @Override
-    public Battery setItemStack(@NotNull IndustrialRevivalItemStack itemStack) {
-        super.setItemStack(itemStack);
         return this;
     }
 

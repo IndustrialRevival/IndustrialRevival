@@ -7,7 +7,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.irmc.industrialrevival.api.machines.process.IOperation;
-import org.irmc.industrialrevival.api.machines.process.MachineOperation;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.menu.MatrixMenuDrawer;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;

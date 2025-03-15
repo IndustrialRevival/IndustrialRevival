@@ -20,14 +20,12 @@ import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.Constants;
 import org.irmc.industrialrevival.utils.KeyUtil;
 import org.irmc.pigeonlib.chat.ChatInput;
-import org.irmc.pigeonlib.items.CustomItemStack;
 import org.irmc.pigeonlib.items.ItemUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public class SurvivalGuideImplementation implements IRGuideImplementation {

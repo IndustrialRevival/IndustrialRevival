@@ -1,6 +1,5 @@
 package org.irmc.industrialrevival.core.data.object;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

@@ -13,6 +13,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.plugin.Plugin;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.items.attributes.BlockDropItem;
 import org.irmc.industrialrevival.api.items.attributes.ItemDroppable;
@@ -37,7 +38,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * An industrial revival item.<br>
@@ -81,8 +89,6 @@ public class IndustrialRevivalItem implements Keyed {
     private ItemStack icon;
     @Getter
     private ItemStack recipeOutput;
-    @Deprecated
-    private IndustrialRevivalItemStack itemStack;
     private ItemState state = ItemState.UNREGISTERED;
 
     @Getter @Nullable
@@ -95,6 +101,7 @@ public class IndustrialRevivalItem implements Keyed {
     @Getter
     private boolean hideInGuide = false;
     private boolean autoTranslation = true;
+    private boolean autoInferAddon = true;
 
     public IndustrialRevivalItem() {
     }
@@ -106,12 +113,6 @@ public class IndustrialRevivalItem implements Keyed {
     @Nullable
     public static IndustrialRevivalItem getById(@NotNull NamespacedKey id) {
         return IndustrialRevival.getInstance().getRegistry().getItems().get(id);
-    }
-
-    @Deprecated
-    @Nullable
-    public static IndustrialRevivalItem getByItem(@NotNull IndustrialRevivalItemStack irStack) {
-        return getById(irStack.getId());
     }
 
     @Nullable
@@ -139,6 +140,15 @@ public class IndustrialRevivalItem implements Keyed {
     }
 
     @NotNull
+    public IndustrialRevivalItem setId(@NotNull String id) {
+        if (addon == null) {
+            throw new UnsupportedOperationException("Cannot set id without addon reference!");
+        }
+        this.id = new NamespacedKey(addon.getPlugin(), id);
+        return this;
+    }
+
+    @NotNull
     public IndustrialRevivalItem setIcon(@NotNull ItemStack icon) {
         this.icon = icon;
         return this;
@@ -156,15 +166,7 @@ public class IndustrialRevivalItem implements Keyed {
         Preconditions.checkArgument(group != null, "ItemGroup cannot be null");
         this.group.add(group);
         group.addItem(this);
-        return this;
-    }
-
-    @Deprecated
-    @NotNull
-    public IndustrialRevivalItem setItemStack(@NotNull IndustrialRevivalItemStack itemStack) {
-        checkRegistered();
-        Preconditions.checkArgument(itemStack != null, "ItemStack cannot be null");
-        this.itemStack = itemStack;
+        inferAddon(group.getKey().getKey());
         return this;
     }
 
@@ -192,6 +194,7 @@ public class IndustrialRevivalItem implements Keyed {
         }
 
         craftMethods.add(craftMethod);
+        inferAddon(craftMethod.getRecipeType().getAddon());
         return this;
     }
 
@@ -200,6 +203,7 @@ public class IndustrialRevivalItem implements Keyed {
         checkRegistered();
         Preconditions.checkArgument(itemDictionary != null, "ItemDictionary cannot be null");
         itemDictionary.tagItem(this, true);
+        inferAddon(itemDictionary.getKey().getNamespace());
         return this;
     }
 
@@ -270,15 +274,9 @@ public class IndustrialRevivalItem implements Keyed {
         return this;
     }
 
-    @Deprecated
-    @NotNull
-    public IndustrialRevivalItemStack getItem() {
-        return itemStack;
-    }
-
     @NotNull
     public NamespacedKey getId() {
-        return itemStack.getId();
+        return this.id;
     }
 
     /**
@@ -303,12 +301,12 @@ public class IndustrialRevivalItem implements Keyed {
             LanguageManager lm = new LanguageManager(addon.getPlugin());
             Component name = lm.getItemName(getId().getKey());
             if (name != null) {
-                itemStack.getItemStack().getItemMeta().displayName(name);
+                getIcon().getItemMeta().displayName(name);
             }
 
             List<Component> lore = lm.getItemLore(getId().getKey());
             if (lore != null && !lore.isEmpty()) {
-                itemStack.getItemStack().getItemMeta().lore(lore);
+                getIcon().getItemMeta().lore(lore);
             }
         }
 
@@ -336,7 +334,7 @@ public class IndustrialRevivalItem implements Keyed {
 
     @NotNull
     public Component getItemName() {
-        return ItemUtils.getDisplayName(getItem().getItemStack());
+        return ItemUtils.getDisplayName(getIcon());
     }
 
     @Nullable
@@ -362,7 +360,7 @@ public class IndustrialRevivalItem implements Keyed {
             }
         }
 
-        if (this instanceof ItemDroppable && !ItemUtils.isActualBlock(getItem().getItemStack().getType())) {
+        if (this instanceof ItemDroppable && !ItemUtils.isActualBlock(getIcon().getType())) {
             throw new UnsupportedOperationException("Only actual block can be drop items!");
         }
     }
@@ -391,7 +389,7 @@ public class IndustrialRevivalItem implements Keyed {
         for (CraftMethod craftMethod : craftMethods) {
             if (craftMethod.getRecipeType() == RecipeType.VANILLA_CRAFTING) {
                 NamespacedKey key = new NamespacedKey(addon.getPlugin(), "irvc_" + getId().getNamespace() + "_" + getId().getKey());
-                ShapedRecipe shapedRecipe = new ShapedRecipe(key, itemStack.cloneItemStack());
+                ShapedRecipe shapedRecipe = new ShapedRecipe(key, getIcon().clone());
                 shapedRecipe.shape("abc", "def", "ghi");
                 char[] chars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'};
                 for (int i = 0; i < 9; i++) {
@@ -466,12 +464,12 @@ public class IndustrialRevivalItem implements Keyed {
 
     @Override
     public final int hashCode() {
-        return Objects.hash(getId(), itemStack, itemHandlers, craftMethods, itemDictionaries, disabledInWorld, group, addon, state, autoTranslation, wikiText, enchantable, disenchantable, hideInGuide);
+        return Objects.hash(getId(), getIcon(), itemHandlers, craftMethods, itemDictionaries, disabledInWorld, group, addon, state, autoTranslation, wikiText, enchantable, disenchantable, hideInGuide);
     }
     
     @Deprecated
     public ItemStack getItemStack() {
-        return itemStack.getItemStack();
+        return getIcon();
     }
 
     public final boolean isRegistered() {
@@ -482,6 +480,22 @@ public class IndustrialRevivalItem implements Keyed {
     public @NotNull NamespacedKey getKey() {
         return id;
     }
+
+    public void inferAddon(String pluginName) {
+        if (this.autoInferAddon && this.addon == null) {
+            Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+            if (plugin instanceof IndustrialRevivalAddon ira) {
+                this.addon = ira;
+            }
+        }
+    }
+
+    public void inferAddon(IndustrialRevivalAddon addon) {
+        if (this.autoInferAddon && this.addon == null) {
+            this.addon = addon;
+        }
+    }
+
 
     public enum ItemState {
         UNREGISTERED,

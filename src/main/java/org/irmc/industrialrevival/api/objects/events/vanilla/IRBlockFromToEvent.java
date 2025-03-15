@@ -3,7 +3,6 @@ package org.irmc.industrialrevival.api.objects.events.vanilla;
 import lombok.Getter;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.block.BlockEvent;
 import org.bukkit.event.block.BlockFromToEvent;

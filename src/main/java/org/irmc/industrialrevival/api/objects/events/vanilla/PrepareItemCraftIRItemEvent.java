@@ -3,7 +3,6 @@ package org.irmc.industrialrevival.api.objects.events.vanilla;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.event.Cancellable;
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.inventory.InventoryEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;

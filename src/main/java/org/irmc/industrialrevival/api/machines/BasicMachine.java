@@ -35,7 +35,7 @@ public abstract class BasicMachine extends AbstractMachine implements ProcessorH
 
     @Override
     @OverridingMethodsMustInvokeSuper
-    protected void preRegister() throws Exception {
+    public void preRegister() throws Exception {
         new MachineMenuPreset(this.getId(), this.getItemName()) {
             @Override
             public void init() {

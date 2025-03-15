@@ -5,9 +5,8 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.elements.ElementType;
-import org.irmc.industrialrevival.api.elements.tinker.TinkerTypes;
 import org.irmc.industrialrevival.api.elements.melt.OreMeltedType;
-import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
+import org.irmc.industrialrevival.api.elements.tinker.TinkerTypes;
 import org.irmc.industrialrevival.api.items.TinkerModelItem;
 import org.irmc.industrialrevival.api.items.TinkerProductItem;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
@@ -42,11 +41,11 @@ import org.irmc.industrialrevival.utils.KeyUtil;
  * public static final MySpecialItem my_special_item = new MySpecialItem()
  *     .setAddon(my_addon)                       // my_addon -> {@link IndustrialRevivalAddon }
  *     .addItemGroup(my_item_group)              // my_item_group -> {@link ItemGroup }
- *     .setItemStack(my_item_stack)              // my_item_stack -> {@link IndustrialRevivalItemStack }
+ *     .setIcon(my_item_stack)                   // my_item_stack -> {@link ItemStack }
  *     .addCraftMethod(item -> new CraftMethod(  // recipe method, see more {@link CraftMethod}
  *              RecipeType.NULL,                 // recipe type, can be any of the types in {@link RecipeType } or a custom recipe type
  *              new ItemStack[] {},              // input items, can be empty but CANNOT be null
- *              item                             // item is a pure itemstack which be used in {@code setItemStack }
+ *              item                             // item is a pure itemstack which be used in {@code setIcon }
  *          ))
  *     .cast(MySpecialItem.class)                // this method can be used to return the instance of {@code MySpecialItem }
  *     .doOtherThingsInMySpecialItem();          // this method should return the instance of {@code MySpecialItem }
@@ -57,11 +56,11 @@ import org.irmc.industrialrevival.utils.KeyUtil;
  * public static final MyMultiblock my_multiblock = new MyMultiblock(namespacedKey) // namespacedKey is the key of the multiblock, see more {@link KeyUtil}
  *     .setAddon(my_addon)                       // my_addon -> {@link IndustrialRevivalAddon }
  *     .addItemGroup(my_item_group)              // my_item_group -> {@link ItemGroup }
- *     .setItemStack(my_item_stack)              // my_item_stack -> {@link IndustrialRevivalItemStack }
+ *     .setIcon(my_item_stack)                   // my_item_stack -> {@link ItemStack }
  *     .addCraftMethod(item -> new CraftMethod(  // recipe method, see more {@link CraftMethod}
  *              RecipeType.MULTIBLOCK,           // recipe type, can only be MULTIBLOCK
  *              new ItemStack[] {},              // input items, can be anything but CANNOT be null
- *              item                             // item is a pure itemstack which be used in {@code setItemStack }
+ *              item                             // item is a pure itemstack which be used in {@code setIcon }
  *          ))
  *     .cast(MyMultiblock.class)                 // this method can be used to return the instance of {@code MyMultiblock }
  *     .doOtherThingsInMyMultiblock();           // this method should return the instance of {@code MyMultiblock }
@@ -87,7 +86,7 @@ public class IndustrialRevivalItemSetup {
     public static final Empty EMPTY = new Empty()
             .setAddon(INSTANCE)
             .addItemGroup(IRItemGroups.DEBUG)
-            .setItemStack(IndustrialRevivalItems.EMPTY)
+            .setIcon(IndustrialRevivalItems.EMPTY)
             .addCraftMethod(item -> new CraftMethod(
                     RecipeType.NULL,
                     EMPTY_RECIPE,
@@ -98,7 +97,7 @@ public class IndustrialRevivalItemSetup {
     public static final Container CONTAINER = new Container()
             .setAddon(INSTANCE)
             .addItemGroup(IRItemGroups.DEBUG)
-            .setItemStack(IndustrialRevivalItems.CONTAINER)
+            .setIcon(IndustrialRevivalItems.CONTAINER)
             .addCraftMethod(item -> new CraftMethod(
                     RecipeType.NULL,
                     EMPTY_RECIPE,
@@ -109,7 +108,7 @@ public class IndustrialRevivalItemSetup {
     public static final DebugHead DEBUG_HEAD = new DebugHead()
             .setAddon(INSTANCE)
             .addItemGroup(IRItemGroups.DEBUG)
-            .setItemStack(IndustrialRevivalItems.DEBUG_HEAD)
+            .setIcon(IndustrialRevivalItems.DEBUG_HEAD)
             .addCraftMethod(item -> new CraftMethod(
                     RecipeType.NULL,
                     EMPTY_RECIPE,
@@ -120,7 +119,7 @@ public class IndustrialRevivalItemSetup {
     public static final Debugger DEBUGGER = new Debugger()
             .setAddon(INSTANCE)
             .addItemGroup(IRItemGroups.DEBUG)
-            .setItemStack(IndustrialRevivalItems.DEBUGGER)
+            .setIcon(IndustrialRevivalItems.DEBUGGER)
             .addCraftMethod(item -> new CraftMethod(
                     RecipeType.NULL,
                     EMPTY_RECIPE,
@@ -130,7 +129,7 @@ public class IndustrialRevivalItemSetup {
     public static final BlastFurnace BLAST_FURNACE = new BlastFurnace(KeyUtil.customKey("blast_furnace"))
             .setAddon(INSTANCE)
             .addItemGroup(IRItemGroups.MULTIBLOCK)
-            .setItemStack(IndustrialRevivalItems.BLAST_FURNACE)
+            .setIcon(IndustrialRevivalItems.BLAST_FURNACE)
             .addCraftMethod(item -> new CraftMethod(
                     RecipeType.MULTIBLOCK,
                     EMPTY_RECIPE,
@@ -140,7 +139,7 @@ public class IndustrialRevivalItemSetup {
     public static final CokeOven COKE_OVEN = new CokeOven(KeyUtil.customKey("coke_oven"))
             .setAddon(INSTANCE)
             .addItemGroup(IRItemGroups.MULTIBLOCK)
-            .setItemStack(IndustrialRevivalItems.COKE_OVEN)
+            .setIcon(IndustrialRevivalItems.COKE_OVEN)
             .addCraftMethod(item -> new CraftMethod(
                     RecipeType.MULTIBLOCK,
                     EMPTY_RECIPE,
@@ -150,7 +149,7 @@ public class IndustrialRevivalItemSetup {
     public static final EarthFurnace EARTH_FURNACE = new EarthFurnace(KeyUtil.customKey("earth_furnace"))
             .setAddon(INSTANCE)
             .addItemGroup(IRItemGroups.MULTIBLOCK)
-            .setItemStack(IndustrialRevivalItems.EARTH_FURNACE)
+            .setIcon(IndustrialRevivalItems.EARTH_FURNACE)
             .addCraftMethod(item -> new CraftMethod(
                     RecipeType.MULTIBLOCK,
                     EMPTY_RECIPE,
@@ -160,7 +159,7 @@ public class IndustrialRevivalItemSetup {
     public static final WoodenPress WOODEN_PRESS = new WoodenPress(KeyUtil.customKey("wooden_press"))
             .setAddon(INSTANCE)
             .addItemGroup(IRItemGroups.MULTIBLOCK)
-            .setItemStack(IndustrialRevivalItems.WOODEN_PRESS)
+            .setIcon(IndustrialRevivalItems.WOODEN_PRESS)
             .addCraftMethod(item -> new CraftMethod(
                     RecipeType.MULTIBLOCK,
                     EMPTY_RECIPE,
@@ -170,7 +169,7 @@ public class IndustrialRevivalItemSetup {
     public static final ResearchTable RESEARCH_TABLE = new ResearchTable(KeyUtil.customKey("research_table"))
             .setAddon(INSTANCE)
             .addItemGroup(IRItemGroups.MULTIBLOCK)
-            .setItemStack(IndustrialRevivalItems.RESEARCH_TABLE)
+            .setIcon(IndustrialRevivalItems.RESEARCH_TABLE)
             .addCraftMethod(item -> new CraftMethod(
                     RecipeType.MULTIBLOCK,
                     EMPTY_RECIPE,
@@ -180,7 +179,7 @@ public class IndustrialRevivalItemSetup {
     public static final ProfessionalLaboratory PROFESSIONAL_LABORATORY = new ProfessionalLaboratory(KeyUtil.customKey("professional_laboratory"))
             .setAddon(INSTANCE)
             .addItemGroup(IRItemGroups.MULTIBLOCK)
-            .setItemStack(IndustrialRevivalItems.PROFESSIONAL_LABORATORY)
+            .setIcon(IndustrialRevivalItems.PROFESSIONAL_LABORATORY)
             .addCraftMethod(item -> new CraftMethod(
                     RecipeType.MULTIBLOCK,
                     EMPTY_RECIPE,
@@ -191,7 +190,7 @@ public class IndustrialRevivalItemSetup {
     public static final BlastSmeltery BLAST_SMELTERY = new BlastSmeltery(KeyUtil.customKey("blast_smeltery"))
             .setAddon(INSTANCE)
             .addItemGroup(IRItemGroups.MULTIBLOCK)
-            .setItemStack(IndustrialRevivalItems.BLAST_SMELTERY)
+            .setIcon(IndustrialRevivalItems.BLAST_SMELTERY)
             .addCraftMethod(item -> new CraftMethod(
                     RecipeType.MULTIBLOCK,
                     EMPTY_RECIPE,
@@ -203,7 +202,7 @@ public class IndustrialRevivalItemSetup {
             .setTinkerType(TinkerTypes.BLOCK)
             .setAddon(INSTANCE)
             .addItemGroup(IRItemGroups.DEBUG)
-            .setItemStack(IndustrialRevivalItems.TEST_MODEL)
+            .setIcon(IndustrialRevivalItems.TEST_MODEL)
             .cast(TinkerModelItem.class);
 
     public static final TinkerProductItem TEST_PRODUCT = new TinkerProductItem()
@@ -211,7 +210,7 @@ public class IndustrialRevivalItemSetup {
             .setTinkerType(TinkerTypes.BLOCK)
             .setAddon(INSTANCE)
             .addItemGroup(IRItemGroups.DEBUG)
-            .setItemStack(IndustrialRevivalItems.TEST_PRODUCT)
+            .setIcon(IndustrialRevivalItems.TEST_PRODUCT)
             .cast(TinkerProductItem.class);
 
     public static final BasicMachine TEST_MACHINE = new BasicMachine() {
@@ -222,7 +221,7 @@ public class IndustrialRevivalItemSetup {
     }
             .setAddon(INSTANCE)
             .addItemGroup(IRItemGroups.DEBUG)
-            .setItemStack(IndustrialRevivalItems.TEST_MACHINE)
+            .setIcon(IndustrialRevivalItems.TEST_MACHINE)
             .cast(BasicMachine.class)
             .addRecipe(new MachineRecipe(10, 1, new ItemStack(Material.STONE), new ItemStack(Material.DIAMOND)))
             .cast(BasicMachine.class);

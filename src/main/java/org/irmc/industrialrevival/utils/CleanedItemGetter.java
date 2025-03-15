@@ -4,7 +4,6 @@ import lombok.experimental.UtilityClass;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
-import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.pigeonlib.items.ItemUtils;
 import org.irmc.pigeonlib.pdc.PersistentDataAPI;
 
