@@ -7,10 +7,8 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.TextDisplay;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
-import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.api.items.attributes.InventoryBlock;
 import org.irmc.industrialrevival.api.items.handlers.BlockPlaceHandler;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
@@ -22,7 +20,6 @@ import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockPlaceEvent;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.groups.IRItemGroups;
 import org.irmc.industrialrevival.utils.DataUtil;
-import org.irmc.industrialrevival.utils.KeyUtil;
 import org.irmc.industrialrevival.utils.MenuUtil;
 import org.irmc.pigeonlib.items.HeadItem;
 
@@ -76,7 +73,8 @@ public class ItemDisplayer extends IndustrialRevivalItem implements InventoryBlo
 
         addItemHandlers((BlockPlaceHandler) this::placeBlock);
 
-        setItemStack(new IndustrialRevivalItemStack(KeyUtil.customKey("item_displayer"), new ItemStack(Material.QUARTZ_SLAB)));
+        setId("item_displayer");
+        setIcon(new ItemStack(Material.QUARTZ_SLAB));
         addItemGroup(IRItemGroups.ELECTRIC_MACHINES);
         setEnchantable(false, true);
         setDisenchantable(false, true);

@@ -8,7 +8,6 @@ import org.bukkit.World;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
-import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.jetbrains.annotations.NotNull;
@@ -45,12 +44,6 @@ public abstract class MultiBlock extends IndustrialRevivalItem implements Keyed 
     @Override
     public MultiBlock addItemGroup(@NotNull ItemGroup group) {
         super.addItemGroup(group);
-        return this;
-    }
-
-    @Override
-    public MultiBlock setItemStack(@NotNull IndustrialRevivalItemStack itemStack) {
-        super.setItemStack(itemStack);
         return this;
     }
 

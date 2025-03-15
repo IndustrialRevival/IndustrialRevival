@@ -15,7 +15,7 @@ public abstract class ElectricMachine extends EnergyComponent {
     }
 
     @Override
-    protected void preRegister() throws Exception {
+    public void preRegister() throws Exception {
         addItemHandlers((BlockTicker) this::tick);
         super.preRegister();
     }

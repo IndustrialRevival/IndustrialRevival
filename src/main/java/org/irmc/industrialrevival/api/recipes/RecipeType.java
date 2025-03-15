@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+import org.irmc.industrialrevival.api.items.attributes.RecipeTypeLike;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
@@ -18,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.BiConsumer;
 
 @Getter
-public class RecipeType {
+public class RecipeType implements RecipeTypeLike {
     public static final NamespacedKey RECIPE_TYPE_GRINDSTONE = KeyUtil.customKey("grindstone");
     public static final NamespacedKey RECIPE_TYPE_VANILLA_SMELTING = KeyUtil.customKey("vanilla_smelting");
     public static final NamespacedKey RECIPE_TYPE_MINE = KeyUtil.customKey("mine");
@@ -277,6 +278,16 @@ public class RecipeType {
         if (unregisterRecipeConsumer != null) {
             unregisterRecipeConsumer.accept(input, output);
         }
+    }
+
+    @Override
+    public RecipeType getRecipeType() {
+        return this;
+    }
+
+    @Override
+    public ItemStack getRecipeTypeIcon() {
+        return getIcon();
     }
 
     @FunctionalInterface

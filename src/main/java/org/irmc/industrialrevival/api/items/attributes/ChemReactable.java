@@ -1,9 +1,9 @@
 package org.irmc.industrialrevival.api.items.attributes;
 
-import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
-import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
 import org.bukkit.Keyed;
 import org.bukkit.inventory.ItemStack;
+import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
+import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
 import org.irmc.industrialrevival.api.elements.reaction.ReactResult;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.jetbrains.annotations.NotNull;

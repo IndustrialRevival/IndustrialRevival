@@ -1,9 +1,7 @@
 package org.irmc.industrialrevival.api.objects.events.ir;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Location;
-import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.irmc.industrialrevival.api.objects.IRBlockData;

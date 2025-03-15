@@ -3,13 +3,12 @@ package org.irmc.industrialrevival.api.machines;
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
-import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
+import org.irmc.industrialrevival.api.items.attributes.RecipeTypeLike;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipe;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipes;
 import org.irmc.industrialrevival.api.objects.ItemStackReference;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.utils.CleanedItemGetter;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -18,7 +17,7 @@ import java.util.Map;
 /**
  * Abstract class for all IndustrialRevival machines.
  */
-public abstract class AbstractMachine extends IndustrialRevivalItem {
+public abstract class AbstractMachine extends IndustrialRevivalItem implements RecipeTypeLike {
     protected final MachineRecipes machineRecipes = new MachineRecipes();
     @Getter
     private RecipeType recipeType = null;
@@ -84,7 +83,7 @@ public abstract class AbstractMachine extends IndustrialRevivalItem {
         super.postRegister();
     }
 
-    private ItemStack getRecipeTypeIcon() {
+    public ItemStack getRecipeTypeIcon() {
         if (recipeTypeIcon == null) {
             return CleanedItemGetter.getCleanedItem(getItem().getItemStack());
         }
@@ -100,12 +99,11 @@ public abstract class AbstractMachine extends IndustrialRevivalItem {
     }
 
     @Override
-    public AbstractMachine setItemStack(@NotNull IndustrialRevivalItemStack itemStack) {
-        super.setItemStack(itemStack);
+    public void preRegister() throws Exception {
+        super.preRegister();
         if (recipeTypeIcon == null) {
-            this.recipeTypeIcon = CleanedItemGetter.getCleanedItem(itemStack.getItemStack());
+            this.recipeTypeIcon = CleanedItemGetter.getCleanedItem(getIcon());
             this.recipeType = new RecipeType(getAddon(), getId(), getRecipeTypeIcon());
         }
-        return this;
     }
 }

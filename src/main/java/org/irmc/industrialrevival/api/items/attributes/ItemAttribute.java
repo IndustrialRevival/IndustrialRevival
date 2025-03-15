@@ -2,9 +2,6 @@ package org.irmc.industrialrevival.api.items.attributes;
 
 import org.jetbrains.annotations.ApiStatus;
 
-import java.util.Collections;
-import java.util.List;
-
 /**
  * This interface is an abstract interface. DON'T use it directly.<br>
  * <br>

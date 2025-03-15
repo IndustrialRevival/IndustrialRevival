@@ -49,7 +49,7 @@ public class ArmorSet {
                 armorType,
                 new ArmorPiece()
                         .addItemGroup(group)
-                        .setItemStack(new IndustrialRevivalItemStack(getNamespacedKey(armorType), itemStack))
+                        .setIcon(itemStack)
                         .addCraftMethod(item -> new CraftMethod(type, recipe, item))
                         .cast(ArmorPiece.class)
                         .setPotionEffects(potionEffects)
