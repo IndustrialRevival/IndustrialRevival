@@ -41,12 +41,7 @@ public class OpenWindowPacketListener extends PacketAdapter {
                 return;
             }
 
-            /*
-            modifier.write(0, WrappedChatComponent.fromJson(
 
-            ));
-
-             */
         }
     }
 }

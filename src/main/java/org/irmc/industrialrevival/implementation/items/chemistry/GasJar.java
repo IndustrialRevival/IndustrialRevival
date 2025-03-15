@@ -3,6 +3,7 @@ package org.irmc.industrialrevival.implementation.items.chemistry;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
+import org.irmc.industrialrevival.api.elements.ElementType;
 import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
 import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
 import org.irmc.industrialrevival.api.elements.reaction.ReactResult;
@@ -27,9 +28,10 @@ public class GasJar extends IndustrialRevivalItem implements GasStorage {
 
     private static final NamespacedKey ITEM_KEY = KeyUtil.customKey("gas_jar");
 
-    public GasJar() {
+    public GasJar(ElementType type, PositiveHundredPercentage capacity) {
         setAddon(IndustrialRevival.getInstance());
-        setId(ITEM_KEY);
+        setId(KeyUtil.appendOnKey(ITEM_KEY, type.getSymbol().toLowerCase()));
+        setAutoTranslation(true);
 
         registerReactable();
     }
@@ -66,7 +68,7 @@ public class GasJar extends IndustrialRevivalItem implements GasStorage {
      * @return the chemical compound of the item.
      */
     @Override
-    public ChemicalCompound getChemicalCompound(@NotNull ItemStack itemStack) {
+    public @NotNull ChemicalCompound getChemicalCompound(@NotNull ItemStack itemStack) {
         String key = PersistentDataAPI.getOrDefault(itemStack.getItemMeta(), STORED_REACTABLE_KEY, PersistentDataType.STRING, "");
         if (key.isEmpty()) {
             return null;
@@ -105,7 +107,7 @@ public class GasJar extends IndustrialRevivalItem implements GasStorage {
     }
 
     @Override
-    public ReactResult react(@NotNull ItemStack item, @NotNull ReactCondition[] conditions, @NotNull ChemReactable... other) {
+    public @NotNull ReactResult react(@NotNull ItemStack item, @NotNull ReactCondition[] conditions, @NotNull ChemReactable... other) {
         if (getMass(item) == 0) {
             return ReactResult.FAILED;
         }

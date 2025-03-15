@@ -1,6 +1,9 @@
-package org.irmc.industrialrevival.api.elements.compounds;
+package org.irmc.industrialrevival.api.elements.compounds.types;
 
 import net.kyori.adventure.text.Component;
+import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
+import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompounds;
+import org.irmc.industrialrevival.api.elements.compounds.Compound;
 import org.irmc.industrialrevival.api.elements.compounds.classes.Oxide;
 import org.jetbrains.annotations.NotNull;
 

@@ -11,7 +11,7 @@ public class NumberUtils {
     /**
      * Rounds a double value to the specified number of decimal places.
      *
-     * @param value The value to round.
+     * @param value  The value to round.
      * @param places The number of decimal places to round to.
      * @return The rounded value.
      * @throws IllegalArgumentException If the number of decimal places is negative.

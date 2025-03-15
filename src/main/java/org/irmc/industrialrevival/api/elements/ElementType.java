@@ -186,6 +186,14 @@ public enum ElementType {
         };
     }
 
+    public int getRoundedRelativeAtomicMass() {
+        return (int) Math.round(this.relativeAtomicMass);
+    }
+
+    public int getMassByRelativeAtomicMass(double amount) {
+        return (int) (getRoundedRelativeAtomicMass() * amount);
+    }
+
     public record Valence(int... valences) {
         public static @NotNull Valence of(int... valences) {
             return new Valence(valences);

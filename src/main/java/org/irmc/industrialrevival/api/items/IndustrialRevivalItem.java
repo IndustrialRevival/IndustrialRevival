@@ -70,27 +70,31 @@ public class IndustrialRevivalItem implements Keyed {
     private final Set<String> disabledInWorld = new HashSet<>();
     @Getter
     private final Set<ItemGroup> group = new HashSet<>();
+
     @Getter
     @NotNull
     private IndustrialRevivalAddon addon;
     @Getter
     private NamespacedKey id;
     @Getter
+    @Nullable
     private ItemStack icon;
     @Getter
     private ItemStack recipeOutput;
     @Deprecated
     private IndustrialRevivalItemStack itemStack;
     private ItemState state = ItemState.UNREGISTERED;
-    private boolean autoGetNameAndLoreFromLang = true;
+
     @Getter @Nullable
     private String wikiText;
+
     @Getter
     private boolean enchantable = true;
     @Getter
     private boolean disenchantable = true;
     @Getter
     private boolean hideInGuide = false;
+    private boolean autoTranslation = true;
 
     public IndustrialRevivalItem() {
     }
@@ -140,7 +144,6 @@ public class IndustrialRevivalItem implements Keyed {
         return this;
     }
 
-
     @NotNull
     public IndustrialRevivalItem setRecipeOutput(@NotNull ItemStack recipeOutput) {
         this.recipeOutput = recipeOutput;
@@ -166,9 +169,9 @@ public class IndustrialRevivalItem implements Keyed {
     }
 
     @NotNull
-    public IndustrialRevivalItem autoGetNameAndLoreFromLang() {
+    public IndustrialRevivalItem enableAutoTranslation() {
         checkRegistered();
-        this.autoGetNameAndLoreFromLang = true;
+        this.autoTranslation = true;
         return this;
     }
 
@@ -296,7 +299,7 @@ public class IndustrialRevivalItem implements Keyed {
             throw new UnsupportedOperationException("Cannot register item before your plugin is enabled");
         }
 
-        if (autoGetNameAndLoreFromLang) {
+        if (autoTranslation) {
             LanguageManager lm = new LanguageManager(addon.getPlugin());
             Component name = lm.getItemName(getId().getKey());
             if (name != null) {
@@ -463,7 +466,7 @@ public class IndustrialRevivalItem implements Keyed {
 
     @Override
     public final int hashCode() {
-        return Objects.hash(getId(), itemStack, itemHandlers, craftMethods, itemDictionaries, disabledInWorld, group, addon, state, autoGetNameAndLoreFromLang, wikiText, enchantable, disenchantable, hideInGuide);
+        return Objects.hash(getId(), itemStack, itemHandlers, craftMethods, itemDictionaries, disabledInWorld, group, addon, state, autoTranslation, wikiText, enchantable, disenchantable, hideInGuide);
     }
     
     @Deprecated

@@ -25,25 +25,7 @@ public class KeyUtil {
         return new NamespacedKey(IndustrialRevival.getInstance(), key);
     }
 
-    /**
-     * Creates a {@link NamespacedKey} using a custom namespace and the specified key.
-     *
-     * @param namespace The namespace to use for the {@link NamespacedKey}.
-     * @param key The key to use for the {@link NamespacedKey}.
-     * @return A {@link NamespacedKey} with the specified namespace and key.
-     */
-    public static NamespacedKey customKey(String namespace, String key) {
-        return new NamespacedKey(namespace, key);
-    }
-
-    /**
-     * Creates a {@link NamespacedKey} using the namespace of the specified plugin and the provided key.
-     *
-     * @param plugin The plugin whose namespace will be used for the {@link NamespacedKey}.
-     * @param key The key to use for the {@link NamespacedKey}.
-     * @return A {@link NamespacedKey} with the plugin's namespace and the provided key.
-     */
-    public static NamespacedKey customKey(Plugin plugin, String key) {
-        return new NamespacedKey(plugin, key);
+    public static NamespacedKey appendOnKey(NamespacedKey key, String append) {
+        return new NamespacedKey(key.getNamespace(), key.getKey() + append);
     }
 }

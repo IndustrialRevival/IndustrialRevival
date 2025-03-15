@@ -4,6 +4,8 @@ import org.bukkit.Material;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItemStack;
 
 @SuppressWarnings("unused")
+//TODO: split these items into different files
+//TODO: remove IndustrialRevivalItemStack
 public class IndustrialRevivalItems {
     public static final IndustrialRevivalItemStack EMPTY = new MiniIndustrialRevivalItemStack("EMPTY", Material.STRUCTURE_VOID);
     public static final IndustrialRevivalItemStack CONTAINER = new MiniIndustrialRevivalItemStack("CONTAINER", Material.GLASS);

@@ -15,7 +15,7 @@ public interface ChemReactable extends ItemAttribute, Keyed {
      * @param itemStack the item stack to get the chemical compound from.
      * @return the chemical compound of the item.
      */
-    ChemicalCompound getChemicalCompound(@NotNull ItemStack itemStack);
+    @NotNull ChemicalCompound getChemicalCompound(@NotNull ItemStack itemStack);
 
     /**
      * Returns the quality of each item. (Unit: grams)
@@ -26,13 +26,6 @@ public interface ChemReactable extends ItemAttribute, Keyed {
     int getMass(@NotNull ItemStack itemStack);
 
     /**
-     * Checks if two or more items can react.
-     * @param other the other item(s) to react with.
-     * @return true if the items can react, false otherwise.
-     */
-    boolean canReact(@NotNull ReactCondition[] conditions, @NotNull ChemReactable... other);
-
-    /**
      * Reacts two or more items.
      *
      * @param item the item itself to react with.
@@ -41,7 +34,7 @@ public interface ChemReactable extends ItemAttribute, Keyed {
      * @return the result of the reaction.
      */
 
-    ReactResult react(@NotNull ItemStack item, @NotNull ReactCondition[] conditions, @NotNull ChemReactable... other);
+    @NotNull ReactResult react(@NotNull ItemStack item, @NotNull ReactCondition[] conditions, @NotNull ChemReactable... other);
 
     /**
      * Registers the item as a reactable.

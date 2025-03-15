@@ -3,6 +3,8 @@ package org.irmc.industrialrevival.api.elements.compounds;
 import com.google.common.base.Preconditions;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
+import org.irmc.industrialrevival.api.elements.compounds.types.IonCompound;
+import org.irmc.industrialrevival.api.elements.compounds.types.OxideCompound;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 

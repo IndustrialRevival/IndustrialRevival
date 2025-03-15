@@ -2,6 +2,9 @@ package org.irmc.industrialrevival.api.elements.compounds;
 
 import net.kyori.adventure.text.Component;
 import org.irmc.industrialrevival.api.elements.ElementType;
+import org.irmc.industrialrevival.api.elements.compounds.types.AcidCompound;
+import org.irmc.industrialrevival.api.elements.compounds.types.IonCompound;
+import org.irmc.industrialrevival.api.elements.compounds.types.OxideCompound;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -41,6 +44,25 @@ public class ChemicalCompounds {
             new Element(ElementType.OXYGEN), 1D,
             new Element(ElementType.HYDROGEN), 1D
     ));
+    public static @NotNull ChemicalCompound CO3 = new IonCompound(Component.text("CO3"), Map.of(
+            new Element(ElementType.CARBON), 1D,
+            new Element(ElementType.OXYGEN), 3D
+    ));
+    //</editor-fold>
+
+    //<editor-fold desc="Acids">
+    public static @NotNull ChemicalCompound H2SO4 = new AcidCompound(Component.text("H2SO4"), Map.of(
+            new Element(ElementType.HYDROGEN), 2D,
+            new Chemical(SO4), 1D
+    ));
+    public static @NotNull ChemicalCompound HNO3 = new AcidCompound(Component.text("HNO3"), Map.of(
+            new Element(ElementType.HYDROGEN), 1D,
+            new Chemical(NO3), 1D
+    ));
+    public static @NotNull ChemicalCompound H2CO3 = new AcidCompound(Component.text("H2CO3"), Map.of(
+            new Element(ElementType.HYDROGEN), 2D,
+            new Chemical(CO3), 1D
+    ));
     //</editor-fold>
 
     //<editor-fold desc="Oxides">
@@ -71,6 +93,14 @@ public class ChemicalCompounds {
             new Element(ElementType.CALCIUM), 1D,
             new Chemical(SO4), 1D
     ));
+    public static @NotNull ChemicalCompound K2SO4 = new ChemicalCompound(Component.text("K2SO4"), Map.of(
+            new Element(ElementType.POTASSIUM), 2D,
+            new Chemical(SO4), 1D
+    ));
+    public static @NotNull ChemicalCompound MnSO4 = new ChemicalCompound(Component.text("Cl2SO4"), Map.of(
+            new Element(ElementType.MANGANESE), 1D,
+            new Chemical(SO4), 1D
+    ));
     //</editor-fold>
 
     //<editor-fold desc="NO3s">
@@ -89,6 +119,10 @@ public class ChemicalCompounds {
     public static @NotNull ChemicalCompound CaNO3_2 = new ChemicalCompound(Component.text("Ca(NO3)2"), Map.of(
             new Element(ElementType.CALCIUM), 1D,
             new Chemical(NO3), 2D
+    ));
+    public static @NotNull ChemicalCompound NaNO3 = new ChemicalCompound(Component.text("NaNO3"), Map.of(
+            new Element(ElementType.SODIUM), 1D,
+            new Chemical(NO3), 1D
     ));
     //</editor-fold>
 
@@ -113,6 +147,13 @@ public class ChemicalCompounds {
             new Element(ElementType.SODIUM), 1D,
             new Element(ElementType.CHLORINE), 1D
     ));
+    public static @NotNull ChemicalCompound HCl = new ChemicalCompound(Component.text("HCl"), Map.of(
+            new Element(ElementType.HYDROGEN), 1D,
+            new Element(ElementType.CHLORINE), 1D
+    ));
+    //</editor-fold>
+
+
     //</editor-fold>
 
     //<editor-fold desc="OHs">
@@ -124,12 +165,53 @@ public class ChemicalCompounds {
             new Element(ElementType.MAGNESIUM), 1D,
             new Chemical(OH), 2D
     ));
+    public static @NotNull ChemicalCompound FeOH2 = new ChemicalCompound(Component.text("Fe(OH)2"), Map.of(
+            new Element(ElementType.IRON), 1D,
+            new Chemical(OH), 2D
+    ));
+    public static @NotNull ChemicalCompound NaOH = new ChemicalCompound(Component.text("NaOH"), Map.of(
+            new Element(ElementType.SODIUM), 1D,
+            new Chemical(OH), 1D
+    ));
     //</editor-fold>
 
     //<editor-fold desc="Other compounds">
     public static @NotNull ChemicalCompound NH4 = new ChemicalCompound(Component.text("NH4"), Map.of(
             new Element(ElementType.NITROGEN), 1D,
             new Element(ElementType.HYDROGEN), 4D
+    ));
+    //</editor-fold>
+
+    //<editor-fold desc="Basic substances">
+    public static @NotNull ChemicalCompound H2O = new ChemicalCompound(Component.text("H2O"), Map.of(
+            new Element(ElementType.HYDROGEN), 2D,
+            new Element(ElementType.OXYGEN), 1D
+    ));
+    public static @NotNull ChemicalCompound CO2 = new ChemicalCompound(Component.text("CO2"), Map.of(
+            new Element(ElementType.CARBON), 1D,
+            new Element(ElementType.OXYGEN), 2D
+    ));
+    public static @NotNull ChemicalCompound N2O = new ChemicalCompound(Component.text("N2O"), Map.of(
+            new Element(ElementType.NITROGEN), 2D,
+            new Element(ElementType.OXYGEN), 1D
+    ));
+    public static @NotNull ChemicalCompound CH4 = new ChemicalCompound(Component.text("CH4"), Map.of(
+            new Element(ElementType.CARBON), 1D,
+            new Element(ElementType.HYDROGEN), 4D
+    ));
+    public static @NotNull ChemicalCompound CO = new ChemicalCompound(Component.text("CO"), Map.of(
+            new Element(ElementType.CARBON), 1D,
+            new Element(ElementType.OXYGEN), 1D
+    ));
+    public static @NotNull ChemicalCompound O2 = new ChemicalCompound(Component.text("O2"), Map.of(
+            new Element(ElementType.OXYGEN), 2D
+    ));
+    public static @NotNull ChemicalCompound NH3 = new ChemicalCompound(Component.text("NH3"), Map.of(
+            new Element(ElementType.NITROGEN), 1D,
+            new Element(ElementType.HYDROGEN), 3D
+    ));
+    public static @NotNull ChemicalCompound H2 = new ChemicalCompound(Component.text("H2"), Map.of(
+            new Element(ElementType.HYDROGEN), 2D
     ));
     //</editor-fold>
 }

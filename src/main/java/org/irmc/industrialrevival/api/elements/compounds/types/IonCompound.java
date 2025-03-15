@@ -1,6 +1,9 @@
-package org.irmc.industrialrevival.api.elements.compounds;
+package org.irmc.industrialrevival.api.elements.compounds.types;
 
 import net.kyori.adventure.text.Component;
+import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
+import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompounds;
+import org.irmc.industrialrevival.api.elements.compounds.Compound;
 import org.irmc.industrialrevival.api.elements.compounds.classes.Ion;
 import org.jetbrains.annotations.NotNull;
 
@@ -8,7 +11,7 @@ import java.util.Map;
 
 /**
  * An ion is a chemical compound that is not a metal or a non-metallic element.
- * It is a type of compound that is used in the manufacture of ions and other
+ * It is a type of compound that is used in the manufacture of ions and another
  * electrolytic and catalysts.
  * <p>
  * Examples of ions include:
@@ -30,6 +33,7 @@ import java.util.Map;
  * @see ChemicalCompound
  * @see Ion
  * @see OxideCompound
+ * @see AcidCompound
  */
 public class IonCompound extends ChemicalCompound implements Ion {
     public IonCompound(@NotNull Component name, @NotNull Map<Compound, Double> compounds) {
