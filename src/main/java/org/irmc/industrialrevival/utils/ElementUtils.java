@@ -23,6 +23,16 @@ public final class ElementUtils {
     public static final int UNKNOWN = Integer.MIN_VALUE;
 
     /**
+     * Returns the {@link ElementType} with the given name.
+     * @param name the name of the element type to get
+     * @return the element type with the given name, or null if not found
+     */
+    @Nullable
+    public static ElementType forName(@NotNull String name) {
+        return getBySymbol(name);
+    }
+
+    /**
      * Returns the {@link ElementType} with the given symbol.
      * @param s the symbol of the element type to get
      * @return the element type with the given symbol, or null if not found
