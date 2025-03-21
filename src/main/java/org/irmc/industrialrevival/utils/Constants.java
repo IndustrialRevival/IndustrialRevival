@@ -24,7 +24,8 @@ import java.util.function.Function;
  * This class contains constant values used throughout the IndustrialRevival plugin.
  * It is structured into nested classes to organize related constants.
  *
- * @author balugaq, lijinhong11
+ * @author balugaq
+ * @author lijinhong11
  * @since 1.0
  */
 @UtilityClass

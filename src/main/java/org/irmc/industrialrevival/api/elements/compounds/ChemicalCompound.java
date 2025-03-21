@@ -37,13 +37,26 @@ public class ChemicalCompound {
      * @param compounds the map of constituent compounds and their respective amounts
      */
     public ChemicalCompound(@NotNull Component name, @NotNull Map<Compound, Double> compounds) {
+        this(name, compounds, true);
+    }
+
+    /**
+     * Creates a new chemical compound with the given name and compounds.
+     *
+     * @param name      the name of the chemical compound
+     * @param compounds the map of constituent compounds and their respective amounts
+     * @param register  whether to register the chemical compound in the global set of all chemical compounds
+     */
+    public ChemicalCompound(@NotNull Component name, @NotNull Map<Compound, Double> compounds, boolean register) {
         Preconditions.checkNotNull(name, "name cannot be null");
         Preconditions.checkNotNull(compounds, "compounds cannot be null");
         Preconditions.checkArgument(!compounds.isEmpty(), "compounds cannot be empty");
 
         this.name = name;
         this.compounds = compounds;
-        ALL_CHEMICALS.add(this);
+        if (register) {
+            ALL_CHEMICALS.add(this);
+        }
     }
 
     /**

@@ -10,7 +10,8 @@ import org.jetbrains.annotations.NotNull;
  * An element type is defined by its symbol, proton number, neutron number, valence, group, period,
  * density, melting point, boiling point, and other properties.
  *
- * @author balugaq, lijinhong11
+ * @author balugaq
+ * @author lijinhong11
  * @since 1.0
  */
 @SuppressWarnings("unused")
