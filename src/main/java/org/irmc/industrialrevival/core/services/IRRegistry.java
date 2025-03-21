@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
+import org.irmc.industrialrevival.api.elements.compounds.ChemicalFormula;
 import org.irmc.industrialrevival.api.elements.melt.MeltedType;
 import org.irmc.industrialrevival.api.elements.tinker.TinkerType;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
@@ -60,7 +61,8 @@ public final class IRRegistry {
 
     private final Map<RecipeType, Set<ItemStack>> craftables;
     private final Set<ProduceMethod> produceMethods;
-    public final Map<MeltedType, Map<TinkerType, TinkerProduct>> tinkerMap;
+    private final Map<MeltedType, Map<TinkerType, TinkerProduct>> tinkerMap;
+    private final Map<NamespacedKey, ChemicalFormula> chemicalFormulas;
 
     public IRRegistry() {
         itemGroups = new HashMap<>();
@@ -77,6 +79,7 @@ public final class IRRegistry {
         craftables = new HashMap<>();
         produceMethods = new HashSet<>();
         tinkerMap = new HashMap<>();
+        chemicalFormulas = new HashMap<>();
     }
 
     public void registerMultiBlock(MultiBlock multiBlock) {
@@ -306,5 +309,13 @@ public final class IRRegistry {
     @NotNull
     public Set<MeltedType> getAllMeltedTypes() {
         return tinkerMap.keySet();
+    }
+
+    public void registerChemicalFormula(@NotNull ChemicalFormula formula) {
+        chemicalFormulas.put(formula.getKey(), formula);
+    }
+
+    public void unregisterChemicalFormula(@NotNull ChemicalFormula formula) {
+        chemicalFormulas.remove(formula.getKey());
     }
 }
