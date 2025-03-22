@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Health higher -> more bulky
+ * Health higher -> bulkier
  */
 public class BulkDensityListener implements Listener {
     private static final double BULK_DENSITY_FACTOR = 0.001;
