@@ -126,7 +126,7 @@ public class BlockModelBuilder extends AbstractModelBuilder implements Cloneable
         return clone();
     }
 
-    public BlockDisplay buildAt(Location location) {
+    public BlockDisplay buildAt(@NotNull Location location) {
         BlockDisplay display = location.getWorld().spawn(location, BlockDisplay.class);
         ifPresent(this.blockData, () -> display.setBlock(this.blockData));
         ifPresent(this.interpolationDuration, () -> display.setInterpolationDuration(this.interpolationDuration));

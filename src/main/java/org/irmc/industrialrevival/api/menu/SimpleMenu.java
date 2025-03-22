@@ -255,8 +255,8 @@ public class SimpleMenu implements IRInventoryHolder {
 
     @FunctionalInterface
     public interface ClickHandler {
-        ClickHandler DEFAULT = (player, clickedItem, clickedSlot, clickedMenu, clickType) -> false;
-        ClickHandler ACCEPT_ALL = (player, clickedItem, clickedSlot, clickedMenu, clickType) -> true;
+        ClickHandler DEFAULT = (_, _, _, _, _) -> false;
+        ClickHandler ACCEPT_ALL = (_, _, _, _, _) -> true;
 
         /**
          * Called when an item in the machine menu is clicked.

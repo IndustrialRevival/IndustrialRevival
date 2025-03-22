@@ -140,7 +140,7 @@ public class TextModelBuilder extends AbstractModelBuilder implements Cloneable 
         return clone();
     }
 
-    public TextDisplay buildAt(Location location) {
+    public TextDisplay buildAt(@NotNull Location location) {
         TextDisplay display = location.getWorld().spawn(location, TextDisplay.class);
         ifPresent(this.text, () -> display.text(this.text));
         ifPresent(this.lineWidth, () -> display.setLineWidth(this.lineWidth));

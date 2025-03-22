@@ -23,6 +23,16 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * An ItemGroup is a collection of items that can be displayed in a guide menu.
+ *
+ * @author lijinhong11
+ * @author balugaq
+ * @see NormalItemGroup
+ * @see NestedItemGroup
+ * @see SubItemGroup
+ * @see TreeItemGroup
+ */
 public abstract class ItemGroup {
     @Getter
     private final NamespacedKey key;
@@ -38,22 +48,45 @@ public abstract class ItemGroup {
     @Getter
     private boolean onlyVisibleByAdmins = false;
 
+    /**
+     * Creates a new ItemGroup with the given key and icon.
+     * @param key the key of the item group
+     * @param icon the icon of the item group
+     */
     protected ItemGroup(@NotNull NamespacedKey key, @NotNull ItemStack icon) {
         this.key = key;
         this.icon = icon;
         this.tier = 3;
     }
 
+    /**
+     * Creates a new ItemGroup with the given key, icon, and tier.
+     * @param key the key of the item group
+     * @param icon the icon of the item group
+     * @param tier the tier of the item group, default is 3
+     * @apiNote the lower the tier is, the higher the priority of the item group is
+     */
     protected ItemGroup(@NotNull NamespacedKey key, @NotNull ItemStack icon, int tier) {
         this.key = key;
         this.icon = icon;
         this.tier = tier;
     }
 
-    public boolean allowedItem(IndustrialRevivalItem item) {
+    /**
+     * Checks if the given item is allowed to be added to this item group.
+     * @param item the item to be added
+     * @return true if the item is allowed to be added, false otherwise
+     */
+    public boolean allowedItem(@NotNull IndustrialRevivalItem item) {
         return true;
     }
 
+    /**
+     * Opens the guide menu for this item group.
+     * @param p the player who opened the guide menu
+     * @param sm the SimpleMenu instance to be used for the guide menu
+     * @param page the page number of the guide menu to be opened
+     */
     public void onClicked(@NotNull Player p, @NotNull SimpleMenu sm, int page) {
         boolean onlyPageOne = false;
         IRGuideImplementation guide = SurvivalGuideImplementation.INSTANCE;
@@ -137,15 +170,24 @@ public abstract class ItemGroup {
         sm.open(p);
     }
 
+    /**
+     * Returns a list of all the items in this item group.
+     * @return a list of all the items in this item group
+     */
     @NotNull
     public List<IndustrialRevivalItem> getItems() {
         return new ArrayList<>(items);
     }
 
+    /**
+     * Adds an item to this item group.
+     * @param item the item to be added
+     */
     public void addItem(@NotNull IndustrialRevivalItem item) {
         if (allowedItem(item)) {
             this.items.add(item);
         } else {
+            // not allowed item
             IndustrialRevival.getInstance().getLogger().warning(MessageFormat.format(
                     "Item {0} (From addon {1}) is not allowed to be added to group {2} (From addon {3})",
                     item.getItemName(),
@@ -155,6 +197,10 @@ public abstract class ItemGroup {
         }
     }
 
+    /**
+     * Registers this item group.
+     * @throws IllegalStateException if the item group is already registered
+     */
     public void register() {
         if (isRegistered()) {
             throw new IllegalStateException("the item group is already registered");
@@ -167,24 +213,43 @@ public abstract class ItemGroup {
         resort();
     }
 
+    /**
+     * Checks if this item group is registered.
+     * @return true if the item group is registered, false otherwise
+     */
     public final boolean isRegistered() {
         return IndustrialRevival.getInstance().getRegistry().getItemGroups().containsKey(key);
     }
 
+    /**
+     * Sets the tier of this item group.
+     * @param tier the tier of this item group
+     */
     public void setTier(int tier) {
         checkLocked();
         this.tier = tier;
     }
 
+    /**
+     * Sets if this item group is only visible by admins.
+     * @param onlyVisibleByAdmins if this item group is only visible by admins
+     * @apiNote if true, players without the admin permission will not see this item group in the guide menu
+     */
     public void setOnlyVisibleByAdmins(boolean onlyVisibleByAdmins) {
         checkLocked();
         this.onlyVisibleByAdmins = onlyVisibleByAdmins;
     }
 
-    private void resort() {
+    /**
+     * Resorts the item groups. An internal method
+     */
+    void resort() {
         IndustrialRevival.getInstance().getRegistry().resortItemGroups();
     }
 
+    /**
+     * Checks if the item group is locked.
+     */
     private void checkLocked() {
         if (locked) {
             throw new IllegalStateException("the item group is locked");

@@ -51,7 +51,7 @@ public interface ChemReactable extends ItemAttribute, Keyed {
      * Registers the item as a reactable.
      */
     default void registerReactable() {
-        IndustrialRevival.getInstance().getRegistry().getChemReactables().put(this.getKey(), this);
+        IndustrialRevival.getInstance().getRegistry().registerChemicalReactable(this);
     }
 
     /**
@@ -61,5 +61,13 @@ public interface ChemReactable extends ItemAttribute, Keyed {
      */
     default boolean isCatalyst(@NotNull ReactCondition condition) {
         return false;
+    }
+
+    /**
+     * Binds the item to the given chemical compound.
+     * @param compound the chemical compound to bind to.
+     */
+    default void bind(@NotNull ChemicalCompound compound) {
+        IndustrialRevival.getInstance().getRegistry().bindChemicalCompound(this, compound);
     }
 }
