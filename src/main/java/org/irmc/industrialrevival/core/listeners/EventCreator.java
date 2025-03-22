@@ -511,8 +511,7 @@ public class EventCreator implements Listener {
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onPrepareTradeSelectIRItem(TradeSelectEvent e) {
         MerchantRecipe recipe = e.getMerchant().getRecipe(e.getIndex());
-        List<ItemStack> testItems = new ArrayList<>();
-        testItems.addAll(recipe.getIngredients());
+        List<ItemStack> testItems = new ArrayList<>(recipe.getIngredients());
         testItems.add(recipe.getResult());
         for (ItemStack testItem : testItems) {
             IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(testItem);

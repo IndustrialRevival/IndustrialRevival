@@ -1,5 +1,6 @@
 package org.irmc.industrialrevival.utils;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import lombok.experimental.UtilityClass;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -280,6 +281,7 @@ public class MenuUtil {
      * @return A map of remaining item stacks and their amounts if they couldn't be fully pushed, otherwise an empty map.
      * @throws IllegalArgumentException If the items map is null or empty.
      */
+    @CanIgnoreReturnValue
     @Nonnull
     public static Map<ItemStack, Integer> pushItem(@Nonnull SimpleMenu simpleMenu, @Nonnull Map<ItemStack, Integer> items, int... slots) {
         if (items == null || items.isEmpty()) {
@@ -446,15 +448,15 @@ public class MenuUtil {
         int current = operation.getCurrentProgress();
         int max = operation.getTotalProgress();
         int currentPercentage = (int) (current * 100.0f / max);
-        String lore = "" + ChatColor.GREEN;
+        StringBuilder lore = new StringBuilder("" + ChatColor.GREEN);
         for (int i = 0; i < currentPercentage / 10; i++) {
-            lore += "=";
+            lore.append("=");
         }
-        lore += ChatColor.GRAY;
+        lore.append(ChatColor.GRAY);
         for (int i = 0; i < (100 - currentPercentage) / 10; i++) {
-            lore += "=";
+            lore.append("=");
         }
-        lore += " " + current + " / " + max + " (" + currentPercentage + "%)";
+        lore.append(" ").append(current).append(" / ").append(max).append(" (").append(currentPercentage).append("%)");
 
         ItemStack itemStack = new CustomItemStack(material);
         ItemMeta meta = itemStack.getItemMeta();
@@ -462,7 +464,7 @@ public class MenuUtil {
             damageable.setDamage(damageable.getMaxDamage() * currentPercentage / 100);
         }
         itemStack.setItemMeta(meta);
-        itemStack.setLore(List.of(lore));
+        itemStack.setLore(List.of(lore.toString()));
         return itemStack;
     }
 }

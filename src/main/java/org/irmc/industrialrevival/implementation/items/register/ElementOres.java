@@ -4,7 +4,6 @@ import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.elements.ElementType;
 import org.irmc.industrialrevival.api.items.ElementOre;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;

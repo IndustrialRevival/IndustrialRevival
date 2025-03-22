@@ -14,10 +14,8 @@ import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.KeyUtil;
 import org.irmc.pigeonlib.objects.percentage.PositiveHundredPercentage;
 import org.irmc.pigeonlib.pdc.PersistentDataAPI;
-import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 

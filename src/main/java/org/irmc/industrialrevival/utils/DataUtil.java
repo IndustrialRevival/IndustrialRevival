@@ -1,5 +1,6 @@
 package org.irmc.industrialrevival.utils;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
@@ -110,6 +111,7 @@ public class DataUtil {
      * @param location The location of the block.
      * @return The removed IRBlockData, or null if no data was found.
      */
+    @CanIgnoreReturnValue
     @Nullable
     public static IRBlockData removeBlockData(Location location) {
         IndustrialRevival.getInstance().getDataManager().handleBlockBreaking(location);
@@ -178,7 +180,7 @@ public class DataUtil {
      * @return The MachineMenuPreset associated with the ID, or null if no preset is found.
      */
     @Nullable
-    public static MachineMenuPreset getMachineMenuPresetById(String id) {
+    public static MachineMenuPreset getMachineMenuPresetById(NamespacedKey id) {
         return IndustrialRevival.getInstance().getRegistry().getMenuPresets().get(id);
     }
 
@@ -189,7 +191,7 @@ public class DataUtil {
      * @param id The ID to compare against.
      * @return True if the block's ID matches the specified ID, false otherwise.
      */
-    public static boolean isBlock(Location location, String id) {
+    public static boolean isBlock(Location location, NamespacedKey id) {
         return getBlockData(location).getId().equals(id);
     }
 

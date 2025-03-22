@@ -207,7 +207,7 @@ public class Debugger extends IndustrialRevivalItem {
             long totalTimingsOfThisBlock = summary.getDataByID().getOrDefault(id, 0L);
             send(player, "&e- Timings: ");
             send(player, "&e  - This Timings: &7" + NumberUtils.round(NumberUtils.ns2Ms(timingsOfThisBlock), 2) + "ms");
-            if (totalTimingsOfThisBlock > 0 && summary.getDataByID().size() > 0) {
+            if (totalTimingsOfThisBlock > 0 && !summary.getDataByID().isEmpty()) {
                 long avgTimingsOfThisBlock = totalTimingsOfThisBlock / summary.getDataByID().size();
                 send(player, "&e  - Average Timings: &7" + NumberUtils.round(NumberUtils.ns2Ms(avgTimingsOfThisBlock), 2) + "ms");
             }
@@ -259,7 +259,7 @@ public class Debugger extends IndustrialRevivalItem {
             return;
         }
         send(player, "&e - Location: " + simpleLocationToString(block.getLocation()));
-        send(player, "&e - Type: " + block.getType().toString());
+        send(player, "&e - Type: " + block.getType());
         IRBlockData data = DataUtil.getBlockData(block.getLocation());
         if (data != null) {
             send(player, "&cCannot force-break an IR block before removing its data.");

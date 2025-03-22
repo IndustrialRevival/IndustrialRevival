@@ -14,7 +14,6 @@ import org.irmc.industrialrevival.api.objects.events.ir.IRTickDoneEvent;
 import org.irmc.industrialrevival.api.objects.events.ir.IRTickStartEvent;
 import org.irmc.industrialrevival.core.data.object.BlockRecord;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
-import org.irmc.industrialrevival.utils.Debug;
 
 import java.util.HashMap;
 import java.util.Map;

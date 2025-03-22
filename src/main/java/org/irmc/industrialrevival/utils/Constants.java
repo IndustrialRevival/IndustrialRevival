@@ -66,7 +66,7 @@ public class Constants {
      */
     public static final class ItemStacks {
         /**
-         * A black stained glass pane used as a background item in GUIs.
+         * A black stained-glass pane used as a background item in GUIs.
          */
         public static final ItemStack BACKGROUND_ITEM =
                 new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " ").setCustomModel(19990).getBukkit();
@@ -101,8 +101,6 @@ public class Constants {
         /**
          * Function to generate a back button for the guide GUI.
          *
-         * @param p The player for whom the button is generated.
-         * @return The back button ItemStack.
          */
         public static final Function<Player, ItemStack> BACK_BUTTON = p -> new CustomItemStack(
                 Material.ENCHANTED_BOOK,
@@ -114,8 +112,6 @@ public class Constants {
         /**
          * Function to generate a settings button for the guide GUI.
          *
-         * @param p The player for whom the button is generated.
-         * @return The settings button ItemStack.
          */
         public static final Function<Player, ItemStack> SETTING_BUTTON = p -> new CustomItemStack(
                 Material.REPEATER,
@@ -126,8 +122,6 @@ public class Constants {
         /**
          * Function to generate a bookmark button for the guide GUI.
          *
-         * @param p The player for whom the button is generated.
-         * @return The bookmark button ItemStack.
          */
         public static final Function<Player, ItemStack> BOOKMARK_BUTTON = p -> new CustomItemStack(
                 Material.WRITABLE_BOOK,
@@ -138,8 +132,6 @@ public class Constants {
         /**
          * Function to generate an "add to bookmark" button for the guide GUI.
          *
-         * @param p The player for whom the button is generated.
-         * @return The "add to bookmark" button ItemStack.
          */
         public static final Function<Player, ItemStack> ADD_TO_BOOKMARK_BUTTON = p -> new CustomItemStack(
                 Material.PAPER,
@@ -150,8 +142,6 @@ public class Constants {
         /**
          * Function to generate a search button for the guide GUI.
          *
-         * @param p The player for whom the button is generated.
-         * @return The search button ItemStack.
          */
         public static final Function<Player, ItemStack> SEARCH_BUTTON = p -> new CustomItemStack(
                 Material.COMPASS,
@@ -162,8 +152,6 @@ public class Constants {
         /**
          * Function to generate a previous button for the guide GUI.
          *
-         * @param p The player for whom the button is generated.
-         * @return The previous button ItemStack.
          */
         public static final Function<Player, ItemStack> PREVIOUS_BUTTON = p -> new CustomItemStack(
                 Material.LIME_STAINED_GLASS_PANE,
@@ -174,8 +162,6 @@ public class Constants {
         /**
          * Function to generate a next button for the guide GUI.
          *
-         * @param p The player for whom the button is generated.
-         * @return The next button ItemStack.
          */
         public static final Function<Player, ItemStack> NEXT_BUTTON = p -> new CustomItemStack(
                 Material.LIME_STAINED_GLASS_PANE,
@@ -186,8 +172,6 @@ public class Constants {
         /**
          * Function to generate a "previous one" button for the guide GUI.
          *
-         * @param p The player for whom the button is generated.
-         * @return The "previous one" button ItemStack.
          */
         public static final Function<Player, ItemStack> PREVIOUS_ONE_BUTTON = p -> new CustomItemStack(
                 Material.LIME_STAINED_GLASS_PANE,
@@ -198,8 +182,6 @@ public class Constants {
         /**
          * Function to generate a wiki page button for the guide GUI.
          *
-         * @param p The player for whom the button is generated.
-         * @return The wiki page button ItemStack.
          */
         public static final Function<Player, ItemStack> WIKI_PAGE_BUTTON = p -> new CustomItemStack(
                 Material.BOOK,
@@ -210,8 +192,6 @@ public class Constants {
         /**
          * Function to generate a "next one" button for the guide GUI.
          *
-         * @param p The player for whom the button is generated.
-         * @return The "next one" button ItemStack.
          */
         public static final Function<Player, ItemStack> NEXT_ONE_BUTTON = p -> new CustomItemStack(
                 Material.LIME_STAINED_GLASS_PANE,
@@ -222,8 +202,6 @@ public class Constants {
         /**
          * Function to generate a history button for the guide GUI.
          *
-         * @param p The player for whom the button is generated.
-         * @return The history button ItemStack.
          */
         public static final Function<Player, ItemStack> HISTORY_BUTTON = p -> new CustomItemStack(
                 Material.CLOCK,
@@ -234,8 +212,6 @@ public class Constants {
         /**
          * Function to generate a language button for the guide GUI.
          *
-         * @param p The player for whom the button is generated.
-         * @return The language button ItemStack.
          */
         public static final Function<Player, ItemStack> LANGUAGE_BUTTON = p -> new CustomItemStack(
                 Material.BOOK,
@@ -246,9 +222,6 @@ public class Constants {
         /**
          * Function to generate a guide mode switch button for the guide GUI.
          *
-         * @param p The player for whom the button is generated.
-         * @param impl The IRGuideImplementation instance.
-         * @return The guide mode switch button ItemStack.
          */
         public static final BiFunction<Player, IRGuideImplementation, ItemStack> GUIDE_MODE_SWITCH_BUTTON = (p, impl) -> new CustomItemStack(
                 Material.COMPASS,

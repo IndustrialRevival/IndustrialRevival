@@ -28,99 +28,99 @@ import java.util.Map;
  */
 public class ChemicalCompounds {
     //<editor-fold desc="Compounds ions">
-    public static @NotNull ChemicalCompound SO4 = new IonCompound(Component.text("SO4"), Map.of(
+    public static final @NotNull ChemicalCompound SO4 = new IonCompound(Component.text("SO4"), Map.of(
             new Element(ElementType.SULPHUR), 1D,
             new Element(ElementType.OXYGEN), 4D
     ));
-    public static @NotNull ChemicalCompound NO3 = new IonCompound(Component.text("NO3"), Map.of(
+    public static final @NotNull ChemicalCompound NO3 = new IonCompound(Component.text("NO3"), Map.of(
             new Element(ElementType.NITROGEN), 1D,
             new Element(ElementType.OXYGEN), 3D
     ));
-    public static @NotNull ChemicalCompound SO3 = new IonCompound(Component.text("SO3"), Map.of(
+    public static final @NotNull ChemicalCompound SO3 = new IonCompound(Component.text("SO3"), Map.of(
             new Element(ElementType.SULPHUR), 1D,
             new Element(ElementType.OXYGEN), 3D
     ));
-    public static @NotNull ChemicalCompound OH = new IonCompound(Component.text("OH"), Map.of(
+    public static final @NotNull ChemicalCompound OH = new IonCompound(Component.text("OH"), Map.of(
             new Element(ElementType.OXYGEN), 1D,
             new Element(ElementType.HYDROGEN), 1D
     ));
-    public static @NotNull ChemicalCompound CO3 = new IonCompound(Component.text("CO3"), Map.of(
+    public static final @NotNull ChemicalCompound CO3 = new IonCompound(Component.text("CO3"), Map.of(
             new Element(ElementType.CARBON), 1D,
             new Element(ElementType.OXYGEN), 3D
     ));
     //</editor-fold>
 
     //<editor-fold desc="Acids">
-    public static @NotNull ChemicalCompound H2SO4 = new AcidCompound(Component.text("H2SO4"), Map.of(
+    public static final @NotNull ChemicalCompound H2SO4 = new AcidCompound(Component.text("H2SO4"), Map.of(
             new Element(ElementType.HYDROGEN), 2D,
             new Chemical(SO4), 1D
     ));
-    public static @NotNull ChemicalCompound HNO3 = new AcidCompound(Component.text("HNO3"), Map.of(
+    public static final @NotNull ChemicalCompound HNO3 = new AcidCompound(Component.text("HNO3"), Map.of(
             new Element(ElementType.HYDROGEN), 1D,
             new Chemical(NO3), 1D
     ));
-    public static @NotNull ChemicalCompound H2CO3 = new AcidCompound(Component.text("H2CO3"), Map.of(
+    public static final @NotNull ChemicalCompound H2CO3 = new AcidCompound(Component.text("H2CO3"), Map.of(
             new Element(ElementType.HYDROGEN), 2D,
             new Chemical(CO3), 1D
     ));
     //</editor-fold>
 
     //<editor-fold desc="Oxides">
-    public static @NotNull ChemicalCompound PO4 = new OxideCompound(Component.text("PO4"), Map.of(
+    public static final @NotNull ChemicalCompound PO4 = new OxideCompound(Component.text("PO4"), Map.of(
             new Element(ElementType.PHOSPHORUS), 1D,
             new Element(ElementType.OXYGEN), 4D
     ));
-    public static @NotNull ChemicalCompound P2O5 = new OxideCompound(Component.text("P2O5"), Map.of(
+    public static final @NotNull ChemicalCompound P2O5 = new OxideCompound(Component.text("P2O5"), Map.of(
             new Element(ElementType.PHOSPHORUS), 2D,
             new Element(ElementType.OXYGEN), 5D
     ));
     //</editor-fold>
 
     //<editor-fold desc="SO4s">
-    public static @NotNull ChemicalCompound MgSO4 = new ChemicalCompound(Component.text("MgSO4"), Map.of(
+    public static final @NotNull ChemicalCompound MgSO4 = new ChemicalCompound(Component.text("MgSO4"), Map.of(
             new Element(ElementType.MAGNESIUM), 1D,
             new Chemical(SO4), 1D
     ));
-    public static @NotNull ChemicalCompound FeSO4 = new ChemicalCompound(Component.text("FeSO4"), Map.of(
+    public static final @NotNull ChemicalCompound FeSO4 = new ChemicalCompound(Component.text("FeSO4"), Map.of(
             new Element(ElementType.IRON), 1D,
             new Chemical(SO4), 1D
     ));
-    public static @NotNull ChemicalCompound Na2SO4 = new ChemicalCompound(Component.text("Na2SO4"), Map.of(
+    public static final @NotNull ChemicalCompound Na2SO4 = new ChemicalCompound(Component.text("Na2SO4"), Map.of(
             new Element(ElementType.SODIUM), 2D,
             new Chemical(SO4), 1D
     ));
-    public static @NotNull ChemicalCompound CaSO4 = new ChemicalCompound(Component.text("CaSO4"), Map.of(
+    public static final @NotNull ChemicalCompound CaSO4 = new ChemicalCompound(Component.text("CaSO4"), Map.of(
             new Element(ElementType.CALCIUM), 1D,
             new Chemical(SO4), 1D
     ));
-    public static @NotNull ChemicalCompound K2SO4 = new ChemicalCompound(Component.text("K2SO4"), Map.of(
+    public static final @NotNull ChemicalCompound K2SO4 = new ChemicalCompound(Component.text("K2SO4"), Map.of(
             new Element(ElementType.POTASSIUM), 2D,
             new Chemical(SO4), 1D
     ));
-    public static @NotNull ChemicalCompound MnSO4 = new ChemicalCompound(Component.text("Cl2SO4"), Map.of(
+    public static final @NotNull ChemicalCompound MnSO4 = new ChemicalCompound(Component.text("Cl2SO4"), Map.of(
             new Element(ElementType.MANGANESE), 1D,
             new Chemical(SO4), 1D
     ));
     //</editor-fold>
 
     //<editor-fold desc="NO3s">
-    public static @NotNull ChemicalCompound KNO3 = new ChemicalCompound(Component.text("KNO3"), Map.of(
+    public static final @NotNull ChemicalCompound KNO3 = new ChemicalCompound(Component.text("KNO3"), Map.of(
             new Element(ElementType.POTASSIUM), 1D,
             new Chemical(NO3), 1D
     ));
-    public static @NotNull ChemicalCompound MgNO3_2 = new ChemicalCompound(Component.text("Mg(NO3)2"), Map.of(
+    public static final @NotNull ChemicalCompound MgNO3_2 = new ChemicalCompound(Component.text("Mg(NO3)_2"), Map.of(
             new Element(ElementType.MAGNESIUM), 1D,
             new Chemical(NO3), 2D
     ));
-    public static @NotNull ChemicalCompound FeNO3_2 = new ChemicalCompound(Component.text("Fe(NO3)2"), Map.of(
+    public static final @NotNull ChemicalCompound FeNO3_2 = new ChemicalCompound(Component.text("Fe(NO3)_2"), Map.of(
             new Element(ElementType.IRON), 1D,
             new Chemical(NO3), 2D
     ));
-    public static @NotNull ChemicalCompound CaNO3_2 = new ChemicalCompound(Component.text("Ca(NO3)2"), Map.of(
+    public static final @NotNull ChemicalCompound CaNO3_2 = new ChemicalCompound(Component.text("Ca(NO3)_2"), Map.of(
             new Element(ElementType.CALCIUM), 1D,
             new Chemical(NO3), 2D
     ));
-    public static @NotNull ChemicalCompound NaNO3 = new ChemicalCompound(Component.text("NaNO3"), Map.of(
+    public static final @NotNull ChemicalCompound NaNO3 = new ChemicalCompound(Component.text("NaNO3"), Map.of(
             new Element(ElementType.SODIUM), 1D,
             new Chemical(NO3), 1D
     ));

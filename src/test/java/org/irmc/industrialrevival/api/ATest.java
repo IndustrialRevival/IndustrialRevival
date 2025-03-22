@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class test {
+public class ATest {
 
     @DisplayName("Test test afterAll")
     @AfterAll
@@ -28,6 +28,5 @@ public class test {
     @Test
     void aTest() {
         Assertions.assertTrue(true);
-        Assertions.assertEquals(1, 1);
     }
 }

@@ -4,7 +4,7 @@ import org.irmc.industrialrevival.api.recipes.MobDropMethod;
 import org.irmc.industrialrevival.core.services.IRRegistry;
 
 /**
- * This interface defines an item that can be dropped by a entity.<br>
+ * This interface defines an item that can be dropped by an entity.<br>
  * <br>
  *
  * @see IRRegistry
