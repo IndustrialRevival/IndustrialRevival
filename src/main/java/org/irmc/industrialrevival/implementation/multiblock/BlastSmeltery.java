@@ -5,7 +5,6 @@ import lombok.Getter;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
@@ -53,7 +52,6 @@ import java.util.UUID;
 
 @Getter
 public class BlastSmeltery extends MultiBlock implements ExtraTickable {
-    public static final TextReplacementConfig.Builder MELTING_TEXT_MATCHER = TextReplacementConfig.builder().match("Melting: (\\d+ / \\d+|\\.\\.\\.)");
     public static final TextColor MELTING_TEXT_COLOR = TextColor.color(16746003);
     public static final TextColor FUEL_TEXT_COLOR = TextColor.color(16734003);
     private static final TextComponent BLOCKS = Component.text("\u25a0\u25a0\u25a0\u25a0\u25a0");
@@ -358,7 +356,7 @@ public class BlastSmeltery extends MultiBlock implements ExtraTickable {
     }
 
     public static class Behaviors {
-        public static final SimpleMenu.ClickHandler CRAFT_BEHAVIOR = (player, clickedItem, clickedSlot, clickedMenu, clickType) -> {
+        public static final SimpleMenu.ClickHandler CRAFT_BEHAVIOR = (player, _, _, clickedMenu, _) -> {
             Location location = lastInteracted.get(player.getUniqueId());
             if (location == null) {
                 return false;
@@ -399,7 +397,7 @@ public class BlastSmeltery extends MultiBlock implements ExtraTickable {
             return false;
         };
 
-        public static final SimpleMenu.ClickHandler ADD_ITEM_BEHAVIOR = ((player, clickedItem, clickedSlot, clickedMenu, clickType) -> {
+        public static final SimpleMenu.ClickHandler ADD_ITEM_BEHAVIOR = ((player, clickedItem, clickedSlot, clickedMenu, _) -> {
             ItemStack cursor = player.getItemOnCursor();
             if (cursor == null || cursor.getType() == Material.AIR) {
                 Debug.log("47 BlastSmeltery onInteract cursor == null || cursor.getType() == Material.AIR");
