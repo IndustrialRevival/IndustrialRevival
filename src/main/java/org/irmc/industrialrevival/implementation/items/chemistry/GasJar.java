@@ -31,7 +31,7 @@ public class GasJar extends IndustrialRevivalItem implements GasStorage {
     public GasJar(ElementType type, PositiveHundredPercentage capacity) {
         setAddon(IndustrialRevival.getInstance());
         setId(KeyUtil.appendOnKey(ITEM_KEY, type.getSymbol().toLowerCase()));
-        setAutoTranslation(true);
+        enableAutoTranslation();
 
         registerReactable();
     }
@@ -75,20 +75,6 @@ public class GasJar extends IndustrialRevivalItem implements GasStorage {
         }
 
         return IndustrialRevival.getInstance().getRegistry().getChemReactables().get(NamespacedKey.fromString(key)).getChemicalCompound(itemStack);
-    }
-
-    /**
-     * Checks if two or more items can react.
-     *
-     * @param conditions the conditions to check.
-     * @param other      the other item(s) to react with.
-     * @return true if the items can react, false otherwise.
-     */
-    @ParametersAreNonnullByDefault
-    @MustBeInvokedByOverriders
-    @Override
-    public boolean canReact(ReactCondition[] conditions, ChemReactable... other) {
-        return false;
     }
 
     @Override

@@ -72,9 +72,6 @@ public class SimpleMenu implements IRInventoryHolder {
     }
 
     public void addMenuDrawer(@NotNull MatrixMenuDrawer drawer) {
-        Debug.log("Called SimpleMenu.addMenuDrawer(MatrixMenuDrawer)");
-        Debug.log("Adding menu drawer: " + getTitle());
-        Debug.log("Size: " + drawer.getSize());
         setSize(drawer.getSize());
         int i = 0;
         for (String line : drawer.getMatrix()) {
@@ -84,25 +81,17 @@ public class SimpleMenu implements IRInventoryHolder {
                 if (drawer.getCharMap().containsKey(slotSymbol)) {
                     ItemStack itemStack = drawer.getCharMap().get(slotSymbol);
                     if (MenuUtil.isBackground(itemStack)) {
-                        Debug.log("Setting background slot: " + slot);
                         setItem(slot, itemStack, ClickHandler.DEFAULT);
                     } else {
-                        Debug.log("Setting item slot: " + slot + " with symbol: " + slotSymbol);
                         setItem(slot, itemStack, Optional.ofNullable(drawer.getClickHandlerMap().get(slotSymbol)).orElse(ClickHandler.DEFAULT));
                     }
                 } else if (drawer.getClickHandlerMap().containsKey(slotSymbol)) {
-                    Debug.log("Setting click handler slot: " + slot + " with symbol: " + slotSymbol);
                     setItem(slot, null, drawer.getClickHandlerMap().get(slotSymbol));
                 }
                 j += 1;
             }
             i += 1;
         }
-
-        Debug.log("Size: " + this.size);
-        Debug.log("Slots size: " + this.slots.size());
-        Debug.log("Click handlers size: " + this.clickHandlers.size());
-        Debug.log("End SimpleMenu.addMenuDrawer(MatrixMenuDrawer)");
     }
 
     public void setItem(@Nullable ItemStack item, @NotNull ClickHandler clickHandler, @Range(from = 0, to = 53) int... slots) {
@@ -116,14 +105,12 @@ public class SimpleMenu implements IRInventoryHolder {
     }
 
     public void setItem(@Range(from = 0, to = 53) int slot, @Nullable ItemStack itemStack, @NotNull ClickHandler clickHandler) {
-        Debug.log("Called SimpleMenu.setItem(int, ItemStack, ClickHandler)");
         if (slot < 0 || slot >= 54) {
             Debug.severe("Invalid slot: " + slot);
             Debug.stackTraceManually();
             return;
         }
 
-        Debug.log("Setting slot " + slot + " to " + ItemUtils.getDisplayName(itemStack));
         if (itemStack == null) {
             this.slots.remove(slot);
             this.clickHandlers.remove(slot);
@@ -137,10 +124,8 @@ public class SimpleMenu implements IRInventoryHolder {
 
         this.slots.put(slot, itemStack);
         this.clickHandlers.put(slot, clickHandler);
-        Debug.log("Slots size: " + this.slots.size());
 
         markDirty();
-        Debug.log("End call");
     }
 
     public void setTitle(@NotNull Component title) {
@@ -165,13 +150,10 @@ public class SimpleMenu implements IRInventoryHolder {
 
     private void setupInventory() {
         if (this.inventory == null || this.dirty) {
-            Debug.log("Creating inventory");
-            Debug.log("Current Size: " + this.size);
             if (this.size == -1) {
                 this.size = calculateInventorySize();
             }
 
-            Debug.log("Final Size: " + this.size);
             this.inventory = Bukkit.createInventory(this, this.size, getTitle());
             for (int i = 0; i < this.size; i++) {
                 ItemStack item = getItem(i);
@@ -237,9 +219,7 @@ public class SimpleMenu implements IRInventoryHolder {
 
     private int calculateInventorySize() {
         Set<Integer> slots = this.slots.keySet();
-        Debug.log("Slots: " + slots.size());
         int maxValue = slots.stream().sorted().toList().reversed().get(0);
-        Debug.log("Max value: " + maxValue);
 
         return (maxValue % 9 + 1) == 0 ? maxValue + 1 : (maxValue / 9 + 1) * 9;
     }

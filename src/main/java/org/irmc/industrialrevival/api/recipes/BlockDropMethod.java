@@ -23,6 +23,6 @@ public class BlockDropMethod implements ProduceMethod {
         this.blockType = blockType;
         this.dropAmount = dropAmount;
         this.chance = chance;
-        this.itemToDrop = itemToDrop.getItem().getItemStack();
+        this.itemToDrop = itemToDrop.getIcon();
     }
 }

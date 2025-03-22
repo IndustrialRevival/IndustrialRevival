@@ -41,11 +41,11 @@ public class ItemTextureService {
             }
 
             Location location = data.getLocation();
-            blockModelMap.put(location.hashCode(), new BlockModel(location, item.getItem().getItemStack()));
+            blockModelMap.put(location.hashCode(), new BlockModel(location, item.getIcon()));
         }
     }
 
-    public void setUpTexture(ItemStack itemStack) {
+    public void setupTexture(ItemStack itemStack) {
         Material material = itemStack.getType();
         int customModelDataId = customModelDataMap.getOrDefault(material, 20000);
         ItemMeta meta = itemStack.getItemMeta();

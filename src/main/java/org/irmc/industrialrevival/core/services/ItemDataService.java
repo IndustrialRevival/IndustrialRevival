@@ -12,7 +12,7 @@ import org.irmc.pigeonlib.pdc.PersistentDataAPI;
 import java.util.Optional;
 
 public class ItemDataService {
-    public Optional<NamespacedKey> getIRId(ItemStack stack) {
+    public Optional<NamespacedKey> getId(ItemStack stack) {
         if (stack == null) {
             return Optional.empty();
         }
@@ -24,6 +24,16 @@ public class ItemDataService {
         return Optional.ofNullable(
                 PersistentDataAPI.getNamespacedKey(stack.getItemMeta(), Constants.ItemStackKeys.ITEM_ID_KEY)
         );
+    }
+
+    public void setId(ItemStack stack, NamespacedKey id) {
+        if (stack == null) {
+            return;
+        }
+
+        ItemMeta meta = stack.getItemMeta();
+        PersistentDataAPI.set(meta, Constants.ItemStackKeys.ITEM_ID_KEY, PersistentDataType.STRING, id.toString());
+        stack.setItemMeta(meta);
     }
 
     public Optional<RadiationLevel> getRadiationLevel(ItemStack stack) {

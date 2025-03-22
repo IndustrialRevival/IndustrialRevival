@@ -45,12 +45,10 @@ public class TickerTask implements Consumer<WrappedTask> {
         IndustrialRevival.getInstance().getProfilerService().clearProfilingData();
 
         if (blockDataMap == null) {
-            Debug.debug("No blocks to tick");
             IndustrialRevival.runAsync(() -> Bukkit.getPluginManager().callEvent(doneEvent));
             return;
         }
 
-        Debug.debug("Ticking " + blockDataMap.size() + " blocks");
         for (Map.Entry<Location, IRBlockData> entry : blockDataMap.entrySet()) {
             IRBlockData blockData = entry.getValue();
 

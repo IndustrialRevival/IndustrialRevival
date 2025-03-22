@@ -240,7 +240,7 @@ public class RecipeType implements RecipeTypeLike {
     public ItemStack getMaker() {
         IndustrialRevivalItem item = IndustrialRevivalItem.getById(makerId);
         if (item != null) {
-            return item.getItem().getItemStack();
+            return item.getIcon();
         } else {
             if (icon == null || icon.getType() == Material.AIR) {
                 return null;

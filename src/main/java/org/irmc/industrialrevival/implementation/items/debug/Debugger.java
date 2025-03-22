@@ -346,7 +346,7 @@ public class Debugger extends IndustrialRevivalItem {
             return;
         }
         send(player, "&e - Location: &7" + simpleLocationToString(location));
-        IRBlockPlaceEvent event = new IRBlockPlaceEvent(new BlockPlaceEvent(location.getBlock(), location.getBlock().getState(), block, IndustrialRevivalItems.DEBUG_HEAD.cloneItemStack(), player, true), IndustrialRevivalItems.DEBUG_HEAD.getIRItem());
+        IRBlockPlaceEvent event = new IRBlockPlaceEvent(new BlockPlaceEvent(location.getBlock(), location.getBlock().getState(), block, IndustrialRevivalItems.DEBUG_HEAD.clone(), player, true), IndustrialRevivalItem.getByItem(IndustrialRevivalItems.DEBUG_HEAD));
         Bukkit.getPluginManager().callEvent(event);
 
         send(player, "&aDebug Head placed.");
