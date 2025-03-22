@@ -1,6 +1,7 @@
 package org.irmc.industrialrevival.api.elements.reaction;
 
 import lombok.Getter;
+import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
 import org.irmc.industrialrevival.api.items.attributes.ChemReactable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -41,6 +42,10 @@ public final class ReactCondition {
 
     public static @NotNull ReactCondition asCatalyzer(ChemReactable reactable) {
         return new ReactCondition(Type.CATALYZER, reactable);
+    }
+
+    public static @NotNull ReactCondition asCatalyzer(ChemicalCompound compound) {
+        return new ReactCondition(Type.CATALYZER, ChemReactable.getByCompound(compound));
     }
 
     /**

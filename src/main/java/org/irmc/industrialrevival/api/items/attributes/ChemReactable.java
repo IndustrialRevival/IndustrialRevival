@@ -7,8 +7,19 @@ import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
 import org.irmc.industrialrevival.api.elements.reaction.ReactResult;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public interface ChemReactable extends ItemAttribute, Keyed {
+    /**
+     * Returns the reactable instance for the given chemical compound.
+     * @param compound the chemical compound to get the item for.
+     * @return the reactable instance for the given chemical compound.
+     */
+    // todo: implement
+    static @Nullable ChemReactable getByCompound(@NotNull ChemicalCompound compound) {
+        return null;
+    }
+
     /**
      * Returns the chemical compound of the item.
      *

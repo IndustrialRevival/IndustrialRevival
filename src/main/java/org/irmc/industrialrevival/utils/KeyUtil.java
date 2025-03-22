@@ -21,10 +21,10 @@ public class KeyUtil {
      * @return A {@link NamespacedKey} with the plugin's namespace and the provided key.
      */
     public static NamespacedKey customKey(String key) {
-        return new NamespacedKey(IndustrialRevival.getInstance(), key);
+        return new NamespacedKey(IndustrialRevival.getInstance(), key.toLowerCase());
     }
 
     public static NamespacedKey appendOnKey(NamespacedKey key, String append) {
-        return new NamespacedKey(key.getNamespace(), key.getKey() + append);
+        return new NamespacedKey(key.getNamespace(), key.getKey() + append.toLowerCase());
     }
 }
