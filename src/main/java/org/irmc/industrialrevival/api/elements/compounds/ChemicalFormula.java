@@ -47,6 +47,7 @@ public class ChemicalFormula {
     public ChemicalFormula(@NotNull NamespacedKey key, @NotNull String formula, @Nullable ReactCondition[] conditions) {
         Preconditions.checkNotNull(formula, "formula cannot be null");
         Preconditions.checkArgument(formula.matches("[A-Z][a-z]?[0-9]*"), "Invalid chemical formula: " + formula);
+        formula = formula.replaceAll(" ", "");
         String left = formula.split("===")[0];
         String right = formula.split("===")[1];
 

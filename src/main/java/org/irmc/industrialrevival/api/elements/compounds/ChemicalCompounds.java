@@ -29,6 +29,14 @@ import java.util.Map;
  */
 @SuppressWarnings("unused")
 public class ChemicalCompounds {
+    //<editor-fold desc="Compounds elements">
+    static {
+        for (ElementType elementType : ElementType.values()) {
+            new ChemicalCompound(Component.text(elementType.name()), Map.of(new Element(elementType), 1D));
+        }
+    }
+    //</editor-fold>
+
     //<editor-fold desc="Compounds ions">
     public static final @NotNull ChemicalCompound SO4 = new IonCompound(Component.text("SO4"), Map.of(
             new Element(ElementType.SULPHUR), 1D,
@@ -58,9 +66,6 @@ public class ChemicalCompounds {
     public static final @NotNull ChemicalCompound PO4 = new IonCompound(Component.text("PO4"), Map.of(
             new Element(ElementType.PHOSPHORUS), 1D,
             new Element(ElementType.OXYGEN), 4D
-    ));
-    public static final @NotNull ChemicalCompound Cl = new IonCompound(Component.text("Cl"), Map.of(
-            new Element(ElementType.CHLORINE), 1D
     ));
     public static final @NotNull ChemicalCompound MnO4 = new IonCompound(Component.text("MnO4"), Map.of(
             new Element(ElementType.MANGANESE), 1D,
@@ -322,15 +327,15 @@ public class ChemicalCompounds {
     //</editor-fold>
 
     //<editor-fold desc="OHs">
-    public static @NotNull ChemicalCompound CaOH2 = new ChemicalCompound(Component.text("Ca(OH)_2"), Map.of(
+    public static @NotNull ChemicalCompound CaOH_2 = new ChemicalCompound(Component.text("Ca(OH)_2"), Map.of(
             new Element(ElementType.CALCIUM), 1D,
             new Chemical(OH), 2D
     ));
-    public static @NotNull ChemicalCompound MgOH2 = new ChemicalCompound(Component.text("Mg(OH)_2"), Map.of(
+    public static @NotNull ChemicalCompound MgOH_2 = new ChemicalCompound(Component.text("Mg(OH)_2"), Map.of(
             new Element(ElementType.MAGNESIUM), 1D,
             new Chemical(OH), 2D
     ));
-    public static @NotNull ChemicalCompound FeOH2 = new ChemicalCompound(Component.text("Fe(OH)_2"), Map.of(
+    public static @NotNull ChemicalCompound FeOH_2 = new ChemicalCompound(Component.text("Fe(OH)_2"), Map.of(
             new Element(ElementType.IRON), 1D,
             new Chemical(OH), 2D
     ));
@@ -362,6 +367,13 @@ public class ChemicalCompounds {
             new Element(ElementType.CARBON), 2D,
             new Element(ElementType.HYDROGEN), 6D,
             new Element(ElementType.OXYGEN), 1D
+    ));
+    //</editor-fold>
+
+    //<editor-fold desc="Imagines">
+    public static @NotNull ChemicalCompound AuFe = new ChemicalCompound(Component.text("AuFe"), Map.of(
+            new Element(ElementType.GOLD), 1D,
+            new Element(ElementType.IRON), 1D
     ));
     //</editor-fold>
 }
