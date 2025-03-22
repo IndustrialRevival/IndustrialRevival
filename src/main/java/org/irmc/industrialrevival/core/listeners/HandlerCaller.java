@@ -66,7 +66,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public class HandlerCaller implements Listener {
     // todo: add more event handlers
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onBlockExplodeIRBlock(BlockExplodeIRBlockEvent e) {
         IndustrialRevivalItem iritem = e.getIritem();
         if (!checkValid(iritem)) {
@@ -79,7 +79,7 @@ public class HandlerCaller implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onEndermanMoveIRBlock(EndermanMoveIRBlockEvent e) {
         IndustrialRevivalItem iritem = e.getIritem();
         if (!checkValid(iritem)) {
@@ -92,7 +92,7 @@ public class HandlerCaller implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onEntityChangeBlock(EntityChangeIRBlockEvent e) {
         IndustrialRevivalItem iritem = e.getIritem();
         if (!checkValid(iritem)) {
@@ -105,7 +105,7 @@ public class HandlerCaller implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onEntityExplodeIRBlock(EntityExplodeIRBlockEvent e) {
         IndustrialRevivalItem iritem = e.getIritem();
         if (!checkValid(iritem)) {
@@ -118,7 +118,7 @@ public class HandlerCaller implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onEntityPickupIRItem(EntityPickupIRItemEvent e) {
         IndustrialRevivalItem iritem = e.getIritem();
         if (!checkValid(iritem)) {
@@ -131,7 +131,7 @@ public class HandlerCaller implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onInventoryMoveIRItem(InventoryMoveIRItemEvent e) {
         IndustrialRevivalItem iritem = e.getIritem();
         if (!checkValid(iritem)) {
@@ -144,7 +144,7 @@ public class HandlerCaller implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onIRBlockBreak(IRBlockBreakEvent e) {
         IndustrialRevivalItem iritem = e.getIritem();
         if (!checkValid(iritem)) {
@@ -157,7 +157,7 @@ public class HandlerCaller implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onIRBlockFromTo(IRBlockFromToEvent e) {
         IndustrialRevivalItem iritem = e.getIritem();
         if (!checkValid(iritem)) {
@@ -170,7 +170,7 @@ public class HandlerCaller implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onIRBlockPlace(IRBlockPlaceEvent event) {
         IndustrialRevivalItem iritem = event.getIritem();
         if (!checkValid(iritem, event.getOriginalEvent().getBlock().getWorld())) {
@@ -184,7 +184,7 @@ public class HandlerCaller implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onIRItemDamageEntityEvent(IRItemDamageEntityEvent e) {
         IndustrialRevivalItem iritem = e.getIritem();
         if (!checkValid(iritem)) {
@@ -197,7 +197,7 @@ public class HandlerCaller implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onIRItemInteract(IRItemInteractEvent e) {
         IndustrialRevivalItem iritem = e.getIritem();
         if (!checkValid(iritem)) {
@@ -210,7 +210,7 @@ public class HandlerCaller implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onIRItemKillEntity(IRItemKillEntityEvent e) {
         IndustrialRevivalItem iritem = e.getIritem();
         if (!checkValid(iritem)) {
@@ -223,7 +223,7 @@ public class HandlerCaller implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onMenuClose(MenuCloseEvent e) {
         SimpleMenu.MenuCloseHandler handler = e.getMenu().getCloseHandler();
         if (handler != null) {
@@ -231,7 +231,7 @@ public class HandlerCaller implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onMenuOpen(MenuOpenEvent e) {
         MachineMenu menu = e.getOpenedMenu();
         SimpleMenu.MenuOpenHandler handler = menu.getOpenHandler();
@@ -240,7 +240,7 @@ public class HandlerCaller implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onPistonExtendIRBlock(PistonExtendIRBlockEvent event) {
         BlockPistonExtendHandler handler = event.getIritem().getItemHandler(BlockPistonExtendHandler.class);
         if (handler != null) {
@@ -251,7 +251,7 @@ public class HandlerCaller implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onPistonRetractIRBlock(PistonRetractIRBlockEvent event) {
         BlockPistonRetractHandler handler = event.getIritem().getItemHandler(BlockPistonRetractHandler.class);
         if (handler != null) {
@@ -262,7 +262,7 @@ public class HandlerCaller implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onPlayerBucketEmptyToIRBlock(PlayerBucketEmptyToIRBlockEvent event) {
         IndustrialRevivalItem iritem = event.getIritem();
         if (!checkValid(iritem, event.getOriginalEvent().getBlock().getWorld())) {
@@ -275,7 +275,7 @@ public class HandlerCaller implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onPrepareAnvilIRItem(PrepareAnvilIRItemEvent event) {
         IndustrialRevivalItem iritem = event.getIritem();
         if (!checkValid(iritem)) {
@@ -288,7 +288,7 @@ public class HandlerCaller implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onPrepareGrindstoneIRItem(PrepareGrindstoneIRItemEvent event) {
         IndustrialRevivalItem iritem = event.getIritem();
         if (!checkValid(iritem)) {
@@ -301,7 +301,7 @@ public class HandlerCaller implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onPrepareIRItemCraft(PrepareItemCraftIRItemEvent event) {
         IndustrialRevivalItem iritem = event.getIritem();
         if (!checkValid(iritem)) {
@@ -314,7 +314,7 @@ public class HandlerCaller implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onPrepareIRItemEnchant(PrepareIRItemEnchantEvent event) {
         IndustrialRevivalItem iritem = event.getIritem();
         if (!checkValid(iritem)) {
@@ -327,7 +327,7 @@ public class HandlerCaller implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onPrepareSmithingIRItem(PrepareSmithingIRItemEvent event) {
         IndustrialRevivalItem iritem = event.getIritem();
         if (!checkValid(iritem)) {
@@ -340,7 +340,7 @@ public class HandlerCaller implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onPrepareTradeSelect(PrepareTradeSelectIRItemEvent event) {
         IndustrialRevivalItem iritem = event.getIritem();
         if (!checkValid(iritem)) {

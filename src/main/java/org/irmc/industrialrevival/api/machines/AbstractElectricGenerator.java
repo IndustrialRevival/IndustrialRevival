@@ -11,8 +11,8 @@ import javax.annotation.OverridingMethodsMustInvokeSuper;
 /**
  * ElectricGenerator is a machine that generates energy.
  */
+@Getter
 public abstract class AbstractElectricGenerator extends AbstractMachine implements EnergyNetProvider {
-    @Getter
     private long capacity;
 
     public AbstractElectricGenerator setCapacity(long capacity) {

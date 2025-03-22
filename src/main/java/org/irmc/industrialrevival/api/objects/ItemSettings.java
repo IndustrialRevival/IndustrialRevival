@@ -1,5 +1,6 @@
 package org.irmc.industrialrevival.api.objects;
 
+import lombok.Getter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -14,6 +15,7 @@ import java.util.List;
  * @author lijinhong11
  * @since 1.0
  */
+@Getter
 @ParametersAreNonnullByDefault
 public class ItemSettings {
     private final YamlConfiguration itemCfg;
@@ -22,12 +24,8 @@ public class ItemSettings {
         this.itemCfg = itemCfg;
     }
 
-    public YamlConfiguration getItemCfg() {
-        return itemCfg;
-    }
-
     public ConfigurationSection getSetting(NamespacedKey id) {
-        return itemCfg.createSection("specific_items." + id.toString());
+        return itemCfg.createSection("specific_items." + id);
     }
 
     public void disableItem(NamespacedKey id) {

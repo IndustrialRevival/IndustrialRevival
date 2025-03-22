@@ -34,7 +34,7 @@ public class ElementOreGenerator extends APopulator{
         }
         Location location = block.getLocation();
         IndustrialRevival.getInstance().getDataManager().handleBlockPlacing(location, new NamespacedKey(IndustrialRevival.getInstance(), elementType.name().toLowerCase()));
-        Debug.debug("Generated " + elementType.name() + " ore at " + location.toString());
+        Debug.debug("Generated " + elementType.name() + " ore at " + location);
     }
 
     @Override

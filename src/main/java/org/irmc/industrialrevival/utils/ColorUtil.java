@@ -28,11 +28,11 @@ public class ColorUtil {
     }
 
     /**
-     * Converts a HSV color code to an RGB integer value.
+     * Converts an HSV color code to an RGB integer value.
      * @param h The hue value (0-1)
      * @param s The saturation value (0-1)
      * @param v The value (0-1)
-     * @return
+     * @return The RGB value as an integer
      */
     public static int getRGBFromHSV(float h, float s, float v) {
         float c = v * s;

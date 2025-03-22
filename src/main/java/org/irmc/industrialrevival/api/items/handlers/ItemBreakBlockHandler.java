@@ -23,7 +23,7 @@ public interface ItemBreakBlockHandler extends ItemHandler {
 
     @Override
     default IncompatibleItemHandlerException isCompatible(@NotNull IndustrialRevivalItem item) {
-        if (!item.getItem().getItemStack().getType().isItem()) {
+        if (!item.getIcon().getType().isItem()) {
             return new IncompatibleItemHandlerException(
                     "Only materials that are items can have a item break block handler", item.getId());
         }

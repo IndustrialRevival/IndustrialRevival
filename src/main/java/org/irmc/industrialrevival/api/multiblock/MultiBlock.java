@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 @Getter
 @SuppressWarnings("unused")
 public abstract class MultiBlock extends IndustrialRevivalItem implements Keyed {
-    private NamespacedKey key;
+    private final NamespacedKey key;
     private Structure structure;
     private int[] center;
 

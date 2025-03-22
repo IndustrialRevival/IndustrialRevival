@@ -85,7 +85,7 @@ public abstract class AbstractMachine extends IndustrialRevivalItem implements R
 
     public ItemStack getRecipeTypeIcon() {
         if (recipeTypeIcon == null) {
-            return CleanedItemGetter.getCleanedItem(getItem().getItemStack());
+            return CleanedItemGetter.getCleanedItem(getIcon());
         }
 
         return CleanedItemGetter.getCleanedItem(recipeTypeIcon);

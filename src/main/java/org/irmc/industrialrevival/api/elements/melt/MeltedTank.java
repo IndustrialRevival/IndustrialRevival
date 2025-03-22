@@ -23,6 +23,8 @@ public class MeltedTank implements Cloneable {
     @Setter
     private int capacity;
     @Setter
+    private int fuelCapacity;
+    @Setter
     private int fuels;
 
     /**
@@ -30,7 +32,8 @@ public class MeltedTank implements Cloneable {
      */
     public MeltedTank() {
         this.meltedObjects = new ArrayList<>();
-        this.capacity = Smeltery.MAX_FUEL_CAPACITY;
+        this.capacity = Smeltery.MAX_CAPACITY;
+        this.fuelCapacity = Smeltery.MAX_FUEL_CAPACITY;
         this.fuels = 0;
     }
 
@@ -41,10 +44,19 @@ public class MeltedTank implements Cloneable {
      * @param capacity      capacity of the tank
      * @param fuels         initial fuel amount
      */
-    public MeltedTank(@NotNull List<MeltedObject> meltedObjects, int capacity, int fuels) {
+    public MeltedTank(@NotNull List<MeltedObject> meltedObjects, int capacity, int fuelCapacity, int fuels) {
         this.meltedObjects = meltedObjects;
         this.capacity = capacity;
+        this.fuelCapacity = fuelCapacity;
         this.fuels = fuels;
+    }
+
+    /**
+     * Check if the tank's fuel is full
+     * @return true if the tank's fuel is full, false otherwise
+     */
+    public boolean isFuelFull() {
+        return fuels >= fuelCapacity;
     }
 
     /**
@@ -381,6 +393,6 @@ public class MeltedTank implements Cloneable {
      */
     @Override
     public @NotNull MeltedTank clone() {
-        return new MeltedTank(new ArrayList<>(meltedObjects), capacity, fuels);
+        return new MeltedTank(new ArrayList<>(meltedObjects), capacity, fuelCapacity, fuels);
     }
 }

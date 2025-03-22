@@ -14,7 +14,6 @@ import org.irmc.industrialrevival.api.objects.events.ir.IRTickDoneEvent;
 import org.irmc.industrialrevival.api.objects.events.ir.IRTickStartEvent;
 import org.irmc.industrialrevival.core.data.object.BlockRecord;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
-import org.irmc.industrialrevival.utils.Debug;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -45,12 +44,10 @@ public class TickerTask implements Consumer<WrappedTask> {
         IndustrialRevival.getInstance().getProfilerService().clearProfilingData();
 
         if (blockDataMap == null) {
-            Debug.debug("No blocks to tick");
             IndustrialRevival.runAsync(() -> Bukkit.getPluginManager().callEvent(doneEvent));
             return;
         }
 
-        Debug.debug("Ticking " + blockDataMap.size() + " blocks");
         for (Map.Entry<Location, IRBlockData> entry : blockDataMap.entrySet()) {
             IRBlockData blockData = entry.getValue();
 

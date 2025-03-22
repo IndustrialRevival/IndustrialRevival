@@ -59,7 +59,7 @@ public abstract class ItemDictionary implements Keyed {
     }
 
     protected ItemStack getTaggedItem(@NotNull IndustrialRevivalItem item) {
-        return getTaggedItem(item.getItem().cloneItemStack());
+        return getTaggedItem(item.getIcon().clone());
     }
 
     protected ItemStack getTaggedItem(@NotNull ItemStack itemStack) {

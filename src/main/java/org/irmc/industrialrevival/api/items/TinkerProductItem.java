@@ -15,12 +15,12 @@ public class TinkerProductItem extends IndustrialRevivalItem implements TinkerPr
         super();
     }
 
-    public TinkerProductItem setTinkerType(TinkerType tinkerType) {
+    public TinkerProductItem tinkerType(TinkerType tinkerType) {
         this.tinkerType = tinkerType;
         return this;
     }
 
-    public TinkerProductItem setMeltedType(MeltedType meltedType) {
+    public TinkerProductItem meltedType(MeltedType meltedType) {
         this.meltedType = meltedType;
         return this;
     }

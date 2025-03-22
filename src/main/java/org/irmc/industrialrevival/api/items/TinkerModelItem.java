@@ -11,7 +11,7 @@ public class TinkerModelItem extends IndustrialRevivalItem implements TinkerMode
         super();
     }
 
-    public TinkerModelItem setTinkerType(TinkerType tinkerType) {
+    public TinkerModelItem tinkerType(TinkerType tinkerType) {
         this.tinkerType = tinkerType;
         return this;
     }

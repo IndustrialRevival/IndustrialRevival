@@ -24,11 +24,12 @@ import java.util.Map;
  */
 @Getter
 public class Smeltery implements Cloneable {
-    public static final int MAX_FUEL_CAPACITY = 40000;
+    public static final int MAX_FUEL_CAPACITY = 4000;
+    public static final int MAX_CAPACITY = 40000;
     private static final Map<Material, Integer> FUELS_MAP = new HashMap<>();
     
     static {
-        FUELS_MAP.put(Material.LAVA_BUCKET, 10000);
+        FUELS_MAP.put(Material.LAVA_BUCKET, 1000);
     }
 
     private final List<MeltMethod> recipes;

@@ -77,7 +77,7 @@ import java.util.List;
  * @see DefaultHandler
  */
 public class EventCreator implements Listener {
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onBlockExplodeIRBlock(BlockExplodeEvent e) {
         List<BlockExplodeIRBlockEvent> events = new ArrayList<>();
         for (Block block : e.blockList()) {
@@ -100,7 +100,7 @@ public class EventCreator implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onEndermanMoveIRBlockEvent(EntityChangeBlockEvent e) {
         if (e.getEntity().getType() == EntityType.ENDERMAN) {
             Location location = e.getBlock().getLocation();
@@ -121,7 +121,7 @@ public class EventCreator implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onEntityChangeIRBlock(EntityChangeBlockEvent e) {
         Location location = e.getBlock().getLocation();
         IRBlockData data = DataUtil.getBlockData(location);
@@ -139,7 +139,7 @@ public class EventCreator implements Listener {
         
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onEntityExplodeIRBlock(EntityExplodeEvent e) {
         List<EntityExplodeIRBlockEvent> events = new ArrayList<>();
         for (Block block : e.blockList()) {
@@ -165,7 +165,7 @@ public class EventCreator implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onEntityPickupIRItem(EntityPickupItemEvent e) {
         ItemStack itemStack = e.getItem().getItemStack();
         IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(itemStack);
@@ -179,7 +179,7 @@ public class EventCreator implements Listener {
         
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onInventoryMoveItem(InventoryMoveItemEvent e) {
         ItemStack itemStack = e.getItem();
         IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(itemStack);
@@ -193,7 +193,7 @@ public class EventCreator implements Listener {
         
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onIRBlockBreak(BlockBreakEvent e) {
         Block block = e.getBlock();
         if (block == null) {
@@ -214,7 +214,7 @@ public class EventCreator implements Listener {
         
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onIRBlockFromTo(BlockFromToEvent e) {
         Location location = e.getBlock().getLocation();
         IRBlockData data = DataUtil.getBlockData(location);
@@ -238,7 +238,7 @@ public class EventCreator implements Listener {
         
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onIRBlockPlace(BlockPlaceEvent e) {
         ItemStack itemStack = e.getItemInHand();
         IndustrialRevivalItem item = IndustrialRevivalItem.getByItem(itemStack);
@@ -250,7 +250,7 @@ public class EventCreator implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onIRItemBreakBlock(BlockBreakEvent e) {
         ItemStack itemInHand = e.getPlayer().getItemInHand();
         IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(itemInHand);
@@ -264,7 +264,7 @@ public class EventCreator implements Listener {
         
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onIRItemDamageEntity(EntityDamageByEntityEvent e) {
         if (!(e.getDamager() instanceof Player player)) {
             return;
@@ -286,7 +286,7 @@ public class EventCreator implements Listener {
         Bukkit.getServer().getPluginManager().callEvent(event);
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onIRItemInteract(PlayerInteractEvent e) {
         ItemStack itemInHand = e.getPlayer().getItemInHand();
         IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(itemInHand);
@@ -298,7 +298,7 @@ public class EventCreator implements Listener {
         Bukkit.getServer().getPluginManager().callEvent(event);
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onIRItemKillEntity(EntityDeathEvent e) {
         Entity entity = e.getDamageSource().getCausingEntity();
         if (entity instanceof Player player) {
@@ -315,7 +315,7 @@ public class EventCreator implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onMenuClose(InventoryCloseEvent e) {
         Location location = e.getInventory().getLocation();
         IRBlockData data = DataUtil.getBlockData(location);
@@ -331,7 +331,7 @@ public class EventCreator implements Listener {
         Bukkit.getServer().getPluginManager().callEvent(event);
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onMenuOpen(PlayerRightClickEvent e) {
         if (e.getOriginalEvent().getAction() == Action.RIGHT_CLICK_BLOCK) {
             IRBlockData data = DataUtil.getBlockData(e.getOriginalEvent().getClickedBlock().getLocation());
@@ -348,7 +348,7 @@ public class EventCreator implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onPistonExtendIRBlock(BlockPistonExtendEvent e) {
         List<PistonExtendIRBlockEvent> events = new ArrayList<>();
         for (Block block : e.getBlocks()) {
@@ -372,7 +372,7 @@ public class EventCreator implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onPistonRetractIRBlock(BlockPistonRetractEvent e) {
         List<PistonRetractIRBlockEvent> events = new ArrayList<>();
         for (Block block : e.getBlocks()) {
@@ -396,7 +396,7 @@ public class EventCreator implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onPlayerBucketEmpty(PlayerBucketEmptyEvent e) {
         Location location = e.getBlockClicked().getLocation();
         IRBlockData data = DataUtil.getBlockData(location);
@@ -415,7 +415,7 @@ public class EventCreator implements Listener {
         
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onPlayerInteractIRBlock(PlayerInteractEvent e) {
         Block block = e.getClickedBlock();
         if (block == null) {
@@ -438,7 +438,7 @@ public class EventCreator implements Listener {
         
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onPlayerLeftClick(PlayerInteractEvent e) {
         if (e.getAction() == Action.LEFT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_AIR) {
             PlayerLeftClickEvent event = new PlayerLeftClickEvent(e);
@@ -448,7 +448,7 @@ public class EventCreator implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onPlayerRightClick(PlayerInteractEvent e) {
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) {
             PlayerRightClickEvent event = new PlayerRightClickEvent(e);
@@ -458,7 +458,7 @@ public class EventCreator implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onPrepareAnvilIRItem(PrepareAnvilEvent e) {
         ItemStack itemStack = e.getResult();
         IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(itemStack);
@@ -470,7 +470,7 @@ public class EventCreator implements Listener {
         Bukkit.getServer().getPluginManager().callEvent(event);
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onPrepareGrindstoneIRItem(PrepareGrindstoneEvent e) {
         ItemStack itemStack = e.getResult();
         IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(itemStack);
@@ -482,7 +482,7 @@ public class EventCreator implements Listener {
         Bukkit.getServer().getPluginManager().callEvent(event);
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onPrepareItemEnchantIRItem(PrepareItemEnchantEvent e) {
         ItemStack itemStack = e.getItem();
         IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(itemStack);
@@ -496,7 +496,7 @@ public class EventCreator implements Listener {
         
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onPrepareSmithingIRItem(PrepareSmithingEvent e) {
         ItemStack itemStack = e.getResult();
         IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(itemStack);
@@ -508,11 +508,10 @@ public class EventCreator implements Listener {
         Bukkit.getServer().getPluginManager().callEvent(event);
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onPrepareTradeSelectIRItem(TradeSelectEvent e) {
         MerchantRecipe recipe = e.getMerchant().getRecipe(e.getIndex());
-        List<ItemStack> testItems = new ArrayList<>();
-        testItems.addAll(recipe.getIngredients());
+        List<ItemStack> testItems = new ArrayList<>(recipe.getIngredients());
         testItems.add(recipe.getResult());
         for (ItemStack testItem : testItems) {
             IndustrialRevivalItem iritem = IndustrialRevivalItem.getByItem(testItem);

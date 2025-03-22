@@ -26,9 +26,9 @@ import java.util.Set;
 public class ChemicalCompound {
     public static final Set<ChemicalCompound> ALL_CHEMICALS = new HashSet<>();
     @NotNull
-    public Component name;
+    public final Component name;
     @NotNull
-    public Map<Compound, Double> compounds;
+    public final Map<Compound, Double> compounds;
 
     /**
      * Creates a new chemical compound with the given name and compounds.

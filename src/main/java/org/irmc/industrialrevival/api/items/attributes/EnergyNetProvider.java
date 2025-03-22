@@ -1,5 +1,6 @@
 package org.irmc.industrialrevival.api.items.attributes;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
@@ -35,6 +36,7 @@ public interface EnergyNetProvider extends EnergyNetComponent {
      * @param energyProduction the amount of energy production to add to the network
      * @return the total energy production added to the network
      */
+    @CanIgnoreReturnValue
     default long addEnergyProduction(@NotNull Location location, long energyProduction) {
         long existingEnergyProduction = 0;
         final String dataExistingEnergyProduction = DataUtil.getData(location, Constants.Keys.ENERGY_CHARGE_KEY);

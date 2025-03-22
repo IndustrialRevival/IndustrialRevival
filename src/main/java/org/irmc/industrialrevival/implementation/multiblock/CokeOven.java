@@ -16,12 +16,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
+@Getter
 public class CokeOven extends MultiBlock {
-    private @Getter
+    private
     final ItemStack RECIPE_TYPE_ICON = new CustomItemStack(Material.BLAST_FURNACE, "Combustion Furnace", "A Combustion Furnace", "This block is a MultiBlock structure that can be used to create Combustion Recipes.", "For testing purposes only so far.");
-    private @Getter
+    private
     final Map<ItemStack[], ItemStack> RECIPES = new HashMap<>();
-    private @Getter
+    private
     final RecipeType RECIPE_TYPE = new RecipeType(getAddon(), getKey(), RECIPE_TYPE_ICON,
             RECIPES::put,
             (input, output) -> {

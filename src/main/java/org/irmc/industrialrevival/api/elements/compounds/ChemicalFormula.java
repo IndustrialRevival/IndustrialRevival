@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import lombok.Getter;
 import org.bukkit.NamespacedKey;
 import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
+import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,7 +42,7 @@ public class ChemicalFormula {
      * @param conditions the conditions for the reaction
      *
      * @apiNote The conditions are optional and can be null.
-     * @apiNote formula example: "Zn+H2SO4===ZnSO4+H2", "Fe2O3+3H2SO4===Fe2SO4_3+3H2O"
+     * @apiNote formula example: "Zn+H2SO4===ZnSO4+H2", "Fe2O3+3H2SO4===Fe2(SO4)_3+3H2O"
      */
     public ChemicalFormula(@NotNull NamespacedKey key, @NotNull String formula, @Nullable ReactCondition[] conditions) {
         Preconditions.checkNotNull(formula, "formula cannot be null");
@@ -101,5 +102,10 @@ public class ChemicalFormula {
         }
 
         return compounds;
+    }
+
+    public ChemicalFormula register() {
+        IndustrialRevival.getInstance().getRegistry().registerChemicalFormula(this);
+        return this;
     }
 }

@@ -35,42 +35,42 @@ import org.irmc.industrialrevival.api.objects.events.vanilla.PrepareTradeSelectI
 import org.irmc.industrialrevival.utils.DataUtil;
 
 public class EventPrechecker implements Listener {
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onBlockExplodeIRBlockEvent(BlockExplodeIRBlockEvent event) {
         if (event.getIritem().isDisabledInWorld(event.getOriginalEvent().getBlock().getWorld())) {
             event.getOriginalEvent().setCancelled(true);
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onEndermanMoveIRBlock(EndermanMoveIRBlockEvent event) {
         if (event.getIritem().isDisabledInWorld(event.getOriginalEvent().getBlock().getWorld())) {
             event.getOriginalEvent().setCancelled(true);
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onEntityChangeIRBlock(EntityChangeIRBlockEvent event) {
         if (event.getIritem().isDisabledInWorld(event.getOriginalEvent().getBlock().getWorld())) {
             event.getOriginalEvent().setCancelled(true);
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onEntityExplodeIRBlock(EntityExplodeIRBlockEvent event) {
         if (event.getIritem().isDisabledInWorld(event.getOriginalEvent().getLocation().getWorld())) {
             event.getOriginalEvent().setCancelled(true);
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onEntityPickupIRItem(EntityPickupIRItemEvent event) {
         if (event.getIritem().isDisabledInWorld(event.getOriginalEvent().getItem().getWorld())) {
             event.getOriginalEvent().setCancelled(true);
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onInventoryMoveIRItem(InventoryMoveIRItemEvent event) {
         if (event.getIritem().isDisabledInWorld(event.getOriginalEvent().getDestination().getLocation().getWorld())) {
             event.getOriginalEvent().setCancelled(true);
@@ -81,21 +81,21 @@ public class EventPrechecker implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onIRBlockBreak(IRBlockBreakEvent event) {
         if (event.getIritem().isDisabledInWorld(event.getOriginalEvent().getBlock().getWorld())) {
             event.getOriginalEvent().setCancelled(true);
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onIRBlockFromTo(IRBlockFromToEvent event) {
         if (event.getIritem().isDisabledInWorld(event.getOriginalEvent().getToBlock().getWorld())) {
             event.getOriginalEvent().setCancelled(true);
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onIRBlockPlace(IRBlockPlaceEvent event) {
         Location location = event.getOriginalEvent().getBlockPlaced().getLocation();
         IRBlockData blockData = DataUtil.getBlockData(location);
@@ -112,35 +112,35 @@ public class EventPrechecker implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onIRItemBreakBlock(IRItemBreakBlockEvent event) {
         if (event.getIritem().isDisabledInWorld(event.getOriginalEvent().getBlock().getWorld())) {
             event.getOriginalEvent().setCancelled(true);
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onIRItemDamageEntity(IRItemDamageEntityEvent event) {
         if (event.getIritem().isDisabledInWorld(event.getOriginalEvent().getEntity().getWorld())) {
             event.getOriginalEvent().setCancelled(true);
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onIRItemInteract(IRItemInteractEvent event) {
         if (event.getIritem().isDisabledInWorld(event.getOriginalEvent().getPlayer().getWorld())) {
             event.getOriginalEvent().setCancelled(true);
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onIRItemKillEntity(IRItemKillEntityEvent event) {
         if (event.getIritem().isDisabledInWorld(event.getOriginalEvent().getEntity().getWorld())) {
             event.getOriginalEvent().setCancelled(true);
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onMenuOpen(MenuOpenEvent event) {
         if (!event.getRightClickEvent().getOriginalEvent().getPlayer().isOp()) {
             IndustrialRevivalItem iritem = IndustrialRevivalItem.getById(event.getOpenedMenu().getPreset().getId());
@@ -150,63 +150,63 @@ public class EventPrechecker implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPistonExtendIRBlock(PistonExtendIRBlockEvent event) {
         if (event.getIritem().isDisabledInWorld(event.getOriginalEvent().getBlock().getWorld())) {
             event.getOriginalEvent().setCancelled(true);
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPistonRetractIRBlock(PistonRetractIRBlockEvent event) {
         if (event.getIritem().isDisabledInWorld(event.getOriginalEvent().getBlock().getWorld())) {
             event.getOriginalEvent().setCancelled(true);
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPlayerBucketEmptyToIRBlock(PlayerBucketEmptyToIRBlockEvent event) {
         if (event.getIritem().isDisabledInWorld(event.getOriginalEvent().getBlock().getWorld())) {
             event.getOriginalEvent().setCancelled(true);
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPlayerInteractIRBlock(PlayerInteractIRBlockEvent event) {
         if (event.getIritem().isDisabledInWorld(event.getOriginalEvent().getClickedBlock().getWorld())) {
             event.getOriginalEvent().setCancelled(true);
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPrepareGrindstoneIRItem(PrepareGrindstoneIRItemEvent event) {
         if (event.getIritem().isDisabledInWorld(event.getOriginalEvent().getInventory().getLocation().getWorld())) {
             event.setCancelled(true);
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPrepareIRItemEnchant(PrepareIRItemEnchantEvent event) {
         if (event.getIritem().isDisabledInWorld(event.getOriginalEvent().getInventory().getLocation().getWorld())) {
             event.getOriginalEvent().setCancelled(true);
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPrepareItemCraftIRItem(PrepareItemCraftIRItemEvent event) {
         if (event.getIritem().isDisabledInWorld(event.getOriginalEvent().getInventory().getLocation().getWorld())) {
             event.setCancelled(true);
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPrepareSmithingIRItem(PrepareSmithingIRItemEvent event) {
         if (event.getIritem().isDisabledInWorld(event.getOriginalEvent().getInventory().getLocation().getWorld())) {
             event.setCancelled(true);
         }
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPrepareTradeSelectIRItem(PrepareTradeSelectIRItemEvent event) {
         if (event.getIritem().isDisabledInWorld(event.getOriginalEvent().getInventory().getLocation().getWorld())) {
             event.getOriginalEvent().setCancelled(true);

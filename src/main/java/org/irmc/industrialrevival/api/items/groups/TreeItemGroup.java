@@ -193,7 +193,7 @@ public class TreeItemGroup extends ItemGroup {
 
         public ItemStack getIcon() {
             if (item != null) {
-                return CleanedItemGetter.getCleanedItem(item.getItem().getItemStack());
+                return CleanedItemGetter.getCleanedItem(item.getIcon());
             } else {
                 if (group != null) {
                     return group.getIcon();

@@ -85,7 +85,7 @@ public class IndustrialRevivalItem implements Keyed {
     @Getter
     private NamespacedKey id;
     @Getter
-    @Nullable
+    @NotNull
     private ItemStack icon;
     @Getter
     private ItemStack recipeOutput;
@@ -102,6 +102,7 @@ public class IndustrialRevivalItem implements Keyed {
     private boolean hideInGuide = false;
     private boolean autoTranslation = true;
     private boolean autoInferAddon = true;
+    private String cachedId;
 
     public IndustrialRevivalItem() {
     }
@@ -142,16 +143,33 @@ public class IndustrialRevivalItem implements Keyed {
     @NotNull
     public IndustrialRevivalItem setId(@NotNull String id) {
         if (addon == null) {
-            throw new UnsupportedOperationException("Cannot set id without addon reference!");
+            cachedId = id;
+            return this;
         }
         this.id = new NamespacedKey(addon.getPlugin(), id);
         return this;
     }
 
     @NotNull
+    public IndustrialRevivalItem id(@NotNull String id) {
+        return setId(id);
+    }
+
+    @NotNull
+    public IndustrialRevivalItem id(@NotNull NamespacedKey id) {
+        return setId(id);
+    }
+
+
+    @NotNull
     public IndustrialRevivalItem setIcon(@NotNull ItemStack icon) {
         this.icon = icon;
         return this;
+    }
+
+    @NotNull
+    public IndustrialRevivalItem icon(@NotNull ItemStack icon) {
+        return setIcon(icon);
     }
 
     @NotNull
@@ -161,19 +179,36 @@ public class IndustrialRevivalItem implements Keyed {
     }
 
     @NotNull
+    public IndustrialRevivalItem recipeOutput(@NotNull ItemStack recipeOutput) {
+        return setRecipeOutput(recipeOutput);
+    }
+
+    @NotNull
     public IndustrialRevivalItem addItemGroup(@NotNull ItemGroup group) {
         checkRegistered();
         Preconditions.checkArgument(group != null, "ItemGroup cannot be null");
         this.group.add(group);
         group.addItem(this);
-        inferAddon(group.getKey().getKey());
+        inferAddon(group.getKey().getNamespace());
         return this;
+    }
+
+    @NotNull
+    public IndustrialRevivalItem itemGroup(@NotNull ItemGroup group) {
+        return addItemGroup(group);
     }
 
     @NotNull
     public IndustrialRevivalItem enableAutoTranslation() {
         checkRegistered();
         this.autoTranslation = true;
+        return this;
+    }
+
+    @NotNull
+    public IndustrialRevivalItem disableAutoTranslation() {
+        checkRegistered();
+        this.autoTranslation = false;
         return this;
     }
 
@@ -186,6 +221,12 @@ public class IndustrialRevivalItem implements Keyed {
     }
 
     @NotNull
+    public IndustrialRevivalItem wikiText(@NotNull String wikiText) {
+        return setWikiText(wikiText);
+    }
+
+
+    @NotNull
     public IndustrialRevivalItem addCraftMethod(@NotNull CraftMethodHandler craftMethodHandler) {
         Preconditions.checkArgument(craftMethodHandler != null, "craftMethodHandler cannot be null");
         CraftMethod craftMethod = craftMethodHandler.getCraftMethod(this);
@@ -196,6 +237,11 @@ public class IndustrialRevivalItem implements Keyed {
         craftMethods.add(craftMethod);
         inferAddon(craftMethod.getRecipeType().getAddon());
         return this;
+    }
+
+    @NotNull
+    public IndustrialRevivalItem recipe(@NotNull CraftMethodHandler craftMethodHandler) {
+        return addCraftMethod(craftMethodHandler);
     }
 
     @NotNull
@@ -284,6 +330,7 @@ public class IndustrialRevivalItem implements Keyed {
      *
      * @return WILL RETURN NULL IF THE ITEM IS NOT REGISTERED SUCCESSFULLY!!
      */
+    @CanIgnoreReturnValue
     @Nullable
     public IndustrialRevivalItem register() {
         Preconditions.checkArgument(addon != null, "Losing addon reference! Please set it before registering the item.");
@@ -295,6 +342,10 @@ public class IndustrialRevivalItem implements Keyed {
 
         if (!addon.getPlugin().isEnabled()) {
             throw new UnsupportedOperationException("Cannot register item before your plugin is enabled");
+        }
+
+        if (id == null) {
+            throw new IllegalStateException("Id cannot be null");
         }
 
         if (autoTranslation) {
@@ -349,6 +400,11 @@ public class IndustrialRevivalItem implements Keyed {
             itemHandlers.put(handler.getIdentifier(), handler);
         }
         return this;
+    }
+
+    @CanIgnoreReturnValue
+    protected IndustrialRevivalItem itemHandlers(@NotNull ItemHandler... handlers) {
+        return addItemHandlers(handlers);
     }
 
     @OverridingMethodsMustInvokeSuper
@@ -410,9 +466,13 @@ public class IndustrialRevivalItem implements Keyed {
         }
     }
 
-    protected void checkRegistered() {
+    protected final void checkRegistered() {
         if (state != ItemState.UNREGISTERED) {
             throw new IllegalStateException("Item is registered and cannot be modified");
+        }
+
+        if (id == null && addon != null && cachedId != null) {
+            id = new NamespacedKey(addon.getPlugin(), cachedId);
         }
     }
 
@@ -432,15 +492,19 @@ public class IndustrialRevivalItem implements Keyed {
         return this;
     }
 
-    public boolean isEnabled() {
+    public IndustrialRevivalItem addon(@NotNull IndustrialRevivalAddon addon) {
+        return setAddon(addon);
+    }
+
+    public final boolean isEnabled() {
         return state == ItemState.ENABLED;
     }
 
-    public boolean isDisabled() {
+    public final boolean isDisabled() {
         return !isEnabled();
     }
 
-    @NotNull
+    @Nullable
     public ItemStack[] getRecipeIngredients(@NotNull RecipeType recipeType) {
         for (CraftMethod craftMethod : craftMethods) {
             if (craftMethod.getRecipeType() == recipeType) {
@@ -452,11 +516,31 @@ public class IndustrialRevivalItem implements Keyed {
     }
 
     @Nullable
+    public ItemStack[] getRecipeIngredients() {
+        CraftMethod method = craftMethods.stream().findFirst().orElse(null);
+        if (method != null) {
+            return method.getIngredients();
+        }
+
+        return null;
+    }
+
+    @Nullable
     public ItemStack getRecipeOutput(@NotNull RecipeType recipeType) {
         for (CraftMethod craftMethod : craftMethods) {
             if (craftMethod.getRecipeType() == recipeType) {
                 return craftMethod.getOutput();
             }
+        }
+
+        return null;
+    }
+
+    @Nullable
+    public ItemStack getRecipeOutput() {
+        CraftMethod method = craftMethods.stream().findFirst().orElse(null);
+        if (method != null) {
+            return method.getOutput();
         }
 
         return null;
@@ -481,7 +565,7 @@ public class IndustrialRevivalItem implements Keyed {
         return id;
     }
 
-    public void inferAddon(String pluginName) {
+    public final void inferAddon(@NotNull String pluginName) {
         if (this.autoInferAddon && this.addon == null) {
             Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
             if (plugin instanceof IndustrialRevivalAddon ira) {
@@ -490,7 +574,7 @@ public class IndustrialRevivalItem implements Keyed {
         }
     }
 
-    public void inferAddon(IndustrialRevivalAddon addon) {
+    public final void inferAddon(@NotNull IndustrialRevivalAddon addon) {
         if (this.autoInferAddon && this.addon == null) {
             this.addon = addon;
         }

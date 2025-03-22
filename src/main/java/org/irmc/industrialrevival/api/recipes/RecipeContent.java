@@ -10,7 +10,7 @@ public record RecipeContent(
         if (maker == null) {
             return recipeType.getMaker() == null ? recipeType.getIcon() : recipeType.getMaker();
         } else {
-            return CleanedItemGetter.getCleanedItem(maker.getItem().getItemStack());
+            return CleanedItemGetter.getCleanedItem(maker.getIcon());
         }
     }
 }

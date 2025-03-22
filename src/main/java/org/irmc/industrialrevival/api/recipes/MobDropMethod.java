@@ -23,6 +23,6 @@ public class MobDropMethod implements ProduceMethod {
         this.mobType = mobType;
         this.dropAmount = dropAmount;
         this.chance = chance;
-        this.itemToDrop = dropFromMobItem.getItem().getItemStack();
+        this.itemToDrop = dropFromMobItem.getIcon();
     }
 }

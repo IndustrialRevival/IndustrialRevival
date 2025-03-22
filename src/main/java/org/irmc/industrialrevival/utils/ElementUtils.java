@@ -229,7 +229,7 @@ public final class ElementUtils {
      * Returns a list of all {@link ElementType}s with the given melting point.
      * @param min the minimum melting point
      * @param max the maximum melting point
-     * @return
+     * @return a list of all {@link ElementType}s with the given melting point
      */
     public static @NotNull List<ElementType> getByMeltingPoint(double min, double max) {
         List<ElementType> elements = new ArrayList<>();

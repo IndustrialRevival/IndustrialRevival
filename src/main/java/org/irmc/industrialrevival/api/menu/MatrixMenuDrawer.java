@@ -61,7 +61,7 @@ public class MatrixMenuDrawer implements Cloneable {
      * @throws IllegalArgumentException If line length doesn't match expected row size
      */
     public MatrixMenuDrawer addLine(@NotNull String line) {
-        if (line.length() > 9 || line.length() < 1) {
+        if (line.length() > 9 || line.isEmpty()) {
             throw new IllegalArgumentException("Line length should be between 1 (included) and 9 (included)");
         }
 

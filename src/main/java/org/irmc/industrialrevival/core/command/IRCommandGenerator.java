@@ -104,14 +104,15 @@ public class IRCommandGenerator {
                                 return;
                             }
 
-                            ItemStack iritem = item.getItemStack().clone();
-                            iritem.setAmount(finalAmount);
-                            target.getInventory().addItem(iritem);
+                            ItemStack itemStack = item.getIcon().clone();
+                            itemStack.setAmount(finalAmount);
+                            IndustrialRevival.getInstance().getItemDataService().setId(itemStack, itemID);
+                            target.getInventory().addItem(itemStack);
 
                             MessageReplacement itemName = MessageReplacement.replace(
                                     "%item%",
                                     MiniMessage.miniMessage()
-                                            .serialize(ItemUtils.getDisplayName(iritem)));
+                                            .serialize(ItemUtils.getDisplayName(itemStack)));
                             MessageReplacement itemAmount =
                                     MessageReplacement.replace("%amount%", String.valueOf(finalAmount));
 
@@ -155,9 +156,10 @@ public class IRCommandGenerator {
                                 return;
                             }
 
-                            ItemStack iritem = item.getItemStack().clone();
-                            iritem.setAmount(amount);
-                            target.getInventory().addItem(iritem);
+                            ItemStack itemStack = item.getIcon().clone();
+                            IndustrialRevival.getInstance().getItemDataService().setId(itemStack, itemID);
+                            itemStack.setAmount(amount);
+                            target.getInventory().addItem(itemStack);
                         }))
                 .withSubcommand(new CommandAPICommand("timings")
                         .withPermission(Constants.Permissions.COMMAND_TIMINGS)

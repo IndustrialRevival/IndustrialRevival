@@ -13,7 +13,7 @@ public interface BlockFromToHandler extends ItemHandler {
 
     @Override
     default IncompatibleItemHandlerException isCompatible(@NotNull IndustrialRevivalItem item) {
-        Material material = item.getItem().getItemStack().getType();
+        Material material = item.getIcon().getType();
         if (material != Material.LAVA_BUCKET && material != Material.WATER_BUCKET && material != Material.DRAGON_EGG) {
             return new IncompatibleItemHandlerException("Item must be liquid or dragon egg", item.getId());
         }

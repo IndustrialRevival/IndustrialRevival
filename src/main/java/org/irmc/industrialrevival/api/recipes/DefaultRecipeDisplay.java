@@ -53,7 +53,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
 
             sm.setItem(Constants.ItemStacks.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT, 1, 2, 3, 4, 5, 6, 7, 8);
             sm.setItem(7, Constants.ItemStacks.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT);
-            sm.setItem(25, CleanedItemGetter.getCleanedItem(item.getItem().getItemStack()));
+            sm.setItem(25, CleanedItemGetter.getCleanedItem(item.getIcon()));
         } else {
             recipeContents = getRecipeContentsByPage(recipeContents, pageRecord.getOrDefault(p.getUniqueId(), 1));
             if (!recipeContents.isEmpty()) {
@@ -116,7 +116,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
                 pageRecord.put(player.getUniqueId(), currentPage - 1);
                 List<RecipeContent> recipeContentsByPage = getRecipeContentsByPage(recipeContents, currentPage - 1);
                 for (int i = 2; i < 7; i++) {
-                    sm.setItem(i, recipeContentsByPage.get(i - 2).maker().getItem().getItemStack());
+                    sm.setItem(i, recipeContentsByPage.get(i - 2).maker().getIcon());
                 }
             }
             // do nothing
@@ -141,7 +141,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
                 pageRecord.put(player.getUniqueId(), currentPage + 1);
                 List<RecipeContent> recipeContentsByPage = getRecipeContentsByPage(recipeContents, currentPage + 1);
                 for (int i = 2; i < 7; i++) {
-                    sm.setItem(i, recipeContentsByPage.get(i - 2).maker().getItem().getItemStack());
+                    sm.setItem(i, recipeContentsByPage.get(i - 2).maker().getIcon());
                 }
             }
             // do nothing
@@ -228,7 +228,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
                 List<RecipeContent> recipeContentsByPage =
                         getRecipeContentsByPage(allAvailableRecipeContents, currentPage - 1);
                 for (int i = 2; i < 7; i++) {
-                    sm.setItem(i, recipeContentsByPage.get(i - 2).maker().getItem().getItemStack());
+                    sm.setItem(i, recipeContentsByPage.get(i - 2).maker().getIcon());
                 }
             }
             // do nothing
@@ -255,7 +255,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
                 List<RecipeContent> recipeContentsByPage =
                         getRecipeContentsByPage(allAvailableRecipeContents, currentPage + 1);
                 for (int i = 2; i < 7; i++) {
-                    sm.setItem(i, recipeContentsByPage.get(i - 2).maker().getItem().getItemStack());
+                    sm.setItem(i, recipeContentsByPage.get(i - 2).maker().getIcon());
                 }
             }
             // do nothing
