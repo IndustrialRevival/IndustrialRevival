@@ -5,6 +5,7 @@ import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.irmc.industrialrevival.api.elements.compounds.types.IonCompound;
 import org.irmc.industrialrevival.api.elements.compounds.types.OxideCompound;
+import org.irmc.industrialrevival.utils.Debug;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -67,12 +68,12 @@ public class ChemicalCompound {
      */
     @Nullable
     @Contract("null -> null")
-    public static ChemicalCompound forName(@Nullable String name) {
+    public static ChemicalCompound forName(@Nullable Component name) {
         if (name == null) {
             return null;
         }
         for (ChemicalCompound chemical : ALL_CHEMICALS) {
-            if (chemical.name.equals(Component.text(name))) {
+            if (chemical.name.equals(name)) {
                 return chemical;
             }
         }

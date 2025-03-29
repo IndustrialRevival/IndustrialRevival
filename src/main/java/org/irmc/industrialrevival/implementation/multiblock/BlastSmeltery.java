@@ -11,6 +11,7 @@ import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -319,7 +320,10 @@ public class BlastSmeltery extends MultiBlock implements ExtraTickable {
 
     public void tick(Location location, MachineMenu menu, Smeltery smeltery) {
         smeltery.tick();
+        // todo: 测试时，刚打开菜单是viewers包括玩家，但是在tick调用时，并不包含玩家
+        Debug.log("102 BlastSmeltery viewers=" + menu.getViewers().stream().map(HumanEntity::getName).toList());
         if (menu.hasViewer()) {
+            Debug.log("101 BlastSmeltery tick hasViewer");
             updateMenu(location);
         }
         int fuels = smeltery.getTank().getFuels();

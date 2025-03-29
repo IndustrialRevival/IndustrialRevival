@@ -2,6 +2,7 @@ package org.irmc.industrialrevival.api.elements.compounds;
 
 import com.google.common.base.Preconditions;
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import org.bukkit.NamespacedKey;
 import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
@@ -46,7 +47,8 @@ public class ChemicalFormula {
      */
     public ChemicalFormula(@NotNull NamespacedKey key, @NotNull String formula, @Nullable ReactCondition[] conditions) {
         Preconditions.checkNotNull(formula, "formula cannot be null");
-        Preconditions.checkArgument(formula.matches("[A-Z][a-z]?[0-9]*"), "Invalid chemical formula: " + formula);
+        Preconditions.checkArgument(formula.contains("==="), "Invalid chemical formula: " + formula);
+        Preconditions.checkArgument(formula.split("===").length == 2, "Invalid chemical formula: " + formula);
         formula = formula.replaceAll(" ", "");
         String left = formula.split("===")[0];
         String right = formula.split("===")[1];
@@ -67,7 +69,7 @@ public class ChemicalFormula {
      */
     @Nullable
     public static ChemicalCompound parseCompound(@NotNull String compoundName) {
-        return ChemicalCompound.forName(compoundName);
+        return ChemicalCompound.forName(Component.text(compoundName));
     }
 
     /**
@@ -89,7 +91,7 @@ public class ChemicalFormula {
                 // begins with a number
                 String number = matcher.group(1);
                 count = Integer.parseInt(number);
-                part = part.replace(number, "");
+                part = part.substring(number.length());
             }
 
             // example: "Zn"
