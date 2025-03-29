@@ -11,8 +11,8 @@ import org.irmc.industrialrevival.api.machines.process.IOperation;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.menu.MatrixMenuDrawer;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
-import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
+import org.irmc.pigeonlib.items.CustomItemStack;
 import org.irmc.pigeonlib.items.ItemUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -50,7 +50,7 @@ public class MenuUtil {
             Material.BLACK_STAINED_GLASS_PANE,
             "",
             ""
-    ).toPureItemStack();
+    ).getBukkit();
 
     /**
      * An input border item used in menus.
@@ -59,7 +59,7 @@ public class MenuUtil {
             Material.BLUE_STAINED_GLASS_PANE,
             "",
             ""
-    ).toPureItemStack();
+    ).getBukkit();
 
     /**
      * An output border item used in menus.
@@ -68,7 +68,7 @@ public class MenuUtil {
             Material.ORANGE_STAINED_GLASS_PANE,
             "",
             ""
-    ).toPureItemStack();
+    ).getBukkit();
 
     /**
      * A clicker border item used in menus.
@@ -77,7 +77,7 @@ public class MenuUtil {
             Material.YELLOW_STAINED_GLASS_PANE,
             "",
             ""
-    ).toPureItemStack();
+    ).getBukkit();
 
     /**
      * A confirm button item used in menus.
@@ -86,7 +86,7 @@ public class MenuUtil {
             Material.LIME_STAINED_GLASS_PANE,
             ChatColor.GREEN + "Confirm",
             ChatColor.GRAY + "Click to confirm."
-    ).toPureItemStack();
+    ).getBukkit();
 
     /**
      * A cancel button item used in menus.
@@ -95,7 +95,7 @@ public class MenuUtil {
             Material.RED_STAINED_GLASS_PANE,
             ChatColor.RED + "Cancel",
             ChatColor.GRAY + "Click to cancel."
-    ).toPureItemStack();
+    ).getBukkit();
 
     /**
      * Retrieves items from a menu based on the specified item flow and item stack.
@@ -211,7 +211,7 @@ public class MenuUtil {
         }
 
         if (leftAmount > 0) {
-            return new CustomItemStack(item, leftAmount);
+            return new CustomItemStack(item, leftAmount).getBukkit();
         } else {
             return null;
         }
@@ -448,23 +448,19 @@ public class MenuUtil {
         int current = operation.getCurrentProgress();
         int max = operation.getTotalProgress();
         int currentPercentage = (int) (current * 100.0f / max);
-        StringBuilder lore = new StringBuilder("" + ChatColor.GREEN);
-        for (int i = 0; i < currentPercentage / 10; i++) {
-            lore.append("=");
-        }
-        lore.append(ChatColor.GRAY);
-        for (int i = 0; i < (100 - currentPercentage) / 10; i++) {
-            lore.append("=");
-        }
-        lore.append(" ").append(current).append(" / ").append(max).append(" (").append(currentPercentage).append("%)");
 
-        ItemStack itemStack = new CustomItemStack(material);
+        String lore = "" + ChatColor.GREEN + "=".repeat(Math.max(0, currentPercentage / 10)) +
+                ChatColor.GRAY +
+                "=".repeat(Math.max(0, (100 - currentPercentage) / 10)) +
+                " " + current + " / " + max + " (" + currentPercentage + "%)";
+
+        ItemStack itemStack = new ItemStack(material);
         ItemMeta meta = itemStack.getItemMeta();
         if (meta instanceof Damageable damageable) {
             damageable.setDamage(damageable.getMaxDamage() * currentPercentage / 100);
         }
         itemStack.setItemMeta(meta);
-        itemStack.setLore(List.of(lore.toString()));
+        itemStack.setLore(List.of(lore));
         return itemStack;
     }
 }

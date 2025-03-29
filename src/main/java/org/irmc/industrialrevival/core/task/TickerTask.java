@@ -91,6 +91,7 @@ public class TickerTask implements Consumer<WrappedTask> {
         }
 
         blockDataMap.put(location, blockData);
+        bugsCount.put(location, 0);
     }
 
     private void removeTickingBlock(Location location) {
@@ -100,6 +101,7 @@ public class TickerTask implements Consumer<WrappedTask> {
         }
 
         blockDataMap.remove(location);
+        bugsCount.remove(location);
     }
 
     public Map<Location, IRBlockData> getTickingBlocks() {
@@ -112,7 +114,7 @@ public class TickerTask implements Consumer<WrappedTask> {
      * @param chunk The chunk that was loaded.
      */
     public void loadChunk(Chunk chunk) {
-        // TODO: load chunk
+        chunk.load();
         // get available ticking blocks from database
         ChunkPosition chunkPosition = new ChunkPosition(chunk);
         for (BlockRecord record : IndustrialRevival.getInstance().getDataManager().getAllBlockRecords()) {

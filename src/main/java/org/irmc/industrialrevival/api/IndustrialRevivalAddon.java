@@ -1,7 +1,7 @@
 package org.irmc.industrialrevival.api;
 
 import org.bukkit.plugin.java.JavaPlugin;
-import org.irmc.industrialrevival.api.lang.Language;
+import org.irmc.pigeonlib.enums.Language;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,7 +23,8 @@ public interface IndustrialRevivalAddon {
     default @NotNull Logger getLogger() {
         return getPlugin().getLogger();
     }
-    default @NotNull Language getLanguage() {
-        return Language.ZH_CN;
+
+    default @NotNull Language getDefaultLanguage() {
+        return Language.EN_US;
     }
 }

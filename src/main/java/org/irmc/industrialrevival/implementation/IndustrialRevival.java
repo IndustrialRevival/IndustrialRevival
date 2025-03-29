@@ -39,6 +39,7 @@ import org.irmc.industrialrevival.implementation.groups.IRItemGroups;
 import org.irmc.industrialrevival.implementation.items.IndustrialRevivalItemSetup;
 import org.irmc.industrialrevival.utils.Constants;
 import org.irmc.industrialrevival.utils.WorldUtil;
+import org.irmc.pigeonlib.enums.Language;
 import org.irmc.pigeonlib.file.ConfigFileUtil;
 import org.irmc.pigeonlib.language.LanguageManager;
 
@@ -100,7 +101,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         getLogger().info("Setting up data manager...");
         setupDataManager();
 
-        languageManager = new LanguageManager(this);
+        languageManager = new LanguageManager(this, Language.ZH_CN);
         listenerManager = new ListenerManager();
         registry = new IRRegistry();
 
@@ -127,7 +128,6 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     }
 
     private void completeFiles() {
-        //TODO: 重写一堆东西
         ConfigFileUtil.completeFile(this, "config.yml");
         //ConfigFileUtil.completeLangFile(this, "language/en-US.yml");
         ConfigFileUtil.completeLangFile(this, "language/zh-CN.yml");
