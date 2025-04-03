@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
+import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
 import org.irmc.industrialrevival.api.elements.compounds.ChemicalFormula;
 import org.irmc.industrialrevival.api.elements.melt.MeltedType;
 import org.irmc.industrialrevival.api.elements.tinker.TinkerType;
@@ -52,6 +53,7 @@ public final class IRRegistry {
     private final Map<NamespacedKey, MachineMenuPreset> menuPresets;
     private final Map<NamespacedKey, IndustrialRevivalItem> items;
     private final Map<NamespacedKey, ChemReactable> chemReactables;
+    private final Map<ChemReactable, ChemicalCompound> bindingCompounds;
     private final Map<String, PlayerProfile> playerProfiles;
 
     private final Map<NamespacedKey, MultiBlock> multiBlocks;
@@ -71,6 +73,7 @@ public final class IRRegistry {
         displayGroups = new HashMap<>();
         items = new HashMap<>();
         chemReactables = new HashMap<>();
+        bindingCompounds = new HashMap<>();
         playerProfiles = new HashMap<>();
         menuPresets = new HashMap<>();
         multiBlocks = new HashMap<>();
@@ -317,5 +320,21 @@ public final class IRRegistry {
 
     public void unregisterChemicalFormula(@NotNull ChemicalFormula formula) {
         chemicalFormulas.remove(formula.getKey());
+    }
+
+    public void registerChemicalReactable(@NotNull ChemReactable reactable) {
+        chemReactables.put(reactable.getKey(), reactable);
+    }
+
+    public void unregisterChemicalReactable(@NotNull ChemReactable reactable) {
+        chemReactables.remove(reactable.getKey());
+    }
+
+    public void bindChemicalCompound(@NotNull ChemReactable reactable, @NotNull ChemicalCompound compound) {
+        bindingCompounds.put(reactable, compound);
+    }
+
+    public void unbindChemicalCompound(@NotNull ChemReactable reactable) {
+        bindingCompounds.remove(reactable);
     }
 }

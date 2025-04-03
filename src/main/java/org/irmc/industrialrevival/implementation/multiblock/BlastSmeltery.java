@@ -5,13 +5,13 @@ import lombok.Getter;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -53,7 +53,6 @@ import java.util.UUID;
 
 @Getter
 public class BlastSmeltery extends MultiBlock implements ExtraTickable {
-    public static final TextReplacementConfig.Builder MELTING_TEXT_MATCHER = TextReplacementConfig.builder().match("Melting: (\\d+ / \\d+|\\.\\.\\.)");
     public static final TextColor MELTING_TEXT_COLOR = TextColor.color(16746003);
     public static final TextColor FUEL_TEXT_COLOR = TextColor.color(16734003);
     private static final TextComponent BLOCKS = Component.text("\u25a0\u25a0\u25a0\u25a0\u25a0");
@@ -321,7 +320,10 @@ public class BlastSmeltery extends MultiBlock implements ExtraTickable {
 
     public void tick(Location location, MachineMenu menu, Smeltery smeltery) {
         smeltery.tick();
+        // todo: 测试时，刚打开菜单是viewers包括玩家，但是在tick调用时，并不包含玩家
+        Debug.log("102 BlastSmeltery viewers=" + menu.getViewers().stream().map(HumanEntity::getName).toList());
         if (menu.hasViewer()) {
+            Debug.log("101 BlastSmeltery tick hasViewer");
             updateMenu(location);
         }
         int fuels = smeltery.getTank().getFuels();
@@ -358,7 +360,7 @@ public class BlastSmeltery extends MultiBlock implements ExtraTickable {
     }
 
     public static class Behaviors {
-        public static final SimpleMenu.ClickHandler CRAFT_BEHAVIOR = (player, clickedItem, clickedSlot, clickedMenu, clickType) -> {
+        public static final SimpleMenu.ClickHandler CRAFT_BEHAVIOR = (player, _, _, clickedMenu, _) -> {
             Location location = lastInteracted.get(player.getUniqueId());
             if (location == null) {
                 return false;
@@ -399,7 +401,7 @@ public class BlastSmeltery extends MultiBlock implements ExtraTickable {
             return false;
         };
 
-        public static final SimpleMenu.ClickHandler ADD_ITEM_BEHAVIOR = ((player, clickedItem, clickedSlot, clickedMenu, clickType) -> {
+        public static final SimpleMenu.ClickHandler ADD_ITEM_BEHAVIOR = ((player, clickedItem, clickedSlot, clickedMenu, _) -> {
             ItemStack cursor = player.getItemOnCursor();
             if (cursor == null || cursor.getType() == Material.AIR) {
                 Debug.log("47 BlastSmeltery onInteract cursor == null || cursor.getType() == Material.AIR");

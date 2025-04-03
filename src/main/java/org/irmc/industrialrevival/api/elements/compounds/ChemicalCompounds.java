@@ -5,6 +5,8 @@ import org.irmc.industrialrevival.api.elements.ElementType;
 import org.irmc.industrialrevival.api.elements.compounds.types.AcidCompound;
 import org.irmc.industrialrevival.api.elements.compounds.types.IonCompound;
 import org.irmc.industrialrevival.api.elements.compounds.types.OxideCompound;
+import org.irmc.industrialrevival.utils.Debug;
+import org.irmc.industrialrevival.utils.TextUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -29,6 +31,17 @@ import java.util.Map;
  */
 @SuppressWarnings("unused")
 public class ChemicalCompounds {
+    public static boolean loaded = false;
+    //<editor-fold desc="Compounds elements">
+    static {
+        for (ElementType elementType : ElementType.values()) {
+            new ChemicalCompound(
+                    Component.text(TextUtil.onlyUpperFirstLetter(elementType.getSymbol())),
+                    Map.of(new Element(elementType), 1D));
+        }
+    }
+    //</editor-fold>
+
     //<editor-fold desc="Compounds ions">
     public static final @NotNull ChemicalCompound SO4 = new IonCompound(Component.text("SO4"), Map.of(
             new Element(ElementType.SULPHUR), 1D,
@@ -58,9 +71,6 @@ public class ChemicalCompounds {
     public static final @NotNull ChemicalCompound PO4 = new IonCompound(Component.text("PO4"), Map.of(
             new Element(ElementType.PHOSPHORUS), 1D,
             new Element(ElementType.OXYGEN), 4D
-    ));
-    public static final @NotNull ChemicalCompound Cl = new IonCompound(Component.text("Cl"), Map.of(
-            new Element(ElementType.CHLORINE), 1D
     ));
     public static final @NotNull ChemicalCompound MnO4 = new IonCompound(Component.text("MnO4"), Map.of(
             new Element(ElementType.MANGANESE), 1D,
@@ -225,6 +235,10 @@ public class ChemicalCompounds {
             new Element(ElementType.MANGANESE), 1D,
             new Element(ElementType.OXYGEN), 2D
     ));
+    public static @NotNull ChemicalCompound CaO = new OxideCompound(Component.text("CaO"), Map.of(
+            new Element(ElementType.CALCIUM), 1D,
+            new Element(ElementType.OXYGEN), 1D
+    ));
     //</editor-fold>
 
     //<editor-fold desc="SO4s">
@@ -250,6 +264,10 @@ public class ChemicalCompounds {
     ));
     public static final @NotNull ChemicalCompound MnSO4 = new ChemicalCompound(Component.text("Cl2SO4"), Map.of(
             new Element(ElementType.MANGANESE), 1D,
+            new Chemical(SO4), 1D
+    ));
+    public static final @NotNull ChemicalCompound ZnSO4 = new ChemicalCompound(Component.text("ZnSO4"), Map.of(
+            new Element(ElementType.ZINC), 1D,
             new Chemical(SO4), 1D
     ));
     //</editor-fold>
@@ -291,7 +309,13 @@ public class ChemicalCompounds {
             new Element(ElementType.SODIUM), 2D,
             new Chemical(CO3), 1D
     ));
+    public static final @NotNull ChemicalCompound AgNO3 = new ChemicalCompound(Component.text("AgNO3"), Map.of(
+            new Element(ElementType.SILVER), 1D,
+            new Chemical(NO3), 1D
+    ));
+    //</editor-fold>
 
+    //<editor-fold desc="HCO3s">
     public static final @NotNull ChemicalCompound NaHCO3 = new ChemicalCompound(Component.text("NaHCO3"), Map.of(
             new Element(ElementType.SODIUM), 1D,
             new Chemical(HCO3), 1D
@@ -319,24 +343,35 @@ public class ChemicalCompounds {
             new Element(ElementType.SODIUM), 1D,
             new Element(ElementType.CHLORINE), 1D
     ));
+    public static @NotNull ChemicalCompound AgCl = new ChemicalCompound(Component.text("AgCl"), Map.of(
+            new Element(ElementType.SILVER), 1D,
+            new Element(ElementType.CHLORINE), 1D
+    ));
     //</editor-fold>
 
     //<editor-fold desc="OHs">
-    public static @NotNull ChemicalCompound CaOH2 = new ChemicalCompound(Component.text("Ca(OH)_2"), Map.of(
+    public static @NotNull ChemicalCompound CaOH_2 = new ChemicalCompound(Component.text("Ca(OH)_2"), Map.of(
             new Element(ElementType.CALCIUM), 1D,
             new Chemical(OH), 2D
     ));
-    public static @NotNull ChemicalCompound MgOH2 = new ChemicalCompound(Component.text("Mg(OH)_2"), Map.of(
+    public static @NotNull ChemicalCompound MgOH_2 = new ChemicalCompound(Component.text("Mg(OH)_2"), Map.of(
             new Element(ElementType.MAGNESIUM), 1D,
             new Chemical(OH), 2D
     ));
-    public static @NotNull ChemicalCompound FeOH2 = new ChemicalCompound(Component.text("Fe(OH)_2"), Map.of(
+    public static @NotNull ChemicalCompound FeOH_2 = new ChemicalCompound(Component.text("Fe(OH)_2"), Map.of(
             new Element(ElementType.IRON), 1D,
             new Chemical(OH), 2D
     ));
     public static @NotNull ChemicalCompound NaOH = new ChemicalCompound(Component.text("NaOH"), Map.of(
             new Element(ElementType.SODIUM), 1D,
             new Chemical(OH), 1D
+    ));
+    //</editor-fold>
+
+    //<editor-fold desc="CO3s">
+    public static @NotNull ChemicalCompound CaCO3 = new ChemicalCompound(Component.text("CaCO3"), Map.of(
+            new Element(ElementType.CALCIUM), 1D,
+            new Chemical(CO3), 1D
     ));
     //</editor-fold>
 
@@ -364,4 +399,34 @@ public class ChemicalCompounds {
             new Element(ElementType.OXYGEN), 1D
     ));
     //</editor-fold>
+
+    //<editor-fold desc="Other chemicals">
+    public static @NotNull ChemicalCompound KMnO4 = new ChemicalCompound(Component.text("KMnO4"), Map.of(
+            new Element(ElementType.POTASSIUM), 1D,
+            new Chemical(MnO4), 1D
+    ));
+    public static @NotNull ChemicalCompound K2MnO4 = new ChemicalCompound(Component.text("K2MnO4"), Map.of(
+            new Element(ElementType.POTASSIUM), 2D,
+            new Chemical(MnO4), 1D
+    ));
+    public static @NotNull ChemicalCompound KClO3 = new ChemicalCompound(Component.text("KClO3"), Map.of(
+            new Element(ElementType.POTASSIUM), 1D,
+            new Chemical(ClO3), 1D
+    ));
+    //</editor-fold>
+
+    //<editor-fold desc="Imagines">
+    public static @NotNull ChemicalCompound AuFe = new ChemicalCompound(Component.text("AuFe"), Map.of(
+            new Element(ElementType.GOLD), 1D,
+            new Element(ElementType.IRON), 1D
+    ));
+    //</editor-fold>
+
+    /**
+     * Initializes the chemical compounds above.
+     */
+    public static void init() {
+        loaded = true;
+        Debug.log("Loaded chemical compounds");
+    }
 }

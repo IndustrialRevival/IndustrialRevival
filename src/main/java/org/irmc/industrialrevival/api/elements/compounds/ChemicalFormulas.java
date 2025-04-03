@@ -1,10 +1,15 @@
 package org.irmc.industrialrevival.api.elements.compounds;
 
 import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
+import org.irmc.industrialrevival.utils.Debug;
 import org.irmc.industrialrevival.utils.KeyUtil;
 
 @SuppressWarnings("unused")
 public class ChemicalFormulas {
+    static {
+        ChemicalCompounds.init();
+    }
+
     public static final ChemicalFormula Zn_H2SO4_to_ZnSO4_H2 = new ChemicalFormula(
             KeyUtil.customKey("Zn_H2SO4_to_ZnSO4_H2"),
             "Zn+H2SO4===ZnSO4+H2"
@@ -38,7 +43,7 @@ public class ChemicalFormulas {
             new ReactCondition[] {ReactCondition.HIGH_TEMPERATURE}
     );
     public static final ChemicalFormula CaCl2_2AgNO3_to_CaNO3_2_2AgCl = new ChemicalFormula(
-            KeyUtil.customKey("CaCl2_2AgNO3_to_Ca(NO3)_2_2AgCl"),
+            KeyUtil.customKey("CaCl2_2AgNO3_to_Ca-NO3-_2_2AgCl"),
             "CaCl2+2AgNO3===Ca(NO3)_2+2AgCl"
     );
     public static final ChemicalFormula H2O2_to_2H2O_O2 = new ChemicalFormula(

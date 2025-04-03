@@ -123,7 +123,7 @@ public class ItemModelBuilder extends AbstractModelBuilder implements Cloneable 
         return clone();
     }
 
-    public ItemDisplay buildAt(Location location) {
+    public ItemDisplay buildAt(@NotNull Location location) {
         ItemDisplay display = location.getWorld().spawn(location, ItemDisplay.class);
         ifPresent(this.itemStack, () -> display.setItemStack(this.itemStack));
         ifPresent(this.interpolationDuration, () -> display.setInterpolationDuration(this.interpolationDuration));

@@ -30,6 +30,7 @@ import org.irmc.industrialrevival.api.recipes.RecipeContent;
 import org.irmc.industrialrevival.api.recipes.RecipeContents;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
+import org.irmc.industrialrevival.implementation.items.IndustrialRevivalItemSetup;
 import org.irmc.industrialrevival.utils.Constants;
 import org.irmc.pigeonlib.items.ItemUtils;
 import org.irmc.pigeonlib.language.LanguageManager;
@@ -48,7 +49,7 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * An industrial revival item.<br>
+ * An industrial revival item. (Data class & Builder)<br>
  *
  * IndustrialRevivalItem is a builder class for creating items.
  * It provides a set of methods for adding attributes to the item.
@@ -100,22 +101,47 @@ public class IndustrialRevivalItem implements Keyed {
     private boolean disenchantable = true;
     @Getter
     private boolean hideInGuide = false;
+    /**
+     * When it is true, item's name and lore will be auto-translated
+     */
     private boolean autoTranslation = true;
+    /**
+     * When it is true, item's addon will be auto-inferred from the {@link ItemGroup}'s addon or the {@link RecipeType}'s addon when registering the item.
+     */
     private boolean autoInferAddon = true;
     private String cachedId;
 
+    /**
+     * Creates a new instance of {@link IndustrialRevivalItem}.
+     */
     public IndustrialRevivalItem() {
     }
 
+    /**
+     * Avoid type erasure
+     * @param clazz the class to cast to
+     * @return this as the given class
+     * @param <T> the type of the class to cast to, must be a subclass of {@link IndustrialRevivalItem}
+     */
     public <T extends IndustrialRevivalItem> T cast(Class<T> clazz) {
         return (T) this;
     }
 
+    /**
+     * Gets the item from a {@link NamespacedKey}.
+     * @param id the {@link NamespacedKey} of the item
+     * @return the item with the given {@link NamespacedKey}, or null if not found
+     */
     @Nullable
     public static IndustrialRevivalItem getById(@NotNull NamespacedKey id) {
         return IndustrialRevival.getInstance().getRegistry().getItems().get(id);
     }
 
+    /**
+     * Gets the item from an {@link ItemStack}.
+     * @param item the {@link ItemStack} to get the item from
+     * @return the item with the given {@link ItemStack}, or null if not found
+     */
     @Nullable
     public static IndustrialRevivalItem getByItem(@NotNull ItemStack item) {
         if (item == null || item.getType() == Material.AIR) {
@@ -130,19 +156,34 @@ public class IndustrialRevivalItem implements Keyed {
         return null;
     }
 
+    /**
+     * Gets all item handlers of the item.
+     * @return the item handlers of the item
+     */
     public Collection<ItemHandler> getItemHandlers() {
         return itemHandlers.values();
     }
 
+    /**
+     * Sets ID of the item.
+     * @param id the ID of the item
+     * @return this instance
+     */
     @NotNull
     public IndustrialRevivalItem setId(@NotNull NamespacedKey id) {
         this.id = id;
         return this;
     }
 
+    /**
+     * Sets ID of the item.
+     * @param id the ID of the item
+     * @return this instance
+     */
     @NotNull
     public IndustrialRevivalItem setId(@NotNull String id) {
         if (addon == null) {
+            // allowed to generate ID without addon when registering
             cachedId = id;
             return this;
         }
@@ -150,39 +191,74 @@ public class IndustrialRevivalItem implements Keyed {
         return this;
     }
 
+    /**
+     * Sets the ID of the item.
+     * @param id the ID of the item
+     * @return this instance
+     */
     @NotNull
     public IndustrialRevivalItem id(@NotNull String id) {
         return setId(id);
     }
 
+    /**
+     * Sets the ID of the item.
+     * @param id the ID of the item
+     * @return this instance
+     */
     @NotNull
     public IndustrialRevivalItem id(@NotNull NamespacedKey id) {
         return setId(id);
     }
 
 
+    /**
+     * Sets the icon of the item.
+     * @param icon the icon of the item
+     * @return this instance
+     */
     @NotNull
     public IndustrialRevivalItem setIcon(@NotNull ItemStack icon) {
         this.icon = icon;
         return this;
     }
 
+    /**
+     * Sets the icon of the item.
+     * @param icon the icon of the item
+     * @return this instance
+     */
     @NotNull
     public IndustrialRevivalItem icon(@NotNull ItemStack icon) {
         return setIcon(icon);
     }
 
+    /**
+     * Sets the recipe output of the item.
+     * @param recipeOutput the recipe output of the item
+     * @return this instance
+     */
     @NotNull
     public IndustrialRevivalItem setRecipeOutput(@NotNull ItemStack recipeOutput) {
         this.recipeOutput = recipeOutput;
         return this;
     }
 
+    /**
+     * Sets the recipe output of the item.
+     * @param recipeOutput the recipe output of the item
+     * @return this instance
+     */
     @NotNull
     public IndustrialRevivalItem recipeOutput(@NotNull ItemStack recipeOutput) {
         return setRecipeOutput(recipeOutput);
     }
 
+    /**
+     * Adds the {@link ItemGroup} of the item.
+     * @param group the {@link ItemGroup} of the item
+     * @return this instance
+     */
     @NotNull
     public IndustrialRevivalItem addItemGroup(@NotNull ItemGroup group) {
         checkRegistered();
@@ -193,11 +269,20 @@ public class IndustrialRevivalItem implements Keyed {
         return this;
     }
 
+    /**
+     * Sets the {@link ItemGroup} of the item.
+     * @param group the {@link ItemGroup} of the item
+     * @return this instance
+     */
     @NotNull
     public IndustrialRevivalItem itemGroup(@NotNull ItemGroup group) {
         return addItemGroup(group);
     }
 
+    /**
+     * Enables auto-translation of the item's name and lore.
+     * @return this instance
+     */
     @NotNull
     public IndustrialRevivalItem enableAutoTranslation() {
         checkRegistered();
@@ -205,6 +290,10 @@ public class IndustrialRevivalItem implements Keyed {
         return this;
     }
 
+    /**
+     * Disables auto-translation of the item's name and lore.
+     * @return this instance
+     */
     @NotNull
     public IndustrialRevivalItem disableAutoTranslation() {
         checkRegistered();
@@ -212,6 +301,33 @@ public class IndustrialRevivalItem implements Keyed {
         return this;
     }
 
+    /**
+     * Enables auto-infer-addon for the item.
+     * @return this instance
+     */
+    @NotNull
+    public IndustrialRevivalItem enableAutoInferAddon() {
+        checkRegistered();
+        this.autoInferAddon = true;
+        return this;
+    }
+
+    /**
+     * Disables auto-infer-addon for the item.
+     * @return this instance
+     */
+    @NotNull
+    public IndustrialRevivalItem disableAutoInferAddon() {
+        checkRegistered();
+        this.autoInferAddon = false;
+        return this;
+    }
+
+    /**
+     * Sets the wiki text of the item.
+     * @param wikiText the wiki text of the item
+     * @return this instance
+     */
     @NotNull
     public IndustrialRevivalItem setWikiText(@NotNull String wikiText) {
         checkRegistered();
@@ -220,12 +336,22 @@ public class IndustrialRevivalItem implements Keyed {
         return this;
     }
 
+    /**
+     * Sets the wiki text of the item.
+     * @param wikiText the wiki text of the item
+     * @return this instance
+     */
     @NotNull
     public IndustrialRevivalItem wikiText(@NotNull String wikiText) {
         return setWikiText(wikiText);
     }
 
 
+    /**
+     * Adds a {@link CraftMethod} to the item.
+     * @param craftMethodHandler the craft method handler of the item
+     * @return this instance
+     */
     @NotNull
     public IndustrialRevivalItem addCraftMethod(@NotNull CraftMethodHandler craftMethodHandler) {
         Preconditions.checkArgument(craftMethodHandler != null, "craftMethodHandler cannot be null");
@@ -239,11 +365,21 @@ public class IndustrialRevivalItem implements Keyed {
         return this;
     }
 
+    /**
+     * Adds a {@link CraftMethod} to the item.
+     * @param craftMethodHandler the craft method handler of the item
+     * @return this instance
+     */
     @NotNull
     public IndustrialRevivalItem recipe(@NotNull CraftMethodHandler craftMethodHandler) {
         return addCraftMethod(craftMethodHandler);
     }
 
+    /**
+     * Adds a {@link CraftMethod} to the item.
+     * @param itemDictionary the item dictionary of the item
+     * @return this instance
+     */
     @NotNull
     public IndustrialRevivalItem addItemDictionary(@NotNull ItemDictionary itemDictionary) {
         checkRegistered();
@@ -253,6 +389,12 @@ public class IndustrialRevivalItem implements Keyed {
         return this;
     }
 
+    /**
+     * Sets disables the item.
+     * @param disabled the disabled state of the item
+     * @param saveToConfig if true, the disabled state will be saved to the config file
+     * @return this instance
+     */
     @NotNull
     public IndustrialRevivalItem setDisabled(boolean disabled, boolean saveToConfig) {
         checkRegistered();
@@ -268,6 +410,12 @@ public class IndustrialRevivalItem implements Keyed {
         return this;
     }
 
+    /**
+     * Sets enchantable of the item.
+     * @param enchantable the enchantable state of the item
+     * @param saveToConfig if true, the enchantable state will be saved to the config file
+     * @return this instance
+     */
     @NotNull
     public IndustrialRevivalItem setEnchantable(boolean enchantable, boolean saveToConfig) {
         checkRegistered();
@@ -279,6 +427,12 @@ public class IndustrialRevivalItem implements Keyed {
         return this;
     }
 
+    /**
+     * Sets disenchantable of the item.
+     * @param disenchantable the disenchantable state of the item
+     * @param saveToConfig if true, the disenchantable state will be saved to the config file
+     * @return this instance
+     */
     @NotNull
     public IndustrialRevivalItem setDisenchantable(boolean disenchantable, boolean saveToConfig) {
         checkRegistered();
@@ -290,6 +444,13 @@ public class IndustrialRevivalItem implements Keyed {
         return this;
     }
 
+    /**
+     * Sets disabled in the given world.
+     * @param world the world to disable in
+     * @param disabled the disabled state of the item in the world
+     * @param saveToConfig if true, the disabled state will be saved to the config file
+     * @return
+     */
     @NotNull
     public IndustrialRevivalItem setDisabledInWorld(@NotNull World world, boolean disabled, boolean saveToConfig) {
         Preconditions.checkArgument(world != null, "World cannot be null");
@@ -310,6 +471,12 @@ public class IndustrialRevivalItem implements Keyed {
         return this;
     }
 
+    /**
+     * Sets hideInGuide of the item.
+     * @param hideInGuide the hideInGuide state of the item
+     * @param saveToConfig if true, the hideInGuide state will be saved to the config file
+     * @return this instance
+     */
     @NotNull
     public IndustrialRevivalItem setHideInGuide(boolean hideInGuide, boolean saveToConfig) {
         checkRegistered();
@@ -320,6 +487,10 @@ public class IndustrialRevivalItem implements Keyed {
         return this;
     }
 
+    /**
+     * Gets the ID of the item.
+     * @return the ID of the item
+     */
     @NotNull
     public NamespacedKey getId() {
         return this.id;
@@ -328,7 +499,7 @@ public class IndustrialRevivalItem implements Keyed {
     /**
      * Registers the item in the registry.
      *
-     * @return WILL RETURN NULL IF THE ITEM IS NOT REGISTERED SUCCESSFULLY!!
+     * @return NULL IF THE ITEM IS NOT REGISTERED SUCCESSFULLY!!
      */
     @CanIgnoreReturnValue
     @Nullable
@@ -383,16 +554,31 @@ public class IndustrialRevivalItem implements Keyed {
         return this;
     }
 
+    /**
+     * Gets the name of the item.
+     * @return the name of the item
+     */
     @NotNull
     public Component getItemName() {
         return ItemUtils.getDisplayName(getIcon());
     }
 
+    /**
+     * Gets the {@link ItemHandler} for the given class.
+     * @param clazz the class of the item handler to get
+     * @return the item handler for the given class, or null if not found
+     * @param <T> the type of the item handler to get, must be a subclass of {@link ItemHandler}
+     */
     @Nullable
     public <T extends ItemHandler> T getItemHandler(Class<T> clazz) {
         return clazz.cast(itemHandlers.get(clazz));
     }
 
+    /**
+     * Adds the given item handlers to the item.
+     * @param handlers the item handlers to add
+     * @return this instance
+     */
     @CanIgnoreReturnValue
     protected IndustrialRevivalItem addItemHandlers(@NotNull ItemHandler... handlers) {
         checkRegistered();
@@ -402,11 +588,20 @@ public class IndustrialRevivalItem implements Keyed {
         return this;
     }
 
+    /**
+     * Adds the given item handlers to the item.
+     * @param handlers the item handlers to add
+     * @return this instance
+     */
     @CanIgnoreReturnValue
     protected IndustrialRevivalItem itemHandlers(@NotNull ItemHandler... handlers) {
         return addItemHandlers(handlers);
     }
 
+    /**
+     * Pre-registers the item.
+     * @throws Exception if the item is not compatible with any of the item handlers
+     */
     @OverridingMethodsMustInvokeSuper
     protected void preRegister() throws Exception {
         for (ItemHandler handler : itemHandlers.values()) {
@@ -421,6 +616,10 @@ public class IndustrialRevivalItem implements Keyed {
         }
     }
 
+    /**
+     * Post-registers the item.
+     * Registers as {@link MultiBlock}, {@link MobDropItem}, {@link BlockDropItem} and so on.
+     */
     @OverridingMethodsMustInvokeSuper
     protected void postRegister() {
         if (this instanceof MultiBlock mb) {
@@ -466,9 +665,14 @@ public class IndustrialRevivalItem implements Keyed {
         }
     }
 
+    /**
+     * Checks if the item is registered.
+     * @throws IllegalStateException if the item is registered
+     * @apiNote This method should be only called before registering the item.
+     */
     protected final void checkRegistered() {
         if (state != ItemState.UNREGISTERED) {
-            throw new IllegalStateException("Item is registered and cannot be modified");
+            throw new IllegalStateException("This IndustrialRevivalItem is registered and cannot be modified");
         }
 
         if (id == null && addon != null && cachedId != null) {
@@ -476,10 +680,19 @@ public class IndustrialRevivalItem implements Keyed {
         }
     }
 
+    /**
+     * Gets the icon of the item.
+     * @param world the world to get the icon for, or null to get the default icon
+     * @return the icon of the item
+     */
     public boolean isDisabledInWorld(@NotNull World world) {
         return state == ItemState.DISABLED || disabledInWorld.contains(world.getName());
     }
 
+    /**
+     * Gets the setting of the item.
+     * @return the setting of the item
+     */
     @NotNull
     protected ConfigurationSection getItemSetting() {
         return IndustrialRevival.getInstance().getItemSettings().getSetting(getId());
