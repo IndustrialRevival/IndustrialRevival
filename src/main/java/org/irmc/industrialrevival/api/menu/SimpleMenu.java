@@ -16,12 +16,15 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.IntStream;
 
 public class SimpleMenu implements IRInventoryHolder {
+    protected final Set<Player> viewers = new HashSet<>();
     protected final Map<Integer, ItemStack> slots;
     protected Map<Integer, ItemStack> getSlots() {
         return slots;
@@ -42,11 +45,15 @@ public class SimpleMenu implements IRInventoryHolder {
     private Inventory inventory;
 
     @Getter
-    private MenuCloseHandler closeHandler = (player) -> {
+    private MenuCloseHandler closeHandler = (player, menu) -> {
     };
 
     @Getter
     private MenuOpenHandler openHandler = (player, menu) -> {
+    };
+
+    @Getter
+    private OutsideClickHandler outsideClickHandler = (player, menu) -> {
     };
 
     public SimpleMenu(@NotNull String title) {
@@ -238,6 +245,7 @@ public class SimpleMenu implements IRInventoryHolder {
     public void open(@NotNull Player... players) {
         for (Player p : players) {
             p.openInventory(getInventory());
+            viewers.add(p);
             getOpenHandler().onOpen(p, this);
         }
     }
@@ -245,12 +253,31 @@ public class SimpleMenu implements IRInventoryHolder {
     public void close(@NotNull Player... players) {
         for (Player p : players) {
             p.closeInventory();
-            getCloseHandler().onClose(p);
+            viewers.remove(p);
+            getCloseHandler().onClose(p, this);
         }
     }
 
+    public List<Player> getViewers() {
+        return List.copyOf(this.viewers);
+    }
+
     public boolean hasViewer() {
-        return !inventory.getViewers().isEmpty();
+        return !getViewers().isEmpty();
+    }
+
+    public void addViewer(@NotNull Player player) {
+        viewers.add(player);
+    }
+
+    public void removeViewer(@NotNull Player player) {
+        viewers.remove(player);
+    }
+
+    public void setOutsideClickHandler(@NotNull OutsideClickHandler outsideClickHandler) {
+        Preconditions.checkNotNull(outsideClickHandler, "Outside click handler cannot be null");
+
+        this.outsideClickHandler = outsideClickHandler;
     }
 
     @FunctionalInterface
@@ -310,11 +337,16 @@ public class SimpleMenu implements IRInventoryHolder {
 
     @FunctionalInterface
     public interface MenuCloseHandler {
-        void onClose(@NotNull Player player);
+        void onClose(@NotNull Player player, @NotNull SimpleMenu menu);
     }
 
     @FunctionalInterface
     public interface MenuOpenHandler {
         void onOpen(@NotNull Player player, @NotNull SimpleMenu menu);
+    }
+
+    @FunctionalInterface
+    public interface OutsideClickHandler {
+        void onClick(@NotNull InventoryClickEvent event, @NotNull SimpleMenu menu);
     }
 }
