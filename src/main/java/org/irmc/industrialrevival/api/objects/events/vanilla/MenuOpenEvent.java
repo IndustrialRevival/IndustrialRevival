@@ -11,12 +11,12 @@ import org.jetbrains.annotations.NotNull;
 @Getter
 public class MenuOpenEvent extends PlayerEvent {
     private static final HandlerList handlers = new HandlerList();
-    private final InventoryOpenEvent rightClickEvent;
+    private final InventoryOpenEvent inventoryOpenEvent;
     private final MachineMenu openedMenu;
 
     public MenuOpenEvent(InventoryOpenEvent originalEvent, @NotNull MachineMenu openedMenu) {
         super((Player) originalEvent.getPlayer());
-        this.rightClickEvent = originalEvent;
+        this.inventoryOpenEvent = originalEvent;
         this.openedMenu = openedMenu;
     }
 

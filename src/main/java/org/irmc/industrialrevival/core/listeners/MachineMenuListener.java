@@ -15,7 +15,11 @@ import org.irmc.industrialrevival.api.objects.events.vanilla.MenuCloseEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.MenuOpenEvent;
 import org.irmc.industrialrevival.utils.Debug;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class MachineMenuListener implements Listener {
+    private static final Set<Player> opening = new HashSet<>();
     @EventHandler
     public void onMenuClick(InventoryClickEvent e) {
         Inventory inv = e.getView().getTopInventory();
@@ -57,6 +61,7 @@ public class MachineMenuListener implements Listener {
         MachineMenu menu = e.getMenu();
         Player p = e.getPlayer();
         menu.removeViewer(p);
+        opening.remove(p);
     }
 
     @EventHandler
@@ -64,5 +69,10 @@ public class MachineMenuListener implements Listener {
         MachineMenu menu = event.getOpenedMenu();
         Player p = event.getPlayer();
         menu.addViewer(p);
+        opening.add(p);
+    }
+
+    public static boolean isOpeningMenu(Player player) {
+        return opening.contains(player);
     }
 }

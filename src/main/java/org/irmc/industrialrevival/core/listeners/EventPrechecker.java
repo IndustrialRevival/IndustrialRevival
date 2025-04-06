@@ -142,10 +142,10 @@ public class EventPrechecker implements Listener {
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onMenuOpen(MenuOpenEvent event) {
-        if (!event.getRightClickEvent().getOriginalEvent().getPlayer().isOp()) {
+        if (!event.getInventoryOpenEvent().getPlayer().isOp()) {
             IndustrialRevivalItem iritem = IndustrialRevivalItem.getById(event.getOpenedMenu().getPreset().getId());
-            if (iritem != null && iritem.isDisabledInWorld(event.getRightClickEvent().getOriginalEvent().getPlayer().getWorld())) {
-                event.getRightClickEvent().getOriginalEvent().setCancelled(true);
+            if (iritem != null && iritem.isDisabledInWorld(event.getInventoryOpenEvent().getPlayer().getWorld())) {
+                event.getInventoryOpenEvent().setCancelled(true);
             }
         }
     }

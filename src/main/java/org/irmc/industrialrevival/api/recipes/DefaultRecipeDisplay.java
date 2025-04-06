@@ -289,7 +289,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
             return;
         }
 
-        sm.setCloseHandler(pl -> pageRecord.remove(pl.getUniqueId()));
+        sm.setCloseHandler((pl, menu) -> pageRecord.remove(pl.getUniqueId()));
 
         IndustrialRevivalItem item = rc.result();
 

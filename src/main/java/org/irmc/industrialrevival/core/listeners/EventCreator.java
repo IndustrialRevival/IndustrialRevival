@@ -328,8 +328,10 @@ public class EventCreator implements Listener {
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onMenuOpen(InventoryOpenEvent e) {
         if (e.getInventory().getHolder() instanceof MachineMenu menu) {
-            MenuOpenEvent event = new MenuOpenEvent(e, menu);
-            Bukkit.getServer().getPluginManager().callEvent(event);
+            if (!MachineMenuListener.isOpeningMenu((Player) e.getPlayer())) {
+                MenuOpenEvent event = new MenuOpenEvent(e, menu);
+                Bukkit.getServer().getPluginManager().callEvent(event);
+            }
         }
     }
 
