@@ -27,20 +27,20 @@ public class DisplayGroup {
         this.addon = addon;
     }
 
-    public @NotNull DisplayGroup center(Location location) {
+    public @NotNull DisplayGroup center(@NotNull Location location) {
         this.center = location.clone().add(0.5D, 0.5D, 0.5D);
         return this;
     }
 
-    public @NotNull DisplayGroup add(Display display) {
+    public @NotNull DisplayGroup add(@NotNull Display display) {
         return add(display, 0.0D, 0.0D, 0.0D);
     }
 
-    public @NotNull DisplayGroup add(Display display, double x, double y, double z) {
+    public @NotNull DisplayGroup add(@NotNull Display display, double x, double y, double z) {
         return add(display, new Vector(x, y, z));
     }
 
-    public @NotNull DisplayGroup add(Display display, Vector offset) {
+    public @NotNull DisplayGroup add(@NotNull Display display, @NotNull Vector offset) {
         if (center == null) {
             throw new UnsupportedOperationException("Center location is not set");
         }
@@ -51,15 +51,15 @@ public class DisplayGroup {
         return this;
     }
 
-    public @NotNull DisplayGroup add(AbstractModelBuilder modelBuilder) {
+    public @NotNull DisplayGroup add(@NotNull AbstractModelBuilder modelBuilder) {
         return add(modelBuilder, 0.0D, 0.0D, 0.0D);
     }
 
-    public @NotNull DisplayGroup add(AbstractModelBuilder modelBuilder, double x, double y, double z) {
+    public @NotNull DisplayGroup add(@NotNull AbstractModelBuilder modelBuilder, double x, double y, double z) {
         return add(modelBuilder, new Vector(x, y, z));
     }
 
-    public @NotNull DisplayGroup add(AbstractModelBuilder modelBuilder, Vector offset) {
+    public @NotNull DisplayGroup add(@NotNull AbstractModelBuilder modelBuilder, @NotNull Vector offset) {
         if (center == null) {
             throw new UnsupportedOperationException("Center location is not set");
         }

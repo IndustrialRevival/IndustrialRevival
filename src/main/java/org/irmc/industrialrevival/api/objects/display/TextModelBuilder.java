@@ -16,6 +16,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Transformation;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -78,7 +79,7 @@ public class TextModelBuilder extends AbstractModelBuilder implements Cloneable 
     public TextModelBuilder() {
     }
 
-    public void ifPresent(Object object, Runnable runnable) {
+    public void ifPresent(@Nullable Object object, @NotNull Runnable runnable) {
         if (object != null) {
             runnable.run();
         }
@@ -136,11 +137,11 @@ public class TextModelBuilder extends AbstractModelBuilder implements Cloneable 
         return clone;
     }
 
-    public TextModelBuilder build() {
+    public @NotNull TextModelBuilder build() {
         return clone();
     }
 
-    public TextDisplay buildAt(@NotNull Location location) {
+    public @NotNull TextDisplay buildAt(@NotNull Location location) {
         TextDisplay display = location.getWorld().spawn(location, TextDisplay.class);
         ifPresent(this.text, () -> display.text(this.text));
         ifPresent(this.lineWidth, () -> display.setLineWidth(this.lineWidth));
@@ -466,7 +467,7 @@ public class TextModelBuilder extends AbstractModelBuilder implements Cloneable 
         }
     }
 
-    public @NotNull TextModelBuilder setTranslation(Vector3f translation) {
+    public @NotNull TextModelBuilder setTranslation(@NotNull Vector3f translation) {
         return setTranslation(translation.x, translation.y, translation.z);
     }
 
@@ -480,7 +481,7 @@ public class TextModelBuilder extends AbstractModelBuilder implements Cloneable 
         return setTranslation(f, f, f);
     }
 
-    public @NotNull TextModelBuilder setLeftRotation(Quaternionf rotation) {
+    public @NotNull TextModelBuilder setLeftRotation(@NotNull Quaternionf rotation) {
         return setLeftRotation(rotation.x, rotation.y, rotation.z, rotation.w);
     }
 
@@ -494,7 +495,7 @@ public class TextModelBuilder extends AbstractModelBuilder implements Cloneable 
         return setLeftRotation(f, f, f, f);
     }
 
-    public @NotNull TextModelBuilder setSize(Vector3f size) {
+    public @NotNull TextModelBuilder setSize(@NotNull Vector3f size) {
         return setSize(size.x, size.y, size.z);
     }
 
@@ -508,7 +509,7 @@ public class TextModelBuilder extends AbstractModelBuilder implements Cloneable 
         return setSize(size, size, size);
     }
 
-    public @NotNull TextModelBuilder setRightRotation(Quaternionf rotation) {
+    public @NotNull TextModelBuilder setRightRotation(@NotNull Quaternionf rotation) {
         return setRightRotation(rotation.x, rotation.y, rotation.z, rotation.w);
     }
 

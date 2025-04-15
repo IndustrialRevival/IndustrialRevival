@@ -15,6 +15,7 @@ import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -69,7 +70,7 @@ public class ItemModelBuilder extends AbstractModelBuilder implements Cloneable 
     public ItemModelBuilder() {
     }
 
-    public void ifPresent(Object object, Runnable runnable) {
+    public void ifPresent(@Nullable Object object, @NotNull Runnable runnable) {
         if (object != null) {
             runnable.run();
         }
@@ -119,11 +120,11 @@ public class ItemModelBuilder extends AbstractModelBuilder implements Cloneable 
         return clone;
     }
 
-    public ItemModelBuilder build() {
+    public @NotNull ItemModelBuilder build() {
         return clone();
     }
 
-    public ItemDisplay buildAt(@NotNull Location location) {
+    public @NotNull ItemDisplay buildAt(@NotNull Location location) {
         ItemDisplay display = location.getWorld().spawn(location, ItemDisplay.class);
         ifPresent(this.itemStack, () -> display.setItemStack(this.itemStack));
         ifPresent(this.interpolationDuration, () -> display.setInterpolationDuration(this.interpolationDuration));
@@ -397,7 +398,7 @@ public class ItemModelBuilder extends AbstractModelBuilder implements Cloneable 
         }
     }
 
-    public @NotNull ItemModelBuilder setTranslation(Vector3f translation) {
+    public @NotNull ItemModelBuilder setTranslation(@NotNull Vector3f translation) {
         return setTranslation(translation.x, translation.y, translation.z);
     }
 
@@ -411,7 +412,7 @@ public class ItemModelBuilder extends AbstractModelBuilder implements Cloneable 
         return setTranslation(f, f, f);
     }
 
-    public @NotNull ItemModelBuilder setLeftRotation(Quaternionf rotation) {
+    public @NotNull ItemModelBuilder setLeftRotation(@NotNull Quaternionf rotation) {
         return setLeftRotation(rotation.x, rotation.y, rotation.z, rotation.w);
     }
 
@@ -425,7 +426,7 @@ public class ItemModelBuilder extends AbstractModelBuilder implements Cloneable 
         return setLeftRotation(f, f, f, f);
     }
 
-    public @NotNull ItemModelBuilder setSize(Vector3f size) {
+    public @NotNull ItemModelBuilder setSize(@NotNull Vector3f size) {
         return setSize(size.x, size.y, size.z);
     }
 
@@ -439,7 +440,7 @@ public class ItemModelBuilder extends AbstractModelBuilder implements Cloneable 
         return setSize(size, size, size);
     }
 
-    public @NotNull ItemModelBuilder setRightRotation(Quaternionf rotation) {
+    public @NotNull ItemModelBuilder setRightRotation(@NotNull Quaternionf rotation) {
         return setRightRotation(rotation.x, rotation.y, rotation.z, rotation.w);
     }
 

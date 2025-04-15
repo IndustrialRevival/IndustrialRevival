@@ -18,6 +18,7 @@ import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -72,7 +73,7 @@ public class BlockModelBuilder extends AbstractModelBuilder implements Cloneable
     public BlockModelBuilder() {
     }
 
-    public void ifPresent(Object object, Runnable runnable) {
+    public void ifPresent(@Nullable Object object, @NotNull Runnable runnable) {
         if (object != null) {
             runnable.run();
         }
@@ -122,11 +123,11 @@ public class BlockModelBuilder extends AbstractModelBuilder implements Cloneable
         return clone;
     }
 
-    public BlockModelBuilder build() {
+    public @NotNull BlockModelBuilder build() {
         return clone();
     }
 
-    public BlockDisplay buildAt(@NotNull Location location) {
+    public @NotNull BlockDisplay buildAt(@NotNull Location location) {
         BlockDisplay display = location.getWorld().spawn(location, BlockDisplay.class);
         ifPresent(this.blockData, () -> display.setBlock(this.blockData));
         ifPresent(this.interpolationDuration, () -> display.setInterpolationDuration(this.interpolationDuration));
@@ -175,22 +176,22 @@ public class BlockModelBuilder extends AbstractModelBuilder implements Cloneable
         return this;
     }
 
-    public @NotNull BlockModelBuilder block(Block block) {
+    public @NotNull BlockModelBuilder block(@NotNull Block block) {
         return block(block.getBlockData());
     }
 
-    public @NotNull BlockModelBuilder block(Location location) {
+    public @NotNull BlockModelBuilder block(@NotNull Location location) {
         return block(location.getBlock().getBlockData());
     }
 
-    public @NotNull BlockModelBuilder block(Material material) throws IllegalArgumentException {
+    public @NotNull BlockModelBuilder block(@NotNull Material material) throws IllegalArgumentException {
         if (!material.isBlock()) {
             throw new IllegalArgumentException("Material must be a block");
         }
         return block(material.createBlockData());
     }
 
-    public @NotNull BlockModelBuilder block(ItemStack itemStack) {
+    public @NotNull BlockModelBuilder block(@NotNull ItemStack itemStack) {
         return block(itemStack.getType());
     }
 
@@ -419,7 +420,7 @@ public class BlockModelBuilder extends AbstractModelBuilder implements Cloneable
         }
     }
 
-    public @NotNull BlockModelBuilder setTranslation(Vector3f translation) {
+    public @NotNull BlockModelBuilder setTranslation(@NotNull Vector3f translation) {
         return setTranslation(translation.x, translation.y, translation.z);
     }
 
@@ -433,7 +434,7 @@ public class BlockModelBuilder extends AbstractModelBuilder implements Cloneable
         return setTranslation(f, f, f);
     }
 
-    public @NotNull BlockModelBuilder setLeftRotation(Quaternionf rotation) {
+    public @NotNull BlockModelBuilder setLeftRotation(@NotNull Quaternionf rotation) {
         return setLeftRotation(rotation.x, rotation.y, rotation.z, rotation.w);
     }
 
@@ -447,7 +448,7 @@ public class BlockModelBuilder extends AbstractModelBuilder implements Cloneable
         return setLeftRotation(f, f, f, f);
     }
 
-    public @NotNull BlockModelBuilder setSize(Vector3f size) {
+    public @NotNull BlockModelBuilder setSize(@NotNull Vector3f size) {
         return setSize(size.x, size.y, size.z);
     }
 
@@ -461,7 +462,7 @@ public class BlockModelBuilder extends AbstractModelBuilder implements Cloneable
         return setSize(size, size, size);
     }
 
-    public @NotNull BlockModelBuilder setRightRotation(Quaternionf rotation) {
+    public @NotNull BlockModelBuilder setRightRotation(@NotNull Quaternionf rotation) {
         return setRightRotation(rotation.x, rotation.y, rotation.z, rotation.w);
     }
 

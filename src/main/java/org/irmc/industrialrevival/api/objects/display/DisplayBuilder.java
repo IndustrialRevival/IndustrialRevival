@@ -7,6 +7,7 @@ import org.bukkit.entity.Display;
 import org.bukkit.util.Vector;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.pigeonlib.objects.Pair;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -17,16 +18,16 @@ public class DisplayBuilder {
     private BlockFace northFace;
     private Location center;
     private Vector currentOffset;
-    private final List<Pair<Display, Vector>> displays;
+    private final @NotNull List<Pair<Display, Vector>> displays;
     private DisplayBuilder() {
         displays = new ArrayList<>();
     }
 
-    public static DisplayBuilder create() {
+    public static @NotNull DisplayBuilder create() {
         return new DisplayBuilder();
     }
 
-    public DisplayBuilder northFace(BlockFace northFace) {
+    public @NotNull DisplayBuilder northFace(@NotNull BlockFace northFace) {
         if (northFace.ordinal() > 3) {
             throw new IllegalArgumentException("Invalid block face: " + northFace);
         }
@@ -42,21 +43,21 @@ public class DisplayBuilder {
         return currentOffset;
     }
     
-    public List<Pair<Display, Vector>> displays() {
+    public @NotNull List<Pair<Display, Vector>> displays() {
         return displays;
     }
 
-    public DisplayBuilder home() {
+    public @NotNull DisplayBuilder home() {
         this.currentOffset = new Vector(0, 0, 0);
         return this;
     }
 
-    public DisplayBuilder center(Location center) {
+    public @NotNull DisplayBuilder center(Location center) {
         this.center = center;
         return this;
     }
 
-    public DisplayBuilder center(Display display) {
+    public @NotNull DisplayBuilder center(Display display) {
         displays.add(new Pair<>(display, new Vector(0, 0, 0)));
         return this;
     }
@@ -65,38 +66,38 @@ public class DisplayBuilder {
         return center;
     }
 
-    public DisplayBuilder leftBlock(Display display) {
+    public @NotNull DisplayBuilder leftBlock(Display display) {
         displays.add(new Pair<>(display, goLeft(1f)));
         return this;
     }
 
-    public DisplayBuilder rightBlock(Display display) {
+    public @NotNull DisplayBuilder rightBlock(Display display) {
         displays.add(new Pair<>(display, goRight(1f)));
         return this;
     }
 
-    public DisplayBuilder frontBlock(Display display) {
+    public @NotNull DisplayBuilder frontBlock(Display display) {
         displays.add(new Pair<>(display, goFront(1f)));
         return this;
     }
 
-    public DisplayBuilder backBlock(Display display) {
+    public @NotNull DisplayBuilder backBlock(Display display) {
         displays.add(new Pair<>(display, goBack(1f)));
         return this;
     }
 
-    public DisplayBuilder upBlock(Display display) {
+    public @NotNull DisplayBuilder upBlock(Display display) {
         displays.add(new Pair<>(display, goUp(1f)));
         return this;
     }
 
-    public DisplayBuilder downBlock(Display display) {
+    public @NotNull DisplayBuilder downBlock(Display display) {
         displays.add(new Pair<>(display, goDown(1f)));
         return this;
     }
 
     @Nonnull
-    public static BlockFace getLeft(BlockFace blockFace) {
+    public static BlockFace getLeft(@NotNull BlockFace blockFace) {
         return switch (blockFace) {
             case NORTH -> BlockFace.WEST;
             case SOUTH -> BlockFace.EAST;
@@ -107,7 +108,7 @@ public class DisplayBuilder {
     }
 
     @Nonnull
-    public static BlockFace getRight(BlockFace blockFace) {
+    public static BlockFace getRight(@NotNull BlockFace blockFace) {
         return switch (blockFace) {
             case NORTH -> BlockFace.EAST;
             case SOUTH -> BlockFace.WEST;
@@ -118,7 +119,7 @@ public class DisplayBuilder {
     }
 
     @Nonnull
-    public static BlockFace getOpposite(BlockFace blockFace) {
+    public static BlockFace getOpposite(@NotNull BlockFace blockFace) {
         return switch (blockFace) {
             case NORTH -> BlockFace.SOUTH;
             case SOUTH -> BlockFace.NORTH;
@@ -131,17 +132,17 @@ public class DisplayBuilder {
     }
 
     @Nonnull
-    public static BlockFace getFront(BlockFace blockFace) {
+    public static BlockFace getFront(@NotNull BlockFace blockFace) {
         return blockFace;
     }
 
     @Nonnull
-    public static BlockFace getBack(BlockFace blockFace) {
+    public static BlockFace getBack(@NotNull BlockFace blockFace) {
         return getOpposite(blockFace);
     }
 
     @Nonnull
-    public static Vector getOffset(BlockFace blockFace) {
+    public static Vector getOffset(@NotNull BlockFace blockFace) {
         return switch (blockFace) {
             case NORTH -> new Vector(0, 0, -1);
             case SOUTH -> new Vector(0, 0, 1);
@@ -162,17 +163,17 @@ public class DisplayBuilder {
         displays.add(new Pair<>(display, goRight(0.5f)));
         return this;
     }
-    public DisplayBuilder frontHalf(Display display) {
+    public @NotNull DisplayBuilder frontHalf(Display display) {
         displays.add(new Pair<>(display, goFront(0.5f)));
         return this;
     }
 
-    public DisplayBuilder backHalf(Display display) {
+    public @NotNull DisplayBuilder backHalf(Display display) {
         displays.add(new Pair<>(display, goBack(0.5f)));
         return this;
     }
 
-    public DisplayBuilder upHalf(Display display) {
+    public @NotNull DisplayBuilder upHalf(Display display) {
         displays.add(new Pair<>(display, goUp(0.5f)));
         return this;
     }
@@ -206,7 +207,7 @@ public class DisplayBuilder {
     public Vector goDown(double distance) {
         return currentOffset.add(getOffset(BlockFace.DOWN).multiply(distance));
     }
-    public DisplayGroup build() {
+    public @NotNull DisplayGroup build() {
         if (center == null) {
             throw new IllegalStateException("Center location is not set");
         }
