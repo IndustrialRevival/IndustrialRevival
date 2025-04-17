@@ -65,6 +65,9 @@ public class DisplayGroup {
         }
 
         Display display = modelBuilder.buildAt(center.clone().add(offset.getX(), offset.getY(), offset.getZ()));
+        if (display == null) {
+            return this;
+        }
         // When add display to a display group, set metadata to the display to identify its addons
         display.setMetadata(DISPLAY_GROUP_METADATA_KEY, new FixedMetadataValue(IndustrialRevival.getInstance(), addon.getPlugin().getName()));
         return add(display);
