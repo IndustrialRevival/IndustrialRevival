@@ -19,53 +19,61 @@ import java.util.function.Function;
 @Getter
 public enum ColorBlock {
     NORTH_VISIBLE(
+            Component.text("北"),
             new Quaternionf(0, 0, 1, 0),
             new Quaternionf(0, 0, 1, 1),
             scale -> 0.1375f * scale * 2,
             scale -> 4f * scale
     ),
     SOUTH_VISIBLE(
+            Component.text("南"),
             new Quaternionf(0, 1, 0, 1),
             new Quaternionf(0, 1, 0, 1),
             scale -> -0.1125f * scale * 4
     ),
     UP_VISIBLE(
+            Component.text("上"),
             new Quaternionf(0.5, 0.5, 0.5, 0.5),
             new Quaternionf(0.5, 0.5, 0.5, 0.5),
             scale -> 0.1125f * scale,
             scale -> scale * 4
     ),
     DOWN_VISIBLE(
+            Component.text("下"),
             new Quaternionf(1, 0, 1, 0),
             new Quaternionf(0, 1, 1, 0),
             scale -> -0.1125f * scale * 0
     ),
     EAST_VISIBLE(
+            Component.text("东"),
             new Quaternionf(0, 1, 0, 1),
             new Quaternionf(0, 1, 0, 0),
             scale -> 0.1125f * scale * 2,
             scale -> scale * 4
     ),
     WEST_VISIBLE(
+            Component.text("西"),
             new Quaternionf(0, 1, 0, 1),
             new Quaternionf(0, 0, 1, 1),
             scale -> -0.1375f * scale * 4
     );
 
+    private final Component baseString;
     private final Quaternionf leftRotation;
     private final Quaternionf rightRotation;
     private Function<Float, Float> translationHandler;
     private Function<Float, Float> scaleHandler;
 
-    ColorBlock(@NotNull Quaternionf leftRotation, @NotNull Quaternionf right_rotation, @NotNull Function<Float, Float> translationHandler, @NotNull Function<Float, Float> scaleHandler) {
+    ColorBlock(@NotNull Component baseString, @NotNull Quaternionf leftRotation, @NotNull Quaternionf right_rotation, @NotNull Function<Float, Float> translationHandler, @NotNull Function<Float, Float> scaleHandler) {
+        this.baseString = baseString;
         this.leftRotation = leftRotation;
         this.rightRotation = right_rotation;
         this.translationHandler = translationHandler;
         this.scaleHandler = scaleHandler;
     }
 
-    ColorBlock(@NotNull Quaternionf leftRotation, @NotNull Quaternionf right_rotation, @NotNull Function<Float, Float> translationHandler) {
-        this(leftRotation, right_rotation, translationHandler, scale -> scale);
+    ColorBlock(@NotNull Component baseString, @NotNull Quaternionf leftRotation, @NotNull Quaternionf right_rotation, @NotNull Function<Float, Float> translationHandler) {
+        this(baseString, leftRotation, right_rotation, translationHandler, scale -> scale);
     }
 
     // For test
@@ -80,32 +88,33 @@ public enum ColorBlock {
         return this;
     }
 
-    public void make(@NotNull Block block, @NotNull Color color, float @NotNull [] scale) {
-        make(block, color, scale, null);
+    public void make(@NotNull Block block, @NotNull Color color) {
+        make(block, color, null);
     }
 
-    public void make(@NotNull Corners corners, @NotNull Color color, float @NotNull [] scale) {
-        make(corners, color, scale, null);
+    public void make(@NotNull Corners corners, @NotNull Color color) {
+        make(corners, color, null);
     }
 
-    public void make(@NotNull Block block, @NotNull Color color, float @NotNull [] scale, @Nullable TextureHandler textureHandler) {
-        make(Corners.fromBlock(block), color, scale, textureHandler);
+    public void make(@NotNull Block block, @NotNull Color color, @Nullable TextureHandler textureHandler) {
+        make(Corners.fromBlock(block), color, textureHandler);
     }
 
-    public void make(@NotNull Corners corners, @NotNull Color color, float @NotNull [] scale, @Nullable TextureHandler textureHandler) {
+    public void make(@NotNull Corners corners, @NotNull Color color, @Nullable TextureHandler textureHandler) {
         Preconditions.checkArgument(corners != null, "Corners cannot be null");
         Preconditions.checkArgument(color != null, "Color cannot be null");
-        Preconditions.checkArgument(scale != null, "Scale cannot be null");
-        Preconditions.checkArgument(scale.length >= 3, "Scale must be at least length 3");
         Preconditions.checkArgument(corners.getWorld() != null, "World cannot be null");
 
+        float scaleX = corners.getDistanceX();
+        float scaleY = corners.getDistanceY();
+        float scaleZ = corners.getDistanceZ();
         var builder = new TextModelBuilder()
                 .setLeftRotation(leftRotation)
                 .setRightRotation(rightRotation)
-                .setSize(scaleHandler.apply(scale[0]), scaleHandler.apply(scale[1]), scaleHandler.apply(scale[2]))
-                .setTranslation(getTranslation(scale[0], scale[1], scale[2]))
+                .setSize(scaleHandler.apply(scaleX), scaleHandler.apply(scaleY), scaleHandler.apply(scaleX))
+                .setTranslation(getTranslation(scaleX, scaleY, scaleZ))
                 .backgroundColor(color)
-                .text(Component.text("你"))
+                .text(this.getBaseString())
                 .textOpacity((byte) 5)
                 .brightness(new Display.Brightness(15, 15));
 
@@ -120,8 +129,9 @@ public enum ColorBlock {
         return switch (this) {
             case SOUTH_VISIBLE -> new Vector3f(translationHandler.apply(scaleX), 0f, -scaleZ);
             case NORTH_VISIBLE, WEST_VISIBLE -> new Vector3f(0f, translationHandler.apply(scaleY), 0f);
-            case DOWN_VISIBLE, EAST_VISIBLE -> new Vector3f(0f, 0f, translationHandler.apply(scaleZ));
-            case UP_VISIBLE -> new Vector3f(0f, scaleY, translationHandler.apply(scaleZ));
+            case DOWN_VISIBLE -> new Vector3f(0f, 0f, translationHandler.apply(scaleZ));
+            case UP_VISIBLE -> new Vector3f(0f, scaleY, 0f);
+            case EAST_VISIBLE -> new Vector3f(0f, 0f, translationHandler.apply(scaleZ));
         };
     }
 
@@ -147,9 +157,9 @@ public enum ColorBlock {
         void apply(@Nonnull Corners corners, @Nullable TextModelBuilder extraHandler);
     }
 
-    public static void makeSurface(@NotNull Corners corners, @NotNull Color color, float @NotNull [] scale, @Nullable TextureHandler textureHandler) {
+    public static void makeSurface(@NotNull Corners corners, @NotNull Color color, @Nullable TextureHandler textureHandler) {
         for (ColorBlock value : values()) {
-            value.make(corners, color, scale, textureHandler);
+            value.make(corners, color, textureHandler);
         }
     }
 }

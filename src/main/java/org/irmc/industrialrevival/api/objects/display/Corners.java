@@ -64,4 +64,15 @@ public class Corners {
     public @Nullable World getWorld() {
         return world.get();
     }
+    public float getDistanceX() {
+        return Math.abs(maxX - minX);
+    }
+
+    public float getDistanceY() {
+        return Math.abs(maxY - minY) ;
+    }
+
+    public float getDistanceZ() {
+        return Math.abs(maxZ - minZ) ;
+    }
 }
