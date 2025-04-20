@@ -10,6 +10,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.irmc.industrialrevival.core.listeners.MachineMenuListener;
 import org.irmc.industrialrevival.utils.Debug;
 import org.irmc.industrialrevival.utils.MenuUtil;
 import org.jetbrains.annotations.NotNull;
@@ -17,6 +18,7 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -230,13 +232,20 @@ public class SimpleMenu implements IRInventoryHolder {
 
     public void open(@NotNull Player... players) {
         for (Player p : players) {
+            if (viewers.contains(p)) {
+                continue;
+            }
             p.openInventory(getInventory());
+            viewers.add(p);
             getOpenHandler().onOpen(p, this);
         }
     }
 
     public void close(@NotNull Player... players) {
         for (Player p : players) {
+            if (!viewers.contains(p)) {
+                continue;
+            }
             p.closeInventory();
             getCloseHandler().onClose(p, this);
         }

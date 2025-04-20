@@ -86,7 +86,6 @@ public enum ColorBlock {
         this(baseString, leftRotation, right_rotation, translationHandler, scale -> scale);
     }
 
-
     public void make(@NotNull Block block, @NotNull Color color) {
         make(block, color, null);
     }
