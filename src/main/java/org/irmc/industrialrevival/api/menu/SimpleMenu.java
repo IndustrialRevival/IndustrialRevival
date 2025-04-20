@@ -4,12 +4,12 @@ import com.google.common.base.Preconditions;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.irmc.industrialrevival.core.listeners.MachineMenuListener;
 import org.irmc.industrialrevival.utils.Debug;
 import org.irmc.industrialrevival.utils.MenuUtil;
 import org.jetbrains.annotations.NotNull;
@@ -17,26 +17,16 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.IntStream;
 
 public class SimpleMenu implements IRInventoryHolder {
-    protected final Set<Player> viewers = new HashSet<>();
-    protected final Map<Integer, ItemStack> slots;
-    protected Map<Integer, ItemStack> getSlots() {
-        return slots;
-    }
     protected final Map<Integer, ClickHandler> clickHandlers;
     protected Map<Integer, ClickHandler> getClickHandlers() {
         return clickHandlers;
     }
-
-    @Getter
-    protected boolean dirty;
 
     protected int size = -1;
 
@@ -64,18 +54,15 @@ public class SimpleMenu implements IRInventoryHolder {
     public SimpleMenu(@NotNull Component title) {
         this.title = title;
 
-        this.slots = new HashMap<>();
         this.clickHandlers = new HashMap<>();
     }
 
     public SimpleMenu(MachineMenuPreset preset) {
         this.title = preset.getTitle();
-        this.slots = preset.getSlots();
         this.clickHandlers = preset.getClickHandlers();
         this.size = preset.getSize();
         this.closeHandler = preset.getCloseHandler();
         this.openHandler = preset.getOpenHandler();
-        this.dirty = true;
     }
 
     public void addMenuDrawer(@NotNull MatrixMenuDrawer drawer) {
@@ -108,10 +95,10 @@ public class SimpleMenu implements IRInventoryHolder {
     }
 
     public void setItem(@Range(from = 0, to = 53) int slot, @Nullable ItemStack itemStack) {
-        setItem(slot, itemStack, ClickHandler.DEFAULT);
+        setItem(slot, itemStack, null);
     }
 
-    public void setItem(@Range(from = 0, to = 53) int slot, @Nullable ItemStack itemStack, @NotNull ClickHandler clickHandler) {
+    public void setItem(@Range(from = 0, to = 53) int slot, @Nullable ItemStack itemStack, @Nullable ClickHandler clickHandler) {
         if (slot < 0 || slot >= 54) {
             Debug.severe("Invalid slot: " + slot);
             Debug.stackTraceManually();
@@ -119,26 +106,19 @@ public class SimpleMenu implements IRInventoryHolder {
         }
 
         if (itemStack == null) {
-            this.slots.remove(slot);
             this.clickHandlers.remove(slot);
-
-            if (this.slots.get(slot) == null && this.clickHandlers.get(slot) == null) {
-                markDirty();
-            }
 
             return;
         }
 
-        this.slots.put(slot, itemStack);
-        this.clickHandlers.put(slot, clickHandler);
-
-        markDirty();
+        this.getInventory().setItem(slot, itemStack);
+        if (clickHandler != null) {
+            this.clickHandlers.put(slot, clickHandler);
+        }
     }
 
     public void setTitle(@NotNull Component title) {
         this.title = title;
-
-        markDirty();
     }
 
     public int getSize() {
@@ -152,11 +132,11 @@ public class SimpleMenu implements IRInventoryHolder {
         Preconditions.checkArgument(size % 9 == 0, "Size must be a multiple of 9");
 
         this.size = size;
-        markDirty();
     }
 
     private void setupInventory() {
-        if (this.inventory == null || this.dirty) {
+        Debug.stackTraceManually();
+        if (this.inventory == null) {
             if (this.size == -1) {
                 this.size = calculateInventorySize();
             }
@@ -169,14 +149,12 @@ public class SimpleMenu implements IRInventoryHolder {
                 }
                 this.inventory.setItem(i, item);
             }
-
-            this.dirty = false;
         }
     }
 
     @Nullable
     public ItemStack getItem(@Range(from = 0, to = 53) int slot) {
-        return this.slots.get(slot);
+        return this.inventory.getItem(slot);
     }
 
     /**
@@ -187,17 +165,16 @@ public class SimpleMenu implements IRInventoryHolder {
      */
     @NotNull
     public ItemStack[] getMenuContents() {
-        return this.slots.values().toArray(new ItemStack[0]);
-    }
-
-    public int[] getSelectedSlots() {
-        return this.slots.keySet().stream().mapToInt(i -> i).toArray();
+        return this.getInventory().getContents();
     }
 
     public int[] getEmptySlots() {
         return IntStream.range(0, getSize())
-                .filter(i -> !this.slots.containsKey(i)
-                        && (!clickHandlers.containsKey(i) || clickHandlers.get(i) == ClickHandler.ACCEPT_ALL))
+                .filter(i -> {
+                    ItemStack item = this.getItem(i);
+                    return (item == null || item.getType() == Material.AIR)
+                            && (!clickHandlers.containsKey(i) || clickHandlers.get(i) == ClickHandler.ACCEPT_ALL);
+                })
                 .toArray();
     }
 
@@ -210,25 +187,33 @@ public class SimpleMenu implements IRInventoryHolder {
         this.clickHandlers.put(slot, clickHandler);
     }
 
-    private void markDirty() {
-        this.dirty = true;
-    }
-
     @Override
     @NotNull
     public Inventory getInventory() {
-        if (this.inventory == null || this.dirty) {
+        if (this.inventory == null) {
             setupInventory();
         }
 
         return this.inventory;
     }
 
-    private int calculateInventorySize() {
-        Set<Integer> slots = this.slots.keySet();
-        int maxValue = slots.stream().sorted().toList().reversed().get(0);
+    public int lastNonnullSlot() {
+        for (int i = 53; i >= 0; i--) {
+            if (getItem(i) != null) {
+                return i;
+            }
+        }
 
-        return (maxValue % 9 + 1) == 0 ? maxValue + 1 : (maxValue / 9 + 1) * 9;
+        return -1;
+    }
+
+    private int calculateInventorySize() {
+        int index = lastNonnullSlot();
+        if (index == -1) {
+            return 54;
+        }
+
+        return (index / 9 + 1) * 9;
     }
 
     public void setCloseHandler(@NotNull MenuCloseHandler closeHandler) {
@@ -245,40 +230,24 @@ public class SimpleMenu implements IRInventoryHolder {
 
     public void open(@NotNull Player... players) {
         for (Player p : players) {
-            if (viewers.contains(p)) {
-                continue;
-            }
             p.openInventory(getInventory());
-            viewers.add(p);
             getOpenHandler().onOpen(p, this);
         }
     }
 
     public void close(@NotNull Player... players) {
         for (Player p : players) {
-            if (!viewers.contains(p)) {
-                continue;
-            }
             p.closeInventory();
-            viewers.remove(p);
             getCloseHandler().onClose(p, this);
         }
     }
 
     public List<Player> getViewers() {
-        return List.copyOf(this.viewers);
+        return getInventory().getViewers().stream().map(h -> (Player) h).toList();
     }
 
     public boolean hasViewer() {
         return !getViewers().isEmpty();
-    }
-
-    public void addViewer(@NotNull Player player) {
-        viewers.add(player);
-    }
-
-    public void removeViewer(@NotNull Player player) {
-        viewers.remove(player);
     }
 
     public void setOutsideClickHandler(@NotNull OutsideClickHandler outsideClickHandler) {

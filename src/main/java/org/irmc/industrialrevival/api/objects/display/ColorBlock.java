@@ -60,11 +60,19 @@ public enum ColorBlock {
             scale -> scale * 4f
     );
 
+    public static final ColorBlock[] DEFAULT_SURFACE = new ColorBlock[] {
+            ColorBlock.NORTH_VISIBLE,
+            ColorBlock.SOUTH_VISIBLE,
+            ColorBlock.WEST_VISIBLE,
+            ColorBlock.EAST_VISIBLE,
+            ColorBlock.UP_VISIBLE,
+            ColorBlock.DOWN_VISIBLE
+    };
     private final Component baseString;
     private final Quaternionf leftRotation;
     private final Quaternionf rightRotation;
-    private Function<Float, Float> translationHandler;
-    private Function<Float, Float> scaleHandler;
+    private final Function<Float, Float> translationHandler;
+    private final Function<Float, Float> scaleHandler;
 
     ColorBlock(@NotNull Component baseString, @NotNull Quaternionf leftRotation, @NotNull Quaternionf right_rotation, @NotNull Function<Float, Float> translationHandler, @NotNull Function<Float, Float> scaleHandler) {
         this.baseString = baseString;
@@ -78,17 +86,6 @@ public enum ColorBlock {
         this(baseString, leftRotation, right_rotation, translationHandler, scale -> scale);
     }
 
-    // For test
-    public ColorBlock setTranslationHandler(@NotNull Function<Float, Float> translationHandler) {
-        this.translationHandler = translationHandler;
-        return this;
-    }
-
-    // For test
-    public ColorBlock setScaleHandler(@NotNull Function<Float, Float> scaleHandler) {
-        this.scaleHandler = scaleHandler;
-        return this;
-    }
 
     public void make(@NotNull Block block, @NotNull Color color) {
         make(block, color, null);
@@ -162,15 +159,6 @@ public enum ColorBlock {
             case WEST_VISIBLE -> location = new Location(corners.getWorld(), corners.getMaxX(), corners.getMinY(), corners.getMinZ());
             case NORTH_VISIBLE -> location = new Location(corners.getWorld(), corners.getMaxX(), corners.getMinY(), corners.getMaxZ());
             default -> location = new Location(corners.getWorld(), corners.getMinX(), corners.getMinY(), corners.getMinZ());
-            /*
-            case EAST_VISIBLE, UP_VISIBLE ->
-                    location = new Location(corners.getWorld(), corners.getMinX(), corners.getMinY(), corners.getMinZ());
-            case WEST_VISIBLE -> location = new Location(corners.getWorld(), corners.getMaxX(), corners.getMaxY(), corners.getMinZ());
-            case DOWN_VISIBLE, NORTH_VISIBLE ->
-                    location = new Location(corners.getWorld(), corners.getMinX(), corners.getMinY(), corners.getMaxZ());
-            case SOUTH_VISIBLE -> location = new Location(corners.getWorld(), corners.getMaxX(), corners.getMinY(), corners.getMaxZ());
-
-             */
         }
 
         if (location == null) {
@@ -189,7 +177,7 @@ public enum ColorBlock {
     }
 
     public static void makeSurface(@NotNull Corners corners, @NotNull Color color, @Nullable TextureHandler textureHandler) {
-        for (ColorBlock value : values()) {
+        for (ColorBlock value : DEFAULT_SURFACE) {
             value.make(corners, color, textureHandler);
         }
     }

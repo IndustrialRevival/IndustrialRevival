@@ -11,7 +11,6 @@ import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -237,7 +236,6 @@ public class BlastSmeltery extends MultiBlock implements ExtraTickable {
         if (lavas > getFuelSlots().length) {
             lavas = getFuelSlots().length;
         }
-        Debug.log("fuels=" + fuels + ", split=" + split + ", lavas=" + lavas);
         List<TextComponent> lore = new ArrayList<>();
         lore.add(Component.text("Fuel: " + fuels + " / " + capacity, FUEL_TEXT_COLOR));
 
@@ -252,10 +250,8 @@ public class BlastSmeltery extends MultiBlock implements ExtraTickable {
         int j = 1;
         for (int slot : Arrays.stream(getFuelSlots()).boxed().toList().reversed()) {
             if (j > lavas) {
-                Debug.log("j = " + j + " > lavas = " + lavas);
                 menu.getItem(slot).setType(Material.BUCKET);
             } else {
-                Debug.log("j = " + j + " <= lavas = " + lavas);
                 menu.getItem(slot).setType(Material.LAVA_BUCKET);
             }
             j += 1;
@@ -280,6 +276,7 @@ public class BlastSmeltery extends MultiBlock implements ExtraTickable {
             if (!instances.containsKey(location)) {
                 instances.put(location, new Smeltery());
                 MachineMenu menu = new MachineMenu(location, preset);
+                menu.addMenuDrawer(menuDrawer);
                 menus.put(location, menu);
             }
 
@@ -320,8 +317,6 @@ public class BlastSmeltery extends MultiBlock implements ExtraTickable {
 
     public void tick(Location location, MachineMenu menu, Smeltery smeltery) {
         smeltery.tick();
-        // todo: 测试时，刚打开菜单是viewers包括玩家，但是在tick调用时，并不包含玩家
-        Debug.log("102 BlastSmeltery viewers=" + menu.getViewers().stream().map(HumanEntity::getName).toList());
         if (menu.hasViewer()) {
             Debug.log("101 BlastSmeltery tick hasViewer");
             updateMenu(location);
@@ -333,12 +328,12 @@ public class BlastSmeltery extends MultiBlock implements ExtraTickable {
                 continue;
             }
             if (isMeltingStack(input)) {
-                Debug.log("93 BlastSmeltery tick isMeltingStack(input) with slot=" + slot + ", fuel=" + fuels);
                 if (IndustrialRevivalItem.getByItem(input) instanceof Meltable meltable) {
                     int fuelUse = meltable.getFuelUse(input);
                     if (fuelUse <= getMeltingLevel(input)) {
                         smeltery.getTank().addMelted(new MeltedObject(meltable.getMeltedType(input), meltable.getTinkerType(input).getLevel()));
                         menu.setItem(slot, new ItemStack(Material.AIR));
+                        continue;
                     } else if (meltable.getMeltingPoint(input) > fuels) {
                         continue;
                     }

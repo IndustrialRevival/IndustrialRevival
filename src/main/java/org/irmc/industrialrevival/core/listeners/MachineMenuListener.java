@@ -58,17 +58,13 @@ public class MachineMenuListener implements Listener {
 
     @EventHandler
     public void onMenuClose(MenuCloseEvent e) {
-        MachineMenu menu = e.getMenu();
         Player p = e.getPlayer();
-        menu.removeViewer(p);
         opening.remove(p);
     }
 
     @EventHandler
     public void onMenuOpen(MenuOpenEvent event) {
-        MachineMenu menu = event.getOpenedMenu();
         Player p = event.getPlayer();
-        menu.addViewer(p);
         opening.add(p);
     }
 

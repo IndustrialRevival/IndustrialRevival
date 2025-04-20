@@ -103,10 +103,6 @@ public class MachineMenu extends SimpleMenu {
         return remainingTime + seconds + "s";
     }
 
-    public void setSize(@Range(from = 9, to = 54) int size) {
-        throw new UnsupportedOperationException("Cannot set size of a machine menu");
-    }
-
     public void setTitle(@NotNull Component title) {
         throw new UnsupportedOperationException("Cannot set title of a machine menu");
     }
