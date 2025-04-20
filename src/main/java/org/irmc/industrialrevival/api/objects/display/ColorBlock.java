@@ -1,0 +1,196 @@
+package org.irmc.industrialrevival.api.objects.display;
+
+import com.google.common.base.Preconditions;
+import lombok.Getter;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Color;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Display;
+import org.jetbrains.annotations.NotNull;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.function.Function;
+
+@Getter
+public enum ColorBlock {
+    NORTH_VISIBLE(
+            Component.text("北"), //! DO NOT TRANSLATE
+            new Quaternionf().identity(),
+            new Quaternionf().identity(),
+            scale -> -scale * 0.55f,
+            scale -> scale * 4f
+    ),
+    SOUTH_VISIBLE(
+            Component.text("南"), //! DO NOT TRANSLATE
+            new Quaternionf().rotationX((float) Math.toRadians(180)),
+            new Quaternionf().identity(),
+            scale -> -scale * 0.55f,
+            scale -> scale * 4f
+    ),
+    UP_VISIBLE(
+            Component.text("上"), //! DO NOT TRANSLATE
+            new Quaternionf().rotationX((float) Math.toRadians(-90)),
+            new Quaternionf().identity(),
+            scale -> scale * 0.45f,
+            scale -> scale * 4f
+    ),
+    DOWN_VISIBLE(
+            Component.text("下"), //! DO NOT TRANSLATE
+            new Quaternionf().rotationX((float) Math.toRadians(90)),
+            new Quaternionf().identity(),
+            scale -> scale * 0.45f,
+            scale -> scale * 4f
+    ),
+    EAST_VISIBLE(
+            Component.text("东"), //! DO NOT TRANSLATE
+            new Quaternionf().rotationY((float) Math.toRadians(-90)),
+            new Quaternionf().identity(),
+            scale -> scale * 0.45f,
+            scale -> scale * 4f
+    ),
+    WEST_VISIBLE(
+            Component.text("西"), //! DO NOT TRANSLATE
+            new Quaternionf().rotationY((float) Math.toRadians(90)),
+            new Quaternionf().identity(),
+            scale -> scale * 0.55f,
+            scale -> scale * 4f
+    );
+
+    private final Component baseString;
+    private final Quaternionf leftRotation;
+    private final Quaternionf rightRotation;
+    private Function<Float, Float> translationHandler;
+    private Function<Float, Float> scaleHandler;
+
+    ColorBlock(@NotNull Component baseString, @NotNull Quaternionf leftRotation, @NotNull Quaternionf right_rotation, @NotNull Function<Float, Float> translationHandler, @NotNull Function<Float, Float> scaleHandler) {
+        this.baseString = baseString;
+        this.leftRotation = leftRotation;
+        this.rightRotation = right_rotation;
+        this.translationHandler = translationHandler;
+        this.scaleHandler = scaleHandler;
+    }
+
+    ColorBlock(@NotNull Component baseString, @NotNull Quaternionf leftRotation, @NotNull Quaternionf right_rotation, @NotNull Function<Float, Float> translationHandler) {
+        this(baseString, leftRotation, right_rotation, translationHandler, scale -> scale);
+    }
+
+    // For test
+    public ColorBlock setTranslationHandler(@NotNull Function<Float, Float> translationHandler) {
+        this.translationHandler = translationHandler;
+        return this;
+    }
+
+    // For test
+    public ColorBlock setScaleHandler(@NotNull Function<Float, Float> scaleHandler) {
+        this.scaleHandler = scaleHandler;
+        return this;
+    }
+
+    public void make(@NotNull Block block, @NotNull Color color) {
+        make(block, color, null);
+    }
+
+    public void make(@NotNull Corners corners, @NotNull Color color) {
+        make(corners, color, null);
+    }
+
+    public void make(@NotNull Block block, @NotNull Color color, @Nullable TextureHandler textureHandler) {
+        make(Corners.of(block), color, textureHandler);
+    }
+
+    public void make(@NotNull Corners corners, @NotNull Color color, @Nullable TextureHandler textureHandler) {
+        Preconditions.checkArgument(corners != null, "Corners cannot be null");
+        Preconditions.checkArgument(color != null, "Color cannot be null");
+        Preconditions.checkArgument(corners.getWorld() != null, "World cannot be null");
+
+        float scaleX = corners.getDistanceX();
+        float scaleY = corners.getDistanceY();
+        float scaleZ = corners.getDistanceZ();
+        var builder = new TextModelBuilder()
+                .setLeftRotation(leftRotation)
+                .setRightRotation(rightRotation)
+                .setSize(getSize(scaleX, scaleY, scaleZ))
+                .setTranslation(getTranslation(scaleX, scaleY, scaleZ))
+                .backgroundColor(color)
+                .text(this.getBaseString())
+                .textOpacity((byte) 5)
+                .brightness(new Display.Brightness(15, 15));
+
+        if (textureHandler != null) {
+            textureHandler.apply(corners, builder);
+        }
+
+        generate(corners, builder);
+    }
+
+    public @NotNull Vector3f getTranslation(float scaleX, float scaleY, float scaleZ) {
+        return switch (this) {
+            case NORTH_VISIBLE -> new Vector3f(translationHandler.apply(scaleX), 0f, 0f);
+            case SOUTH_VISIBLE -> new Vector3f(translationHandler.apply(scaleX), 0f, 0f);
+            case WEST_VISIBLE -> new Vector3f(0f, 0f, translationHandler.apply(scaleZ));
+            case EAST_VISIBLE -> new Vector3f(0f, 0f, translationHandler.apply(scaleZ));
+            case UP_VISIBLE -> new Vector3f(translationHandler.apply(scaleX), 0f, 0f);
+            case DOWN_VISIBLE -> new Vector3f(translationHandler.apply(scaleX), 0f, 0f);
+            default -> new Vector3f(0f, 0f, 0f);
+        };
+    }
+
+    public @NotNull Vector3f getSize(float scaleX, float scaleY, float scaleZ) {
+        float fixedScaleX = scaleHandler.apply(scaleX);
+        float fixedScaleY = scaleHandler.apply(scaleY);
+        float fixedScaleZ = scaleHandler.apply(scaleZ);
+        return switch (this) {
+            case UP_VISIBLE -> new Vector3f(fixedScaleX, fixedScaleZ, 0f);
+            case DOWN_VISIBLE -> new Vector3f(fixedScaleX, fixedScaleZ, 0f);
+            case NORTH_VISIBLE -> new Vector3f(fixedScaleX, fixedScaleY, 0f);
+            case SOUTH_VISIBLE -> new Vector3f(fixedScaleX, fixedScaleY, 0f);
+            case WEST_VISIBLE -> new Vector3f(fixedScaleZ, fixedScaleY, 0f);
+            case EAST_VISIBLE -> new Vector3f(fixedScaleZ, fixedScaleY, 0f);
+            default -> new Vector3f();
+        };
+    }
+
+    private void generate(@NotNull Corners corners, @NotNull TextModelBuilder builder) {
+        Location location = null;
+        switch (this) {
+            case UP_VISIBLE -> location = new Location(corners.getWorld(), corners.getMinX(), corners.getMaxY(), corners.getMaxZ());
+            case SOUTH_VISIBLE -> location = new Location(corners.getWorld(), corners.getMaxX(), corners.getMaxY(), corners.getMinZ());
+            case WEST_VISIBLE -> location = new Location(corners.getWorld(), corners.getMaxX(), corners.getMinY(), corners.getMinZ());
+            case NORTH_VISIBLE -> location = new Location(corners.getWorld(), corners.getMaxX(), corners.getMinY(), corners.getMaxZ());
+            default -> location = new Location(corners.getWorld(), corners.getMinX(), corners.getMinY(), corners.getMinZ());
+            /*
+            case EAST_VISIBLE, UP_VISIBLE ->
+                    location = new Location(corners.getWorld(), corners.getMinX(), corners.getMinY(), corners.getMinZ());
+            case WEST_VISIBLE -> location = new Location(corners.getWorld(), corners.getMaxX(), corners.getMaxY(), corners.getMinZ());
+            case DOWN_VISIBLE, NORTH_VISIBLE ->
+                    location = new Location(corners.getWorld(), corners.getMinX(), corners.getMinY(), corners.getMaxZ());
+            case SOUTH_VISIBLE -> location = new Location(corners.getWorld(), corners.getMaxX(), corners.getMinY(), corners.getMaxZ());
+
+             */
+        }
+
+        if (location == null) {
+            return;
+        }
+
+        builder.buildAt(location);
+    }
+
+    public interface TextureHandler {
+        void apply(@Nonnull Corners corners, @Nullable TextModelBuilder extraHandler);
+    }
+
+    public static void makeSurface(@NotNull Corners corners, @NotNull Color color) {
+        makeSurface(corners, color, null);
+    }
+
+    public static void makeSurface(@NotNull Corners corners, @NotNull Color color, @Nullable TextureHandler textureHandler) {
+        for (ColorBlock value : values()) {
+            value.make(corners, color, textureHandler);
+        }
+    }
+}

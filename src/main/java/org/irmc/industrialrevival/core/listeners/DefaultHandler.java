@@ -2,6 +2,7 @@ package org.irmc.industrialrevival.core.listeners;
 
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -104,11 +105,11 @@ public class DefaultHandler implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onMenuOpen(MenuOpenEvent event) {
-        if (event.getRightClickEvent().getOriginalEvent().isCancelled()) {
+        if (event.getInventoryOpenEvent().isCancelled()) {
             return;
         }
 
-        event.getOpenedMenu().open(event.getRightClickEvent().getOriginalEvent().getPlayer());
+        event.getOpenedMenu().open((Player) event.getInventoryOpenEvent().getPlayer());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

@@ -111,15 +111,6 @@ public class MachineMenu extends SimpleMenu {
         throw new UnsupportedOperationException("Cannot set title of a machine menu");
     }
 
-    public boolean hasViewer() {
-        return !getInventory().getViewers().isEmpty();
-    }
-
-    @NotNull
-    public List<HumanEntity> getViewers() {
-        return getInventory().getViewers();
-    }
-
     public void consumeSlot(@Range(from = 0, to = 53) int slot, int amount) {
         ItemStack item = getItem(slot);
         if (item != null && item.getAmount() > 0) {
@@ -439,6 +430,12 @@ public class MachineMenu extends SimpleMenu {
 
     @Override
     @NotNull
+    public OutsideClickHandler getOutsideClickHandler() {
+        return preset.getOutsideClickHandler();
+    }
+
+    @Override
+    @Nullable
     public ClickHandler getClickHandler(@Range(from = 0, to = 53) int slot) {
         return preset.getClickHandler(slot);
     }

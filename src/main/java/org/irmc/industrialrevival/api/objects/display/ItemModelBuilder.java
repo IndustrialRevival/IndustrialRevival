@@ -2,6 +2,7 @@ package org.irmc.industrialrevival.api.objects.display;
 
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Display;
@@ -14,7 +15,10 @@ import org.bukkit.metadata.LazyMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
+import org.irmc.industrialrevival.implementation.IndustrialRevival;
+import org.irmc.industrialrevival.utils.Debug;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -24,6 +28,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 @Getter
 public class ItemModelBuilder extends AbstractModelBuilder implements Cloneable {
@@ -69,7 +74,7 @@ public class ItemModelBuilder extends AbstractModelBuilder implements Cloneable 
     public ItemModelBuilder() {
     }
 
-    public void ifPresent(Object object, Runnable runnable) {
+    public void ifPresent(@Nullable Object object, @NotNull Runnable runnable) {
         if (object != null) {
             runnable.run();
         }
@@ -119,51 +124,59 @@ public class ItemModelBuilder extends AbstractModelBuilder implements Cloneable 
         return clone;
     }
 
-    public ItemModelBuilder build() {
+    public @NotNull ItemModelBuilder build() {
         return clone();
     }
 
-    public ItemDisplay buildAt(@NotNull Location location) {
-        ItemDisplay display = location.getWorld().spawn(location, ItemDisplay.class);
-        ifPresent(this.itemStack, () -> display.setItemStack(this.itemStack));
-        ifPresent(this.interpolationDuration, () -> display.setInterpolationDuration(this.interpolationDuration));
-        ifPresent(this.teleportDuration, () -> display.setTeleportDuration(this.teleportDuration));
-        ifPresent(this.viewRange, () -> display.setViewRange(this.viewRange));
-        ifPresent(this.shadowRadius, () -> display.setShadowRadius(this.shadowRadius));
-        ifPresent(this.shadowStrength, () -> display.setShadowStrength(this.shadowStrength));
-        ifPresent(this.displayWidth, () -> display.setDisplayWidth(this.displayWidth));
-        ifPresent(this.displayHeight, () -> display.setDisplayHeight(this.displayHeight));
-        ifPresent(this.interpolationDelay, () -> display.setInterpolationDelay(this.interpolationDelay));
-        ifPresent(this.billboard, () -> display.setBillboard(this.billboard));
-        ifPresent(this.glowColorOverride, () -> display.setGlowColorOverride(this.glowColorOverride));
-        ifPresent(this.brightness, () -> display.setBrightness(this.brightness));
-        ifPresent(this.velocity, () -> display.setVelocity(this.velocity));
-        ifPresent(this.yaw, () -> display.setRotation(this.yaw, this.pitch));
-        ifPresent(this.pitch, () -> display.setRotation(this.yaw, this.pitch));
-        ifPresent(this.fireTicks, () -> display.setFireTicks(this.fireTicks));
-        ifPresent(this.visualFire, () -> display.setVisualFire(this.visualFire));
-        ifPresent(this.freezeTicks, () -> display.setFreezeTicks(this.freezeTicks));
-        ifPresent(this.invisible, () -> display.setInvisible(this.invisible));
-        ifPresent(this.noPhysics, () -> display.setNoPhysics(this.noPhysics));
-        ifPresent(this.lockFreezeTicks, () -> display.lockFreezeTicks(this.lockFreezeTicks));
-        ifPresent(this.persistent, () -> display.setPersistent(this.persistent));
-        ifPresent(this.passengers, () -> this.passengers.forEach(display::addPassenger));
-        ifPresent(this.fallDistance, () -> display.setFallDistance(this.fallDistance));
-        ifPresent(this.ticksLived, () -> display.setTicksLived(this.ticksLived));
-        ifPresent(this.customNameVisible, () -> display.setCustomNameVisible(this.customNameVisible));
-        ifPresent(this.visibleByDefault, () -> display.setVisibleByDefault(this.visibleByDefault));
-        ifPresent(this.glowing, () -> display.setGlowing(this.glowing));
-        ifPresent(this.invulnerable, () -> display.setInvulnerable(this.invulnerable));
-        ifPresent(this.silent, () -> display.setSilent(this.silent));
-        ifPresent(this.gravity, () -> display.setGravity(this.gravity));
-        ifPresent(this.portalCooldown, () -> display.setPortalCooldown(this.portalCooldown));
-        ifPresent(this.scoreboardTag, () -> this.scoreboardTag.forEach(display::addScoreboardTag));
-        ifPresent(this.sneaking, () -> display.setSneaking(this.sneaking));
-        ifPresent(this.pose, () -> display.setPose(this.pose, this.fixedPose));
-        ifPresent(this.metadata, () -> this.metadata.forEach((key, values) -> values.forEach(value -> display.setMetadata(key, value))));
-        ifPresent(this.customName, () -> display.customName(this.customName));
-        ifPresent(this.transformationBuilder, () -> display.setTransformation(this.transformationBuilder.build()));
-        return display;
+    public @NotNull ItemDisplay buildAt(@NotNull Location location) {
+        try {
+            return Bukkit.getScheduler().callSyncMethod(IndustrialRevival.getInstance(), () ->
+                location.getWorld().spawn(location, ItemDisplay.class, display -> {
+                    //<editor-fold> desc="args"
+                    ifPresent(this.itemStack, () -> display.setItemStack(this.itemStack));
+                    ifPresent(this.interpolationDuration, () -> display.setInterpolationDuration(this.interpolationDuration));
+                    ifPresent(this.teleportDuration, () -> display.setTeleportDuration(this.teleportDuration));
+                    ifPresent(this.viewRange, () -> display.setViewRange(this.viewRange));
+                    ifPresent(this.shadowRadius, () -> display.setShadowRadius(this.shadowRadius));
+                    ifPresent(this.shadowStrength, () -> display.setShadowStrength(this.shadowStrength));
+                    ifPresent(this.displayWidth, () -> display.setDisplayWidth(this.displayWidth));
+                    ifPresent(this.displayHeight, () -> display.setDisplayHeight(this.displayHeight));
+                    ifPresent(this.interpolationDelay, () -> display.setInterpolationDelay(this.interpolationDelay));
+                    ifPresent(this.billboard, () -> display.setBillboard(this.billboard));
+                    ifPresent(this.glowColorOverride, () -> display.setGlowColorOverride(this.glowColorOverride));
+                    ifPresent(this.brightness, () -> display.setBrightness(this.brightness));
+                    ifPresent(this.velocity, () -> display.setVelocity(this.velocity));
+                    ifPresent(this.yaw, () -> display.setRotation(this.yaw, this.pitch));
+                    ifPresent(this.pitch, () -> display.setRotation(this.yaw, this.pitch));
+                    ifPresent(this.fireTicks, () -> display.setFireTicks(this.fireTicks));
+                    ifPresent(this.visualFire, () -> display.setVisualFire(this.visualFire));
+                    ifPresent(this.freezeTicks, () -> display.setFreezeTicks(this.freezeTicks));
+                    ifPresent(this.invisible, () -> display.setInvisible(this.invisible));
+                    ifPresent(this.noPhysics, () -> display.setNoPhysics(this.noPhysics));
+                    ifPresent(this.lockFreezeTicks, () -> display.lockFreezeTicks(this.lockFreezeTicks));
+                    ifPresent(this.persistent, () -> display.setPersistent(this.persistent));
+                    ifPresent(this.passengers, () -> this.passengers.forEach(display::addPassenger));
+                    ifPresent(this.fallDistance, () -> display.setFallDistance(this.fallDistance));
+                    ifPresent(this.ticksLived, () -> display.setTicksLived(this.ticksLived));
+                    ifPresent(this.customNameVisible, () -> display.setCustomNameVisible(this.customNameVisible));
+                    ifPresent(this.visibleByDefault, () -> display.setVisibleByDefault(this.visibleByDefault));
+                    ifPresent(this.glowing, () -> display.setGlowing(this.glowing));
+                    ifPresent(this.invulnerable, () -> display.setInvulnerable(this.invulnerable));
+                    ifPresent(this.silent, () -> display.setSilent(this.silent));
+                    ifPresent(this.gravity, () -> display.setGravity(this.gravity));
+                    ifPresent(this.portalCooldown, () -> display.setPortalCooldown(this.portalCooldown));
+                    ifPresent(this.scoreboardTag, () -> this.scoreboardTag.forEach(display::addScoreboardTag));
+                    ifPresent(this.sneaking, () -> display.setSneaking(this.sneaking));
+                    ifPresent(this.pose, () -> display.setPose(this.pose, this.fixedPose));
+                    ifPresent(this.metadata, () -> this.metadata.forEach((key, values) -> values.forEach(value -> display.setMetadata(key, value))));
+                    ifPresent(this.customName, () -> display.customName(this.customName));
+                    ifPresent(this.transformationBuilder, () -> display.setTransformation(this.transformationBuilder.build()));
+                    //<editor-fold>
+                })).get();
+        } catch (InterruptedException | ExecutionException e) {
+            Debug.error(e);
+            return null;
+        }
     }
 
     // Item Display methods
@@ -397,7 +410,7 @@ public class ItemModelBuilder extends AbstractModelBuilder implements Cloneable 
         }
     }
 
-    public @NotNull ItemModelBuilder setTranslation(Vector3f translation) {
+    public @NotNull ItemModelBuilder setTranslation(@NotNull Vector3f translation) {
         return setTranslation(translation.x, translation.y, translation.z);
     }
 
@@ -411,7 +424,7 @@ public class ItemModelBuilder extends AbstractModelBuilder implements Cloneable 
         return setTranslation(f, f, f);
     }
 
-    public @NotNull ItemModelBuilder setLeftRotation(Quaternionf rotation) {
+    public @NotNull ItemModelBuilder setLeftRotation(@NotNull Quaternionf rotation) {
         return setLeftRotation(rotation.x, rotation.y, rotation.z, rotation.w);
     }
 
@@ -425,7 +438,7 @@ public class ItemModelBuilder extends AbstractModelBuilder implements Cloneable 
         return setLeftRotation(f, f, f, f);
     }
 
-    public @NotNull ItemModelBuilder setSize(Vector3f size) {
+    public @NotNull ItemModelBuilder setSize(@NotNull Vector3f size) {
         return setSize(size.x, size.y, size.z);
     }
 
@@ -439,7 +452,7 @@ public class ItemModelBuilder extends AbstractModelBuilder implements Cloneable 
         return setSize(size, size, size);
     }
 
-    public @NotNull ItemModelBuilder setRightRotation(Quaternionf rotation) {
+    public @NotNull ItemModelBuilder setRightRotation(@NotNull Quaternionf rotation) {
         return setRightRotation(rotation.x, rotation.y, rotation.z, rotation.w);
     }
 

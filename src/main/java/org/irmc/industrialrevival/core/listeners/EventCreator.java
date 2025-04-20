@@ -27,6 +27,7 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.event.inventory.PrepareGrindstoneEvent;
 import org.bukkit.event.inventory.PrepareSmithingEvent;
@@ -36,6 +37,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+import org.irmc.industrialrevival.api.menu.IRInventoryHolder;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.api.objects.events.vanilla.BlockExplodeIRBlockEvent;
@@ -317,33 +319,18 @@ public class EventCreator implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onMenuClose(InventoryCloseEvent e) {
-        Location location = e.getInventory().getLocation();
-        IRBlockData data = DataUtil.getBlockData(location);
-        if (data == null) {
-            return;
+        if (e.getInventory().getHolder() instanceof MachineMenu menu) {
+            MenuCloseEvent event = new MenuCloseEvent(e, menu);
+            Bukkit.getServer().getPluginManager().callEvent(event);
         }
-        MachineMenu menu = data.getMachineMenu();
-        if (menu == null) {
-            return;
-        }
-
-        MenuCloseEvent event = new MenuCloseEvent(e, menu);
-        Bukkit.getServer().getPluginManager().callEvent(event);
     }
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-    public void onMenuOpen(PlayerRightClickEvent e) {
-        if (e.getOriginalEvent().getAction() == Action.RIGHT_CLICK_BLOCK) {
-            IRBlockData data = DataUtil.getBlockData(e.getOriginalEvent().getClickedBlock().getLocation());
-            if (data == null) {
-                return;
-            }
-            MachineMenu menu = data.getMachineMenu();
-            if (menu != null) {
+    public void onMenuOpen(InventoryOpenEvent e) {
+        if (e.getInventory().getHolder() instanceof MachineMenu menu) {
+            if (!MachineMenuListener.isOpeningMenu((Player) e.getPlayer())) {
                 MenuOpenEvent event = new MenuOpenEvent(e, menu);
                 Bukkit.getServer().getPluginManager().callEvent(event);
-
-                
             }
         }
     }

@@ -5,8 +5,10 @@ import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
+import org.irmc.industrialrevival.api.ErrorReport;
 import org.irmc.industrialrevival.core.data.object.BlockRecord;
 import org.irmc.industrialrevival.core.guide.GuideSettings;
+import org.irmc.industrialrevival.utils.Debug;
 import org.jetbrains.annotations.NotNull;
 import org.jooq.DSLContext;
 import org.jooq.Record2;
@@ -113,6 +115,13 @@ public abstract non-sealed class AbstractDataManager implements IDataManager {
     public void updateBlockData(@NotNull Location location, @NotNull BlockRecord record) {
         String b64 = Base64.getEncoder().encodeToString(record.data().getBytes());
         try (Connection conn = pool.getConnection()) {
+            if (conn.isClosed()) {
+                // todo: as ErrorReport
+                Debug.error("Can't complete task: Connection is closed.");
+                Debug.error("Location: " + location);
+                Debug.error("Record: " + record);
+                return;
+            }
             DSLContext dsl = DSL.using(conn, dialect);
             dsl.update(DSL.table("block_record"))
                     .set(DSL.field("data"), DSL.val(b64))

@@ -227,7 +227,7 @@ public class HandlerCaller implements Listener {
     public void onMenuClose(MenuCloseEvent e) {
         SimpleMenu.MenuCloseHandler handler = e.getMenu().getCloseHandler();
         if (handler != null) {
-            handler.onClose((Player) e.getOriginalEvent().getPlayer());
+            handler.onClose(e.getPlayer(), e.getMenu());
         }
     }
 
@@ -236,7 +236,7 @@ public class HandlerCaller implements Listener {
         MachineMenu menu = e.getOpenedMenu();
         SimpleMenu.MenuOpenHandler handler = menu.getOpenHandler();
         if (handler != null) {
-            handler.onOpen(e.getRightClickEvent().getOriginalEvent().getPlayer(), menu);
+            handler.onOpen(e.getPlayer(), menu);
         }
     }
 

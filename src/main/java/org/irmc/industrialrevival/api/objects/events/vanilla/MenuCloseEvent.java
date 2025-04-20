@@ -1,6 +1,7 @@
 package org.irmc.industrialrevival.api.objects.events.vanilla;
 
 import lombok.Getter;
+import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryEvent;
@@ -17,6 +18,10 @@ public class MenuCloseEvent extends InventoryEvent {
         super(originalEvent.getView());
         this.originalEvent = originalEvent;
         this.menu = menu;
+    }
+
+    public Player getPlayer() {
+        return (Player) originalEvent.getPlayer();
     }
 
     public static HandlerList getHandlerList() {
