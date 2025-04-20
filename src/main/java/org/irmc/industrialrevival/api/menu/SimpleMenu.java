@@ -232,20 +232,13 @@ public class SimpleMenu implements IRInventoryHolder {
 
     public void open(@NotNull Player... players) {
         for (Player p : players) {
-            if (viewers.contains(p)) {
-                continue;
-            }
             p.openInventory(getInventory());
-            viewers.add(p);
             getOpenHandler().onOpen(p, this);
         }
     }
 
     public void close(@NotNull Player... players) {
         for (Player p : players) {
-            if (!viewers.contains(p)) {
-                continue;
-            }
             p.closeInventory();
             getCloseHandler().onClose(p, this);
         }
