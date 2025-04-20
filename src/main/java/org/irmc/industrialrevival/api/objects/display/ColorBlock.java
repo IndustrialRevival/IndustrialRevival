@@ -22,42 +22,42 @@ public enum ColorBlock {
             new Quaternionf().identity(),
             new Quaternionf().identity(),
             scale -> -scale * 0.55f,
-            scale -> scale * 4
+            scale -> scale * 4f
     ),
     SOUTH_VISIBLE(
             Component.text("南"),
             new Quaternionf().rotationX((float) Math.toRadians(180)),
             new Quaternionf().identity(),
             scale -> -scale * 0.55f,
-            scale -> scale * 4
+            scale -> scale * 4f
     ),
     UP_VISIBLE(
             Component.text("上"),
             new Quaternionf().rotationX((float) Math.toRadians(-90)),
             new Quaternionf().identity(),
             scale -> scale * 0.45f,
-            scale -> scale * 4
+            scale -> scale * 4f
     ),
     DOWN_VISIBLE(
             Component.text("下"),
             new Quaternionf().rotationX((float) Math.toRadians(90)),
             new Quaternionf().identity(),
-            scale -> scale * 0.55f,
-            scale -> scale * 4
+            scale -> scale * 0.45f,
+            scale -> scale * 4f
     ),
     EAST_VISIBLE(
             Component.text("东"),
             new Quaternionf().rotationY((float) Math.toRadians(-90)),
             new Quaternionf().identity(),
             scale -> scale * 0.45f,
-            scale -> scale * 4
+            scale -> scale * 4f
     ),
     WEST_VISIBLE(
             Component.text("西"),
             new Quaternionf().rotationY((float) Math.toRadians(90)),
             new Quaternionf().identity(),
             scale -> scale * 0.55f,
-            scale -> scale * 4
+            scale -> scale * 4f
     );
 
     private final Component baseString;
@@ -113,7 +113,7 @@ public enum ColorBlock {
         var builder = new TextModelBuilder()
                 .setLeftRotation(leftRotation)
                 .setRightRotation(rightRotation)
-                .setSize(scaleHandler.apply(scaleX), scaleHandler.apply(scaleY), scaleHandler.apply(scaleX))
+                .setSize(getSize(scaleX, scaleY, scaleZ))
                 .setTranslation(getTranslation(scaleX, scaleY, scaleZ))
                 .backgroundColor(color)
                 .text(this.getBaseString())
@@ -136,6 +136,21 @@ public enum ColorBlock {
             case UP_VISIBLE -> new Vector3f(translationHandler.apply(scaleX), 0f, 0f);
             case DOWN_VISIBLE -> new Vector3f(translationHandler.apply(scaleX), 0f, 0f);
             default -> new Vector3f(0f, 0f, 0f);
+        };
+    }
+
+    public @NotNull Vector3f getSize(float scaleX, float scaleY, float scaleZ) {
+        float fixedScaleX = scaleHandler.apply(scaleX);
+        float fixedScaleY = scaleHandler.apply(scaleY);
+        float fixedScaleZ = scaleHandler.apply(scaleZ);
+        return switch (this) {
+            case UP_VISIBLE -> new Vector3f(fixedScaleX, fixedScaleZ, 0f);
+            case DOWN_VISIBLE -> new Vector3f(fixedScaleX, fixedScaleZ, 0f);
+            case NORTH_VISIBLE -> new Vector3f(fixedScaleX, fixedScaleY, 0f);
+            case SOUTH_VISIBLE -> new Vector3f(fixedScaleX, fixedScaleY, 0f);
+            case WEST_VISIBLE -> new Vector3f(fixedScaleZ, fixedScaleY, 0f);
+            case EAST_VISIBLE -> new Vector3f(fixedScaleZ, fixedScaleY, 0f);
+            default -> new Vector3f();
         };
     }
 
