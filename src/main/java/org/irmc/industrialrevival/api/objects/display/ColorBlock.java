@@ -2,7 +2,6 @@ package org.irmc.industrialrevival.api.objects.display;
 
 import com.google.common.base.Preconditions;
 import lombok.Getter;
-import lombok.Setter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -20,42 +19,45 @@ import java.util.function.Function;
 public enum ColorBlock {
     NORTH_VISIBLE(
             Component.text("北"),
-            new Quaternionf(0, 0, 1, 0),
-            new Quaternionf(0, 0, 1, 1),
-            scale -> 0.1375f * scale * 2,
-            scale -> 4f * scale
+            new Quaternionf().identity(),
+            new Quaternionf().identity(),
+            scale -> -scale * 0.55f,
+            scale -> scale * 4
     ),
     SOUTH_VISIBLE(
             Component.text("南"),
-            new Quaternionf(0, 1, 0, 1),
-            new Quaternionf(0, 1, 0, 1),
-            scale -> -0.1125f * scale * 4
+            new Quaternionf().rotationX((float) Math.toRadians(180)),
+            new Quaternionf().identity(),
+            scale -> -scale * 0.55f,
+            scale -> scale * 4
     ),
     UP_VISIBLE(
             Component.text("上"),
-            new Quaternionf(0.5, 0.5, 0.5, 0.5),
-            new Quaternionf(0.5, 0.5, 0.5, 0.5),
-            scale -> 0.1125f * scale,
+            new Quaternionf().rotationX((float) Math.toRadians(-90)),
+            new Quaternionf().identity(),
+            scale -> scale * 0.45f,
             scale -> scale * 4
     ),
     DOWN_VISIBLE(
             Component.text("下"),
-            new Quaternionf(1, 0, 1, 0),
-            new Quaternionf(0, 1, 1, 0),
-            scale -> -0.1125f * scale * 0
+            new Quaternionf().rotationX((float) Math.toRadians(90)),
+            new Quaternionf().identity(),
+            scale -> scale * 0.55f,
+            scale -> scale * 4
     ),
     EAST_VISIBLE(
             Component.text("东"),
-            new Quaternionf(0, 1, 0, 1),
-            new Quaternionf(0, 1, 0, 0),
-            scale -> 0.1125f * scale * 2,
+            new Quaternionf().rotationY((float) Math.toRadians(-90)),
+            new Quaternionf().identity(),
+            scale -> scale * 0.45f,
             scale -> scale * 4
     ),
     WEST_VISIBLE(
             Component.text("西"),
-            new Quaternionf(0, 1, 0, 1),
-            new Quaternionf(0, 0, 1, 1),
-            scale -> -0.1375f * scale * 4
+            new Quaternionf().rotationY((float) Math.toRadians(90)),
+            new Quaternionf().identity(),
+            scale -> scale * 0.55f,
+            scale -> scale * 4
     );
 
     private final Component baseString;
@@ -97,7 +99,7 @@ public enum ColorBlock {
     }
 
     public void make(@NotNull Block block, @NotNull Color color, @Nullable TextureHandler textureHandler) {
-        make(Corners.fromBlock(block), color, textureHandler);
+        make(Corners.of(block), color, textureHandler);
     }
 
     public void make(@NotNull Corners corners, @NotNull Color color, @Nullable TextureHandler textureHandler) {
@@ -127,23 +129,33 @@ public enum ColorBlock {
 
     public @NotNull Vector3f getTranslation(float scaleX, float scaleY, float scaleZ) {
         return switch (this) {
-            case SOUTH_VISIBLE -> new Vector3f(translationHandler.apply(scaleX), 0f, -scaleZ);
-            case NORTH_VISIBLE, WEST_VISIBLE -> new Vector3f(0f, translationHandler.apply(scaleY), 0f);
-            case DOWN_VISIBLE -> new Vector3f(0f, 0f, translationHandler.apply(scaleZ));
-            case UP_VISIBLE -> new Vector3f(0f, scaleY, 0f);
+            case NORTH_VISIBLE -> new Vector3f(translationHandler.apply(scaleX), 0f, 0f);
+            case SOUTH_VISIBLE -> new Vector3f(translationHandler.apply(scaleX), 0f, 0f);
+            case WEST_VISIBLE -> new Vector3f(0f, 0f, translationHandler.apply(scaleZ));
             case EAST_VISIBLE -> new Vector3f(0f, 0f, translationHandler.apply(scaleZ));
+            case UP_VISIBLE -> new Vector3f(translationHandler.apply(scaleX), 0f, 0f);
+            case DOWN_VISIBLE -> new Vector3f(translationHandler.apply(scaleX), 0f, 0f);
+            default -> new Vector3f(0f, 0f, 0f);
         };
     }
 
     private void generate(@NotNull Corners corners, @NotNull TextModelBuilder builder) {
         Location location = null;
         switch (this) {
+            case UP_VISIBLE -> location = new Location(corners.getWorld(), corners.getMinX(), corners.getMaxY(), corners.getMaxZ());
+            case SOUTH_VISIBLE -> location = new Location(corners.getWorld(), corners.getMaxX(), corners.getMaxY(), corners.getMinZ());
+            case WEST_VISIBLE -> location = new Location(corners.getWorld(), corners.getMaxX(), corners.getMinY(), corners.getMinZ());
+            case NORTH_VISIBLE -> location = new Location(corners.getWorld(), corners.getMaxX(), corners.getMinY(), corners.getMaxZ());
+            default -> location = new Location(corners.getWorld(), corners.getMinX(), corners.getMinY(), corners.getMinZ());
+            /*
             case EAST_VISIBLE, UP_VISIBLE ->
                     location = new Location(corners.getWorld(), corners.getMinX(), corners.getMinY(), corners.getMinZ());
             case WEST_VISIBLE -> location = new Location(corners.getWorld(), corners.getMaxX(), corners.getMaxY(), corners.getMinZ());
             case DOWN_VISIBLE, NORTH_VISIBLE ->
                     location = new Location(corners.getWorld(), corners.getMinX(), corners.getMinY(), corners.getMaxZ());
             case SOUTH_VISIBLE -> location = new Location(corners.getWorld(), corners.getMaxX(), corners.getMinY(), corners.getMaxZ());
+
+             */
         }
 
         if (location == null) {
@@ -155,6 +167,10 @@ public enum ColorBlock {
 
     public interface TextureHandler {
         void apply(@Nonnull Corners corners, @Nullable TextModelBuilder extraHandler);
+    }
+
+    public static void makeSurface(@NotNull Corners corners, @NotNull Color color) {
+        makeSurface(corners, color, null);
     }
 
     public static void makeSurface(@NotNull Corners corners, @NotNull Color color, @Nullable TextureHandler textureHandler) {

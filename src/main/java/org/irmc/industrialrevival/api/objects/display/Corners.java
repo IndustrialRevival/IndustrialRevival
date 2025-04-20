@@ -1,18 +1,16 @@
 package org.irmc.industrialrevival.api.objects.display;
 
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.util.BoundingBox;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.ref.WeakReference;
 
+@Data
 @Builder
-@Getter
 public class Corners {
     public WeakReference<World> world;
     private final float minX;
@@ -42,23 +40,40 @@ public class Corners {
         this.maxZ = maxZ;
     }
 
-    public static @NotNull Corners fromBox(World world, @NotNull BoundingBox box) {
-        return new Corners(world, (float) box.getMinX(), (float) box.getMaxX(), (float) box.getMinY(), (float) box.getMaxY(), (float) box.getMinZ(), (float) box.getMaxZ());
+    public Corners merge(Corners corners) {
+        return Corners.builder()
+                .world(world)
+                .minX(Math.min(minX, corners.minX))
+                .maxX(Math.max(maxX, corners.maxX))
+                .minY(Math.min(minY, corners.minY))
+                .maxY(Math.max(maxY, corners.maxY))
+                .minZ(Math.min(minZ, corners.minZ))
+                .maxZ(Math.max(maxZ, corners.maxZ))
+                .build();
     }
 
-    public static @NotNull Corners fromBlock(@NotNull Block block) {
-        return fromBox(block.getWorld(), block.getBoundingBox());
+    public static Corners of(Block block) {
+        return Corners.builder()
+                .world(new WeakReference<>(block.getWorld()))
+                .minX(block.getX())
+                .maxX(block.getX()+1)
+                .minY(block.getY())
+                .maxY(block.getY()+1)
+                .minZ(block.getZ())
+                .maxZ(block.getZ()+1)
+                .build();
     }
 
-    public static @NotNull Corners fromBlock(@NotNull Block block1, @NotNull Block block2) {
-        return fromLocation(block1.getLocation(), block2.getLocation());
+    public static Corners of(Location location) {
+        return of(location.getBlock());
     }
 
-    public static @NotNull Corners fromLocation(@NotNull Location location) {
-        return fromBlock(location.getBlock());
+    public static Corners of(Block block1, Block block2) {
+        return of(block1).merge(of(block2));
     }
-    public static @NotNull Corners fromLocation(@NotNull Location location1, @NotNull Location location2) {
-        return fromBox(location1.getWorld(), BoundingBox.of(location1, location2));
+
+    public static Corners of(Location location1, Location location2) {
+        return of(location1.getBlock(), location2.getBlock());
     }
 
     public @Nullable World getWorld() {
@@ -69,10 +84,10 @@ public class Corners {
     }
 
     public float getDistanceY() {
-        return Math.abs(maxY - minY) ;
+        return Math.abs(maxY - minY);
     }
 
     public float getDistanceZ() {
-        return Math.abs(maxZ - minZ) ;
+        return Math.abs(maxZ - minZ);
     }
 }
