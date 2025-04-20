@@ -18,42 +18,42 @@ import java.util.function.Function;
 @Getter
 public enum ColorBlock {
     NORTH_VISIBLE(
-            Component.text("北"),
+            Component.text("北"), //! DO NOT TRANSLATE
             new Quaternionf().identity(),
             new Quaternionf().identity(),
             scale -> -scale * 0.55f,
             scale -> scale * 4f
     ),
     SOUTH_VISIBLE(
-            Component.text("南"),
+            Component.text("南"), //! DO NOT TRANSLATE
             new Quaternionf().rotationX((float) Math.toRadians(180)),
             new Quaternionf().identity(),
             scale -> -scale * 0.55f,
             scale -> scale * 4f
     ),
     UP_VISIBLE(
-            Component.text("上"),
+            Component.text("上"), //! DO NOT TRANSLATE
             new Quaternionf().rotationX((float) Math.toRadians(-90)),
             new Quaternionf().identity(),
             scale -> scale * 0.45f,
             scale -> scale * 4f
     ),
     DOWN_VISIBLE(
-            Component.text("下"),
+            Component.text("下"), //! DO NOT TRANSLATE
             new Quaternionf().rotationX((float) Math.toRadians(90)),
             new Quaternionf().identity(),
             scale -> scale * 0.45f,
             scale -> scale * 4f
     ),
     EAST_VISIBLE(
-            Component.text("东"),
+            Component.text("东"), //! DO NOT TRANSLATE
             new Quaternionf().rotationY((float) Math.toRadians(-90)),
             new Quaternionf().identity(),
             scale -> scale * 0.45f,
             scale -> scale * 4f
     ),
     WEST_VISIBLE(
-            Component.text("西"),
+            Component.text("西"), //! DO NOT TRANSLATE
             new Quaternionf().rotationY((float) Math.toRadians(90)),
             new Quaternionf().identity(),
             scale -> scale * 0.55f,
