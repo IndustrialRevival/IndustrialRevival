@@ -4,6 +4,10 @@ import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class is used to define a material / product type in Smeltery.
@@ -14,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
  */
 @Getter
 public abstract class TinkerType {
+    public static final Map<NamespacedKey, TinkerType> TYPES = new HashMap<>();
     private final @NotNull NamespacedKey key;
     private final int level;
     /* Define if the material can be melted in the smeltery */
@@ -26,6 +31,7 @@ public abstract class TinkerType {
         this.level = level;
         this.meltable = meltable;
         this.outputAble = outputAble;
+        TYPES.put(key, this);
     }
 
     /**
@@ -36,5 +42,10 @@ public abstract class TinkerType {
     public @NotNull Component name() {
         // todo: add localization support
         return Component.text(key.getKey());
+    }
+
+    @Nullable
+    public static TinkerType forName(NamespacedKey key) {
+        return TYPES.get(key);
     }
 }

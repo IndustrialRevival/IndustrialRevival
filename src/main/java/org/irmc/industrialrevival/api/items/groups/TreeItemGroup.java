@@ -8,6 +8,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+import org.irmc.industrialrevival.api.menu.handlers.ClickHandler;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
 import org.irmc.industrialrevival.core.guide.GuideHistory;
@@ -86,7 +87,7 @@ public class TreeItemGroup extends ItemGroup {
                 if (item != null) {
                     sm.setItem(
                             i,
-                            CleanedItemGetter.getCleanedItem(item.getIcon()),
+                            CleanedItemGetter.clean(item.getIcon()),
                             (player, clickedItem, slot, menu, clickType) -> {
                                 if (item.group != null) {
                                     guide.onGroupClicked(player, item.group, 1);
@@ -112,7 +113,7 @@ public class TreeItemGroup extends ItemGroup {
         }));
 
         ItemStack previousButton = Constants.Buttons.PREVIOUS_BUTTON.apply(p);
-        SimpleMenu.ClickHandler previousClickHandler = (player, clickedItem, slot, menu, clickType) -> {
+        ClickHandler previousClickHandler = (player, clickedItem, slot, menu, clickType) -> {
             guide.onGroupClicked(player, this, page - 1);
             return false;
         };
@@ -120,13 +121,13 @@ public class TreeItemGroup extends ItemGroup {
         if (page == 1) {
             previousButton.setType(Material.BLACK_STAINED_GLASS_PANE);
             previousButton.editMeta(m -> m.displayName(Component.space()));
-            previousClickHandler = SimpleMenu.ClickHandler.DEFAULT;
+            previousClickHandler = ClickHandler.DEFAULT;
         }
 
         sm.setItem(47, previousButton, previousClickHandler);
 
         ItemStack nextButton = Constants.Buttons.NEXT_BUTTON.apply(p);
-        SimpleMenu.ClickHandler nextClickHandler = (player, clickedItem, slot, menu, clickType) -> {
+        ClickHandler nextClickHandler = (player, clickedItem, slot, menu, clickType) -> {
             guide.onGroupClicked(player, this, page + 1);
             return false;
         };
@@ -134,13 +135,13 @@ public class TreeItemGroup extends ItemGroup {
         if (onlyPageOne) {
             nextButton.setType(Material.BLACK_STAINED_GLASS_PANE);
             nextButton.editMeta(m -> m.displayName(Component.space()));
-            nextClickHandler = SimpleMenu.ClickHandler.DEFAULT;
+            nextClickHandler = ClickHandler.DEFAULT;
         }
 
         sm.setItem(51, nextButton, nextClickHandler);
 
         ItemStack searchButton = Constants.Buttons.SEARCH_BUTTON.apply(p);
-        sm.setItem(6, searchButton, SimpleMenu.ClickHandler.DEFAULT); // do nothing now
+        sm.setItem(6, searchButton, ClickHandler.DEFAULT); // do nothing now
 
         sm.setSize(54);
 
@@ -193,7 +194,7 @@ public class TreeItemGroup extends ItemGroup {
 
         public ItemStack getIcon() {
             if (item != null) {
-                return CleanedItemGetter.getCleanedItem(item.getIcon());
+                return CleanedItemGetter.clean(item.getIcon());
             } else {
                 if (group != null) {
                     return group.getIcon();

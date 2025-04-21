@@ -1,10 +1,13 @@
-package org.irmc.industrialrevival.api.recipes;
+package org.irmc.industrialrevival.api.recipes.methods;
 
 import lombok.Getter;
 import org.irmc.industrialrevival.api.elements.melt.MeltedObject;
 
 import java.util.List;
 
+/**
+ * @author baluagq
+ */
 @Getter
 public class MeltMethod implements ProduceMethod {
     private final List<MeltedObject> inputs;

@@ -21,6 +21,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.elements.compounds.ChemicalFormulas;
 import org.irmc.industrialrevival.api.objects.ItemSettings;
+import org.irmc.industrialrevival.api.objects.events.ir.IndustrialRevivalFinalizedEvent;
 import org.irmc.industrialrevival.core.command.IRCommandGenerator;
 import org.irmc.industrialrevival.core.data.IDataManager;
 import org.irmc.industrialrevival.core.data.impl.MysqlDataManager;
@@ -34,6 +35,7 @@ import org.irmc.industrialrevival.core.services.ItemTextureService;
 import org.irmc.industrialrevival.core.services.ProfilerService;
 import org.irmc.industrialrevival.core.task.AnitEnderDragonTask;
 import org.irmc.industrialrevival.core.task.ArmorCheckTask;
+import org.irmc.industrialrevival.core.task.PostSetupTask;
 import org.irmc.industrialrevival.core.world.populators.ElementOreGenerator;
 import org.irmc.industrialrevival.implementation.groups.IRItemGroups;
 import org.irmc.industrialrevival.implementation.items.IndustrialRevivalItemSetup;
@@ -47,7 +49,9 @@ import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
@@ -193,6 +197,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         int deEnderDragonCheckInterval = getConfig().getInt("options.anti-ender-dragon-check.interval", 20);
         int deEnderDragonCheckRadius = getConfig().getInt("options.anti-ender-dragon-check.radius", 20);
         foliaLibImpl.runTimerAsync(new AnitEnderDragonTask(deEnderDragonCheckRadius), deEnderDragonCheckInterval, deEnderDragonCheckInterval);
+        foliaLibImpl.runAsync(new PostSetupTask());
     }
 
     private void setupProtocolLib() {
@@ -248,7 +253,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         languageManager = new LanguageManager(this);
     }
 
-    public @Nonnull Set<Plugin> getAddons() {
+    public static @Nonnull Set<Plugin> getAddons() {
         String pluginName = instance.getName();
 
         return Arrays.stream(instance.getServer().getPluginManager().getPlugins())

@@ -6,6 +6,7 @@ import org.bukkit.entity.Display;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
+import org.irmc.industrialrevival.api.objects.display.builder.AbstractModelBuilder;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.KeyUtil;
 import org.jetbrains.annotations.NotNull;
@@ -46,6 +47,16 @@ public class DisplayGroup {
         }
 
         display.teleport(center.clone().add(offset.getX(), offset.getY(), offset.getZ()));
+        // When add display to a display group, set metadata to the display to identify its addons
+        display.setMetadata(DISPLAY_GROUP_METADATA_KEY, new FixedMetadataValue(IndustrialRevival.getInstance(), addon.getPlugin().getName()));
+        return this;
+    }
+
+    public @NotNull DisplayGroup addDirectly(@NotNull Display display) {
+        if (center == null) {
+            throw new UnsupportedOperationException("Center location is not set");
+        }
+
         // When add display to a display group, set metadata to the display to identify its addons
         display.setMetadata(DISPLAY_GROUP_METADATA_KEY, new FixedMetadataValue(IndustrialRevival.getInstance(), addon.getPlugin().getName()));
         return this;

@@ -7,10 +7,10 @@ import org.jetbrains.annotations.NotNull;
 
 
 @Getter
-public class IRTickDoneEvent extends Event {
+public class TickDoneEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
 
-    public IRTickDoneEvent() {
+    public TickDoneEvent() {
         super(true);
     }
 

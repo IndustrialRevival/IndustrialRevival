@@ -18,7 +18,7 @@ import java.util.List;
  * @author balugaq
  */
 @UtilityClass
-public final class ElementUtils {
+public final class ElementUtil {
     /* A common value for unknown values */
     public static final int UNKNOWN = Integer.MIN_VALUE;
 
@@ -332,7 +332,7 @@ public final class ElementUtils {
      * @return the color as an integer in the format 0xRRGGBB
      * @author balugaq
      */
-    public static int getAtomicColor(@NotNull ElementType elementType) {
+    public static int generateAtomicColor(@NotNull ElementType elementType) {
         double atomicMass = elementType.getRelativeAtomicMass();
         int neutrons = elementType.getNeutronNumber();
         boolean isMetal = elementType.isMetal();

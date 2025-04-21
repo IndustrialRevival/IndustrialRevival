@@ -3,11 +3,11 @@ package org.irmc.industrialrevival.api.machines;
 import org.bukkit.block.Block;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.objects.enums.GeneratorType;
-import org.irmc.industrialrevival.api.objects.events.ir.IRBlockTickEvent;
+import org.irmc.industrialrevival.api.objects.events.ir.BlockTickEvent;
 
 public abstract class ElectricSolarGenerator extends AbstractElectricGenerator {
     @Override
-    protected void tick(IRBlockTickEvent event) {
+    protected void tick(BlockTickEvent event) {
         Block block = event.getBlock();
         MachineMenu menu = event.getMenu();
         byte lightLevel = block.getLightFromSky();

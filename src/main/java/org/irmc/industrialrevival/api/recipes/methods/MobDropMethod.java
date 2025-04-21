@@ -1,10 +1,13 @@
-package org.irmc.industrialrevival.api.recipes;
+package org.irmc.industrialrevival.api.recipes.methods;
 
 import lombok.Getter;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.DropFromMobItem;
 
+/**
+ * @author baluagq
+ */
 @Getter
 public class MobDropMethod implements ProduceMethod {
     private final EntityType mobType;

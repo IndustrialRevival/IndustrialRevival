@@ -14,7 +14,7 @@ import org.irmc.industrialrevival.api.objects.PerformanceSummary;
 import org.irmc.industrialrevival.api.objects.TimingViewRequest;
 import org.irmc.industrialrevival.core.task.TickerTask;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
-import org.irmc.industrialrevival.utils.NumberUtils;
+import org.irmc.industrialrevival.utils.NumberUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -141,7 +141,7 @@ public class ProfilerService {
         //TODO: localization
         request.getRequester().sendMessage("§a====== Profiling Data ======");
         request.getRequester().sendMessage("§aTick count: " + task.getTicked());
-        request.getRequester().sendMessage("§aTotal time: " + NumberUtils.round(NumberUtils.ns2Ms(tt), 2));
+        request.getRequester().sendMessage("§aTotal time: " + NumberUtil.round(NumberUtil.ns2Ms(tt), 2));
         request.getRequester().sendMessage("§aInterval:" + task.getCheckInterval());
         request.getRequester().sendMessage("§aTPS: " + Arrays.toString(Bukkit.getTPS()));
         request.getRequester().sendMessage("§a===== Timing Data =====");

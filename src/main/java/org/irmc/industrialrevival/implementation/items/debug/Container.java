@@ -17,7 +17,7 @@ public class Container extends IndustrialRevivalItem {
         new MachineMenuPreset(this.getId(), this.getItemName()) {
             @Override
             public void init() {
-                addMenuDrawer(drawer);
+                withMenuDrawer(drawer);
             }
 
             public int[] getSlotsByItemFlow(@NotNull ItemFlow itemFlow, @Nullable ItemStack itemStack) {

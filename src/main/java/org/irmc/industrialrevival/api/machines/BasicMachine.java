@@ -14,7 +14,7 @@ import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
 import org.irmc.industrialrevival.api.menu.MatrixMenuDrawer;
 import org.irmc.industrialrevival.api.objects.ItemStackReference;
 import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
-import org.irmc.industrialrevival.api.objects.events.ir.IRBlockTickEvent;
+import org.irmc.industrialrevival.api.objects.events.ir.BlockTickEvent;
 import org.irmc.industrialrevival.utils.MenuUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -40,7 +40,7 @@ public abstract class BasicMachine extends AbstractMachine implements ProcessorH
             @Override
             public void init() {
                 setSize(getMatrixMenuDrawer().getSize());
-                addMenuDrawer(getMatrixMenuDrawer());
+                withMenuDrawer(getMatrixMenuDrawer());
             }
 
             @Override
@@ -61,7 +61,7 @@ public abstract class BasicMachine extends AbstractMachine implements ProcessorH
         super.preRegister();
     }
 
-    protected void tick(@NotNull IRBlockTickEvent event) {
+    protected void tick(@NotNull BlockTickEvent event) {
         Block block = event.getBlock();
         MachineMenu menu = event.getMenu();
         if (menu == null) {

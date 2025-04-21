@@ -4,8 +4,8 @@ import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.irmc.industrialrevival.api.items.attributes.ExtraTickable;
-import org.irmc.industrialrevival.api.objects.events.ir.IRTickDoneEvent;
-import org.irmc.industrialrevival.api.objects.events.ir.IRTickStartEvent;
+import org.irmc.industrialrevival.api.objects.events.ir.TickDoneEvent;
+import org.irmc.industrialrevival.api.objects.events.ir.TickStartEvent;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -14,13 +14,13 @@ public class MultiblockTicker implements Listener {
     private static final Map<Location, ExtraTickable> tickable_tickstart = new ConcurrentHashMap<>();
     private static final Map<Location, ExtraTickable> tickables_tickdone = new ConcurrentHashMap<>();
     @EventHandler
-    public void onTickStart(IRTickStartEvent event) {
+    public void onTickStart(TickStartEvent event) {
         for (Location location : tickable_tickstart.keySet()) {
             tickable_tickstart.get(location).tick(location);
         }
     }
     @EventHandler
-    public void onTickDone(IRTickDoneEvent event) {
+    public void onTickDone(TickDoneEvent event) {
         for (Location location : tickables_tickdone.keySet()) {
             tickables_tickdone.get(location).tick(location);
         }

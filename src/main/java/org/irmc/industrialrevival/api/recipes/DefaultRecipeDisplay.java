@@ -9,6 +9,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.RecipeDisplayItem;
+import org.irmc.industrialrevival.api.menu.handlers.ClickHandler;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.core.guide.IRGuideImplementation;
@@ -51,9 +52,9 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
                                     .getLanguageManager()
                                     .getMsgComponent(p, "misc.recipe_not_found")));
 
-            sm.setItem(Constants.ItemStacks.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT, 1, 2, 3, 4, 5, 6, 7, 8);
-            sm.setItem(7, Constants.ItemStacks.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT);
-            sm.setItem(25, CleanedItemGetter.getCleanedItem(item.getIcon()));
+            sm.setItem(Constants.ItemStacks.BACKGROUND_ITEM, ClickHandler.DEFAULT, 1, 2, 3, 4, 5, 6, 7, 8);
+            sm.setItem(7, Constants.ItemStacks.BACKGROUND_ITEM, ClickHandler.DEFAULT);
+            sm.setItem(25, CleanedItemGetter.clean(item.getIcon()));
         } else {
             recipeContents = getRecipeContentsByPage(recipeContents, pageRecord.getOrDefault(p.getUniqueId(), 1));
             if (!recipeContents.isEmpty()) {
@@ -87,7 +88,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
         for (int i = 0; i < 9; i++) {
             ItemStack recipeItem = recipe[i];
             if (recipeItem != null) {
-                sm.setItem(recipeSlots[i], recipe[i], SimpleMenu.ClickHandler.DEFAULT);
+                sm.setItem(recipeSlots[i], recipe[i], ClickHandler.DEFAULT);
             }
         }
 
@@ -104,14 +105,14 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
                     return false;
                 });
             } else {
-                sm.setItem(i, Constants.ItemStacks.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT);
+                sm.setItem(i, Constants.ItemStacks.BACKGROUND_ITEM, ClickHandler.DEFAULT);
             }
             index++;
         }
 
         int currentPage = pageRecord.getOrDefault(p.getUniqueId(), 1);
 
-        SimpleMenu.ClickHandler previousHandler = (player, _, _, _, _) -> {
+        ClickHandler previousHandler = (player, _, _, _, _) -> {
             if (currentPage > 1) {
                 pageRecord.put(player.getUniqueId(), currentPage - 1);
                 List<RecipeContent> recipeContentsByPage = getRecipeContentsByPage(recipeContents, currentPage - 1);
@@ -130,7 +131,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
 
         sm.setItem(1, previousOne, previousHandler);
 
-        SimpleMenu.ClickHandler nextHandler = (player, _, _, _, _) -> {
+        ClickHandler nextHandler = (player, _, _, _, _) -> {
             if (recipeContents.size() < 6) {
                 return false;
             }
@@ -207,7 +208,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
                 guide.goBack(player);
                 return false;
             }));
-            sm.setItem(Constants.ItemStacks.BACKGROUND_ITEM, SimpleMenu.ClickHandler.DEFAULT, 1, 2, 3, 4, 5, 6, 7, 8);
+            sm.setItem(Constants.ItemStacks.BACKGROUND_ITEM, ClickHandler.DEFAULT, 1, 2, 3, 4, 5, 6, 7, 8);
 
             sm.setItem(
                     recipeSlots[4],
@@ -222,7 +223,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
 
         int currentPage = pageRecord.getOrDefault(p.getUniqueId(), 1);
 
-        SimpleMenu.ClickHandler previousHandler = (player, _, _, _, _) -> {
+        ClickHandler previousHandler = (player, _, _, _, _) -> {
             if (currentPage > 1) {
                 pageRecord.put(player.getUniqueId(), currentPage - 1);
                 List<RecipeContent> recipeContentsByPage =
@@ -243,7 +244,7 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
 
         sm.setItem(1, previousOne, previousHandler);
 
-        SimpleMenu.ClickHandler nextHandler = (player, _, _, _, _) -> {
+        ClickHandler nextHandler = (player, _, _, _, _) -> {
             if (recipeContents.size() < 6) {
                 return false;
             }
@@ -294,10 +295,10 @@ public class DefaultRecipeDisplay implements RecipeType.RecipeDisplay {
         IndustrialRevivalItem item = rc.result();
 
         ItemStack wikiPageItem = Constants.Buttons.WIKI_PAGE_BUTTON.apply(p);
-        SimpleMenu.ClickHandler wikiHandler;
+        ClickHandler wikiHandler;
         if (item.getWikiText() == null) {
             wikiPageItem.setType(Material.BLACK_STAINED_GLASS_PANE);
-            wikiHandler = SimpleMenu.ClickHandler.DEFAULT;
+            wikiHandler = ClickHandler.DEFAULT;
             wikiPageItem.editMeta(m -> m.displayName(Component.empty()));
         } else {
             String url = Constants.Misc.WIKI_URL + item.getWikiText();

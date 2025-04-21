@@ -2,7 +2,7 @@ package org.irmc.industrialrevival.api.items;
 
 import lombok.Getter;
 import org.irmc.industrialrevival.api.items.attributes.MobDropItem;
-import org.irmc.industrialrevival.api.recipes.MobDropMethod;
+import org.irmc.industrialrevival.api.recipes.methods.MobDropMethod;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;

@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.elements.melt.MeltedTank;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.TankFuel;
-import org.irmc.industrialrevival.api.recipes.MeltMethod;
+import org.irmc.industrialrevival.api.recipes.methods.MeltMethod;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.pigeonlib.items.ItemUtils;
 import org.jetbrains.annotations.NotNull;
@@ -24,7 +24,7 @@ import java.util.Map;
  */
 @Getter
 public class Smeltery implements Cloneable {
-    public static final int MAX_FUEL_CAPACITY = 4000;
+    public static final int MAX_FUEL = 4000;
     public static final int MAX_CAPACITY = 40000;
     private static final Map<Material, Integer> FUELS_MAP = new HashMap<>();
     

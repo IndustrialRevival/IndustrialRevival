@@ -7,14 +7,20 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Display;
+import org.bukkit.entity.TextDisplay;
+import org.irmc.industrialrevival.api.objects.display.builder.TextModelBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
+/**
+ * @author baluagq
+ */
 @Getter
 public enum ColorBlock {
     NORTH_VISIBLE(
@@ -98,7 +104,7 @@ public enum ColorBlock {
         make(Corners.of(block), color, textureHandler);
     }
 
-    public void make(@NotNull Corners corners, @NotNull Color color, @Nullable TextureHandler textureHandler) {
+    public TextDisplay make(@NotNull Corners corners, @NotNull Color color, @Nullable TextureHandler textureHandler) {
         Preconditions.checkArgument(corners != null, "Corners cannot be null");
         Preconditions.checkArgument(color != null, "Color cannot be null");
         Preconditions.checkArgument(corners.getWorld() != null, "World cannot be null");
@@ -120,7 +126,7 @@ public enum ColorBlock {
             textureHandler.apply(corners, builder);
         }
 
-        generate(corners, builder);
+        return generate(corners, builder);
     }
 
     public @NotNull Vector3f getTranslation(float scaleX, float scaleY, float scaleZ) {
@@ -150,7 +156,7 @@ public enum ColorBlock {
         };
     }
 
-    private void generate(@NotNull Corners corners, @NotNull TextModelBuilder builder) {
+    private TextDisplay generate(@NotNull Corners corners, @NotNull TextModelBuilder builder) {
         Location location = null;
         switch (this) {
             case UP_VISIBLE -> location = new Location(corners.getWorld(), corners.getMinX(), corners.getMaxY(), corners.getMaxZ());
@@ -161,23 +167,22 @@ public enum ColorBlock {
         }
 
         if (location == null) {
-            return;
+            return null;
         }
 
-        builder.buildAt(location);
+        return builder.buildAt(location);
     }
 
-    public interface TextureHandler {
-        void apply(@Nonnull Corners corners, @Nullable TextModelBuilder extraHandler);
+    public static List<TextDisplay> makeSurface(@NotNull Corners corners, @NotNull Color color) {
+        return makeSurface(corners, color, null);
     }
 
-    public static void makeSurface(@NotNull Corners corners, @NotNull Color color) {
-        makeSurface(corners, color, null);
-    }
-
-    public static void makeSurface(@NotNull Corners corners, @NotNull Color color, @Nullable TextureHandler textureHandler) {
+    public static List<TextDisplay> makeSurface(@NotNull Corners corners, @NotNull Color color, @Nullable TextureHandler textureHandler) {
+        List<TextDisplay> displays = new ArrayList<>();
         for (ColorBlock value : DEFAULT_SURFACE) {
-            value.make(corners, color, textureHandler);
+            displays.add(value.make(corners, color, textureHandler));
         }
+
+        return displays;
     }
 }

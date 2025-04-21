@@ -2,6 +2,7 @@ package org.irmc.industrialrevival.api.menu;
 
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
+import org.irmc.industrialrevival.api.menu.handlers.ClickHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
 
@@ -36,14 +37,14 @@ import java.util.Map;
  * @author balugaq
  * @author lijinhong11
  * @see MachineMenuPreset
- * @see SimpleMenu.ClickHandler
+ * @see ClickHandler
  */
 @SuppressWarnings("unused")
 @Getter
 public class MatrixMenuDrawer implements Cloneable {
     private final int size;
     private final Map<Character, ItemStack> charMap = new HashMap<>();
-    private final Map<Character, SimpleMenu.ClickHandler> clickHandlerMap = new HashMap<>();
+    private final Map<Character, ClickHandler> clickHandlerMap = new HashMap<>();
     private final List<String> matrix = new ArrayList<>();
 
     /**
@@ -89,7 +90,7 @@ public class MatrixMenuDrawer implements Cloneable {
      * @return This drawer instance for chaining
      * @apiNote Background items (as per MenuUtil.isBackground()) will override handler
      */
-    public MatrixMenuDrawer addExplain(char c, @NotNull ItemStack itemStack, @NotNull SimpleMenu.ClickHandler clickHandler) {
+    public MatrixMenuDrawer addExplain(char c, @NotNull ItemStack itemStack, @NotNull ClickHandler clickHandler) {
         charMap.put(c, itemStack);
         clickHandlerMap.put(c, clickHandler);
         return this;
@@ -101,7 +102,7 @@ public class MatrixMenuDrawer implements Cloneable {
      * @param clickHandler Click handler for the item
      * @return This drawer instance for chaining
      */
-    public MatrixMenuDrawer addBackground(char c, @NotNull SimpleMenu.ClickHandler clickHandler) {
+    public MatrixMenuDrawer addBackground(char c, @NotNull ClickHandler clickHandler) {
         clickHandlerMap.put(c, clickHandler);
         return this;
     }
@@ -126,7 +127,7 @@ public class MatrixMenuDrawer implements Cloneable {
      * @return This drawer instance for chaining
      * @apiNote Background items (as per MenuUtil.isBackground()) will override handler
      */
-    public MatrixMenuDrawer addExplain(@NotNull String c, @NotNull ItemStack itemStack, @NotNull SimpleMenu.ClickHandler clickHandler) {
+    public MatrixMenuDrawer addExplain(@NotNull String c, @NotNull ItemStack itemStack, @NotNull ClickHandler clickHandler) {
         charMap.put(c.charAt(0), itemStack);
         clickHandlerMap.put(c.charAt(0), clickHandler);
         return this;
@@ -138,7 +139,7 @@ public class MatrixMenuDrawer implements Cloneable {
      * @param clickHandler Click handler for the item
      * @return This drawer instance for chaining
      */
-    public MatrixMenuDrawer addBackground(@NotNull String c, @NotNull SimpleMenu.ClickHandler clickHandler) {
+    public MatrixMenuDrawer addBackground(@NotNull String c, @NotNull ClickHandler clickHandler) {
         clickHandlerMap.put(c.charAt(0), clickHandler);
         return this;
     }

@@ -3,7 +3,7 @@ package org.irmc.industrialrevival.api.elements.melt;
 import lombok.Getter;
 import lombok.Setter;
 import org.irmc.industrialrevival.api.elements.Smeltery;
-import org.irmc.industrialrevival.api.recipes.MeltMethod;
+import org.irmc.industrialrevival.api.recipes.methods.MeltMethod;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,11 +19,11 @@ import java.util.List;
  */
 @Getter
 public class MeltedTank implements Cloneable {
-    private final @NotNull List<MeltedObject> meltedObjects;
+    private final @NotNull List<MeltedObject> stored;
     @Setter
     private int capacity;
     @Setter
-    private int fuelCapacity;
+    private int maxFuel;
     @Setter
     private int fuels;
 
@@ -31,23 +31,23 @@ public class MeltedTank implements Cloneable {
      * Create a new empty tank
      */
     public MeltedTank() {
-        this.meltedObjects = new ArrayList<>();
+        this.stored = new ArrayList<>();
         this.capacity = Smeltery.MAX_CAPACITY;
-        this.fuelCapacity = Smeltery.MAX_FUEL_CAPACITY;
+        this.maxFuel = Smeltery.MAX_FUEL;
         this.fuels = 0;
     }
 
     /**
      * Create a new tank with initial melted objects and fuel
      *
-     * @param meltedObjects initial melted objects
+     * @param stored initial melted objects
      * @param capacity      capacity of the tank
      * @param fuels         initial fuel amount
      */
-    public MeltedTank(@NotNull List<MeltedObject> meltedObjects, int capacity, int fuelCapacity, int fuels) {
-        this.meltedObjects = meltedObjects;
+    public MeltedTank(@NotNull List<MeltedObject> stored, int capacity, int maxFuel, int fuels) {
+        this.stored = stored;
         this.capacity = capacity;
-        this.fuelCapacity = fuelCapacity;
+        this.maxFuel = maxFuel;
         this.fuels = fuels;
     }
 
@@ -56,7 +56,7 @@ public class MeltedTank implements Cloneable {
      * @return true if the tank's fuel is full, false otherwise
      */
     public boolean isFuelFull() {
-        return fuels >= fuelCapacity;
+        return fuels >= maxFuel;
     }
 
     /**
@@ -66,7 +66,7 @@ public class MeltedTank implements Cloneable {
      */
     public boolean isFull() {
         int hold = 0;
-        for (MeltedObject meltedObject : meltedObjects) {
+        for (MeltedObject meltedObject : stored) {
             hold += meltedObject.getAmount();
         }
 
@@ -80,7 +80,7 @@ public class MeltedTank implements Cloneable {
      */
     public boolean isEmpty() {
         int hold = 0;
-        for (MeltedObject meltedObject : meltedObjects) {
+        for (MeltedObject meltedObject : stored) {
             hold += meltedObject.getAmount();
         }
 
@@ -120,7 +120,7 @@ public class MeltedTank implements Cloneable {
      * @param meltedObject the melted object to add
      */
     public void addMelted(@NotNull MeltedObject meltedObject) {
-        for (MeltedObject obj : meltedObjects) {
+        for (MeltedObject obj : stored) {
             if (obj.getType().getIdentifier().equals(meltedObject.getType().getIdentifier())) {
                 // check capacity
                 if (obj.getAmount() + meltedObject.getAmount() > capacity) {
@@ -132,7 +132,7 @@ public class MeltedTank implements Cloneable {
         }
 
         // new object, add it
-        meltedObjects.add(meltedObject);
+        stored.add(meltedObject);
     }
 
     /**
@@ -152,11 +152,11 @@ public class MeltedTank implements Cloneable {
      * @param meltedObject the melted object to remove
      */
     public void removeMelted(@NotNull MeltedObject meltedObject) {
-        for (MeltedObject obj : meltedObjects) {
+        for (MeltedObject obj : stored) {
             if (obj.getType().getName().equals(meltedObject.getType().getName())) {
                 obj.setAmount(obj.getAmount() - meltedObject.getAmount());
                 if (obj.getAmount() <= 0) {
-                    meltedObjects.remove(obj);
+                    stored.remove(obj);
                 }
                 return;
             }
@@ -180,7 +180,7 @@ public class MeltedTank implements Cloneable {
      * @apiNote Be careful when using this method, it will remove all melted objects and fuel!
      */
     public void clear() {
-        meltedObjects.clear();
+        stored.clear();
     }
 
     /**
@@ -189,7 +189,7 @@ public class MeltedTank implements Cloneable {
      * @param tank the tank to add from
      */
     public void addAll(@NotNull MeltedTank tank) {
-        for (MeltedObject meltedObject : tank.getMeltedObjects()) {
+        for (MeltedObject meltedObject : tank.getStored()) {
             addMelted(meltedObject);
         }
         setCapacity(tank.getCapacity());
@@ -202,7 +202,7 @@ public class MeltedTank implements Cloneable {
      * @param tank the tank to remove from
      */
     public void removeAll(@NotNull MeltedTank tank) {
-        for (MeltedObject meltedObject : tank.getMeltedObjects()) {
+        for (MeltedObject meltedObject : tank.getStored()) {
             removeMelted(meltedObject);
         }
         setCapacity(tank.getCapacity());
@@ -249,12 +249,12 @@ public class MeltedTank implements Cloneable {
         if (this.fuels != tank.getFuels()) {
             return false;
         }
-        if (this.meltedObjects.size() != tank.getMeltedObjects().size()) {
+        if (this.stored.size() != tank.getStored().size()) {
             return false;
         }
-        for (MeltedObject meltedObject : meltedObjects) {
+        for (MeltedObject meltedObject : stored) {
             boolean found = false;
-            for (MeltedObject obj : tank.getMeltedObjects()) {
+            for (MeltedObject obj : tank.getStored()) {
                 if (obj.getType().getName().equals(meltedObject.getType().getName())) {
                     if (obj.getAmount() != meltedObject.getAmount()) {
                         return false;
@@ -278,7 +278,7 @@ public class MeltedTank implements Cloneable {
      */
     public boolean matchRecipe(@NotNull MeltMethod meltMethod) {
         List<MeltedObject> inputs = meltMethod.getInputs();
-        if (inputs.size() > meltedObjects.size()) {
+        if (inputs.size() > stored.size()) {
             return false;
         }
         int consumeFuel = 0;
@@ -290,12 +290,12 @@ public class MeltedTank implements Cloneable {
             return false;
         }
 
-        int size = meltedObjects.size();
+        int size = stored.size();
         for (int i = 0; i < size; i++) {
             boolean found = true;
             for (int j = 0; j < inputs.size(); j++) {
                 if (i + j < size) {
-                    if (!meltedObjects.get(i + j).getType().equals(inputs.get(j).getType())) {
+                    if (!stored.get(i + j).getType().equals(inputs.get(j).getType())) {
                         found = false;
                         break;
                     } else {
@@ -367,10 +367,10 @@ public class MeltedTank implements Cloneable {
      */
     @Nullable
     public MeltedObject getBottomObject() {
-        if (meltedObjects.isEmpty()) {
+        if (stored.isEmpty()) {
             return null;
         }
-        return meltedObjects.get(0);
+        return stored.get(0);
     }
 
     /**
@@ -380,10 +380,10 @@ public class MeltedTank implements Cloneable {
      */
     @Nullable
     public MeltedObject getTopObject() {
-        if (meltedObjects.isEmpty()) {
+        if (stored.isEmpty()) {
             return null;
         }
-        return meltedObjects.get(meltedObjects.size() - 1);
+        return stored.get(stored.size() - 1);
     }
 
     /**
@@ -393,6 +393,6 @@ public class MeltedTank implements Cloneable {
      */
     @Override
     public @NotNull MeltedTank clone() {
-        return new MeltedTank(new ArrayList<>(meltedObjects), capacity, fuelCapacity, fuels);
+        return new MeltedTank(new ArrayList<>(stored), capacity, maxFuel, fuels);
     }
 }

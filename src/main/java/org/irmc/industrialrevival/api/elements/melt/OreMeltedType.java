@@ -6,7 +6,7 @@ import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.NamespacedKey;
 import org.irmc.industrialrevival.api.elements.ElementType;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
-import org.irmc.industrialrevival.utils.ElementUtils;
+import org.irmc.industrialrevival.utils.ElementUtil;
 import org.irmc.industrialrevival.utils.KeyUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -49,10 +49,10 @@ public class OreMeltedType extends MeltedType {
      * Gets the {@link TextColor} of the ore.
      *
      * @return the {@link TextColor} of the ore.
-     * @see ElementUtils#getAtomicColor(ElementType)
+     * @see ElementUtil#generateAtomicColor(ElementType)
      */
     @Override
     public @NotNull TextColor getColor() {
-        return TextColor.color(ElementUtils.getAtomicColor(getElementType()));
+        return TextColor.color(ElementUtil.generateAtomicColor(getElementType()));
     }
 }

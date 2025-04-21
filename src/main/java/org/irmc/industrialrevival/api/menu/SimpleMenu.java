@@ -6,11 +6,12 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.irmc.industrialrevival.core.listeners.MachineMenuListener;
+import org.irmc.industrialrevival.api.menu.handlers.ClickHandler;
+import org.irmc.industrialrevival.api.menu.handlers.MenuCloseHandler;
+import org.irmc.industrialrevival.api.menu.handlers.MenuOpenHandler;
+import org.irmc.industrialrevival.api.menu.handlers.OutsideClickHandler;
 import org.irmc.industrialrevival.utils.Debug;
 import org.irmc.industrialrevival.utils.MenuUtil;
 import org.jetbrains.annotations.NotNull;
@@ -18,7 +19,6 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -65,6 +65,9 @@ public class SimpleMenu implements IRInventoryHolder {
         this.size = preset.getSize();
         this.closeHandler = preset.getCloseHandler();
         this.openHandler = preset.getOpenHandler();
+        for (var drawer: preset.getDrawers()) {
+            this.addMenuDrawer(drawer);
+        }
     }
 
     public void addMenuDrawer(@NotNull MatrixMenuDrawer drawer) {
@@ -175,7 +178,7 @@ public class SimpleMenu implements IRInventoryHolder {
                 .filter(i -> {
                     ItemStack item = this.getItem(i);
                     return (item == null || item.getType() == Material.AIR)
-                            && (!clickHandlers.containsKey(i) || clickHandlers.get(i) == ClickHandler.ACCEPT_ALL);
+                            && (!clickHandlers.containsKey(i) || clickHandlers.get(i) == ClickHandler.NOPE);
                 })
                 .toArray();
     }
@@ -258,73 +261,4 @@ public class SimpleMenu implements IRInventoryHolder {
         this.outsideClickHandler = outsideClickHandler;
     }
 
-    @FunctionalInterface
-    public interface ClickHandler {
-        ClickHandler DEFAULT = (_, _, _, _, _) -> false;
-        ClickHandler ACCEPT_ALL = (_, _, _, _, _) -> true;
-
-        /**
-         * Called when an item in the machine menu is clicked.
-         *
-         * @param player      the player who clicked the item
-         * @param clickedItem the clicked item
-         * @param clickedSlot the slot where the item was clicked
-         * @param clickedMenu the machine menu where the item was clicked
-         * @param clickType   the click type
-         * @return false if the click should be canceled, true otherwise
-         */
-        boolean onClick(
-                @NotNull Player player,
-                @Nullable ItemStack clickedItem,
-                @Range(from = 0, to = 53) int clickedSlot,
-                @NotNull SimpleMenu clickedMenu,
-                @NotNull ClickType clickType);
-    }
-
-    @FunctionalInterface
-    public interface AdvancedClickHandler extends ClickHandler {
-        /**
-         * Called when an item in the machine menu is clicked.
-         *
-         * @param player      the player who clicked the item
-         * @param clickedItem the clicked item
-         * @param clickedSlot the slot where the item was clicked
-         * @param clickedMenu the machine menu where the item was clicked
-         * @param clickType   the click type
-         * @return always false, use {@link #onClick(Player, ItemStack, int, SimpleMenu, ClickType, InventoryClickEvent)}
-         */
-
-        @Override
-        default boolean onClick(
-                @NotNull Player player,
-                @Nullable ItemStack clickedItem,
-                @Range(from = 0, to = 53) int clickedSlot,
-                @NotNull SimpleMenu clickedMenu,
-                @NotNull ClickType clickType) {
-            return false;
-        }
-
-        boolean onClick(
-                @NotNull Player player,
-                @Nullable ItemStack item,
-                @Range(from = 0, to = 53) int slot,
-                @NotNull SimpleMenu menu,
-                @NotNull ClickType clickType,
-                @NotNull InventoryClickEvent event);
-    }
-
-    @FunctionalInterface
-    public interface MenuCloseHandler {
-        void onClose(@NotNull Player player, @NotNull SimpleMenu menu);
-    }
-
-    @FunctionalInterface
-    public interface MenuOpenHandler {
-        void onOpen(@NotNull Player player, @NotNull SimpleMenu menu);
-    }
-
-    @FunctionalInterface
-    public interface OutsideClickHandler {
-        void onClick(@NotNull InventoryClickEvent event, @NotNull SimpleMenu menu);
-    }
 }

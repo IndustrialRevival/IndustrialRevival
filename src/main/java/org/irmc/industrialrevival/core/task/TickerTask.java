@@ -9,9 +9,9 @@ import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.handlers.BlockTicker;
 import org.irmc.industrialrevival.api.objects.ChunkPosition;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
-import org.irmc.industrialrevival.api.objects.events.ir.IRBlockTickEvent;
-import org.irmc.industrialrevival.api.objects.events.ir.IRTickDoneEvent;
-import org.irmc.industrialrevival.api.objects.events.ir.IRTickStartEvent;
+import org.irmc.industrialrevival.api.objects.events.ir.BlockTickEvent;
+import org.irmc.industrialrevival.api.objects.events.ir.TickDoneEvent;
+import org.irmc.industrialrevival.api.objects.events.ir.TickStartEvent;
 import org.irmc.industrialrevival.core.data.object.BlockRecord;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 
@@ -38,8 +38,8 @@ public class TickerTask implements Consumer<WrappedTask> {
     @Override
     public void accept(WrappedTask wrappedTask) {
         Map<Location, IRBlockData> blockDataMap = blockDataSupplier.get();
-        IRTickStartEvent startEvent = new IRTickStartEvent(blockDataMap, checkInterval, ticked);
-        IRTickDoneEvent doneEvent = new IRTickDoneEvent();
+        TickStartEvent startEvent = new TickStartEvent(blockDataMap, checkInterval, ticked);
+        TickDoneEvent doneEvent = new TickDoneEvent();
         IndustrialRevival.runAsync(() -> Bukkit.getPluginManager().callEvent(startEvent));
         IndustrialRevival.getInstance().getProfilerService().clearProfilingData();
 
@@ -60,7 +60,7 @@ public class TickerTask implements Consumer<WrappedTask> {
             BlockTicker ticker = item.getItemHandler(BlockTicker.class);
             if (ticker != null) {
                 try {
-                    IRBlockTickEvent event = new IRBlockTickEvent(entry.getKey().getBlock(), blockData.getMachineMenu(), item, blockData);
+                    BlockTickEvent event = new BlockTickEvent(entry.getKey().getBlock(), blockData.getMachineMenu(), item, blockData);
                     Bukkit.getPluginManager().callEvent(event);
 
                     IndustrialRevival.getInstance().getProfilerService().startProfiling(entry.getKey());

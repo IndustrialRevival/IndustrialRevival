@@ -1,4 +1,4 @@
-package org.irmc.industrialrevival.api.objects.display;
+package org.irmc.industrialrevival.api.objects.display.builder;
 
 import lombok.Getter;
 import net.kyori.adventure.text.Component;

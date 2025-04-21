@@ -4,7 +4,7 @@ import lombok.Getter;
 import org.irmc.industrialrevival.api.items.attributes.EnergyNetProvider;
 import org.irmc.industrialrevival.api.items.handlers.BlockTicker;
 import org.irmc.industrialrevival.api.objects.enums.EnergyNetComponentType;
-import org.irmc.industrialrevival.api.objects.events.ir.IRBlockTickEvent;
+import org.irmc.industrialrevival.api.objects.events.ir.BlockTickEvent;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
@@ -33,6 +33,6 @@ public abstract class AbstractElectricGenerator extends AbstractMachine implemen
         super.preRegister();
     }
 
-    protected abstract void tick(IRBlockTickEvent event);
+    protected abstract void tick(BlockTickEvent event);
 
 }

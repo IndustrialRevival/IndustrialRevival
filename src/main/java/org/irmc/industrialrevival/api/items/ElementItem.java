@@ -34,7 +34,7 @@ public class ElementItem extends IndustrialRevivalItem implements Meltable {
     }
 
     @Override
-    public @Range(from = 0, to = Smeltery.MAX_FUEL_CAPACITY) int getMeltingPoint(ItemStack itemStack) {
+    public @Range(from = 0, to = Smeltery.MAX_FUEL) int getMeltingPoint(ItemStack itemStack) {
         return (int) elementType.getMeltingPoint();
     }
 

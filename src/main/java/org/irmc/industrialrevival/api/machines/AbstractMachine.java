@@ -85,10 +85,10 @@ public abstract class AbstractMachine extends IndustrialRevivalItem implements R
 
     public ItemStack getRecipeTypeIcon() {
         if (recipeTypeIcon == null) {
-            return CleanedItemGetter.getCleanedItem(getIcon());
+            return CleanedItemGetter.clean(getIcon());
         }
 
-        return CleanedItemGetter.getCleanedItem(recipeTypeIcon);
+        return CleanedItemGetter.clean(recipeTypeIcon);
     }
 
     public AbstractMachine setRecipeTypeIcon(ItemStack recipeTypeIcon) {
@@ -102,7 +102,7 @@ public abstract class AbstractMachine extends IndustrialRevivalItem implements R
     public void preRegister() throws Exception {
         super.preRegister();
         if (recipeTypeIcon == null) {
-            this.recipeTypeIcon = CleanedItemGetter.getCleanedItem(getIcon());
+            this.recipeTypeIcon = CleanedItemGetter.clean(getIcon());
             this.recipeType = new RecipeType(getAddon(), getId(), getRecipeTypeIcon());
         }
     }

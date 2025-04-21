@@ -3,7 +3,6 @@ package org.irmc.industrialrevival.core.listeners;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -31,7 +30,8 @@ import org.irmc.industrialrevival.api.items.handlers.PrepareItemEnchantHandler;
 import org.irmc.industrialrevival.api.items.handlers.PrepareSmithingHandler;
 import org.irmc.industrialrevival.api.items.handlers.PrepareTradeSelectHandler;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
-import org.irmc.industrialrevival.api.menu.SimpleMenu;
+import org.irmc.industrialrevival.api.menu.handlers.MenuCloseHandler;
+import org.irmc.industrialrevival.api.menu.handlers.MenuOpenHandler;
 import org.irmc.industrialrevival.api.objects.events.vanilla.BlockExplodeIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.EndermanMoveIRBlockEvent;
 import org.irmc.industrialrevival.api.objects.events.vanilla.EntityChangeIRBlockEvent;
@@ -225,7 +225,7 @@ public class HandlerCaller implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onMenuClose(MenuCloseEvent e) {
-        SimpleMenu.MenuCloseHandler handler = e.getMenu().getCloseHandler();
+        MenuCloseHandler handler = e.getMenu().getCloseHandler();
         if (handler != null) {
             handler.onClose(e.getPlayer(), e.getMenu());
         }
@@ -234,7 +234,7 @@ public class HandlerCaller implements Listener {
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onMenuOpen(MenuOpenEvent e) {
         MachineMenu menu = e.getOpenedMenu();
-        SimpleMenu.MenuOpenHandler handler = menu.getOpenHandler();
+        MenuOpenHandler handler = menu.getOpenHandler();
         if (handler != null) {
             handler.onOpen(e.getPlayer(), menu);
         }

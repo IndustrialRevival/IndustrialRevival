@@ -2,7 +2,6 @@ package org.irmc.industrialrevival.implementation.multiblock;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import lombok.Getter;
-import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.TextColor;
@@ -29,11 +28,14 @@ import org.irmc.industrialrevival.api.items.attributes.TinkerProduct;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
 import org.irmc.industrialrevival.api.menu.MatrixMenuDrawer;
-import org.irmc.industrialrevival.api.menu.SimpleMenu;
+import org.irmc.industrialrevival.api.menu.PublicBehaviors;
+import org.irmc.industrialrevival.api.menu.handlers.ClickHandler;
 import org.irmc.industrialrevival.api.multiblock.MultiBlock;
 import org.irmc.industrialrevival.api.multiblock.StructureBuilder;
 import org.irmc.industrialrevival.api.multiblock.StructureUtil;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
+import org.irmc.industrialrevival.api.objects.display.Colorful;
+import org.irmc.industrialrevival.api.objects.display.ModelHandler;
 import org.irmc.industrialrevival.core.listeners.MultiblockTicker;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.Debug;
@@ -51,9 +53,11 @@ import java.util.Map;
 import java.util.UUID;
 
 @Getter
-public class BlastSmeltery extends MultiBlock implements ExtraTickable {
+public class BlastSmeltery extends MultiBlock implements ExtraTickable, Colorful {
     public static final TextColor MELTING_TEXT_COLOR = TextColor.color(16746003);
     public static final TextColor FUEL_TEXT_COLOR = TextColor.color(16734003);
+    private static final ModelHandler MODEL_HANDLER = new ModelHandler()
+            .removeOldWhenRenderNew(true);
     private static final TextComponent BLOCKS = Component.text("\u25a0\u25a0\u25a0\u25a0\u25a0");
     private static final ItemStack STORAGE_ICON = new CustomItemStack(Material.BARREL, "&fBlast Smeltery Storage", "", "&f0 / 0");
     private static final ItemStack FUEL_ICON = new CustomItemStack(Material.BUCKET, "&fBlast Smeltery Fuel", "", "&f0 / 0");
@@ -64,11 +68,16 @@ public class BlastSmeltery extends MultiBlock implements ExtraTickable {
     @RegExp
     private static final String MELTING_PREFIX = "Melting - ";
     // todo: save
+    @Getter
     private static final Map<Location, MachineMenu> menus = new HashMap<>();
     // todo: save
+    @Getter
     private static final Map<Location, Smeltery> instances = new HashMap<>();
+    @Getter
     private static final Map<UUID, Location> lastInteracted = new HashMap<>();
+    @Getter
     private static final MachineMenuPreset preset = new MachineMenuPreset(KeyUtil.customKey("blast_smeltery"), "Blast Smeltery");
+    @Getter
     private static final MatrixMenuDrawer menuDrawer = new MatrixMenuDrawer(6 * 9)
             .addLine("iiiiIBBBL")
             .addLine("iiiiISSSL")
@@ -86,7 +95,7 @@ public class BlastSmeltery extends MultiBlock implements ExtraTickable {
             .addExplain("i", new ItemStack(Material.AIR), Behaviors.ADD_ITEM_BEHAVIOR);
 
     static {
-        preset.addMenuDrawer(menuDrawer);
+        preset.withMenuDrawer(menuDrawer);
     }
 
     public BlastSmeltery(NamespacedKey key) {
@@ -98,6 +107,42 @@ public class BlastSmeltery extends MultiBlock implements ExtraTickable {
         setStructure(sb.build());
     }
 
+    @Override
+    public void onInteract(@NotNull PlayerInteractEvent event) {
+        Debug.log("1 BlastSmeltery onInteract");
+        Debug.log(event.getAction());
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            Debug.log("2 BlastSmeltery onInteract start");
+            Location location = event.getClickedBlock().getLocation();
+            if (!instances.containsKey(location)) {
+                instances.put(location, new Smeltery());
+                MachineMenu menu = new MachineMenu(location, preset);
+                menu.addMenuDrawer(menuDrawer);
+                menus.put(location, menu);
+            }
+
+            Player player = event.getPlayer();
+            ItemStack itemStack = event.getItem();
+            Debug.log("3 BlastSmeltery onInteract itemStack");
+            if (itemStack != null && Smeltery.isFuel(itemStack)) {
+                Smeltery smeltery = instances.get(location);
+                int add = Smeltery.getFuelAmount(itemStack);
+                if (smeltery.getTank().getFuels() + add <= smeltery.getTank().getMaxFuel()) {
+                    smeltery.getTank().addFuel(add);
+                    return;
+                }
+            }
+
+            MachineMenu menu = menus.get(location);
+            lastInteracted.put(player.getUniqueId(), location);
+            MultiblockTicker.addTickable(location, this);
+            updateMenu(location);
+            menu.open(player);
+            Debug.log("4 BlastSmeltery onInteract end");
+        }
+    }
+
+    //<editor-fold> desc="slot functions"
     public static int[] getInputSlots() {
         return menuDrawer.getCharPositions('i');
     }
@@ -110,6 +155,16 @@ public class BlastSmeltery extends MultiBlock implements ExtraTickable {
         return menuDrawer.getCharPositions('L');
     }
 
+    public static int getModelSlot() {
+        return menuDrawer.getCharPositions('m')[0];
+    }
+
+    public static int getProductSlot() {
+        return menuDrawer.getCharPositions('p')[0];
+    }
+    //</editor-fold>
+
+    //<editor-fold> desc="melting functions"
     public static boolean isMeltable(@NotNull ItemStack input) {
         return IndustrialRevivalItem.getByItem(input) instanceof Meltable;
     }
@@ -196,114 +251,12 @@ public class BlastSmeltery extends MultiBlock implements ExtraTickable {
     public static int getMeltingLevel(ItemStack input) {
         return PersistentDataAPI.getOrDefault(input.getItemMeta(), MELTING_KEY, PersistentDataType.INTEGER, 0);
     }
+    //</editor-fold
 
-    public static void updateMenu(Location location) {
-        Smeltery smeltery = instances.get(location);
-        MachineMenu menu = menus.get(location);
-        if (smeltery == null || menu == null) {
-            return;
-        }
-
-        List<TextComponent> lines = new ArrayList<>();
-        for (MeltedObject meltedObject : smeltery.getTank().getMeltedObjects()) {
-            TextComponent text = Component.text()
-                    .append(BLOCKS)
-                    .append(meltedObject.getType().getMeltedName())
-                    .append(Component.text(" / " + meltedObject.getAmount()))
-                    .color(meltedObject.getType().getColor())
-                    .decoration(TextDecoration.ITALIC, false)
-                    .decoration(TextDecoration.BOLD, true)
-                    .build();
-            lines.add(text);
-        }
-
-        ItemStack clone = STORAGE_ICON.clone();
-        ItemMeta meta = clone.getItemMeta();
-        meta.lore(lines);
-        clone.setItemMeta(meta);
-
-        for (int slot : getStorageSlots()) {
-            menu.setItem(slot, clone.clone());
-        }
-
-        int fuels = smeltery.getTank().getFuels();
-        int capacity = smeltery.getTank().getFuelCapacity();
-        int split = capacity / getFuelSlots().length;
-        int lavas = (int) (((float) (fuels - 1) / split));
-        if (lavas < 0) {
-            lavas = 0;
-        }
-        if (lavas > getFuelSlots().length) {
-            lavas = getFuelSlots().length;
-        }
-        List<TextComponent> lore = new ArrayList<>();
-        lore.add(Component.text("Fuel: " + fuels + " / " + capacity, FUEL_TEXT_COLOR));
-
-        ItemStack clone2 = FUEL_ICON.clone();
-        ItemMeta meta2 = clone2.getItemMeta();
-        meta2.lore(lore);
-        clone2.setItemMeta(meta2);
-        for (int slot : getFuelSlots()) {
-            menu.setItem(slot, clone2.clone());
-        }
-
-        int j = 1;
-        for (int slot : Arrays.stream(getFuelSlots()).boxed().toList().reversed()) {
-            if (j > lavas) {
-                menu.getItem(slot).setType(Material.BUCKET);
-            } else {
-                menu.getItem(slot).setType(Material.LAVA_BUCKET);
-            }
-            j += 1;
-        }
-    }
-
-    public static int getModelSlot() {
-        return menuDrawer.getCharPositions('m')[0];
-    }
-
-    public static int getProductSlot() {
-        return menuDrawer.getCharPositions('p')[0];
-    }
-
+    //<editor-fold> desc="ticker"
     @Override
-    public void onInteract(@NotNull PlayerInteractEvent event) {
-        Debug.log("1 BlastSmeltery onInteract");
-        Debug.log(event.getAction());
-        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            Debug.log("2 BlastSmeltery onInteract start");
-            Location location = event.getClickedBlock().getLocation();
-            if (!instances.containsKey(location)) {
-                instances.put(location, new Smeltery());
-                MachineMenu menu = new MachineMenu(location, preset);
-                menu.addMenuDrawer(menuDrawer);
-                menus.put(location, menu);
-            }
-
-            Player player = event.getPlayer();
-            ItemStack itemStack = event.getItem();
-            Debug.log("3 BlastSmeltery onInteract itemStack");
-            if (itemStack != null && Smeltery.isFuel(itemStack)) {
-                Smeltery smeltery = instances.get(location);
-                int add = Smeltery.getFuelAmount(itemStack);
-                if (smeltery.getTank().getFuels() + add <= smeltery.getTank().getFuelCapacity()) {
-                    smeltery.getTank().addFuel(add);
-                    return;
-                }
-            }
-
-            MachineMenu menu = menus.get(location);
-            lastInteracted.put(player.getUniqueId(), location);
-            MultiblockTicker.addTickable(location, this);
-            updateMenu(location);
-            menu.open(player);
-            Debug.log("4 BlastSmeltery onInteract end");
-        }
-    }
-
-    @Override
-    public Time getTime() {
-        return Time.TICK_DONE;
+    public When getTime() {
+        return When.TICK_DONE;
     }
 
     public void tick(Location location) {
@@ -349,13 +302,78 @@ public class BlastSmeltery extends MultiBlock implements ExtraTickable {
         smeltery.getTank().setFuels(fuels);
     }
 
-    @Override
-    public @NotNull Key key() {
-        return super.key();
-    }
+    public static void updateMenu(Location location) {
+        Smeltery smeltery = instances.get(location);
+        MachineMenu menu = menus.get(location);
+        if (smeltery == null || menu == null) {
+            return;
+        }
 
+        List<TextComponent> lines = new ArrayList<>();
+        for (MeltedObject meltedObject : smeltery.getTank().getStored()) {
+            TextComponent text = Component.text()
+                    .append(BLOCKS)
+                    .append(meltedObject.getType().getMeltedName())
+                    .append(Component.text(" / " + meltedObject.getAmount()))
+                    .color(meltedObject.getType().getColor())
+                    .decoration(TextDecoration.ITALIC, false)
+                    .decoration(TextDecoration.BOLD, true)
+                    .build();
+            lines.add(text);
+        }
+
+        ItemStack clone = STORAGE_ICON.clone();
+        ItemMeta meta = clone.getItemMeta();
+        meta.lore(lines);
+        clone.setItemMeta(meta);
+
+        for (int slot : getStorageSlots()) {
+            menu.setItem(slot, clone.clone());
+        }
+
+        int fuels = smeltery.getTank().getFuels();
+        int capacity = smeltery.getTank().getMaxFuel();
+        int split = capacity / getFuelSlots().length;
+        int lavas = (int) (((float) (fuels - 1) / split));
+        if (lavas < 0) {
+            lavas = 0;
+        }
+        if (lavas > getFuelSlots().length) {
+            lavas = getFuelSlots().length;
+        }
+        List<TextComponent> lore = new ArrayList<>();
+        lore.add(Component.text("Fuel: " + fuels + " / " + capacity, FUEL_TEXT_COLOR));
+
+        ItemStack clone2 = FUEL_ICON.clone();
+        ItemMeta meta2 = clone2.getItemMeta();
+        meta2.lore(lore);
+        clone2.setItemMeta(meta2);
+        for (int slot : getFuelSlots()) {
+            menu.setItem(slot, clone2.clone());
+        }
+
+        int j = 1;
+        for (int slot : Arrays.stream(getFuelSlots()).boxed().toList().reversed()) {
+            if (j > lavas) {
+                menu.getItem(slot).setType(Material.BUCKET);
+            } else {
+                menu.getItem(slot).setType(Material.LAVA_BUCKET);
+            }
+            j += 1;
+        }
+    }
+    //</editor-fold>
+
+    //<editor-fold> desc="todo: liquid render"
+    @Override
+    public ModelHandler getModelHandler() {
+        return MODEL_HANDLER;
+    }
+    //</editor-fold>
+
+    //<editor-fold> desc="Behaviors"
     public static class Behaviors {
-        public static final SimpleMenu.ClickHandler CRAFT_BEHAVIOR = (player, _, _, clickedMenu, _) -> {
+        public static final ClickHandler CRAFT_BEHAVIOR = (player, _, _, clickedMenu, _) -> {
             Location location = lastInteracted.get(player.getUniqueId());
             if (location == null) {
                 return false;
@@ -396,53 +414,47 @@ public class BlastSmeltery extends MultiBlock implements ExtraTickable {
             return false;
         };
 
-        public static final SimpleMenu.ClickHandler ADD_ITEM_BEHAVIOR = ((player, clickedItem, clickedSlot, clickedMenu, _) -> {
+        public static final ClickHandler ADD_ITEM_BEHAVIOR = ((player, clickedItem, clickedSlot, clickedMenu, _) -> {
             ItemStack cursor = player.getItemOnCursor();
             if (cursor == null || cursor.getType() == Material.AIR) {
-                Debug.log("47 BlastSmeltery onInteract cursor == null || cursor.getType() == Material.AIR");
                 if (clickedItem == null || clickedItem.getType() == Material.AIR) {
-                    Debug.log("48 BlastSmeltery onInteract clickedItem == null || clickedItem.getType() == Material.AIR");
                     // Nothing to do
                     return false;
                 } else if (isMeltingStack(clickedItem)) {
-                    Debug.log("49 BlastSmeltery onInteract isMeltingStack(clickedItem)");
                     clickedMenu.setItem(clickedSlot, new ItemStack(Material.AIR));
                     player.setItemOnCursor(getOriginalStack(clickedItem));
                 } else {
-                    Debug.log("50 BlastSmeltery onInteract !isMeltingStack(clickedItem)");
                     return true;
                 }
             } else {
                 if (clickedItem == null || clickedItem.getType() == Material.AIR) {
-                    Debug.log("51 BlastSmeltery onInteract clickedItem == null || clickedItem.getType() == Material.AIR");
                     if (isMeltable(cursor)) {
-                        Debug.log("52 BlastSmeltery onInteract isMeltable(cursor)");
                         // add melting
                         ItemStack clone = cursor.asOne();
                         clickedMenu.setItem(clickedSlot, getMeltingStack(clone));
                         cursor.setAmount(cursor.getAmount() - 1);
                     } else {
-                        Debug.log("53 BlastSmeltery onInteract isMeltable(cursor) == false");
                         return false;
                     }
                 } else {
                     if (cursor.getAmount() == 1) {
                         if (isMeltable(cursor)) {
-                            Debug.log("54 BlastSmeltery onInteract cursor.getAmount() == 1");
                             // exchange items
                             clickedMenu.setItem(clickedSlot, getMeltingStack(cursor));
                             player.setItemOnCursor(clickedItem);
                             return false;
-                        } else {
-                            Debug.log("55 BlastSmeltery onInteract isMeltable(cursor) == false");
                         }
-                    } else {
-                        Debug.log("56 BlastSmeltery onInteract cursor.getAmount() != 1");
                     }
                 }
             }
             Debug.log("57 BlastSmeltery onInteract end");
             return false;
         });
+
+        static {
+            PublicBehaviors.publish(KeyUtil.customKey("blast_smeltery_craft"), CRAFT_BEHAVIOR);
+            PublicBehaviors.publish(KeyUtil.customKey("blast_smeltery_add_item"), ADD_ITEM_BEHAVIOR);
+        }
     }
+    //</editor-fold>
 }
