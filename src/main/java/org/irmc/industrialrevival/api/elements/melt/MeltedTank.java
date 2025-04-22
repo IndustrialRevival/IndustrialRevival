@@ -2,8 +2,15 @@ package org.irmc.industrialrevival.api.elements.melt;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Location;
+import org.bukkit.entity.TextDisplay;
 import org.irmc.industrialrevival.api.elements.Smeltery;
+import org.irmc.industrialrevival.api.objects.display.ColorBlock;
+import org.irmc.industrialrevival.api.objects.display.Colorful;
+import org.irmc.industrialrevival.api.objects.display.DisplayGroup;
+import org.irmc.industrialrevival.api.objects.display.ModelHandler;
 import org.irmc.industrialrevival.api.recipes.methods.MeltMethod;
+import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,8 +25,10 @@ import java.util.List;
  * @see Smeltery
  */
 @Getter
-public class MeltedTank implements Cloneable {
+public class MeltedTank implements Cloneable, Colorful {
     private final @NotNull List<MeltedObject> stored;
+    @Setter
+    private boolean dirty;
     @Setter
     private int capacity;
     @Setter
@@ -40,9 +49,9 @@ public class MeltedTank implements Cloneable {
     /**
      * Create a new tank with initial melted objects and fuel
      *
-     * @param stored initial melted objects
-     * @param capacity      capacity of the tank
-     * @param fuels         initial fuel amount
+     * @param stored   initial melted objects
+     * @param capacity capacity of the tank
+     * @param fuels    initial fuel amount
      */
     public MeltedTank(@NotNull List<MeltedObject> stored, int capacity, int maxFuel, int fuels) {
         this.stored = stored;
@@ -53,6 +62,7 @@ public class MeltedTank implements Cloneable {
 
     /**
      * Check if the tank's fuel is full
+     *
      * @return true if the tank's fuel is full, false otherwise
      */
     public boolean isFuelFull() {
@@ -133,6 +143,7 @@ public class MeltedTank implements Cloneable {
 
         // new object, add it
         stored.add(meltedObject);
+        setDirty(true);
     }
 
     /**
@@ -161,6 +172,7 @@ public class MeltedTank implements Cloneable {
                 return;
             }
         }
+        setDirty(true);
     }
 
     /**
@@ -181,6 +193,7 @@ public class MeltedTank implements Cloneable {
      */
     public void clear() {
         stored.clear();
+        setDirty(true);
     }
 
     /**
@@ -394,5 +407,33 @@ public class MeltedTank implements Cloneable {
     @Override
     public @NotNull MeltedTank clone() {
         return new MeltedTank(new ArrayList<>(stored), capacity, maxFuel, fuels);
+    }
+
+
+    private static final ModelHandler MODEL_HANDLER = new ModelHandler()
+            .removeOldWhenRenderNew(true);
+
+    @Override
+    public ModelHandler getModelHandler() {
+        return MODEL_HANDLER;
+    }
+
+    @Override
+    public DisplayGroup renderAt(Location center) {
+        double offsetPerLevel = 1D / capacity;
+        double increment = 0D;
+        List<TextDisplay> displays = new ArrayList<>();
+        for (MeltedObject obj : stored) {
+            var higher = offsetPerLevel * obj.getAmount();
+            displays.addAll(brush()
+                    .center(center.clone().add(0, increment, 0))
+                    .color(obj.getType().getColor())
+                    .extendY(higher)
+                    .render(ColorBlock.EAST_VISIBLE, ColorBlock.WEST_VISIBLE, ColorBlock.NORTH_VISIBLE, ColorBlock.SOUTH_VISIBLE)
+                    .build0());
+            increment += higher;
+        }
+        setDirty(false);
+        return new DisplayGroup(IndustrialRevival.getInstance()).addDirectly(displays);
     }
 }

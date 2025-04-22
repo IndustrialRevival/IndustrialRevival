@@ -53,11 +53,9 @@ import java.util.Map;
 import java.util.UUID;
 
 @Getter
-public class BlastSmeltery extends MultiBlock implements ExtraTickable, Colorful {
+public class BlastSmeltery extends MultiBlock implements ExtraTickable {
     public static final TextColor MELTING_TEXT_COLOR = TextColor.color(16746003);
     public static final TextColor FUEL_TEXT_COLOR = TextColor.color(16734003);
-    private static final ModelHandler MODEL_HANDLER = new ModelHandler()
-            .removeOldWhenRenderNew(true);
     private static final TextComponent BLOCKS = Component.text("\u25a0\u25a0\u25a0\u25a0\u25a0");
     private static final ItemStack STORAGE_ICON = new CustomItemStack(Material.BARREL, "&fBlast Smeltery Storage", "", "&f0 / 0");
     private static final ItemStack FUEL_ICON = new CustomItemStack(Material.BUCKET, "&fBlast Smeltery Fuel", "", "&f0 / 0");
@@ -109,10 +107,8 @@ public class BlastSmeltery extends MultiBlock implements ExtraTickable, Colorful
 
     @Override
     public void onInteract(@NotNull PlayerInteractEvent event) {
-        Debug.log("1 BlastSmeltery onInteract");
         Debug.log(event.getAction());
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            Debug.log("2 BlastSmeltery onInteract start");
             Location location = event.getClickedBlock().getLocation();
             if (!instances.containsKey(location)) {
                 instances.put(location, new Smeltery());
@@ -123,7 +119,6 @@ public class BlastSmeltery extends MultiBlock implements ExtraTickable, Colorful
 
             Player player = event.getPlayer();
             ItemStack itemStack = event.getItem();
-            Debug.log("3 BlastSmeltery onInteract itemStack");
             if (itemStack != null && Smeltery.isFuel(itemStack)) {
                 Smeltery smeltery = instances.get(location);
                 int add = Smeltery.getFuelAmount(itemStack);
@@ -138,7 +133,6 @@ public class BlastSmeltery extends MultiBlock implements ExtraTickable, Colorful
             MultiblockTicker.addTickable(location, this);
             updateMenu(location);
             menu.open(player);
-            Debug.log("4 BlastSmeltery onInteract end");
         }
     }
 
@@ -300,6 +294,9 @@ public class BlastSmeltery extends MultiBlock implements ExtraTickable, Colorful
         }
 
         smeltery.getTank().setFuels(fuels);
+        if (smeltery.getTank().isDirty()) {
+            smeltery.getTank().renderAt(location);
+        }
     }
 
     public static void updateMenu(Location location) {
@@ -361,13 +358,6 @@ public class BlastSmeltery extends MultiBlock implements ExtraTickable, Colorful
             }
             j += 1;
         }
-    }
-    //</editor-fold>
-
-    //<editor-fold> desc="todo: liquid render"
-    @Override
-    public ModelHandler getModelHandler() {
-        return MODEL_HANDLER;
     }
     //</editor-fold>
 

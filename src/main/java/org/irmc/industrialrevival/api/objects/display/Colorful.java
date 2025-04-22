@@ -3,12 +3,14 @@ package org.irmc.industrialrevival.api.objects.display;
 import com.google.common.base.Preconditions;
 import lombok.Getter;
 import lombok.Setter;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.TextDisplay;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
+import org.irmc.pigeonlib.objects.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,8 @@ public interface Colorful {
     }
 
     ModelHandler getModelHandler();
+
+    DisplayGroup renderAt(Location center);
 
     /**
      * @author balugaq
@@ -62,6 +66,11 @@ public interface Colorful {
 
         public Builder color(Color color) {
             this.color = color;
+            return this;
+        }
+
+        public Builder color(TextColor color) {
+            this.color = Color.fromRGB(color.red(), color.blue(), color.green());
             return this;
         }
 
@@ -182,6 +191,30 @@ public interface Colorful {
             }
 
             return group;
+        }
+
+        public List<TextDisplay> build0() {
+            Preconditions.checkNotNull(plugin, "Plugin is not set");
+            Preconditions.checkNotNull(color, "Color is not set");
+            Preconditions.checkNotNull(center, "Center is not set");
+            Preconditions.checkArgument(render.size() != 0, "Render is not set");
+
+            Corners corners = Corners.of(center);
+            corners
+                    .merge(Corners.of(center.clone().add(offsetPX, offsetPY, offsetPZ)))
+                    .merge(Corners.of(center.clone().add(offsetNX, offsetNY, offsetNZ)));
+
+            List<TextDisplay> displays = new ArrayList<>();
+
+            if (Objects.deepEquals(render.toArray(), ColorBlock.DEFAULT_SURFACE)) {
+                displays = ColorBlock.makeSurface(corners, color, textureHandler);
+            } else {
+                for (ColorBlock colorBlock : render) {
+                    displays.add(colorBlock.make(corners, color, textureHandler));
+                }
+            }
+
+            return displays;
         }
     }
 }
