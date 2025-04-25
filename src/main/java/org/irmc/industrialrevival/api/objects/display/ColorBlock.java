@@ -3,8 +3,10 @@ package org.irmc.industrialrevival.api.objects.display;
 import com.google.common.base.Preconditions;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Display;
 import org.bukkit.entity.TextDisplay;
@@ -123,7 +125,7 @@ public enum ColorBlock {
                 .brightness(new Display.Brightness(15, 15));
 
         if (textureHandler != null) {
-            textureHandler.apply(corners, builder);
+            textureHandler.accept(corners, builder);
         }
 
         return generate(corners, builder);
@@ -182,7 +184,19 @@ public enum ColorBlock {
         for (ColorBlock value : DEFAULT_SURFACE) {
             displays.add(value.make(corners, color, textureHandler));
         }
-
+        
         return displays;
+    }
+
+    public static List<TextDisplay> makeLiquid(@NotNull Corners corners, @NotNull Color color, @Nullable TextureHandler textureHandler) {
+        Location tmp = new Location(corners.getWorld(), 0, 0, 0);
+        for (double x = corners.getMinX(); x < corners.getMaxX(); x += 1) {
+            for (double y = corners.getMinY(); y < corners.getMaxY(); y += 1) {
+                for (double z = corners.getMinZ(); z < corners.getMaxZ(); z += 1) {
+                    tmp.set(x, y, z).getBlock().setType(Material.LAVA);
+                }
+            }
+        }
+        return makeSurface(corners, color, textureHandler);
     }
 }

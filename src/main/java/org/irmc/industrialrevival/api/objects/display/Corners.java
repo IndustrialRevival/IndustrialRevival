@@ -53,19 +53,19 @@ public class Corners {
     }
 
     public static Corners of(Block block) {
-        return Corners.builder()
-                .world(new WeakReference<>(block.getWorld()))
-                .minX(block.getX())
-                .maxX(block.getX()+1)
-                .minY(block.getY())
-                .maxY(block.getY()+1)
-                .minZ(block.getZ())
-                .maxZ(block.getZ()+1)
-                .build();
+        return of(block.getLocation()).merge(of(block.getLocation().clone().add(1, 1, 1)));
     }
 
     public static Corners of(Location location) {
-        return of(location.getBlock());
+        return Corners.builder()
+                .world(new WeakReference<>(location.getWorld()))
+                .minX((float) location.getX())
+                .maxX((float) location.getX())
+                .minY((float) location.getY())
+                .maxY((float) location.getY())
+                .minZ((float) location.getZ())
+                .maxZ((float) location.getZ())
+                .build();
     }
 
     public static Corners of(Block block1, Block block2) {
@@ -73,7 +73,7 @@ public class Corners {
     }
 
     public static Corners of(Location location1, Location location2) {
-        return of(location1.getBlock(), location2.getBlock());
+        return of(location1).merge(of(location2));
     }
 
     public @Nullable World getWorld() {
