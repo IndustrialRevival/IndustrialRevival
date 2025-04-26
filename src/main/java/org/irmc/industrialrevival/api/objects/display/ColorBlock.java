@@ -3,18 +3,26 @@ package org.irmc.industrialrevival.api.objects.display;
 import com.google.common.base.Preconditions;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Display;
+import org.bukkit.entity.TextDisplay;
+import org.irmc.industrialrevival.api.objects.display.builder.TextModelBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
+/**
+ * @author baluagq
+ */
 @Getter
 public enum ColorBlock {
     NORTH_VISIBLE(
@@ -60,11 +68,19 @@ public enum ColorBlock {
             scale -> scale * 4f
     );
 
+    public static final ColorBlock[] DEFAULT_SURFACE = new ColorBlock[] {
+            ColorBlock.NORTH_VISIBLE,
+            ColorBlock.SOUTH_VISIBLE,
+            ColorBlock.WEST_VISIBLE,
+            ColorBlock.EAST_VISIBLE,
+            ColorBlock.UP_VISIBLE,
+            ColorBlock.DOWN_VISIBLE
+    };
     private final Component baseString;
     private final Quaternionf leftRotation;
     private final Quaternionf rightRotation;
-    private Function<Float, Float> translationHandler;
-    private Function<Float, Float> scaleHandler;
+    private final Function<Float, Float> translationHandler;
+    private final Function<Float, Float> scaleHandler;
 
     ColorBlock(@NotNull Component baseString, @NotNull Quaternionf leftRotation, @NotNull Quaternionf right_rotation, @NotNull Function<Float, Float> translationHandler, @NotNull Function<Float, Float> scaleHandler) {
         this.baseString = baseString;
@@ -76,18 +92,6 @@ public enum ColorBlock {
 
     ColorBlock(@NotNull Component baseString, @NotNull Quaternionf leftRotation, @NotNull Quaternionf right_rotation, @NotNull Function<Float, Float> translationHandler) {
         this(baseString, leftRotation, right_rotation, translationHandler, scale -> scale);
-    }
-
-    // For test
-    public ColorBlock setTranslationHandler(@NotNull Function<Float, Float> translationHandler) {
-        this.translationHandler = translationHandler;
-        return this;
-    }
-
-    // For test
-    public ColorBlock setScaleHandler(@NotNull Function<Float, Float> scaleHandler) {
-        this.scaleHandler = scaleHandler;
-        return this;
     }
 
     public void make(@NotNull Block block, @NotNull Color color) {
@@ -102,7 +106,7 @@ public enum ColorBlock {
         make(Corners.of(block), color, textureHandler);
     }
 
-    public void make(@NotNull Corners corners, @NotNull Color color, @Nullable TextureHandler textureHandler) {
+    public TextDisplay make(@NotNull Corners corners, @NotNull Color color, @Nullable TextureHandler textureHandler) {
         Preconditions.checkArgument(corners != null, "Corners cannot be null");
         Preconditions.checkArgument(color != null, "Color cannot be null");
         Preconditions.checkArgument(corners.getWorld() != null, "World cannot be null");
@@ -121,10 +125,10 @@ public enum ColorBlock {
                 .brightness(new Display.Brightness(15, 15));
 
         if (textureHandler != null) {
-            textureHandler.apply(corners, builder);
+            textureHandler.accept(corners, builder);
         }
 
-        generate(corners, builder);
+        return generate(corners, builder);
     }
 
     public @NotNull Vector3f getTranslation(float scaleX, float scaleY, float scaleZ) {
@@ -154,7 +158,7 @@ public enum ColorBlock {
         };
     }
 
-    private void generate(@NotNull Corners corners, @NotNull TextModelBuilder builder) {
+    private TextDisplay generate(@NotNull Corners corners, @NotNull TextModelBuilder builder) {
         Location location = null;
         switch (this) {
             case UP_VISIBLE -> location = new Location(corners.getWorld(), corners.getMinX(), corners.getMaxY(), corners.getMaxZ());
@@ -162,35 +166,37 @@ public enum ColorBlock {
             case WEST_VISIBLE -> location = new Location(corners.getWorld(), corners.getMaxX(), corners.getMinY(), corners.getMinZ());
             case NORTH_VISIBLE -> location = new Location(corners.getWorld(), corners.getMaxX(), corners.getMinY(), corners.getMaxZ());
             default -> location = new Location(corners.getWorld(), corners.getMinX(), corners.getMinY(), corners.getMinZ());
-            /*
-            case EAST_VISIBLE, UP_VISIBLE ->
-                    location = new Location(corners.getWorld(), corners.getMinX(), corners.getMinY(), corners.getMinZ());
-            case WEST_VISIBLE -> location = new Location(corners.getWorld(), corners.getMaxX(), corners.getMaxY(), corners.getMinZ());
-            case DOWN_VISIBLE, NORTH_VISIBLE ->
-                    location = new Location(corners.getWorld(), corners.getMinX(), corners.getMinY(), corners.getMaxZ());
-            case SOUTH_VISIBLE -> location = new Location(corners.getWorld(), corners.getMaxX(), corners.getMinY(), corners.getMaxZ());
-
-             */
         }
 
         if (location == null) {
-            return;
+            return null;
         }
 
-        builder.buildAt(location);
+        return builder.buildAt(location);
     }
 
-    public interface TextureHandler {
-        void apply(@Nonnull Corners corners, @Nullable TextModelBuilder extraHandler);
+    public static List<TextDisplay> makeSurface(@NotNull Corners corners, @NotNull Color color) {
+        return makeSurface(corners, color, null);
     }
 
-    public static void makeSurface(@NotNull Corners corners, @NotNull Color color) {
-        makeSurface(corners, color, null);
-    }
-
-    public static void makeSurface(@NotNull Corners corners, @NotNull Color color, @Nullable TextureHandler textureHandler) {
-        for (ColorBlock value : values()) {
-            value.make(corners, color, textureHandler);
+    public static List<TextDisplay> makeSurface(@NotNull Corners corners, @NotNull Color color, @Nullable TextureHandler textureHandler) {
+        List<TextDisplay> displays = new ArrayList<>();
+        for (ColorBlock value : DEFAULT_SURFACE) {
+            displays.add(value.make(corners, color, textureHandler));
         }
+        
+        return displays;
+    }
+
+    public static List<TextDisplay> makeLiquid(@NotNull Corners corners, @NotNull Color color, @Nullable TextureHandler textureHandler) {
+        Location tmp = new Location(corners.getWorld(), 0, 0, 0);
+        for (double x = corners.getMinX(); x < corners.getMaxX(); x += 1) {
+            for (double y = corners.getMinY(); y < corners.getMaxY(); y += 1) {
+                for (double z = corners.getMinZ(); z < corners.getMaxZ(); z += 1) {
+                    tmp.set(x, y, z).getBlock().setType(Material.LAVA);
+                }
+            }
+        }
+        return makeSurface(corners, color, textureHandler);
     }
 }

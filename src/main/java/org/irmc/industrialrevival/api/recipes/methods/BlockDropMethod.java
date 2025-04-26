@@ -1,10 +1,13 @@
-package org.irmc.industrialrevival.api.recipes;
+package org.irmc.industrialrevival.api.recipes.methods;
 
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.DropFromBlockItem;
 
+/**
+ * @author baluagq
+ */
 @Getter
 public class BlockDropMethod implements ProduceMethod {
     private final Material blockType;

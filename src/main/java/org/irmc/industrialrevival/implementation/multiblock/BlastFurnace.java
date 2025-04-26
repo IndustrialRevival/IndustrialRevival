@@ -55,7 +55,7 @@ public class BlastFurnace extends MultiBlock implements ProcessorHolder<MachineO
             .addExplain("B", MenuUtil.BACKGROUND)
             .addExplain("F", FUEL_BORDER);
     static {
-        preset.addMenuDrawer(menuDrawer);
+        preset.withMenuDrawer(menuDrawer);
     }
     private final MachineProcessor<MachineOperation> processor = new MachineProcessor<>(this);
     private final Map<Location, Float> fuels = new HashMap<>();

@@ -1,4 +1,4 @@
-package org.irmc.industrialrevival.api.objects.display;
+package org.irmc.industrialrevival.api.objects.display.builder;
 
 import lombok.Getter;
 import org.bukkit.util.Transformation;

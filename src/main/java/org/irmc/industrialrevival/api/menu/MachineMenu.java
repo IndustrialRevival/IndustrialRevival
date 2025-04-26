@@ -8,12 +8,15 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+import org.irmc.industrialrevival.api.menu.handlers.ClickHandler;
+import org.irmc.industrialrevival.api.menu.handlers.MenuCloseHandler;
+import org.irmc.industrialrevival.api.menu.handlers.MenuOpenHandler;
+import org.irmc.industrialrevival.api.menu.handlers.OutsideClickHandler;
 import org.irmc.industrialrevival.api.objects.ItemStackReference;
 import org.irmc.pigeonlib.items.CustomItemStack;
 import org.irmc.pigeonlib.items.ItemUtils;
@@ -101,10 +104,6 @@ public class MachineMenu extends SimpleMenu {
 
         seconds -= minutes * 60;
         return remainingTime + seconds + "s";
-    }
-
-    public void setSize(@Range(from = 9, to = 54) int size) {
-        throw new UnsupportedOperationException("Cannot set size of a machine menu");
     }
 
     public void setTitle(@NotNull Component title) {

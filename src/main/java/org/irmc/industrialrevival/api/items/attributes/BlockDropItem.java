@@ -1,6 +1,6 @@
 package org.irmc.industrialrevival.api.items.attributes;
 
-import org.irmc.industrialrevival.api.recipes.BlockDropMethod;
+import org.irmc.industrialrevival.api.recipes.methods.BlockDropMethod;
 
 /**
  * This interface defines a block drop items.<br>

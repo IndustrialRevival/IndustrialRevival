@@ -8,7 +8,7 @@ import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.objects.enums.ArmorProtectionType;
 import org.irmc.industrialrevival.api.objects.enums.ArmorType;
-import org.irmc.industrialrevival.api.recipes.CraftMethod;
+import org.irmc.industrialrevival.api.recipes.methods.CraftMethod;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.jetbrains.annotations.NotNull;
 

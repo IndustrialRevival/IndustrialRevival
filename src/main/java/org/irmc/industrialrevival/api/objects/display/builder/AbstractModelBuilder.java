@@ -1,11 +1,8 @@
-package org.irmc.industrialrevival.api.objects.display;
+package org.irmc.industrialrevival.api.objects.display.builder;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Display;
-import org.bukkit.entity.TextDisplay;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.concurrent.CompletableFuture;
 
 /**
  * AbstractModelBuilder is the base class for all model builders.

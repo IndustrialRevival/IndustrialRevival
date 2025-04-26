@@ -1,7 +1,7 @@
 package org.irmc.industrialrevival.api.machines;
 
 import org.irmc.industrialrevival.api.objects.enums.GeneratorType;
-import org.irmc.industrialrevival.api.objects.events.ir.IRBlockTickEvent;
+import org.irmc.industrialrevival.api.objects.events.ir.BlockTickEvent;
 
 public abstract class ElectricManualGenerator extends AbstractElectricGenerator {
     @Override
@@ -10,7 +10,7 @@ public abstract class ElectricManualGenerator extends AbstractElectricGenerator 
     }
 
     @Override
-    protected void tick(IRBlockTickEvent event) {
+    protected void tick(BlockTickEvent event) {
 
     }
 }

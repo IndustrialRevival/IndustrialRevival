@@ -2,7 +2,7 @@ package org.irmc.industrialrevival.api.machines;
 
 import org.irmc.industrialrevival.api.items.handlers.BlockTicker;
 import org.irmc.industrialrevival.api.objects.enums.EnergyNetComponentType;
-import org.irmc.industrialrevival.api.objects.events.ir.IRBlockTickEvent;
+import org.irmc.industrialrevival.api.objects.events.ir.BlockTickEvent;
 import org.jetbrains.annotations.NotNull;
 
 /*
@@ -20,7 +20,7 @@ public abstract class ElectricMachine extends EnergyComponent {
         super.preRegister();
     }
 
-    protected void tick(@NotNull IRBlockTickEvent event) {
+    protected void tick(@NotNull BlockTickEvent event) {
         // TODO: implement tick logic
         // machineRecipes.findNextRecipe()
     }

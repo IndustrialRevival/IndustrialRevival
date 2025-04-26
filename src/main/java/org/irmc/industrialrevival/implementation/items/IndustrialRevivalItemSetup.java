@@ -12,7 +12,7 @@ import org.irmc.industrialrevival.api.items.TinkerProductItem;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.machines.BasicMachine;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipe;
-import org.irmc.industrialrevival.api.recipes.CraftMethod;
+import org.irmc.industrialrevival.api.recipes.methods.CraftMethod;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.groups.IRItemGroups;

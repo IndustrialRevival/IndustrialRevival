@@ -2,14 +2,14 @@ package org.irmc.industrialrevival.api.items.handlers;
 
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.NotPlaceable;
-import org.irmc.industrialrevival.api.objects.events.ir.IRBlockTickEvent;
+import org.irmc.industrialrevival.api.objects.events.ir.BlockTickEvent;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
 import org.irmc.pigeonlib.items.ItemUtils;
 import org.jetbrains.annotations.NotNull;
 
 @FunctionalInterface
 public interface BlockTicker extends ItemHandler {
-    void onTick(IRBlockTickEvent event);
+    void onTick(BlockTickEvent event);
 
     default boolean isSynchronized() {
         return false;

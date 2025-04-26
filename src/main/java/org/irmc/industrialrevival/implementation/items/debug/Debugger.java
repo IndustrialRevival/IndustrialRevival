@@ -24,7 +24,7 @@ import org.irmc.industrialrevival.core.services.IRRegistry;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.items.IndustrialRevivalItems;
 import org.irmc.industrialrevival.utils.DataUtil;
-import org.irmc.industrialrevival.utils.NumberUtils;
+import org.irmc.industrialrevival.utils.NumberUtil;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -206,12 +206,12 @@ public class Debugger extends IndustrialRevivalItem {
             long timingsOfThisBlock = summary.getDataByLocation().getOrDefault(location, 0L);
             long totalTimingsOfThisBlock = summary.getDataByID().getOrDefault(id, 0L);
             send(player, "&e- Timings: ");
-            send(player, "&e  - This Timings: &7" + NumberUtils.round(NumberUtils.ns2Ms(timingsOfThisBlock), 2) + "ms");
+            send(player, "&e  - This Timings: &7" + NumberUtil.round(NumberUtil.ns2Ms(timingsOfThisBlock), 2) + "ms");
             if (totalTimingsOfThisBlock > 0 && !summary.getDataByID().isEmpty()) {
                 long avgTimingsOfThisBlock = totalTimingsOfThisBlock / summary.getDataByID().size();
-                send(player, "&e  - Average Timings: &7" + NumberUtils.round(NumberUtils.ns2Ms(avgTimingsOfThisBlock), 2) + "ms");
+                send(player, "&e  - Average Timings: &7" + NumberUtil.round(NumberUtil.ns2Ms(avgTimingsOfThisBlock), 2) + "ms");
             }
-            send(player, "&e  - Total Timings: &7" + NumberUtils.round(NumberUtils.ns2Ms(totalTimingsOfThisBlock), 2) + "ms");
+            send(player, "&e  - Total Timings: &7" + NumberUtil.round(NumberUtil.ns2Ms(totalTimingsOfThisBlock), 2) + "ms");
         }
 
         Map<String, String> dataMap = data.getData();
@@ -245,9 +245,9 @@ public class Debugger extends IndustrialRevivalItem {
 
         long avgTimingsPerChunk = summary.getTotalTime();
         send(player, "&e- Timings: ");
-        send(player, "&e  - Total Chunk Timings: &7" + NumberUtils.round(NumberUtils.ns2Ms(chunkTimings), 2) + "ms");
-        send(player, "&e  - Average Timings Per Machine in This Chunk: &7" + NumberUtils.round(NumberUtils.ns2Ms(avgTimingsPerMachine), 2) + "ms");
-        send(player, "&e  - Average Timings Per Chunk: &7" + NumberUtils.round(NumberUtils.ns2Ms(avgTimingsPerChunk), 2) + "ms");
+        send(player, "&e  - Total Chunk Timings: &7" + NumberUtil.round(NumberUtil.ns2Ms(chunkTimings), 2) + "ms");
+        send(player, "&e  - Average Timings Per Machine in This Chunk: &7" + NumberUtil.round(NumberUtil.ns2Ms(avgTimingsPerMachine), 2) + "ms");
+        send(player, "&e  - Average Timings Per Chunk: &7" + NumberUtil.round(NumberUtil.ns2Ms(avgTimingsPerChunk), 2) + "ms");
     }
 
     private void forceBreakBlock(PlayerInteractEvent e) {
@@ -362,8 +362,8 @@ public class Debugger extends IndustrialRevivalItem {
         send(player, "&e - Bukkit version: &7" + server.getBukkitVersion());
         send(player, "&e - Minecraft version: &7" + server.getMinecraftVersion());
         send(player, "&e - Plugins: &7" + server.getPluginManager().getPlugins().length);
-        send(player, "&e - TPS: &b" + Arrays.toString(Arrays.stream(server.getTPS()).map(number -> NumberUtils.round(number, 2)).toArray()));
-        send(player, "&e - Average tick time: &7" + NumberUtils.round(server.getAverageTickTime(), 2));
+        send(player, "&e - TPS: &b" + Arrays.toString(Arrays.stream(server.getTPS()).map(number -> NumberUtil.round(number, 2)).toArray()));
+        send(player, "&e - Average tick time: &7" + NumberUtil.round(server.getAverageTickTime(), 2));
         send(player, "&e - Online players: &7" + server.getOnlinePlayers().size());
         send(player, "&e - Max players: &7" + server.getMaxPlayers());
         send(player, "&e - Worlds: &7" + server.getWorlds().size());

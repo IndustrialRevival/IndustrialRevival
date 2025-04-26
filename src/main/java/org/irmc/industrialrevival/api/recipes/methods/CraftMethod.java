@@ -1,9 +1,13 @@
-package org.irmc.industrialrevival.api.recipes;
+package org.irmc.industrialrevival.api.recipes.methods;
 
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+import org.irmc.industrialrevival.api.recipes.RecipeType;
 
+/**
+ * @author baluagq
+ */
 @Getter
 public class CraftMethod implements ProduceMethod {
     private final RecipeType recipeType;

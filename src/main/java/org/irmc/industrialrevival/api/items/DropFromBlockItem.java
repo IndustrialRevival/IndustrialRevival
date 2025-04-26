@@ -2,7 +2,7 @@ package org.irmc.industrialrevival.api.items;
 
 import lombok.Getter;
 import org.irmc.industrialrevival.api.items.attributes.BlockDropItem;
-import org.irmc.industrialrevival.api.recipes.BlockDropMethod;
+import org.irmc.industrialrevival.api.recipes.methods.BlockDropMethod;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;

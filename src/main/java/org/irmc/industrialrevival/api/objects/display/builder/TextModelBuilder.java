@@ -1,23 +1,20 @@
-package org.irmc.industrialrevival.api.objects.display;
+package org.irmc.industrialrevival.api.objects.display.builder;
 
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.entity.BlockDisplay;
 import org.bukkit.entity.Display;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Pose;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.entity.TextDisplay;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.LazyMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.util.Transformation;
 import org.bukkit.util.Vector;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.Debug;
@@ -35,9 +32,17 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 @Getter
-public class BlockModelBuilder extends AbstractModelBuilder implements Cloneable {
+public class TextModelBuilder extends AbstractModelBuilder implements Cloneable {
     private TransformationBuilder transformationBuilder;
-    private BlockData blockData;
+    private Component text;
+    private Integer lineWidth;
+    private Color backgroundColor;
+    private Byte textOpacity;
+    private Boolean shadowed;
+    private Boolean seeThrough;
+    private Boolean defaultBackground;
+    private TextDisplay.TextAlignment alignment;
+    private Transformation transformation;
     private Integer interpolationDuration;
     private Integer teleportDuration;
     private Float viewRange;
@@ -75,7 +80,7 @@ public class BlockModelBuilder extends AbstractModelBuilder implements Cloneable
     private Boolean fixedPose;
     private Map<String, List<MetadataValue>> metadata;
     private Component customName;
-    public BlockModelBuilder() {
+    public TextModelBuilder() {
     }
 
     public void ifPresent(@Nullable Object object, @NotNull Runnable runnable) {
@@ -84,9 +89,18 @@ public class BlockModelBuilder extends AbstractModelBuilder implements Cloneable
         }
     }
 
-    public @NotNull BlockModelBuilder clone() {
-        BlockModelBuilder clone = new BlockModelBuilder();
-        clone.blockData = this.blockData;
+    public @NotNull TextModelBuilder clone() {
+        TextModelBuilder clone = new TextModelBuilder();
+        clone.transformationBuilder = this.transformationBuilder;
+        clone.text = Component.text(((TextComponent) this.text).content());
+        clone.lineWidth = this.lineWidth;
+        clone.backgroundColor = this.backgroundColor;
+        clone.textOpacity = this.textOpacity;
+        clone.shadowed = this.shadowed;
+        clone.seeThrough = this.seeThrough;
+        clone.defaultBackground = this.defaultBackground;
+        clone.alignment = this.alignment;
+        clone.transformation = this.transformation;
         clone.interpolationDuration = this.interpolationDuration;
         clone.teleportDuration = this.teleportDuration;
         clone.viewRange = this.viewRange;
@@ -124,19 +138,27 @@ public class BlockModelBuilder extends AbstractModelBuilder implements Cloneable
         clone.fixedPose = this.fixedPose;
         clone.metadata = new HashMap<>(this.metadata);
         clone.customName = this.customName;
-        clone.transformationBuilder = this.transformationBuilder;
         return clone;
     }
 
-    public @NotNull BlockModelBuilder build() {
+    public @NotNull TextModelBuilder build() {
         return clone();
     }
 
-    public @NotNull BlockDisplay buildAt(@NotNull Location location) {
+    public @NotNull TextDisplay buildAt(@NotNull Location location) {
         try {
             return Bukkit.getScheduler().callSyncMethod(IndustrialRevival.getInstance(), () ->
-                location.getWorld().spawn(location, BlockDisplay.class, display -> {
-                    ifPresent(this.blockData, () -> display.setBlock(this.blockData));
+                location.getWorld().spawn(location, TextDisplay.class, display -> {
+                    //<editor-fold> desc="args"
+                    ifPresent(this.text, () -> display.text(this.text));
+                    ifPresent(this.lineWidth, () -> display.setLineWidth(this.lineWidth));
+                    ifPresent(this.backgroundColor, () -> display.setBackgroundColor(this.backgroundColor));
+                    ifPresent(this.textOpacity, () -> display.setTextOpacity(this.textOpacity));
+                    ifPresent(this.shadowed, () -> display.setShadowed(this.shadowed));
+                    ifPresent(this.seeThrough, () -> display.setSeeThrough(this.seeThrough));
+                    ifPresent(this.defaultBackground, () -> display.setDefaultBackground(this.defaultBackground));
+                    ifPresent(this.alignment, () -> display.setAlignment(this.alignment));
+                    ifPresent(this.transformation, () -> display.setTransformation(this.transformation));
                     ifPresent(this.interpolationDuration, () -> display.setInterpolationDuration(this.interpolationDuration));
                     ifPresent(this.teleportDuration, () -> display.setTeleportDuration(this.teleportDuration));
                     ifPresent(this.viewRange, () -> display.setViewRange(this.viewRange));
@@ -174,6 +196,7 @@ public class BlockModelBuilder extends AbstractModelBuilder implements Cloneable
                     ifPresent(this.metadata, () -> this.metadata.forEach((key, values) -> values.forEach(value -> display.setMetadata(key, value))));
                     ifPresent(this.customName, () -> display.customName(this.customName));
                     ifPresent(this.transformationBuilder, () -> display.setTransformation(this.transformationBuilder.build()));
+                    //</editor-fold>
                 })).get();
         } catch (InterruptedException | ExecutionException e) {
             Debug.error(e);
@@ -181,143 +204,168 @@ public class BlockModelBuilder extends AbstractModelBuilder implements Cloneable
         }
     }
 
-    // Block Display methods
-    public @NotNull BlockModelBuilder block(BlockData blockData) {
-        this.blockData = blockData;
+    // Text Display methods
+    public @NotNull TextModelBuilder text(Component text) {
+        this.text = text;
         return this;
     }
 
-    public @NotNull BlockModelBuilder block(@NotNull Block block) {
-        return block(block.getBlockData());
+    public @NotNull TextModelBuilder lineWidth(int width) {
+        this.lineWidth = width;
+        return this;
     }
 
-    public @NotNull BlockModelBuilder block(@NotNull Location location) {
-        return block(location.getBlock().getBlockData());
+    public @NotNull TextModelBuilder backgroundColor(Color color) {
+        this.backgroundColor = color;
+        return this;
     }
 
-    public @NotNull BlockModelBuilder block(@NotNull Material material) throws IllegalArgumentException {
-        if (!material.isBlock()) {
-            throw new IllegalArgumentException("Material must be a block");
-        }
-        return block(material.createBlockData());
+    public @NotNull TextModelBuilder backgroundColor(int color) {
+        return backgroundColor(Color.fromRGB(color));
     }
 
-    public @NotNull BlockModelBuilder block(@NotNull ItemStack itemStack) {
-        return block(itemStack.getType());
+    public @NotNull TextModelBuilder backgroundColor(int r, int g, int b) {
+        return backgroundColor(Color.fromRGB(r, g, b));
     }
+
+    public @NotNull TextModelBuilder textOpacity(byte opacity) {
+        this.textOpacity = opacity;
+        return this;
+    }
+
+    public @NotNull TextModelBuilder shadowed(boolean shadowed) {
+        this.shadowed = shadowed;
+        return this;
+    }
+
+    public @NotNull TextModelBuilder seeThrough(boolean seeThrough) {
+        this.seeThrough = seeThrough;
+        return this;
+    }
+
+    public @NotNull TextModelBuilder defaultBackground(boolean defaultBackground) {
+        this.defaultBackground = defaultBackground;
+        return this;
+    }
+
+    public @NotNull TextModelBuilder alignment(TextDisplay.@NotNull TextAlignment alignment) {
+        this.alignment = alignment;
+        return this;
+    }
+
 
     // Display methods
-    public @NotNull BlockModelBuilder interpolationDuration(int duration) {
+    public @NotNull TextModelBuilder interpolationDuration(int duration) {
         this.interpolationDuration = duration;
         return this;
     }
 
-    public @NotNull BlockModelBuilder teleportDuration(int duration) {
+    public @NotNull TextModelBuilder teleportDuration(int duration) {
         this.teleportDuration = duration;
         return this;
     }
 
-    public @NotNull BlockModelBuilder viewRange(float viewRange) {
+    public @NotNull TextModelBuilder viewRange(float viewRange) {
         this.viewRange = viewRange;
         return this;
     }
 
-    public @NotNull BlockModelBuilder shadowRadius(float shadowRadius) {
+    public @NotNull TextModelBuilder shadowRadius(float shadowRadius) {
         this.shadowRadius = shadowRadius;
         return this;
     }
 
-    public @NotNull BlockModelBuilder shadowStrength(float shadowStrength) {
+    public @NotNull TextModelBuilder shadowStrength(float shadowStrength) {
         this.shadowStrength = shadowStrength;
         return this;
     }
 
-    public @NotNull BlockModelBuilder displayWidth(float displayWidth) {
+    public @NotNull TextModelBuilder displayWidth(float displayWidth) {
         this.displayWidth = displayWidth;
         return this;
     }
 
-    public @NotNull BlockModelBuilder displayHeight(float displayHeight) {
+    public @NotNull TextModelBuilder displayHeight(float displayHeight) {
         this.displayHeight = displayHeight;
         return this;
     }
 
-    public @NotNull BlockModelBuilder interpolationDelay(int delay) {
+    public @NotNull TextModelBuilder interpolationDelay(int delay) {
         this.interpolationDelay = delay;
         return this;
     }
 
-    public @NotNull BlockModelBuilder billboard(Display.@NotNull Billboard billboard) {
+    public @NotNull TextModelBuilder billboard(Display.@NotNull Billboard billboard) {
         this.billboard = billboard;
         return this;
     }
 
-    public @NotNull BlockModelBuilder glowColorOverride(Color color) {
+    public @NotNull TextModelBuilder glowColorOverride(Color color) {
         this.glowColorOverride = color;
         return this;
     }
 
-    public @NotNull BlockModelBuilder glowColorOverride(int color) {
+    public @NotNull TextModelBuilder glowColorOverride(int color) {
         return glowColorOverride(Color.fromRGB(color));
     }
 
-    public @NotNull BlockModelBuilder glowColorOverride(int r, int g, int b) {
+    public @NotNull TextModelBuilder glowColorOverride(int r, int g, int b) {
         return glowColorOverride(Color.fromRGB(r, g, b));
     }
 
-    public @NotNull BlockModelBuilder brightness(Display.Brightness brightness) {
+    public @NotNull TextModelBuilder brightness(Display.Brightness brightness) {
         this.brightness = brightness;
         return this;
     }
 
     // Entity methods
-    public @NotNull BlockModelBuilder velocity(@NotNull Vector velocity) {
+    public @NotNull TextModelBuilder velocity(@NotNull Vector velocity) {
         this.velocity = velocity;
         return this;
     }
 
-    public @NotNull BlockModelBuilder rotation(float yaw, float pitch) {
+    public @NotNull TextModelBuilder rotation(float yaw, float pitch) {
         this.yaw = yaw;
         this.pitch = pitch;
         return this;
     }
 
-    public @NotNull BlockModelBuilder fireTicks(int ticks) {
+    public @NotNull TextModelBuilder fireTicks(int ticks) {
         this.fireTicks = ticks;
         return this;
     }
 
-    public @NotNull BlockModelBuilder visualFire(boolean visualFire) {
+    public @NotNull TextModelBuilder visualFire(boolean visualFire) {
         this.visualFire = visualFire;
         return this;
     }
 
-    public @NotNull BlockModelBuilder freezeTicks(int ticks) {
+    public @NotNull TextModelBuilder freezeTicks(int ticks) {
         this.freezeTicks = ticks;
         return this;
     }
 
-    public @NotNull BlockModelBuilder invisible(boolean invisible) {
+    public @NotNull TextModelBuilder invisible(boolean invisible) {
         this.invisible = invisible;
         return this;
     }
 
-    public @NotNull BlockModelBuilder noPhysics(boolean noPhysics) {
+    public @NotNull TextModelBuilder noPhysics(boolean noPhysics) {
         this.noPhysics = noPhysics;
         return this;
     }
 
-    public @NotNull BlockModelBuilder lockFreezeTicks(boolean lockFreezeTicks) {
+    public @NotNull TextModelBuilder lockFreezeTicks(boolean lockFreezeTicks) {
         this.lockFreezeTicks = lockFreezeTicks;
         return this;
     }
 
-    public @NotNull BlockModelBuilder persistent(boolean persistent) {
+    public @NotNull TextModelBuilder persistent(boolean persistent) {
         this.persistent = persistent;
         return this;
     }
 
-    public @NotNull BlockModelBuilder passenger(@NotNull Entity passenger) {
+    public @NotNull TextModelBuilder passenger(@NotNull Entity passenger) {
         if (passengers == null) {
             passengers = new ArrayList<>();
         }
@@ -325,52 +373,52 @@ public class BlockModelBuilder extends AbstractModelBuilder implements Cloneable
         return this;
     }
 
-    public @NotNull BlockModelBuilder fallDistance(float fallDistance) {
+    public @NotNull TextModelBuilder fallDistance(float fallDistance) {
         this.fallDistance = fallDistance;
         return this;
     }
 
-    public @NotNull BlockModelBuilder ticksLived(int tickLived) {
+    public @NotNull TextModelBuilder ticksLived(int tickLived) {
         this.ticksLived = tickLived;
         return this;
     }
 
-    public @NotNull BlockModelBuilder customNameVisible(boolean customNameVisible) {
+    public @NotNull TextModelBuilder customNameVisible(boolean customNameVisible) {
         this.customNameVisible = customNameVisible;
         return this;
     }
 
-    public @NotNull BlockModelBuilder visibleByDefault(boolean visibleByDefault) {
+    public @NotNull TextModelBuilder visibleByDefault(boolean visibleByDefault) {
         this.visibleByDefault = visibleByDefault;
         return this;
     }
 
-    public @NotNull BlockModelBuilder glowing(boolean glowing) {
+    public @NotNull TextModelBuilder glowing(boolean glowing) {
         this.glowing = glowing;
         return this;
     }
 
-    public @NotNull BlockModelBuilder invulnerable(boolean invulnerable) {
+    public @NotNull TextModelBuilder invulnerable(boolean invulnerable) {
         this.invulnerable = invulnerable;
         return this;
     }
 
-    public @NotNull BlockModelBuilder silent(boolean silent) {
+    public @NotNull TextModelBuilder silent(boolean silent) {
         this.silent = silent;
         return this;
     }
 
-    public @NotNull BlockModelBuilder gravity(boolean gravity) {
+    public @NotNull TextModelBuilder gravity(boolean gravity) {
         this.gravity = gravity;
         return this;
     }
 
-    public @NotNull BlockModelBuilder portalCooldown(int cooldown) {
+    public @NotNull TextModelBuilder portalCooldown(int cooldown) {
         this.portalCooldown = cooldown;
         return this;
     }
 
-    public @NotNull BlockModelBuilder scoreboardTags(@NotNull String tag) {
+    public @NotNull TextModelBuilder scoreboardTags(@NotNull String tag) {
         if (scoreboardTag == null) {
             scoreboardTag = new HashSet<>();
         }
@@ -378,19 +426,19 @@ public class BlockModelBuilder extends AbstractModelBuilder implements Cloneable
         return this;
     }
 
-    public @NotNull BlockModelBuilder sneaking(boolean sneaking) {
+    public @NotNull TextModelBuilder sneaking(boolean sneaking) {
         this.sneaking = sneaking;
         return this;
     }
 
-    public @NotNull BlockModelBuilder pose(@NotNull Pose pose, boolean fixed) {
+    public @NotNull TextModelBuilder pose(@NotNull Pose pose, boolean fixed) {
         this.pose = pose;
         this.fixedPose = fixed;
         return this;
     }
 
     // Metadatable methods
-    public @NotNull BlockModelBuilder metaData(@NotNull String key, @NotNull MetadataValue value) {
+    public @NotNull TextModelBuilder metaData(@NotNull String key, @NotNull MetadataValue value) {
         if (metadata == null) {
             metadata = new HashMap<>();
         }
@@ -405,21 +453,21 @@ public class BlockModelBuilder extends AbstractModelBuilder implements Cloneable
         return this;
     }
 
-    public @NotNull BlockModelBuilder fixedMetaData(@NotNull Plugin plugin, @NotNull String key, Object object) {
+    public @NotNull TextModelBuilder fixedMetaData(@NotNull Plugin plugin, @NotNull String key, Object object) {
         FixedMetadataValue value = new FixedMetadataValue(plugin, object);
         return metaData(key, value);
     }
 
-    public @NotNull BlockModelBuilder lazyMetaData(@NotNull Plugin plugin, @NotNull String key, Object object) {
+    public @NotNull TextModelBuilder lazyMetaData(@NotNull Plugin plugin, @NotNull String key, Object object) {
         return metaData(key, new LazyMetadataValue(plugin, () -> object));
     }
 
-    public @NotNull BlockModelBuilder lazyMetaData(@NotNull Plugin plugin, @NotNull String key, LazyMetadataValue.@NotNull CacheStrategy strategy, Object object) {
+    public @NotNull TextModelBuilder lazyMetaData(@NotNull Plugin plugin, @NotNull String key, LazyMetadataValue.@NotNull CacheStrategy strategy, Object object) {
         return metaData(key, new LazyMetadataValue(plugin, strategy, () -> object));
     }
 
     // Nameable methods
-    public @NotNull BlockModelBuilder customName(Component name) {
+    public @NotNull TextModelBuilder customName(Component name) {
         this.customName = name;
         return this;
     }
@@ -431,59 +479,59 @@ public class BlockModelBuilder extends AbstractModelBuilder implements Cloneable
         }
     }
 
-    public @NotNull BlockModelBuilder setTranslation(@NotNull Vector3f translation) {
+    public @NotNull TextModelBuilder setTranslation(@NotNull Vector3f translation) {
         return setTranslation(translation.x, translation.y, translation.z);
     }
 
-    public @NotNull BlockModelBuilder setTranslation(float x, float y, float z) {
+    public @NotNull TextModelBuilder setTranslation(float x, float y, float z) {
         initBuilder();
         this.transformationBuilder.setTranslationX(x).setTranslationY(y).setTranslationZ(z);
         return this;
     }
 
-    public @NotNull BlockModelBuilder setTranslation(float f) {
+    public @NotNull TextModelBuilder setTranslation(float f) {
         return setTranslation(f, f, f);
     }
 
-    public @NotNull BlockModelBuilder setLeftRotation(@NotNull Quaternionf rotation) {
+    public @NotNull TextModelBuilder setLeftRotation(@NotNull Quaternionf rotation) {
         return setLeftRotation(rotation.x, rotation.y, rotation.z, rotation.w);
     }
 
-    public @NotNull BlockModelBuilder setLeftRotation(float x, float y, float z, float w) {
+    public @NotNull TextModelBuilder setLeftRotation(float x, float y, float z, float w) {
         initBuilder();
         this.transformationBuilder.setLeftRotationX(x).setLeftRotationY(y).setLeftRotationZ(z).setLeftRotationW(w);
         return this;
     }
 
-    public @NotNull BlockModelBuilder setLeftRotation(float f) {
+    public @NotNull TextModelBuilder setLeftRotation(float f) {
         return setLeftRotation(f, f, f, f);
     }
 
-    public @NotNull BlockModelBuilder setSize(@NotNull Vector3f size) {
+    public @NotNull TextModelBuilder setSize(@NotNull Vector3f size) {
         return setSize(size.x, size.y, size.z);
     }
 
 
-    public @NotNull BlockModelBuilder setSize(float x, float y, float z) {
+    public @NotNull TextModelBuilder setSize(float x, float y, float z) {
         this.transformationBuilder.setScaleX(x).setScaleY(y).setScaleZ(z);
         return this;
     }
 
-    public @NotNull BlockModelBuilder setSize(float size) {
+    public @NotNull TextModelBuilder setSize(float size) {
         return setSize(size, size, size);
     }
 
-    public @NotNull BlockModelBuilder setRightRotation(@NotNull Quaternionf rotation) {
+    public @NotNull TextModelBuilder setRightRotation(@NotNull Quaternionf rotation) {
         return setRightRotation(rotation.x, rotation.y, rotation.z, rotation.w);
     }
 
-    public @NotNull BlockModelBuilder setRightRotation(float x, float y, float z, float w) {
+    public @NotNull TextModelBuilder setRightRotation(float x, float y, float z, float w) {
         initBuilder();
         this.transformationBuilder.setRightRotationX(x).setRightRotationY(y).setRightRotationZ(z).setRightRotationW(w);
         return this;
     }
 
-    public @NotNull BlockModelBuilder setRightRotation(float f) {
+    public @NotNull TextModelBuilder setRightRotation(float f) {
         return setRightRotation(f, f, f, f);
     }
 }

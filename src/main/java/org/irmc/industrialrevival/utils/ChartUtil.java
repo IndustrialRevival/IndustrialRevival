@@ -1,7 +1,11 @@
 package org.irmc.industrialrevival.utils;
 
+import org.jetbrains.annotations.ApiStatus;
+
 import java.util.List;
 
+@Deprecated
+@ApiStatus.ScheduledForRemoval(inVersion = "1.2")
 public class ChartUtil {
 
     public static String generateChart(List<String> header, List<List<String>> rows) {

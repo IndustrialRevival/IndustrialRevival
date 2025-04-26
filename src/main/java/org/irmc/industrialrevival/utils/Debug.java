@@ -11,15 +11,16 @@ import java.util.logging.Level;
 
 /**
  * This utility class provides debugging and logging functionalities for the IndustrialRevival plugin.
- * It includes methods to log messages, warnings, errors, and debug information, as well as to send messages to players.
+ * It includes methods to log messages, warnings, errors, and debug information,
+ * as well as to send messages to players.
  *
  * @author balugaq
  */
 @SuppressWarnings({"unused", "deprecation"})
 public class Debug {
-    private static final JavaPlugin plugin = IndustrialRevival.getInstance();
-    private static final String debugPrefix = "[Debug] ";
-    private static final boolean debug = IndustrialRevival.getInstance().getConfig().getBoolean("debug", false);
+    private static final JavaPlugin PLUGIN = IndustrialRevival.getInstance();
+    private static final String DEBUG_PREFIX = "[Debug] ";
+    private static final boolean DEBUGGING = IndustrialRevival.getInstance().getConfig().getBoolean("debug", false);
 
     /**
      * Logs debug information for multiple objects.
@@ -80,8 +81,8 @@ public class Debug {
      * @param message The message to log.
      */
     public static void debug(String message) {
-        if (debug) {
-            log(debugPrefix + message);
+        if (DEBUGGING) {
+            log(DEBUG_PREFIX + message);
         }
     }
 
@@ -157,7 +158,7 @@ public class Debug {
         if (message == null) {
             return;
         }
-        player.sendMessage("[" + plugin.getLogger().getName() + "]" + message);
+        player.sendMessage("[" + PLUGIN.getLogger().getName() + "]" + message);
     }
 
     /**
@@ -231,7 +232,7 @@ public class Debug {
             log("null");
             return;
         }
-        plugin.getLogger().info(ChatColor.translateAlternateColorCodes('&', message));
+        PLUGIN.getLogger().info(ChatColor.translateAlternateColorCodes('&', message));
     }
 
     /**
@@ -260,7 +261,7 @@ public class Debug {
      * @param message The warning message to log.
      */
     public static void warning(@Nullable String message) {
-        plugin.getLogger().warning(message);
+        PLUGIN.getLogger().warning(message);
     }
 
     /**
@@ -269,7 +270,7 @@ public class Debug {
      * @param message The error message to log.
      */
     public static void error(@Nullable String message) {
-        plugin.getLogger().severe(message);
+        PLUGIN.getLogger().severe(message);
     }
 
     /**
@@ -510,7 +511,7 @@ public class Debug {
      * @param message The message to log.
      */
     public static void fine(@Nullable String message) {
-        plugin.getLogger().fine(message);
+        PLUGIN.getLogger().fine(message);
     }
 
     /**
@@ -711,6 +712,6 @@ public class Debug {
      * @param message The message to log.
      */
     public static void log(@NotNull Level level, @Nullable String message) {
-        plugin.getLogger().log(level, message);
+        PLUGIN.getLogger().log(level, message);
     }
 }

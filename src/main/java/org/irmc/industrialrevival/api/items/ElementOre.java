@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Range;
 
 public class ElementOre extends ElementItem {
     @Override
-    public @Range(from = 0, to = Smeltery.MAX_FUEL_CAPACITY) int getMeltingPoint(ItemStack itemStack) {
+    public @Range(from = 0, to = Smeltery.MAX_FUEL) int getMeltingPoint(ItemStack itemStack) {
         return (int) getElementType().getMeltingPoint() / 10;
     }
 

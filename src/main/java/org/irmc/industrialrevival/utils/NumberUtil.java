@@ -6,7 +6,7 @@ package org.irmc.industrialrevival.utils;
  *
  * @author Unknown
  */
-public class NumberUtils {
+public class NumberUtil {
 
     /**
      * Rounds a double value to the specified number of decimal places.

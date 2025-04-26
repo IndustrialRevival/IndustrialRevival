@@ -6,6 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.pigeonlib.items.ItemUtils;
 import org.irmc.pigeonlib.pdc.PersistentDataAPI;
+import org.irmc.pigeonlib.pdc.types.PersistentDataTypes;
 
 /**
  * Utility class for retrieving sanitized itemstacks without extraneous metadata.
@@ -25,12 +26,16 @@ public class CleanedItemGetter {
      * @param itemStack Original item to process
      * @return Cleaned itemstack preserving essential PDC data
      */
-    public static ItemStack getCleanedItem(ItemStack itemStack) {
+    public static ItemStack clean(ItemStack itemStack) {
         return ItemUtils.getCleanedItem(itemStack, meta -> {
             IndustrialRevivalItem item = IndustrialRevivalItem.getByItem(itemStack);
             if (item != null) {
                 PersistentDataAPI.setNamespacedKey(meta, CLEANED_ITEM_ID_KEY, item.getId());
             }
         });
+    }
+
+    public static boolean isCleaned(ItemStack itemStack) {
+        return PersistentDataAPI.has(itemStack.getItemMeta(), CLEANED_ITEM_ID_KEY, PersistentDataTypes.NAMESPACED_KEY);
     }
 }

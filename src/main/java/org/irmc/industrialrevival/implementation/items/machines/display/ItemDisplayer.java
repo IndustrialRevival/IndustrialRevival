@@ -11,9 +11,9 @@ import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.InventoryBlock;
 import org.irmc.industrialrevival.api.items.handlers.BlockPlaceHandler;
+import org.irmc.industrialrevival.api.menu.handlers.ClickHandler;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.menu.MatrixMenuDrawer;
-import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockPlaceEvent;
@@ -57,9 +57,9 @@ public class ItemDisplayer extends IndustrialRevivalItem implements InventoryBlo
                         ItemDisplayer.this.plusHeight(menu1.getLocation());
                         return false;
                     })
-                    .addExplain('I', info, SimpleMenu.ClickHandler.DEFAULT);
+                    .addExplain('I', info, ClickHandler.DEFAULT);
 
-            preset.addMenuDrawer(drawer);
+            preset.withMenuDrawer(drawer);
             preset.setClickHandler(13, (_, _, _, menu, _) -> {
                 ItemStack itemStack = menu.getItem(13);
                 if (itemStack != null) {

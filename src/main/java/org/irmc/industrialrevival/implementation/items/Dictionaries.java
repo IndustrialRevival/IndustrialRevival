@@ -8,7 +8,7 @@ import org.irmc.industrialrevival.utils.KeyUtil;
 
 import java.util.List;
 
-public class IRDictionaries {
+public class Dictionaries {
     public static final ItemDictionary IR_ORE;
     public static final ItemDictionary IR_ORE_PRODUCTION;
 

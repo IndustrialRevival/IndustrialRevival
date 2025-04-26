@@ -11,13 +11,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Getter
-public class IRTickStartEvent extends Event {
+public class TickStartEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
     private final Map<Location, IRBlockData> blockDataMap;
     private final int checkInterval;
     private final long ticked;
 
-    public IRTickStartEvent(Map<Location, IRBlockData> blockDataMap, int checkInterval, long ticked) {
+    public TickStartEvent(Map<Location, IRBlockData> blockDataMap, int checkInterval, long ticked) {
         super(true);
         this.blockDataMap = new HashMap<>(blockDataMap);
         this.checkInterval = checkInterval;

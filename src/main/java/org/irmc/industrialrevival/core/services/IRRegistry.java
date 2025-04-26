@@ -25,13 +25,14 @@ import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
 import org.irmc.industrialrevival.api.multiblock.MultiBlock;
 import org.irmc.industrialrevival.api.objects.display.DisplayGroup;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
-import org.irmc.industrialrevival.api.recipes.BlockDropMethod;
-import org.irmc.industrialrevival.api.recipes.CraftMethod;
-import org.irmc.industrialrevival.api.recipes.MeltMethod;
-import org.irmc.industrialrevival.api.recipes.MobDropMethod;
-import org.irmc.industrialrevival.api.recipes.ProduceMethod;
+import org.irmc.industrialrevival.api.recipes.methods.BlockDropMethod;
+import org.irmc.industrialrevival.api.recipes.methods.CraftMethod;
+import org.irmc.industrialrevival.api.recipes.methods.MeltMethod;
+import org.irmc.industrialrevival.api.recipes.methods.MobDropMethod;
+import org.irmc.industrialrevival.api.recipes.methods.ProduceMethod;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.api.researches.Research;
+import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -46,6 +47,10 @@ import java.util.stream.Collectors;
 
 @Getter
 public final class IRRegistry {
+    public static IRRegistry getInstance() {
+        return IndustrialRevival.getInstance().getRegistry();
+    }
+
     private final Map<NamespacedKey, ItemGroup> itemGroups;
     private final Map<NamespacedKey, Research> researches;
     private final Map<NamespacedKey, ItemDictionary> dictionaries;

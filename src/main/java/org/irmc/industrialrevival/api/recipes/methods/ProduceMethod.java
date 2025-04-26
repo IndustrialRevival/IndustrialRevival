@@ -1,4 +1,4 @@
-package org.irmc.industrialrevival.api.recipes;
+package org.irmc.industrialrevival.api.recipes.methods;
 
 /**
  * ProduceMethod is an interface for all produce methods.

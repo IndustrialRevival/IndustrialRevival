@@ -13,8 +13,8 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.ItemDroppable;
-import org.irmc.industrialrevival.api.recipes.BlockDropMethod;
-import org.irmc.industrialrevival.api.recipes.MobDropMethod;
+import org.irmc.industrialrevival.api.recipes.methods.BlockDropMethod;
+import org.irmc.industrialrevival.api.recipes.methods.MobDropMethod;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.DataUtil;
 

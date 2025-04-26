@@ -13,7 +13,7 @@ import org.irmc.industrialrevival.api.objects.events.interfaces.RelatedIRItem;
 import org.jetbrains.annotations.NotNull;
 
 @Getter
-public class IRBlockTickEvent extends Event implements Cancellable, RelatedIRItem {
+public class BlockTickEvent extends Event implements Cancellable, RelatedIRItem {
     private static final HandlerList handlers = new HandlerList();
     private final Block block;
     private final MachineMenu menu;
@@ -22,7 +22,7 @@ public class IRBlockTickEvent extends Event implements Cancellable, RelatedIRIte
     @Setter
     private boolean cancelled;
 
-    public IRBlockTickEvent(Block block, MachineMenu menu, IndustrialRevivalItem iritem, IRBlockData blockData) {
+    public BlockTickEvent(Block block, MachineMenu menu, IndustrialRevivalItem iritem, IRBlockData blockData) {
         super(true);
         this.block = block;
         this.menu = menu;

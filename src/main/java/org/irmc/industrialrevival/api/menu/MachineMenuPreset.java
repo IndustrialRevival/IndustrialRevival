@@ -6,14 +6,21 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
+import org.irmc.industrialrevival.api.menu.handlers.ClickHandler;
+import org.irmc.industrialrevival.api.menu.handlers.MenuCloseHandler;
+import org.irmc.industrialrevival.api.menu.handlers.MenuOpenHandler;
 import org.irmc.industrialrevival.api.objects.enums.ItemFlow;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 public class MachineMenuPreset extends SimpleMenu {
+    private final List<MatrixMenuDrawer> drawers;
     private final NamespacedKey id;
 
     private boolean locked;
@@ -27,13 +34,14 @@ public class MachineMenuPreset extends SimpleMenu {
 
         this.id = id;
         this.locked = false;
+        this.drawers = new ArrayList<>();
         init();
     }
 
     /**
      * Called when the menu be registered to the registry.
      * Override this method to initialize the menu BACKGROUND items.
-     * We suggest to use {@link #addMenuDrawer(MatrixMenuDrawer)}
+     * We suggest to use {@link #withMenuDrawer(MatrixMenuDrawer)}
      */
     public void init() {
 
@@ -122,5 +130,9 @@ public class MachineMenuPreset extends SimpleMenu {
 
     public int[] getSlotsByItemFlow(@NotNull ItemFlow itemFlow, @Nullable ItemStack itemStack) {
         return new int[0];
+    }
+    public MachineMenuPreset withMenuDrawer(@NotNull MatrixMenuDrawer drawer) {
+        this.drawers.add(drawer);
+        return this;
     }
 }
