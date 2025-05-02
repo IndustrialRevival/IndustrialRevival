@@ -25,6 +25,6 @@ public class KeyUtil {
     }
 
     public static NamespacedKey appendOnKey(NamespacedKey key, String append) {
-        return new NamespacedKey(key.getNamespace(), key.getKey() + append.toLowerCase());
+        return new NamespacedKey(key.getNamespace(), key.getKey() + "_" + append.toLowerCase());
     }
 }

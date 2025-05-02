@@ -5,21 +5,17 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.irmc.industrialrevival.api.elements.ElementType;
-import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
-import org.irmc.industrialrevival.api.elements.compounds.ChemicalFormula;
-import org.irmc.industrialrevival.api.elements.compounds.Element;
-import org.irmc.industrialrevival.api.items.ElementOre;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.implementation.groups.IRItemGroups;
+import org.irmc.industrialrevival.implementation.items.chemistry.GasJar;
 import org.irmc.industrialrevival.implementation.items.chemistry.OreDust;
 import org.irmc.industrialrevival.utils.KeyUtil;
-import org.irmc.industrialrevival.utils.TextUtil;
 import org.irmc.pigeonlib.items.CustomItemStack;
 
 import java.util.Map;
 
 @UtilityClass
-public class ElementOreDusts {
+public class GasJars {
     private static boolean LOADED = false;
     public static void register() {
         if (LOADED) {
@@ -28,12 +24,12 @@ public class ElementOreDusts {
         LOADED = true;
         for (ElementType elementType : ElementType.values()) {
             Component name = Component.translatable("item.industrial_revival." + elementType.name().toLowerCase() + ".name", "Unnamed Element Ore Dust").color(TextColor.color(167778));
-            if (!elementType.isGas()) {
-                new OreDust()
+            if (elementType.isGas()) {
+                new GasJar()
                         .elementType(elementType)
                         .itemGroup(IRItemGroups.ORES)
-                        .id(elementType.name().toLowerCase() + "_ore_dust")
-                        .icon(new CustomItemStack(Material.IRON_ORE, name).getBukkit())
+                        .id(elementType.name().toLowerCase() + "_gas_jar")
+                        .icon(new CustomItemStack(Material.GLASS_BOTTLE, name).getBukkit())
                         .register();
             }
         }

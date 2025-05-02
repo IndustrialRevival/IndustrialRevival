@@ -67,7 +67,7 @@ public class Battery extends IndustrialRevivalItem implements NotPlaceable, Rech
 
     @Override
     public void onRecharge(ItemStack item, double energy) {
-        double currentEnergy = getItemEnergy(item);
+        double currentEnergy = getData(item);
         double newEnergy = currentEnergy + energy;
 
         if (newEnergy > getEnergyCapacity()) {
@@ -86,7 +86,7 @@ public class Battery extends IndustrialRevivalItem implements NotPlaceable, Rech
 
     @Override
     public void onEnergyTaken(ItemStack item, double energy) {
-        double currentEnergy = getItemEnergy(item);
+        double currentEnergy = getData(item);
         double newEnergy = currentEnergy - energy;
 
         if (newEnergy > getEnergyCapacity()) {
