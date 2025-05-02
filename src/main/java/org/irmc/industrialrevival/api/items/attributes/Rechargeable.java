@@ -6,14 +6,16 @@ import org.irmc.industrialrevival.utils.EnergyUtil;
 /**
  * This interface defines an item that can be charge or discharge its energy. <br>
  */
-public interface Rechargeable extends ItemAttribute {
+public interface Rechargeable extends ItemAttribute, SimpleDataContainer<Double> {
     double getEnergyCapacity();
 
-    default double getItemEnergy(ItemStack item) {
+    @Override
+    default Double getData(ItemStack item) {
         return EnergyUtil.getItemEnergy(item);
     }
 
-    default void setItemEnergy(ItemStack item, double energy) {
+    @Override
+    default void setData(ItemStack item, Double energy) {
         EnergyUtil.setItemEnergy(item, energy);
     }
 

@@ -31,6 +31,7 @@ import org.irmc.industrialrevival.api.recipes.RecipeContents;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.items.IndustrialRevivalItemSetup;
+import org.irmc.industrialrevival.implementation.items.IndustrialRevivalItems;
 import org.irmc.industrialrevival.utils.Constants;
 import org.irmc.pigeonlib.items.ItemUtils;
 import org.irmc.pigeonlib.language.LanguageManager;
@@ -126,6 +127,27 @@ public class IndustrialRevivalItem implements Keyed {
     public <T extends IndustrialRevivalItem> T cast(Class<T> clazz) {
         return (T) this;
     }
+
+    /**
+     * Gets the item from a {@link String}.
+     * @param id the {@link String} of the item
+     * @return the item with the given {@link String}, or null if not found
+     */
+    @Nullable
+    public static IndustrialRevivalItem getById(@NotNull String id) {
+        if (id.contains(":")) {
+            return getById(NamespacedKey.fromString(id));
+        }
+
+        for (IndustrialRevivalItem item : IndustrialRevival.getInstance().getRegistry().getItems().values()) {
+            if (item.getId().getKey().equals(id)) {
+                return item;
+            }
+        }
+
+        return null;
+    }
+
 
     /**
      * Gets the item from a {@link NamespacedKey}.

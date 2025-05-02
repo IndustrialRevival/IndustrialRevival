@@ -107,6 +107,10 @@
 
     <repositories>
         <repository>
+            <id>papermc-repo</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
+        </repository>
+        <repository>
             <id>dmulloy2-repo</id>
             <url>https://repo.dmulloy2.net/repository/public/</url>
         </repository>
@@ -121,10 +125,6 @@
         <repository>
             <id>devmart-other</id>
             <url>https://nexuslite.gcnt.net/repos/other/</url>
-        </repository>
-        <repository>
-            <id>papermc-repo</id>
-            <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
         <repository>
             <id>sonatype</id>

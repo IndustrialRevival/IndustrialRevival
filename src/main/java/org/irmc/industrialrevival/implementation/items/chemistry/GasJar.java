@@ -1,5 +1,6 @@
 package org.irmc.industrialrevival.implementation.items.chemistry;
 
+import lombok.Getter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
@@ -7,6 +8,7 @@ import org.irmc.industrialrevival.api.elements.ElementType;
 import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
 import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
 import org.irmc.industrialrevival.api.elements.reaction.ReactResult;
+import org.irmc.industrialrevival.api.items.ElementItem;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.ChemReactable;
 import org.irmc.industrialrevival.api.items.attributes.GasStorage;
@@ -19,19 +21,18 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GasJar extends IndustrialRevivalItem implements GasStorage {
+public class GasJar extends ElementItem implements GasStorage {
     private static final NamespacedKey CATHER_KEY = KeyUtil.customKey("cather_insertion_method");
-    private static final NamespacedKey GAS_STORAGE_CAPACITY_KEY = KeyUtil.customKey("gas_storage_capacity");
     private static final NamespacedKey STORED_REACTABLE_KEY = KeyUtil.customKey("reactable");
 
     private static final NamespacedKey ITEM_KEY = KeyUtil.customKey("gas_jar");
 
-    public GasJar(ElementType type, PositiveHundredPercentage capacity) {
-        setAddon(IndustrialRevival.getInstance());
-        setId(KeyUtil.appendOnKey(ITEM_KEY, type.getSymbol().toLowerCase()));
-        enableAutoTranslation();
+    @Getter
+    private PositiveHundredPercentage capacity;
 
-        registerReactable();
+    public GasJar setCapacity(PositiveHundredPercentage capacity) {
+        this.capacity = capacity;
+        return this;
     }
 
     @Override
@@ -42,16 +43,6 @@ public class GasJar extends IndustrialRevivalItem implements GasStorage {
     @Override
     public void setCatheterInsertionMethod(CatheterInsertionMethod catheterInsertionMethod, ItemStack item) {
         PersistentDataAPI.set(item.getItemMeta(), CATHER_KEY, PersistentDataType.INTEGER, catheterInsertionMethod.ordinal());
-    }
-
-    @Override
-    public PositiveHundredPercentage getGasStorageCapacity(ItemStack item) {
-        return PositiveHundredPercentage.fromDoublePercentage(PersistentDataAPI.getOrDefault(item.getItemMeta(), GAS_STORAGE_CAPACITY_KEY, PersistentDataType.DOUBLE, 0.0));
-    }
-
-    @Override
-    public void setGasStorageCapacity(PositiveHundredPercentage gasStorageCapacity, ItemStack item) {
-        PersistentDataAPI.set(item.getItemMeta(), GAS_STORAGE_CAPACITY_KEY, PersistentDataType.DOUBLE, gasStorageCapacity.getDecimalValue());
     }
 
     @Override
@@ -135,5 +126,12 @@ public class GasJar extends IndustrialRevivalItem implements GasStorage {
     @Override
     public @NotNull NamespacedKey getKey() {
         return ITEM_KEY;
+    }
+
+    @Override
+    public GasJar register() {
+        super.register();
+        registerReactable();
+        return this;
     }
 }
