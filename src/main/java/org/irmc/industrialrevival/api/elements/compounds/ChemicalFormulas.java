@@ -1,8 +1,9 @@
 package org.irmc.industrialrevival.api.elements.compounds;
 
 import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
-import org.irmc.industrialrevival.utils.Debug;
 import org.irmc.industrialrevival.utils.KeyUtil;
+
+import java.lang.reflect.Field;
 
 @SuppressWarnings("unused")
 public class ChemicalFormulas {
@@ -56,17 +57,24 @@ public class ChemicalFormulas {
             "2H2O===2H2+O2",
             new ReactCondition[] {ReactCondition.ELECTROLYSIS}
     );
+    public static final ChemicalFormula H2_O2_to_H2O = new ChemicalFormula(
+            KeyUtil.customKey("H2_O2_to_H2O"),
+            "2H2+O2===H2O",
+            new ReactCondition[] {ReactCondition.LIGHT}
+    );
+    public static final ChemicalFormula NaCl_to_Cl2_H2_NaOH = new ChemicalFormula(
+            KeyUtil.customKey("NaCl_to_Cl2_H2_NaOH"),
+            "2NaCl+2H2O===Cl2+H2+2NaOH",
+            new ReactCondition[] {ReactCondition.ELECTROLYSIS}
+    );
 
     public static void register() {
-        Zn_H2SO4_to_ZnSO4_H2.register();
-        NaOH_H2SO4_to_Na2SO4_H2O.register();
-        CaCl2_H2SO4_to_CaSO4_HCl.register();
-        KMnO4_to_K2MnO4_MnO2_O2.register();
-        CaCO3_2HCl_to_CaCl2_H2O_CO2.register();
-        KCLO3_to_KCl_O2.register();
-        CaCO3_to_CaO_CO2.register();
-        CaCl2_2AgNO3_to_CaNO3_2_2AgCl.register();
-        H2O2_to_2H2O_O2.register();
-        H2O_to_H2_O2.register();
+        for (Field f : ChemicalFormulas.class.getDeclaredFields()) {
+            try {
+                if (f.get(null) instanceof ChemicalFormula formula) {
+                    formula.register();
+                }
+            } catch (Exception _) {}
+        }
     }
 }

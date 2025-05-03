@@ -31,7 +31,6 @@ import org.irmc.industrialrevival.api.recipes.methods.MeltMethod;
 import org.irmc.industrialrevival.api.recipes.methods.MobDropMethod;
 import org.irmc.industrialrevival.api.recipes.methods.ProduceMethod;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
-import org.irmc.industrialrevival.api.researches.Research;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -52,7 +51,6 @@ public final class IRRegistry {
     }
 
     private final Map<NamespacedKey, ItemGroup> itemGroups;
-    private final Map<NamespacedKey, Research> researches;
     private final Map<NamespacedKey, ItemDictionary> dictionaries;
     private final Map<NamespacedKey, DisplayGroup> displayGroups;
     private final Map<NamespacedKey, MachineMenuPreset> menuPresets;
@@ -73,7 +71,6 @@ public final class IRRegistry {
 
     public IRRegistry() {
         itemGroups = new HashMap<>();
-        researches = new HashMap<>();
         dictionaries = new HashMap<>();
         displayGroups = new HashMap<>();
         items = new HashMap<>();
