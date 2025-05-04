@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.menu.handlers.ClickHandler;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
 import java.util.ArrayList;
@@ -213,5 +214,84 @@ public class MatrixMenuDrawer implements Cloneable {
         drawer.clickHandlerMap.putAll(clickHandlerMap);
         drawer.matrix.addAll(matrix);
         return drawer;
+    }
+
+    /**
+     * Maps character to menu item without click handler
+     * @param c Matrix character to define
+     * @param comment hard coded comment for reviewers
+     * @param itemStack Item to display at character positions
+     * @return This drawer instance for chaining
+     */
+    public MatrixMenuDrawer addExplain(char c, @Nullable String comment, @NotNull ItemStack itemStack) {
+        charMap.put(c, new ItemStack(itemStack));
+        return this;
+    }
+
+    /**
+     * Maps character to menu item with click handler
+     * @param c Matrix character to define
+     * @param comment hard coded comment for reviewers
+     * @param itemStack Item to display at character positions
+     * @param clickHandler Click handler for the item
+     * @return This drawer instance for chaining
+     * @apiNote Background items (as per MenuUtil.isBackground()) will override handler
+     */
+    public MatrixMenuDrawer addExplain(char c, @Nullable String comment, @NotNull ItemStack itemStack, @NotNull ClickHandler clickHandler) {
+        charMap.put(c, itemStack);
+        clickHandlerMap.put(c, clickHandler);
+        return this;
+    }
+
+    /**
+     * Maps character to background item with click handler
+     * @param c Matrix character to define
+     * @param comment hard coded comment for reviewers
+     * @param clickHandler Click handler for the item
+     * @return This drawer instance for chaining
+     */
+    public MatrixMenuDrawer addBackground(char c, @Nullable String comment, @NotNull ClickHandler clickHandler) {
+        clickHandlerMap.put(c, clickHandler);
+        return this;
+    }
+
+    /**
+     * Maps character to menu item with click handler
+     * @param c Matrix character to define
+     * @param comment hard coded comment for reviewers
+     * @param itemStack Item to display at character positions
+     * @return This drawer instance for chaining
+     * @apiNote Background items (as per MenuUtil.isBackground()) will override handler
+     */
+    public MatrixMenuDrawer addExplain(@NotNull String c, @Nullable String comment, @NotNull ItemStack itemStack) {
+        charMap.put(c.charAt(0), new ItemStack(itemStack));
+        return this;
+    }
+
+    /**
+     * Maps character to menu item with click handler
+     * @param c Matrix character to define
+     * @param comment hard coded comment for reviewers
+     * @param itemStack Item to display at character positions
+     * @param clickHandler Click handler for the item
+     * @return This drawer instance for chaining
+     * @apiNote Background items (as per MenuUtil.isBackground()) will override handler
+     */
+    public MatrixMenuDrawer addExplain(@NotNull String c, @Nullable String comment, @NotNull ItemStack itemStack, @NotNull ClickHandler clickHandler) {
+        charMap.put(c.charAt(0), itemStack);
+        clickHandlerMap.put(c.charAt(0), clickHandler);
+        return this;
+    }
+
+    /**
+     * Maps character to background item with click handler
+     * @param c Matrix character to define
+     * @param comment hard coded comment for reviewers
+     * @param clickHandler Click handler for the item
+     * @return This drawer instance for chaining
+     */
+    public MatrixMenuDrawer addBackground(@NotNull String c, @Nullable String comment, @NotNull ClickHandler clickHandler) {
+        clickHandlerMap.put(c.charAt(0), clickHandler);
+        return this;
     }
 }

@@ -1,5 +1,6 @@
 package org.irmc.industrialrevival.api.machines.process;
 
+import lombok.Data;
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipe;
@@ -7,6 +8,7 @@ import org.irmc.industrialrevival.api.objects.ItemStackReference;
 
 import java.util.Map;
 
+@Data
 public class MachineOperation implements IOperation {
     private @Getter
     final Map<ItemStackReference, Integer> inputStacks;

@@ -1,6 +1,8 @@
 package org.irmc.industrialrevival.api.machines;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.attributes.InventoryBlock;
@@ -33,10 +35,8 @@ public abstract class BasicMachine extends AbstractMachine implements ProcessorH
     private int[] INPUT_SLOTS = null;
     private int[] OUTPUT_SLOTS = null;
 
-    @Override
-    @OverridingMethodsMustInvokeSuper
-    public void preRegister() throws Exception {
-        new MachineMenuPreset(this.getId(), this.getItemName()) {
+    public void buildMenu(NamespacedKey id, Component itemName) {
+        new MachineMenuPreset(id, itemName) {
             @Override
             public void init() {
                 setSize(getMatrixMenuDrawer().getSize());
@@ -57,6 +57,12 @@ public abstract class BasicMachine extends AbstractMachine implements ProcessorH
                 }
             }
         }.register();
+    }
+
+    @Override
+    @OverridingMethodsMustInvokeSuper
+    public void preRegister() throws Exception {
+        buildMenu(getId(), getItemName());
         addItemHandlers((BlockTicker) this::tick);
         super.preRegister();
     }

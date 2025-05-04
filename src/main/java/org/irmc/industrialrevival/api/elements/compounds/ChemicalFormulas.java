@@ -67,6 +67,6 @@ public class ChemicalFormulas {
         CaCO3_to_CaO_CO2.register();
         CaCl2_2AgNO3_to_CaNO3_2_2AgCl.register();
         H2O2_to_2H2O_O2.register();
-        H2O_to_H2_O2.register();
+        H2O_to_H2_O2.registerElectrolysis();
     }
 }
