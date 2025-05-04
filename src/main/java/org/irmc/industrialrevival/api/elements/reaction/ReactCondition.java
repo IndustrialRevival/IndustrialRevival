@@ -1,6 +1,7 @@
 package org.irmc.industrialrevival.api.elements.reaction;
 
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
 import org.irmc.industrialrevival.api.items.attributes.ChemReactable;
 import org.jetbrains.annotations.NotNull;
@@ -55,6 +56,18 @@ public final class ReactCondition {
      */
     public @Nullable ChemReactable getCatalyst() {
         return catalyst;
+    }
+
+    public @NotNull Component humanize() {
+        return switch (type) {
+            case NONE -> Component.translatable("chemistry.formula.conditions.none");
+            case LIGHT -> Component.translatable("chemistry.formula.conditions.light");
+            case ELECTROLYSIS -> Component.translatable("chemistry.formula.conditions.electrolysis");
+            case HEATING -> Component.translatable("chemistry.formula.conditions.heating");
+            case HIGH_TEMPERATURE -> Component.translatable("chemistry.formula.conditions.high_temperature");
+            case CATALYZER -> Component.translatable("chemistry.formula.conditions.catalyzer").append(
+                    Component.translatable("chemistry." + catalyst.getKey().getNamespace() + "." + catalyst.getKey()));
+        };
     }
 
     public enum Type {

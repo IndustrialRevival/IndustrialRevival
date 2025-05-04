@@ -97,6 +97,12 @@ public class MenuUtil {
             ChatColor.GRAY + "Click to cancel."
     ).getBukkit();
 
+    public static final ItemStack INPUT_AND_OUTPUT_BORDER = new CustomItemStack(
+            Material.YELLOW_STAINED_GLASS_PANE,
+            "",
+            ""
+    ).getBukkit();
+
     /**
      * Retrieves items from a menu based on the specified item flow and item stack.
      *

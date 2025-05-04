@@ -3,6 +3,7 @@ package org.irmc.industrialrevival.api.elements.compounds;
 import com.google.common.base.Preconditions;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ComponentBuilder;
 import org.bukkit.NamespacedKey;
 import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
@@ -25,7 +26,7 @@ public class ChemicalFormula {
     private @NotNull final NamespacedKey key;
     private @NotNull final Map<ChemicalCompound, Integer> input;
     private @NotNull final Map<ChemicalCompound, Integer> output;
-    private @Nullable final ReactCondition[] conditions;
+    private @Nullable ReactCondition[] conditions;
 
     /**
      * Constructor.
@@ -110,5 +111,65 @@ public class ChemicalFormula {
     public ChemicalFormula register() {
         IndustrialRevival.getInstance().getRegistry().registerChemicalFormula(this);
         return this;
+    }
+
+    public ChemicalFormula registerElectrolysis() {
+        for (var condition : conditions) {
+            if (condition == ReactCondition.ELECTROLYSIS) {
+                return register();
+            }
+        }
+
+        // add electrolysis condition
+        ReactCondition[] newConditions = new ReactCondition[conditions.length + 1];
+        System.arraycopy(conditions, 0, newConditions, 0, conditions.length);
+        newConditions[conditions.length] = ReactCondition.ELECTROLYSIS;
+        conditions = newConditions;
+        return register();
+    }
+
+    public Component humanize() {
+        return humanize(false);
+    }
+
+    public Component humanize(boolean hoverable) {
+        var builder = Component.text();
+        builder.append(humanizePart(input));
+        builder.append(humanizeConditions(hoverable));
+        builder.append(humanizePart(output));
+        return builder.build();
+    }
+
+    public Component humanizePart(Map<ChemicalCompound, Integer> compounds) {
+        var builder = Component.text();
+        int index = 1;
+        for (var entry : compounds.entrySet()) {
+            builder.append(Component.text(entry.getValue())).append(entry.getKey().getName());
+            if (index != compounds.size()) {
+                builder.append(Component.text("+"));
+            }
+        }
+
+        return builder.build();
+    }
+
+    public Component humanizeConditions(boolean hoverable) {
+        if (conditions.length == 0 || conditions[0] == ReactCondition.NONE) {
+            return Component.text("===");
+        }
+
+        if (hoverable) {
+            return Component.text("===").append(Component.translatable("chemistry.formula.conditions").hoverEvent(humanizeConditions(false))).append(Component.text("==="));
+        } else {
+            var builder = Component.text();
+            builder.append(Component.text("==="));
+            for (var condition : getConditions()) {
+                if (condition != null) {
+                    builder.append(condition.humanize());
+                }
+            }
+            builder.append(Component.text("==="));
+            return builder.build();
+        }
     }
 }
