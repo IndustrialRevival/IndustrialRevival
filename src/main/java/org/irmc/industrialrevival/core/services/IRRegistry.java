@@ -112,11 +112,11 @@ public final class IRRegistry {
     }
 
     public void unregisterProduceable(RecipeType recipeType, ItemStack itemStack) {
-        Set<ItemStack> craftableSet = produceable.get(recipeType);
-        if (craftableSet == null) {
+        Set<ItemStack> produceableSet = produceable.get(recipeType);
+        if (produceableSet == null) {
             return;
         }
-        craftableSet.remove(itemStack);
+        produceableSet.remove(itemStack);
     }
 
     public void resortItemGroups() {

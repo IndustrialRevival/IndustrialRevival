@@ -13,6 +13,8 @@ import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
 import org.irmc.industrialrevival.api.elements.compounds.ChemicalFormula;
 import org.irmc.industrialrevival.api.elements.compounds.ChemicalFormulas;
 import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
+import org.irmc.industrialrevival.api.elements.reaction.ReactHelper;
+import org.irmc.industrialrevival.api.elements.reaction.ReactResult;
 import org.irmc.industrialrevival.api.machines.ElectricMachine;
 import org.irmc.industrialrevival.api.machines.process.IOperation;
 import org.irmc.industrialrevival.api.machines.process.MachineOperation;
@@ -21,6 +23,7 @@ import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.menu.MatrixMenuDrawer;
 import org.irmc.industrialrevival.api.objects.events.ir.BlockTickEvent;
 import org.irmc.industrialrevival.core.services.IRRegistry;
+import org.irmc.industrialrevival.implementation.items.chemistry.Solution;
 import org.irmc.industrialrevival.implementation.items.register.ChemicalCompoundSetup;
 import org.irmc.industrialrevival.utils.MenuUtil;
 import org.irmc.pigeonlib.items.CustomItemStack;
@@ -61,15 +64,21 @@ public class ElectrolyticMachine extends ElectricMachine {
                 .addExplain("S", "Status", STATUS_ICON);
     }
 
-    public static ItemStack getStatus(BlockTickEvent event) {
-        var operation = operationRecord.get(event.getBlock().getLocation());
+    public static ItemStack getStatus(Location location) {
+        var operation = operationRecord.get(location);
 
         var icon = STATUS_ICON.clone();
 
         var extraLore = getStatus(operation);
         if (!extraLore.isEmpty()) {
             icon.setType(Material.GREEN_STAINED_GLASS_PANE);
-            icon.lore();
+            var lore = icon.lore();
+            if (lore != null) {
+                lore.addAll(extraLore);
+            } else {
+                lore = extraLore;
+            }
+            icon.lore(lore);
         }
 
         return icon;
@@ -77,9 +86,8 @@ public class ElectrolyticMachine extends ElectricMachine {
 
     public static List<Component> getStatus(ElectrolyticOperation operation) {
         List<Component> lore = new ArrayList<>();
-        for (var formula : operation.getRunning()) {
-            lore.add(formula.humanize(false).color(TextColor.color(formula.hashCode() % 16777216)));
-        }
+        var formula = operation.getRunning();
+        lore.add(formula.humanize(false).color(TextColor.color(formula.hashCode() % 16777216)));
         return lore;
     }
 
@@ -87,13 +95,37 @@ public class ElectrolyticMachine extends ElectricMachine {
     public void tick(@NotNull BlockTickEvent event) {
         var menu = event.getMenu();
         decompose(menu);
+
+        // todo: process operation
+
         var operation = findNextOperation(menu);
         operationRecord.put(event.getBlock().getLocation(), operation);
+        if (menu.hasViewer()) {
+            updateMenu(menu);
+        }
+    }
+
+    public void updateMenu(MachineMenu menu) {
+        menu.setItem(getStatusSlot(), getStatus(menu.getLocation()));
+    }
+
+    public int getStatusSlot() {
+        return getMatrixMenuDrawer().getCharPositions("S")[0];
     }
 
     public ElectrolyticOperation findNextOperation(MachineMenu menu) {
-        // todo
-        return null;
+        List<ItemStack> inputs = new ArrayList<>();
+        for (var slot : getInputSlots()) {
+            var item = menu.getItem(slot);
+            inputs.add(item);
+        }
+
+        ReactResult result = ReactHelper.react(new ReactCondition[] {ReactCondition.ELECTROLYSIS}, inputs);
+        if (result == ReactResult.FAILED) {
+            return null;
+        }
+
+        return new ElectrolyticOperation(result.formula(), result.consume(), result.produce());
     }
 
     public void decompose(MachineMenu menu) {
@@ -125,13 +157,10 @@ public class ElectrolyticMachine extends ElectricMachine {
     @Data
     @RequiredArgsConstructor
     public static class ElectrolyticOperation implements IOperation {
-        private final List<ChemicalFormula> running;
-        private final int total;
+        private final ChemicalFormula running;
+        private final Map<ChemicalCompound, Double> consume;
+        private final Map<ChemicalCompound, Double> produce;
 
-        public ElectrolyticOperation(ChemicalFormula formula, int total) {
-            this.running = List.of(formula);
-            this.total = total;
-        }
 
         @Override
         public void tick() {
@@ -156,7 +185,7 @@ public class ElectrolyticMachine extends ElectricMachine {
     public static class Decomposer {
         private final Map<ItemStack, Double> weights;
         public Decomposer(ItemStack output, double weight) {
-            this((Object) output, (Object) weight);
+            this(output, (Object) weight);
         }
 
         public Decomposer(Object... args) {
@@ -197,6 +226,13 @@ public class ElectrolyticMachine extends ElectricMachine {
     }
 
     public static ItemStack itemStackize(ChemicalCompound compound) {
-        return ChemicalCompoundSetup.solutions.get(compound).getIcon().clone();
+        return itemStackize(compound, 0D);
+    }
+
+    public static ItemStack itemStackize(ChemicalCompound compound, double mass) {
+        Solution solution = ChemicalCompoundSetup.solutions.get(compound);
+        ItemStack itemStack = solution.getIcon().clone();
+        solution.setMass(itemStack, mass);
+        return itemStack;
     }
 }

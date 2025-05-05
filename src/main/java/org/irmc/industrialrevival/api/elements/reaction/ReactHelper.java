@@ -22,7 +22,7 @@ public class ReactHelper {
      * React the items with the conditions
      * @param conditions the conditions of the reaction
      * @param items the items to react
-     * @return the result of the reaction
+     * @return the produce of the reaction
      */
     @NotNull
     public static ReactResult react(ReactCondition[] conditions, ItemStack... items) {
@@ -33,7 +33,7 @@ public class ReactHelper {
      * React the items with the conditions
      * @param conditions the conditions of the reaction
      * @param items the items to react
-     * @return the result of the reaction
+     * @return the produce of the reaction
      */
     @NotNull
     public static ReactResult react(ReactCondition[] conditions, List<ItemStack> items) {
@@ -51,7 +51,7 @@ public class ReactHelper {
      * React the reactables with the conditions
      * @param conditions the conditions of the reaction
      * @param reactables the reactables to react
-     * @return the result of the reaction
+     * @return the produce of the reaction
      */
     @NotNull
     public static ReactResult react(ReactCondition[] conditions, Map<ChemReactable, ItemStack> reactables) {
@@ -124,7 +124,7 @@ public class ReactHelper {
      * @param conditions the conditions of the reaction
      * @param currentMasses the masses of the reactants
      * @param formula the chemical formula of the reaction
-     * @return the result of the reaction
+     * @return the produce of the reaction
      */
     public static ReactResult calculateOutput(ReactCondition[] conditions, Map<ChemicalCompound, Double> currentMasses, ChemicalFormula formula) {
         // input
