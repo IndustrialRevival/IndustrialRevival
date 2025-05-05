@@ -1,5 +1,6 @@
 package org.irmc.industrialrevival.api.elements.compounds;
 
+import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
@@ -12,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,17 +26,22 @@ import java.util.regex.Pattern;
 public class ChemicalFormula {
     public static final Pattern NUMBER_PATTERN = Pattern.compile("^(\\d+)");
     private @NotNull final NamespacedKey key;
-    private @NotNull final Map<ChemicalCompound, Integer> input;
-    private @NotNull final Map<ChemicalCompound, Integer> output;
+    private @NotNull final Map<ChemicalCompound, Integer> input; // proportion of each compound
+    private @NotNull final Map<ChemicalCompound, Integer> output; // proportion of each compound
     private @Nullable ReactCondition[] conditions;
+    private @Nullable final ConditionSensor conditionSensor;
+
+    public ChemicalFormula(@NotNull NamespacedKey key, @NotNull String formula) {
+        this(key, formula, null);
+    }
 
     /**
      * Constructor.
      * @param key the key of the formula
      * @param formula the chemical formula string
      */
-    public ChemicalFormula(@NotNull NamespacedKey key, @NotNull String formula) {
-        this(key, formula, null);
+    public ChemicalFormula(@NotNull NamespacedKey key, @NotNull String formula, ReactCondition[] conditions) {
+        this(key, formula, conditions, null);
     }
 
     /**
@@ -46,7 +53,7 @@ public class ChemicalFormula {
      * @apiNote The conditions are optional and can be null.
      * @apiNote formula example: "Zn+H2SO4===ZnSO4+H2", "Fe2O3+3H2SO4===Fe2(SO4)_3+3H2O"
      */
-    public ChemicalFormula(@NotNull NamespacedKey key, @NotNull String formula, @Nullable ReactCondition[] conditions) {
+    public ChemicalFormula(@NotNull NamespacedKey key, @NotNull String formula, @Nullable ReactCondition[] conditions, ConditionSensor conditionSensor) {
         Preconditions.checkNotNull(formula, "formula cannot be null");
         Preconditions.checkArgument(formula.contains("==="), "Invalid chemical formula: " + formula);
         Preconditions.checkArgument(formula.split("===").length == 2, "Invalid chemical formula: " + formula);
@@ -61,6 +68,7 @@ public class ChemicalFormula {
         this.input = parseCompounds(leftParts);
         this.output = parseCompounds(rightParts);
         this.conditions = conditions;
+        this.conditionSensor = conditionSensor;
     }
 
     /**
@@ -70,7 +78,7 @@ public class ChemicalFormula {
      */
     @Nullable
     public static ChemicalCompound parseCompound(@NotNull String compoundName) {
-        return ChemicalCompound.forName(Component.text(compoundName));
+        return ChemicalCompound.forName(compoundName);
     }
 
     /**
@@ -144,7 +152,7 @@ public class ChemicalFormula {
         var builder = Component.text();
         int index = 1;
         for (var entry : compounds.entrySet()) {
-            builder.append(Component.text(entry.getValue())).append(entry.getKey().getName());
+            builder.append(Component.text(entry.getValue())).append(Component.text(entry.getKey().getName()));
             if (index != compounds.size()) {
                 builder.append(Component.text("+"));
             }
@@ -171,5 +179,16 @@ public class ChemicalFormula {
             builder.append(Component.text("==="));
             return builder.build();
         }
+    }
+
+    @FunctionalInterface
+    public interface ConditionSensor extends BiFunction<ReactCondition[], Double, Double> {
+        /**
+         * Returns the max producing proportion
+         * @param conditions the function
+         * @return the max producing proportion
+         */
+        @Override
+        Double apply(ReactCondition[] conditions, Double current);
     }
 }

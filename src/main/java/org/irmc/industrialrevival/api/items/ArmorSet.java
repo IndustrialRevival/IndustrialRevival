@@ -50,7 +50,7 @@ public class ArmorSet {
                 new ArmorPiece()
                         .addItemGroup(group)
                         .setIcon(itemStack)
-                        .addCraftMethod(item -> new CraftMethod(type, recipe, item))
+                        .recipe(item -> new CraftMethod(type, recipe, item))
                         .cast(ArmorPiece.class)
                         .setPotionEffects(potionEffects)
         );

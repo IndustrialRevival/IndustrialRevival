@@ -34,8 +34,7 @@ import org.irmc.industrialrevival.api.multiblock.MultiBlock;
 import org.irmc.industrialrevival.api.multiblock.StructureBuilder;
 import org.irmc.industrialrevival.api.multiblock.StructureUtil;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
-import org.irmc.industrialrevival.api.objects.display.Colorful;
-import org.irmc.industrialrevival.api.objects.display.ModelHandler;
+import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.core.listeners.MultiblockTicker;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.Debug;
@@ -91,6 +90,12 @@ public class BlastSmeltery extends MultiBlock implements ExtraTickable {
             .addExplain("C", CRAFT_ICON, Behaviors.CRAFT_BEHAVIOR)
             .addExplain("P", PRODUCT_ICON)
             .addExplain("i", new ItemStack(Material.AIR), Behaviors.ADD_ITEM_BEHAVIOR);
+
+    public static RecipeType RECIPE_TYPE = new RecipeType(
+            IndustrialRevival.getInstance(),
+            KeyUtil.customKey("blast_smeltery"),
+            new ItemStack(Material.BLAST_FURNACE)
+    );
 
     static {
         preset.withMenuDrawer(menuDrawer);

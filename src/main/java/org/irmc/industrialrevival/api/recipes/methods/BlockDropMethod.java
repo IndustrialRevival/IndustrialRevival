@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.DropFromBlockItem;
+import org.irmc.industrialrevival.api.recipes.RecipeType;
 
 /**
  * @author baluagq
@@ -27,5 +28,20 @@ public class BlockDropMethod implements ProduceMethod {
         this.dropAmount = dropAmount;
         this.chance = chance;
         this.itemToDrop = itemToDrop.getIcon();
+    }
+
+    @Override
+    public RecipeType getRecipeType() {
+        return RecipeType.BLOCK_DROP;
+    }
+
+    @Override
+    public ItemStack[] getIngredients() {
+        return new ItemStack[0];
+    }
+
+    @Override
+    public ItemStack[] getOutput() {
+        return new ItemStack[] { itemToDrop };
     }
 }

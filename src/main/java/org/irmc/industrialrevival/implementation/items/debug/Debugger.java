@@ -12,6 +12,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.handlers.BlockTicker;
 import org.irmc.industrialrevival.api.items.handlers.ItemInteractHandler;
@@ -309,23 +310,23 @@ public class Debugger extends IndustrialRevivalItem {
         IRRegistry registry = IndustrialRevival.getInstance().getRegistry();
         send(player, "&e - Loaded items: &7" + registry.getItems().size());
         send(player, "&e - Loaded item groups: &7" + registry.getItemGroups().size());
-        send(player, "&e - Loaded recipe types: &7" + registry.getCraftables().size());
+        send(player, "&e - Loaded recipe types: &7" + registry.getProduceable().size());
         send(player, "&e - Loaded menu presets: &7" + registry.getMenuPresets().size());
         send(player, "&e - Loaded player profiles: &7" + registry.getPlayerProfiles().size());
         send(player, "&e - Loaded display groups: &7" + registry.getDisplayGroups().size());
-        send(player, "&e - Loaded researches: &7" + registry.getResearches().size());
+        //send(player, "&e - Loaded researches: &7" + registry.getResearches().size());
         AtomicInteger recipes = new AtomicInteger();
-        registry.getCraftables().forEach((type, craftables) -> {
+        registry.getProduceable().forEach((_, craftables) -> {
             recipes.addAndGet(craftables.size());
         });
         send(player, "&e - Loaded recipes: &7" + recipes.get());
         AtomicInteger mobDrops = new AtomicInteger();
-        registry.getMobDrops().forEach((type, drops) -> {
+        registry.getMobDrops().forEach((_, drops) -> {
             mobDrops.addAndGet(drops.size());
         });
         send(player, "&e - Loaded mob drops: &7" + mobDrops.get());
         AtomicInteger blockDrops = new AtomicInteger();
-        registry.getBlockDrops().forEach((type, drops) -> {
+        registry.getBlockDrops().forEach((_, drops) -> {
             blockDrops.addAndGet(drops.size());
         });
         send(player, "&e - Loaded block drops: &7" + blockDrops.get());
@@ -346,7 +347,7 @@ public class Debugger extends IndustrialRevivalItem {
             return;
         }
         send(player, "&e - Location: &7" + simpleLocationToString(location));
-        IRBlockPlaceEvent event = new IRBlockPlaceEvent(new BlockPlaceEvent(location.getBlock(), location.getBlock().getState(), block, IndustrialRevivalItems.DEBUG_HEAD.clone(), player, true), IndustrialRevivalItem.getByItem(IndustrialRevivalItems.DEBUG_HEAD));
+        IRBlockPlaceEvent event = new IRBlockPlaceEvent(new BlockPlaceEvent(location.getBlock(), location.getBlock().getState(), block, IndustrialRevivalItems.DEBUG_HEAD.clone(), player, true, EquipmentSlot.HAND), IndustrialRevivalItem.getByItem(IndustrialRevivalItems.DEBUG_HEAD));
         Bukkit.getPluginManager().callEvent(event);
 
         send(player, "&aDebug Head placed.");

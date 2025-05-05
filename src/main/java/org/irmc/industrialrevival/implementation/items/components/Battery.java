@@ -31,8 +31,8 @@ public class Battery extends IndustrialRevivalItem implements NotPlaceable, Rech
     }
 
     @Override
-    public Battery addCraftMethod(@NotNull CraftMethodHandler handler) {
-        super.addCraftMethod(handler);
+    public Battery recipe(@NotNull IndustrialRevivalItem.ProduceMethodGetter handler) {
+        super.recipe(handler);
         return this;
     }
 

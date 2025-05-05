@@ -27,6 +27,7 @@ import java.util.Map;
 
 /**
  * BasicMachine is not related to energy networks, it just turns item A to B.
+ * @author balugaq
  */
 public abstract class BasicMachine extends AbstractMachine implements ProcessorHolder<MachineOperation>, InventoryBlock {
     private final Map<Location, MachineRecipe> lastMatches = new HashMap<>();

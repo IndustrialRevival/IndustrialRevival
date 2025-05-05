@@ -11,12 +11,17 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
 import org.irmc.industrialrevival.api.elements.compounds.ChemicalFormula;
+import org.irmc.industrialrevival.api.elements.compounds.ChemicalFormulas;
+import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
 import org.irmc.industrialrevival.api.machines.ElectricMachine;
 import org.irmc.industrialrevival.api.machines.process.IOperation;
 import org.irmc.industrialrevival.api.machines.process.MachineOperation;
+import org.irmc.industrialrevival.api.machines.recipes.MachineRecipe;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.menu.MatrixMenuDrawer;
 import org.irmc.industrialrevival.api.objects.events.ir.BlockTickEvent;
+import org.irmc.industrialrevival.core.services.IRRegistry;
+import org.irmc.industrialrevival.implementation.items.register.ChemicalCompoundSetup;
 import org.irmc.industrialrevival.utils.MenuUtil;
 import org.irmc.pigeonlib.items.CustomItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -35,6 +40,17 @@ public class ElectrolyticMachine extends ElectricMachine {
     ).getBukkit();
     // For status display
     public static final Map<Location, ElectrolyticOperation> operationRecord = new HashMap<>();
+    public static final List<MachineRecipe> recipes = new ArrayList<>();
+
+    static {
+        IRRegistry.getInstance().getChemicalFormulas().values().forEach(formula -> {
+            if (formula.getConditions().length == 1 && formula.getConditions()[0] == ReactCondition.ELECTROLYSIS) {
+                recipes.add(new MachineRecipe(0, 0, itemStackize(formula.getInput()), itemStackize(formula.getOutput())));
+            }
+        });
+    }
+
+    @Override
     public MatrixMenuDrawer getMatrixMenuDrawer() {
         return new MatrixMenuDrawer(36)
                 .addLine("AAAASAAAA")
@@ -72,7 +88,12 @@ public class ElectrolyticMachine extends ElectricMachine {
         var menu = event.getMenu();
         decompose(menu);
         var operation = findNextOperation(menu);
-        operationRecord.put(event.getBlock().getLocation(), );
+        operationRecord.put(event.getBlock().getLocation(), operation);
+    }
+
+    public ElectrolyticOperation findNextOperation(MachineMenu menu) {
+        // todo
+        return null;
     }
 
     public void decompose(MachineMenu menu) {
@@ -167,7 +188,15 @@ public class ElectrolyticMachine extends ElectricMachine {
         }
     }
 
+    public static List<ItemStack> itemStackize(Map<ChemicalCompound, Integer> compounds) {
+        List<ItemStack> items = new ArrayList<>();
+        for (var compound : compounds.keySet()) {
+            items.add(itemStackize(compound));
+        }
+        return items;
+    }
+
     public static ItemStack itemStackize(ChemicalCompound compound) {
-        // todo
+        return ChemicalCompoundSetup.solutions.get(compound).getIcon().clone();
     }
 }

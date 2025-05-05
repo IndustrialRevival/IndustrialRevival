@@ -46,7 +46,7 @@ public class IndustrialRevivalOreBlock extends IndustrialRevivalItem implements 
 
     @Override
     @NotNull
-    public ItemStack getRecipeOutput() {
+    public ItemStack getSmeltOutput() {
         return output;
     }
 

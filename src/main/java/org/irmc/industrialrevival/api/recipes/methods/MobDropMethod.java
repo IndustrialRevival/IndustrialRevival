@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.DropFromMobItem;
+import org.irmc.industrialrevival.api.recipes.RecipeType;
 
 /**
  * @author baluagq
@@ -27,5 +28,20 @@ public class MobDropMethod implements ProduceMethod {
         this.dropAmount = dropAmount;
         this.chance = chance;
         this.itemToDrop = dropFromMobItem.getIcon();
+    }
+
+    @Override
+    public RecipeType getRecipeType() {
+        return RecipeType.KILL_MOB;
+    }
+
+    @Override
+    public ItemStack[] getIngredients() {
+        return new ItemStack[0];
+    }
+
+    @Override
+    public ItemStack[] getOutput() {
+        return new ItemStack[] { itemToDrop };
     }
 }

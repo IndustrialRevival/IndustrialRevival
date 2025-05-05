@@ -15,6 +15,7 @@ import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.objects.enums.GuideMode;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
 import org.irmc.industrialrevival.api.recipes.methods.CraftMethod;
+import org.irmc.industrialrevival.api.recipes.methods.ProduceMethod;
 import org.irmc.industrialrevival.core.guide.GuideHistory;
 import org.irmc.industrialrevival.core.guide.IRGuideImplementation;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
@@ -58,12 +59,12 @@ public class SurvivalGuideImplementation implements IRGuideImplementation {
     public void onItemClicked(Player p, IndustrialRevivalItem item, ClickType clickType) {
         SimpleMenu sm = new SimpleMenu(IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Constants.Keys.GUIDE_TITLE_KEY));
 
-        List<CraftMethod> craftMethods = item.getCraftMethods();
-        if (craftMethods == null || craftMethods.isEmpty()) {
+        List<ProduceMethod> produceMethods = item.getProduceMethods();
+        if (produceMethods == null || produceMethods.isEmpty()) {
             return;
         }
 
-        craftMethods.getFirst().getRecipeType().getRecipeDisplay().display(p, sm, item);
+        produceMethods.getFirst().getRecipeType().getRecipeDisplay().display(p, sm, item);
 
         sm.open(p);
 

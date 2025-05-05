@@ -3,6 +3,7 @@ package org.irmc.industrialrevival.api.elements.compounds;
 import com.google.common.base.Preconditions;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import org.irmc.industrialrevival.api.elements.compounds.types.IonCompound;
 import org.irmc.industrialrevival.api.elements.compounds.types.OxideCompound;
 import org.irmc.industrialrevival.utils.Debug;
@@ -27,7 +28,7 @@ import java.util.Set;
 public class ChemicalCompound {
     public static final Set<ChemicalCompound> ALL_CHEMICALS = new HashSet<>();
     @NotNull
-    public final Component name;
+    public final String name;
     @NotNull
     public final Map<Compound, Double> compounds;
 
@@ -37,7 +38,7 @@ public class ChemicalCompound {
      * @param name      the name of the chemical compound
      * @param compounds the map of constituent compounds and their respective amounts
      */
-    public ChemicalCompound(@NotNull Component name, @NotNull Map<Compound, Double> compounds) {
+    public ChemicalCompound(@NotNull String name, @NotNull Map<Compound, Double> compounds) {
         this(name, compounds, true);
     }
 
@@ -48,7 +49,7 @@ public class ChemicalCompound {
      * @param compounds the map of constituent compounds and their respective amounts
      * @param register  whether to register the chemical compound in the global set of all chemical compounds
      */
-    public ChemicalCompound(@NotNull Component name, @NotNull Map<Compound, Double> compounds, boolean register) {
+    public ChemicalCompound(@NotNull String name, @NotNull Map<Compound, Double> compounds, boolean register) {
         Preconditions.checkNotNull(name, "name cannot be null");
         Preconditions.checkNotNull(compounds, "compounds cannot be null");
         Preconditions.checkArgument(!compounds.isEmpty(), "compounds cannot be empty");
@@ -68,7 +69,7 @@ public class ChemicalCompound {
      */
     @Nullable
     @Contract("null -> null")
-    public static ChemicalCompound forName(@Nullable Component name) {
+    public static ChemicalCompound forName(@Nullable String name) {
         if (name == null) {
             return null;
         }

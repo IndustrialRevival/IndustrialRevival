@@ -3,6 +3,7 @@ package org.irmc.industrialrevival.api.items;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
@@ -24,14 +25,15 @@ import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.handlers.ItemHandler;
 import org.irmc.industrialrevival.api.multiblock.MultiBlock;
+import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
 import org.irmc.industrialrevival.api.recipes.methods.CraftMethod;
 import org.irmc.industrialrevival.api.recipes.RecipeContent;
 import org.irmc.industrialrevival.api.recipes.RecipeContents;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
+import org.irmc.industrialrevival.api.recipes.methods.ProduceMethod;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.items.IndustrialRevivalItemSetup;
-import org.irmc.industrialrevival.implementation.items.IndustrialRevivalItems;
 import org.irmc.industrialrevival.utils.Constants;
 import org.irmc.pigeonlib.items.ItemUtils;
 import org.irmc.pigeonlib.language.LanguageManager;
@@ -74,7 +76,7 @@ public class IndustrialRevivalItem implements Keyed {
     private final Map<Class<? extends ItemHandler>, ItemHandler> itemHandlers = new HashMap<>();
 
     @Getter
-    private final List<CraftMethod> craftMethods = new ArrayList<>();
+    private final List<ProduceMethod> produceMethods = new ArrayList<>();
     @Getter
     private final Set<ItemDictionary> itemDictionaries = new HashSet<>();
     private final Set<String> disabledInWorld = new HashSet<>();
@@ -256,6 +258,27 @@ public class IndustrialRevivalItem implements Keyed {
     }
 
     /**
+     * Sets the icon of the item.
+     * @param icon the icon of the item
+     * @return this instance
+     */
+    @NotNull
+    public IndustrialRevivalItem icon(@NotNull CustomItemStack icon) {
+        return icon(new org.irmc.pigeonlib.items.CustomItemStack(icon));
+    }
+
+    /**
+     * Sets the icon of the item.
+     * @param icon the icon of the item
+     * @return this instance
+     */
+    @NotNull
+    public IndustrialRevivalItem icon(@NotNull org.irmc.pigeonlib.items.CustomItemStack icon) {
+        return icon(icon.getBukkit());
+    }
+
+
+    /**
      * Sets the recipe output of the item.
      * @param recipeOutput the recipe output of the item
      * @return this instance
@@ -370,35 +393,34 @@ public class IndustrialRevivalItem implements Keyed {
 
 
     /**
-     * Adds a {@link CraftMethod} to the item.
-     * @param craftMethodHandler the craft method handler of the item
+     * Adds a {@link ProduceMethod} to the item.
+     * @param produceMethodGetter the produce method lambda of the item
      * @return this instance
      */
     @NotNull
-    public IndustrialRevivalItem addCraftMethod(@NotNull CraftMethodHandler craftMethodHandler) {
-        Preconditions.checkArgument(craftMethodHandler != null, "craftMethodHandler cannot be null");
-        CraftMethod craftMethod = craftMethodHandler.getCraftMethod(this);
-        if (craftMethod == null) {
+    public IndustrialRevivalItem recipe(@NotNull IndustrialRevivalItem.ProduceMethodGetter produceMethodGetter) {
+        Preconditions.checkArgument(produceMethodGetter != null, "craftMethodHandler cannot be null");
+        ProduceMethod produceMethod = produceMethodGetter.getProduceMethod(this);
+        if (produceMethod == null) {
             return this;
         }
 
-        craftMethods.add(craftMethod);
-        inferAddon(craftMethod.getRecipeType().getAddon());
+        return recipe(produceMethod);
+    }
+
+    /**
+     * Adds a {@link ProduceMethod} to the item.
+     * @param produceMethod the produce method of the item
+     * @return this instance
+     */
+    public IndustrialRevivalItem recipe(@NotNull ProduceMethod produceMethod) {
+        produceMethods.add(produceMethod);
+        inferAddon(produceMethod.getRecipeType().getAddon());
         return this;
     }
 
     /**
-     * Adds a {@link CraftMethod} to the item.
-     * @param craftMethodHandler the craft method handler of the item
-     * @return this instance
-     */
-    @NotNull
-    public IndustrialRevivalItem recipe(@NotNull CraftMethodHandler craftMethodHandler) {
-        return addCraftMethod(craftMethodHandler);
-    }
-
-    /**
-     * Adds a {@link CraftMethod} to the item.
+     * Tag the item with the given {@link ItemDictionary}.
      * @param itemDictionary the item dictionary of the item
      * @return this instance
      */
@@ -658,32 +680,34 @@ public class IndustrialRevivalItem implements Keyed {
         if (this instanceof VanillaSmeltingItem vsi) {
             NamespacedKey key = new NamespacedKey(addon.getPlugin(), "irsi_" + getId().getNamespace() + "_" + getId().getKey());
             FurnaceRecipe fr = new FurnaceRecipe(
-                    key, vsi.getRecipeOutput(), vsi.getRecipeInput(), vsi.getExp(), vsi.getCookingTime());
+                    key, vsi.getSmeltOutput(), vsi.getRecipeInput(), vsi.getExp(), vsi.getCookingTime());
 
             Bukkit.addRecipe(fr);
         }
 
-        for (CraftMethod craftMethod : craftMethods) {
-            if (craftMethod.getRecipeType() == RecipeType.VANILLA_CRAFTING) {
-                NamespacedKey key = new NamespacedKey(addon.getPlugin(), "irvc_" + getId().getNamespace() + "_" + getId().getKey());
-                ShapedRecipe shapedRecipe = new ShapedRecipe(key, getIcon().clone());
-                shapedRecipe.shape("abc", "def", "ghi");
-                char[] chars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'};
-                for (int i = 0; i < 9; i++) {
-                    if (craftMethod.getIngredients()[i] != null) {
-                        shapedRecipe.setIngredient(chars[i], craftMethod.getIngredients()[i]);
+        for (var produceMethod : produceMethods) {
+            if (produceMethod instanceof CraftMethod craftMethod) {
+                if (craftMethod.getRecipeType() == RecipeType.VANILLA_CRAFTING) {
+                    NamespacedKey key = new NamespacedKey(addon.getPlugin(), "irvc_" + getId().getNamespace() + "_" + getId().getKey());
+                    ShapedRecipe shapedRecipe = new ShapedRecipe(key, getIcon().clone());
+                    shapedRecipe.shape("abc", "def", "ghi");
+                    char[] chars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'};
+                    for (int i = 0; i < 9; i++) {
+                        if (craftMethod.getIngredients()[i] != null) {
+                            shapedRecipe.setIngredient(chars[i], craftMethod.getIngredients()[i]);
+                        }
                     }
+
+                    Bukkit.addRecipe(shapedRecipe);
                 }
 
-                Bukkit.addRecipe(shapedRecipe);
+                RecipeContents.addRecipeContent(this.getId(),
+                        new RecipeContent(
+                                craftMethod.getRecipeType(),
+                                craftMethod.getRecipeType().getMakerItem(),
+                                craftMethod.getIngredients(),
+                                this));
             }
-
-            RecipeContents.addRecipeContent(this.getId(),
-                    new RecipeContent(
-                            craftMethod.getRecipeType(),
-                            craftMethod.getRecipeType().getMakerItem(),
-                            craftMethod.getIngredients(),
-                            this));
         }
     }
 
@@ -741,9 +765,9 @@ public class IndustrialRevivalItem implements Keyed {
 
     @Nullable
     public ItemStack[] getRecipeIngredients(@NotNull RecipeType recipeType) {
-        for (CraftMethod craftMethod : craftMethods) {
-            if (craftMethod.getRecipeType() == recipeType) {
-                return craftMethod.getIngredients();
+        for (var produceMethod : produceMethods) {
+            if (produceMethod.getRecipeType() == recipeType) {
+                return produceMethod.getIngredients();
             }
         }
 
@@ -752,7 +776,7 @@ public class IndustrialRevivalItem implements Keyed {
 
     @Nullable
     public ItemStack[] getRecipeIngredients() {
-        CraftMethod method = craftMethods.stream().findFirst().orElse(null);
+        ProduceMethod method = produceMethods.stream().findFirst().orElse(null);
         if (method != null) {
             return method.getIngredients();
         }
@@ -761,10 +785,10 @@ public class IndustrialRevivalItem implements Keyed {
     }
 
     @Nullable
-    public ItemStack getRecipeOutput(@NotNull RecipeType recipeType) {
-        for (CraftMethod craftMethod : craftMethods) {
-            if (craftMethod.getRecipeType() == recipeType) {
-                return craftMethod.getOutput();
+    public ItemStack[] getRecipeOutput(@NotNull RecipeType recipeType) {
+        for (ProduceMethod produceMethod : produceMethods) {
+            if (produceMethod.getRecipeType() == recipeType) {
+                return produceMethod.getOutput();
             }
         }
 
@@ -772,8 +796,8 @@ public class IndustrialRevivalItem implements Keyed {
     }
 
     @Nullable
-    public ItemStack getRecipeOutput() {
-        CraftMethod method = craftMethods.stream().findFirst().orElse(null);
+    public ItemStack[] getRecipeOutput() {
+        ProduceMethod method = produceMethods.stream().findFirst().orElse(null);
         if (method != null) {
             return method.getOutput();
         }
@@ -783,7 +807,7 @@ public class IndustrialRevivalItem implements Keyed {
 
     @Override
     public final int hashCode() {
-        return Objects.hash(getId(), getIcon(), itemHandlers, craftMethods, itemDictionaries, disabledInWorld, group, addon, state, autoTranslation, wikiText, enchantable, disenchantable, hideInGuide);
+        return Objects.hash(getId(), getIcon(), itemHandlers, produceMethods, itemDictionaries, disabledInWorld, group, addon, state, autoTranslation, wikiText, enchantable, disenchantable, hideInGuide);
     }
     
     @Deprecated
@@ -815,7 +839,6 @@ public class IndustrialRevivalItem implements Keyed {
         }
     }
 
-
     public enum ItemState {
         UNREGISTERED,
         ENABLED,
@@ -823,7 +846,28 @@ public class IndustrialRevivalItem implements Keyed {
     }
 
     @FunctionalInterface
-    public interface CraftMethodHandler {
-        @NotNull CraftMethod getCraftMethod(@NotNull IndustrialRevivalItem item);
+    public interface ProduceMethodGetter {
+        @NotNull ProduceMethod getProduceMethod(@NotNull IndustrialRevivalItem item);
+    }
+
+    public Patcher patcher() {
+        return new Patcher(this);
+    }
+
+    @RequiredArgsConstructor
+    public static class Patcher {
+        private final IndustrialRevivalItem item;
+
+        public Patcher patchId(NamespacedKey id) {
+            item.setId(id);
+            return this;
+        }
+
+        public Patcher patchIcon(ItemStack icon) {
+            item.setIcon(icon);
+            return this;
+        }
+
+        // todo
     }
 }

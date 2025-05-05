@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 /*
  * ElectricMachine is a BasicMachine that consumes energy.
+ * @author balugaq
  */
 public abstract class ElectricMachine extends EnergyComponent {
     @Override
