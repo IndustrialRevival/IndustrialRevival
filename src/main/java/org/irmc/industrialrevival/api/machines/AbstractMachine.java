@@ -3,7 +3,6 @@ package org.irmc.industrialrevival.api.machines;
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
-import org.irmc.industrialrevival.api.items.attributes.RecipeTypeLike;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipe;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipes;
 import org.irmc.industrialrevival.api.objects.ItemStackReference;
@@ -16,12 +15,13 @@ import java.util.Map;
 
 /**
  * Abstract class for all IndustrialRevival machines.
+ * @author balugaq
  */
-public abstract class AbstractMachine extends IndustrialRevivalItem implements RecipeTypeLike {
+public abstract class AbstractMachine extends IndustrialRevivalItem {
     protected final MachineRecipes machineRecipes = new MachineRecipes();
     @Getter
-    private RecipeType recipeType = null;
-    private ItemStack recipeTypeIcon = null;
+    private static RecipeType recipeType = null;
+    private static ItemStack recipeTypeIcon = null;
 
     public AbstractMachine addRecipe(int processTime, int energy, ItemStack[] consume, ItemStack[] produce) {
         checkRegistered();

@@ -6,6 +6,7 @@ import org.irmc.industrialrevival.api.objects.enums.EnergyNetComponentType;
 
 /**
  * ElectricConnector is an item that can be used to connect machines.
+ * @author balugaq
  */
 public abstract class ElectricConnector extends IndustrialRevivalItem implements EnergyNetConnector {
     @Override

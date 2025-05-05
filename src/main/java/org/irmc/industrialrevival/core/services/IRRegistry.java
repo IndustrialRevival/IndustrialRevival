@@ -26,7 +26,6 @@ import org.irmc.industrialrevival.api.multiblock.MultiBlock;
 import org.irmc.industrialrevival.api.objects.display.DisplayGroup;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
 import org.irmc.industrialrevival.api.recipes.methods.BlockDropMethod;
-import org.irmc.industrialrevival.api.recipes.methods.CraftMethod;
 import org.irmc.industrialrevival.api.recipes.methods.MeltMethod;
 import org.irmc.industrialrevival.api.recipes.methods.MobDropMethod;
 import org.irmc.industrialrevival.api.recipes.methods.ProduceMethod;
@@ -64,7 +63,7 @@ public final class IRRegistry {
     private final Map<EntityType, List<MobDropMethod>> mobDrops;
     private final Map<Material, List<BlockDropMethod>> blockDrops;
 
-    private final Map<RecipeType, Set<ItemStack>> craftables;
+    private final Map<RecipeType, Set<ItemStack>> produceable;
     private final Set<ProduceMethod> produceMethods;
     private final Map<MeltedType, Map<TinkerType, TinkerProduct>> tinkerMap;
     private final Map<NamespacedKey, ChemicalFormula> chemicalFormulas;
@@ -81,7 +80,7 @@ public final class IRRegistry {
         multiBlocks = new HashMap<>();
         mobDrops = new HashMap<>();
         blockDrops = new HashMap<>();
-        craftables = new HashMap<>();
+        produceable = new HashMap<>();
         produceMethods = new HashSet<>();
         tinkerMap = new HashMap<>();
         chemicalFormulas = new HashMap<>();
@@ -96,28 +95,28 @@ public final class IRRegistry {
     }
 
     public void registerRecipeType(RecipeType recipeType) {
-        craftables.put(recipeType, new HashSet<>());
+        produceable.put(recipeType, new HashSet<>());
     }
 
     public void unregisterRecipeType(RecipeType recipeType) {
-        craftables.remove(recipeType);
+        produceable.remove(recipeType);
     }
 
     public void registerCraftable(RecipeType recipeType, ItemStack itemStack) {
-        Set<ItemStack> craftableSet = craftables.get(recipeType);
+        Set<ItemStack> craftableSet = produceable.get(recipeType);
         if (craftableSet == null) {
             registerRecipeType(recipeType);
-            craftableSet = craftables.get(recipeType);
+            craftableSet = produceable.get(recipeType);
         }
         craftableSet.add(itemStack);
     }
 
-    public void unregisterCraftable(RecipeType recipeType, ItemStack itemStack) {
-        Set<ItemStack> craftableSet = craftables.get(recipeType);
-        if (craftableSet == null) {
+    public void unregisterProduceable(RecipeType recipeType, ItemStack itemStack) {
+        Set<ItemStack> produceableSet = produceable.get(recipeType);
+        if (produceableSet == null) {
             return;
         }
-        craftableSet.remove(itemStack);
+        produceableSet.remove(itemStack);
     }
 
     public void resortItemGroups() {
@@ -138,9 +137,11 @@ public final class IRRegistry {
         Preconditions.checkArgument(item != null, "Item cannot be null");
         items.put(item.getId(), item);
 
-        for (CraftMethod method : item.getCraftMethods()) {
+        for (ProduceMethod method : item.getProduceMethods()) {
             registerRecipeType(method.getRecipeType());
-            registerCraftable(method.getRecipeType(), method.getOutput());
+            for (ItemStack itemStack : method.getOutput()) {
+                registerCraftable(method.getRecipeType(), itemStack);
+            }
             registerProduceMethod(method);
         }
     }
@@ -207,8 +208,10 @@ public final class IRRegistry {
             unregisterBlockDrop(item);
         }
 
-        for (CraftMethod method : item.getCraftMethods()) {
-            unregisterCraftable(method.getRecipeType(), method.getOutput());
+        for (ProduceMethod method : item.getProduceMethods()) {
+            for (ItemStack itemStack : method.getOutput()) {
+                unregisterProduceable(method.getRecipeType(), itemStack);
+            }
             unregisterProduceMethod(method);
         }
         items.remove(item.getId());

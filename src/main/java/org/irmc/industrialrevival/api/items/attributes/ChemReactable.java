@@ -1,23 +1,45 @@
 package org.irmc.industrialrevival.api.items.attributes;
 
+import net.kyori.adventure.text.TextComponent;
 import org.bukkit.Keyed;
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
 import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
+import org.irmc.industrialrevival.api.elements.reaction.ReactHelper;
 import org.irmc.industrialrevival.api.elements.reaction.ReactResult;
+import org.irmc.industrialrevival.core.services.IRRegistry;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
+import org.irmc.industrialrevival.utils.KeyUtil;
+import org.irmc.pigeonlib.pdc.PersistentDataAPI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public interface ChemReactable extends ItemAttribute, Keyed {
+import java.util.List;
+
+public interface ChemReactable extends ItemAttribute, Keyed, ComplexDataContainer.DataContainer2<Double, ChemicalCompound> {
+    public static final NamespacedKey CHEMICAL_COMPOUND_KEY = KeyUtil.customKey("chemical_compound");
+    public static final NamespacedKey MASS_KEY = KeyUtil.customKey("mass");
+
     /**
      * Returns the reactable instance for the given chemical compound.
      * @param compound the chemical compound to get the item for.
      * @return the reactable instance for the given chemical compound.
      */
-    // todo: implement
     static @Nullable ChemReactable getByCompound(@NotNull ChemicalCompound compound) {
+        for (var entry : IRRegistry.getInstance().getBindingCompounds().entrySet()) {
+            if (entry.getValue().equals(compound)) {
+                return entry.getKey();
+            }
+        }
+
         return null;
+    }
+
+    @Override
+    default ChemicalCompound getData2(ItemStack itemStack) {
+        return getChemicalCompound(itemStack);
     }
 
     /**
@@ -26,7 +48,25 @@ public interface ChemReactable extends ItemAttribute, Keyed {
      * @param itemStack the item stack to get the chemical compound from.
      * @return the chemical compound of the item.
      */
-    @NotNull ChemicalCompound getChemicalCompound(@NotNull ItemStack itemStack);
+    default @NotNull ChemicalCompound getChemicalCompound(@NotNull ItemStack itemStack) {
+        return ChemicalCompound.forName(PersistentDataAPI.get(itemStack.getItemMeta(), CHEMICAL_COMPOUND_KEY, PersistentDataType.STRING));
+    }
+
+    @Override
+    default void setData2(ItemStack itemStack, ChemicalCompound data) {
+        setChemicalCompound(itemStack, data);
+    }
+
+    default void setChemicalCompound(@NotNull ItemStack itemStack, ChemicalCompound data) {
+        itemStack.editMeta(meta -> {
+            PersistentDataAPI.set(meta, CHEMICAL_COMPOUND_KEY, PersistentDataType.STRING, data.getName());
+        });
+    }
+
+    @Override
+    default Double getData1(ItemStack itemStack) {
+        return getMass(itemStack);
+    }
 
     /**
      * Returns the quality of each item. (Unit: grams)
@@ -34,18 +74,24 @@ public interface ChemReactable extends ItemAttribute, Keyed {
      * @return the quality of each item.
      */
 
-    int getMass(@NotNull ItemStack itemStack);
+    default double getMass(@NotNull ItemStack itemStack) {
+        return PersistentDataAPI.getOrDefault(itemStack.getItemMeta(), MASS_KEY, PersistentDataType.DOUBLE, 0D);
+    }
 
-    /**
-     * Reacts two or more items.
-     *
-     * @param item the item itself to react with.
-     * @param conditions the conditions for the reaction.
-     * @param other the other item(s) to react with.
-     * @return the result of the reaction.
-     */
+    @Override
+    default void setData1(ItemStack itemStack, Double data) {
+        setMass(itemStack, data);
+    }
 
-    @NotNull ReactResult react(@NotNull ItemStack item, @NotNull ReactCondition[] conditions, @NotNull ChemReactable... other);
+    default void setMass(@NotNull ItemStack itemStack, Double data) {
+        itemStack.editMeta(meta -> {
+            PersistentDataAPI.set(meta, MASS_KEY, PersistentDataType.DOUBLE, data);
+        });
+    }
+
+    default @NotNull ReactResult react(@NotNull ReactCondition[] conditions, @NotNull List<ItemStack> reactItems) {
+        return ReactHelper.react(conditions, reactItems);
+    }
 
     /**
      * Registers the item as a reactable.

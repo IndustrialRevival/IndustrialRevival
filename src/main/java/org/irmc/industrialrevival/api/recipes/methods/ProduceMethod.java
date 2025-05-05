@@ -1,5 +1,8 @@
 package org.irmc.industrialrevival.api.recipes.methods;
 
+import org.bukkit.inventory.ItemStack;
+import org.irmc.industrialrevival.api.recipes.RecipeType;
+
 /**
  * ProduceMethod is an interface for all produce methods.
  * Used to describe the method of production of a product.\
@@ -8,4 +11,7 @@ package org.irmc.industrialrevival.api.recipes.methods;
  * @since 1.0
  */
 public interface ProduceMethod {
+    RecipeType getRecipeType();
+    ItemStack[] getIngredients();
+    ItemStack[] getOutput();
 }

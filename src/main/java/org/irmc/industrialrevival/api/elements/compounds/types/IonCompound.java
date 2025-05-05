@@ -36,7 +36,7 @@ import java.util.Map;
  * @see AcidCompound
  */
 public class IonCompound extends ChemicalCompound implements Ion {
-    public IonCompound(@NotNull Component name, @NotNull Map<Compound, Double> compounds) {
+    public IonCompound(@NotNull String name, @NotNull Map<Compound, Double> compounds) {
         super(name, compounds);
     }
 }

@@ -1,35 +1,25 @@
 package org.irmc.industrialrevival.api.elements.reaction;
 
-import org.irmc.industrialrevival.api.items.attributes.ChemReactable;
-import org.jetbrains.annotations.NotNull;
+import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
+import org.irmc.industrialrevival.api.elements.compounds.ChemicalFormula;
 
-import javax.annotation.Nullable;
+import java.util.Map;
 
 /**
- * The result of a chemical reaction.
+ * The produce of a chemical reaction.
  *
- * @param sediments       The sediments created by the reaction.
- * @param gases           The gases created by the reaction.
- * @param otherReactables The other reactables involved in the reaction.
+ * @param formula The formula of the reaction.
+ * @param consume The consumed compounds.
+ * @param produce The product of the reaction.
+ *
+ * @see ReactHelper
  * @author lijinhong11
+ * @author balugaq
  */
-public record ReactResult(@Nullable Sediment sediments, @Nullable Gas gases,
-                          @NotNull ChemReactable @NotNull ... otherReactables) {
-    public static final ReactResult FAILED = new ReactResult(null, null);
-
-    /**
-     * The sediment created by the reaction.
-     *
-     * @param reactables The reactables involved in the reaction.
-     */
-    public record Sediment(@NotNull ChemReactable @NotNull ... reactables) {
-    }
-
-    /**
-     * The gas created by the reaction.
-     *
-     * @param reactables The reactables involved in the reaction.
-     */
-    public record Gas(@NotNull ChemReactable @NotNull ... reactables) {
-    }
+public record ReactResult(
+        ChemicalFormula formula,
+        Map<ChemicalCompound, Double> consume,
+        Map<ChemicalCompound, Double> produce
+) {
+    public static final ReactResult FAILED = new ReactResult(null, null, null);
 }

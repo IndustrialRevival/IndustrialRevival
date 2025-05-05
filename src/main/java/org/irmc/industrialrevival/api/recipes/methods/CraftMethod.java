@@ -27,4 +27,9 @@ public class CraftMethod implements ProduceMethod {
         this.output = output.getIcon();
         recipeType.registerRecipe(this.ingredients, this.output);
     }
+
+    @Override
+    public ItemStack[] getOutput() {
+        return new ItemStack[] { output };
+    }
 }

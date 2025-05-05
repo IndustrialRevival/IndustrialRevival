@@ -48,8 +48,8 @@ public abstract class MultiBlock extends IndustrialRevivalItem implements Keyed 
     }
 
     @Override
-    public MultiBlock addCraftMethod(@NotNull CraftMethodHandler handler) {
-        super.addCraftMethod(handler);
+    public MultiBlock recipe(@NotNull IndustrialRevivalItem.ProduceMethodGetter handler) {
+        super.recipe(handler);
         return this;
     }
 

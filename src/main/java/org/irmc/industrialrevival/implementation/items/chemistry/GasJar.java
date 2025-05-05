@@ -23,7 +23,6 @@ import java.util.List;
 
 public class GasJar extends ElementItem implements GasStorage {
     private static final NamespacedKey CATHER_KEY = KeyUtil.customKey("cather_insertion_method");
-    private static final NamespacedKey STORED_REACTABLE_KEY = KeyUtil.customKey("reactable");
 
     private static final NamespacedKey ITEM_KEY = KeyUtil.customKey("gas_jar");
 
@@ -47,7 +46,7 @@ public class GasJar extends ElementItem implements GasStorage {
 
     @Override
     public void insertGas(ItemStack item, ChemReactable gas) {
-        PersistentDataAPI.set(item.getItemMeta(), STORED_REACTABLE_KEY, PersistentDataType.STRING, gas.getKey().toString());
+        PersistentDataAPI.set(item.getItemMeta(), ChemReactable.CHEMICAL_COMPOUND_KEY, PersistentDataType.STRING, gas.getKey().toString());
     }
 
     /**
@@ -58,7 +57,7 @@ public class GasJar extends ElementItem implements GasStorage {
      */
     @Override
     public @NotNull ChemicalCompound getChemicalCompound(@NotNull ItemStack itemStack) {
-        String key = PersistentDataAPI.getOrDefault(itemStack.getItemMeta(), STORED_REACTABLE_KEY, PersistentDataType.STRING, "");
+        String key = PersistentDataAPI.getOrDefault(itemStack.getItemMeta(), ChemReactable.CHEMICAL_COMPOUND_KEY, PersistentDataType.STRING, "");
         if (key.isEmpty()) {
             return null;
         }
@@ -67,8 +66,8 @@ public class GasJar extends ElementItem implements GasStorage {
     }
 
     @Override
-    public int getMass(@NotNull ItemStack item) {
-        String key = PersistentDataAPI.getOrDefault(item.getItemMeta(), STORED_REACTABLE_KEY, PersistentDataType.STRING, "");
+    public double getMass(@NotNull ItemStack item) {
+        String key = PersistentDataAPI.getOrDefault(item.getItemMeta(), ChemReactable.CHEMICAL_COMPOUND_KEY, PersistentDataType.STRING, "");
         if (key.isEmpty()) {
             return 0;
         }
@@ -81,47 +80,6 @@ public class GasJar extends ElementItem implements GasStorage {
         return reactable.getMass(item); // gas will host the mass
     }
 
-    @Override
-    public @NotNull ReactResult react(@NotNull ItemStack item, @NotNull ReactCondition[] conditions, @NotNull ChemReactable... other) {
-        if (getMass(item) == 0) {
-            return ReactResult.FAILED;
-        }
-
-        List<ChemReactable> sediments = new ArrayList<>();
-        List<ChemReactable> gases = new ArrayList<>();
-        List<ChemReactable> others = new ArrayList<>();
-
-        for (ChemReactable reactable : other) {
-            if (reactable.getMass(item) == 0) {
-                continue;
-            }
-
-            List<ChemReactable> reactants = new ArrayList<>(List.of(other));
-            reactants.remove(reactable);
-
-            ReactResult reactResult = reactable.react(item, conditions, reactants.toArray(new ChemReactable[]{}));
-
-            if (reactResult != ReactResult.FAILED) {
-                if (reactResult.sediments() != null) {
-                    sediments.addAll(List.of(reactResult.sediments().reactables()));
-                }
-
-                if (reactResult.gases() != null) {
-                    gases.addAll(List.of(reactResult.gases().reactables()));
-                }
-
-                if (reactResult.otherReactables() != null && reactResult.otherReactables().length != 0) {
-                    others.addAll(List.of(reactResult.otherReactables()));
-                }
-            }
-        }
-
-        return new ReactResult(
-                new ReactResult.Sediment(sediments.toArray(new ChemReactable[]{})),
-                new ReactResult.Gas(gases.toArray(new ChemReactable[]{})),
-                others.toArray(new ChemReactable[]{})
-        );
-    }
 
     @Override
     public @NotNull NamespacedKey getKey() {

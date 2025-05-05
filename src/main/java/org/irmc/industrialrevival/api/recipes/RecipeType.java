@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
-import org.irmc.industrialrevival.api.items.attributes.RecipeTypeLike;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.api.recipes.methods.CraftMethod;
@@ -20,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.BiConsumer;
 
 @Getter
-public class RecipeType implements RecipeTypeLike {
+public class RecipeType {
     public static final NamespacedKey RECIPE_TYPE_GRINDSTONE = KeyUtil.customKey("grindstone");
     public static final NamespacedKey RECIPE_TYPE_VANILLA_SMELTING = KeyUtil.customKey("vanilla_smelting");
     public static final NamespacedKey RECIPE_TYPE_MINE = KeyUtil.customKey("mine");
@@ -33,6 +32,7 @@ public class RecipeType implements RecipeTypeLike {
     public static final NamespacedKey RECIPE_TYPE_CRAFTING = KeyUtil.customKey("crafting");
     public static final NamespacedKey RECIPE_TYPE_ELECTROLYSIS = KeyUtil.customKey("electrolysis");
     public static final NamespacedKey RECIPE_TYPE_MULTIBLOCK = KeyUtil.customKey("multiblock");
+    public static final NamespacedKey RECIPE_TYPE_BLOCK_DROP = KeyUtil.customKey("block_drop");
 
     public static final RecipeType GRINDSTONE;
     public static final RecipeType VANILLA_SMELTING;
@@ -46,6 +46,8 @@ public class RecipeType implements RecipeTypeLike {
     public static final RecipeType CRAFTING;
     public static final RecipeType ELECTROLYSIS;
     public static final RecipeType MULTIBLOCK;
+    public static final RecipeType BLOCK_DROP;
+
     static final RecipeDisplay DEFAULT_RECIPE_DISPLAY = new DefaultRecipeDisplay();
 
     static {
@@ -154,6 +156,18 @@ public class RecipeType implements RecipeTypeLike {
                         IndustrialRevival.getInstance()
                                 .getLanguageManager()
                                 .getRecipeTypeLore(RECIPE_TYPE_MULTIBLOCK)));
+
+        BLOCK_DROP = new RecipeType(
+                IndustrialRevival.getInstance(),
+                RECIPE_TYPE_BLOCK_DROP,
+                new CustomItemStack(
+                        Material.IRON_PICKAXE,
+                        IndustrialRevival.getInstance()
+                                .getLanguageManager()
+                                .getRecipeTypeName(RECIPE_TYPE_BLOCK_DROP),
+                        IndustrialRevival.getInstance()
+                                .getLanguageManager()
+                                .getRecipeTypeLore(RECIPE_TYPE_BLOCK_DROP)));
     }
 
     private final IndustrialRevivalAddon addon;
@@ -275,18 +289,16 @@ public class RecipeType implements RecipeTypeLike {
     }
 
     public void unregisterRecipe(ItemStack[] input, ItemStack output) {
-        IndustrialRevival.getInstance().getRegistry().unregisterCraftable(this, output);
+        IndustrialRevival.getInstance().getRegistry().unregisterProduceable(this, output);
         if (unregisterRecipeConsumer != null) {
             unregisterRecipeConsumer.accept(input, output);
         }
     }
 
-    @Override
     public RecipeType getRecipeType() {
         return this;
     }
 
-    @Override
     public ItemStack getRecipeTypeIcon() {
         return getIcon();
     }

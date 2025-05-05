@@ -5,6 +5,9 @@ import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.objects.enums.GeneratorType;
 import org.irmc.industrialrevival.api.objects.events.ir.BlockTickEvent;
 
+/**
+ * @author balugaq
+ */
 public abstract class ElectricSolarGenerator extends AbstractElectricGenerator {
     @Override
     protected void tick(BlockTickEvent event) {
