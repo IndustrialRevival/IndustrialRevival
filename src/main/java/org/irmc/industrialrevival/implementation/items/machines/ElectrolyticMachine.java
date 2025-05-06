@@ -18,6 +18,13 @@ import org.irmc.industrialrevival.api.items.attributes.ChemReactable;
 import org.irmc.industrialrevival.api.machines.ElectricMachine;
 import org.irmc.industrialrevival.api.machines.process.IOperation;
 import org.irmc.industrialrevival.api.machines.process.MachineProcessor;
+import org.irmc.industrialrevival.api.elements.compounds.ChemicalFormulas;
+import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
+import org.irmc.industrialrevival.api.elements.reaction.ReactHelper;
+import org.irmc.industrialrevival.api.elements.reaction.ReactResult;
+import org.irmc.industrialrevival.api.machines.ElectricMachine;
+import org.irmc.industrialrevival.api.machines.process.IOperation;
+import org.irmc.industrialrevival.api.machines.process.MachineOperation;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipe;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.menu.MatrixMenuDrawer;
@@ -41,6 +48,7 @@ public class ElectrolyticMachine extends ElectricMachine {
             Material.RED_STAINED_GLASS_PANE,
             "&cRunning Status"
     ).getBukkit();
+  
     public static final List<MachineRecipe> recipes = new ArrayList<>();
     public static final MachineProcessor<ElectrolyticOperation> processor = new MachineProcessor<>();
 
