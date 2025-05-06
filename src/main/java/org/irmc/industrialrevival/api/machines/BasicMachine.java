@@ -31,7 +31,7 @@ import java.util.Map;
  */
 public abstract class BasicMachine extends AbstractMachine implements ProcessorHolder<MachineOperation>, InventoryBlock {
     private final Map<Location, MachineRecipe> lastMatches = new HashMap<>();
-    private final MachineProcessor<MachineOperation> processor = new MachineProcessor<>(this);
+    private final MachineProcessor<MachineOperation> processor = new MachineProcessor<>();
 
     private int[] INPUT_SLOTS = null;
     private int[] OUTPUT_SLOTS = null;
@@ -113,9 +113,8 @@ public abstract class BasicMachine extends AbstractMachine implements ProcessorH
     }
 
     @NotNull
-    @Override
     public MachineProcessor<MachineOperation> getProcessor() {
-        return this.processor;
+        return processor;
     }
 
     public void onDone(@NotNull Block block, @Nullable MachineMenu menu, @NotNull MachineOperation operation) {

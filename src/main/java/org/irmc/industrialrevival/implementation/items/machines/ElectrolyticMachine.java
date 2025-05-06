@@ -1,23 +1,23 @@
 package org.irmc.industrialrevival.implementation.items.machines;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
 import org.irmc.industrialrevival.api.elements.compounds.ChemicalFormula;
-import org.irmc.industrialrevival.api.elements.compounds.ChemicalFormulas;
 import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
 import org.irmc.industrialrevival.api.elements.reaction.ReactHelper;
 import org.irmc.industrialrevival.api.elements.reaction.ReactResult;
+import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+import org.irmc.industrialrevival.api.items.attributes.ChemReactable;
 import org.irmc.industrialrevival.api.machines.ElectricMachine;
 import org.irmc.industrialrevival.api.machines.process.IOperation;
-import org.irmc.industrialrevival.api.machines.process.MachineOperation;
+import org.irmc.industrialrevival.api.machines.process.MachineProcessor;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipe;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.menu.MatrixMenuDrawer;
@@ -41,14 +41,13 @@ public class ElectrolyticMachine extends ElectricMachine {
             Material.RED_STAINED_GLASS_PANE,
             "&cRunning Status"
     ).getBukkit();
-    // For status display
-    public static final Map<Location, ElectrolyticOperation> operationRecord = new HashMap<>();
     public static final List<MachineRecipe> recipes = new ArrayList<>();
+    public static final MachineProcessor<ElectrolyticOperation> processor = new MachineProcessor<>();
 
     static {
         IRRegistry.getInstance().getChemicalFormulas().values().forEach(formula -> {
             if (formula.getConditions().length == 1 && formula.getConditions()[0] == ReactCondition.ELECTROLYSIS) {
-                recipes.add(new MachineRecipe(0, 0, itemStackize(formula.getInput()), itemStackize(formula.getOutput())));
+                recipes.add(new MachineRecipe(0, 0, asRawItemLevel(formula.getInput()), asRawItemLevel(formula.getOutput())));
             }
         });
     }
@@ -61,11 +60,24 @@ public class ElectrolyticMachine extends ElectricMachine {
                 .addLine("iiiiiiiii")
                 .addLine("iiiiiiiii")
                 .addExplain("A", "Input and output border", MenuUtil.INPUT_AND_OUTPUT_BORDER)
-                .addExplain("S", "Status", STATUS_ICON);
+                .addExplain("S", "Status", STATUS_ICON)
+                .addExplain("i", "Item slot", new ItemStack(Material.AIR), (player, clicked, _, _, _) -> {
+                    var cursor = player.getItemOnCursor();
+                    if (clicked != null && clicked.getType() != Material.AIR) {
+                        return false;
+                    } else {
+                        return IndustrialRevivalItem.getByItem(cursor) instanceof ChemReactable;
+                    }
+                });
+    }
+
+    @NotNull
+    public static MachineProcessor<ElectrolyticOperation> getProcessor0() {
+        return processor;
     }
 
     public static ItemStack getStatus(Location location) {
-        var operation = operationRecord.get(location);
+        var operation = getProcessor0().getProcess(location);
 
         var icon = STATUS_ICON.clone();
 
@@ -96,12 +108,26 @@ public class ElectrolyticMachine extends ElectricMachine {
         var menu = event.getMenu();
         decompose(menu);
 
-        // todo: process operation
+        var current = getProcessor0().getProcess(menu.getLocation());
+        if (current == null) {
+            var operation = findNextOperation(menu);
+            getProcessor0().startProcess(menu, operation);
+            if (menu.hasViewer()) {
+                updateMenu(menu);
+            }
+        } else {
+            // 将输入槽的东西转为数据层，并清空
+            var map = asDataLevel(menu, getInputSlots());
+            for (var entry : current.consume.entrySet()) {
+                map.replace(entry.getKey(), map.get(entry.getKey()) - entry.getValue());
+            }
+            for (var entry : current.produce.entrySet()) {
+                map.replace(entry.getKey(), map.get(entry.getKey()) + entry.getValue());
+            }
 
-        var operation = findNextOperation(menu);
-        operationRecord.put(event.getBlock().getLocation(), operation);
-        if (menu.hasViewer()) {
-            updateMenu(menu);
+            // 重新输出
+            var items = asItemLevel(map);
+            menu.pushItem(items, getOutputSlots());
         }
     }
 
@@ -217,22 +243,49 @@ public class ElectrolyticMachine extends ElectricMachine {
         }
     }
 
-    public static List<ItemStack> itemStackize(Map<ChemicalCompound, Integer> compounds) {
+    public static List<ItemStack> asItemLevel(Map<ChemicalCompound, Double> compounds) {
         List<ItemStack> items = new ArrayList<>();
-        for (var compound : compounds.keySet()) {
-            items.add(itemStackize(compound));
+        for (var entry : compounds.entrySet()) {
+            items.add(asItemLevel(entry.getKey(), entry.getValue()));
         }
         return items;
     }
 
-    public static ItemStack itemStackize(ChemicalCompound compound) {
-        return itemStackize(compound, 0D);
+    public static List<ItemStack> asRawItemLevel(Map<ChemicalCompound, Integer> compounds) {
+        List<ItemStack> items = new ArrayList<>();
+        for (var compound : compounds.keySet()) {
+            items.add(asItemLevel(compound));
+        }
+        return items;
     }
 
-    public static ItemStack itemStackize(ChemicalCompound compound, double mass) {
+    public static ItemStack asItemLevel(ChemicalCompound compound) {
+        return asItemLevel(compound, 0D);
+    }
+
+    public static ItemStack asItemLevel(ChemicalCompound compound, double mass) {
         Solution solution = ChemicalCompoundSetup.solutions.get(compound);
         ItemStack itemStack = solution.getIcon().clone();
         solution.setMass(itemStack, mass);
         return itemStack;
+    }
+
+    public static Map<ChemicalCompound, Double> asDataLevel(MachineMenu menu, int[] inputSlots) {
+        Map<ChemicalCompound, Double> map = new HashMap<>();
+        for (int slot : inputSlots) {
+            var item = menu.getItem(slot);
+            if (item != null && item.getType() != Material.AIR) {
+                if (IndustrialRevivalItem.getByItem(item) instanceof ChemReactable reactable) {
+                    var compound = reactable.getChemicalCompound(item);
+                    var mass = reactable.getMass(item);
+                    if (mass > 0) {
+                        map.merge(compound, mass, Double::sum);
+                    }
+                }
+                menu.setItem(slot, null);
+            }
+        }
+
+        return map;
     }
 }

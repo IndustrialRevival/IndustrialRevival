@@ -57,7 +57,7 @@ public class BlastFurnace extends MultiBlock implements ProcessorHolder<MachineO
     static {
         preset.withMenuDrawer(menuDrawer);
     }
-    private final MachineProcessor<MachineOperation> processor = new MachineProcessor<>(this);
+    private final MachineProcessor<MachineOperation> processor = new MachineProcessor<>();
     private final Map<Location, Float> fuels = new HashMap<>();
     private @Getter
     final ItemStack RECIPE_TYPE_ICON = new CustomItemStack(Material.BLAST_FURNACE, "Combustion Furnace", "A Combustion Furnace", "This block is a MultiBlock structure that can be used to create Combustion Recipes.", "For testing purposes only so far.");

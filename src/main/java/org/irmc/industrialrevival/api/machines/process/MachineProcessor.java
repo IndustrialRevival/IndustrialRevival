@@ -13,13 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MachineProcessor<T extends IOperation> {
     private final Map<Location, T> ALL_MACHINES = new ConcurrentHashMap<>();
     private @Getter
-    final ProcessorHolder<T> holder;
-    private @Getter
     @Setter ItemStack progressBarItem;
-
-    public MachineProcessor(ProcessorHolder<T> holder) {
-        this.holder = holder;
-    }
 
     public void startProcess(Location location, T operation) {
         ALL_MACHINES.put(location, operation);

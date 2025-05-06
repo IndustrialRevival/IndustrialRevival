@@ -5,23 +5,16 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.irmc.industrialrevival.api.elements.ElementType;
-import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
-import org.irmc.industrialrevival.api.elements.compounds.ChemicalFormula;
-import org.irmc.industrialrevival.api.elements.compounds.Element;
-import org.irmc.industrialrevival.api.items.ElementOre;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.implementation.groups.IRItemGroups;
 import org.irmc.industrialrevival.implementation.items.chemistry.OreDust;
 import org.irmc.industrialrevival.utils.KeyUtil;
-import org.irmc.industrialrevival.utils.TextUtil;
 import org.irmc.pigeonlib.items.CustomItemStack;
-
-import java.util.Map;
 
 @UtilityClass
 public class ElementOreDusts {
     private static boolean LOADED = false;
-    public static void register() {
+    public static void setup() {
         if (LOADED) {
             return;
         }
@@ -41,7 +34,7 @@ public class ElementOreDusts {
 
     public static IndustrialRevivalItem of(ElementType elementType) {
         if (!LOADED) {
-            register();
+            setup();
         }
         return IndustrialRevivalItem.getById(KeyUtil.customKey(elementType.name().toUpperCase() + "_ORE_DUST"));
     }
