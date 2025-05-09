@@ -20,7 +20,11 @@ import org.irmc.industrialrevival.implementation.items.debug.Container;
 import org.irmc.industrialrevival.implementation.items.debug.DebugHead;
 import org.irmc.industrialrevival.implementation.items.debug.Debugger;
 import org.irmc.industrialrevival.implementation.items.debug.Empty;
+import org.irmc.industrialrevival.implementation.items.machines.ElectrolyticMachine;
+import org.irmc.industrialrevival.implementation.items.register.ChemicalCompoundSetup;
+import org.irmc.industrialrevival.implementation.items.register.ElementOreDusts;
 import org.irmc.industrialrevival.implementation.items.register.ElementOres;
+import org.irmc.industrialrevival.implementation.items.register.GasJars;
 import org.irmc.industrialrevival.implementation.multiblock.BlastFurnace;
 import org.irmc.industrialrevival.implementation.multiblock.BlastSmeltery;
 import org.irmc.industrialrevival.implementation.multiblock.CokeOven;
@@ -29,6 +33,7 @@ import org.irmc.industrialrevival.implementation.multiblock.ProfessionalLaborato
 import org.irmc.industrialrevival.implementation.multiblock.ResearchTable;
 import org.irmc.industrialrevival.implementation.multiblock.WoodenPress;
 import org.irmc.industrialrevival.utils.KeyUtil;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * This class is responsible for registering all the items of Industrial Revival.
@@ -215,7 +220,7 @@ public class IndustrialRevivalItemSetup {
 
     public static final BasicMachine TEST_MACHINE = new BasicMachine() {
         @Override
-        public Component getItemName() {
+        public @NotNull Component getItemName() {
             return Component.text("Test Machine");
         }
     }
@@ -225,6 +230,17 @@ public class IndustrialRevivalItemSetup {
             .cast(BasicMachine.class)
             .addRecipe(new MachineRecipe(10, 1, new ItemStack(Material.STONE), new ItemStack(Material.DIAMOND)))
             .cast(BasicMachine.class);
+
+    public static final ElectrolyticMachine ELECTROLYTIC_MACHINE = new ElectrolyticMachine() {
+        @Override
+        public @NotNull Component getItemName() {
+            return Component.text("Electrolytic Machine");
+        }
+    }
+            .itemGroup(IRItemGroups.DEBUG)
+            .id("electrolytic_machine")
+            .icon(IndustrialRevivalItems.ELECTROLYTIC_MACHINE)
+            .cast(ElectrolyticMachine.class);
 
     public static void setup() {
         EMPTY.register();
@@ -241,7 +257,11 @@ public class IndustrialRevivalItemSetup {
         BLAST_SMELTERY.register();
         TEST_MODEL.register();
         TEST_PRODUCT.register();
-        ElementOres.register();
+        ElementOres.setup();
+        ElementOreDusts.setup();
+        GasJars.setup();
+        ChemicalCompoundSetup.setup();
         TEST_MACHINE.register();
+        ELECTROLYTIC_MACHINE.register();
     }
 }

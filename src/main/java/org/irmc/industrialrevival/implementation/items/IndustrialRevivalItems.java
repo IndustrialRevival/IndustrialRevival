@@ -174,4 +174,5 @@ public class IndustrialRevivalItems {
     public static final ItemStack TEST_MODEL = new CustomItemStack(Material.IRON_INGOT).getBukkit();
     public static final ItemStack TEST_PRODUCT = new CustomItemStack(Material.IRON_INGOT).getBukkit();
     public static final ItemStack TEST_MACHINE = new CustomItemStack(Material.IRON_BLOCK).getBukkit();
+    public static final ItemStack ELECTROLYTIC_MACHINE = new CustomItemStack(Material.GOLD_BLOCK).getBukkit();
 }
