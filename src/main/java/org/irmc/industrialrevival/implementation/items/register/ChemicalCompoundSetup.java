@@ -17,7 +17,7 @@ import java.util.Map;
 public class ChemicalCompoundSetup {
     public static final Map<ChemicalCompound, Solution> solutions = new HashMap<>();
     public static void setup() {
-        new FoliaLib(IndustrialRevival.getInstance()).getScheduler().runAsync(task -> {
+        IndustrialRevival.getInstance().getFoliaLibImpl().runAsync(_ -> {
             ChemicalCompound.ALL_CHEMICALS.forEach(chemicalCompound -> {
                 var item = new Solution()
                         .addon(IndustrialRevival.getInstance())
@@ -34,11 +34,11 @@ public class ChemicalCompoundSetup {
                 solutions.put(chemicalCompound, item);
             });
 
-            IRRegistry.getInstance().getChemicalFormulas().values().forEach(formula -> {
-                formula.getOutput().keySet().forEach(compound -> {
-                    solutions.get(compound).recipe(new ChemicalMethod(formula));
-                });
-            });
+            IRRegistry.getInstance().getChemicalFormulas().values().forEach(formula ->
+                    formula.getOutput().keySet().forEach(compound ->
+                            solutions.get(compound).recipe(new ChemicalMethod(formula))
+                    )
+            );
         });
     }
 }

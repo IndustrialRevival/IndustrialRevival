@@ -385,6 +385,13 @@ public class ChemicalCompounds {
     public static @NotNull ChemicalCompound N2 = new ChemicalCompound("N2", Map.of(
             new Element(ElementType.NITROGEN), 2D
     ));
+    public static @NotNull ChemicalCompound Cl2 = new ChemicalCompound("Cl2", Map.of(
+            new Element(ElementType.CHLORINE), 2D
+    ));
+    public static @NotNull ChemicalCompound NO2 = new ChemicalCompound("NO2", Map.of(
+            new Element(ElementType.NITROGEN), 1D,
+            new Element(ElementType.OXYGEN), 2D
+    ));
     public static @NotNull ChemicalCompound NH3 = new ChemicalCompound("NH3", Map.of(
             new Element(ElementType.NITROGEN), 1D,
             new Element(ElementType.HYDROGEN), 3D

@@ -14,19 +14,14 @@ import io.papermc.paper.plugin.configuration.PluginMeta;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.elements.compounds.ChemicalFormulas;
 import org.irmc.industrialrevival.api.objects.ItemSettings;
-import org.irmc.industrialrevival.api.objects.events.ir.IndustrialRevivalFinalizedEvent;
 import org.irmc.industrialrevival.core.command.IRCommandGenerator;
-import org.irmc.industrialrevival.core.data.IDataManager;
-import org.irmc.industrialrevival.core.data.impl.MysqlDataManager;
-import org.irmc.industrialrevival.core.data.impl.PostgreSQLDataManager;
-import org.irmc.industrialrevival.core.data.impl.SqliteDataManager;
+import org.irmc.industrialrevival.core.data.IRDataManager;
 import org.irmc.industrialrevival.core.managers.ListenerManager;
 import org.irmc.industrialrevival.core.services.BlockDataService;
 import org.irmc.industrialrevival.core.services.IRRegistry;
@@ -48,10 +43,7 @@ import org.irmc.pigeonlib.language.LanguageManager;
 import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
@@ -62,7 +54,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     private @Getter IRRegistry registry;
     private @Getter LanguageManager languageManager;
     private @Getter ListenerManager listenerManager;
-    private @Getter IDataManager dataManager;
+    private @Getter IRDataManager dataManager;
     private @Getter ItemTextureService itemTextureService;
     private @Getter BlockDataService blockDataService;
     private @Getter ItemDataService itemDataService;
@@ -155,39 +147,12 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     }
 
     private void setupDataManager() {
-        FileConfiguration config = getConfig();
-        String storageType = config.getString("storage.type", "sqlite");
-        File sqliteDbFile = Constants.Files.SQLITE_DB_FILE;
-
         if (!Constants.Files.STORAGE_FOLDER.exists()) {
             Constants.Files.STORAGE_FOLDER.mkdirs();
         }
 
-        if (storageType.equalsIgnoreCase("sqlite")) {
-            this.dataManager = new SqliteDataManager(sqliteDbFile);
-        } else if (storageType.equalsIgnoreCase("mysql")) {
-            String host = config.getString("storage.mysql.host");
-            int port = config.getInt("storage.mysql.port");
-            String username = config.getString("storage.mysql.username");
-            String password = config.getString("storage.mysql.password");
-            this.dataManager = new MysqlDataManager(host + ":" + port, username, password);
-        } else if (storageType.equalsIgnoreCase("postgres")) {
-            String host = config.getString("storage.mysql.host");
-            int port = config.getInt("storage.mysql.port");
-            String username = config.getString("storage.mysql.username");
-            String password = config.getString("storage.mysql.password");
-            this.dataManager = new PostgreSQLDataManager(host + ":" + port, username, password);
-        } else {
-            getLogger().log(Level.SEVERE, "Unsupported storage type: " + storageType + ", using sqlite instead.");
-
-            this.dataManager = new SqliteDataManager(sqliteDbFile);
-        }
-
-        try {
-            dataManager.createTables();
-        } catch (SQLException e) {
-            getLogger().log(Level.SEVERE, "Failed to create tables in database. The plugin will not work properly.", e);
-        }
+        dataManager = new IRDataManager(this);
+        dataManager.init();
     }
 
     private void setupTasks() {

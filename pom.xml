@@ -63,10 +63,6 @@
                             <pattern>io.papermc.lib</pattern>
                             <shadedPattern>org.irmc.industrialrevival.libraries.paperlib</shadedPattern>
                         </relocation>
-                        <relocation>
-                            <pattern>org.jooq</pattern>
-                            <shadedPattern>org.irmc.industrialrevival.libraries.jooq</shadedPattern>
-                        </relocation>
                     </relocations>
                 </configuration>
             </plugin>
@@ -175,7 +171,7 @@
         <dependency>
             <groupId>dev.jorel</groupId>
             <artifactId>commandapi-bukkit-shade</artifactId>
-            <version>9.7.0</version>
+            <version>10.0.1</version>
             <scope>compile</scope>
         </dependency>
 
@@ -189,10 +185,11 @@
 
         <!-- Database -->
         <dependency>
-            <groupId>org.jooq</groupId>
-            <artifactId>jooq</artifactId>
-            <version>3.19.16</version>
-            <scope>compile</scope>
+            <groupId>io.github.linsminecraftstudio.mxlib</groupId>
+            <artifactId>mx-database</artifactId>
+            <version>1.0.8.5</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/mx-database-1.0.8.5.jar</systemPath>
         </dependency>
 
         <!-- Testing dependencies -->

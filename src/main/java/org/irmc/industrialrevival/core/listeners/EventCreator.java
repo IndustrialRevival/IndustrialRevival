@@ -37,7 +37,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
-import org.irmc.industrialrevival.api.menu.IRInventoryHolder;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.api.objects.events.vanilla.BlockExplodeIRBlockEvent;
@@ -98,7 +97,6 @@ public class EventCreator implements Listener {
 
         for (BlockExplodeIRBlockEvent event : events) {
             Bukkit.getServer().getPluginManager().callEvent(event);
-            
         }
     }
 

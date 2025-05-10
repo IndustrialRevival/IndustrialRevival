@@ -1,22 +1,22 @@
 # the language to use for default messages
-# you don't need to type .yml extension in the end!
+# don't need to type .yml extension in the end.
 language: zh-CN
 
 # whether to detect the player's locale and use the corresponding language file
-# if set to false, the default language file will be used
+# if set to false, the default language file will be used.
 detect-player-locale: false
 
 options:
   armor-check-interval: 20
 
 storage:
-  # the type of storage to use
-  # usable types: sqlite, mysql, postgres
+  # the storage to use
+  # usable types: sqlite, mysql, mariadb
   # sqlite db file location: server_root/irstorage/database.db
   type: sqlite
   max-connections: 10
   # the connection information for the database server
-  # only needed if the type is mysql or postgres
+  # only needed if the type is mysql or mariadb.
   remote:
     # the host of the database server
     host: localhost

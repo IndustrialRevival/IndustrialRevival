@@ -4,6 +4,8 @@ main: org.irmc.industrialrevival.implementation.IndustrialRevival
 api-version: '1.21.4'
 authors: [ mmmjjkx, balugaq and IndustrialRevival community ]
 website: "https://github.com/IndustrialRevival/IndustrialRevival"
+libraries:
+  - "io.github.linsminecraftstudio.mxlib:mx-database:1.0.8.5"
 permissions:
   industrialrevival.cmd.guide:
     description: get the guide of IndustrialRevival

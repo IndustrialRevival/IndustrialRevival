@@ -3,9 +3,10 @@ package org.irmc.industrialrevival.api.objects;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.configuration.ConfigurationSection;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
+import org.irmc.industrialrevival.core.data.IRDataManager;
 import org.irmc.industrialrevival.utils.DataUtil;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -32,7 +33,7 @@ public class IRBlockData {
     private final NamespacedKey id;
 
     @ApiStatus.Experimental
-    private final YamlConfiguration config;
+    private final ConfigurationSection config;
 
     @Nullable
     private final MachineMenu machineMenu;
@@ -40,7 +41,8 @@ public class IRBlockData {
     private final Location location;
     private final Map<String, String> data = new HashMap<>();
 
-    public IRBlockData(NamespacedKey id, Location location, @NotNull YamlConfiguration config, @Nullable MachineMenu menu) {
+    @ApiStatus.Internal
+    public IRBlockData(NamespacedKey id, Location location, @NotNull ConfigurationSection config, @Nullable MachineMenu menu) {
         this.id = id;
         this.location = location;
         this.config = config;

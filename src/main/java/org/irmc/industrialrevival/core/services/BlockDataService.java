@@ -1,12 +1,14 @@
 package org.irmc.industrialrevival.core.services;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
-import org.irmc.industrialrevival.core.data.object.BlockRecord;
+import org.irmc.industrialrevival.core.data.BlockRecord;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 
 import java.util.HashMap;
@@ -27,9 +29,9 @@ public class BlockDataService {
                 IndustrialRevival.getInstance().getDataManager().getAllBlockRecords();
         for (BlockRecord record : records) {
             Location loc = record.getLocation();
-            YamlConfiguration config =
+            ConfigurationSection config =
                     IndustrialRevival.getInstance().getDataManager().getBlockData(loc);
-            blockDataMap.put(loc, new IRBlockData(record.machineId(), record.getLocation(), config, null));
+            blockDataMap.put(loc, new IRBlockData(record.getMachineId(), record.getLocation(), config, null));
         }
     }
 
@@ -40,28 +42,36 @@ public class BlockDataService {
     public void handleBlockPlacing(Location loc, NamespacedKey machineId) {
         YamlConfiguration configuration = new YamlConfiguration();
         MachineMenuPreset preset = IndustrialRevival.getInstance().getRegistry().getMenuPresets().get(machineId);
-        MachineMenu menu = new MachineMenu(loc, preset);
+
+        MachineMenu menu = null;
+        if (preset != null) {
+            menu = new MachineMenu(loc, preset);
+            preset.newInstance(loc.getBlock(), menu);
+        }
+
         IRBlockData blockData = new IRBlockData(machineId, loc, configuration, menu);
         blockDataMap.put(loc, blockData);
-        preset.newInstance(loc.getBlock(), menu);
     }
 
-    public void handleBlockBreaking(Location loc) {
-        blockDataMap.remove(loc);
+    @CanIgnoreReturnValue
+    public IRBlockData handleBlockBreaking(Location loc) {
+        return blockDataMap.remove(loc);
     }
 
     public void saveAllData() {
         for (IRBlockData data : blockDataMap.values()) {
-            String dataString = data.getConfig().saveToString();
+            String dataString = ((YamlConfiguration) data.getData()).saveToString();
             Location location = data.getLocation();
+
             BlockRecord blockRecord = new BlockRecord(
+                    data.getId().toString(),
                     location.getWorld().getName(),
                     location.getBlockX(),
                     location.getBlockY(),
                     location.getBlockZ(),
-                    data.getId().toString(),
                     dataString);
-            IndustrialRevival.getInstance().getDataManager().updateBlockData(data.getLocation(), blockRecord);
+
+            IndustrialRevival.getInstance().getDataManager().saveBlockRecord(blockRecord);
         }
         blockDataMap.clear();
     }

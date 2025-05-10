@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.irmc.industrialrevival.core.guide.GuideHistory;
 import org.irmc.industrialrevival.core.guide.GuideSettings;
@@ -95,12 +96,12 @@ public class PlayerProfile {
 
         UUID playerUUID = player.getUniqueId();
 
-        GuideSettings guideSettings =
-                IndustrialRevival.getInstance().getDataManager().getGuideSettings(name);
+        GuideSettings guideSettings = GuideSettings.DEFAULT_SETTINGS;
+                //IndustrialRevival.getInstance().getDataManager().getGuideSettings(name);
 
         Map<NamespacedKey, Boolean> researchStatus = new HashMap<>();
-        ConfigurationSection researchStatusYml =
-                IndustrialRevival.getInstance().getDataManager().getResearchStatus(name);
+        ConfigurationSection researchStatusYml = new YamlConfiguration();
+                //IndustrialRevival.getInstance().getDataManager().getResearchStatus(name);
 
         researchStatusYml.getKeys(false).forEach(entry -> {
             NamespacedKey key = NamespacedKey.fromString(entry);

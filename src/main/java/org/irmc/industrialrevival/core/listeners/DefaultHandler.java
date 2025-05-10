@@ -99,7 +99,6 @@ public class DefaultHandler implements Listener {
         NamespacedKey id = event.getIritem().getId();
 
         //IndustrialRevival.getInstance().getItemTextureService().blockPlacing(event);
-        IndustrialRevival.getInstance().getDataManager().handleBlockPlacing(location, id);
         IndustrialRevival.getInstance().getBlockDataService().handleBlockPlacing(location, id);
     }
 

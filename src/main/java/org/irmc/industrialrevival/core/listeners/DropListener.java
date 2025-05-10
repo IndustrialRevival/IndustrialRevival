@@ -58,9 +58,6 @@ public class DropListener implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
         Block block = e.getBlock();
-        if (block == null) {
-            return;
-        }
         Material material = block.getType();
         Location location = block.getLocation();
         World world = location.getWorld();

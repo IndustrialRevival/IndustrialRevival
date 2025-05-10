@@ -20,7 +20,7 @@ public class GasJars {
         }
         LOADED = true;
         for (ElementType elementType : ElementType.values()) {
-            Component name = Component.translatable("item.industrial_revival." + elementType.name().toLowerCase() + ".name", "Unnamed Element Ore Dust").color(TextColor.color(167778));
+            Component name = Component.translatable("item.industrial_revival." + elementType.name().toLowerCase() + ".name", "Unnamed Gas In Jar").color(TextColor.color(167778));
             if (elementType.isGas()) {
                 new GasJar()
                         .elementType(elementType)
@@ -36,6 +36,6 @@ public class GasJars {
         if (!LOADED) {
             setup();
         }
-        return IndustrialRevivalItem.getById(KeyUtil.customKey(elementType.name().toUpperCase() + "_ORE_DUST"));
+        return IndustrialRevivalItem.getById(KeyUtil.customKey(elementType.name().toUpperCase() + "_GAS_JAR"));
     }
 }
