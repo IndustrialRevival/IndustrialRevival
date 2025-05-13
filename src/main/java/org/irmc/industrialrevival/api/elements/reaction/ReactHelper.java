@@ -49,12 +49,26 @@ public class ReactHelper {
 
     /**
      * React the reactables with the conditions
-     * @param conditions the conditions of the reaction
-     * @param reactables the reactables to react
+     * @param conditions     the conditions of the reaction
+     * @param reactables     the reactables to react
+     * @return the produce of the reaction
+     */
+    public static ReactResult react(ReactCondition[] conditions, Map<ChemReactable, ItemStack> reactables) {
+        Map<ChemicalCompound, Double> currentMasses = new HashMap<>();
+        for (ChemReactable reactable : reactables.keySet()) {
+            currentMasses.put(reactable.getChemicalCompound(reactables.get(reactable)), reactable.getMass(reactables.get(reactable)));
+        }
+        return react0(conditions, currentMasses);
+    }
+
+    /**
+     * React the reactables with the conditions
+     * @param conditions     the conditions of the reaction
+     * @param currentMasses  the masses of the reactants
      * @return the produce of the reaction
      */
     @NotNull
-    public static ReactResult react(ReactCondition[] conditions, Map<ChemReactable, ItemStack> reactables) {
+    public static ReactResult react0(ReactCondition[] conditions, Map<ChemicalCompound, Double> currentMasses) {
         List<ChemicalFormula> formulas = new ArrayList<>(IRRegistry.getInstance().getChemicalFormulas().values());
 
         // shuffle the formulas, ensure that every reaction occurs uniformly
@@ -64,15 +78,9 @@ public class ReactHelper {
                 continue;
             }
 
-            Set<ChemicalCompound> current = reactables.entrySet().stream()
-                    .map(entry -> entry.getKey().getChemicalCompound(entry.getValue()))
-                    .collect(Collectors.toSet());
-            if (!inputsSatisfied(formula.getInput(), current)) {
+            if (!inputsSatisfied(formula.getInput(), currentMasses.keySet())) {
                 continue;
             }
-
-            Map<ChemicalCompound, Double> currentMasses = reactables.entrySet().stream()
-                    .collect(Collectors.toMap(entry -> entry.getKey().getChemicalCompound(entry.getValue()), entry -> entry.getKey().getMass(entry.getValue())));
 
             return calculateOutput(conditions, currentMasses, formula);
         }
