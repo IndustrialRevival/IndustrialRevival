@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
+import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompounds;
 import org.irmc.industrialrevival.api.elements.compounds.ChemicalFormula;
 import org.irmc.industrialrevival.api.elements.compounds.CompoundContainerHolder;
 import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
@@ -31,14 +32,12 @@ import org.irmc.pigeonlib.items.CustomItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -63,6 +62,22 @@ public class ElectrolyticMachine extends ElectricMachine {
                 recipes.add(new MachineRecipe(0, 0, asRawItemLevel(formula.getInput()), asRawItemLevel(formula.getOutput())));
             }
         });
+
+        decomposers.put(new ItemStack(Material.DIRT), new Decomposer(
+                asItemLevel(ChemicalCompounds.Al2O3), 1,
+                asItemLevel(ChemicalCompounds.Fe2O3), 1,
+                asItemLevel(ChemicalCompounds.CaCO3), 1,
+                asItemLevel(ChemicalCompounds.H2O), 1,
+                asItemLevel(ChemicalCompounds.N2), 1,
+                asItemLevel(ChemicalCompounds.CO2), 1,
+                asItemLevel(ChemicalCompounds.O2), 1
+        ));
+        decomposers.put(new ItemStack(Material.POTION), new Decomposer(
+                asItemLevel(ChemicalCompounds.H2O), 1
+        ));
+        decomposers.put(new ItemStack(Material.WATER_BUCKET), new Decomposer(
+                asItemLevel(ChemicalCompounds.H2O), 1
+        ));
     }
 
     @Override
@@ -203,6 +218,7 @@ public class ElectrolyticMachine extends ElectricMachine {
 
     public void decompose(MachineMenu menu) {
         // decompose DIRT -> Al2O3, Fe2O3, CaCO3, H2O, N2, CO2, O2
+        // decompose WATER_BOTTLE, WATER_BUCKET -> H2O
         for (var slot : getInputSlots()) {
             var item = menu.getItem(slot);
             if (item == null || item.getType() == Material.AIR) {

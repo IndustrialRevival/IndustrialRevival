@@ -239,6 +239,26 @@ public class ChemicalCompounds {
             new Element(ElementType.CALCIUM), 1D,
             new Element(ElementType.OXYGEN), 1D
     ));
+    public static @NotNull ChemicalCompound FeO = new OxideCompound("FeO", Map.of(
+            new Element(ElementType.IRON), 1D,
+            new Element(ElementType.OXYGEN), 1D
+    ));
+    public static @NotNull ChemicalCompound Fe2O3 = new OxideCompound("Fe2O3", Map.of(
+            new Element(ElementType.IRON), 2D,
+            new Element(ElementType.OXYGEN), 3D
+    ));
+    public static @NotNull ChemicalCompound Fe3O4 = new OxideCompound("Fe3O4", Map.of(
+            new Element(ElementType.IRON), 3D,
+            new Element(ElementType.OXYGEN), 4D
+    ));
+    public static @NotNull ChemicalCompound Al2O3 = new OxideCompound("Al2O3", Map.of(
+            new Element(ElementType.ALUMINIUM), 2D,
+            new Element(ElementType.OXYGEN), 3D
+    ));
+    public static @NotNull ChemicalCompound MnO = new OxideCompound("MnO", Map.of(
+            new Element(ElementType.MANGANESE), 1D,
+            new Element(ElementType.OXYGEN), 1D
+    ));
     //</editor-fold>
 
     //<editor-fold desc="SO4s">
