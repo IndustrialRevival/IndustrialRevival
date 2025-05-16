@@ -31,6 +31,7 @@ import org.irmc.industrialrevival.api.recipes.methods.MobDropMethod;
 import org.irmc.industrialrevival.api.recipes.methods.ProduceMethod;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -55,6 +56,7 @@ public final class IRRegistry {
     private final Map<NamespacedKey, MachineMenuPreset> menuPresets;
     private final Map<NamespacedKey, IndustrialRevivalItem> items;
     private final Map<NamespacedKey, ChemReactable> chemReactables;
+    @ApiStatus.Experimental
     private final Map<ChemReactable, ChemicalCompound> bindingCompounds;
     private final Map<String, PlayerProfile> playerProfiles;
 
@@ -335,10 +337,12 @@ public final class IRRegistry {
         chemReactables.remove(reactable.getKey());
     }
 
+    @ApiStatus.Experimental
     public void bindChemicalCompound(@NotNull ChemReactable reactable, @NotNull ChemicalCompound compound) {
         bindingCompounds.put(reactable, compound);
     }
 
+    @ApiStatus.Experimental
     public void unbindChemicalCompound(@NotNull ChemReactable reactable) {
         bindingCompounds.remove(reactable);
     }

@@ -6,10 +6,11 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
+import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompounds;
 import org.irmc.industrialrevival.api.elements.compounds.ChemicalFormula;
+import org.irmc.industrialrevival.api.elements.compounds.CompoundContainerHolder;
 import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
 import org.irmc.industrialrevival.api.elements.reaction.ReactHelper;
 import org.irmc.industrialrevival.api.elements.reaction.ReactResult;
@@ -18,16 +19,10 @@ import org.irmc.industrialrevival.api.items.attributes.ChemReactable;
 import org.irmc.industrialrevival.api.machines.ElectricMachine;
 import org.irmc.industrialrevival.api.machines.process.IOperation;
 import org.irmc.industrialrevival.api.machines.process.MachineProcessor;
-import org.irmc.industrialrevival.api.elements.compounds.ChemicalFormulas;
-import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
-import org.irmc.industrialrevival.api.elements.reaction.ReactHelper;
-import org.irmc.industrialrevival.api.elements.reaction.ReactResult;
-import org.irmc.industrialrevival.api.machines.ElectricMachine;
-import org.irmc.industrialrevival.api.machines.process.IOperation;
-import org.irmc.industrialrevival.api.machines.process.MachineOperation;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipe;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.menu.MatrixMenuDrawer;
+import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.objects.events.ir.BlockTickEvent;
 import org.irmc.industrialrevival.core.services.IRRegistry;
 import org.irmc.industrialrevival.implementation.items.chemistry.Solution;
@@ -38,17 +33,26 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+/**
+ * ItemStack -> Internal Data -> ItemStack
+ * @author balugaq
+ */
 public class ElectrolyticMachine extends ElectricMachine {
+    public static final double THRESHOLD = 1e-4;
+    public static final CompoundContainerHolder cch = new CompoundContainerHolder();
     public static final Map<ItemStack, Decomposer> decomposers = new HashMap<>();
     public static final ItemStack STATUS_ICON = new CustomItemStack(
             Material.RED_STAINED_GLASS_PANE,
             "&cRunning Status"
     ).getBukkit();
-  
+
     public static final List<MachineRecipe> recipes = new ArrayList<>();
     public static final MachineProcessor<ElectrolyticOperation> processor = new MachineProcessor<>();
 
@@ -58,6 +62,22 @@ public class ElectrolyticMachine extends ElectricMachine {
                 recipes.add(new MachineRecipe(0, 0, asRawItemLevel(formula.getInput()), asRawItemLevel(formula.getOutput())));
             }
         });
+
+        decomposers.put(new ItemStack(Material.DIRT), new Decomposer(
+                asItemLevel(ChemicalCompounds.Al2O3), 1,
+                asItemLevel(ChemicalCompounds.Fe2O3), 1,
+                asItemLevel(ChemicalCompounds.CaCO3), 1,
+                asItemLevel(ChemicalCompounds.H2O), 1,
+                asItemLevel(ChemicalCompounds.N2), 1,
+                asItemLevel(ChemicalCompounds.CO2), 1,
+                asItemLevel(ChemicalCompounds.O2), 1
+        ));
+        decomposers.put(new ItemStack(Material.POTION), new Decomposer(
+                asItemLevel(ChemicalCompounds.H2O), 1
+        ));
+        decomposers.put(new ItemStack(Material.WATER_BUCKET), new Decomposer(
+                asItemLevel(ChemicalCompounds.H2O), 1
+        ));
     }
 
     @Override
@@ -111,10 +131,33 @@ public class ElectrolyticMachine extends ElectricMachine {
         return lore;
     }
 
+
+    public void input(MachineMenu menu) {
+        var map = asDataLevel(menu, getInputSlots());
+        cch.mix(menu.getLocation(), map);
+    }
+
+    public void output(MachineMenu menu, Set<ChemicalCompound> take) {
+        if (take.isEmpty()) {
+            return;
+        }
+
+        var all = cch.getOrNew(menu.getLocation()).getMixed();
+        var fixed = all.entrySet().stream()
+                .filter(entry -> take.contains(entry.getKey()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+        var items = asItemLevel(fixed);
+        cch.clear(menu.getLocation(), take);
+        menu.pushItem(items, getOutputSlots());
+    }
+
     @Override
     public void tick(@NotNull BlockTickEvent event) {
         var menu = event.getMenu();
+
         decompose(menu);
+        input(menu);
 
         var current = getProcessor0().getProcess(menu.getLocation());
         if (current == null) {
@@ -124,18 +167,29 @@ public class ElectrolyticMachine extends ElectricMachine {
                 updateMenu(menu);
             }
         } else {
-            // 将输入槽的东西转为数据层，并清空
-            var map = asDataLevel(menu, getInputSlots());
-            for (var entry : current.consume.entrySet()) {
-                map.replace(entry.getKey(), map.get(entry.getKey()) - entry.getValue());
-            }
-            for (var entry : current.produce.entrySet()) {
-                map.replace(entry.getKey(), map.get(entry.getKey()) + entry.getValue());
+            Set<ChemicalCompound> take = new HashSet<>();
+            double sum = 0D;
+            for (var d : current.getProduce().values()) {
+                sum += d;
             }
 
-            // 重新输出
-            var items = asItemLevel(map);
-            menu.pushItem(items, getOutputSlots());
+            if (sum < THRESHOLD) {
+                take.addAll(current.getProduce().keySet());
+
+                ChemicalCompound maxConsumed = null;
+                double maxConsumedValue = Double.MAX_VALUE;
+                for (var entry :current.getConsume().entrySet()) {
+                    var value = entry.getValue();
+                    if (value < maxConsumedValue) {
+                        maxConsumed = entry.getKey();
+                        maxConsumedValue = value;
+                    }
+                }
+
+                take.add(maxConsumed);
+            }
+
+            output(menu, take);
         }
     }
 
@@ -164,6 +218,7 @@ public class ElectrolyticMachine extends ElectricMachine {
 
     public void decompose(MachineMenu menu) {
         // decompose DIRT -> Al2O3, Fe2O3, CaCO3, H2O, N2, CO2, O2
+        // decompose WATER_BOTTLE, WATER_BUCKET -> H2O
         for (var slot : getInputSlots()) {
             var item = menu.getItem(slot);
             if (item == null || item.getType() == Material.AIR) {
@@ -278,7 +333,7 @@ public class ElectrolyticMachine extends ElectricMachine {
         return itemStack;
     }
 
-    public static Map<ChemicalCompound, Double> asDataLevel(MachineMenu menu, int[] inputSlots) {
+    public static Map<ChemicalCompound, Double> asDataLevel(SimpleMenu menu, int[] inputSlots) {
         Map<ChemicalCompound, Double> map = new HashMap<>();
         for (int slot : inputSlots) {
             var item = menu.getItem(slot);
