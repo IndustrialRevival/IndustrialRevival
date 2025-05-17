@@ -71,6 +71,26 @@ public class MatrixMenuDrawer implements Cloneable {
         return this;
     }
 
+    /**
+     * Adds a line to the menu matrix
+     * @param c Matrix character to define
+     * @param comment hard coded comment for reviewers
+     * @return This drawer instance for chaining
+     */
+    public MatrixMenuDrawer addExplain(char c, @NotNull String comment) {
+        return this;
+    }
+
+    /**
+     * Adds a line to the menu matrix
+     * @param s String representing menu row (should match inventory row length)
+     * @param comment hard coded comment for reviewers
+     * @return This drawer instance for chaining
+     */
+    public MatrixMenuDrawer addExplain(String s, @NotNull String comment) {
+        return this;
+    }
+
 
     /**
      * Maps character to menu item without click handler

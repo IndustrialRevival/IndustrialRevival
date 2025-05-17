@@ -64,19 +64,19 @@ public class ElectrolyticMachine extends ElectricMachine {
         });
 
         decomposers.put(new ItemStack(Material.DIRT), new Decomposer(
-                asItemLevel(ChemicalCompounds.Al2O3), 1,
-                asItemLevel(ChemicalCompounds.Fe2O3), 1,
-                asItemLevel(ChemicalCompounds.CaCO3), 1,
-                asItemLevel(ChemicalCompounds.H2O), 1,
-                asItemLevel(ChemicalCompounds.N2), 1,
-                asItemLevel(ChemicalCompounds.CO2), 1,
-                asItemLevel(ChemicalCompounds.O2), 1
+                ChemicalCompounds.Al2O3, 1,
+                ChemicalCompounds.Fe2O3, 1,
+                ChemicalCompounds.CaCO3, 1,
+                ChemicalCompounds.H2O, 1,
+                ChemicalCompounds.N2, 1,
+                ChemicalCompounds.CO2, 1,
+                ChemicalCompounds.O2, 1
         ));
         decomposers.put(new ItemStack(Material.POTION), new Decomposer(
-                asItemLevel(ChemicalCompounds.H2O), 1
+                ChemicalCompounds.H2O, 1
         ));
         decomposers.put(new ItemStack(Material.WATER_BUCKET), new Decomposer(
-                asItemLevel(ChemicalCompounds.H2O), 1
+                ChemicalCompounds.H2O, 1
         ));
     }
 
@@ -89,14 +89,7 @@ public class ElectrolyticMachine extends ElectricMachine {
                 .addLine("iiiiiiiii")
                 .addExplain("A", "Input and output border", MenuUtil.INPUT_AND_OUTPUT_BORDER)
                 .addExplain("S", "Status", STATUS_ICON)
-                .addExplain("i", "Item slot", new ItemStack(Material.AIR), (player, clicked, _, _, _) -> {
-                    var cursor = player.getItemOnCursor();
-                    if (clicked != null && clicked.getType() != Material.AIR) {
-                        return false;
-                    } else {
-                        return IndustrialRevivalItem.getByItem(cursor) instanceof ChemReactable;
-                    }
-                });
+                .addExplain("i", "Item slot");
     }
 
     @NotNull
@@ -225,10 +218,10 @@ public class ElectrolyticMachine extends ElectricMachine {
                 continue;
             }
             
-            var decomposer = decomposers.get(item);
+            var decomposer = decomposers.get(item.asOne());
             if (decomposer != null) {
-                var outputs = decomposer.decompose();
-                MenuUtil.pushItem(menu, outputs, getOutputSlots());
+                decomposer.decompose(cch, menu.getLocation());
+                item.setAmount(item.getAmount() - 1);
             }
         }
     }
@@ -272,17 +265,17 @@ public class ElectrolyticMachine extends ElectricMachine {
 
     @Data
     public static class Decomposer {
-        private final Map<ItemStack, Double> weights;
-        public Decomposer(ItemStack output, double weight) {
+        private final Map<ChemicalCompound, Double> weights;
+        public Decomposer(ChemicalCompound output, double weight) {
             this(output, (Object) weight);
         }
 
         public Decomposer(Object... args) {
             double totalWeight = 0;
-            Map<ItemStack, Double> map = new HashMap<>();
+            Map<ChemicalCompound, Double> map = new HashMap<>();
             for (int i = 0; i < args.length; i += 2) {
-                if (args[i] instanceof ItemStack itemStack && args[i + 1] instanceof Double weight) {
-                    map.put(itemStack, weight);
+                if (args[i] instanceof ChemicalCompound compound && args[i + 1] instanceof Double weight) {
+                    map.put(compound, weight);
                     totalWeight += weight;
                 }
             }
@@ -294,15 +287,13 @@ public class ElectrolyticMachine extends ElectricMachine {
             this.weights = map;
         }
 
-        public List<ItemStack> decompose() {
+        public void decompose(CompoundContainerHolder holder, Location location) {
             Random random = new Random();
-            List<ItemStack> outputs = new ArrayList<>();
             for (var entry : weights.entrySet()) {
                 if (random.nextDouble() < entry.getValue()) {
-                    outputs.add(entry.getKey());
+                    holder.mix(location, entry.getKey(), 100D);
                 }
             }
-            return outputs;
         }
     }
 

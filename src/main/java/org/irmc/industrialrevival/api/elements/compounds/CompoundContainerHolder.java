@@ -39,6 +39,10 @@ public class CompoundContainerHolder {
         return this;
     }
 
+    public CompoundContainerHolder mix(Location location, ChemicalCompound other, double mass) {
+        return mix(location, Map.of(other, mass));
+    }
+
     public CompoundContainerHolder consume(Location location, CompoundContainer other) {
         var container = getOrNew(location);
         container.consume(other);
