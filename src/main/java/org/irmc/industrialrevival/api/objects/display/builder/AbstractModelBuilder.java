@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 public abstract class AbstractModelBuilder {
     /**
      * Builds a display entity at the given location.
+     *
      * @param location the location to build the display entity at
      * @return the built display entity
      */

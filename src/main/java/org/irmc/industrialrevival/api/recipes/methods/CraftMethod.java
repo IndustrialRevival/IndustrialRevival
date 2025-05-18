@@ -30,6 +30,6 @@ public class CraftMethod implements ProduceMethod {
 
     @Override
     public ItemStack[] getOutput() {
-        return new ItemStack[] { output };
+        return new ItemStack[]{output};
     }
 }

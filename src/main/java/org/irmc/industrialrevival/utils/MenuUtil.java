@@ -428,6 +428,7 @@ public class MenuUtil {
 
     /**
      * Checks if a map of item stacks can fit into the specified slots of a SimpleMenu.
+     *
      * @param simpleMenu The SimpleMenu to check.
      * @param items      The map of item stacks and their amounts to check.
      * @param slots      The slots in the menu to check.
@@ -446,6 +447,7 @@ public class MenuUtil {
 
     /**
      * Gets a progress bar item for the specified operation.
+     *
      * @param material  The material of the progress bar.
      * @param operation The operation to generate the progress.
      * @return The progress bar item.

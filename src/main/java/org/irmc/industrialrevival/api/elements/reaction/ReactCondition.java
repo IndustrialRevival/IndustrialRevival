@@ -12,7 +12,8 @@ import org.jetbrains.annotations.Nullable;
  * It can be a simple condition like "none", "light" or "high temperature",
  * or a more complex one like "electrolysis" or "heating".
  *
- * @author lijinhong11, balugaq
+ * @author lijinhong11
+ * @author balugaq
  * @see ChemReactable
  */
 public final class ReactCondition {

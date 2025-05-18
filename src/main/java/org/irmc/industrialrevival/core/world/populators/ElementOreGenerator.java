@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
-public class ElementOreGenerator extends APopulator{
+public class ElementOreGenerator extends APopulator {
     @Override
     public boolean isReplaceable(@NotNull Material material) {
         return material == Material.STONE || material == Material.GRANITE || material == Material.DIORITE || material == Material.ANDESITE || material == Material.DEEPSLATE;

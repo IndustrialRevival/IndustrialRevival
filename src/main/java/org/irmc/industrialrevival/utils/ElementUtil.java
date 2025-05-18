@@ -24,6 +24,7 @@ public final class ElementUtil {
 
     /**
      * Returns the {@link ElementType} with the given name.
+     *
      * @param name the name of the element type to get
      * @return the element type with the given name, or null if not found
      */
@@ -34,6 +35,7 @@ public final class ElementUtil {
 
     /**
      * Returns the {@link ElementType} with the given symbol.
+     *
      * @param s the symbol of the element type to get
      * @return the element type with the given symbol, or null if not found
      */
@@ -48,6 +50,7 @@ public final class ElementUtil {
 
     /**
      * Returns the {@link ElementType} with the given mass.
+     *
      * @param mass the atomic mass of the element type to get
      * @return the element type with the given mass, or null if not found
      */
@@ -63,6 +66,7 @@ public final class ElementUtil {
 
     /**
      * Returns a list of all {@link ElementType}s with the given atomic mass range.
+     *
      * @param min the minimum atomic mass
      * @param max the maximum atomic mass
      * @return a list of all element types with the given atomic mass range
@@ -80,7 +84,8 @@ public final class ElementUtil {
 
     /**
      * Returns the {@link ElementType} with the given proton number.
-     * @param protonNumber  the proton number of the element type to get
+     *
+     * @param protonNumber the proton number of the element type to get
      * @return the element type with the given proton number, or null if not found
      */
     public static @Nullable ElementType getByProtonNumber(int protonNumber) {
@@ -94,6 +99,7 @@ public final class ElementUtil {
 
     /**
      * Returns the {@link ElementType} with the given neutron number.
+     *
      * @param neutronNumber the neutron number of the element type to get
      * @return the element type with the given neutron number, or null if not found
      */
@@ -108,6 +114,7 @@ public final class ElementUtil {
 
     /**
      * Returns a list of all {@link ElementType}s with the given valence.
+     *
      * @param valences the valences of the element types to get
      * @return a list of all {@link ElementType}s with the given valence
      * @see ElementType.Valence
@@ -124,6 +131,7 @@ public final class ElementUtil {
 
     /**
      * Returns a list of all {@link ElementType}s with the given group.
+     *
      * @param group the group of the element types to get
      * @return a list of all {@link ElementType}s with the given group
      */
@@ -139,6 +147,7 @@ public final class ElementUtil {
 
     /**
      * Returns a list of all {@link ElementType}s with the given period.
+     *
      * @param period the period of the element types to get
      * @return a list of all {@link ElementType}s with the given period
      */
@@ -154,6 +163,7 @@ public final class ElementUtil {
 
     /**
      * Returns a list of all metallic {@link ElementType}s.
+     *
      * @return a list of all metallic {@link ElementType}s
      */
     @NotNull
@@ -169,6 +179,7 @@ public final class ElementUtil {
 
     /**
      * Returns a list of all non-metallic {@link ElementType}s.
+     *
      * @return a list of all non-metallic {@link ElementType}s
      */
     @NotNull
@@ -184,6 +195,7 @@ public final class ElementUtil {
 
     /**
      * Returns a list of all gaseous {@link ElementType}s.
+     *
      * @return a list of all gaseous {@link ElementType}s
      */
     public static @NotNull List<ElementType> getAllGas() {
@@ -198,6 +210,7 @@ public final class ElementUtil {
 
     /**
      * Returns a list of all non-gaseous {@link ElementType}s.
+     *
      * @return a list of all non-gaseous {@link ElementType}s
      */
     public static @NotNull List<ElementType> getAllNonGas() {
@@ -212,6 +225,7 @@ public final class ElementUtil {
 
     /**
      * Returns a list of all {@link ElementType}s with the given melting point.
+     *
      * @param meltingPoint the melting point of the element types to get
      * @return a list of all {@link ElementType}s with the given melting point
      */
@@ -227,6 +241,7 @@ public final class ElementUtil {
 
     /**
      * Returns a list of all {@link ElementType}s with the given melting point.
+     *
      * @param min the minimum melting point
      * @param max the maximum melting point
      * @return a list of all {@link ElementType}s with the given melting point
@@ -243,6 +258,7 @@ public final class ElementUtil {
 
     /**
      * Returns a list of all {@link ElementType}s with the given boiling point.
+     *
      * @param boilingPoint the boiling point of the element types to get
      * @return a list of all {@link ElementType}s with the given boiling point
      */
@@ -258,6 +274,7 @@ public final class ElementUtil {
 
     /**
      * Returns a list of all {@link ElementType}s with the given boiling point.
+     *
      * @param min the minimum boiling point
      * @param max the maximum boiling point
      * @return a list of all {@link ElementType}s with the given boiling point
@@ -274,6 +291,7 @@ public final class ElementUtil {
 
     /**
      * Returns a list of all {@link ElementType}s with the given density.
+     *
      * @param density the density of the element types to get
      * @return a list of all {@link ElementType}s with the given density
      */
@@ -289,6 +307,7 @@ public final class ElementUtil {
 
     /**
      * Returns a list of all {@link ElementType}s with the given density.
+     *
      * @param min the minimum density
      * @param max the maximum density
      * @return a list of all {@link ElementType}s with the given density
@@ -305,6 +324,7 @@ public final class ElementUtil {
 
     /**
      * Returns a list of all {@link ElementType}s.
+     *
      * @return a list of all {@link ElementType}s
      */
     public static @NotNull List<ElementType> getAllElements() {
@@ -313,6 +333,7 @@ public final class ElementUtil {
 
     /**
      * Returns the melting type for the given element type.
+     *
      * @param e the element type to get the melting type for
      * @return the melting type for the given element type, or null if not found
      */
@@ -324,61 +345,4 @@ public final class ElementUtil {
         return null;
     }
 
-    /**
-     * A useful method to get a color for an element based on its properties.
-     * Just prevents code duplication.
-     *
-     * @param elementType the element type to get the color for
-     * @return the color as an integer in the format 0xRRGGBB
-     * @author balugaq
-     */
-    public static int generateAtomicColor(@NotNull ElementType elementType) {
-        double atomicMass = elementType.getRelativeAtomicMass();
-        int neutrons = elementType.getNeutronNumber();
-        boolean isMetal = elementType.isMetal();
-        int group = elementType.getElementGroup().ordinal() + 1;
-        int period = elementType.getPeriod();
-        double meltingPoint = elementType.getMeltingPoint();
-        double boilingPoint = elementType.getBoilingPoint();
-        double density = elementType.getDensity();
-
-        float[] baseHsv = getBaseHsv(elementType.ordinal() + 1, group, isMetal);
-
-        float sBoost = (float) Math.min(atomicMass / 250.0, 1.0);
-        float hShift = (neutrons % 10) * 0.002f;
-        float vDamp = (float) (1.0 - Math.min(density / 25.0, 1.0));
-        float hNoise = (float) ((boilingPoint - meltingPoint) / 5000.0);
-        if (hNoise < 0) hNoise = 0;
-
-        float h = (baseHsv[0] + hShift + hNoise) % 1.0f;
-        float s = (float) Math.min(baseHsv[1] * (1.0 + sBoost), 1.0);
-        float v = baseHsv[2] * vDamp;
-
-        return ColorUtil.getRGBFromHSV(h, s, v);
-    }
-
-    /**
-     * Gets the base HSV values for an element based on its properties.
-     * @param n       the atomic number
-     * @param group   the group
-     * @param isMetal whether the element is metallic or not
-     * @return the base HSV values as an array of floats
-     */
-    public static float[] getBaseHsv(int n, int group, boolean isMetal) {
-        if (n == 1) {
-            return new float[]{0.33f, 0.8f, 0.9f};
-        } else if (n == 2 || n == 10 || n == 18 || n == 36 || n == 54 || n == 86 || n == 118) {
-            return new float[]{0.91f, 0.3f, 1.0f};
-        } else if (group == 1 || group == 2) {
-            return new float[]{isMetal ? 0.12f : 0.8f, 0.9f, 0.8f};
-        } else if (group >= 3 && group <= 12) {
-            return new float[]{0.6f, 0.8f, 0.7f};
-        } else if (group == 13 || group == 14) {
-            return new float[]{isMetal ? 0.25f : 0.5f, 0.7f, 0.7f};
-        } else if (group == 15 || group == 16) {
-            return new float[]{isMetal ? 0.0f : 0.7f, 0.7f, 0.8f};
-        } else {
-            return new float[]{isMetal ? 0.9f : 0.4f, 0.6f, 0.6f};
-        }
-    }
 }

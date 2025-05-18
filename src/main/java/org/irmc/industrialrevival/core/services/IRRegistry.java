@@ -25,11 +25,11 @@ import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
 import org.irmc.industrialrevival.api.multiblock.MultiBlock;
 import org.irmc.industrialrevival.api.objects.display.DisplayGroup;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
+import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.api.recipes.methods.BlockDropMethod;
 import org.irmc.industrialrevival.api.recipes.methods.MeltMethod;
 import org.irmc.industrialrevival.api.recipes.methods.MobDropMethod;
 import org.irmc.industrialrevival.api.recipes.methods.ProduceMethod;
-import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -46,10 +46,6 @@ import java.util.stream.Collectors;
 
 @Getter
 public final class IRRegistry {
-    public static IRRegistry getInstance() {
-        return IndustrialRevival.getInstance().getRegistry();
-    }
-
     private final Map<NamespacedKey, ItemGroup> itemGroups;
     private final Map<NamespacedKey, ItemDictionary> dictionaries;
     private final Map<NamespacedKey, DisplayGroup> displayGroups;
@@ -59,17 +55,13 @@ public final class IRRegistry {
     @ApiStatus.Experimental
     private final Map<ChemReactable, ChemicalCompound> bindingCompounds;
     private final Map<String, PlayerProfile> playerProfiles;
-
     private final Map<NamespacedKey, MultiBlock> multiBlocks;
-
     private final Map<EntityType, List<MobDropMethod>> mobDrops;
     private final Map<Material, List<BlockDropMethod>> blockDrops;
-
     private final Map<RecipeType, Set<ItemStack>> produceable;
     private final Set<ProduceMethod> produceMethods;
     private final Map<MeltedType, Map<TinkerType, TinkerProduct>> tinkerMap;
     private final Map<NamespacedKey, ChemicalFormula> chemicalFormulas;
-
     public IRRegistry() {
         itemGroups = new HashMap<>();
         dictionaries = new HashMap<>();
@@ -86,6 +78,10 @@ public final class IRRegistry {
         produceMethods = new HashSet<>();
         tinkerMap = new HashMap<>();
         chemicalFormulas = new HashMap<>();
+    }
+
+    public static IRRegistry getInstance() {
+        return IndustrialRevival.getInstance().getRegistry();
     }
 
     public void registerMultiBlock(MultiBlock multiBlock) {

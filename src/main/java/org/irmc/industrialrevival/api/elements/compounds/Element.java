@@ -6,6 +6,7 @@ import org.irmc.industrialrevival.api.elements.ElementType;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Map;
 
 /**
  * An element part to describe a chemical compound.
@@ -18,4 +19,12 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 public class Element extends Compound {
     private final @NotNull ElementType element;
+
+    public double getMolarMass() {
+        return element.getRelativeAtomicMass();
+    }
+
+    public Map<ElementType, Double> toAtomic() {
+        return Map.of(element, 1D);
+    }
 }

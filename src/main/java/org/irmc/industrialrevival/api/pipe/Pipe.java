@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 public class Pipe {
     private final PipeFaces pipeFaces = new PipeFaces();
     private final Location location;
+
     public Pipe(@NotNull Location location) {
         this.location = location;
     }

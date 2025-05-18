@@ -37,19 +37,19 @@ public class EarthFurnace extends MultiBlock {
         Material fire = Material.FIRE;
         Material smoker = Material.SMOKER;
         StructureBuilder sb = new StructureBuilder()
-            .setPieces(
-                StructureUtil.createStructure(new Material[][][] {
-                    {
-                        {mud, mud, mud},
-                        {bricks, fire, bricks}
-                    },
-                    {
-                        {mud, mud, mud},
-                        {slab, smoker, slab}
-                    }
-                })
-            )
-            .setCenter(1, 1, 1);
+                .setPieces(
+                        StructureUtil.createStructure(new Material[][][]{
+                                {
+                                        {mud, mud, mud},
+                                        {bricks, fire, bricks}
+                                },
+                                {
+                                        {mud, mud, mud},
+                                        {slab, smoker, slab}
+                                }
+                        })
+                )
+                .setCenter(1, 1, 1);
         setStructure(sb.build());
     }
 

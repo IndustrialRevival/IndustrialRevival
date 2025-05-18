@@ -14,6 +14,7 @@ import org.jetbrains.annotations.Range;
 public class ElementItem extends IndustrialRevivalItem implements Meltable {
     private ElementType elementType;
     private TinkerType tinkerType;
+
     public ElementItem elementType(ElementType elementType) {
         this.elementType = elementType;
         return this;

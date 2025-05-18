@@ -34,6 +34,11 @@ public abstract class TinkerType {
         TYPES.put(key, this);
     }
 
+    @Nullable
+    public static TinkerType forName(NamespacedKey key) {
+        return TYPES.get(key);
+    }
+
     /**
      * Get the name of the type. (e.g. "pickaxe")
      *
@@ -42,10 +47,5 @@ public abstract class TinkerType {
     public @NotNull Component name() {
         // todo: add localization support
         return Component.text(key.getKey());
-    }
-
-    @Nullable
-    public static TinkerType forName(NamespacedKey key) {
-        return TYPES.get(key);
     }
 }

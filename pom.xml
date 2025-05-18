@@ -187,9 +187,8 @@
         <dependency>
             <groupId>io.github.linsminecraftstudio.mxlib</groupId>
             <artifactId>mx-database</artifactId>
-            <version>1.0.8.5</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/mx-database-1.0.8.5.jar</systemPath>
+            <version>1.0.9</version>
+            <scope>compile</scope>
         </dependency>
 
         <!-- Testing dependencies -->

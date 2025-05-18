@@ -10,7 +10,6 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.TextDisplay;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
-import org.irmc.pigeonlib.objects.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,9 +88,12 @@ public interface Colorful {
         }
 
         public Builder extend(double x, double y, double z) {
-            if (x > 0) offsetPX += x; else offsetNX += x;
-            if (y > 0) offsetPY += y; else offsetNY += y;
-            if (z > 0) offsetPZ += z; else offsetNZ += z;
+            if (x > 0) offsetPX += x;
+            else offsetNX += x;
+            if (y > 0) offsetPY += y;
+            else offsetNY += y;
+            if (z > 0) offsetPZ += z;
+            else offsetNZ += z;
             return this;
         }
 
@@ -120,24 +122,30 @@ public interface Colorful {
         }
 
         public Builder extendTo(double x, double y, double z) {
-            if (x > 0) offsetPX = x; else offsetNX = x;
-            if (y > 0) offsetPY = y; else offsetNY = y;
-            if (z > 0) offsetPZ = z; else offsetNZ = z;
+            if (x > 0) offsetPX = x;
+            else offsetNX = x;
+            if (y > 0) offsetPY = y;
+            else offsetNY = y;
+            if (z > 0) offsetPZ = z;
+            else offsetNZ = z;
             return this;
         }
 
         public Builder extendXTo(double x) {
-            if (x > 0) offsetPX = x; else offsetNX = x;
+            if (x > 0) offsetPX = x;
+            else offsetNX = x;
             return this;
         }
 
         public Builder extendYTo(double y) {
-            if (y > 0) offsetPY = y; else offsetNY = y;
+            if (y > 0) offsetPY = y;
+            else offsetNY = y;
             return this;
         }
 
         public Builder extendZTo(double z) {
-            if (z > 0) offsetPZ = z; else offsetNZ = z;
+            if (z > 0) offsetPZ = z;
+            else offsetNZ = z;
             return this;
         }
 

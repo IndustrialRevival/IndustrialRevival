@@ -24,6 +24,7 @@ public abstract class ItemDictionary implements Keyed {
 
     /**
      * Create a new ItemDictionary with the given key.
+     *
      * @param key the key of the dictionary
      */
     public ItemDictionary(@NotNull NamespacedKey key) {
@@ -38,7 +39,8 @@ public abstract class ItemDictionary implements Keyed {
 
     /**
      * Tag an item with the dictionary key and add it to the dictionary if it's not already there.
-     * @param item the item to tag
+     *
+     * @param item      the item to tag
      * @param addToList whether to add the item to the dictionary or not
      * @return the tagged item
      */
@@ -46,12 +48,14 @@ public abstract class ItemDictionary implements Keyed {
 
     /**
      * Get all the items in the dictionary.
+     *
      * @return a list of all the items in the dictionary
      */
     public abstract List<IndustrialRevivalItem> getItems();
 
     /**
      * Check if an item is in the dictionary.
+     *
      * @param item the item to check
      * @return true if the item is in the dictionary, false otherwise
      */
@@ -61,6 +65,7 @@ public abstract class ItemDictionary implements Keyed {
 
     /**
      * Check if an item is in the dictionary.
+     *
      * @param item the item to check
      * @return true if the item is in the dictionary, false otherwise
      */
@@ -68,6 +73,7 @@ public abstract class ItemDictionary implements Keyed {
 
     /**
      * Get the key of the dictionary.
+     *
      * @return the key of the dictionary
      */
     @Override
@@ -78,6 +84,7 @@ public abstract class ItemDictionary implements Keyed {
 
     /**
      * Check if an item is tagged with the dictionary key.
+     *
      * @param itemStack the item to check
      * @return true if the item is tagged with the dictionary key, false otherwise
      */
@@ -100,6 +107,7 @@ public abstract class ItemDictionary implements Keyed {
 
     /**
      * Get the tagged item with the dictionary key.
+     *
      * @param item the item to get the tagged item for
      * @return the tagged item with the dictionary key, or null if the item is not tagged with the key
      */
@@ -109,6 +117,7 @@ public abstract class ItemDictionary implements Keyed {
 
     /**
      * Get the tagged item with the dictionary key.
+     *
      * @param itemStack the item to get the tagged item for
      * @return the tagged item with the dictionary key, or null if the item is not tagged with the key
      */

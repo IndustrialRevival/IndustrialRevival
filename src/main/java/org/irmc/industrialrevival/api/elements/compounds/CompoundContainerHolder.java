@@ -56,6 +56,11 @@ public class CompoundContainerHolder {
     }
 
     public CompoundContainer getOrNew(Location location) {
-        return containers.computeIfAbsent(location, k -> new CompoundContainer());
+        var v = containers.get(location);
+        if (v == null) {
+            v = new CompoundContainer();
+            containers.put(location, v);
+        }
+        return v;
     }
 }

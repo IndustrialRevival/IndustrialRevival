@@ -21,30 +21,20 @@ import org.jetbrains.annotations.Range;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.IntStream;
 
 public class SimpleMenu implements IRInventoryHolder {
     protected final Map<Integer, ClickHandler> clickHandlers;
-    protected Map<Integer, ClickHandler> getClickHandlers() {
-        return clickHandlers;
-    }
-
     protected int size = -1;
-
     @Getter
     protected Component title;
-
     private Inventory inventory;
-
     @Getter
     private MenuCloseHandler closeHandler = (player, menu) -> {
     };
-
     @Getter
     private MenuOpenHandler openHandler = (player, menu) -> {
     };
-
     @Getter
     private OutsideClickHandler outsideClickHandler = (player, menu) -> {
     };
@@ -65,9 +55,13 @@ public class SimpleMenu implements IRInventoryHolder {
         this.size = preset.getSize();
         this.closeHandler = preset.getCloseHandler();
         this.openHandler = preset.getOpenHandler();
-        for (var drawer: preset.getDrawers()) {
+        for (var drawer : preset.getDrawers()) {
             this.addMenuDrawer(drawer);
         }
+    }
+
+    protected Map<Integer, ClickHandler> getClickHandlers() {
+        return clickHandlers;
     }
 
     public void addMenuDrawer(@NotNull MatrixMenuDrawer drawer) {
@@ -82,10 +76,10 @@ public class SimpleMenu implements IRInventoryHolder {
                     if (MenuUtil.isBackground(itemStack)) {
                         setItem(slot, itemStack, ClickHandler.DEFAULT);
                     } else {
-                        setItem(slot, itemStack, Optional.ofNullable(drawer.getClickHandlerMap().get(slotSymbol)).orElse(ClickHandler.DEFAULT));
+                        setItem(slot, itemStack, drawer.getClickHandlerMap().getOrDefault(slotSymbol, ClickHandler.DEFAULT));
                     }
-                } else if (drawer.getClickHandlerMap().containsKey(slotSymbol)) {
-                    setItem(slot, null, drawer.getClickHandlerMap().get(slotSymbol));
+                } else {
+                    setItem(slot, null, drawer.getClickHandlerMap().getOrDefault(slotSymbol, ClickHandler.NOPE));
                 }
                 j += 1;
             }
@@ -140,7 +134,6 @@ public class SimpleMenu implements IRInventoryHolder {
     }
 
     private void setupInventory() {
-        Debug.stackTraceManually();
         if (this.inventory == null) {
             if (this.size == -1) {
                 this.size = calculateInventorySize();

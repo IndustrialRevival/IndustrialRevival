@@ -12,12 +12,17 @@ import java.util.function.Consumer;
 
 public class PostSetupTask implements Consumer<WrappedTask> {
     private static final List<Runnable> postSetupTasks = new ArrayList<>();
+
     static {
         PostSetupTask.addPostSetupTask(() -> Bukkit.getPluginManager().callEvent(new IndustrialRevivalFinalizedEvent()));
     }
 
     @Getter
     private boolean death;
+
+    public static void addPostSetupTask(Runnable task) {
+        postSetupTasks.add(task);
+    }
 
     @Override
     public void accept(WrappedTask wrappedTask) {
@@ -34,9 +39,5 @@ public class PostSetupTask implements Consumer<WrappedTask> {
                 e.printStackTrace();
             }
         }
-    }
-
-    public static void addPostSetupTask(Runnable task) {
-        postSetupTasks.add(task);
     }
 }

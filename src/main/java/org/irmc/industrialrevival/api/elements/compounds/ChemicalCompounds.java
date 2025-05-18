@@ -452,7 +452,7 @@ public class ChemicalCompounds {
     /**
      * Initializes the chemical compounds above.
      */
-    public static void init() {
+    public static void load() {
         loaded = true;
         Debug.log("Loaded chemical compounds");
     }

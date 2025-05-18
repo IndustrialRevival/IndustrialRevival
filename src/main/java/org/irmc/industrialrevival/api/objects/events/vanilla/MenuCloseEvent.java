@@ -20,12 +20,12 @@ public class MenuCloseEvent extends InventoryEvent {
         this.menu = menu;
     }
 
-    public Player getPlayer() {
-        return (Player) originalEvent.getPlayer();
-    }
-
     public static HandlerList getHandlerList() {
         return handlers;
+    }
+
+    public Player getPlayer() {
+        return (Player) originalEvent.getPlayer();
     }
 
     @Override

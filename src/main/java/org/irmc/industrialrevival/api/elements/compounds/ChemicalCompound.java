@@ -1,16 +1,15 @@
 package org.irmc.industrialrevival.api.elements.compounds;
 
 import com.google.common.base.Preconditions;
-import lombok.Getter;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
+import lombok.Data;
+import org.irmc.industrialrevival.api.elements.ElementType;
 import org.irmc.industrialrevival.api.elements.compounds.types.IonCompound;
 import org.irmc.industrialrevival.api.elements.compounds.types.OxideCompound;
-import org.irmc.industrialrevival.utils.Debug;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -24,7 +23,7 @@ import java.util.Set;
  * @see IonCompound
  * @see OxideCompound
  */
-@Getter
+@Data
 public class ChemicalCompound {
     public static final Set<ChemicalCompound> ALL_CHEMICALS = new HashSet<>();
     @NotNull
@@ -79,5 +78,29 @@ public class ChemicalCompound {
             }
         }
         return null;
+    }
+
+    public String asKey() {
+        return name.replaceAll("\\(", "-").replaceAll("\\)", "");
+    }
+
+    public double getMolarMass() {
+        double mass = 0;
+        for (var entry : compounds.entrySet()) {
+            mass += entry.getKey().getMolarMass() * entry.getValue();
+        }
+
+        return mass;
+    }
+
+    public Map<ElementType, Double> toAtomic() {
+        Map<ElementType, Double> atomic = new HashMap<>();
+        for (var entry : compounds.entrySet()) {
+            for (var atomicEntry : entry.getKey().toAtomic().entrySet()) {
+                atomic.merge(atomicEntry.getKey(), atomicEntry.getValue() * entry.getValue(), Double::sum);
+            }
+        }
+
+        return atomic;
     }
 }

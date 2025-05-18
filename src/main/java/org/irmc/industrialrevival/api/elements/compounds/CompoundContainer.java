@@ -2,7 +2,6 @@ package org.irmc.industrialrevival.api.elements.compounds;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.bukkit.Location;
 import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
 import org.irmc.industrialrevival.api.elements.reaction.ReactHelper;
 import org.irmc.industrialrevival.api.elements.reaction.ReactResult;

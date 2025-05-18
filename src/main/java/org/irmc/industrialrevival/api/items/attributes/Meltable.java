@@ -8,7 +8,11 @@ import org.jetbrains.annotations.Range;
 
 public interface Meltable extends ItemAttribute {
     TinkerType getTinkerType(ItemStack itemStack);
+
     MeltedType getMeltedType(ItemStack itemStack);
-    @Range(from = 0, to = Smeltery.MAX_FUEL) int getMeltingPoint(ItemStack itemStack);
+
+    @Range(from = 0, to = Smeltery.MAX_FUEL)
+    int getMeltingPoint(ItemStack itemStack);
+
     int getFuelUse(ItemStack itemStack);
 }

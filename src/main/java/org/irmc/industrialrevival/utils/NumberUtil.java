@@ -1,5 +1,7 @@
 package org.irmc.industrialrevival.utils;
 
+import java.util.Map;
+
 /**
  * This utility class provides methods for performing various number-related operations,
  * including rounding, and converting between different units of time (e.g., nanoseconds to milliseconds, seconds to milliseconds, etc.).
@@ -7,6 +9,69 @@ package org.irmc.industrialrevival.utils;
  * @author Unknown
  */
 public class NumberUtil {
+    public static Map<Integer, String> subscripts = Map.of(
+            0, "\u2080",
+            1, "\u2081",
+            2, "\u2082",
+            3, "\u2083",
+            4, "\u2084",
+            5, "\u2085",
+            6, "\u2086",
+            7, "\u2087",
+            8, "\u2088",
+            9, "\u2089"
+    );
+
+    public static Map<Integer, String> superscripts = Map.of(
+            0, "\u2070",
+            1, "\u00B9",
+            2, "\u00B2",
+            3, "\u00B3",
+            4, "\u2074",
+            5, "\u2075",
+            6, "\u2076",
+            7, "\u2077",
+            8, "\u2078",
+            9, "\u2079"
+    );
+
+    /**
+     * Converts a string of digits into a subscript representation.
+     *
+     * @param s The string of digits to convert.
+     * @return The subscript representation of the string.
+     */
+    public static String toSubscript(String s) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (Character.isDigit(c)) {
+                sb.append(subscripts.get(c - '0'));
+            } else {
+                sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * Converts a string of digits into a superscript representation.
+     *
+     * @param s The string of digits to convert.
+     * @return The superscript representation of the string.
+     */
+    public static String toSuperscript(String s) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (Character.isDigit(c)) {
+                sb.append(superscripts.get(c - '0'));
+            } else {
+                sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
 
     /**
      * Rounds a double value to the specified number of decimal places.

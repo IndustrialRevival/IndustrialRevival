@@ -1,6 +1,6 @@
 package org.irmc.industrialrevival.api.elements.melt;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.Setter;
 import org.irmc.industrialrevival.api.elements.Smeltery;
 import org.jetbrains.annotations.NotNull;
@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
  * @author balugaq
  * @see Smeltery
  */
-@Getter
+@Data
 public class MeltedObject {
     private final @NotNull MeltedType type;
     @Setter

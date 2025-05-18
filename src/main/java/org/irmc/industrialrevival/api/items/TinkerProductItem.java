@@ -11,6 +11,7 @@ import org.irmc.industrialrevival.implementation.IndustrialRevival;
 public class TinkerProductItem extends IndustrialRevivalItem implements TinkerProduct {
     private MeltedType meltedType;
     private TinkerType tinkerType;
+
     public TinkerProductItem() {
         super();
     }

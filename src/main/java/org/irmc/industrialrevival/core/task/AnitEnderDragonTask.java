@@ -25,6 +25,7 @@ public class AnitEnderDragonTask implements Consumer<WrappedTask> {
     private static boolean isEnabled;
     @Range(from = 1, to = 576)
     private final int checkRadius;
+
     public AnitEnderDragonTask(@Range(from = 1, to = 576) int checkRadius) {
         Preconditions.checkArgument(checkRadius > 0, "checkRadius must be greater than 0");
         Preconditions.checkArgument(checkRadius <= 576, "checkRadius must be less than or equal to 576");
@@ -35,6 +36,18 @@ public class AnitEnderDragonTask implements Consumer<WrappedTask> {
 
         this.checkRadius = checkRadius;
         isEnabled = true;
+    }
+
+    public static void schedulePreventEndDragon(@NotNull String worldName) {
+        Preconditions.checkNotNull(worldName, "worldName cannot be null");
+        Preconditions.checkNotNull(Bukkit.getWorld(worldName), "world not found");
+        preventEndDragon.add(worldName);
+    }
+
+    public static void schedulePreventBedrock(String worldName) {
+        Preconditions.checkNotNull(worldName, "worldName cannot be null");
+        Preconditions.checkNotNull(Bukkit.getWorld(worldName), "world not found");
+        preventBedrock.add(worldName);
     }
 
     public void accept(WrappedTask task) {
@@ -91,17 +104,5 @@ public class AnitEnderDragonTask implements Consumer<WrappedTask> {
                 preventBedrock.remove(worldName);
             }
         }
-    }
-
-    public static void schedulePreventEndDragon(@NotNull String worldName) {
-        Preconditions.checkNotNull(worldName, "worldName cannot be null");
-        Preconditions.checkNotNull(Bukkit.getWorld(worldName), "world not found");
-        preventEndDragon.add(worldName);
-    }
-
-    public static void schedulePreventBedrock(String worldName) {
-        Preconditions.checkNotNull(worldName, "worldName cannot be null");
-        Preconditions.checkNotNull(Bukkit.getWorld(worldName), "world not found");
-        preventBedrock.add(worldName);
     }
 }

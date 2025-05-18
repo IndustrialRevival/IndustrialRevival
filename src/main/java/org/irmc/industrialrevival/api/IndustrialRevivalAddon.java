@@ -8,6 +8,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.logging.Logger;
 
 public interface IndustrialRevivalAddon {
+    default String translateKey() {
+        return getPlugin().getName().toLowerCase();
+    }
+
     @NotNull JavaPlugin getPlugin();
 
     @Nullable String getIssueTrackerURL();

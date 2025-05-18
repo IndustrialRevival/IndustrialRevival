@@ -45,11 +45,10 @@ public class WorldUtil {
      * This affects terrain generation for newly generated chunks.
      * </p>
      *
-     * @param worldName  the name of the target world (must exist and not be null)
-     * @param populator  the chunk populator instance to add (must not be null)
+     * @param worldName the name of the target world (must exist and not be null)
+     * @param populator the chunk populator instance to add (must not be null)
      * @return the modified {@link World} object, or {@code null} if the world does not exist
      * @throws NullPointerException if {@code worldName} or {@code populator} is null
-     *
      * @see World#getPopulators()
      */
     @CanIgnoreReturnValue
@@ -73,8 +72,8 @@ public class WorldUtil {
      * This is a convenience method for cases where the world reference is already available.
      * </p>
      *
-     * @param world      the target world instance (must not be null)
-     * @param populator  the chunk populator instance to add (must not be null)
+     * @param world     the target world instance (must not be null)
+     * @param populator the chunk populator instance to add (must not be null)
      * @return the modified {@link World} object (for method chaining)
      * @throws NullPointerException if {@code world} or {@code populator} is null
      */
@@ -94,7 +93,7 @@ public class WorldUtil {
      * Delegates to {@link #createWorld(WorldCreator, boolean)} with {@code deEnderDragon} set to {@code false}.
      * </p>
      *
-     * @param worldCreator  the configuration for world creation (must not be null)
+     * @param worldCreator the configuration for world creation (must not be null)
      * @return the created {@link World} object, or {@code null} if creation fails
      * @throws NullPointerException if {@code worldCreator} is null
      */
@@ -117,8 +116,8 @@ public class WorldUtil {
      * </ol>
      * </p>
      *
-     * @param worldCreator    the configuration for world creation (must not be null)
-     * @param deEnderDragon   if {@code true}, disables Ender Dragon mechanics for End worlds
+     * @param worldCreator  the configuration for world creation (must not be null)
+     * @param deEnderDragon if {@code true}, disables Ender Dragon mechanics for End worlds
      * @return the created {@link World} object, or {@code null} if creation fails
      * @throws NullPointerException if {@code worldCreator} is null
      */

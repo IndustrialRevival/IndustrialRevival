@@ -31,25 +31,25 @@ import java.util.stream.Stream;
 public class ErrorReport<T extends Throwable> {
     private static final String FORMAT = """
             Error Generated at: {0}
-
+            
             Java Environment:
             Operating System: {1}
             Java Version: {2}
-
+            
             Server Software: {3}
             Build: {4}
             Minecraft v{5}
-
+            
             IndustrialRevival Environment:
             IndustrialRevival v{6}
             Caused by: {7} v{8}
-
+            
             Installed Addons ({9}):
             {10}
-
+            
             Installed Plugins ({11}):
             {12}
-
+            
             """;
     private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm", Locale.ROOT);
     private static final AtomicInteger count = new AtomicInteger(0);

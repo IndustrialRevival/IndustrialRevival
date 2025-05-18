@@ -13,18 +13,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MultiblockTicker implements Listener {
     private static final Map<Location, ExtraTickable> tickable_tickstart = new ConcurrentHashMap<>();
     private static final Map<Location, ExtraTickable> tickables_tickdone = new ConcurrentHashMap<>();
-    @EventHandler
-    public void onTickStart(TickStartEvent event) {
-        for (Location location : tickable_tickstart.keySet()) {
-            tickable_tickstart.get(location).tick(location);
-        }
-    }
-    @EventHandler
-    public void onTickDone(TickDoneEvent event) {
-        for (Location location : tickables_tickdone.keySet()) {
-            tickables_tickdone.get(location).tick(location);
-        }
-    }
 
     public static void addTickable(Location location, ExtraTickable extraTickable) {
         switch (extraTickable.getTime()) {
@@ -47,6 +35,20 @@ public class MultiblockTicker implements Listener {
         }
         synchronized (tickables_tickdone) {
             tickables_tickdone.remove(location);
+        }
+    }
+
+    @EventHandler
+    public void onTickStart(TickStartEvent event) {
+        for (Location location : tickable_tickstart.keySet()) {
+            tickable_tickstart.get(location).tick(location);
+        }
+    }
+
+    @EventHandler
+    public void onTickDone(TickDoneEvent event) {
+        for (Location location : tickables_tickdone.keySet()) {
+            tickables_tickdone.get(location).tick(location);
         }
     }
 }

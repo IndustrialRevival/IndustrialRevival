@@ -42,6 +42,6 @@ public class MobDropMethod implements ProduceMethod {
 
     @Override
     public ItemStack[] getOutput() {
-        return new ItemStack[] { itemToDrop };
+        return new ItemStack[]{itemToDrop};
     }
 }

@@ -11,10 +11,9 @@ import java.util.Map;
  * @param formula The formula of the reaction.
  * @param consume The consumed compounds.
  * @param produce The product of the reaction.
- *
- * @see ReactHelper
  * @author lijinhong11
  * @author balugaq
+ * @see ReactHelper
  */
 public record ReactResult(
         ChemicalFormula formula,

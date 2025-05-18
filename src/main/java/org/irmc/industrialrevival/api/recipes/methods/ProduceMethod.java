@@ -12,6 +12,8 @@ import org.irmc.industrialrevival.api.recipes.RecipeType;
  */
 public interface ProduceMethod {
     RecipeType getRecipeType();
+
     ItemStack[] getIngredients();
+
     ItemStack[] getOutput();
 }

@@ -6,7 +6,8 @@ import org.jetbrains.annotations.Nullable;
 public interface SimpleDataContainer<Result> extends ItemAttribute {
     /**
      * Get the data stored in the item
-     * @param itemStack  The item to get the data from
+     *
+     * @param itemStack The item to get the data from
      * @return The data stored in the item
      */
     @Nullable
@@ -16,6 +17,7 @@ public interface SimpleDataContainer<Result> extends ItemAttribute {
 
     /**
      * Set the data stored in the item
+     *
      * @param itemStack The item to set the data in
      * @param data      The data to store in the item
      */

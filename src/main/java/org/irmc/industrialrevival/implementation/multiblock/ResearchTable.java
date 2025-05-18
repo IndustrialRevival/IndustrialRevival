@@ -41,28 +41,28 @@ public class ResearchTable extends MultiBlock {
         Material lectern = Material.LECTERN;
         Material air = Material.AIR;
         StructureBuilder sb = new StructureBuilder()
-            .setPieces(
-                StructureUtil.createStructure(new Material[][][] {
-                    {
-                        {copper, copper, copper},
-                        {copper, copper, copper},
-                        {copper, copper, copper}
-                    },
-                    {
-                        {quartz, lectern, quartz},
-                        {quartz_slab, air, quartz_slab},
-                        {air, air, air}
-                    },
-                    {
-                        {rod, air, rod}
-                    },
-                    {
-                        {brick_slab, brick_slab, brick_slab}
-                    }
-                })
-            )
-            .replaceAll(new MaterialStructurePiece(air), new AnyStructurePiece())
-            .setCenter(1, 0, 1);
+                .setPieces(
+                        StructureUtil.createStructure(new Material[][][]{
+                                {
+                                        {copper, copper, copper},
+                                        {copper, copper, copper},
+                                        {copper, copper, copper}
+                                },
+                                {
+                                        {quartz, lectern, quartz},
+                                        {quartz_slab, air, quartz_slab},
+                                        {air, air, air}
+                                },
+                                {
+                                        {rod, air, rod}
+                                },
+                                {
+                                        {brick_slab, brick_slab, brick_slab}
+                                }
+                        })
+                )
+                .replaceAll(new MaterialStructurePiece(air), new AnyStructurePiece())
+                .setCenter(1, 0, 1);
         setStructure(sb.build());
     }
 

@@ -8,8 +8,8 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
-import org.irmc.industrialrevival.api.menu.handlers.ClickHandler;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
+import org.irmc.industrialrevival.api.menu.handlers.ClickHandler;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
 import org.irmc.industrialrevival.core.guide.GuideHistory;
 import org.irmc.industrialrevival.core.guide.IRGuideImplementation;
@@ -51,7 +51,8 @@ public abstract class ItemGroup {
 
     /**
      * Creates a new ItemGroup with the given key and icon.
-     * @param key the key of the item group
+     *
+     * @param key  the key of the item group
      * @param icon the icon of the item group
      */
     protected ItemGroup(@NotNull NamespacedKey key, @NotNull ItemStack icon) {
@@ -62,7 +63,8 @@ public abstract class ItemGroup {
 
     /**
      * Creates a new ItemGroup with the given key, icon, and tier.
-     * @param key the key of the item group
+     *
+     * @param key  the key of the item group
      * @param icon the icon of the item group
      * @param tier the tier of the item group, default is 3
      * @apiNote the lower the tier is, the higher the priority of the item group is
@@ -75,6 +77,7 @@ public abstract class ItemGroup {
 
     /**
      * Checks if the given item is allowed to be added to this item group.
+     *
      * @param item the item to be added
      * @return true if the item is allowed to be added, false otherwise
      */
@@ -84,8 +87,9 @@ public abstract class ItemGroup {
 
     /**
      * Opens the guide menu for this item group.
-     * @param p the player who opened the guide menu
-     * @param sm the SimpleMenu instance to be used for the guide menu
+     *
+     * @param p    the player who opened the guide menu
+     * @param sm   the SimpleMenu instance to be used for the guide menu
      * @param page the page number of the guide menu to be opened
      */
     public void onClicked(@NotNull Player p, @NotNull SimpleMenu sm, int page) {
@@ -173,6 +177,7 @@ public abstract class ItemGroup {
 
     /**
      * Returns a list of all the items in this item group.
+     *
      * @return a list of all the items in this item group
      */
     @NotNull
@@ -182,6 +187,7 @@ public abstract class ItemGroup {
 
     /**
      * Adds an item to this item group.
+     *
      * @param item the item to be added
      */
     public void addItem(@NotNull IndustrialRevivalItem item) {
@@ -200,6 +206,7 @@ public abstract class ItemGroup {
 
     /**
      * Registers this item group.
+     *
      * @throws IllegalStateException if the item group is already registered
      */
     public void register() {
@@ -216,6 +223,7 @@ public abstract class ItemGroup {
 
     /**
      * Checks if this item group is registered.
+     *
      * @return true if the item group is registered, false otherwise
      */
     public final boolean isRegistered() {
@@ -224,6 +232,7 @@ public abstract class ItemGroup {
 
     /**
      * Sets the tier of this item group.
+     *
      * @param tier the tier of this item group
      */
     public void setTier(int tier) {
@@ -233,6 +242,7 @@ public abstract class ItemGroup {
 
     /**
      * Sets if this item group is only visible by admins.
+     *
      * @param onlyVisibleByAdmins if this item group is only visible by admins
      * @apiNote if true, players without the admin permission will not see this item group in the guide menu
      */

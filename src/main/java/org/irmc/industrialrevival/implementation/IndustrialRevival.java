@@ -27,6 +27,7 @@ import org.irmc.industrialrevival.core.services.BlockDataService;
 import org.irmc.industrialrevival.core.services.IRRegistry;
 import org.irmc.industrialrevival.core.services.ItemDataService;
 import org.irmc.industrialrevival.core.services.ItemTextureService;
+import org.irmc.industrialrevival.core.services.LanguageTextService;
 import org.irmc.industrialrevival.core.services.ProfilerService;
 import org.irmc.industrialrevival.core.task.AnitEnderDragonTask;
 import org.irmc.industrialrevival.core.task.ArmorCheckTask;
@@ -44,7 +45,6 @@ import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Random;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
@@ -57,6 +57,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     private @Getter ListenerManager listenerManager;
     private @Getter IRDataManager dataManager;
     private @Getter ItemTextureService itemTextureService;
+    private @Getter LanguageTextService languageTextService;
     private @Getter BlockDataService blockDataService;
     private @Getter ItemDataService itemDataService;
     private @Getter ProfilerService profilerService;
@@ -70,6 +71,18 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
 
     public static void runAsync(@Nonnull Runnable runnable) {
         getInstance().getFoliaLibImpl().runAsync(_ -> runnable.run());
+    }
+
+    public static @Nonnull Set<Plugin> getAddons() {
+        String pluginName = instance.getName();
+
+        return Arrays.stream(instance.getServer().getPluginManager().getPlugins())
+                .filter(plugin -> {
+                    PluginMeta description = plugin.getPluginMeta();
+                    return description.getPluginDependencies().contains(pluginName)
+                            || description.getPluginSoftDependencies().contains(pluginName);
+                })
+                .collect(Collectors.toSet());
     }
 
     @Override
@@ -145,6 +158,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         itemTextureService = new ItemTextureService();
         itemDataService = new ItemDataService();
         profilerService = new ProfilerService();
+        languageTextService = new LanguageTextService();
     }
 
     private void setupDataManager() {
@@ -217,17 +231,5 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         super.reloadConfig();
 
         languageManager = new LanguageManager(this);
-    }
-
-    public static @Nonnull Set<Plugin> getAddons() {
-        String pluginName = instance.getName();
-
-        return Arrays.stream(instance.getServer().getPluginManager().getPlugins())
-                .filter(plugin -> {
-                    PluginMeta description = plugin.getPluginMeta();
-                    return description.getPluginDependencies().contains(pluginName)
-                            || description.getPluginSoftDependencies().contains(pluginName);
-                })
-                .collect(Collectors.toSet());
     }
 }
