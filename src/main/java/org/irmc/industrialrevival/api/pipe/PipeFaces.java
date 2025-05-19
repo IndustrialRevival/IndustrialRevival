@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Deprecated(forRemoval = true)
 @Getter
 public class PipeFaces {
     private final Set<PipeFace> faces = new HashSet<>();

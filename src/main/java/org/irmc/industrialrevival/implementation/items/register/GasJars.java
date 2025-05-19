@@ -14,13 +14,14 @@ import org.irmc.pigeonlib.items.CustomItemStack;
 @UtilityClass
 public class GasJars {
     private static boolean LOADED = false;
+
     public static void setup() {
         if (LOADED) {
             return;
         }
         LOADED = true;
         for (ElementType elementType : ElementType.values()) {
-            Component name = Component.translatable("item.industrial_revival." + elementType.name().toLowerCase() + ".name", "Unnamed Gas In Jar").color(TextColor.color(167778));
+            Component name = Component.empty().append(Component.translatable("item.industrial_revival." + elementType.name().toLowerCase() + ".name", "Unnamed Gas In Jar").color(TextColor.color(167778)));
             if (elementType.isGas()) {
                 new GasJar()
                         .elementType(elementType)

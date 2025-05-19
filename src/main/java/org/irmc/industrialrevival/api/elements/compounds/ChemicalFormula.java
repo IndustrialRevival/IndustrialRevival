@@ -1,17 +1,16 @@
 package org.irmc.industrialrevival.api.elements.compounds;
 
-import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
-import lombok.Getter;
+import lombok.Data;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentBuilder;
 import org.bukkit.NamespacedKey;
 import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
+import org.irmc.industrialrevival.utils.NumberUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.regex.Matcher;
@@ -22,38 +21,43 @@ import java.util.regex.Pattern;
  *
  * @author balugaq
  */
-@Getter
+@Data
 public class ChemicalFormula {
     public static final Pattern NUMBER_PATTERN = Pattern.compile("^(\\d+)");
-    private @NotNull final NamespacedKey key;
-    private @NotNull final Map<ChemicalCompound, Integer> input; // proportion of each compound
-    private @NotNull final Map<ChemicalCompound, Integer> output; // proportion of each compound
-    private @Nullable ReactCondition[] conditions;
-    private @Nullable final ConditionSensor conditionSensor;
+    private @NotNull
+    final NamespacedKey key;
+    private @NotNull
+    final Map<ChemicalCompound, Integer> input; // proportion of each compound
+    private @NotNull
+    final Map<ChemicalCompound, Integer> output; // proportion of each compound
+    private @Nullable
+    final ConditionSensor conditionSensor;
+    private @NotNull ReactCondition[] conditions;
 
     public ChemicalFormula(@NotNull NamespacedKey key, @NotNull String formula) {
-        this(key, formula, null);
+        this(key, formula, new ReactCondition[0]);
     }
 
     /**
      * Constructor.
-     * @param key the key of the formula
+     *
+     * @param key     the key of the formula
      * @param formula the chemical formula string
      */
-    public ChemicalFormula(@NotNull NamespacedKey key, @NotNull String formula, ReactCondition[] conditions) {
+    public ChemicalFormula(@NotNull NamespacedKey key, @NotNull String formula, @NotNull ReactCondition[] conditions) {
         this(key, formula, conditions, null);
     }
 
     /**
      * Constructor.
-     * @param key the key of the formula
-     * @param formula the chemical formula string
-     * @param conditions the conditions for the reaction
      *
+     * @param key        the key of the formula
+     * @param formula    the chemical formula string
+     * @param conditions the conditions for the reaction
      * @apiNote The conditions are optional and can be null.
      * @apiNote formula example: "Zn+H2SO4===ZnSO4+H2", "Fe2O3+3H2SO4===Fe2(SO4)_3+3H2O"
      */
-    public ChemicalFormula(@NotNull NamespacedKey key, @NotNull String formula, @Nullable ReactCondition[] conditions, ConditionSensor conditionSensor) {
+    public ChemicalFormula(@NotNull NamespacedKey key, @NotNull String formula, @NotNull ReactCondition[] conditions, @Nullable ConditionSensor conditionSensor) {
         Preconditions.checkNotNull(formula, "formula cannot be null");
         Preconditions.checkArgument(formula.contains("==="), "Invalid chemical formula: " + formula);
         Preconditions.checkArgument(formula.split("===").length == 2, "Invalid chemical formula: " + formula);
@@ -73,6 +77,7 @@ public class ChemicalFormula {
 
     /**
      * Parses a chemical compound from a string.
+     *
      * @param compoundName the name of the compound
      * @return the chemical compound or null if it is not found
      */
@@ -83,12 +88,13 @@ public class ChemicalFormula {
 
     /**
      * Parses a list of chemical compounds from a list of strings.
+     *
      * @param parts the list of strings
      * @return the map of chemical compounds and their counts
      */
     @NotNull
     public static Map<ChemicalCompound, Integer> parseCompounds(@NotNull String[] parts) {
-        Map<ChemicalCompound, Integer> compounds = new HashMap<>();
+        Map<ChemicalCompound, Integer> compounds = new LinkedHashMap<>();
         for (String part : parts) {
             // example: "Zn"
             // example: “3H2SO4”
@@ -152,10 +158,15 @@ public class ChemicalFormula {
         var builder = Component.text();
         int index = 1;
         for (var entry : compounds.entrySet()) {
-            builder.append(Component.text(entry.getValue())).append(Component.text(entry.getKey().getName()));
+            if (entry.getValue() != 1) {
+                builder.append(Component.text(entry.getValue()));
+            }
+
+            builder.append(Component.text(NumberUtil.toSubscript(entry.getKey().getName())));
             if (index != compounds.size()) {
                 builder.append(Component.text("+"));
             }
+            index++;
         }
 
         return builder.build();
@@ -167,7 +178,11 @@ public class ChemicalFormula {
         }
 
         if (hoverable) {
-            return Component.text("===").append(Component.translatable("chemistry.formula.conditions").hoverEvent(humanizeConditions(false))).append(Component.text("==="));
+            return Component.empty()
+                    .append(Component.text("==="))
+                    .append(Component.translatable("chemistry.formula.conditions").hoverEvent(
+                            humanizeConditions(false)
+                    )).append(Component.text("==="));
         } else {
             var builder = Component.text();
             builder.append(Component.text("==="));
@@ -185,6 +200,7 @@ public class ChemicalFormula {
     public interface ConditionSensor extends BiFunction<ReactCondition[], Double, Double> {
         /**
          * Returns the max producing proportion
+         *
          * @param conditions the function
          * @return the max producing proportion
          */

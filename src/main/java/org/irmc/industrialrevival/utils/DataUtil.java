@@ -55,8 +55,8 @@ public class DataUtil {
      * Sets a key-value pair in the block's configuration data at the specified location.
      *
      * @param location The location of the block.
-     * @param key The key to set.
-     * @param value The value to associate with the key.
+     * @param key      The key to set.
+     * @param value    The value to associate with the key.
      */
     public static void setData(Location location, String key, String value) {
         getBlockData(location).getConfig().set(key, value);
@@ -66,7 +66,7 @@ public class DataUtil {
      * Retrieves the value associated with the specified key from the block's configuration data.
      *
      * @param location The location of the block.
-     * @param key The key to retrieve the value for.
+     * @param key      The key to retrieve the value for.
      * @return The value associated with the key, or null if the key does not exist.
      */
     @Nullable
@@ -78,7 +78,7 @@ public class DataUtil {
      * Checks if the block's configuration data contains the specified key.
      *
      * @param location The location of the block.
-     * @param key The key to check.
+     * @param key      The key to check.
      * @return True if the key exists, false otherwise.
      */
     public static boolean hasData(Location location, String key) {
@@ -88,7 +88,7 @@ public class DataUtil {
     /**
      * Associates the specified IRBlockData with the block at the given location.
      *
-     * @param location The location of the block.
+     * @param location  The location of the block.
      * @param blockData The IRBlockData to associate with the block.
      */
     public static void setBlockData(Location location, IRBlockData blockData) {
@@ -122,7 +122,7 @@ public class DataUtil {
      * Removes the value associated with the specified key from the block's configuration data.
      *
      * @param location The location of the block.
-     * @param key The key to remove.
+     * @param key      The key to remove.
      */
     public static void removeData(Location location, String key) {
         setData(location, key, null);
@@ -185,7 +185,7 @@ public class DataUtil {
      * Checks if the block at the specified location matches the given ID.
      *
      * @param location The location of the block.
-     * @param id The ID to compare against.
+     * @param id       The ID to compare against.
      * @return True if the block's ID matches the specified ID, false otherwise.
      */
     public static boolean isBlock(Location location, NamespacedKey id) {
@@ -196,8 +196,8 @@ public class DataUtil {
      * Sets a key-value pair in the PersistentDataContainer (PDC) of the specified holder.
      *
      * @param holder The PersistentDataHolder to set the data in.
-     * @param key The key to set.
-     * @param value The value to associate with the key.
+     * @param key    The key to set.
+     * @param value  The value to associate with the key.
      */
     public static void setPDC(PersistentDataHolder holder, NamespacedKey key, String value) {
         holder.getPersistentDataContainer().set(key, PersistentDataType.STRING, value);
@@ -207,7 +207,7 @@ public class DataUtil {
      * Retrieves the value associated with the specified key from the PersistentDataContainer (PDC).
      *
      * @param holder The PersistentDataHolder to retrieve the data from.
-     * @param key The key to retrieve the value for.
+     * @param key    The key to retrieve the value for.
      * @return The value associated with the key, or null if the key does not exist.
      */
     @Nullable
@@ -219,7 +219,7 @@ public class DataUtil {
      * Removes the specified key from the PersistentDataContainer (PDC) of the holder.
      *
      * @param holder The PersistentDataHolder to remove the key from.
-     * @param key The key to remove.
+     * @param key    The key to remove.
      */
     public static void removePDC(PersistentDataHolder holder, NamespacedKey key) {
         holder.getPersistentDataContainer().remove(key);
@@ -229,7 +229,7 @@ public class DataUtil {
      * Checks if the PersistentDataContainer (PDC) of the holder contains the specified key.
      *
      * @param holder The PersistentDataHolder to check.
-     * @param key The key to check for.
+     * @param key    The key to check for.
      * @return True if the key exists, false otherwise.
      */
     public static boolean hasPDC(PersistentDataHolder holder, NamespacedKey key) {
@@ -240,8 +240,8 @@ public class DataUtil {
      * Checks if the PersistentDataContainer (PDC) of the holder contains the specified key with the given value.
      *
      * @param holder The PersistentDataHolder to check.
-     * @param key The key to check for.
-     * @param value The value to check for.
+     * @param key    The key to check for.
+     * @param value  The value to check for.
      * @return True if the key exists and has the specified value, false otherwise.
      */
     public static boolean hasPDC(PersistentDataHolder holder, NamespacedKey key, String value) {

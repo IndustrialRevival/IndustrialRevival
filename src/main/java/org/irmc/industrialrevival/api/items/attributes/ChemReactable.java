@@ -1,6 +1,5 @@
 package org.irmc.industrialrevival.api.items.attributes;
 
-import net.kyori.adventure.text.TextComponent;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -24,6 +23,7 @@ public interface ChemReactable extends ItemAttribute, Keyed, ComplexDataContaine
 
     /**
      * Returns the reactable instance for the given chemical compound.
+     *
      * @param compound the chemical compound to get the item for.
      * @return the reactable instance for the given chemical compound.
      */
@@ -102,6 +102,7 @@ public interface ChemReactable extends ItemAttribute, Keyed, ComplexDataContaine
 
     /**
      * Returns true if the item is a catalyst for the given condition.
+     *
      * @param condition the condition to check.
      * @return true if the item is a catalyst for the given condition, false otherwise.
      */
@@ -111,6 +112,7 @@ public interface ChemReactable extends ItemAttribute, Keyed, ComplexDataContaine
 
     /**
      * Binds the item to the given chemical compound.
+     *
      * @param compound the chemical compound to bind to.
      */
     default void bind(@NotNull ChemicalCompound compound) {

@@ -10,6 +10,7 @@ import org.irmc.pigeonlib.pdc.PersistentDataAPI;
 
 public class OreDust extends ElementItem implements SimpleDataContainer<ElementType> {
     public static final NamespacedKey ELEMENT_TYPE_KEY = NamespacedKey.minecraft("element_type");
+
     @Override
     public ElementType getData(ItemStack itemStack) {
         return ElementType.valueOf(PersistentDataAPI.get(itemStack.getItemMeta(), ELEMENT_TYPE_KEY, PersistentDataType.STRING));

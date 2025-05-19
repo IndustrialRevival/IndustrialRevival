@@ -44,46 +44,46 @@ public class ProfessionalLaboratory extends MultiBlock {
         Material air = Material.AIR;
 
         StructureBuilder sb = new StructureBuilder()
-            .setPieces(
-                StructureUtil.createStructure(new Material[][][] {
-                    {
-                        {quartz, quartz, quartz, quartz, quartz},
-                        {quartz, cartography, furnace, loom, quartz},
-                        {quartz, smoker, quartz, jukebox, quartz},
-                        {quartz, fletching, blast, smithing, quartz},
-                        {quartz, quartz, quartz, quartz, quartz}
-                    },
-                    {
-                        {pane, pane, pane, pane, pane},
-                        {pane, air, air, air, pane},
-                        {pane, air, lectern, air, pane},
-                        {pane, air, air, air, pane},
-                        {pane, air, air, air, pane}
-                    },
-                    {
-                        {pane, pane, pane, pane, pane},
-                        {pane, air, air, air, pane},
-                        {pane, air, air, air, pane},
-                        {pane, air, air, air, pane},
-                        {pane, air, air, air, pane}
-                    },
-                    {
-                        {pane, pane, pane, pane, pane},
-                        {pane, air, air, air, pane},
-                        {pane, air, air, air, pane},
-                        {pane, air, air, air, pane},
-                        {pane, air, air, air, pane}
-                    },
-                    {
-                        {quartz, quartz, quartz, quartz, quartz},
-                        {quartz, glass, glass, glass, quartz},
-                        {quartz, glass, lantern, glass, quartz},
-                        {quartz, glass, glass, glass, quartz},
-                        {quartz, quartz, quartz, quartz, quartz}
-                    }
-                })
-            )
-            .setCenter(1, 2, 2);
+                .setPieces(
+                        StructureUtil.createStructure(new Material[][][]{
+                                {
+                                        {quartz, quartz, quartz, quartz, quartz},
+                                        {quartz, cartography, furnace, loom, quartz},
+                                        {quartz, smoker, quartz, jukebox, quartz},
+                                        {quartz, fletching, blast, smithing, quartz},
+                                        {quartz, quartz, quartz, quartz, quartz}
+                                },
+                                {
+                                        {pane, pane, pane, pane, pane},
+                                        {pane, air, air, air, pane},
+                                        {pane, air, lectern, air, pane},
+                                        {pane, air, air, air, pane},
+                                        {pane, air, air, air, pane}
+                                },
+                                {
+                                        {pane, pane, pane, pane, pane},
+                                        {pane, air, air, air, pane},
+                                        {pane, air, air, air, pane},
+                                        {pane, air, air, air, pane},
+                                        {pane, air, air, air, pane}
+                                },
+                                {
+                                        {pane, pane, pane, pane, pane},
+                                        {pane, air, air, air, pane},
+                                        {pane, air, air, air, pane},
+                                        {pane, air, air, air, pane},
+                                        {pane, air, air, air, pane}
+                                },
+                                {
+                                        {quartz, quartz, quartz, quartz, quartz},
+                                        {quartz, glass, glass, glass, quartz},
+                                        {quartz, glass, lantern, glass, quartz},
+                                        {quartz, glass, glass, glass, quartz},
+                                        {quartz, quartz, quartz, quartz, quartz}
+                                }
+                        })
+                )
+                .setCenter(1, 2, 2);
         setStructure(sb.build());
     }
 

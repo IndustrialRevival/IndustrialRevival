@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
+@Deprecated(forRemoval = true)
 @Getter
 public class PipeRoot {
     private final Map<Location, Pipe> pipes = new HashMap<>();
@@ -29,6 +30,7 @@ public class PipeRoot {
     private final Set<Location> pushers = new HashSet<>();
     private final PipeServer pipeServer;
     private final Pipe serverPipe;
+
     public PipeRoot(PipeServer pipeServer) {
         this.pipeServer = pipeServer;
         this.serverPipe = pipeServer.getPipe();

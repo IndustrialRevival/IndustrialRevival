@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
+@Deprecated(forRemoval = true)
 @UtilityClass
 public class PipeRecorder {
     // temp solution, will be replaced by database or file storage

@@ -2,7 +2,6 @@ package org.irmc.industrialrevival.api.recipes.methods;
 
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
-import org.irmc.industrialrevival.api.elements.Smeltery;
 import org.irmc.industrialrevival.api.elements.melt.MeltedObject;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.implementation.multiblock.BlastSmeltery;
@@ -16,6 +15,7 @@ import java.util.List;
 public class MeltMethod implements ProduceMethod {
     private final List<MeltedObject> inputs;
     private final List<MeltedObject> outputs;
+
     public MeltMethod(List<MeltedObject> inputs, List<MeltedObject> outputs) {
         this.inputs = inputs;
         this.outputs = outputs;

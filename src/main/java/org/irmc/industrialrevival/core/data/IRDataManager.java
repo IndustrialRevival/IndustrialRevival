@@ -102,7 +102,7 @@ public class IRDataManager {
         try {
             return connection.selectOne(BlockRecord.class,
                     Conditions.and(
-                    Conditions.eq("world", loc.getWorld().getName()),
+                            Conditions.eq("world", loc.getWorld().getName()),
                             Conditions.eq("x", loc.getBlockX()),
                             Conditions.eq("y", loc.getBlockY()),
                             Conditions.eq("z", loc.getBlockZ())));

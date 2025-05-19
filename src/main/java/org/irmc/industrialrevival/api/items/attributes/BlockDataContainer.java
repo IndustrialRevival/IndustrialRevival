@@ -1,13 +1,13 @@
 package org.irmc.industrialrevival.api.items.attributes;
 
 import org.bukkit.Location;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 public interface BlockDataContainer<Result> extends ItemAttribute {
     /**
      * Get the data stored in the item
-     * @param location  The location to get the data from
+     *
+     * @param location The location to get the data from
      * @return The data stored in the item
      */
     @Nullable
@@ -17,8 +17,9 @@ public interface BlockDataContainer<Result> extends ItemAttribute {
 
     /**
      * Set the data stored in the item
+     *
      * @param location The item to set the data in
-     * @param data      The data to store in the item
+     * @param data     The data to store in the item
      */
     default void setBlockData(Location location, Result data) {
 

@@ -1,6 +1,6 @@
 package org.irmc.industrialrevival.api.elements.melt;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.entity.TextDisplay;
@@ -24,8 +24,10 @@ import java.util.List;
  * @author balugaq
  * @see Smeltery
  */
-@Getter
+@Data
 public class MeltedTank implements Cloneable, Colorful {
+    private static final ModelHandler MODEL_HANDLER = new ModelHandler()
+            .removeOldWhenRenderNew(true);
     private final @NotNull List<MeltedObject> stored;
     @Setter
     private boolean dirty;
@@ -408,10 +410,6 @@ public class MeltedTank implements Cloneable, Colorful {
     public @NotNull MeltedTank clone() {
         return new MeltedTank(new ArrayList<>(stored), capacity, maxFuel, fuels);
     }
-
-
-    private static final ModelHandler MODEL_HANDLER = new ModelHandler()
-            .removeOldWhenRenderNew(true);
 
     @Override
     public ModelHandler getModelHandler() {

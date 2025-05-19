@@ -10,6 +10,7 @@ import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 /**
  * ElectricGenerator is a machine that generates energy.
+ *
  * @author balugaq
  */
 @Getter

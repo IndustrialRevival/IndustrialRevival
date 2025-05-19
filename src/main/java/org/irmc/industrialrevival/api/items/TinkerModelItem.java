@@ -7,6 +7,7 @@ import org.irmc.industrialrevival.api.items.attributes.TinkerModel;
 @Getter
 public class TinkerModelItem extends IndustrialRevivalItem implements TinkerModel {
     private TinkerType tinkerType;
+
     public TinkerModelItem() {
         super();
     }

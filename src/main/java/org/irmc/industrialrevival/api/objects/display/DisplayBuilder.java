@@ -15,85 +15,17 @@ import java.util.List;
 
 @Getter
 public class DisplayBuilder {
+    private final @NotNull List<Pair<Display, Vector>> displays;
     private BlockFace northFace;
     private Location center;
     private Vector currentOffset;
-    private final @NotNull List<Pair<Display, Vector>> displays;
+
     private DisplayBuilder() {
         displays = new ArrayList<>();
     }
 
     public static @NotNull DisplayBuilder create() {
         return new DisplayBuilder();
-    }
-
-    public @NotNull DisplayBuilder northFace(@NotNull BlockFace northFace) {
-        if (northFace.ordinal() > 3) {
-            throw new IllegalArgumentException("Invalid block face: " + northFace);
-        }
-        this.northFace = northFace;
-        return this;
-    }
-
-    public BlockFace northFace() {
-        return northFace;
-    }
-    
-    public Vector currentOffset() {
-        return currentOffset;
-    }
-    
-    public @NotNull List<Pair<Display, Vector>> displays() {
-        return displays;
-    }
-
-    public @NotNull DisplayBuilder home() {
-        this.currentOffset = new Vector(0, 0, 0);
-        return this;
-    }
-
-    public @NotNull DisplayBuilder center(Location center) {
-        this.center = center;
-        return this;
-    }
-
-    public @NotNull DisplayBuilder center(Display display) {
-        displays.add(new Pair<>(display, new Vector(0, 0, 0)));
-        return this;
-    }
-
-    public Location center() {
-        return center;
-    }
-
-    public @NotNull DisplayBuilder leftBlock(Display display) {
-        displays.add(new Pair<>(display, goLeft(1f)));
-        return this;
-    }
-
-    public @NotNull DisplayBuilder rightBlock(Display display) {
-        displays.add(new Pair<>(display, goRight(1f)));
-        return this;
-    }
-
-    public @NotNull DisplayBuilder frontBlock(Display display) {
-        displays.add(new Pair<>(display, goFront(1f)));
-        return this;
-    }
-
-    public @NotNull DisplayBuilder backBlock(Display display) {
-        displays.add(new Pair<>(display, goBack(1f)));
-        return this;
-    }
-
-    public @NotNull DisplayBuilder upBlock(Display display) {
-        displays.add(new Pair<>(display, goUp(1f)));
-        return this;
-    }
-
-    public @NotNull DisplayBuilder downBlock(Display display) {
-        displays.add(new Pair<>(display, goDown(1f)));
-        return this;
     }
 
     @Nonnull
@@ -152,6 +84,75 @@ public class DisplayBuilder {
         };
     }
 
+    public @NotNull DisplayBuilder northFace(@NotNull BlockFace northFace) {
+        if (northFace.ordinal() > 3) {
+            throw new IllegalArgumentException("Invalid block face: " + northFace);
+        }
+        this.northFace = northFace;
+        return this;
+    }
+
+    public BlockFace northFace() {
+        return northFace;
+    }
+
+    public Vector currentOffset() {
+        return currentOffset;
+    }
+
+    public @NotNull List<Pair<Display, Vector>> displays() {
+        return displays;
+    }
+
+    public @NotNull DisplayBuilder home() {
+        this.currentOffset = new Vector(0, 0, 0);
+        return this;
+    }
+
+    public @NotNull DisplayBuilder center(Location center) {
+        this.center = center;
+        return this;
+    }
+
+    public @NotNull DisplayBuilder center(Display display) {
+        displays.add(new Pair<>(display, new Vector(0, 0, 0)));
+        return this;
+    }
+
+    public Location center() {
+        return center;
+    }
+
+    public @NotNull DisplayBuilder leftBlock(Display display) {
+        displays.add(new Pair<>(display, goLeft(1f)));
+        return this;
+    }
+
+    public @NotNull DisplayBuilder rightBlock(Display display) {
+        displays.add(new Pair<>(display, goRight(1f)));
+        return this;
+    }
+
+    public @NotNull DisplayBuilder frontBlock(Display display) {
+        displays.add(new Pair<>(display, goFront(1f)));
+        return this;
+    }
+
+    public @NotNull DisplayBuilder backBlock(Display display) {
+        displays.add(new Pair<>(display, goBack(1f)));
+        return this;
+    }
+
+    public @NotNull DisplayBuilder upBlock(Display display) {
+        displays.add(new Pair<>(display, goUp(1f)));
+        return this;
+    }
+
+    public @NotNull DisplayBuilder downBlock(Display display) {
+        displays.add(new Pair<>(display, goDown(1f)));
+        return this;
+    }
+
     @Nonnull
     public DisplayBuilder leftHalf(Display display) {
         displays.add(new Pair<>(display, goLeft(0.5f)));
@@ -163,6 +164,7 @@ public class DisplayBuilder {
         displays.add(new Pair<>(display, goRight(0.5f)));
         return this;
     }
+
     public @NotNull DisplayBuilder frontHalf(Display display) {
         displays.add(new Pair<>(display, goFront(0.5f)));
         return this;
@@ -207,15 +209,16 @@ public class DisplayBuilder {
     public Vector goDown(double distance) {
         return currentOffset.add(getOffset(BlockFace.DOWN).multiply(distance));
     }
+
     public @NotNull DisplayGroup build() {
         if (center == null) {
             throw new IllegalStateException("Center location is not set");
         }
-        
+
         if (displays.isEmpty()) {
             return new DisplayGroup(IndustrialRevival.getInstance());
         }
-        
+
         DisplayGroup displayGroup = new DisplayGroup(IndustrialRevival.getInstance());
         displayGroup.center(center);
         for (Pair<Display, Vector> display : displays) {

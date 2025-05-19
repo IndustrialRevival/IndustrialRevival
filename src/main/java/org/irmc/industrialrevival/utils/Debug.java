@@ -89,7 +89,7 @@ public class Debug {
     /**
      * Sends a message to a player for multiple objects.
      *
-     * @param player The player to send the message to.
+     * @param player  The player to send the message to.
      * @param objects The objects to include in the message.
      */
     public static void sendMessage(@Nullable Player player, Object @Nullable ... objects) {
@@ -128,7 +128,7 @@ public class Debug {
     /**
      * Sends multiple messages to a player.
      *
-     * @param player The player to send the messages to.
+     * @param player   The player to send the messages to.
      * @param messages The messages to send.
      */
     public static void sendMessages(@Nullable Player player, String @Nullable ... messages) {
@@ -147,7 +147,7 @@ public class Debug {
     /**
      * Sends a message to a player.
      *
-     * @param player The player to send the message to.
+     * @param player  The player to send the message to.
      * @param message The message to send.
      */
     public static void sendMessage(@Nullable Player player, @Nullable String message) {
@@ -439,7 +439,7 @@ public class Debug {
      * Logs a message and a throwable.
      *
      * @param message The message to log.
-     * @param e The throwable to log.
+     * @param e       The throwable to log.
      */
     public static void log(@Nullable String message, Throwable e) {
         log(message);
@@ -450,7 +450,7 @@ public class Debug {
      * Logs an object and a throwable.
      *
      * @param object The object to log.
-     * @param e The throwable to log.
+     * @param e      The throwable to log.
      */
     public static void log(@Nullable Object object, Throwable e) {
         log(object);
@@ -461,7 +461,7 @@ public class Debug {
      * Logs a message, a throwable, and multiple objects.
      *
      * @param message The message to log.
-     * @param e The throwable to log.
+     * @param e       The throwable to log.
      * @param objects The objects to log.
      */
     public static void log(@Nullable String message, @Nullable Throwable e, Object @Nullable ... objects) {
@@ -472,8 +472,8 @@ public class Debug {
     /**
      * Logs an object, a throwable, and multiple objects.
      *
-     * @param object The object to log.
-     * @param e The throwable to log.
+     * @param object  The object to log.
+     * @param e       The throwable to log.
      * @param objects The objects to log.
      */
     public static void log(@Nullable Object object, @Nullable Throwable e, Object @Nullable ... objects) {
@@ -484,8 +484,8 @@ public class Debug {
     /**
      * Logs a message, a throwable, and multiple messages.
      *
-     * @param message The message to log.
-     * @param e The throwable to log.
+     * @param message  The message to log.
+     * @param e        The throwable to log.
      * @param messages The messages to log.
      */
     public static void log(@Nullable String message, @Nullable Throwable e, String @Nullable ... messages) {
@@ -496,8 +496,8 @@ public class Debug {
     /**
      * Logs an object, a throwable, and multiple messages.
      *
-     * @param object The object to log.
-     * @param e The throwable to log.
+     * @param object   The object to log.
+     * @param e        The throwable to log.
      * @param messages The messages to log.
      */
     public static void log(@Nullable Object object, @Nullable Throwable e, String @Nullable ... messages) {
@@ -569,7 +569,7 @@ public class Debug {
      * Logs a fine-grained message and a throwable.
      *
      * @param message The message to log.
-     * @param e The throwable to log.
+     * @param e       The throwable to log.
      */
     public static void fine(@Nullable String message, Throwable e) {
         fine(message);
@@ -580,7 +580,7 @@ public class Debug {
      * Logs a fine-grained object and a throwable.
      *
      * @param object The object to log.
-     * @param e The throwable to log.
+     * @param e      The throwable to log.
      */
     public static void fine(@Nullable Object object, Throwable e) {
         fine(object);
@@ -591,7 +591,7 @@ public class Debug {
      * Logs a fine-grained message, a throwable, and multiple objects.
      *
      * @param message The message to log.
-     * @param e The throwable to log.
+     * @param e       The throwable to log.
      * @param objects The objects to log.
      */
     public static void fine(@Nullable String message, @Nullable Throwable e, Object @Nullable ... objects) {
@@ -602,8 +602,8 @@ public class Debug {
     /**
      * Logs a fine-grained object, a throwable, and multiple objects.
      *
-     * @param object The object to log.
-     * @param e The throwable to log.
+     * @param object  The object to log.
+     * @param e       The throwable to log.
      * @param objects The objects to log.
      */
     public static void fine(@Nullable Object object, @Nullable Throwable e, Object @Nullable ... objects) {
@@ -614,8 +614,8 @@ public class Debug {
     /**
      * Logs a fine-grained message, a throwable, and multiple messages.
      *
-     * @param message The message to log.
-     * @param e The throwable to log.
+     * @param message  The message to log.
+     * @param e        The throwable to log.
      * @param messages The messages to log.
      */
     public static void fine(@Nullable String message, @Nullable Throwable e, String @Nullable ... messages) {
@@ -626,8 +626,8 @@ public class Debug {
     /**
      * Logs a fine-grained object, a throwable, and multiple messages.
      *
-     * @param object The object to log.
-     * @param e The throwable to log.
+     * @param object   The object to log.
+     * @param e        The throwable to log.
      * @param messages The messages to log.
      */
     public static void fine(@Nullable Object object, @Nullable Throwable e, String @Nullable ... messages) {
@@ -639,7 +639,7 @@ public class Debug {
      * Logs a debug message and a throwable.
      *
      * @param message The message to log.
-     * @param e The throwable to log.
+     * @param e       The throwable to log.
      */
     public static void debug(@Nullable String message, Throwable e) {
         debug(message);
@@ -650,7 +650,7 @@ public class Debug {
      * Logs a debug object and a throwable.
      *
      * @param object The object to log.
-     * @param e The throwable to log.
+     * @param e      The throwable to log.
      */
     public static void debug(@Nullable Object object, Throwable e) {
         debug(object);
@@ -661,7 +661,7 @@ public class Debug {
      * Logs a debug message, a throwable, and multiple objects.
      *
      * @param message The message to log.
-     * @param e The throwable to log.
+     * @param e       The throwable to log.
      * @param objects The objects to log.
      */
     public static void debug(@Nullable String message, @Nullable Throwable e, Object @Nullable ... objects) {
@@ -672,8 +672,8 @@ public class Debug {
     /**
      * Logs a debug object, a throwable, and multiple objects.
      *
-     * @param object The object to log.
-     * @param e The throwable to log.
+     * @param object  The object to log.
+     * @param e       The throwable to log.
      * @param objects The objects to log.
      */
     public static void debug(@Nullable Object object, @Nullable Throwable e, Object @Nullable ... objects) {
@@ -684,8 +684,8 @@ public class Debug {
     /**
      * Logs a debug message, a throwable, and multiple messages.
      *
-     * @param message The message to log.
-     * @param e The throwable to log.
+     * @param message  The message to log.
+     * @param e        The throwable to log.
      * @param messages The messages to log.
      */
     public static void debug(@Nullable String message, @Nullable Throwable e, String @Nullable ... messages) {
@@ -696,8 +696,8 @@ public class Debug {
     /**
      * Logs a debug object, a throwable, and multiple messages.
      *
-     * @param object The object to log.
-     * @param e The throwable to log.
+     * @param object   The object to log.
+     * @param e        The throwable to log.
      * @param messages The messages to log.
      */
     public static void debug(@Nullable Object object, @Nullable Throwable e, String @Nullable ... messages) {
@@ -708,7 +708,7 @@ public class Debug {
     /**
      * Logs a message at a specific log level.
      *
-     * @param level The log level.
+     * @param level   The log level.
      * @param message The message to log.
      */
     public static void log(@NotNull Level level, @Nullable String message) {

@@ -6,6 +6,8 @@ import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 
 public interface TinkerProduct extends ItemAttribute {
     TinkerType getTinkerType();
+
     ItemStack getProduct();
+
     IndustrialRevivalItem getIRItem();
 }

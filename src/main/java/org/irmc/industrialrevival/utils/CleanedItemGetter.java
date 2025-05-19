@@ -17,7 +17,9 @@ import org.irmc.pigeonlib.pdc.types.PersistentDataTypes;
  */
 @UtilityClass
 public class CleanedItemGetter {
-    /** PDC key identifying cleaned items ("cleaned_item_id") */
+    /**
+     * PDC key identifying cleaned items ("cleaned_item_id")
+     */
     public static final NamespacedKey CLEANED_ITEM_ID_KEY = KeyUtil.customKey("cleaned_item_id");
 
     /**

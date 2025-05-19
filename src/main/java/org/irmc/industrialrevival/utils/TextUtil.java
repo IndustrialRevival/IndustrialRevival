@@ -22,35 +22,62 @@ import java.util.regex.Pattern;
  */
 @UtilityClass
 public class TextUtil {
-    /** Pattern matching {number} style placeholders */
-    private static final Pattern braceLike = Pattern.compile("\\{\\d+}");
-    /** Pattern matching %-prefixed format specifiers */
-    private static final Pattern percentageLike = Pattern.compile("%[dsfFeEgGcbBhHoxX\\+\\-0 ]");
-    /** Default neutral text color (light gray) */
+    /**
+     * Default neutral text color (light gray)
+     */
     public static final String COLOR_NORMAL = "§x§8§8§f§f§f§f";
-    /** Highlight color for stressed text (orange-red) */
+    /**
+     * Highlight color for stressed text (orange-red)
+     */
     public static final String COLOR_STRESS = "§x§f§f§f§f§8§8";
-    /** Action/button highlight color (red) */
+    /**
+     * Action/button highlight color (red)
+     */
     public static final String COLOR_ACTION = "§x§f§f§8§8§0§0";
-    /** Color for initiative/active elements (cyan) */
+    /**
+     * Color for initiative/active elements (cyan)
+     */
     public static final String COLOR_INITIATIVE = "§x§0§0§8§8§f§f";
-    /** Color for passive elements (teal) */
+    /**
+     * Color for passive elements (teal)
+     */
     public static final String COLOR_PASSIVE = "§x§0§0§f§f§8§8";
-    /** Number display color (pink) */
+    /**
+     * Number display color (pink)
+     */
     public static final String COLOR_NUMBER = "§x§f§f§8§8§f§f";
-    /** Positive status color (green) */
+    /**
+     * Positive status color (green)
+     */
     public static final String COLOR_POSITIVE = "§x§8§8§f§f§8§8";
-    /** Negative status color (dark red) */
+    /**
+     * Negative status color (dark red)
+     */
     public static final String COLOR_NEGATIVE = "§x§f§f§8§8§8§8";
-    /** Concealed text color (dark gray) */
+    /**
+     * Concealed text color (dark gray)
+     */
     public static final String COLOR_CONCEAL = "§x§8§8§8§8§8§8";
-    /** Input field color (blue) */
+    /**
+     * Input field color (blue)
+     */
     public static final String COLOR_INPUT = "§9";
-    /** Output field color (gold) */
+    /**
+     * Output field color (gold)
+     */
     public static final String COLOR_OUTPUT = "§6";
-    /** Predefined white color constant */
+    /**
+     * Predefined white color constant
+     */
     public static final Color WHITE_COLOR = Color.fromRGB(255, 255, 255);
-
+    /**
+     * Pattern matching {number} style placeholders
+     */
+    private static final Pattern braceLike = Pattern.compile("\\{\\d+}");
+    /**
+     * Pattern matching %-prefixed format specifiers
+     */
+    private static final Pattern percentageLike = Pattern.compile("%[dsfFeEgGcbBhHoxX\\+\\-0 ]");
     private static long COUNT = 0;
 
     /**
@@ -59,11 +86,11 @@ public class TextUtil {
      * Handles string formatting placeholders ({@code {n}} and {@code %s}) by preserving
      * their formatting while applying color gradients to the surrounding text.
      *
-     * @param string     The input string to colorize
-     * @param colorList  List of colors defining the gradient
+     * @param string    The input string to colorize
+     * @param colorList List of colors defining the gradient
      * @return Gradient-colored string with preserved formatting placeholders
      * @apiNote Automatically pads 1-character strings to enable gradient rendering.
-     *          Modifies input string length if less than 2 characters.
+     * Modifies input string length if less than 2 characters.
      * @see #colorRandomString(String)
      * @see #colorPseudorandomString(String)
      */
@@ -131,7 +158,7 @@ public class TextUtil {
      * @param string Input string to colorize
      * @return Gradient-colored string with random hues
      * @apiNote Uses {@link Math#random()} for color generation. For seed-controlled
-     *          randomness, use {@link #colorPseudorandomString(String)}.
+     * randomness, use {@link #colorPseudorandomString(String)}.
      */
     @Nonnull
     public static String colorRandomString(@Nonnull String string) {
@@ -155,7 +182,7 @@ public class TextUtil {
      * @param string Input string to colorize
      * @return Gradient-colored string with deterministic random hues
      * @apiNote Seed combines string hash and server name. For custom seeds, use
-     *          {@link #colorPseudorandomString(String, long)}.
+     * {@link #colorPseudorandomString(String, long)}.
      */
     @Nonnull
     public static String colorPseudorandomString(@Nonnull String string) {
@@ -277,8 +304,8 @@ public class TextUtil {
     /**
      * Generates interpolated color array between specified colors.
      *
-     * @param size    Number of output colors
-     * @param colors  Array of source colors for interpolation
+     * @param size   Number of output colors
+     * @param colors Array of source colors for interpolation
      * @return Array of colors linearly interpolated between source points
      * @apiNote Returns single-color array when size=1. Returns empty array for invalid inputs.
      * @see #disperse(int, List)

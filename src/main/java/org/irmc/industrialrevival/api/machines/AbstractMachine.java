@@ -15,13 +15,14 @@ import java.util.Map;
 
 /**
  * Abstract class for all IndustrialRevival machines.
+ *
  * @author balugaq
  */
 public abstract class AbstractMachine extends IndustrialRevivalItem {
-    protected final MachineRecipes machineRecipes = new MachineRecipes();
     @Getter
     private static RecipeType recipeType = null;
     private static ItemStack recipeTypeIcon = null;
+    protected final MachineRecipes machineRecipes = new MachineRecipes();
 
     public AbstractMachine addRecipe(int processTime, int energy, ItemStack[] consume, ItemStack[] produce) {
         checkRegistered();

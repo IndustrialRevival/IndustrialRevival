@@ -28,7 +28,7 @@ public class EnergyUtil {
     /**
      * Sets the energy value for the specified ItemStack.
      *
-     * @param stack The ItemStack to set the energy for.
+     * @param stack  The ItemStack to set the energy for.
      * @param energy The energy value to set.
      */
     public static void setItemEnergy(ItemStack stack, double energy) {
@@ -38,7 +38,7 @@ public class EnergyUtil {
     /**
      * Adds the specified amount of energy to the ItemStack.
      *
-     * @param stack The ItemStack to add energy to.
+     * @param stack  The ItemStack to add energy to.
      * @param energy The amount of energy to add.
      */
     public static void addItemEnergy(ItemStack stack, double energy) {
@@ -49,7 +49,7 @@ public class EnergyUtil {
      * Takes the specified amount of energy from the ItemStack.
      * If the ItemStack has less energy than the specified amount, the energy is set to 0.
      *
-     * @param stack The ItemStack to take energy from.
+     * @param stack  The ItemStack to take energy from.
      * @param energy The amount of energy to take.
      */
     public static void takeItemEnergy(ItemStack stack, double energy) {
@@ -62,7 +62,7 @@ public class EnergyUtil {
     /**
      * Checks if the ItemStack has enough energy for the specified amount.
      *
-     * @param stack The ItemStack to check.
+     * @param stack  The ItemStack to check.
      * @param energy The amount of energy to check against.
      * @return True if the ItemStack has enough energy, false otherwise.
      */

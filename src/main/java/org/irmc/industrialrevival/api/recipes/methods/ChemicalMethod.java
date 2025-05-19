@@ -12,6 +12,7 @@ import org.irmc.industrialrevival.implementation.items.chemistry.OperationTable;
 @Getter
 public class ChemicalMethod implements ProduceMethod {
     private final ChemicalFormula formula;
+
     public ChemicalMethod(ChemicalFormula formula) {
         this.formula = formula;
     }

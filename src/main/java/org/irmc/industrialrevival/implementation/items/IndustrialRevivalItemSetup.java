@@ -12,15 +12,16 @@ import org.irmc.industrialrevival.api.items.TinkerProductItem;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.machines.BasicMachine;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipe;
-import org.irmc.industrialrevival.api.recipes.methods.CraftMethod;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
+import org.irmc.industrialrevival.api.recipes.methods.CraftMethod;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.groups.IRItemGroups;
+import org.irmc.industrialrevival.implementation.items.chemistry.ElectrolyticMachine;
+import org.irmc.industrialrevival.implementation.items.chemistry.OperationTable;
 import org.irmc.industrialrevival.implementation.items.debug.Container;
 import org.irmc.industrialrevival.implementation.items.debug.DebugHead;
 import org.irmc.industrialrevival.implementation.items.debug.Debugger;
 import org.irmc.industrialrevival.implementation.items.debug.Empty;
-import org.irmc.industrialrevival.implementation.items.machines.ElectrolyticMachine;
 import org.irmc.industrialrevival.implementation.items.register.ChemicalCompoundSetup;
 import org.irmc.industrialrevival.implementation.items.register.ElementOreDusts;
 import org.irmc.industrialrevival.implementation.items.register.ElementOres;
@@ -55,7 +56,7 @@ import org.jetbrains.annotations.NotNull;
  *     .cast(MySpecialItem.class)                // this method can be used to return the instance of {@code MySpecialItem }
  *     .doOtherThingsInMySpecialItem();          // this method should return the instance of {@code MySpecialItem }
  * }</pre>
- *
+ * <p>
  * If an item is a multiblock, it should be built as:
  * <pre>{@code
  * public static final MyMultiblock my_multiblock = new MyMultiblock(namespacedKey) // namespacedKey is the key of the multiblock, see more {@link KeyUtil}
@@ -70,13 +71,13 @@ import org.jetbrains.annotations.NotNull;
  *     .cast(MyMultiblock.class)                 // this method can be used to return the instance of {@code MyMultiblock }
  *     .doOtherThingsInMyMultiblock();           // this method should return the instance of {@code MyMultiblock }
  * }</pre>
- *
+ * <p>
  * Then items should be registered as:
  * <pre>{@code
  * my_item.register();
  * my_multiblock.register();
  * }</pre>
- *
+ * <p>
  * Registering items when building items are okay, too.
  * {@code new MyItem().register()}
  * But it's better to register them in a separate method.
@@ -86,7 +87,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class IndustrialRevivalItemSetup {
     public static final IndustrialRevival INSTANCE = IndustrialRevival.getInstance();
-    public static final ItemStack[] EMPTY_RECIPE = new ItemStack[] {};
+    public static final ItemStack[] EMPTY_RECIPE = new ItemStack[]{};
 
     public static final Empty EMPTY = new Empty()
             .itemGroup(IRItemGroups.DEBUG)
@@ -242,6 +243,17 @@ public class IndustrialRevivalItemSetup {
             .icon(IndustrialRevivalItems.ELECTROLYTIC_MACHINE)
             .cast(ElectrolyticMachine.class);
 
+    public static final OperationTable OPERATION_TABLE = new OperationTable() {
+        @Override
+        public @NotNull Component getItemName() {
+            return Component.text("Operation Table");
+        }
+    }
+            .itemGroup(IRItemGroups.DEBUG)
+            .id("operation_table")
+            .icon(IndustrialRevivalItems.OPERATION_TABLE)
+            .cast(OperationTable.class);
+
     public static void setup() {
         EMPTY.register();
         CONTAINER.register();
@@ -263,5 +275,6 @@ public class IndustrialRevivalItemSetup {
         ChemicalCompoundSetup.setup();
         TEST_MACHINE.register();
         ELECTROLYTIC_MACHINE.register();
+        OPERATION_TABLE.register();
     }
 }

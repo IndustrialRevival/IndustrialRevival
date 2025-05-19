@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 // todo: add item flow control
+
 /**
  * Provides a matrix-based menu creation system for defining inventory layouts using character mappings.
  * Allows creation of interactive menus by associating characters with items and click handlers.
@@ -34,9 +35,9 @@ import java.util.Map;
  *     .addExplain('O', MenuUtil.OUTPUT_BORDER);
  * </pre>
  *
- * @version 1.2
  * @author balugaq
  * @author lijinhong11
+ * @version 1.2
  * @see MachineMenuPreset
  * @see ClickHandler
  */
@@ -50,6 +51,7 @@ public class MatrixMenuDrawer implements Cloneable {
 
     /**
      * Constructs a MatrixMenuDrawer with specified inventory size
+     *
      * @param size Valid inventory size (1-54 slots)
      */
     public MatrixMenuDrawer(@Range(from = 1, to = 54) int size) {
@@ -58,6 +60,7 @@ public class MatrixMenuDrawer implements Cloneable {
 
     /**
      * Adds a line to the menu matrix
+     *
      * @param line String representing menu row (should match inventory row length)
      * @return This drawer instance for chaining
      * @throws IllegalArgumentException If line length doesn't match expected row size
@@ -71,10 +74,33 @@ public class MatrixMenuDrawer implements Cloneable {
         return this;
     }
 
+    /**
+     * Adds a line to the menu matrix
+     *
+     * @param c       Matrix character to define
+     * @param comment hard coded comment for reviewers
+     * @return This drawer instance for chaining
+     */
+    public MatrixMenuDrawer addExplain(char c, @NotNull String comment) {
+        return this;
+    }
+
+    /**
+     * Adds a line to the menu matrix
+     *
+     * @param s       String representing menu row (should match inventory row length)
+     * @param comment hard coded comment for reviewers
+     * @return This drawer instance for chaining
+     */
+    public MatrixMenuDrawer addExplain(String s, @NotNull String comment) {
+        return this;
+    }
+
 
     /**
      * Maps character to menu item without click handler
-     * @param c Matrix character to define
+     *
+     * @param c         Matrix character to define
      * @param itemStack Item to display at character positions
      * @return This drawer instance for chaining
      */
@@ -85,8 +111,9 @@ public class MatrixMenuDrawer implements Cloneable {
 
     /**
      * Maps character to menu item with click handler
-     * @param c Matrix character to define
-     * @param itemStack Item to display at character positions
+     *
+     * @param c            Matrix character to define
+     * @param itemStack    Item to display at character positions
      * @param clickHandler Click handler for the item
      * @return This drawer instance for chaining
      * @apiNote Background items (as per MenuUtil.isBackground()) will override handler
@@ -99,7 +126,8 @@ public class MatrixMenuDrawer implements Cloneable {
 
     /**
      * Maps character to background item with click handler
-     * @param c Matrix character to define
+     *
+     * @param c            Matrix character to define
      * @param clickHandler Click handler for the item
      * @return This drawer instance for chaining
      */
@@ -110,7 +138,8 @@ public class MatrixMenuDrawer implements Cloneable {
 
     /**
      * Maps character to menu item with click handler
-     * @param c Matrix character to define
+     *
+     * @param c         Matrix character to define
      * @param itemStack Item to display at character positions
      * @return This drawer instance for chaining
      * @apiNote Background items (as per MenuUtil.isBackground()) will override handler
@@ -122,8 +151,9 @@ public class MatrixMenuDrawer implements Cloneable {
 
     /**
      * Maps character to menu item with click handler
-     * @param c Matrix character to define
-     * @param itemStack Item to display at character positions
+     *
+     * @param c            Matrix character to define
+     * @param itemStack    Item to display at character positions
      * @param clickHandler Click handler for the item
      * @return This drawer instance for chaining
      * @apiNote Background items (as per MenuUtil.isBackground()) will override handler
@@ -136,7 +166,8 @@ public class MatrixMenuDrawer implements Cloneable {
 
     /**
      * Maps character to background item with click handler
-     * @param c Matrix character to define
+     *
+     * @param c            Matrix character to define
      * @param clickHandler Click handler for the item
      * @return This drawer instance for chaining
      */
@@ -147,6 +178,7 @@ public class MatrixMenuDrawer implements Cloneable {
 
     /**
      * Finds all inventory slots containing specified character
+     *
      * @param s String to locate, only first character is used
      * @return Array of slot indexes (0-based) where character appears
      */
@@ -156,6 +188,7 @@ public class MatrixMenuDrawer implements Cloneable {
 
     /**
      * Finds all inventory slots containing specified character
+     *
      * @param c Character to locate
      * @return Array of slot indexes (0-based) where character appears
      */
@@ -179,6 +212,7 @@ public class MatrixMenuDrawer implements Cloneable {
 
     /**
      * Finds the inventory slot containing specified character
+     *
      * @param c Character to locate
      * @return Slot index (0-based) where character appears, or -1 if not found
      */
@@ -196,6 +230,7 @@ public class MatrixMenuDrawer implements Cloneable {
 
     /**
      * Finds the inventory slot containing specified character
+     *
      * @param s String to locate, only first character is used
      * @return Slot index (0-based) where character appears, or -1 if not found
      */
@@ -205,6 +240,7 @@ public class MatrixMenuDrawer implements Cloneable {
 
     /**
      * Creates a deep copy of the drawer configuration
+     *
      * @return New MatrixMenuDrawer instance with copied mappings and matrix
      */
     @Override
@@ -218,8 +254,9 @@ public class MatrixMenuDrawer implements Cloneable {
 
     /**
      * Maps character to menu item without click handler
-     * @param c Matrix character to define
-     * @param comment hard coded comment for reviewers
+     *
+     * @param c         Matrix character to define
+     * @param comment   hard coded comment for reviewers
      * @param itemStack Item to display at character positions
      * @return This drawer instance for chaining
      */
@@ -230,9 +267,10 @@ public class MatrixMenuDrawer implements Cloneable {
 
     /**
      * Maps character to menu item with click handler
-     * @param c Matrix character to define
-     * @param comment hard coded comment for reviewers
-     * @param itemStack Item to display at character positions
+     *
+     * @param c            Matrix character to define
+     * @param comment      hard coded comment for reviewers
+     * @param itemStack    Item to display at character positions
      * @param clickHandler Click handler for the item
      * @return This drawer instance for chaining
      * @apiNote Background items (as per MenuUtil.isBackground()) will override handler
@@ -245,8 +283,9 @@ public class MatrixMenuDrawer implements Cloneable {
 
     /**
      * Maps character to background item with click handler
-     * @param c Matrix character to define
-     * @param comment hard coded comment for reviewers
+     *
+     * @param c            Matrix character to define
+     * @param comment      hard coded comment for reviewers
      * @param clickHandler Click handler for the item
      * @return This drawer instance for chaining
      */
@@ -257,8 +296,9 @@ public class MatrixMenuDrawer implements Cloneable {
 
     /**
      * Maps character to menu item with click handler
-     * @param c Matrix character to define
-     * @param comment hard coded comment for reviewers
+     *
+     * @param c         Matrix character to define
+     * @param comment   hard coded comment for reviewers
      * @param itemStack Item to display at character positions
      * @return This drawer instance for chaining
      * @apiNote Background items (as per MenuUtil.isBackground()) will override handler
@@ -270,9 +310,10 @@ public class MatrixMenuDrawer implements Cloneable {
 
     /**
      * Maps character to menu item with click handler
-     * @param c Matrix character to define
-     * @param comment hard coded comment for reviewers
-     * @param itemStack Item to display at character positions
+     *
+     * @param c            Matrix character to define
+     * @param comment      hard coded comment for reviewers
+     * @param itemStack    Item to display at character positions
      * @param clickHandler Click handler for the item
      * @return This drawer instance for chaining
      * @apiNote Background items (as per MenuUtil.isBackground()) will override handler
@@ -285,8 +326,9 @@ public class MatrixMenuDrawer implements Cloneable {
 
     /**
      * Maps character to background item with click handler
-     * @param c Matrix character to define
-     * @param comment hard coded comment for reviewers
+     *
+     * @param c            Matrix character to define
+     * @param comment      hard coded comment for reviewers
      * @param clickHandler Click handler for the item
      * @return This drawer instance for chaining
      */

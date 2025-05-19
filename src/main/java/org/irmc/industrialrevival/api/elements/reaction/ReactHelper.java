@@ -13,15 +13,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class ReactHelper {
     /**
      * React the items with the conditions
+     *
      * @param conditions the conditions of the reaction
-     * @param items the items to react
+     * @param items      the items to react
      * @return the produce of the reaction
      */
     @NotNull
@@ -31,14 +30,15 @@ public class ReactHelper {
 
     /**
      * React the items with the conditions
+     *
      * @param conditions the conditions of the reaction
-     * @param items the items to react
+     * @param items      the items to react
      * @return the produce of the reaction
      */
     @NotNull
     public static ReactResult react(ReactCondition[] conditions, List<ItemStack> items) {
         Map<ChemReactable, ItemStack> reactables = new HashMap<>();
-        for (ItemStack item :  items) {
+        for (ItemStack item : items) {
             if (IndustrialRevivalItem.getByItem(item) instanceof ChemReactable cr) {
                 reactables.put(cr, item);
             }
@@ -49,8 +49,9 @@ public class ReactHelper {
 
     /**
      * React the reactables with the conditions
-     * @param conditions     the conditions of the reaction
-     * @param reactables     the reactables to react
+     *
+     * @param conditions the conditions of the reaction
+     * @param reactables the reactables to react
      * @return the produce of the reaction
      */
     public static ReactResult react(ReactCondition[] conditions, Map<ChemReactable, ItemStack> reactables) {
@@ -63,12 +64,13 @@ public class ReactHelper {
 
     /**
      * React the reactables with the conditions
-     * @param conditions     the conditions of the reaction
-     * @param currentMasses  the masses of the reactants
+     *
+     * @param conditions    the conditions of the reaction
+     * @param currentMasses the masses of the reactants
      * @return the produce of the reaction
      */
     @NotNull
-    public static ReactResult react0(ReactCondition[] conditions, Map<ChemicalCompound, Double> currentMasses) {
+    public static ReactResult react0(@NotNull ReactCondition[] conditions, @NotNull Map<ChemicalCompound, Double> currentMasses) {
         List<ChemicalFormula> formulas = new ArrayList<>(IRRegistry.getInstance().getChemicalFormulas().values());
 
         // shuffle the formulas, ensure that every reaction occurs uniformly
@@ -90,11 +92,16 @@ public class ReactHelper {
 
     /**
      * Check if the current conditions satisfy the conditions of the reaction
+     *
      * @param required the required conditions of the reaction
-     * @param current the current conditions of the reaction
+     * @param current  the current conditions of the reaction
      * @return true if the current conditions satisfy the conditions of the reaction, false otherwise
      */
-    public static boolean conditionSatisfied( ReactCondition[] required, ReactCondition[] current) {
+    public static boolean conditionSatisfied(@NotNull ReactCondition[] required, @NotNull ReactCondition[] current) {
+        if (required.length == 0) {
+            return true;
+        }
+
         for (ReactCondition requiredCondition : required) {
             boolean satisfied = false;
             for (ReactCondition currentCondition : current) {
@@ -113,11 +120,13 @@ public class ReactHelper {
 
     /**
      * Check if the current reactants satisfy the inputs of the reaction
-     * @param inputs the inputs of the reaction
+     *
+     * @param inputs  the inputs of the reaction
      * @param current the reactants
      * @return true if the current reactants satisfy the inputs of the reaction, false otherwise
      */
-    public static boolean inputsSatisfied(Map<ChemicalCompound, Integer> inputs, Set<ChemicalCompound> current) {;
+    public static boolean inputsSatisfied(Map<ChemicalCompound, Integer> inputs, Set<ChemicalCompound> current) {
+        ;
         for (ChemicalCompound compound : inputs.keySet()) {
             if (!current.contains(compound)) {
                 return false;
@@ -129,9 +138,10 @@ public class ReactHelper {
 
     /**
      * Calculate the output of a reaction
-     * @param conditions the conditions of the reaction
+     *
+     * @param conditions    the conditions of the reaction
      * @param currentMasses the masses of the reactants
-     * @param formula the chemical formula of the reaction
+     * @param formula       the chemical formula of the reaction
      * @return the produce of the reaction
      */
     public static ReactResult calculateOutput(ReactCondition[] conditions, Map<ChemicalCompound, Double> currentMasses, ChemicalFormula formula) {
@@ -143,7 +153,7 @@ public class ReactHelper {
         }
 
         // reaction should react slowly instead of output all the products directly
-        maxProportion /= 10;
+        maxProportion /= 6;
         if (formula.getConditionSensor() != null) {
             maxProportion = formula.getConditionSensor().apply(conditions, maxProportion);
         }
@@ -153,14 +163,23 @@ public class ReactHelper {
             return ReactResult.FAILED;
         }
 
+        var totalMolarMass = 0.0;
+        for (ChemicalCompound compound : proportion.keySet()) {
+            totalMolarMass += proportion.get(compound) * compound.getMolarMass();
+        }
+
         var finalConsume = new HashMap<ChemicalCompound, Double>();
         for (ChemicalCompound compound : proportion.keySet()) {
-            finalConsume.put(compound, proportion.get(compound) * maxProportion);
+            /* proportion.get(compound) * maxProportion = Molar mass */
+            /* Molar mass / totalMolarMass * compound.getMolarMass() = Real mass */
+            finalConsume.put(compound, proportion.get(compound) * maxProportion / totalMolarMass * compound.getMolarMass());
         }
 
         var finalResult = new HashMap<ChemicalCompound, Double>();
         for (ChemicalCompound compound : formula.getOutput().keySet()) {
-            finalResult.put(compound, formula.getOutput().get(compound) * maxProportion);
+            /* formula.getOutput().get(compound) * maxProportion = Molar mass */
+            /* Molar mass / totalMolarMass * compound.getMolarMass() = Real mass */
+            finalResult.put(compound, formula.getOutput().get(compound) * maxProportion / totalMolarMass * compound.getMolarMass());
         }
 
         return new ReactResult(formula, finalConsume, finalResult);

@@ -110,37 +110,6 @@ public class BlastSmeltery extends MultiBlock implements ExtraTickable {
         setStructure(sb.build());
     }
 
-    @Override
-    public void onInteract(@NotNull PlayerInteractEvent event) {
-        Debug.log(event.getAction());
-        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            Location location = event.getClickedBlock().getLocation();
-            if (!instances.containsKey(location)) {
-                instances.put(location, new Smeltery());
-                MachineMenu menu = new MachineMenu(location, preset);
-                menu.addMenuDrawer(menuDrawer);
-                menus.put(location, menu);
-            }
-
-            Player player = event.getPlayer();
-            ItemStack itemStack = event.getItem();
-            if (itemStack != null && Smeltery.isFuel(itemStack)) {
-                Smeltery smeltery = instances.get(location);
-                int add = Smeltery.getFuelAmount(itemStack);
-                if (smeltery.getTank().getFuels() + add <= smeltery.getTank().getMaxFuel()) {
-                    smeltery.getTank().addFuel(add);
-                    return;
-                }
-            }
-
-            MachineMenu menu = menus.get(location);
-            lastInteracted.put(player.getUniqueId(), location);
-            MultiblockTicker.addTickable(location, this);
-            updateMenu(location);
-            menu.open(player);
-        }
-    }
-
     //<editor-fold> desc="slot functions"
     public static int[] getInputSlots() {
         return menuDrawer.getCharPositions('i');
@@ -161,12 +130,12 @@ public class BlastSmeltery extends MultiBlock implements ExtraTickable {
     public static int getProductSlot() {
         return menuDrawer.getCharPositions('p')[0];
     }
-    //</editor-fold>
 
     //<editor-fold> desc="melting functions"
     public static boolean isMeltable(@NotNull ItemStack input) {
         return IndustrialRevivalItem.getByItem(input) instanceof Meltable;
     }
+    //</editor-fold>
 
     public static @NotNull ItemStack getMeltingStack(@NotNull ItemStack input) {
         return new CustomItemStack(input, im -> {
@@ -250,59 +219,6 @@ public class BlastSmeltery extends MultiBlock implements ExtraTickable {
     public static int getMeltingLevel(ItemStack input) {
         return PersistentDataAPI.getOrDefault(input.getItemMeta(), MELTING_KEY, PersistentDataType.INTEGER, 0);
     }
-    //</editor-fold
-
-    //<editor-fold> desc="ticker"
-    @Override
-    public When getTime() {
-        return When.TICK_DONE;
-    }
-
-    public void tick(Location location) {
-        Smeltery smeltery = instances.get(location);
-        MachineMenu menu = menus.get(location);
-        if (smeltery == null || menu == null) {
-            return;
-        }
-        tick(location, menu, smeltery);
-    }
-
-    public void tick(Location location, MachineMenu menu, Smeltery smeltery) {
-        smeltery.tick();
-        if (menu.hasViewer()) {
-            Debug.log("101 BlastSmeltery tick hasViewer");
-            updateMenu(location);
-        }
-        int fuels = smeltery.getTank().getFuels();
-        for (int slot : getInputSlots()) {
-            ItemStack input = menu.getItem(slot);
-            if (input == null || input.getType() == Material.AIR) {
-                continue;
-            }
-            if (isMeltingStack(input)) {
-                if (IndustrialRevivalItem.getByItem(input) instanceof Meltable meltable) {
-                    int fuelUse = meltable.getFuelUse(input);
-                    if (fuelUse <= getMeltingLevel(input)) {
-                        smeltery.getTank().addMelted(new MeltedObject(meltable.getMeltedType(input), meltable.getTinkerType(input).getLevel()));
-                        menu.setItem(slot, new ItemStack(Material.AIR));
-                        continue;
-                    } else if (meltable.getMeltingPoint(input) > fuels) {
-                        continue;
-                    }
-
-                    if (fuels > 0) {
-                        addMeltingLevel(input, fuelUse);
-                        fuels -= 1;
-                    }
-                }
-            }
-        }
-
-        smeltery.getTank().setFuels(fuels);
-        if (smeltery.getTank().isDirty()) {
-            smeltery.getTank().renderAt(location);
-        }
-    }
 
     public static void updateMenu(Location location) {
         Smeltery smeltery = instances.get(location);
@@ -362,6 +278,90 @@ public class BlastSmeltery extends MultiBlock implements ExtraTickable {
                 menu.getItem(slot).setType(Material.LAVA_BUCKET);
             }
             j += 1;
+        }
+    }
+    //</editor-fold
+
+    @Override
+    public void onInteract(@NotNull PlayerInteractEvent event) {
+        Debug.log(event.getAction());
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            Location location = event.getClickedBlock().getLocation();
+            if (!instances.containsKey(location)) {
+                instances.put(location, new Smeltery());
+                MachineMenu menu = new MachineMenu(location, preset);
+                menu.addMenuDrawer(menuDrawer);
+                menus.put(location, menu);
+            }
+
+            Player player = event.getPlayer();
+            ItemStack itemStack = event.getItem();
+            if (itemStack != null && Smeltery.isFuel(itemStack)) {
+                Smeltery smeltery = instances.get(location);
+                int add = Smeltery.getFuelAmount(itemStack);
+                if (smeltery.getTank().getFuels() + add <= smeltery.getTank().getMaxFuel()) {
+                    smeltery.getTank().addFuel(add);
+                    return;
+                }
+            }
+
+            MachineMenu menu = menus.get(location);
+            lastInteracted.put(player.getUniqueId(), location);
+            MultiblockTicker.addTickable(location, this);
+            updateMenu(location);
+            menu.open(player);
+        }
+    }
+
+    //<editor-fold> desc="ticker"
+    @Override
+    public When getTime() {
+        return When.TICK_DONE;
+    }
+
+    public void tick(Location location) {
+        Smeltery smeltery = instances.get(location);
+        MachineMenu menu = menus.get(location);
+        if (smeltery == null || menu == null) {
+            return;
+        }
+        tick(location, menu, smeltery);
+    }
+
+    public void tick(Location location, MachineMenu menu, Smeltery smeltery) {
+        smeltery.tick();
+        if (menu.hasViewer()) {
+            Debug.log("101 BlastSmeltery tick hasViewer");
+            updateMenu(location);
+        }
+        int fuels = smeltery.getTank().getFuels();
+        for (int slot : getInputSlots()) {
+            ItemStack input = menu.getItem(slot);
+            if (input == null || input.getType() == Material.AIR) {
+                continue;
+            }
+            if (isMeltingStack(input)) {
+                if (IndustrialRevivalItem.getByItem(input) instanceof Meltable meltable) {
+                    int fuelUse = meltable.getFuelUse(input);
+                    if (fuelUse <= getMeltingLevel(input)) {
+                        smeltery.getTank().addMelted(new MeltedObject(meltable.getMeltedType(input), meltable.getTinkerType(input).getLevel()));
+                        menu.setItem(slot, new ItemStack(Material.AIR));
+                        continue;
+                    } else if (meltable.getMeltingPoint(input) > fuels) {
+                        continue;
+                    }
+
+                    if (fuels > 0) {
+                        addMeltingLevel(input, fuelUse);
+                        fuels -= 1;
+                    }
+                }
+            }
+        }
+
+        smeltery.getTank().setFuels(fuels);
+        if (smeltery.getTank().isDirty()) {
+            smeltery.getTank().renderAt(location);
         }
     }
     //</editor-fold>

@@ -131,6 +131,7 @@ public class MachineMenuPreset extends SimpleMenu {
     public int[] getSlotsByItemFlow(@NotNull ItemFlow itemFlow, @Nullable ItemStack itemStack) {
         return new int[0];
     }
+
     public MachineMenuPreset withMenuDrawer(@NotNull MatrixMenuDrawer drawer) {
         this.drawers.add(drawer);
         return this;

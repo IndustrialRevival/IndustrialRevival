@@ -100,7 +100,6 @@ public class Constants {
     public static final class Buttons {
         /**
          * Function to generate a back button for the guide GUI.
-         *
          */
         public static final Function<Player, ItemStack> BACK_BUTTON = p -> new CustomItemStack(
                 Material.ENCHANTED_BOOK,
@@ -111,7 +110,6 @@ public class Constants {
 
         /**
          * Function to generate a settings button for the guide GUI.
-         *
          */
         public static final Function<Player, ItemStack> SETTING_BUTTON = p -> new CustomItemStack(
                 Material.REPEATER,
@@ -121,7 +119,6 @@ public class Constants {
 
         /**
          * Function to generate a bookmark button for the guide GUI.
-         *
          */
         public static final Function<Player, ItemStack> BOOKMARK_BUTTON = p -> new CustomItemStack(
                 Material.WRITABLE_BOOK,
@@ -131,7 +128,6 @@ public class Constants {
 
         /**
          * Function to generate an "add to bookmark" button for the guide GUI.
-         *
          */
         public static final Function<Player, ItemStack> ADD_TO_BOOKMARK_BUTTON = p -> new CustomItemStack(
                 Material.PAPER,
@@ -141,7 +137,6 @@ public class Constants {
 
         /**
          * Function to generate a search button for the guide GUI.
-         *
          */
         public static final Function<Player, ItemStack> SEARCH_BUTTON = p -> new CustomItemStack(
                 Material.COMPASS,
@@ -151,7 +146,6 @@ public class Constants {
 
         /**
          * Function to generate a previous button for the guide GUI.
-         *
          */
         public static final Function<Player, ItemStack> PREVIOUS_BUTTON = p -> new CustomItemStack(
                 Material.LIME_STAINED_GLASS_PANE,
@@ -161,7 +155,6 @@ public class Constants {
 
         /**
          * Function to generate a next button for the guide GUI.
-         *
          */
         public static final Function<Player, ItemStack> NEXT_BUTTON = p -> new CustomItemStack(
                 Material.LIME_STAINED_GLASS_PANE,
@@ -171,7 +164,6 @@ public class Constants {
 
         /**
          * Function to generate a "previous one" button for the guide GUI.
-         *
          */
         public static final Function<Player, ItemStack> PREVIOUS_ONE_BUTTON = p -> new CustomItemStack(
                 Material.LIME_STAINED_GLASS_PANE,
@@ -181,7 +173,6 @@ public class Constants {
 
         /**
          * Function to generate a wiki page button for the guide GUI.
-         *
          */
         public static final Function<Player, ItemStack> WIKI_PAGE_BUTTON = p -> new CustomItemStack(
                 Material.BOOK,
@@ -191,7 +182,6 @@ public class Constants {
 
         /**
          * Function to generate a "next one" button for the guide GUI.
-         *
          */
         public static final Function<Player, ItemStack> NEXT_ONE_BUTTON = p -> new CustomItemStack(
                 Material.LIME_STAINED_GLASS_PANE,
@@ -201,7 +191,6 @@ public class Constants {
 
         /**
          * Function to generate a history button for the guide GUI.
-         *
          */
         public static final Function<Player, ItemStack> HISTORY_BUTTON = p -> new CustomItemStack(
                 Material.CLOCK,
@@ -211,7 +200,6 @@ public class Constants {
 
         /**
          * Function to generate a language button for the guide GUI.
-         *
          */
         public static final Function<Player, ItemStack> LANGUAGE_BUTTON = p -> new CustomItemStack(
                 Material.BOOK,
@@ -221,7 +209,6 @@ public class Constants {
 
         /**
          * Function to generate a guide mode switch button for the guide GUI.
-         *
          */
         public static final BiFunction<Player, IRGuideImplementation, ItemStack> GUIDE_MODE_SWITCH_BUTTON = (p, impl) -> new CustomItemStack(
                 Material.COMPASS,
@@ -340,15 +327,18 @@ public class Constants {
          * The default language for the plugin.
          */
         public static final String DEFAULT_LANGUAGE = "zh-CN";
-
-        static {
-            SUPPORTED_LANGUAGES.add("zh-CN");
-        }
-
         /**
          * A map of locale to texture hashcodes.
          */
         private static final Map<String, String> textures = new HashMap<>();
+        /**
+         * A map of locale to language button ItemStacks.
+         */
+        private static final Map<String, ItemStack> languages = new HashMap<>();
+
+        static {
+            SUPPORTED_LANGUAGES.add("zh-CN");
+        }
 
         static {
             textures.put("zh-CN", "7f9bc035cdc80f1ab5e1198f29f3ad3fdd2b42d9a69aeb64de990681800b98dc");
@@ -357,23 +347,18 @@ public class Constants {
             textures.put("en-US", "cd91456877f54bf1ace251e4cee40dba597d2cc40362cb8f4ed711e50b0be5b3");
         }
 
-        /**
-         * A map of locale to language button ItemStacks.
-         */
-        private static final Map<String, ItemStack> languages = new HashMap<>();
+        static {
+            languages.put("zh-CN", getLanguageButton(Locale.SIMPLIFIED_CHINESE));
+            languages.put("zh-TW", getLanguageButton(Locale.TRADITIONAL_CHINESE));
+            languages.put("en-GB", getLanguageButton(Locale.UK));
+            languages.put("en-US", getLanguageButton(Locale.US));
+        }
 
         private static ItemStack getLanguageButton(Locale locale) {
             CustomItemStack cis = new CustomItemStack(Material.PLAYER_HEAD);
             cis.setPDCData(ItemStackKeys.LANGUAGE_KEY, PersistentDataType.STRING, locale.getLanguage());
             // todo: add texture
             return cis.getBukkit();
-        }
-
-        static {
-            languages.put("zh-CN", getLanguageButton(Locale.SIMPLIFIED_CHINESE));
-            languages.put("zh-TW", getLanguageButton(Locale.TRADITIONAL_CHINESE));
-            languages.put("en-GB", getLanguageButton(Locale.UK));
-            languages.put("en-US", getLanguageButton(Locale.US));
         }
 
         /**

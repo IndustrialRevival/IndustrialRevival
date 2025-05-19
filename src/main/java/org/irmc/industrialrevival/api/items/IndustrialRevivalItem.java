@@ -27,10 +27,10 @@ import org.irmc.industrialrevival.api.items.handlers.ItemHandler;
 import org.irmc.industrialrevival.api.multiblock.MultiBlock;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
-import org.irmc.industrialrevival.api.recipes.methods.CraftMethod;
 import org.irmc.industrialrevival.api.recipes.RecipeContent;
 import org.irmc.industrialrevival.api.recipes.RecipeContents;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
+import org.irmc.industrialrevival.api.recipes.methods.CraftMethod;
 import org.irmc.industrialrevival.api.recipes.methods.ProduceMethod;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.items.IndustrialRevivalItemSetup;
@@ -53,23 +53,23 @@ import java.util.Set;
 
 /**
  * An industrial revival item. (Data class & Builder)<br>
- *
+ * <p>
  * IndustrialRevivalItem is a builder class for creating items.
  * It provides a set of methods for adding attributes to the item.
  * See more {@link IndustrialRevivalItemSetup}
- *
+ * <p>
  * By default, the item is not registered in the game.
  * To register the item, use {@link #register()}.
  * The block is placeable by default. If you want it to
  * be unplaceable, implement the {@link NotPlaceable} interface.
- *
+ * <p>
  * See more in package {@link org.irmc.industrialrevival.api.items}
  *
  * @author balugaq
  * @author linjinhong11
+ * @noinspection ALL
  * @see NotPlaceable
  * @see IndustrialRevivalItemSetup
- * @noinspection ALL
  */
 @SuppressWarnings("unused")
 public class IndustrialRevivalItem implements Keyed {
@@ -95,7 +95,8 @@ public class IndustrialRevivalItem implements Keyed {
     private ItemStack recipeOutput;
     private ItemState state = ItemState.UNREGISTERED;
 
-    @Getter @Nullable
+    @Getter
+    @Nullable
     private String wikiText;
 
     @Getter
@@ -121,17 +122,8 @@ public class IndustrialRevivalItem implements Keyed {
     }
 
     /**
-     * Avoid type erasure
-     * @param clazz the class to cast to
-     * @return this as the given class
-     * @param <T> the type of the class to cast to, must be a subclass of {@link IndustrialRevivalItem}
-     */
-    public <T extends IndustrialRevivalItem> T cast(Class<T> clazz) {
-        return (T) this;
-    }
-
-    /**
      * Gets the item from a {@link String}.
+     *
      * @param id the {@link String} of the item
      * @return the item with the given {@link String}, or null if not found
      */
@@ -150,9 +142,9 @@ public class IndustrialRevivalItem implements Keyed {
         return null;
     }
 
-
     /**
      * Gets the item from a {@link NamespacedKey}.
+     *
      * @param id the {@link NamespacedKey} of the item
      * @return the item with the given {@link NamespacedKey}, or null if not found
      */
@@ -163,6 +155,7 @@ public class IndustrialRevivalItem implements Keyed {
 
     /**
      * Gets the item from an {@link ItemStack}.
+     *
      * @param item the {@link ItemStack} to get the item from
      * @return the item with the given {@link ItemStack}, or null if not found
      */
@@ -181,7 +174,19 @@ public class IndustrialRevivalItem implements Keyed {
     }
 
     /**
+     * Avoid type erasure
+     *
+     * @param clazz the class to cast to
+     * @param <T>   the type of the class to cast to, must be a subclass of {@link IndustrialRevivalItem}
+     * @return this as the given class
+     */
+    public <T extends IndustrialRevivalItem> T cast(Class<T> clazz) {
+        return (T) this;
+    }
+
+    /**
      * Gets all item handlers of the item.
+     *
      * @return the item handlers of the item
      */
     public Collection<ItemHandler> getItemHandlers() {
@@ -189,34 +194,8 @@ public class IndustrialRevivalItem implements Keyed {
     }
 
     /**
-     * Sets ID of the item.
-     * @param id the ID of the item
-     * @return this instance
-     */
-    @NotNull
-    public IndustrialRevivalItem setId(@NotNull NamespacedKey id) {
-        this.id = id;
-        return this;
-    }
-
-    /**
-     * Sets ID of the item.
-     * @param id the ID of the item
-     * @return this instance
-     */
-    @NotNull
-    public IndustrialRevivalItem setId(@NotNull String id) {
-        if (addon == null) {
-            // allowed to generate ID without addon when registering
-            cachedId = id;
-            return this;
-        }
-        this.id = new NamespacedKey(addon.getPlugin(), id);
-        return this;
-    }
-
-    /**
      * Sets the ID of the item.
+     *
      * @param id the ID of the item
      * @return this instance
      */
@@ -227,6 +206,7 @@ public class IndustrialRevivalItem implements Keyed {
 
     /**
      * Sets the ID of the item.
+     *
      * @param id the ID of the item
      * @return this instance
      */
@@ -235,9 +215,9 @@ public class IndustrialRevivalItem implements Keyed {
         return setId(id);
     }
 
-
     /**
      * Sets the icon of the item.
+     *
      * @param icon the icon of the item
      * @return this instance
      */
@@ -249,6 +229,7 @@ public class IndustrialRevivalItem implements Keyed {
 
     /**
      * Sets the icon of the item.
+     *
      * @param icon the icon of the item
      * @return this instance
      */
@@ -259,6 +240,7 @@ public class IndustrialRevivalItem implements Keyed {
 
     /**
      * Sets the icon of the item.
+     *
      * @param icon the icon of the item
      * @return this instance
      */
@@ -269,6 +251,7 @@ public class IndustrialRevivalItem implements Keyed {
 
     /**
      * Sets the icon of the item.
+     *
      * @param icon the icon of the item
      * @return this instance
      */
@@ -277,20 +260,9 @@ public class IndustrialRevivalItem implements Keyed {
         return icon(icon.getBukkit());
     }
 
-
     /**
      * Sets the recipe output of the item.
-     * @param recipeOutput the recipe output of the item
-     * @return this instance
-     */
-    @NotNull
-    public IndustrialRevivalItem setRecipeOutput(@NotNull ItemStack recipeOutput) {
-        this.recipeOutput = recipeOutput;
-        return this;
-    }
-
-    /**
-     * Sets the recipe output of the item.
+     *
      * @param recipeOutput the recipe output of the item
      * @return this instance
      */
@@ -301,6 +273,7 @@ public class IndustrialRevivalItem implements Keyed {
 
     /**
      * Adds the {@link ItemGroup} of the item.
+     *
      * @param group the {@link ItemGroup} of the item
      * @return this instance
      */
@@ -316,6 +289,7 @@ public class IndustrialRevivalItem implements Keyed {
 
     /**
      * Sets the {@link ItemGroup} of the item.
+     *
      * @param group the {@link ItemGroup} of the item
      * @return this instance
      */
@@ -326,6 +300,7 @@ public class IndustrialRevivalItem implements Keyed {
 
     /**
      * Enables auto-translation of the item's name and lore.
+     *
      * @return this instance
      */
     @NotNull
@@ -337,6 +312,7 @@ public class IndustrialRevivalItem implements Keyed {
 
     /**
      * Disables auto-translation of the item's name and lore.
+     *
      * @return this instance
      */
     @NotNull
@@ -348,6 +324,7 @@ public class IndustrialRevivalItem implements Keyed {
 
     /**
      * Enables auto-infer-addon for the item.
+     *
      * @return this instance
      */
     @NotNull
@@ -359,6 +336,7 @@ public class IndustrialRevivalItem implements Keyed {
 
     /**
      * Disables auto-infer-addon for the item.
+     *
      * @return this instance
      */
     @NotNull
@@ -370,6 +348,7 @@ public class IndustrialRevivalItem implements Keyed {
 
     /**
      * Sets the wiki text of the item.
+     *
      * @param wikiText the wiki text of the item
      * @return this instance
      */
@@ -383,6 +362,7 @@ public class IndustrialRevivalItem implements Keyed {
 
     /**
      * Sets the wiki text of the item.
+     *
      * @param wikiText the wiki text of the item
      * @return this instance
      */
@@ -391,9 +371,9 @@ public class IndustrialRevivalItem implements Keyed {
         return setWikiText(wikiText);
     }
 
-
     /**
      * Adds a {@link ProduceMethod} to the item.
+     *
      * @param produceMethodGetter the produce method lambda of the item
      * @return this instance
      */
@@ -410,6 +390,7 @@ public class IndustrialRevivalItem implements Keyed {
 
     /**
      * Adds a {@link ProduceMethod} to the item.
+     *
      * @param produceMethod the produce method of the item
      * @return this instance
      */
@@ -421,6 +402,7 @@ public class IndustrialRevivalItem implements Keyed {
 
     /**
      * Tag the item with the given {@link ItemDictionary}.
+     *
      * @param itemDictionary the item dictionary of the item
      * @return this instance
      */
@@ -435,7 +417,8 @@ public class IndustrialRevivalItem implements Keyed {
 
     /**
      * Sets disables the item.
-     * @param disabled the disabled state of the item
+     *
+     * @param disabled     the disabled state of the item
      * @param saveToConfig if true, the disabled state will be saved to the config file
      * @return this instance
      */
@@ -456,7 +439,8 @@ public class IndustrialRevivalItem implements Keyed {
 
     /**
      * Sets enchantable of the item.
-     * @param enchantable the enchantable state of the item
+     *
+     * @param enchantable  the enchantable state of the item
      * @param saveToConfig if true, the enchantable state will be saved to the config file
      * @return this instance
      */
@@ -473,8 +457,9 @@ public class IndustrialRevivalItem implements Keyed {
 
     /**
      * Sets disenchantable of the item.
+     *
      * @param disenchantable the disenchantable state of the item
-     * @param saveToConfig if true, the disenchantable state will be saved to the config file
+     * @param saveToConfig   if true, the disenchantable state will be saved to the config file
      * @return this instance
      */
     @NotNull
@@ -490,8 +475,9 @@ public class IndustrialRevivalItem implements Keyed {
 
     /**
      * Sets disabled in the given world.
-     * @param world the world to disable in
-     * @param disabled the disabled state of the item in the world
+     *
+     * @param world        the world to disable in
+     * @param disabled     the disabled state of the item in the world
      * @param saveToConfig if true, the disabled state will be saved to the config file
      * @return
      */
@@ -517,7 +503,8 @@ public class IndustrialRevivalItem implements Keyed {
 
     /**
      * Sets hideInGuide of the item.
-     * @param hideInGuide the hideInGuide state of the item
+     *
+     * @param hideInGuide  the hideInGuide state of the item
      * @param saveToConfig if true, the hideInGuide state will be saved to the config file
      * @return this instance
      */
@@ -533,11 +520,41 @@ public class IndustrialRevivalItem implements Keyed {
 
     /**
      * Gets the ID of the item.
+     *
      * @return the ID of the item
      */
     @NotNull
     public NamespacedKey getId() {
         return this.id;
+    }
+
+    /**
+     * Sets ID of the item.
+     *
+     * @param id the ID of the item
+     * @return this instance
+     */
+    @NotNull
+    public IndustrialRevivalItem setId(@NotNull NamespacedKey id) {
+        this.id = id;
+        return this;
+    }
+
+    /**
+     * Sets ID of the item.
+     *
+     * @param id the ID of the item
+     * @return this instance
+     */
+    @NotNull
+    public IndustrialRevivalItem setId(@NotNull String id) {
+        if (addon == null) {
+            // allowed to generate ID without addon when registering
+            cachedId = id;
+            return this;
+        }
+        this.id = new NamespacedKey(addon.getPlugin(), id);
+        return this;
     }
 
     /**
@@ -600,6 +617,7 @@ public class IndustrialRevivalItem implements Keyed {
 
     /**
      * Gets the name of the item.
+     *
      * @return the name of the item
      */
     @NotNull
@@ -609,9 +627,10 @@ public class IndustrialRevivalItem implements Keyed {
 
     /**
      * Gets the {@link ItemHandler} for the given class.
+     *
      * @param clazz the class of the item handler to get
+     * @param <T>   the type of the item handler to get, must be a subclass of {@link ItemHandler}
      * @return the item handler for the given class, or null if not found
-     * @param <T> the type of the item handler to get, must be a subclass of {@link ItemHandler}
      */
     @Nullable
     public <T extends ItemHandler> T getItemHandler(Class<T> clazz) {
@@ -620,6 +639,7 @@ public class IndustrialRevivalItem implements Keyed {
 
     /**
      * Adds the given item handlers to the item.
+     *
      * @param handlers the item handlers to add
      * @return this instance
      */
@@ -634,6 +654,7 @@ public class IndustrialRevivalItem implements Keyed {
 
     /**
      * Adds the given item handlers to the item.
+     *
      * @param handlers the item handlers to add
      * @return this instance
      */
@@ -644,6 +665,7 @@ public class IndustrialRevivalItem implements Keyed {
 
     /**
      * Pre-registers the item.
+     *
      * @throws Exception if the item is not compatible with any of the item handlers
      */
     @OverridingMethodsMustInvokeSuper
@@ -713,6 +735,7 @@ public class IndustrialRevivalItem implements Keyed {
 
     /**
      * Checks if the item is registered.
+     *
      * @throws IllegalStateException if the item is registered
      * @apiNote This method should be only called before registering the item.
      */
@@ -728,6 +751,7 @@ public class IndustrialRevivalItem implements Keyed {
 
     /**
      * Gets the icon of the item.
+     *
      * @param world the world to get the icon for, or null to get the default icon
      * @return the icon of the item
      */
@@ -737,6 +761,7 @@ public class IndustrialRevivalItem implements Keyed {
 
     /**
      * Gets the setting of the item.
+     *
      * @return the setting of the item
      */
     @NotNull
@@ -805,11 +830,23 @@ public class IndustrialRevivalItem implements Keyed {
         return null;
     }
 
+    /**
+     * Sets the recipe output of the item.
+     *
+     * @param recipeOutput the recipe output of the item
+     * @return this instance
+     */
+    @NotNull
+    public IndustrialRevivalItem setRecipeOutput(@NotNull ItemStack recipeOutput) {
+        this.recipeOutput = recipeOutput;
+        return this;
+    }
+
     @Override
     public final int hashCode() {
         return Objects.hash(getId(), getIcon(), itemHandlers, produceMethods, itemDictionaries, disabledInWorld, group, addon, state, autoTranslation, wikiText, enchantable, disenchantable, hideInGuide);
     }
-    
+
     @Deprecated
     public ItemStack getItemStack() {
         return getIcon();
@@ -839,6 +876,10 @@ public class IndustrialRevivalItem implements Keyed {
         }
     }
 
+    public Patcher patcher() {
+        return new Patcher(this);
+    }
+
     public enum ItemState {
         UNREGISTERED,
         ENABLED,
@@ -848,10 +889,6 @@ public class IndustrialRevivalItem implements Keyed {
     @FunctionalInterface
     public interface ProduceMethodGetter {
         @NotNull ProduceMethod getProduceMethod(@NotNull IndustrialRevivalItem item);
-    }
-
-    public Patcher patcher() {
-        return new Patcher(this);
     }
 
     @RequiredArgsConstructor

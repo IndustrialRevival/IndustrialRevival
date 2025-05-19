@@ -7,6 +7,7 @@ import org.irmc.industrialrevival.api.pipe.PipeFlowType;
 import org.irmc.industrialrevival.api.pipe.PipeServer;
 import org.jetbrains.annotations.NotNull;
 
+@Deprecated(forRemoval = true)
 @Getter
 public abstract class Puller extends Pipe implements PipeServer {
     public Puller(@NotNull Location location) {

@@ -25,7 +25,7 @@ public class JavaUtil {
      * Converts a variable number of objects into a Set.
      *
      * @param objects The objects to convert into a Set.
-     * @param <T> The type of the objects.
+     * @param <T>     The type of the objects.
      * @return A Set containing the provided objects.
      */
     @SafeVarargs
@@ -40,7 +40,7 @@ public class JavaUtil {
      * Converts a variable number of objects into a List.
      *
      * @param objects The objects to convert into a List.
-     * @param <T> The type of the objects.
+     * @param <T>     The type of the objects.
      * @return A List containing the provided objects.
      */
     @SafeVarargs
@@ -85,7 +85,7 @@ public class JavaUtil {
      * Reverses the order of elements in a List.
      *
      * @param objectList The List to reverse.
-     * @param <T> The type of the elements in the List.
+     * @param <T>        The type of the elements in the List.
      * @return A new List with the elements in reverse order.
      */
     @Nonnull
@@ -118,7 +118,7 @@ public class JavaUtil {
      * Shuffles the elements of an array of objects.
      *
      * @param objects The array of objects to shuffle.
-     * @param <T> The type of the objects in the array.
+     * @param <T>     The type of the objects in the array.
      * @return A new array with the elements shuffled.
      */
     @Nonnull
@@ -136,7 +136,7 @@ public class JavaUtil {
      * Shuffles the elements of a List.
      *
      * @param objectList The List to shuffle.
-     * @param <T> The type of the elements in the List.
+     * @param <T>        The type of the elements in the List.
      * @return A new List with the elements shuffled.
      */
     @Nonnull
@@ -149,7 +149,7 @@ public class JavaUtil {
     /**
      * Creates a dispersed array of double values based on the provided size and values.
      *
-     * @param size The size of the resulting array.
+     * @param size  The size of the resulting array.
      * @param value The values to disperse.
      * @return An array of double values dispersed based on the provided size and values.
      */
@@ -220,7 +220,7 @@ public class JavaUtil {
      *
      * @param list The List to shuffle.
      * @param ints The array of indices to use for shuffling.
-     * @param <T> The type of the elements in the List.
+     * @param <T>  The type of the elements in the List.
      * @return A new List with the elements shuffled according to the provided indices.
      */
     @Nonnull
@@ -235,7 +235,7 @@ public class JavaUtil {
     /**
      * Adds a value to the beginning of an array of strings.
      *
-     * @param value The value to add.
+     * @param value  The value to add.
      * @param values The array of strings to which the value will be added.
      * @return A new array with the value added to the beginning.
      */
@@ -250,9 +250,9 @@ public class JavaUtil {
     /**
      * Checks if a source object matches any of the target objects.
      *
-     * @param source The source object to compare.
+     * @param source  The source object to compare.
      * @param targets The target objects to compare against.
-     * @param <T> The type of the objects.
+     * @param <T>     The type of the objects.
      * @return True if the source object matches any of the target objects, false otherwise.
      */
     @SafeVarargs
@@ -281,7 +281,7 @@ public class JavaUtil {
      * Returns the first non-null object from the provided array of objects.
      *
      * @param objects The array of objects to search.
-     * @param <T> The type of the objects.
+     * @param <T>     The type of the objects.
      * @return The first non-null object, or null if all objects are null.
      */
     @SafeVarargs

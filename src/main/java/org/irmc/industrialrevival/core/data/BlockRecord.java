@@ -47,6 +47,13 @@ public class BlockRecord {
         return bk == null ? new Location(null, x, y, z) : new Location(bk, x, y, z);
     }
 
+    public void setLocation(Location location) {
+        this.world = location.getWorld().getName();
+        this.x = location.getBlockX();
+        this.y = location.getBlockY();
+        this.z = location.getBlockZ();
+    }
+
     public NamespacedKey getMachineId() {
         return NamespacedKey.fromString(id);
     }
@@ -54,12 +61,5 @@ public class BlockRecord {
     public ConfigurationSection getData() {
         StringReader reader = new StringReader(data);
         return YamlConfiguration.loadConfiguration(reader);
-    }
-
-    public void setLocation(Location location) {
-        this.world = location.getWorld().getName();
-        this.x = location.getBlockX();
-        this.y = location.getBlockY();
-        this.z = location.getBlockZ();
     }
 }

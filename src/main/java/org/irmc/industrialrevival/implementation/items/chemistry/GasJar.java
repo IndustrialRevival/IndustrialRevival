@@ -4,12 +4,8 @@ import lombok.Getter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
-import org.irmc.industrialrevival.api.elements.ElementType;
 import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
-import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
-import org.irmc.industrialrevival.api.elements.reaction.ReactResult;
 import org.irmc.industrialrevival.api.items.ElementItem;
-import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.ChemReactable;
 import org.irmc.industrialrevival.api.items.attributes.GasStorage;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
@@ -17,9 +13,6 @@ import org.irmc.industrialrevival.utils.KeyUtil;
 import org.irmc.pigeonlib.objects.percentage.PositiveHundredPercentage;
 import org.irmc.pigeonlib.pdc.PersistentDataAPI;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class GasJar extends ElementItem implements GasStorage {
     private static final NamespacedKey CATHER_KEY = KeyUtil.customKey("cather_insertion_method");

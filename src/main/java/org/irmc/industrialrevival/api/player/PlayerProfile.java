@@ -97,11 +97,11 @@ public class PlayerProfile {
         UUID playerUUID = player.getUniqueId();
 
         GuideSettings guideSettings = GuideSettings.DEFAULT_SETTINGS;
-                //IndustrialRevival.getInstance().getDataManager().getGuideSettings(name);
+        //IndustrialRevival.getInstance().getDataManager().getGuideSettings(name);
 
         Map<NamespacedKey, Boolean> researchStatus = new HashMap<>();
         ConfigurationSection researchStatusYml = new YamlConfiguration();
-                //IndustrialRevival.getInstance().getDataManager().getResearchStatus(name);
+        //IndustrialRevival.getInstance().getDataManager().getResearchStatus(name);
 
         researchStatusYml.getKeys(false).forEach(entry -> {
             NamespacedKey key = NamespacedKey.fromString(entry);

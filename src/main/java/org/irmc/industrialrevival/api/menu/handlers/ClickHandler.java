@@ -13,7 +13,14 @@ import org.jetbrains.annotations.Range;
  */
 @FunctionalInterface
 public interface ClickHandler {
+    /**
+     * Don't move my item!
+     */
     ClickHandler DEFAULT = (_, _, _, _, _) -> false;
+
+    /**
+     * Click handler that does nothing.
+     */
     ClickHandler NOPE = (_, _, _, _, _) -> true;
 
     /**
