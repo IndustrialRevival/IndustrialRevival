@@ -4,7 +4,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.irmc.industrialrevival.api.elements.ElementType;
 import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
-import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompounds;
+import org.irmc.industrialrevival.api.elements.registry.ChemicalCompounds;
 import org.irmc.industrialrevival.api.elements.compounds.Element;
 import org.irmc.industrialrevival.api.recipes.methods.ChemicalMethod;
 import org.irmc.industrialrevival.core.services.IRRegistry;

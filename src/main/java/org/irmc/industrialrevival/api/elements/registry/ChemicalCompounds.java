@@ -1,7 +1,11 @@
-package org.irmc.industrialrevival.api.elements.compounds;
+package org.irmc.industrialrevival.api.elements.registry;
 
-import net.kyori.adventure.text.Component;
+import com.google.common.base.Preconditions;
 import org.irmc.industrialrevival.api.elements.ElementType;
+import org.irmc.industrialrevival.api.elements.compounds.Chemical;
+import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
+import org.irmc.industrialrevival.api.elements.compounds.Compound;
+import org.irmc.industrialrevival.api.elements.compounds.Element;
 import org.irmc.industrialrevival.api.elements.compounds.types.AcidCompound;
 import org.irmc.industrialrevival.api.elements.compounds.types.IonCompound;
 import org.irmc.industrialrevival.api.elements.compounds.types.OxideCompound;
@@ -9,6 +13,8 @@ import org.irmc.industrialrevival.utils.Debug;
 import org.irmc.industrialrevival.utils.TextUtil;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,6 +37,13 @@ import java.util.Map;
  */
 @SuppressWarnings("unused")
 public class ChemicalCompounds {
+    public static List<Runnable> onLoad = new ArrayList<>();
+
+    public static void onLoad(@NotNull Runnable runnable) {
+        Preconditions.checkNotNull(runnable);
+        onLoad.add(runnable);
+    }
+
     public static boolean loaded = false;
     //<editor-fold desc="Compounds elements">
     static {
@@ -449,11 +462,129 @@ public class ChemicalCompounds {
     ));
     //</editor-fold>
 
+    //<editor-fold desc="Unsorted"
+    public static @NotNull ChemicalCompound SO2 = new ChemicalCompound("SO2", Map.of(
+            new Element(ElementType.SULPHUR), 1D,
+            new Element(ElementType.OXYGEN), 2D
+    ));
+    public static @NotNull ChemicalCompound MgO = new ChemicalCompound("MgO", Map.of(
+            new Element(ElementType.MAGNESIUM), 1D,
+            new Element(ElementType.OXYGEN), 1D
+    ));
+    public static @NotNull ChemicalCompound CuO = new ChemicalCompound("CuO", Map.of(
+            new Element(ElementType.COPPER), 1D,
+            new Element(ElementType.OXYGEN), 1D
+    ));
+    public static @NotNull ChemicalCompound CaHCO3_2 = new ChemicalCompound("Ca(HCO3)_2", Map.of(
+            new Element(ElementType.CALCIUM), 1D,
+            new Chemical(HCO3), 2D
+    ));
+    public static @NotNull ChemicalCompound HgO = new ChemicalCompound("HgO", Map.of(
+            new Element(ElementType.MERCURY), 1D,
+            new Element(ElementType.OXYGEN), 1D
+    ));
+    public static @NotNull ChemicalCompound NH4HCO3 = new ChemicalCompound("NH4HCO3", Map.of(
+            new Chemical(NH4), 1D,
+            new Chemical(HCO3), 1D
+    ));
+    public static @NotNull ChemicalCompound ZnCl2 = new ChemicalCompound("ZnCl2", Map.of(
+            new Element(ElementType.ZINC), 1D,
+            new Element(ElementType.CHLORINE), 2D
+    ));
+    public static @NotNull ChemicalCompound AlCl3 = new ChemicalCompound("AlCl3", Map.of(
+            new Element(ElementType.ALUMINIUM), 1D,
+            new Element(ElementType.CHLORINE), 3D
+    ));
+    public static @NotNull ChemicalCompound Al2SO4_3 = new ChemicalCompound("Al2(SO4)_3", Map.of(
+            new Element(ElementType.ALUMINIUM), 2D,
+            new Chemical(SO4), 3D
+    ));
+    public static @NotNull ChemicalCompound AlNO3_3 = new ChemicalCompound("Al(NO3)_3", Map.of(
+            new Element(ElementType.ALUMINIUM), 1D,
+            new Chemical(NO3), 3D
+    ));
+    public static @NotNull ChemicalCompound CuCl2 = new ChemicalCompound("CuCl2", Map.of(
+            new Element(ElementType.COPPER), 1D,
+            new Element(ElementType.CHLORINE), 2D
+    ));
+    public static @NotNull ChemicalCompound CuSO4 = new ChemicalCompound("CuSO4", Map.of(
+            new Element(ElementType.COPPER), 1D,
+            new Chemical(SO4), 1D
+    ));
+    public static @NotNull ChemicalCompound ZnNO3_2 = new ChemicalCompound("Zn(NO3)_2", Map.of(
+            new Element(ElementType.ZINC), 1D,
+            new Chemical(NO3), 2D
+    ));
+    public static @NotNull ChemicalCompound CuNO3_2 = new ChemicalCompound("Cu(NO3)_2", Map.of(
+            new Element(ElementType.COPPER), 1D,
+            new Chemical(NO3), 2D
+    ));
+    public static @NotNull ChemicalCompound BaOH_2 = new ChemicalCompound("Ba(OH)_2", Map.of(
+            new Element(ElementType.BARIUM), 1D,
+            new Chemical(OH), 2D
+    ));
+    public static @NotNull ChemicalCompound AlOH_3 = new ChemicalCompound("Al(OH)_3", Map.of(
+            new Element(ElementType.ALUMINIUM), 1D,
+            new Chemical(OH), 3D
+    ));
+    public static @NotNull ChemicalCompound FeCl3 = new ChemicalCompound("FeCl3", Map.of(
+            new Element(ElementType.IRON), 1D,
+            new Element(ElementType.CHLORINE), 3D
+    ));
+    public static @NotNull ChemicalCompound BaCl2 = new ChemicalCompound("BaCl2", Map.of(
+            new Element(ElementType.BARIUM), 1D,
+            new Element(ElementType.CHLORINE), 2D
+    ));
+    public static @NotNull ChemicalCompound BaNO3_2 = new ChemicalCompound("Ba(NO3)_2", Map.of(
+            new Element(ElementType.BARIUM), 1D,
+            new Chemical(NO3), 2D
+    ));
+    public static @NotNull ChemicalCompound BaCO3 = new ChemicalCompound("BaCO3", Map.of(
+            new Element(ElementType.BARIUM), 1D,
+            new Chemical(CO3), 1D
+    ));
+    public static @NotNull ChemicalCompound NH4Cl = new ChemicalCompound("NH4Cl", Map.of(
+            new Chemical(NH4), 1D,
+            new Element(ElementType.CHLORINE), 1D
+    ));
+    public static @NotNull ChemicalCompound NH4_2SO4 = new ChemicalCompound("(NH4)_2SO4", Map.of(
+            new Chemical(NH4), 2D,
+            new Chemical(SO4), 1D
+    ));
+    public static @NotNull ChemicalCompound BaSO4 = new ChemicalCompound("BaSO4", Map.of(
+            new Element(ElementType.BARIUM), 1D,
+            new Chemical(SO4), 1D
+    ));
+    public static @NotNull ChemicalCompound CuOH_2 = new ChemicalCompound("Cu(OH)_2", Map.of(
+            new Element(ElementType.COPPER), 1D,
+            new Chemical(OH), 2D
+    ));
+    public static @NotNull ChemicalCompound FeOH_3 = new ChemicalCompound("Fe(OH)_3", Map.of(
+            new Element(ElementType.IRON), 1D,
+            new Chemical(OH), 3D
+    ));
+    public static @NotNull ChemicalCompound Na2SO3 = new ChemicalCompound("Na2SO3", Map.of(
+            new Element(ElementType.SODIUM), 2D,
+            new Chemical(SO3), 1D
+    ));
+    public static @NotNull ChemicalCompound H2SO3 = new ChemicalCompound("H2SO3", Map.of(
+            new Element(ElementType.HYDROGEN), 2D,
+            new Chemical(SO3), 1D
+    ));
+    //</editor-fold>
+
     /**
      * Initializes the chemical compounds above.
      */
     public static void load() {
         loaded = true;
+        for (Runnable runnable : onLoad) {
+            try {
+                runnable.run();
+            } catch (Exception e) {
+                Debug.error(e);
+            }
+        }
         Debug.log("Loaded chemical compounds");
     }
 }

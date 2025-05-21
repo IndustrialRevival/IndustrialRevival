@@ -1,6 +1,7 @@
 package org.irmc.industrialrevival.utils;
 
 import lombok.experimental.UtilityClass;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Color;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 
@@ -8,6 +9,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -363,5 +365,19 @@ public class TextUtil {
         }
 
         return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
+    }
+
+    public static <T> List<T> crop(List<T> list, int maxLines, Function<String, T> adapter) {
+        var result = new ArrayList<T>();
+        for (T obj : list) {
+            if (result.size() >= maxLines) {
+                result.add(adapter.apply(list.size() - maxLines + " more lines..."));
+                result.add(adapter.apply(" "));
+                break;
+            }
+            result.add(obj);
+        }
+
+        return result;
     }
 }

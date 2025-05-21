@@ -1,6 +1,7 @@
 package org.irmc.industrialrevival.api.elements.compounds;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import org.irmc.industrialrevival.api.elements.ElementType;
 import org.jetbrains.annotations.NotNull;
@@ -14,10 +15,10 @@ import java.util.Map;
  * @author balugaq
  * @see Chemical
  */
-@Getter
+@Data
 @AllArgsConstructor
 @ParametersAreNonnullByDefault
-public class Element extends Compound {
+public class Element implements Compound {
     private final @NotNull ElementType element;
 
     public double getMolarMass() {

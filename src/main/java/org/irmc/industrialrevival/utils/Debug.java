@@ -309,6 +309,19 @@ public class Debug {
     }
 
     /**
+     * Logs an error for a throwable (e.g., an exception).
+     * @param e The throwable to log as an error.
+     */
+    public static void error(@Nullable Throwable e) {
+        if (e == null) {
+            error("null");
+            return;
+        }
+        error(e.getMessage());
+        e.printStackTrace();
+    }
+
+    /**
      * Logs a severe error for a single object.
      *
      * @param object The object to log as a severe error.

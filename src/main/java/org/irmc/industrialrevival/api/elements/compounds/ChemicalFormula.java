@@ -2,65 +2,96 @@ package org.irmc.industrialrevival.api.elements.compounds;
 
 import com.google.common.base.Preconditions;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.SneakyThrows;
+import lombok.ToString;
 import net.kyori.adventure.text.Component;
-import org.bukkit.NamespacedKey;
+import net.kyori.adventure.text.TextComponent;
 import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
+import org.irmc.industrialrevival.api.objects.exceptions.UnknownChemicalCompoundException;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
+import org.irmc.industrialrevival.utils.Debug;
 import org.irmc.industrialrevival.utils.NumberUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Regards it as a formula decoder for chemical reactions.
  *
  * @author balugaq
  */
+@EqualsAndHashCode(exclude = {"id"})
+@ToString(exclude = {"input", "output"})
 @Data
 public class ChemicalFormula {
     public static final Pattern NUMBER_PATTERN = Pattern.compile("^(\\d+)");
-    private @NotNull
-    final NamespacedKey key;
-    private @NotNull
-    final Map<ChemicalCompound, Integer> input; // proportion of each compound
-    private @NotNull
-    final Map<ChemicalCompound, Integer> output; // proportion of each compound
-    private @Nullable
-    final ConditionSensor conditionSensor;
-    private @NotNull ReactCondition[] conditions;
+    private final int id;
+    private @NotNull Map<ChemicalCompound, Integer> input; // molar mass of each compound
+    private @NotNull Map<ChemicalCompound, Integer> output; // molar mass of each compound
+    private @Nullable final ConditionSensor conditionSensor;
+    private @NotNull Set<ReactCondition> conditions;
+    private final @NotNull String rawFormula;
 
-    public ChemicalFormula(@NotNull NamespacedKey key, @NotNull String formula) {
-        this(key, formula, new ReactCondition[0]);
+    public ChemicalFormula(int id, @NotNull String formula) {
+        this(id, formula, new HashSet<>());
     }
 
     /**
      * Constructor.
      *
-     * @param key     the key of the formula
+     * @param id     the id of the formula
      * @param formula the chemical formula string
      */
-    public ChemicalFormula(@NotNull NamespacedKey key, @NotNull String formula, @NotNull ReactCondition[] conditions) {
-        this(key, formula, conditions, null);
+    public ChemicalFormula(int id, @NotNull String formula, @NotNull ReactCondition condition) {
+        this(id, formula, Set.of(condition), null);
     }
 
     /**
      * Constructor.
      *
-     * @param key        the key of the formula
+     * @param id     the id of the formula
+     * @param formula the chemical formula string
+     */
+    public ChemicalFormula(int id, @NotNull String formula, @NotNull ReactCondition... conditions) {
+        this(id, formula, Arrays.stream(conditions).collect(Collectors.toSet()), null);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param id     the id of the formula
+     * @param formula the chemical formula string
+     */
+    public ChemicalFormula(int id, @NotNull String formula, @NotNull Set<ReactCondition> conditions) {
+        this(id, formula, conditions, null);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param id        the key of the formula
      * @param formula    the chemical formula string
      * @param conditions the conditions for the reaction
      * @apiNote The conditions are optional and can be null.
      * @apiNote formula example: "Zn+H2SO4===ZnSO4+H2", "Fe2O3+3H2SO4===Fe2(SO4)_3+3H2O"
      */
-    public ChemicalFormula(@NotNull NamespacedKey key, @NotNull String formula, @NotNull ReactCondition[] conditions, @Nullable ConditionSensor conditionSensor) {
+    public ChemicalFormula(int id, @NotNull String formula, @NotNull Set<ReactCondition> conditions, @Nullable ConditionSensor conditionSensor) {
         Preconditions.checkNotNull(formula, "formula cannot be null");
         Preconditions.checkArgument(formula.contains("==="), "Invalid chemical formula: " + formula);
         Preconditions.checkArgument(formula.split("===").length == 2, "Invalid chemical formula: " + formula);
+        Preconditions.checkNotNull(conditions, "conditions cannot be null");
+
         formula = formula.replaceAll(" ", "");
         String left = formula.split("===")[0];
         String right = formula.split("===")[1];
@@ -68,11 +99,22 @@ public class ChemicalFormula {
         String[] leftParts = left.split("\\+");
         String[] rightParts = right.split("\\+");
 
-        this.key = key;
-        this.input = parseCompounds(leftParts);
-        this.output = parseCompounds(rightParts);
+        this.id = id;
+        this.rawFormula = formula;
         this.conditions = conditions;
         this.conditionSensor = conditionSensor;
+
+        try {
+            this.input = parseCompounds(leftParts);
+            this.output = parseCompounds(rightParts);
+        } catch (UnknownChemicalCompoundException e) {
+            this.input = new HashMap<>();
+            this.output = new HashMap<>();
+            Debug.error(new UnknownChemicalCompoundException(formula, getId(), e));
+            return;
+        }
+
+        register();
     }
 
     /**
@@ -113,7 +155,7 @@ public class ChemicalFormula {
             // example: "H2SO4"  (no count)
             ChemicalCompound compound = parseCompound(part);
             if (compound == null) {
-                throw new IllegalArgumentException("Invalid chemical compound: " + part);
+                throw new UnknownChemicalCompoundException("Invalid chemical compound: " + part);
             }
 
             compounds.put(compound, count);
@@ -127,26 +169,11 @@ public class ChemicalFormula {
         return this;
     }
 
-    public ChemicalFormula registerElectrolysis() {
-        for (var condition : conditions) {
-            if (condition == ReactCondition.ELECTROLYSIS) {
-                return register();
-            }
-        }
-
-        // add electrolysis condition
-        ReactCondition[] newConditions = new ReactCondition[conditions.length + 1];
-        System.arraycopy(conditions, 0, newConditions, 0, conditions.length);
-        newConditions[conditions.length] = ReactCondition.ELECTROLYSIS;
-        conditions = newConditions;
-        return register();
-    }
-
-    public Component humanize() {
+    public TextComponent humanize() {
         return humanize(false);
     }
 
-    public Component humanize(boolean hoverable) {
+    public TextComponent humanize(boolean hoverable) {
         var builder = Component.text();
         builder.append(humanizePart(input));
         builder.append(humanizeConditions(hoverable));
@@ -154,7 +181,7 @@ public class ChemicalFormula {
         return builder.build();
     }
 
-    public Component humanizePart(Map<ChemicalCompound, Integer> compounds) {
+    public TextComponent humanizePart(Map<ChemicalCompound, Integer> compounds) {
         var builder = Component.text();
         int index = 1;
         for (var entry : compounds.entrySet()) {
@@ -172,8 +199,8 @@ public class ChemicalFormula {
         return builder.build();
     }
 
-    public Component humanizeConditions(boolean hoverable) {
-        if (conditions.length == 0 || conditions[0] == ReactCondition.NONE) {
+    public TextComponent humanizeConditions(boolean hoverable) {
+        if (conditions.isEmpty() || conditions.stream().findFirst().orElse(ReactCondition.NONE).equals(ReactCondition.NONE)) {
             return Component.text("===");
         }
 
@@ -197,7 +224,7 @@ public class ChemicalFormula {
     }
 
     @FunctionalInterface
-    public interface ConditionSensor extends BiFunction<ReactCondition[], Double, Double> {
+    public interface ConditionSensor extends BiFunction<Set<ReactCondition>, Double, Double> {
         /**
          * Returns the max producing proportion
          *
@@ -205,6 +232,6 @@ public class ChemicalFormula {
          * @return the max producing proportion
          */
         @Override
-        Double apply(ReactCondition[] conditions, Double current);
+        Double apply(Set<ReactCondition> conditions, Double current);
     }
 }

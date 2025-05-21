@@ -2,9 +2,11 @@ package org.irmc.industrialrevival.api.elements.compounds;
 
 import com.google.common.base.Preconditions;
 import lombok.Data;
+import net.kyori.adventure.text.Component;
 import org.irmc.industrialrevival.api.elements.ElementType;
 import org.irmc.industrialrevival.api.elements.compounds.types.IonCompound;
 import org.irmc.industrialrevival.api.elements.compounds.types.OxideCompound;
+import org.irmc.industrialrevival.api.elements.registry.ChemicalCompounds;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -102,5 +104,13 @@ public class ChemicalCompound {
         }
 
         return atomic;
+    }
+
+    public String getHumanizedName() {
+        return name.replaceAll("_", "");
+    }
+
+    public Component humanizedName() {
+        return Component.text(getHumanizedName());
     }
 }

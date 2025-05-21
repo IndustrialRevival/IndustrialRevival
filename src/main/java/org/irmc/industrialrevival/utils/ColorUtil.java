@@ -192,6 +192,9 @@ public class ColorUtil {
         float v = baseHsv[2] * vDamp;
 
         int value = getRGBFromHSV(h, s, v);
+        if (value < 0) {
+            value = getRGBFromHSV(v, h, s);
+        }
         atomicColors.put(elementType, value);
         return value;
     }

@@ -4,7 +4,7 @@ import lombok.Getter;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 
 @Getter
-public class IdConflictException extends Exception {
+public class IdConflictException extends RuntimeException {
     private final IndustrialRevivalAddon originalAddon;
     private final IndustrialRevivalAddon conflictingAddon;
 

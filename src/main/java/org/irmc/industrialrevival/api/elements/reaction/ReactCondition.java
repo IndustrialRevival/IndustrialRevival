@@ -30,24 +30,20 @@ public final class ReactCondition {
      */
     @Getter
     private final Type type;
-    private final @Nullable ChemReactable catalyst;
+    private final @Nullable ChemicalCompound catalyst;
 
     private ReactCondition(Type type) {
         this.type = type;
         this.catalyst = null;
     }
 
-    private ReactCondition(Type type, @Nullable ChemReactable catalyst) {
+    private ReactCondition(Type type, @Nullable ChemicalCompound catalyst) {
         this.type = type;
         this.catalyst = catalyst;
     }
 
-    public static @NotNull ReactCondition asCatalyzer(ChemReactable reactable) {
-        return new ReactCondition(Type.CATALYZER, reactable);
-    }
-
     public static @NotNull ReactCondition asCatalyzer(ChemicalCompound compound) {
-        return new ReactCondition(Type.CATALYZER, ChemReactable.getByCompound(compound));
+        return new ReactCondition(Type.CATALYZER, compound);
     }
 
     /**
@@ -55,7 +51,7 @@ public final class ReactCondition {
      *
      * @return The chem reactable item that is catalyzing the reaction.
      */
-    public @Nullable ChemReactable getCatalyst() {
+    public @Nullable ChemicalCompound getCatalyst() {
         return catalyst;
     }
 
@@ -67,7 +63,7 @@ public final class ReactCondition {
             case HEATING -> Component.translatable("chemistry.formula.conditions.heating");
             case HIGH_TEMPERATURE -> Component.translatable("chemistry.formula.conditions.high_temperature");
             case CATALYZER -> Component.translatable("chemistry.formula.conditions.catalyzer").append(
-                    Component.translatable("chemistry." + catalyst.getKey().getNamespace() + "." + catalyst.getKey()));
+                    Component.translatable("chemistry." + catalyst.asKey() + "." + catalyst.asKey())); // todo: fix key
         };
     }
 

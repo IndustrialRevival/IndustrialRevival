@@ -2,7 +2,7 @@ package org.irmc.industrialrevival.api.objects.exceptions;
 
 import org.bukkit.NamespacedKey;
 
-public class IncompatibleItemHandlerException extends Exception {
+public class IncompatibleItemHandlerException extends RuntimeException {
     public IncompatibleItemHandlerException(String message, NamespacedKey id) {
         super(
                 """

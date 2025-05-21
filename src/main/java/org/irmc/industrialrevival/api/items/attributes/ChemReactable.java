@@ -16,10 +16,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Set;
 
 public interface ChemReactable extends ItemAttribute, Keyed, ComplexDataContainer.DataContainer2<Double, ChemicalCompound> {
-    public static final NamespacedKey CHEMICAL_COMPOUND_KEY = KeyUtil.customKey("chemical_compound");
-    public static final NamespacedKey MASS_KEY = KeyUtil.customKey("mass");
+    NamespacedKey CHEMICAL_COMPOUND_KEY = KeyUtil.customKey("chemical_compound");
+    NamespacedKey MASS_KEY = KeyUtil.customKey("mass");
 
     /**
      * Returns the reactable instance for the given chemical compound.
@@ -89,7 +90,7 @@ public interface ChemReactable extends ItemAttribute, Keyed, ComplexDataContaine
         });
     }
 
-    default @NotNull ReactResult react(@NotNull ReactCondition[] conditions, @NotNull List<ItemStack> reactItems) {
+    default @NotNull ReactResult react(@NotNull Set<ReactCondition> conditions, @NotNull List<ItemStack> reactItems) {
         return ReactHelper.react(conditions, reactItems);
     }
 

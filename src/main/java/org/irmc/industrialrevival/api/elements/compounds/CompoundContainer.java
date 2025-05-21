@@ -7,7 +7,9 @@ import org.irmc.industrialrevival.api.elements.reaction.ReactHelper;
 import org.irmc.industrialrevival.api.elements.reaction.ReactResult;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author balugaq
@@ -44,7 +46,11 @@ public class CompoundContainer {
     }
 
 
-    public ReactResult react(ReactCondition[] conditions) {
+    public ReactResult react(Set<ReactCondition> conditions) {
         return ReactHelper.react0(conditions, mixed);
+    }
+
+    public List<ReactResult> reactBalanced(Set<ReactCondition> conditions) {
+        return ReactHelper.reactBalanced(conditions, mixed);
     }
 }
