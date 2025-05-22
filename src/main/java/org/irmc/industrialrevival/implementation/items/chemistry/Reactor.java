@@ -223,6 +223,7 @@ public abstract class Reactor extends BasicMachine implements CompoundContainerH
 
         for (var operation : operations) {
             handleOperation(location, operation);
+            speedupReaction(location, operation);
         }
 
         updateMenu(menu, operations);
@@ -231,7 +232,9 @@ public abstract class Reactor extends BasicMachine implements CompoundContainerH
     public void handleOperation(Location location, ReactOperation operation) {
         consumeCompounds(location, operation.getConsume());
         store(location, operation.getProduce());
+    }
 
+    public void speedupReaction(Location location, ReactOperation operation) {
         double sum = 0D;
         for (var d : operation.getProduce().values()) {
             sum += d;

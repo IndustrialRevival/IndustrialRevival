@@ -114,11 +114,11 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         listenerManager = new ListenerManager();
         registry = new IRRegistry();
 
-        getLogger().info("Setting up services...");
-        setupServices();
-
         getLogger().info("Setting up items...");
         setupIndustrialRevivalItems();
+
+        getLogger().info("Setting up services...");
+        setupServices();
 
         getLogger().info("Setting up listeners...");
         listenerManager.setupAll();

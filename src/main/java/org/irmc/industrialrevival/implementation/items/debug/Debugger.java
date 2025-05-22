@@ -215,7 +215,7 @@ public class Debugger extends IndustrialRevivalItem {
             send(player, "&e  - Total Timings: &7" + NumberUtil.round(NumberUtil.ns2Ms(totalTimingsOfThisBlock), 2) + "ms");
         }
 
-        Map<String, String> dataMap = data.getData();
+        Map<String, String> dataMap = data.getMapData();
         if (!dataMap.isEmpty()) {
             send(player, " - Data: [");
             for (String key : dataMap.keySet()) {

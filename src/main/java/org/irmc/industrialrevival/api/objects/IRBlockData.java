@@ -4,8 +4,12 @@ import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
+import org.irmc.industrialrevival.core.data.BlockRecord;
+import org.irmc.industrialrevival.core.services.IRRegistry;
+import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.DataUtil;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -38,7 +42,7 @@ public class IRBlockData {
     private final MachineMenu machineMenu;
 
     private final Location location;
-    private final Map<String, String> data = new HashMap<>();
+    private final YamlConfiguration data = new YamlConfiguration();
 
     @ApiStatus.Internal
     public IRBlockData(NamespacedKey id, Location location, @NotNull ConfigurationSection config, @Nullable MachineMenu menu) {
@@ -46,5 +50,24 @@ public class IRBlockData {
         this.location = location;
         this.config = config;
         this.machineMenu = menu;
+    }
+
+    public static IRBlockData warp(BlockRecord record) {
+        var loc = record.getLocation();
+        return new IRBlockData(
+                record.getMachineId(),
+                loc,
+                IndustrialRevival.getInstance().getDataManager().getBlockData(loc),
+                new MachineMenu(loc, IRRegistry.getInstance().getMenuPresets().get(record.getMachineId()))
+        );
+    }
+
+    public Map<String, String> getMapData() {
+        Map<String, String> map = new HashMap<>();
+        for (var key : data.getKeys(false)) {
+            map.put(key, data.getString(key));
+        }
+
+        return map;
     }
 }

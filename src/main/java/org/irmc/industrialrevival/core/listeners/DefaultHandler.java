@@ -24,6 +24,7 @@ import org.irmc.industrialrevival.api.objects.events.vanilla.PlayerBucketEmptyTo
 import org.irmc.industrialrevival.api.objects.events.vanilla.PlayerRightClickEvent;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.DataUtil;
+import org.irmc.industrialrevival.utils.Debug;
 
 /**
  * Do operation after {@link HandlerCaller} and all other operations are done
@@ -91,6 +92,7 @@ public class DefaultHandler implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onIRBlockPlace(IRBlockPlaceEvent event) {
+        Debug.log("onIRBlockPlace - 1");
         if (event.isCancelled()) {
             return;
         }
@@ -98,6 +100,7 @@ public class DefaultHandler implements Listener {
         Location location = event.getOriginalEvent().getBlockPlaced().getLocation();
         NamespacedKey id = event.getIritem().getId();
 
+        Debug.log("onIRBlockPlace - 2");
         //IndustrialRevival.getInstance().getItemTextureService().blockPlacing(event);
         IndustrialRevival.getInstance().getBlockDataService().handleBlockPlacing(location, id);
     }

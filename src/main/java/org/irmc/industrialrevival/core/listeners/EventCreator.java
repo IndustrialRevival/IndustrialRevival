@@ -245,8 +245,6 @@ public class EventCreator implements Listener {
         if (item != null) {
             IRBlockPlaceEvent event = new IRBlockPlaceEvent(e, item);
             Bukkit.getServer().getPluginManager().callEvent(event);
-
-
         }
     }
 

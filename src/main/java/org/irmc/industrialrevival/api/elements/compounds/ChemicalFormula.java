@@ -191,7 +191,7 @@ public class ChemicalFormula {
                 builder.append(Component.text(entry.getValue()));
             }
 
-            builder.append(Component.text(NumberUtil.toSubscript(entry.getKey().getName())));
+            builder.append(Component.text(NumberUtil.toSubscript(entry.getKey().getHumanizedName())));
             if (index != compounds.size()) {
                 builder.append(Component.text("+"));
             }
