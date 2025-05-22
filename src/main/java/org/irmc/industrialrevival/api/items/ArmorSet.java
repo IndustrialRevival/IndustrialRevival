@@ -13,7 +13,6 @@ import org.irmc.industrialrevival.api.recipes.methods.CraftMethod;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -101,28 +100,4 @@ public class ArmorSet {
         }
     }
 
-    @Getter
-    public static class ArmorPiece extends IndustrialRevivalItem {
-        private final Set<PotionEffect> potionEffects = new HashSet<>();
-        private ArmorSet parent;
-
-        public ArmorPiece addPotionEffect(@NotNull PotionEffect effect) {
-            checkRegistered();
-            potionEffects.add(effect);
-            return this;
-        }
-
-        public ArmorPiece setPotionEffects(@NotNull Set<PotionEffect> effects) {
-            checkRegistered();
-            potionEffects.clear();
-            potionEffects.addAll(effects);
-            return this;
-        }
-
-        public ArmorPiece setParent(@NotNull ArmorSet parent) {
-            checkRegistered();
-            this.parent = parent;
-            return this;
-        }
-    }
 }

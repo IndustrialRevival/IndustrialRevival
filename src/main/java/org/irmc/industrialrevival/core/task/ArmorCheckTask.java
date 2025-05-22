@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
+import org.irmc.industrialrevival.api.items.ArmorPiece;
 import org.irmc.industrialrevival.api.items.ArmorSet;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.objects.enums.ArmorProtectionType;
@@ -42,7 +43,7 @@ public class ArmorCheckTask implements Consumer<WrappedTask> {
                 }
 
                 IndustrialRevivalItem irItem = IndustrialRevivalItem.getByItem(armor);
-                if (irItem instanceof ArmorSet.ArmorPiece piece) {
+                if (irItem instanceof ArmorPiece piece) {
                     ArmorSet parent = piece.getParent();
                     for (PotionEffect effect : piece.getPotionEffects()) {
                         effect.withDuration(checkInterval / 20);

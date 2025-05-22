@@ -2,6 +2,7 @@ package org.irmc.industrialrevival.utils;
 
 import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Color;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 
@@ -367,11 +368,12 @@ public class TextUtil {
         return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
     }
 
+    @SuppressWarnings("deprecation")
     public static <T> List<T> crop(List<T> list, int maxLines, Function<String, T> adapter) {
         var result = new ArrayList<T>();
         for (T obj : list) {
             if (result.size() >= maxLines) {
-                result.add(adapter.apply(list.size() - maxLines + " more lines..."));
+                result.add(adapter.apply("" + ChatColor.BLUE + (list.size() - maxLines) + " more lines..."));
                 result.add(adapter.apply(" "));
                 break;
             }

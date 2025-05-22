@@ -5,6 +5,9 @@ import lombok.Data;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author baluagq
+ */
 @Data
 public class Environment implements Cloneable {
     public static final double DEFAULT_VALUE = 0.0D;

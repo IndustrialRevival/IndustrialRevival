@@ -56,36 +56,36 @@ public class ReactHelper {
      * @return the produce of the reaction
      */
     public static @NotNull ReactResult react(@NotNull Environment environment, @NotNull Set<ReactCondition> conditions, @NotNull Map<ChemReactable, ItemStack> reactables) {
-        Map<ChemicalCompound, Double> currentMasses = new HashMap<>();
+        Map<ChemicalCompound, Double> reactants = new HashMap<>();
         for (ChemReactable reactable : reactables.keySet()) {
-            currentMasses.put(reactable.getChemicalCompound(reactables.get(reactable)), reactable.getMass(reactables.get(reactable)));
+            reactants.put(reactable.getChemicalCompound(reactables.get(reactable)), reactable.getMass(reactables.get(reactable)));
         }
-        return react0(environment, conditions, currentMasses);
+        return react0(environment, conditions, reactants);
     }
 
     /**
      * React the reactables with the conditions
      *
      * @param conditions    the conditions of the reaction
-     * @param currentMasses the masses of the reactants
+     * @param reactants the masses of the reactants
      * @return the produce of the reaction
      */
     @NotNull
-    public static ReactResult react0(@NotNull Environment environment, @NotNull Set<ReactCondition> conditions, @NotNull Map<ChemicalCompound, Double> currentMasses) {
+    public static ReactResult react0(@NotNull Environment environment, @NotNull Set<ReactCondition> conditions, @NotNull Map<ChemicalCompound, Double> reactants) {
         List<ChemicalFormula> formulas = new ArrayList<>(IRRegistry.getInstance().getChemicalFormulas().values());
 
         // shuffle the formulas, ensure that every reaction occurs uniformly
         formulas = JavaUtil.shuffle(formulas);
         for (ChemicalFormula formula : formulas) {
-            if (!conditionSatisfied(environment, currentMasses, formula.getConditions(), conditions)) {
+            if (!conditionSatisfied(environment, reactants, formula.getConditions(), conditions)) {
                 continue;
             }
 
-            if (!inputsSatisfied(environment, formula.getInput(), currentMasses.keySet())) {
+            if (!inputsSatisfied(environment, formula.getInput(), reactants.keySet())) {
                 continue;
             }
 
-            return calculateOutput(environment, conditions, currentMasses, formula);
+            return calculateOutput(environment, conditions, reactants, formula);
         }
 
         return ReactResult.FAILED;
@@ -95,11 +95,11 @@ public class ReactHelper {
      * React the reactables with the conditions
      *
      * @param conditions    the conditions of the reaction
-     * @param currentMasses the masses of the reactants
+     * @param reactants the masses of the reactants
      * @return the produce of the reaction
      */
     @NotNull
-    public static List<ReactResult> reactBalanced(@NotNull Environment environment, @NotNull Set<ReactCondition> conditions, @NotNull Map<ChemicalCompound, Double> currentMasses) {
+    public static List<ReactResult> reactBalanced(@NotNull Environment environment, @NotNull Set<ReactCondition> conditions, @NotNull Map<ChemicalCompound, Double> reactants) {
         List<ChemicalFormula> formulas = new ArrayList<>(IRRegistry.getInstance().getChemicalFormulas().values());
 
         // shuffle the formulas, ensure that every reaction occurs uniformly
@@ -107,15 +107,15 @@ public class ReactHelper {
 
         List<ReactResult> results = new ArrayList<>();
         for (ChemicalFormula formula : formulas) {
-            if (!conditionSatisfied(environment, currentMasses, formula.getConditions(), conditions)) {
+            if (!conditionSatisfied(environment, reactants, formula.getConditions(), conditions)) {
                 continue;
             }
 
-            if (!inputsSatisfied(environment, formula.getInput(), currentMasses.keySet())) {
+            if (!inputsSatisfied(environment, formula.getInput(), reactants.keySet())) {
                 continue;
             }
 
-            results.add(calculateOutput(environment, conditions, currentMasses, formula));
+            results.add(calculateOutput(environment, conditions, reactants, formula));
         }
 
         return results;
@@ -165,22 +165,38 @@ public class ReactHelper {
      * Calculate the output of a reaction
      *
      * @param conditions    the conditions of the reaction
-     * @param currentMasses the masses of the reactants
+     * @param reactants the masses of the reactants
      * @param formula       the chemical formula of the reaction
      * @return the produce of the reaction
      */
     @NotNull
-    public static ReactResult calculateOutput(@NotNull Environment environment, @NotNull Set<ReactCondition> conditions, @NotNull Map<ChemicalCompound, Double> currentMasses, @NotNull ChemicalFormula formula) {
+    public static ReactResult calculateOutput(@NotNull Environment environment, @NotNull Set<ReactCondition> conditions, @NotNull Map<ChemicalCompound, Double> reactants, @NotNull ChemicalFormula formula) {
+        return calculateOutput(environment, conditions, reactants, formula, false);
+    }
+
+    /**
+     * Calculate the output of a reaction
+     *
+     * @param conditions    the conditions of the reaction
+     * @param reactants the masses of the reactants
+     * @param formula       the chemical formula of the reaction
+     * @param reactAll      if true, the reaction will react all the reactants
+     * @return the produce of the reaction
+     */
+    @NotNull
+    public static ReactResult calculateOutput(@NotNull Environment environment, @NotNull Set<ReactCondition> conditions, @NotNull Map<ChemicalCompound, Double> reactants, @NotNull ChemicalFormula formula, boolean reactAll) {
         // input
         var proportion = formula.getInput();
         Double maxProportion = Double.MAX_VALUE;
         for (ChemicalCompound compound : proportion.keySet()) {
-            maxProportion = Math.min(maxProportion, currentMasses.get(compound) / proportion.get(compound));
+            maxProportion = Math.min(maxProportion, reactants.get(compound) / proportion.get(compound));
         }
 
         // reaction should react slowly instead of output all the products directly
         double max = maxProportion;
-        maxProportion /= 6;
+        if (!reactAll) {
+            maxProportion /= 6;
+        }
 
         // some reaction will be faster with the higher temperature
         if (formula.getConditionSensor() != null) {
@@ -217,5 +233,17 @@ public class ReactHelper {
         }
 
         return new ReactResult(formula, finalConsume, finalResult);
+    }
+
+    public static ReactResult reactAll(Environment environment, Set<ReactCondition> conditions, Map<ChemicalCompound, Double> reactants, ChemicalFormula formula) {
+        if (!conditionSatisfied(environment, reactants, formula.getConditions(), conditions)) {
+            return ReactResult.FAILED;
+        }
+
+        if (!inputsSatisfied(environment, formula.getInput(), reactants.keySet())) {
+            return ReactResult.FAILED;
+        }
+
+        return calculateOutput(environment, conditions, reactants, formula, true);
     }
 }

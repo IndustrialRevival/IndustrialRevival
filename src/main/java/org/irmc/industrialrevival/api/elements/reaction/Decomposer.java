@@ -3,6 +3,9 @@ package org.irmc.industrialrevival.api.elements.reaction;
 import lombok.Data;
 import org.bukkit.Location;
 import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
+import org.irmc.industrialrevival.api.elements.tinker.IRTinkerType;
+import org.irmc.industrialrevival.api.elements.tinker.TinkerType;
+import org.irmc.industrialrevival.api.elements.tinker.TinkerTypes;
 import org.irmc.industrialrevival.api.items.attributes.CompoundContainerHolder;
 
 import java.util.HashMap;
@@ -42,7 +45,7 @@ public class Decomposer {
         for (var entry : weights.entrySet()) {
             var r = random.nextDouble();
             if (r < entry.getValue()) {
-                holder.mixCompounds(location, entry.getKey(), 1000D);
+                holder.mixCompounds(location, entry.getKey(), TinkerTypes.BLOCK.getLevel());
             }
         }
     }

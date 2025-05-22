@@ -14,7 +14,7 @@ public enum ElementGroup {
     VB,
     VIB,
     VIIB,
-    VIII,
+    VIIIB,
     IB,
     IIB,
     IIIA,
@@ -22,5 +22,5 @@ public enum ElementGroup {
     VA,
     VIA,
     VIIA,
-    O
+    VIIIA
 }

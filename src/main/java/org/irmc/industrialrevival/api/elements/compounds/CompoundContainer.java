@@ -56,4 +56,9 @@ public class CompoundContainer {
     public List<ReactResult> reactBalanced(@NotNull Environment environment, @NotNull Set<ReactCondition> conditions) {
         return ReactHelper.reactBalanced(environment, conditions, mixed);
     }
+
+    @NotNull
+    public ReactResult reactAll(@NotNull Environment environment, @NotNull Set<ReactCondition> conditions, @NotNull ChemicalFormula formula) {
+        return ReactHelper.reactAll(environment, conditions, mixed, formula);
+    }
 }

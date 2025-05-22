@@ -3,12 +3,7 @@ package org.irmc.industrialrevival.api.elements.registry;
 import org.irmc.industrialrevival.api.elements.compounds.ChemicalFormula;
 import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
 import org.irmc.industrialrevival.core.services.IRRegistry;
-import org.irmc.industrialrevival.implementation.IndustrialRevival;
-import org.irmc.industrialrevival.utils.KeyUtil;
 import org.jetbrains.annotations.Nullable;
-
-import java.lang.reflect.Field;
-import java.util.Set;
 
 @SuppressWarnings("unused")
 public class ChemicalFormulas {
@@ -22,7 +17,7 @@ public class ChemicalFormulas {
 
         return null;
     }
-    public static void register() {
+    public static void setup() {
         int id = 148000;
         new ChemicalFormula(
                 ++id,
@@ -536,6 +531,11 @@ public class ChemicalFormulas {
         new ChemicalFormula(
                 ++id,
                 "H2O+SO3===H2SO4"
+        );
+        // Magic time!
+        new ChemicalFormula(
+                ++id,
+                "Ar+Cu===Au+Cr"
         );
     }
 }

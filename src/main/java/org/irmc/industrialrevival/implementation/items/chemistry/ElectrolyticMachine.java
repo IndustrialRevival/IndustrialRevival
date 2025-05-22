@@ -1,5 +1,6 @@
 package org.irmc.industrialrevival.implementation.items.chemistry;
 
+import org.bukkit.Location;
 import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipe;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
@@ -34,7 +35,7 @@ public class ElectrolyticMachine extends Reactor {
     public static final Set<ReactCondition> CONDITIONS = Set.of(ReactCondition.ELECTROLYSIS);
 
     @Override
-    public Set<ReactCondition> getReactConditions(MachineMenu menu) {
+    public Set<ReactCondition> getReactConditions(Location location) {
         return CONDITIONS;
     }
 }

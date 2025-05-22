@@ -6,7 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
-import org.irmc.industrialrevival.api.elements.registry.ChemicalCompounds;
+import org.irmc.industrialrevival.api.elements.compounds.ChemicalFormula;
 import org.irmc.industrialrevival.api.items.attributes.CompoundContainerHolder;
 import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
 import org.irmc.industrialrevival.api.elements.reaction.ReactResult;
@@ -32,14 +32,15 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static org.irmc.industrialrevival.api.elements.registry.ChemicalCompounds.*;
+
 /**
- * ItemStack -> {@link CompoundContainerHolder} -> ItemStack
+ * {@link ItemStack} -> {@link CompoundContainerHolder} -> {@link ItemStack}
  *
  * @author balugaq
  */
@@ -67,14 +68,14 @@ public abstract class Reactor extends BasicMachine implements CompoundContainerH
     }
 
     @Nonnull
-    public static List<Component> getStatusIcon(@Nullable List<ReactOperation> operations) {
+    public static List<Component> getStatusLore(@Nullable List<ReactOperation> operations) {
         if (operations == null) {
             return new ArrayList<>();
         }
 
         List<Component> lore = new ArrayList<>();
         for (var operation : operations) {
-            var formula = operation.getRunning();
+            var formula = operation.getFormula();
             lore.add(formula.humanize(false).color(TextColor.color(ColorUtil.generateFormulaColor(formula))));
         }
         return TextUtil.crop(lore, 9, Component::text);
@@ -130,19 +131,25 @@ public abstract class Reactor extends BasicMachine implements CompoundContainerH
 
     public void loadDecomposers() {
         decomposers.put(new ItemStack(Material.DIRT), new Decomposer(
-                ChemicalCompounds.Al2O3, 1,
-                ChemicalCompounds.Fe2O3, 1,
-                ChemicalCompounds.CaCO3, 1,
-                ChemicalCompounds.H2O, 1,
-                ChemicalCompounds.N2, 1,
-                ChemicalCompounds.CO2, 1,
-                ChemicalCompounds.O2, 1
+                Al2O3, 1,
+                Fe2O3, 1,
+                CaCO3, 1,
+                H2O, 1,
+                N2, 1,
+                CO2, 1,
+                O2, 1
         ));
         decomposers.put(new ItemStack(Material.POTION), new Decomposer(
-                ChemicalCompounds.H2O, 1
+                H2O, 20,
+                Na2SO4, 1,
+                MgCl2, 1,
+                CaCl2, 1,
+                SiO2, 1,
+                CaHCO3_2, 1,
+                MgHCO3_2, 1
         ));
         decomposers.put(new ItemStack(Material.WATER_BUCKET), new Decomposer(
-                ChemicalCompounds.H2O, 1
+                H2O, 1
         ));
     }
 
@@ -150,7 +157,7 @@ public abstract class Reactor extends BasicMachine implements CompoundContainerH
         var icon = getBaseStatusIcon().clone();
 
         List<Component> extraLore = new ArrayList<>();
-        List<Component> extraLore1 = new ArrayList<>(getStatusIcon(operations));
+        List<Component> extraLore1 = new ArrayList<>(getStatusLore(operations));
         List<Component> extraLore2 = new ArrayList<>();
         for (var entry : getOrNewCompoundContainer(location).getMixed().entrySet()) {
             extraLore2.add(Component.text(NumberUtil.toSubscript(entry.getKey().getHumanizedName()) + "=" + NumberUtil.round(entry.getValue(), 4)).color(TextColor.color(ColorUtil.generateMoleColor(entry.getKey()))));
@@ -215,35 +222,32 @@ public abstract class Reactor extends BasicMachine implements CompoundContainerH
         var location = menu.getLocation();
 
         for (var operation : operations) {
-            double sum = 0D;
-            for (var d : operation.getProduce().values()) {
-                sum += d;
-            }
-
-            if (sum < getThreshold()) {
-                Set<ChemicalCompound> take = new HashSet<>(operation.getProduce().keySet());
-
-                ChemicalCompound maxConsumed = null;
-                double maxConsumedValue = Double.MAX_VALUE;
-                for (var entry : operation.getConsume().entrySet()) {
-                    var value = entry.getValue();
-                    if (value < maxConsumedValue) {
-                        maxConsumed = entry.getKey();
-                        maxConsumedValue = value;
-                    }
-                }
-
-                take.add(maxConsumed);
-
-                // todo: maybe we should mix all solution in an ItemStack
-                output(menu, take);
-            } else {
-                consumeCompounds(location, operation.getConsume());
-                store(location, operation.getProduce());
-            }
+            handleOperation(location, operation);
         }
 
         updateMenu(menu, operations);
+    }
+
+    public void handleOperation(Location location, ReactOperation operation) {
+        consumeCompounds(location, operation.getConsume());
+        store(location, operation.getProduce());
+
+        double sum = 0D;
+        for (var d : operation.getProduce().values()) {
+            sum += d;
+        }
+
+        if (sum < getThreshold()) {
+            var formula = operation.getFormula();
+            reactAll(location, formula);
+        }
+    }
+
+    public void reactAll(Location location, ChemicalFormula formula) {
+        var result = getOrNewCompoundContainer(location).reactAll(getOrNewEnvironment(location), getReactConditions(location), formula);
+        if (!result.equals(ReactResult.FAILED)) {
+            handleOperation(location, ReactOperation.warp(result));
+        }
     }
 
     public void store(Location location, Map<ChemicalCompound, Double> compounds) {
@@ -264,15 +268,15 @@ public abstract class Reactor extends BasicMachine implements CompoundContainerH
         return getMatrixMenuDrawer().getCharPositions("S")[0];
     }
 
-    public abstract Set<ReactCondition> getReactConditions(MachineMenu menu);
+    public abstract Set<ReactCondition> getReactConditions(Location location);
 
     public List<ReactOperation> findNextOperations(MachineMenu menu) {
         var location = menu.getLocation();
-        List<ReactResult> result = getOrNewCompoundContainer(location).reactBalanced(getOrNewEnvironment(location), getReactConditions(menu));
+        List<ReactResult> result = getOrNewCompoundContainer(location).reactBalanced(getOrNewEnvironment(location), getReactConditions(location));
 
         return result.stream()
                 .filter(r -> !r.equals(ReactResult.FAILED))
-                .map(r -> new ReactOperation(r.formula(), r.consume(), r.produce()))
+                .map(ReactOperation::warp)
                 .collect(Collectors.toList());
     }
 

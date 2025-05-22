@@ -3,6 +3,7 @@ package org.irmc.industrialrevival.utils;
 import lombok.experimental.UtilityClass;
 import org.irmc.industrialrevival.api.elements.ElementGroup;
 import org.irmc.industrialrevival.api.elements.ElementType;
+import org.irmc.industrialrevival.api.elements.Valence;
 import org.irmc.industrialrevival.api.elements.melt.MeltedType;
 import org.irmc.industrialrevival.api.elements.melt.OreMeltedType;
 import org.jetbrains.annotations.NotNull;
@@ -117,7 +118,7 @@ public final class ElementUtil {
      *
      * @param valences the valences of the element types to get
      * @return a list of all {@link ElementType}s with the given valence
-     * @see ElementType.Valence
+     * @see Valence
      */
     public static @NotNull List<ElementType> getByValence(int... valences) {
         List<ElementType> elements = new ArrayList<>();

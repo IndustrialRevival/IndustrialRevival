@@ -212,7 +212,7 @@ public class IndustrialRevivalItemSetup {
             .cast(TinkerModelItem.class);
 
     public static final TinkerProductItem TEST_PRODUCT = new TinkerProductItem()
-            .meltedType(OreMeltedType.of(ElementType.IRON))
+            .meltedType(OreMeltedType.of(ElementType.Fe))
             .tinkerType(TinkerTypes.BLOCK)
             .itemGroup(IRItemGroups.DEBUG)
             .id("test_product")
