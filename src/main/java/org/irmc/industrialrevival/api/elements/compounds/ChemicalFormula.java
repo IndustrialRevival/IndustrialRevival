@@ -8,6 +8,8 @@ import lombok.ToString;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
+import org.irmc.industrialrevival.api.machines.process.Environment;
+import org.irmc.industrialrevival.api.objects.CiFunction;
 import org.irmc.industrialrevival.api.objects.exceptions.UnknownChemicalCompoundException;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.Debug;
@@ -224,7 +226,7 @@ public class ChemicalFormula {
     }
 
     @FunctionalInterface
-    public interface ConditionSensor extends BiFunction<Set<ReactCondition>, Double, Double> {
+    public interface ConditionSensor extends CiFunction<Environment, Set<ReactCondition>, Double, Double> {
         /**
          * Returns the max producing proportion
          *
@@ -232,6 +234,6 @@ public class ChemicalFormula {
          * @return the max producing proportion
          */
         @Override
-        Double apply(Set<ReactCondition> conditions, Double current);
+        Double apply(@NotNull Environment environment, @NotNull Set<ReactCondition> conditions, @NotNull Double current);
     }
 }

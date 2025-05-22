@@ -5,6 +5,7 @@ import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
 import org.irmc.industrialrevival.api.elements.compounds.ChemicalFormula;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.ChemReactable;
+import org.irmc.industrialrevival.api.machines.process.Environment;
 import org.irmc.industrialrevival.core.services.IRRegistry;
 import org.irmc.industrialrevival.utils.JavaUtil;
 import org.jetbrains.annotations.NotNull;
@@ -24,8 +25,8 @@ public class ReactHelper {
      * @return the produce of the reaction
      */
     @NotNull
-    public static ReactResult react(Set<ReactCondition> conditions, ItemStack... items) {
-        return react(conditions, List.of(items));
+    public static ReactResult react(@NotNull Environment environment, @NotNull Set<ReactCondition> conditions, ItemStack... items) {
+        return react(environment, conditions, List.of(items));
     }
 
     /**
@@ -36,7 +37,7 @@ public class ReactHelper {
      * @return the produce of the reaction
      */
     @NotNull
-    public static ReactResult react(Set<ReactCondition> conditions, List<ItemStack> items) {
+    public static ReactResult react(@NotNull Environment environment, @NotNull Set<ReactCondition> conditions, @NotNull List<ItemStack> items) {
         Map<ChemReactable, ItemStack> reactables = new HashMap<>();
         for (ItemStack item : items) {
             if (IndustrialRevivalItem.getByItem(item) instanceof ChemReactable cr) {
@@ -44,7 +45,7 @@ public class ReactHelper {
             }
         }
 
-        return react(conditions, reactables);
+        return react(environment, conditions, reactables);
     }
 
     /**
@@ -54,12 +55,12 @@ public class ReactHelper {
      * @param reactables the reactables to react
      * @return the produce of the reaction
      */
-    public static ReactResult react(Set<ReactCondition> conditions, Map<ChemReactable, ItemStack> reactables) {
+    public static @NotNull ReactResult react(@NotNull Environment environment, @NotNull Set<ReactCondition> conditions, @NotNull Map<ChemReactable, ItemStack> reactables) {
         Map<ChemicalCompound, Double> currentMasses = new HashMap<>();
         for (ChemReactable reactable : reactables.keySet()) {
             currentMasses.put(reactable.getChemicalCompound(reactables.get(reactable)), reactable.getMass(reactables.get(reactable)));
         }
-        return react0(conditions, currentMasses);
+        return react0(environment, conditions, currentMasses);
     }
 
     /**
@@ -70,21 +71,21 @@ public class ReactHelper {
      * @return the produce of the reaction
      */
     @NotNull
-    public static ReactResult react0(@NotNull Set<ReactCondition> conditions, @NotNull Map<ChemicalCompound, Double> currentMasses) {
+    public static ReactResult react0(@NotNull Environment environment, @NotNull Set<ReactCondition> conditions, @NotNull Map<ChemicalCompound, Double> currentMasses) {
         List<ChemicalFormula> formulas = new ArrayList<>(IRRegistry.getInstance().getChemicalFormulas().values());
 
         // shuffle the formulas, ensure that every reaction occurs uniformly
         formulas = JavaUtil.shuffle(formulas);
         for (ChemicalFormula formula : formulas) {
-            if (!conditionSatisfied(currentMasses, formula.getConditions(), conditions)) {
+            if (!conditionSatisfied(environment, currentMasses, formula.getConditions(), conditions)) {
                 continue;
             }
 
-            if (!inputsSatisfied(formula.getInput(), currentMasses.keySet())) {
+            if (!inputsSatisfied(environment, formula.getInput(), currentMasses.keySet())) {
                 continue;
             }
 
-            return calculateOutput(conditions, currentMasses, formula);
+            return calculateOutput(environment, conditions, currentMasses, formula);
         }
 
         return ReactResult.FAILED;
@@ -98,7 +99,7 @@ public class ReactHelper {
      * @return the produce of the reaction
      */
     @NotNull
-    public static List<ReactResult> reactBalanced(@NotNull Set<ReactCondition> conditions, @NotNull Map<ChemicalCompound, Double> currentMasses) {
+    public static List<ReactResult> reactBalanced(@NotNull Environment environment, @NotNull Set<ReactCondition> conditions, @NotNull Map<ChemicalCompound, Double> currentMasses) {
         List<ChemicalFormula> formulas = new ArrayList<>(IRRegistry.getInstance().getChemicalFormulas().values());
 
         // shuffle the formulas, ensure that every reaction occurs uniformly
@@ -106,15 +107,15 @@ public class ReactHelper {
 
         List<ReactResult> results = new ArrayList<>();
         for (ChemicalFormula formula : formulas) {
-            if (!conditionSatisfied(currentMasses, formula.getConditions(), conditions)) {
+            if (!conditionSatisfied(environment, currentMasses, formula.getConditions(), conditions)) {
                 continue;
             }
 
-            if (!inputsSatisfied(formula.getInput(), currentMasses.keySet())) {
+            if (!inputsSatisfied(environment, formula.getInput(), currentMasses.keySet())) {
                 continue;
             }
 
-            results.add(calculateOutput(conditions, currentMasses, formula));
+            results.add(calculateOutput(environment, conditions, currentMasses, formula));
         }
 
         return results;
@@ -127,7 +128,7 @@ public class ReactHelper {
      * @param current  the current conditions of the reaction
      * @return true if the current conditions satisfy the conditions of the reaction, false otherwise
      */
-    public static boolean conditionSatisfied(@NotNull Map<ChemicalCompound, Double> masses, @NotNull Set<ReactCondition> required, @NotNull Set<ReactCondition> current) {
+    public static boolean conditionSatisfied(@NotNull Environment environment, @NotNull Map<ChemicalCompound, Double> masses, @NotNull Set<ReactCondition> required, @NotNull Set<ReactCondition> current) {
         for (ReactCondition requiredCondition : required) {
             if (!current.contains(requiredCondition)) {
                 if (requiredCondition.getType() == ReactCondition.Type.CATALYZER) {
@@ -150,8 +151,7 @@ public class ReactHelper {
      * @param current the reactants
      * @return true if the current reactants satisfy the inputs of the reaction, false otherwise
      */
-    public static boolean inputsSatisfied(Map<ChemicalCompound, Integer> inputs, Set<ChemicalCompound> current) {
-        ;
+    public static boolean inputsSatisfied(@NotNull Environment environment, @NotNull Map<ChemicalCompound, Integer> inputs, @NotNull Set<ChemicalCompound> current) {
         for (ChemicalCompound compound : inputs.keySet()) {
             if (!current.contains(compound)) {
                 return false;
@@ -169,7 +169,8 @@ public class ReactHelper {
      * @param formula       the chemical formula of the reaction
      * @return the produce of the reaction
      */
-    public static ReactResult calculateOutput(Set<ReactCondition> conditions, Map<ChemicalCompound, Double> currentMasses, ChemicalFormula formula) {
+    @NotNull
+    public static ReactResult calculateOutput(@NotNull Environment environment, @NotNull Set<ReactCondition> conditions, @NotNull Map<ChemicalCompound, Double> currentMasses, @NotNull ChemicalFormula formula) {
         // input
         var proportion = formula.getInput();
         Double maxProportion = Double.MAX_VALUE;
@@ -178,14 +179,22 @@ public class ReactHelper {
         }
 
         // reaction should react slowly instead of output all the products directly
+        double max = maxProportion;
         maxProportion /= 6;
+
+        // some reaction will be faster with the higher temperature
         if (formula.getConditionSensor() != null) {
-            maxProportion = formula.getConditionSensor().apply(conditions, maxProportion);
+            maxProportion = formula.getConditionSensor().apply(environment, conditions, maxProportion);
         }
 
         // if the maxProportion is null, the reaction should fail
         if (maxProportion == null) {
             return ReactResult.FAILED;
+        }
+
+        // normalize
+        if (maxProportion > max) {
+            maxProportion = max;
         }
 
         var totalMolarMass = 0.0;

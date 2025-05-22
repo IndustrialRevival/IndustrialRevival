@@ -8,6 +8,7 @@ import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
 import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
 import org.irmc.industrialrevival.api.elements.reaction.ReactHelper;
 import org.irmc.industrialrevival.api.elements.reaction.ReactResult;
+import org.irmc.industrialrevival.api.machines.process.Environment;
 import org.irmc.industrialrevival.core.services.IRRegistry;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.KeyUtil;
@@ -90,8 +91,8 @@ public interface ChemReactable extends ItemAttribute, Keyed, ComplexDataContaine
         });
     }
 
-    default @NotNull ReactResult react(@NotNull Set<ReactCondition> conditions, @NotNull List<ItemStack> reactItems) {
-        return ReactHelper.react(conditions, reactItems);
+    default @NotNull ReactResult react(@NotNull Environment environment, @NotNull Set<ReactCondition> conditions, @NotNull List<ItemStack> reactItems) {
+        return ReactHelper.react(environment, conditions, reactItems);
     }
 
     /**

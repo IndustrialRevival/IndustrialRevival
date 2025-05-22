@@ -1,7 +1,5 @@
 package org.irmc.industrialrevival.implementation.items.chemistry;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Location;
@@ -9,20 +7,21 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
 import org.irmc.industrialrevival.api.elements.registry.ChemicalCompounds;
-import org.irmc.industrialrevival.api.elements.compounds.ChemicalFormula;
 import org.irmc.industrialrevival.api.items.attributes.CompoundContainerHolder;
 import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
-import org.irmc.industrialrevival.api.elements.reaction.ReactHelper;
 import org.irmc.industrialrevival.api.elements.reaction.ReactResult;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.ChemReactable;
+import org.irmc.industrialrevival.api.items.attributes.EnvironmentHolder;
+import org.irmc.industrialrevival.api.items.handlers.BlockPlaceHandler;
 import org.irmc.industrialrevival.api.machines.BasicMachine;
-import org.irmc.industrialrevival.api.machines.process.IOperation;
+import org.irmc.industrialrevival.api.machines.process.Environment;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipe;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.objects.events.ir.BlockTickEvent;
 import org.irmc.industrialrevival.api.elements.reaction.Decomposer;
+import org.irmc.industrialrevival.api.objects.events.vanilla.IRBlockPlaceEvent;
 import org.irmc.industrialrevival.implementation.items.register.ChemicalCompoundSetup;
 import org.irmc.industrialrevival.utils.ColorUtil;
 import org.irmc.industrialrevival.utils.NumberUtil;
@@ -45,7 +44,7 @@ import java.util.stream.Collectors;
  *
  * @author balugaq
  */
-public abstract class Reactor extends BasicMachine implements CompoundContainerHolder {
+public abstract class Reactor extends BasicMachine implements CompoundContainerHolder, EnvironmentHolder {
     public Reactor() {
         loadDecomposers();
         loadRecipes();
@@ -269,7 +268,8 @@ public abstract class Reactor extends BasicMachine implements CompoundContainerH
     public abstract Set<ReactCondition> getReactConditions(MachineMenu menu);
 
     public List<ReactOperation> findNextOperations(MachineMenu menu) {
-        List<ReactResult> result = getOrNewCompoundContainer(menu.getLocation()).reactBalanced(getReactConditions(menu));
+        var location = menu.getLocation();
+        List<ReactResult> result = getOrNewCompoundContainer(location).reactBalanced(getOrNewEnvironment(location), getReactConditions(menu));
 
         return result.stream()
                 .filter(r -> !r.equals(ReactResult.FAILED))
@@ -304,30 +304,13 @@ public abstract class Reactor extends BasicMachine implements CompoundContainerH
         return getInputSlots();
     }
 
-    @Data
-    @RequiredArgsConstructor
-    public static class ReactOperation implements IOperation {
-        private final ChemicalFormula running;
-        private final Map<ChemicalCompound, Double> consume;
-        private final Map<ChemicalCompound, Double> produce;
-
-
-        @Override
-        public void tick() {
-        }
-
-        @Override
-        public void addProgress(int progress) {
-        }
-
-        @Override
-        public int getCurrentProgress() {
-            return 0;
-        }
-
-        @Override
-        public int getTotalProgress() {
-            return 0;
-        }
+    @Override
+    public @NotNull Environment newEnvironment() {
+        var e = new Environment();
+        e.setTemperature(20.0D);
+        e.setPressure(AIR_PRESSURE);
+        e.setHumidity(0.0D);
+        e.setRadiation(0.0D);
+        return e;
     }
 }

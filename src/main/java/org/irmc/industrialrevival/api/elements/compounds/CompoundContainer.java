@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
 import org.irmc.industrialrevival.api.elements.reaction.ReactHelper;
 import org.irmc.industrialrevival.api.elements.reaction.ReactResult;
+import org.irmc.industrialrevival.api.machines.process.Environment;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.List;
@@ -45,12 +47,13 @@ public class CompoundContainer {
         return consume(other.mixed);
     }
 
-
-    public ReactResult react(Set<ReactCondition> conditions) {
-        return ReactHelper.react0(conditions, mixed);
+    @NotNull
+    public ReactResult react(@NotNull Environment environment, @NotNull Set<ReactCondition> conditions) {
+        return ReactHelper.react0(environment, conditions, mixed);
     }
 
-    public List<ReactResult> reactBalanced(Set<ReactCondition> conditions) {
-        return ReactHelper.reactBalanced(conditions, mixed);
+    @NotNull
+    public List<ReactResult> reactBalanced(@NotNull Environment environment, @NotNull Set<ReactCondition> conditions) {
+        return ReactHelper.reactBalanced(environment, conditions, mixed);
     }
 }
