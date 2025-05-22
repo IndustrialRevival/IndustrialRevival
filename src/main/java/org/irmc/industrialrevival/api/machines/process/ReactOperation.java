@@ -1,10 +1,9 @@
-package org.irmc.industrialrevival.implementation.items.chemistry;
+package org.irmc.industrialrevival.api.machines.process;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
 import org.irmc.industrialrevival.api.elements.compounds.ChemicalFormula;
-import org.irmc.industrialrevival.api.machines.process.IOperation;
 
 import java.util.Map;
 
