@@ -38,6 +38,6 @@ public class ReactOperation implements IOperation {
     }
 
     public static ReactOperation warp(ReactResult reactResult) {
-        return new ReactOperation(reactResult.formula(), reactResult.consume(), reactResult.produce());
+        return new ReactOperation(reactResult.formula(), reactResult.getConsume(), reactResult.getProduce());
     }
 }

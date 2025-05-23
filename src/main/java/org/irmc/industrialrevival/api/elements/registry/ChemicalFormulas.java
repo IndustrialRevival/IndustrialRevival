@@ -532,10 +532,12 @@ public class ChemicalFormulas {
                 ++id,
                 "H2O+SO3===H2SO4"
         );
+        /*
         // Magic time!
         new ChemicalFormula(
                 ++id,
                 "Ar+Cu===Au+Cr"
         );
+        */
     }
 }

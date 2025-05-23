@@ -13,6 +13,7 @@ import org.irmc.industrialrevival.api.elements.reaction.ReactResult;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.ChemReactable;
 import org.irmc.industrialrevival.api.items.attributes.EnvironmentHolder;
+import org.irmc.industrialrevival.api.items.handlers.BlockBreakHandler;
 import org.irmc.industrialrevival.api.machines.BasicMachine;
 import org.irmc.industrialrevival.api.machines.process.Environment;
 import org.irmc.industrialrevival.api.machines.process.ReactOperation;
@@ -48,6 +49,7 @@ public abstract class Reactor extends BasicMachine implements CompoundContainerH
     public Reactor() {
         loadDecomposers();
         loadRecipes();
+        addHandlers();
     }
 
     public static final double DEFAULT_THRESHOLD = 0.1;
@@ -131,26 +133,40 @@ public abstract class Reactor extends BasicMachine implements CompoundContainerH
 
     public void loadDecomposers() {
         decomposers.put(new ItemStack(Material.DIRT), new Decomposer(
-                Al2O3, 1,
-                Fe2O3, 1,
-                CaCO3, 1,
-                H2O, 1,
+                Al2O3, 5,
+                Fe2O3, 3,
+                CaCO3, 40,
+                H2O, 10,
                 N2, 1,
                 CO2, 1,
                 O2, 1
         ));
         decomposers.put(new ItemStack(Material.POTION), new Decomposer(
-                H2O, 20,
-                Na2SO4, 1,
-                MgCl2, 1,
-                CaCl2, 1,
+                H2O, 200,
+                Na2SO4, 10,
+                MgCl2, 12,
+                CaCl2, 14,
                 SiO2, 1,
                 CaHCO3_2, 1,
                 MgHCO3_2, 1
         ));
         decomposers.put(new ItemStack(Material.WATER_BUCKET), new Decomposer(
-                H2O, 1
+                H2O, 200,
+                Na2SO4, 10,
+                MgCl2, 12,
+                CaCl2, 14,
+                SiO2, 1,
+                CaHCO3_2, 1,
+                MgHCO3_2, 1
         ));
+    }
+
+    public void addHandlers() {
+        addItemHandlers((BlockBreakHandler) e -> {
+            var loc = e.getOriginalEvent().getBlock().getLocation();
+            removeCompoundContainer(loc);
+            removeEnvironment(loc);
+        });
     }
 
     public ItemStack getStatusIcon(Location location, @Nullable List<ReactOperation> operations) {

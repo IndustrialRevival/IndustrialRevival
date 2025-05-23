@@ -71,6 +71,10 @@ public interface CompoundContainerHolder extends ItemAttribute {
         return new CompoundContainer();
     }
 
+    default CompoundContainer removeCompoundContainer(Location location) {
+        return COMPOUND_CONTAINER.remove(location);
+    }
+
     default CompoundContainer getOrNewCompoundContainer(Location location) {
         var v = getCompoundContainer(location);
         if (v == null) {

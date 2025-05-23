@@ -22,7 +22,7 @@ public class ReactHelper {
      *
      * @param conditions the conditions of the reaction
      * @param items      the items to react
-     * @return the produce of the reaction
+     * @return the getProduce of the reaction
      */
     @NotNull
     public static ReactResult react(@NotNull Environment environment, @NotNull Set<ReactCondition> conditions, ItemStack... items) {
@@ -34,7 +34,7 @@ public class ReactHelper {
      *
      * @param conditions the conditions of the reaction
      * @param items      the items to react
-     * @return the produce of the reaction
+     * @return the getProduce of the reaction
      */
     @NotNull
     public static ReactResult react(@NotNull Environment environment, @NotNull Set<ReactCondition> conditions, @NotNull List<ItemStack> items) {
@@ -53,7 +53,7 @@ public class ReactHelper {
      *
      * @param conditions the conditions of the reaction
      * @param reactables the reactables to react
-     * @return the produce of the reaction
+     * @return the getProduce of the reaction
      */
     public static @NotNull ReactResult react(@NotNull Environment environment, @NotNull Set<ReactCondition> conditions, @NotNull Map<ChemReactable, ItemStack> reactables) {
         Map<ChemicalCompound, Double> reactants = new HashMap<>();
@@ -68,7 +68,7 @@ public class ReactHelper {
      *
      * @param conditions    the conditions of the reaction
      * @param reactants the masses of the reactants
-     * @return the produce of the reaction
+     * @return the getProduce of the reaction
      */
     @NotNull
     public static ReactResult react0(@NotNull Environment environment, @NotNull Set<ReactCondition> conditions, @NotNull Map<ChemicalCompound, Double> reactants) {
@@ -96,7 +96,7 @@ public class ReactHelper {
      *
      * @param conditions    the conditions of the reaction
      * @param reactants the masses of the reactants
-     * @return the produce of the reaction
+     * @return the getProduce of the reaction
      */
     @NotNull
     public static List<ReactResult> reactBalanced(@NotNull Environment environment, @NotNull Set<ReactCondition> conditions, @NotNull Map<ChemicalCompound, Double> reactants) {
@@ -167,7 +167,7 @@ public class ReactHelper {
      * @param conditions    the conditions of the reaction
      * @param reactants the masses of the reactants
      * @param formula       the chemical formula of the reaction
-     * @return the produce of the reaction
+     * @return the getProduce of the reaction
      */
     @NotNull
     public static ReactResult calculateOutput(@NotNull Environment environment, @NotNull Set<ReactCondition> conditions, @NotNull Map<ChemicalCompound, Double> reactants, @NotNull ChemicalFormula formula) {
@@ -181,7 +181,7 @@ public class ReactHelper {
      * @param reactants the masses of the reactants
      * @param formula       the chemical formula of the reaction
      * @param reactAll      if true, the reaction will react all the reactants
-     * @return the produce of the reaction
+     * @return the getProduce of the reaction
      */
     @NotNull
     public static ReactResult calculateOutput(@NotNull Environment environment, @NotNull Set<ReactCondition> conditions, @NotNull Map<ChemicalCompound, Double> reactants, @NotNull ChemicalFormula formula, boolean reactAll) {

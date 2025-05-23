@@ -35,7 +35,7 @@ public class CompoundContainer {
     public CompoundContainer consume(Map<ChemicalCompound, Double> other) {
         for (var entry : other.entrySet()) {
             mixed.merge(entry.getKey(), -entry.getValue(), (a, b) -> Math.max(a + b, 0));
-            if (mixed.get(entry.getKey()) <= 0) {
+            if (mixed.get(entry.getKey()) <= 0.0D) {
                 mixed.remove(entry.getKey());
             }
         }

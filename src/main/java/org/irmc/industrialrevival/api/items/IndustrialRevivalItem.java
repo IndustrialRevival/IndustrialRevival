@@ -374,7 +374,7 @@ public class IndustrialRevivalItem implements Keyed {
     /**
      * Adds a {@link ProduceMethod} to the item.
      *
-     * @param produceMethodGetter the produce method lambda of the item
+     * @param produceMethodGetter the getProduce method lambda of the item
      * @return this instance
      */
     @NotNull
@@ -391,7 +391,7 @@ public class IndustrialRevivalItem implements Keyed {
     /**
      * Adds a {@link ProduceMethod} to the item.
      *
-     * @param produceMethod the produce method of the item
+     * @param produceMethod the getProduce method of the item
      * @return this instance
      */
     public IndustrialRevivalItem recipe(@NotNull ProduceMethod produceMethod) {

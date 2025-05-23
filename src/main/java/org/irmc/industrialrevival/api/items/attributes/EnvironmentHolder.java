@@ -19,6 +19,11 @@ public interface EnvironmentHolder extends ItemAttribute {
         return new Environment();
     }
 
+    @NotNull
+    default Environment removeEnvironment(@NotNull Location location) {
+        return ENVIRONMENT_CONTAINER.remove(location);
+    }
+
     @Nullable
     default Environment getEnvironment(@NotNull Location location) {
         return ENVIRONMENT_CONTAINER.get(location);

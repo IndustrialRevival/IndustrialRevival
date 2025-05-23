@@ -1,5 +1,6 @@
 package org.irmc.industrialrevival.api.machines.process;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import lombok.Data;
 
 import java.util.HashMap;
@@ -41,17 +42,20 @@ public class Environment implements Cloneable {
     public double getRadiation() {
         return (double) data.getOrDefault(RADIATION_KEY, DEFAULT_VALUE);
     }
-    
+
+    @CanIgnoreReturnValue
     public Environment setTemperature(double temperature) {
         data.put(TEMPERATURE_KEY, temperature);
         return this;
     }
-    
+
+    @CanIgnoreReturnValue
     public Environment setPressure(double pressure) {
         data.put(PRESSURE_KEY, pressure);
         return this;
     }
-    
+
+    @CanIgnoreReturnValue
     public Environment setHumidity(double humidity) {
         data.put(HUMIDITY_KEY, humidity);
         return this;
