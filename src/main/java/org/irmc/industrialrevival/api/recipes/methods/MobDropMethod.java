@@ -30,6 +30,14 @@ public class MobDropMethod implements ProduceMethod {
         this.itemToDrop = dropFromMobItem.getIcon();
     }
 
+    public static MobDropMethod of(EntityType mobType, int dropAmount, double chance, ItemStack itemToDrop) {
+        return new MobDropMethod(mobType, dropAmount, chance, itemToDrop);
+    }
+
+    public static MobDropMethod of(EntityType mobType, int dropAmount, double chance, DropFromMobItem dropFromMobItem) {
+        return new MobDropMethod(mobType, dropAmount, chance, dropFromMobItem);
+    }
+
     @Override
     public RecipeType getRecipeType() {
         return RecipeType.KILL_MOB;

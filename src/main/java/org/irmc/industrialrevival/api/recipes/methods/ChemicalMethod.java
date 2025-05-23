@@ -17,6 +17,10 @@ public class ChemicalMethod implements ProduceMethod {
         this.formula = formula;
     }
 
+    public static ChemicalMethod of(ChemicalFormula formula) {
+        return new ChemicalMethod(formula);
+    }
+
     @Override
     public RecipeType getRecipeType() {
         return OperationTable.getRecipeType();

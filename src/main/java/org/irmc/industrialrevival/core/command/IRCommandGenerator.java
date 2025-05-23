@@ -221,7 +221,7 @@ public class IRCommandGenerator {
                             String object = (String) args.get("object");
                             if ("ALL".equals(object)) {
                                 Map<ChemicalCompound, Double> masses = new HashMap<>();
-                                for (var compound : new HashSet<>(ChemicalCompound.ALL_CHEMICALS)) {
+                                for (var compound : ChemicalCompound.ALL_CHEMICALS.values()) {
                                     masses.put(compound, mass);
                                 }
 

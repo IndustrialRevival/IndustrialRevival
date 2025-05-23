@@ -176,7 +176,7 @@ public class RecipeType {
     private final RecipeDisplay recipeDisplay;
     private NamespacedKey makerId;
     /**
-     * When a recipe is created using {@link CraftMethod#CraftMethod(RecipeType, ItemStack[], ItemStack)} or {@link CraftMethod#CraftMethod(RecipeType, ItemStack[], IndustrialRevivalItem)},
+     * When a recipe is created using {@link CraftMethod#of(RecipeType, ItemStack[], ItemStack)} or {@link CraftMethod#of(RecipeType, ItemStack[], IndustrialRevivalItem)},
      * the registerRecipeConsumer and unregisterRecipeConsumer
      * will be called to register or unregister the recipe automatically.
      */

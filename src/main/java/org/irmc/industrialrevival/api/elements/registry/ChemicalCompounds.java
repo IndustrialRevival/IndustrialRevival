@@ -10,7 +10,9 @@ import org.irmc.industrialrevival.api.elements.compounds.types.AcidCompound;
 import org.irmc.industrialrevival.api.elements.compounds.types.IonCompound;
 import org.irmc.industrialrevival.api.elements.compounds.types.OxideCompound;
 import org.irmc.industrialrevival.utils.Debug;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -617,13 +619,23 @@ public class ChemicalCompounds {
     //<editor-fold desc="Unsorted"
 
     //</editor-fold>
-    
-    public static @NotNull Compound asCompound(@NotNull ElementType elementType) {
+
+    @Contract("null -> null; !null -> new")
+    public static Compound asCompound(@Nullable ElementType elementType) {
+        if (elementType == null) {
+            return null;
+        }
+
         return new Element(elementType);
     }
-    
-    public static @NotNull Compound asCompound(@NotNull IonCompound ionCompound) {
-        return new Chemical(ionCompound);
+
+    @Contract("null -> null; !null -> new")
+    public static Compound asCompound(@Nullable ChemicalCompound compound) {
+        if (compound == null) {
+            return null;
+        }
+
+        return new Chemical(compound);
     }
 
     /**

@@ -48,7 +48,7 @@ import org.jetbrains.annotations.NotNull;
  *     .addon(my_addon)                          // my_addon -> {@link IndustrialRevivalAddon }
  *     .itemGroup(my_item_group)                 // my_item_group -> {@link ItemGroup }
  *     .icon(my_item_stack)                      // my_item_stack -> {@link ItemStack }
- *     .recipe(item -> new CraftMethod(          // recipe method, see more {@link CraftMethod}
+ *     .recipe(item -> CraftMethod.of(          // recipe method, see more {@link CraftMethod}
  *              RecipeType.NULL,                 // recipe type, can be any of the types in {@link RecipeType } or a custom recipe type
  *              new ItemStack[] {},              // input items, can be empty but CANNOT be null
  *              item                             // item is a pure itemstack which be used in {@code setIcon }
@@ -63,7 +63,7 @@ import org.jetbrains.annotations.NotNull;
  *     .addon(my_addon)                          // my_addon -> {@link IndustrialRevivalAddon }
  *     .itemGroup(my_item_group)                 // my_item_group -> {@link ItemGroup }
  *     .icon(my_item_stack)                      // my_item_stack -> {@link ItemStack }
- *     .recipe(item -> new CraftMethod(          // recipe method, see more {@link CraftMethod}
+ *     .recipe(item -> CraftMethod.of(          // recipe method, see more {@link CraftMethod}
  *              RecipeType.MULTIBLOCK,           // recipe type, can only be MULTIBLOCK
  *              new ItemStack[] {},              // input items, can be anything but CANNOT be null
  *              item                             // item is a pure itemstack which be used in {@code setIcon }
@@ -93,7 +93,7 @@ public class IndustrialRevivalItemSetup {
             .itemGroup(IRItemGroups.DEBUG)
             .id("empty")
             .icon(IndustrialRevivalItems.EMPTY)
-            .recipe(item -> new CraftMethod(
+            .recipe(item -> CraftMethod.of(
                     RecipeType.NULL,
                     EMPTY_RECIPE,
                     item
@@ -104,7 +104,7 @@ public class IndustrialRevivalItemSetup {
             .itemGroup(IRItemGroups.DEBUG)
             .id("container")
             .icon(IndustrialRevivalItems.CONTAINER)
-            .recipe(item -> new CraftMethod(
+            .recipe(item -> CraftMethod.of(
                     RecipeType.NULL,
                     EMPTY_RECIPE,
                     item
@@ -115,7 +115,7 @@ public class IndustrialRevivalItemSetup {
             .itemGroup(IRItemGroups.DEBUG)
             .id("debug_head")
             .icon(IndustrialRevivalItems.DEBUG_HEAD)
-            .recipe(item -> new CraftMethod(
+            .recipe(item -> CraftMethod.of(
                     RecipeType.NULL,
                     EMPTY_RECIPE,
                     item
@@ -126,7 +126,7 @@ public class IndustrialRevivalItemSetup {
             .itemGroup(IRItemGroups.DEBUG)
             .id("debugger")
             .icon(IndustrialRevivalItems.DEBUGGER)
-            .recipe(item -> new CraftMethod(
+            .recipe(item -> CraftMethod.of(
                     RecipeType.NULL,
                     EMPTY_RECIPE,
                     item
@@ -136,7 +136,7 @@ public class IndustrialRevivalItemSetup {
             .itemGroup(IRItemGroups.MULTIBLOCK)
             .id("blast_furnace")
             .icon(IndustrialRevivalItems.BLAST_FURNACE)
-            .recipe(item -> new CraftMethod(
+            .recipe(item -> CraftMethod.of(
                     RecipeType.MULTIBLOCK,
                     EMPTY_RECIPE,
                     item
@@ -146,7 +146,7 @@ public class IndustrialRevivalItemSetup {
             .itemGroup(IRItemGroups.MULTIBLOCK)
             .id("coke_oven")
             .icon(IndustrialRevivalItems.COKE_OVEN)
-            .recipe(item -> new CraftMethod(
+            .recipe(item -> CraftMethod.of(
                     RecipeType.MULTIBLOCK,
                     EMPTY_RECIPE,
                     item
@@ -156,7 +156,7 @@ public class IndustrialRevivalItemSetup {
             .itemGroup(IRItemGroups.MULTIBLOCK)
             .id("earth_furnace")
             .icon(IndustrialRevivalItems.EARTH_FURNACE)
-            .recipe(item -> new CraftMethod(
+            .recipe(item -> CraftMethod.of(
                     RecipeType.MULTIBLOCK,
                     EMPTY_RECIPE,
                     item
@@ -166,7 +166,7 @@ public class IndustrialRevivalItemSetup {
             .itemGroup(IRItemGroups.MULTIBLOCK)
             .id("wooden_press")
             .icon(IndustrialRevivalItems.WOODEN_PRESS)
-            .recipe(item -> new CraftMethod(
+            .recipe(item -> CraftMethod.of(
                     RecipeType.MULTIBLOCK,
                     EMPTY_RECIPE,
                     item
@@ -176,7 +176,7 @@ public class IndustrialRevivalItemSetup {
             .itemGroup(IRItemGroups.MULTIBLOCK)
             .id("research_table")
             .icon(IndustrialRevivalItems.RESEARCH_TABLE)
-            .recipe(item -> new CraftMethod(
+            .recipe(item -> CraftMethod.of(
                     RecipeType.MULTIBLOCK,
                     EMPTY_RECIPE,
                     item
@@ -186,7 +186,7 @@ public class IndustrialRevivalItemSetup {
             .itemGroup(IRItemGroups.MULTIBLOCK)
             .id("professional_laboratory")
             .icon(IndustrialRevivalItems.PROFESSIONAL_LABORATORY)
-            .recipe(item -> new CraftMethod(
+            .recipe(item -> CraftMethod.of(
                     RecipeType.MULTIBLOCK,
                     EMPTY_RECIPE,
                     item
@@ -197,7 +197,7 @@ public class IndustrialRevivalItemSetup {
             .itemGroup(IRItemGroups.MULTIBLOCK)
             .id("blast_smeltery")
             .icon(IndustrialRevivalItems.BLAST_SMELTERY)
-            .recipe(item -> new CraftMethod(
+            .recipe(item -> CraftMethod.of(
                     RecipeType.MULTIBLOCK,
                     EMPTY_RECIPE,
                     item

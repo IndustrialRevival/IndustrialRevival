@@ -2,7 +2,7 @@ package org.irmc.industrialrevival.api.elements.compounds;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
+import org.bukkit.NamespacedKey;
 import org.irmc.industrialrevival.api.elements.ElementType;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,7 +19,16 @@ import java.util.Map;
 @AllArgsConstructor
 @ParametersAreNonnullByDefault
 public class Element implements Compound {
+    static {
+        COMPOUND_READERS.add(new CompoundReader.ElementReader());
+    }
+
     private final @NotNull ElementType element;
+    private final @NotNull NamespacedKey key;
+
+    public Element(ElementType elementType) {
+        this(elementType, new NamespacedKey(Element.ELEMENT_NAMESPACE, elementType.name()));
+    }
 
     public double getMolarMass() {
         return element.getRelativeAtomicMass();
@@ -28,4 +37,10 @@ public class Element implements Compound {
     public Map<ElementType, Double> toAtomic() {
         return Map.of(element, 1D);
     }
+
+    @Override
+    public @NotNull NamespacedKey getKey() {
+        return key;
+    }
+
 }

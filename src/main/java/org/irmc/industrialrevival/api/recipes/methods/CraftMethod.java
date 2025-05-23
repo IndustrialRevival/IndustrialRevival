@@ -28,6 +28,14 @@ public class CraftMethod implements ProduceMethod {
         recipeType.registerRecipe(this.ingredients, this.output);
     }
 
+    public static CraftMethod of(RecipeType recipeType, ItemStack[] ingredients, ItemStack output) {
+        return new CraftMethod(recipeType, ingredients, output);
+    }
+
+    public static CraftMethod of(RecipeType recipeType, ItemStack[] ingredients, IndustrialRevivalItem output) {
+        return new CraftMethod(recipeType, ingredients, output);
+    }
+
     @Override
     public ItemStack[] getOutput() {
         return new ItemStack[]{output};

@@ -21,6 +21,19 @@ public class MeltMethod implements ProduceMethod {
         this.outputs = outputs;
     }
 
+    public MeltMethod(MeltedObject input, MeltedObject output) {
+        this.inputs = List.of(input);
+        this.outputs = List.of(output);
+    }
+
+    public static MeltMethod of(MeltedObject input, MeltedObject output) {
+        return new MeltMethod(input, output);
+    }
+
+    public static MeltMethod of(List<MeltedObject> inputs, List<MeltedObject> outputs) {
+        return new MeltMethod(inputs, outputs);
+    }
+
     @Override
     public RecipeType getRecipeType() {
         return BlastSmeltery.RECIPE_TYPE;
