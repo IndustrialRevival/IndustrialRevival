@@ -1,54 +1,55 @@
 package org.irmc.industrialrevival.implementation.items.chemistry;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
-import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompounds;
 import org.irmc.industrialrevival.api.elements.compounds.ChemicalFormula;
-import org.irmc.industrialrevival.api.elements.compounds.CompoundContainerHolder;
+import org.irmc.industrialrevival.api.items.attributes.CompoundContainerHolder;
 import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
-import org.irmc.industrialrevival.api.elements.reaction.ReactHelper;
 import org.irmc.industrialrevival.api.elements.reaction.ReactResult;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.attributes.ChemReactable;
+import org.irmc.industrialrevival.api.items.attributes.EnvironmentHolder;
+import org.irmc.industrialrevival.api.items.handlers.BlockBreakHandler;
 import org.irmc.industrialrevival.api.machines.BasicMachine;
-import org.irmc.industrialrevival.api.machines.process.IOperation;
+import org.irmc.industrialrevival.api.machines.process.Environment;
+import org.irmc.industrialrevival.api.machines.process.ReactOperation;
 import org.irmc.industrialrevival.api.machines.recipes.MachineRecipe;
 import org.irmc.industrialrevival.api.menu.MachineMenu;
-import org.irmc.industrialrevival.api.menu.MatrixMenuDrawer;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.objects.events.ir.BlockTickEvent;
 import org.irmc.industrialrevival.api.elements.reaction.Decomposer;
 import org.irmc.industrialrevival.implementation.items.register.ChemicalCompoundSetup;
 import org.irmc.industrialrevival.utils.ColorUtil;
-import org.irmc.industrialrevival.utils.MenuUtil;
 import org.irmc.industrialrevival.utils.NumberUtil;
+import org.irmc.industrialrevival.utils.TextUtil;
 import org.irmc.pigeonlib.items.CustomItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static org.irmc.industrialrevival.api.elements.registry.ChemicalCompounds.*;
+
 /**
- * ItemStack -> Internal Data -> ItemStack
+ * {@link ItemStack} -> {@link CompoundContainerHolder} -> {@link ItemStack}
  *
  * @author balugaq
  */
-public abstract class Reactor extends BasicMachine {
+public abstract class Reactor extends BasicMachine implements CompoundContainerHolder, EnvironmentHolder {
     public Reactor() {
         loadDecomposers();
         loadRecipes();
+        addHandlers();
     }
 
     public static final double DEFAULT_THRESHOLD = 0.1;
@@ -57,7 +58,6 @@ public abstract class Reactor extends BasicMachine {
             "&cRunning Status"
     ).getBukkit();
 
-    public final CompoundContainerHolder holder = new CompoundContainerHolder();
     public final Map<ItemStack, Decomposer> decomposers = new HashMap<>();
     public final List<MachineRecipe> recipes = new ArrayList<>();
 
@@ -69,11 +69,18 @@ public abstract class Reactor extends BasicMachine {
         return DEFAULT_THRESHOLD;
     }
 
-    public static List<Component> getStatusIcon(ReactOperation operation) {
+    @Nonnull
+    public static List<Component> getStatusLore(@Nullable List<ReactOperation> operations) {
+        if (operations == null) {
+            return new ArrayList<>();
+        }
+
         List<Component> lore = new ArrayList<>();
-        var formula = operation.getRunning();
-        lore.add(formula.humanize(false).color(TextColor.color(ColorUtil.generateFormulaColor(formula))));
-        return lore;
+        for (var operation : operations) {
+            var formula = operation.getFormula();
+            lore.add(formula.humanize(false).color(TextColor.color(ColorUtil.generateFormulaColor(formula))));
+        }
+        return TextUtil.crop(lore, 9, Component::text);
     }
 
     public static List<ItemStack> asItemLevel(Map<ChemicalCompound, Double> compounds) {
@@ -126,32 +133,58 @@ public abstract class Reactor extends BasicMachine {
 
     public void loadDecomposers() {
         decomposers.put(new ItemStack(Material.DIRT), new Decomposer(
-                ChemicalCompounds.Al2O3, 1,
-                ChemicalCompounds.Fe2O3, 1,
-                ChemicalCompounds.CaCO3, 1,
-                ChemicalCompounds.H2O, 1,
-                ChemicalCompounds.N2, 1,
-                ChemicalCompounds.CO2, 1,
-                ChemicalCompounds.O2, 1
+                Al2O3, 5,
+                Fe2O3, 3,
+                CaCO3, 40,
+                H2O, 10,
+                N2, 1,
+                CO2, 1,
+                O2, 1
         ));
         decomposers.put(new ItemStack(Material.POTION), new Decomposer(
-                ChemicalCompounds.H2O, 1
+                H2O, 200,
+                Na2SO4, 10,
+                MgCl2, 12,
+                CaCl2, 14,
+                SiO2, 1,
+                CaHCO3_2, 1,
+                MgHCO3_2, 1
         ));
         decomposers.put(new ItemStack(Material.WATER_BUCKET), new Decomposer(
-                ChemicalCompounds.H2O, 1
+                H2O, 200,
+                Na2SO4, 10,
+                MgCl2, 12,
+                CaCl2, 14,
+                SiO2, 1,
+                CaHCO3_2, 1,
+                MgHCO3_2, 1
         ));
     }
 
-    public ItemStack getStatusIcon(Location location, @Nullable Reactor.ReactOperation operation) {
+    public void addHandlers() {
+        addItemHandlers((BlockBreakHandler) e -> {
+            var loc = e.getOriginalEvent().getBlock().getLocation();
+            removeCompoundContainer(loc);
+            removeEnvironment(loc);
+        });
+    }
+
+    public ItemStack getStatusIcon(Location location, @Nullable List<ReactOperation> operations) {
         var icon = getBaseStatusIcon().clone();
 
         List<Component> extraLore = new ArrayList<>();
-        for (var entry : holder.getOrNew(location).getMixed().entrySet()) {
-            extraLore.add(Component.text(NumberUtil.toSubscript(entry.getKey().getName()) + "=" + NumberUtil.round(entry.getValue(), 4)).color(TextColor.color(ColorUtil.generateMoleColor(entry.getKey()))));
+        List<Component> extraLore1 = new ArrayList<>(getStatusLore(operations));
+        List<Component> extraLore2 = new ArrayList<>();
+        for (var entry : getOrNewCompoundContainer(location).getMixed().entrySet()) {
+            extraLore2.add(Component.text(NumberUtil.toSubscript(entry.getKey().getHumanizedName()) + "=" + NumberUtil.round(entry.getValue(), 4)).color(TextColor.color(ColorUtil.generateMoleColor(entry.getKey()))));
         }
+        extraLore2 = TextUtil.crop(extraLore2, 9, Component::text);
 
-        if (operation != null) {
-            extraLore.addAll(getStatusIcon(operation));
+        if (extraLore1 != null && !extraLore1.isEmpty()) {
+            extraLore.addAll(extraLore1);
+        }
+        if (extraLore2 != null && !extraLore2.isEmpty()) {
+            extraLore.addAll(extraLore2);
         }
 
         if (!extraLore.isEmpty()) {
@@ -170,7 +203,7 @@ public abstract class Reactor extends BasicMachine {
 
     public void input(MachineMenu menu) {
         var map = asDataLevel(menu, getInputSlots());
-        holder.mix(menu.getLocation(), map);
+        mixCompounds(menu.getLocation(), map);
     }
 
     public void output(MachineMenu menu, Set<ChemicalCompound> take) {
@@ -178,14 +211,16 @@ public abstract class Reactor extends BasicMachine {
             return;
         }
 
-        var all = holder.getOrNew(menu.getLocation()).getMixed();
+        var all = getOrNewCompoundContainer(menu.getLocation()).getMixed();
         var fixed = all.entrySet().stream()
                 .filter(entry -> take.contains(entry.getKey()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
         var items = asItemLevel(fixed);
-        holder.clear(menu.getLocation(), take);
-        menu.pushItem(items, getOutputSlots());
+        if (!items.isEmpty()) {
+            clearCompounds(menu.getLocation(), take);
+            menu.pushItem(items, getOutputSlots());
+        }
     }
 
     @Override
@@ -194,58 +229,57 @@ public abstract class Reactor extends BasicMachine {
 
         decompose(menu);
 
-        var operation = findNextOperation(menu);
-        if (operation == null) {
+        var operations = findNextOperations(menu);
+        if (operations == null || operations.isEmpty()) {
             updateMenu(menu, null);
             return;
         }
 
         var location = menu.getLocation();
 
+        for (var operation : operations) {
+            handleOperation(location, operation);
+            speedupReaction(location, operation);
+        }
+
+        updateMenu(menu, operations);
+    }
+
+    public void handleOperation(Location location, ReactOperation operation) {
+        consumeCompounds(location, operation.getConsume());
+        store(location, operation.getProduce());
+    }
+
+    public void speedupReaction(Location location, ReactOperation operation) {
         double sum = 0D;
         for (var d : operation.getProduce().values()) {
             sum += d;
         }
 
         if (sum < getThreshold()) {
-            Set<ChemicalCompound> take = new HashSet<>(operation.getProduce().keySet());
-
-            ChemicalCompound maxConsumed = null;
-            double maxConsumedValue = Double.MAX_VALUE;
-            for (var entry : operation.getConsume().entrySet()) {
-                var value = entry.getValue();
-                if (value < maxConsumedValue) {
-                    maxConsumed = entry.getKey();
-                    maxConsumedValue = value;
-                }
-            }
-
-            take.add(maxConsumed);
-
-            output(menu, take);
-        } else {
-            consume(location, operation.getConsume());
-            store(location, operation.getProduce());
+            var formula = operation.getFormula();
+            reactAll(location, formula);
         }
-
-        updateMenu(menu, operation);
     }
 
-    public void consume(Location location, Map<ChemicalCompound, Double> compounds) {
-        holder.consume(location, compounds);
+    public void reactAll(Location location, ChemicalFormula formula) {
+        var result = getOrNewCompoundContainer(location).reactAll(getOrNewEnvironment(location), getReactConditions(location), formula);
+        if (!result.equals(ReactResult.FAILED)) {
+            handleOperation(location, ReactOperation.warp(result));
+        }
     }
 
     public void store(Location location, Map<ChemicalCompound, Double> compounds) {
-        holder.mix(location, compounds);
+        mixCompounds(location, compounds);
     }
 
     public void updateMenu(MachineMenu menu) {
         updateMenu(menu, null);
     }
 
-    public void updateMenu(MachineMenu menu, ReactOperation operation) {
+    public void updateMenu(MachineMenu menu, @Nullable List<ReactOperation> operations) {
         if (menu.hasViewer()) {
-            menu.setItem(getStatusSlot(), getStatusIcon(menu.getLocation(), operation));
+            menu.setItem(getStatusSlot(), getStatusIcon(menu.getLocation(), operations));
         }
     }
 
@@ -253,13 +287,16 @@ public abstract class Reactor extends BasicMachine {
         return getMatrixMenuDrawer().getCharPositions("S")[0];
     }
 
-    public ReactOperation findNextOperation(MachineMenu menu) {
-        ReactResult result = ReactHelper.react0(new ReactCondition[]{ReactCondition.ELECTROLYSIS}, holder.getOrNew(menu.getLocation()).getMixed());
-        if (result == ReactResult.FAILED) {
-            return null;
-        }
+    public abstract Set<ReactCondition> getReactConditions(Location location);
 
-        return new ReactOperation(result.formula(), result.consume(), result.produce());
+    public List<ReactOperation> findNextOperations(MachineMenu menu) {
+        var location = menu.getLocation();
+        List<ReactResult> result = getOrNewCompoundContainer(location).reactBalanced(getOrNewEnvironment(location), getReactConditions(location));
+
+        return result.stream()
+                .filter(r -> !r.equals(ReactResult.FAILED))
+                .map(ReactOperation::warp)
+                .collect(Collectors.toList());
     }
 
     public void decompose(MachineMenu menu) {
@@ -273,7 +310,7 @@ public abstract class Reactor extends BasicMachine {
 
             var decomposer = decomposers.get(item.asOne());
             if (decomposer != null) {
-                decomposer.decompose(holder, menu.getLocation());
+                decomposer.decompose(this, menu.getLocation());
                 item.setAmount(item.getAmount() - 1);
             }
         }
@@ -289,30 +326,13 @@ public abstract class Reactor extends BasicMachine {
         return getInputSlots();
     }
 
-    @Data
-    @RequiredArgsConstructor
-    public static class ReactOperation implements IOperation {
-        private final ChemicalFormula running;
-        private final Map<ChemicalCompound, Double> consume;
-        private final Map<ChemicalCompound, Double> produce;
-
-
-        @Override
-        public void tick() {
-        }
-
-        @Override
-        public void addProgress(int progress) {
-        }
-
-        @Override
-        public int getCurrentProgress() {
-            return 0;
-        }
-
-        @Override
-        public int getTotalProgress() {
-            return 0;
-        }
+    @Override
+    public @NotNull Environment newEnvironment() {
+        var e = new Environment();
+        e.setTemperature(20.0D);
+        e.setPressure(AIR_PRESSURE);
+        e.setHumidity(0.0D);
+        e.setRadiation(0.0D);
+        return e;
     }
 }

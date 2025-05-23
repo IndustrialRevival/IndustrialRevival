@@ -253,6 +253,7 @@ public class Constants {
         public static final String COMMAND_INFO = "industrialrevival.cmd.info";
         public static final String COMMAND_GIVE = "industrialrevival.cmd.give";
         public static final String COMMAND_TIMINGS = "industrialrevival.cmd.timings";
+        public static final String COMMAND_CHEMISTRY = "industrialrevival.cmd.chemistry";
     }
 
     /**

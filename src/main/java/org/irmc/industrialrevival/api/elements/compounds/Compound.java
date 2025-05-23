@@ -11,8 +11,8 @@ import java.util.Map;
  * @see Chemical
  * @see Element
  */
-public abstract class Compound {
-    abstract double getMolarMass();
+public interface Compound {
+    double getMolarMass();
 
-    abstract Map<ElementType, Double> toAtomic();
+    Map<ElementType, Double> toAtomic();
 }

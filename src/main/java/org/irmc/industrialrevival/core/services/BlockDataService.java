@@ -10,6 +10,7 @@ import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
 import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.irmc.industrialrevival.core.data.BlockRecord;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
+import org.irmc.industrialrevival.utils.Debug;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,11 +28,11 @@ public class BlockDataService {
     private void loadData() {
         List<BlockRecord> records =
                 IndustrialRevival.getInstance().getDataManager().getAllBlockRecords();
+        Debug.log("List<BlockRecord> records: " + records.size());
         for (BlockRecord record : records) {
             Location loc = record.getLocation();
-            ConfigurationSection config =
-                    IndustrialRevival.getInstance().getDataManager().getBlockData(loc);
-            blockDataMap.put(loc, new IRBlockData(record.getMachineId(), record.getLocation(), config, null));
+
+            blockDataMap.put(loc, IRBlockData.warp(record));
         }
     }
 
@@ -40,6 +41,7 @@ public class BlockDataService {
     }
 
     public void handleBlockPlacing(Location loc, NamespacedKey machineId) {
+        Debug.log("handleBlockPlacing");
         YamlConfiguration configuration = new YamlConfiguration();
         MachineMenuPreset preset = IndustrialRevival.getInstance().getRegistry().getMenuPresets().get(machineId);
 
@@ -59,17 +61,9 @@ public class BlockDataService {
     }
 
     public void saveAllData() {
+        Debug.log("blockDataMap: " + blockDataMap.size());
         for (IRBlockData data : blockDataMap.values()) {
-            String dataString = ((YamlConfiguration) data.getData()).saveToString();
-            Location location = data.getLocation();
-
-            BlockRecord blockRecord = new BlockRecord(
-                    data.getId().toString(),
-                    location.getWorld().getName(),
-                    location.getBlockX(),
-                    location.getBlockY(),
-                    location.getBlockZ(),
-                    dataString);
+            BlockRecord blockRecord = BlockRecord.warp(data);
 
             IndustrialRevival.getInstance().getDataManager().saveBlockRecord(blockRecord);
         }

@@ -24,6 +24,8 @@ import org.irmc.industrialrevival.api.items.groups.SubItemGroup;
 import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
 import org.irmc.industrialrevival.api.multiblock.MultiBlock;
 import org.irmc.industrialrevival.api.objects.display.DisplayGroup;
+import org.irmc.industrialrevival.api.objects.exceptions.FormulaConflictException;
+import org.irmc.industrialrevival.api.objects.exceptions.IdConflictException;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.api.recipes.methods.BlockDropMethod;
@@ -31,6 +33,7 @@ import org.irmc.industrialrevival.api.recipes.methods.MeltMethod;
 import org.irmc.industrialrevival.api.recipes.methods.MobDropMethod;
 import org.irmc.industrialrevival.api.recipes.methods.ProduceMethod;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
+import org.irmc.industrialrevival.utils.Debug;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -61,7 +64,11 @@ public final class IRRegistry {
     private final Map<RecipeType, Set<ItemStack>> produceable;
     private final Set<ProduceMethod> produceMethods;
     private final Map<MeltedType, Map<TinkerType, TinkerProduct>> tinkerMap;
-    private final Map<NamespacedKey, ChemicalFormula> chemicalFormulas;
+    private final Map<Integer, ChemicalFormula> chemicalFormulas;
+    public ChemicalFormula getById(int id) {
+        return chemicalFormulas.get(id);
+    }
+
     public IRRegistry() {
         itemGroups = new HashMap<>();
         dictionaries = new HashMap<>();
@@ -318,11 +325,22 @@ public final class IRRegistry {
     }
 
     public void registerChemicalFormula(@NotNull ChemicalFormula formula) {
-        chemicalFormulas.put(formula.getKey(), formula);
+        if (chemicalFormulas.containsKey(formula.getId())) {
+            Debug.error(new FormulaConflictException(chemicalFormulas.get(formula.getId()), formula));
+            return;
+        }
+
+        for (var f2 : chemicalFormulas.values()) {
+            if (f2.equals(formula)) {
+                Debug.error(new FormulaConflictException(f2, formula));
+            }
+        }
+
+        chemicalFormulas.put(formula.getId(), formula);
     }
 
     public void unregisterChemicalFormula(@NotNull ChemicalFormula formula) {
-        chemicalFormulas.remove(formula.getKey());
+        chemicalFormulas.remove(formula.getId());
     }
 
     public void registerChemicalReactable(@NotNull ChemReactable reactable) {

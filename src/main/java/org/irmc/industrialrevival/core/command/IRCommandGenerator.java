@@ -2,27 +2,40 @@ package org.irmc.industrialrevival.core.command;
 
 import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.arguments.ArgumentSuggestions;
+import dev.jorel.commandapi.arguments.DoubleArgument;
 import dev.jorel.commandapi.arguments.IntegerArgument;
 import dev.jorel.commandapi.arguments.NamespacedKeyArgument;
 import dev.jorel.commandapi.arguments.PlayerArgument;
+import dev.jorel.commandapi.arguments.StringArgument;
 import dev.jorel.commandapi.arguments.TextArgument;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
+import org.bukkit.FluidCollisionMode;
+import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
+import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
+import org.irmc.industrialrevival.api.elements.registry.ChemicalCompounds;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+import org.irmc.industrialrevival.api.items.attributes.CompoundContainerHolder;
 import org.irmc.industrialrevival.api.objects.TimingViewRequest;
+import org.irmc.industrialrevival.core.services.IRRegistry;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.guide.CheatGuideImplementation;
 import org.irmc.industrialrevival.utils.Constants;
+import org.irmc.industrialrevival.utils.DataUtil;
 import org.irmc.pigeonlib.items.ItemUtils;
 import org.irmc.pigeonlib.language.MessageReplacement;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public class IRCommandGenerator {
@@ -169,6 +182,61 @@ public class IRCommandGenerator {
                             sender.sendMessage(IndustrialRevival.getInstance()
                                     .getLanguageManager()
                                     .getMsgComponent(sender, "command.timings.waiting"));
+                        }))
+                .withSubcommand(new CommandAPICommand("chemistry")
+                        .withPermission(Constants.Permissions.COMMAND_CHEMISTRY)
+                        .withArguments(new StringArgument("object").replaceSuggestions(ArgumentSuggestions.stringsAsync(
+                                _ -> CompletableFuture.supplyAsync(() -> {
+                                        var lst = new ArrayList<>(IndustrialRevival.getInstance()
+                                                .getRegistry()
+                                                .getBindingCompounds().values().stream()
+                                                .distinct()
+                                                .map(ChemicalCompound::getName)
+                                                .sorted()
+                                                .toList());
+
+                                        lst.add("ALL");
+                                        return lst.toArray(new String[0]);
+                                }))))
+                        .withArguments(new DoubleArgument("mass"))
+                        .executesPlayer((player, args) -> {
+                            double mass = (double) args.getOrDefault("mass", 1D);
+                            var b = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
+                            if (b == null) {
+                                player.sendMessage(IndustrialRevival.getInstance()
+                                        .getLanguageManager()
+                                        .getMsgComponent(player, "command.chemistry.no_target_block"));
+                                return;
+                            }
+
+                            var loc = b.getLocation();
+                            var ir = DataUtil.getItem(loc);
+                            if (!(ir instanceof CompoundContainerHolder holder)) {
+                                player.sendMessage(IndustrialRevival.getInstance()
+                                        .getLanguageManager()
+                                        .getMsgComponent(player, "command.chemistry.no_item_block"));
+                                return;
+                            }
+
+                            String object = (String) args.get("object");
+                            if ("ALL".equals(object)) {
+                                Map<ChemicalCompound, Double> masses = new HashMap<>();
+                                for (var compound : new HashSet<>(ChemicalCompound.ALL_CHEMICALS)) {
+                                    masses.put(compound, mass);
+                                }
+
+                                holder.mixCompounds(loc, masses);
+                            } else {
+                                var compound = ChemicalCompound.forName(object);
+                                if (compound == null) {
+                                    player.sendMessage(IndustrialRevival.getInstance()
+                                            .getLanguageManager()
+                                            .getMsgComponent(player, "command.chemistry.compound_not_found"));
+                                    return;
+                                }
+
+                                holder.mixCompounds(loc, compound, mass);
+                            }
                         }));
 
         instance.register(plugin);

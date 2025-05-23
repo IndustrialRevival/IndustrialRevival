@@ -11,6 +11,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.irmc.industrialrevival.api.objects.IRBlockData;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.io.StringReader;
@@ -61,5 +62,13 @@ public class BlockRecord {
     public ConfigurationSection getData() {
         StringReader reader = new StringReader(data);
         return YamlConfiguration.loadConfiguration(reader);
+    }
+
+    public static BlockRecord warp(Location location, NamespacedKey id) {
+        return new BlockRecord(id.toString(), location.getWorld().getName(), location.getBlockX(), location.getBlockY(), location.getBlockZ(), "");
+    }
+
+    public static BlockRecord warp(IRBlockData blockData) {
+        return new BlockRecord(blockData.getId().toString(), blockData.getLocation().getWorld().getName(), blockData.getLocation().getBlockX(), blockData.getLocation().getBlockY(), blockData.getLocation().getBlockZ(), blockData.getData().saveToString());
     }
 }

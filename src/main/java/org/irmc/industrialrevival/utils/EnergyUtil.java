@@ -13,7 +13,7 @@ import org.irmc.pigeonlib.pdc.PersistentDataAPI;
  */
 @UtilityClass
 public class EnergyUtil {
-    private static final NamespacedKey ENERGY_KEY = KeyUtil.customKey("item_energy");
+    public static final NamespacedKey ENERGY_KEY = KeyUtil.customKey("item_energy");
 
     /**
      * Retrieves the energy value stored in the specified ItemStack.

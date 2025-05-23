@@ -231,7 +231,7 @@ public class MachineRecipe {
                     if (itemStack.getAmount() < amount) {
                         continue;
                     }
-                    // consume the input
+                    // consumeCompounds the input
                     itemStack.setAmount(itemStack.getAmount() - amount);
                 }
             }

@@ -96,7 +96,7 @@ public class ErrorReport<T extends Throwable> {
             } else {
                 stream.println("  Inventory: " + (blockData.getMachineMenu() != null));
                 stream.println("  Data: ");
-                blockData.getData().forEach((k, v) -> stream.println("    " + k + ": " + v));
+                blockData.getMapData().forEach((k, v) -> stream.println("    " + k + ": " + v));
             }
             stream.println();
         });

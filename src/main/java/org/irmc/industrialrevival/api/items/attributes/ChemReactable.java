@@ -8,6 +8,7 @@ import org.irmc.industrialrevival.api.elements.compounds.ChemicalCompound;
 import org.irmc.industrialrevival.api.elements.reaction.ReactCondition;
 import org.irmc.industrialrevival.api.elements.reaction.ReactHelper;
 import org.irmc.industrialrevival.api.elements.reaction.ReactResult;
+import org.irmc.industrialrevival.api.machines.process.Environment;
 import org.irmc.industrialrevival.core.services.IRRegistry;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.KeyUtil;
@@ -16,10 +17,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Set;
 
 public interface ChemReactable extends ItemAttribute, Keyed, ComplexDataContainer.DataContainer2<Double, ChemicalCompound> {
-    public static final NamespacedKey CHEMICAL_COMPOUND_KEY = KeyUtil.customKey("chemical_compound");
-    public static final NamespacedKey MASS_KEY = KeyUtil.customKey("mass");
+    NamespacedKey CHEMICAL_COMPOUND_KEY = KeyUtil.customKey("chemical_compound");
+    NamespacedKey MASS_KEY = KeyUtil.customKey("mass");
 
     /**
      * Returns the reactable instance for the given chemical compound.
@@ -89,8 +91,8 @@ public interface ChemReactable extends ItemAttribute, Keyed, ComplexDataContaine
         });
     }
 
-    default @NotNull ReactResult react(@NotNull ReactCondition[] conditions, @NotNull List<ItemStack> reactItems) {
-        return ReactHelper.react(conditions, reactItems);
+    default @NotNull ReactResult react(@NotNull Environment environment, @NotNull Set<ReactCondition> conditions, @NotNull List<ItemStack> reactItems) {
+        return ReactHelper.react(environment, conditions, reactItems);
     }
 
     /**

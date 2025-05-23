@@ -18,7 +18,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
-import org.irmc.industrialrevival.api.elements.compounds.ChemicalFormulas;
 import org.irmc.industrialrevival.api.objects.ItemSettings;
 import org.irmc.industrialrevival.core.command.IRCommandGenerator;
 import org.irmc.industrialrevival.core.data.IRDataManager;
@@ -115,11 +114,11 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
         listenerManager = new ListenerManager();
         registry = new IRRegistry();
 
-        getLogger().info("Setting up services...");
-        setupServices();
-
         getLogger().info("Setting up items...");
         setupIndustrialRevivalItems();
+
+        getLogger().info("Setting up services...");
+        setupServices();
 
         getLogger().info("Setting up listeners...");
         listenerManager.setupAll();
@@ -150,7 +149,6 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     private void setupIndustrialRevivalItems() {
         IRItemGroups.setup();
         IndustrialRevivalItemSetup.setup();
-        ChemicalFormulas.register();
     }
 
     private void setupServices() {

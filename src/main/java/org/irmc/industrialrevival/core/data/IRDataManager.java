@@ -123,14 +123,8 @@ public class IRDataManager {
         return record.getData();
     }
 
-    public void handleBlockPlacing(@NotNull Location location, @NotNull NamespacedKey namespacedKey) {
-        BlockRecord record = new BlockRecord(
-                namespacedKey.toString(),
-                location.getWorld().getName(),
-                location.getBlockX(),
-                location.getBlockY(),
-                location.getBlockZ(),
-                "");
+    public void handleBlockPlacing(@NotNull Location location, @NotNull NamespacedKey id) {
+        BlockRecord record = BlockRecord.warp(location, id);
 
         saveBlockRecord(record);
     }

@@ -14,7 +14,7 @@ public enum ElementGroup {
     VB,
     VIB,
     VIIB,
-    VIII,
+    VIIIB,
     IB,
     IIB,
     IIIA,
@@ -22,5 +22,15 @@ public enum ElementGroup {
     VA,
     VIA,
     VIIA,
-    O
+    VIIIA;
+
+    // Alias
+    public static final ElementGroup ALKALI_METALS = IA;
+    public static final ElementGroup ALKALINE_EARTH_METALS = IIA;
+    public static final ElementGroup CARBON_GROUP = IVA;
+    public static final ElementGroup NITROGEN_GROUP = VA;
+    public static final ElementGroup CHALCOGENS = VIA;
+    public static final ElementGroup HALOGENS = VIIA;
+    public static final ElementGroup NOBLE_GASES = VIIIB;
+    public static final ElementGroup O = VIIIB;
 }
