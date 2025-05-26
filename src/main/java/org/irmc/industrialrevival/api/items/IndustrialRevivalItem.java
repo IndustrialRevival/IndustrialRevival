@@ -24,6 +24,8 @@ import org.irmc.industrialrevival.api.items.attributes.VanillaSmeltingItem;
 import org.irmc.industrialrevival.api.items.collection.ItemDictionary;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.items.handlers.ItemHandler;
+import org.irmc.industrialrevival.api.menu.Displayable;
+import org.irmc.industrialrevival.api.menu.gui.PageableMenu;
 import org.irmc.industrialrevival.api.multiblock.MultiBlock;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.api.objects.exceptions.IncompatibleItemHandlerException;
@@ -72,7 +74,7 @@ import java.util.Set;
  * @see IndustrialRevivalItemSetup
  */
 @SuppressWarnings("unused")
-public class IndustrialRevivalItem implements Keyed {
+public class IndustrialRevivalItem implements Keyed, Displayable<IndustrialRevivalItem> {
     private final Map<Class<? extends ItemHandler>, ItemHandler> itemHandlers = new HashMap<>();
 
     @Getter
@@ -878,6 +880,11 @@ public class IndustrialRevivalItem implements Keyed {
 
     public Patcher patcher() {
         return new Patcher(this);
+    }
+
+    @Override
+    public ItemStack getDisplayItem(IndustrialRevivalItem item) {
+        return PageableMenu.getDisplayItem(item);
     }
 
     public enum ItemState {

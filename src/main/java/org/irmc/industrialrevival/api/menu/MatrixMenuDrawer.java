@@ -75,7 +75,7 @@ public class MatrixMenuDrawer implements Cloneable {
     }
 
     /**
-     * Adds a line to the menu matrix
+     * Do nothing.
      *
      * @param c       Matrix character to define
      * @param comment hard coded comment for reviewers
@@ -86,13 +86,35 @@ public class MatrixMenuDrawer implements Cloneable {
     }
 
     /**
-     * Adds a line to the menu matrix
+     * Do nothing.
      *
      * @param s       String representing menu row (should match inventory row length)
      * @param comment hard coded comment for reviewers
      * @return This drawer instance for chaining
      */
     public MatrixMenuDrawer addExplain(String s, @NotNull String comment) {
+        return this;
+    }
+
+    /**
+     * Maps character to click handler
+     * @param s       String representing menu row (should match inventory row length)
+     * @param comment hard coded comment for reviewers
+     * @return This drawer instance for chaining
+     */
+    public MatrixMenuDrawer addExplain(String s, @NotNull String comment, ClickHandler clickHandler) {
+        return addExplain(s.charAt(0), comment, clickHandler);
+    }
+
+    /**
+     * Maps character to click handler
+     * @param c         Matrix character to define
+     * @param comment   hard coded comment for reviewers
+     * @param clickHandler click handler for the item
+     * @return This drawer instance for chaining
+     */
+    public MatrixMenuDrawer addExplain(char c, @NotNull String comment, @NotNull ClickHandler clickHandler) {
+        clickHandlerMap.put(c, ClickHandler.DEFAULT);
         return this;
     }
 

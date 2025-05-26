@@ -30,4 +30,8 @@ class GuideEntry<T> {
     public boolean isSearch() {
         return content instanceof SurvivalGuideImplementation.SearchGUI;
     }
+
+    public static GuideEntry<T> warp(T value) {
+        return new GuideEntry<>(value);
+    }
 }
