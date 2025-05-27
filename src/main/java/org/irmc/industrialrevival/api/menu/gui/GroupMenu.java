@@ -1,6 +1,7 @@
 package org.irmc.industrialrevival.api.menu.gui;
 
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
@@ -21,11 +22,11 @@ import java.util.Map;
 public class GroupMenu extends PageableMenu<IndustrialRevivalItem> {
     private ItemGroup itemGroup;
     public GroupMenu(Player player, ItemGroup itemGroup) {
-        this(itemGroup.getIcon().getItemMeta().getDisplayName(), player, 1, itemGroup.getItems(), new HashMap<>());
+        this(itemGroup.getIcon().displayName(), player, 1, itemGroup.getItems(), new HashMap<>());
         this.itemGroup = itemGroup;
     }
 
-    public GroupMenu(String title, Player player, int currentPage, List<IndustrialRevivalItem> items, Map<Integer, PageableMenu<IndustrialRevivalItem>> pages) {
+    public GroupMenu(Component title, Player player, int currentPage, List<IndustrialRevivalItem> items, Map<Integer, PageableMenu<IndustrialRevivalItem>> pages) {
         super(title, player, currentPage, items, pages);
         drawer.addExplain("i", "Item");
 
@@ -34,7 +35,7 @@ public class GroupMenu extends PageableMenu<IndustrialRevivalItem> {
             if (n != null) {
                 var item = IRRegistry.getInstance().getItems().get(n);
                 if (item != null) {
-
+                    GuideUtil.lookup(player, item, i);
                 }
             }
             return false;
@@ -48,5 +49,10 @@ public class GroupMenu extends PageableMenu<IndustrialRevivalItem> {
         }
 
         GuideUtil.addToHistory(PlayerProfile.getProfile(player).getGuideHistory(), this);
+    }
+
+    @Override
+    public PageableMenu<IndustrialRevivalItem> newMenu(PageableMenu<IndustrialRevivalItem> menu, int newPage) {
+        return new GroupMenu(menu.getTitle(), menu.getPlayer(), newPage, menu.getItems(), menu.getPages());
     }
 }

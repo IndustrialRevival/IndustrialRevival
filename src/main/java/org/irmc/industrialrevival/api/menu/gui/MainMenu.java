@@ -1,5 +1,6 @@
 package org.irmc.industrialrevival.api.menu.gui;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
@@ -17,10 +18,10 @@ import java.util.Map;
 
 public class MainMenu extends PageableMenu<ItemGroup> {
     public MainMenu(Player player) {
-        this("Main Menu", player, 1, getDisplayableItemGroups(player), new HashMap<>());
+        this(Component.text("Main Menu"), player, 1, getDisplayableItemGroups(player), new HashMap<>());
     }
 
-    public MainMenu(String title, Player player, int currentPage, List<ItemGroup> items, Map<Integer, PageableMenu<ItemGroup>> pages) {
+    public MainMenu(Component title, Player player, int currentPage, List<ItemGroup> items, Map<Integer, PageableMenu<ItemGroup>> pages) {
         super(title, player, currentPage, items, pages);
         drawer.addExplain("i", "Item group");
 
@@ -44,6 +45,11 @@ public class MainMenu extends PageableMenu<ItemGroup> {
 
 
         GuideUtil.addToHistory(PlayerProfile.getProfile(player).getGuideHistory(), this);
+    }
+
+    @Override
+    public PageableMenu<ItemGroup> newMenu(PageableMenu<ItemGroup> menu, int newPage) {
+        return new MainMenu(menu.getTitle(), menu.getPlayer(), newPage, menu.getItems(), menu.getPages());
     }
 
     public static List<ItemGroup> getDisplayableItemGroups(Player player) {

@@ -1,5 +1,6 @@
 package org.irmc.industrialrevival.api.menu.gui;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Warning;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -25,16 +26,16 @@ public class SettingsMenu extends PageableMenu<PlayerSettings<?>> {
                 .addLine("iiiiiiiii")
                 .addLine("BPBBBBBNB")
                 .addExplain("B", "Background", MenuUtil.BACKGROUND, ClickHandler.DEFAULT)
-                .addExplain("T", "Settings", GuideUtil.getSettingsButton(), GuideUtil::openSettings)
-            .addExplain("S", "Search", GuideUtil.getSearchButton(), GuideUtil::openSearch)
+                .addExplain("T", "Settings", GuideUtil.getSettingsButton(getPlayer()), GuideUtil::openSettings)
+            .addExplain("S", "Search", GuideUtil.getSearchButton(getPlayer()), GuideUtil::openSearch)
             .addExplain("P", "Previous Page", getPreviousPageButton(), getPreviousPageClickHandler())
             .addExplain("N", "Next Page", getNextPageButton(), getNextPageClickHandler());
 
     public SettingsMenu(Player p) {
-        this("Lookup Settings", p, 1, new ArrayList<>(PlayerProfile.getProfile(p).getGuideSettings().getSettings().values()), new HashMap<>());
+        this(Component.text("Lookup Settings"), p, 1, new ArrayList<>(PlayerProfile.getProfile(p).getGuideSettings().getSettings().values()), new HashMap<>());
     }
 
-    public SettingsMenu(String title, Player p, int currentPage, List<PlayerSettings<?>> settings, Map<Integer, PageableMenu<PlayerSettings<?>>> pages) {
+    public SettingsMenu(Component title, Player p, int currentPage, List<PlayerSettings<?>> settings, Map<Integer, PageableMenu<PlayerSettings<?>>> pages) {
         super(title, p, currentPage, settings, pages);
         drawer = customDrawer;
 
@@ -67,5 +68,10 @@ public class SettingsMenu extends PageableMenu<PlayerSettings<?>> {
     @Override
     public ItemStack getDisplayItem(PlayerSettings<?> item) {
         return null;
+    }
+
+    @Override
+    public PageableMenu<PlayerSettings<?>> newMenu(PageableMenu<PlayerSettings<?>> menu, int newPage) {
+        return new SettingsMenu(getTitle(), getPlayer(), newPage, menu.getItems(), menu.getPages());
     }
 }

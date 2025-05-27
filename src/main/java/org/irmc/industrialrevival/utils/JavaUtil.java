@@ -2,6 +2,7 @@ package org.irmc.industrialrevival.utils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -293,5 +294,17 @@ public class JavaUtil {
             }
         }
         return null;
+    }
+
+    public static int[] centerAlign(int[] objects) {
+        // 输入 1 2 3 4 5
+        // 输出 3 2 4 1 5
+        // 输入 1 2 3 4 5 6
+        // 输出 3 4 2 5 1 6
+        int[] result = new int[objects.length];
+        for (int i = 0; i < objects.length; i++) {
+            result[i] = objects[(i + objects.length / 2) % objects.length];
+        }
+        return result;
     }
 }

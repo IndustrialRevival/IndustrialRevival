@@ -81,6 +81,8 @@ public class GuideHistory {
                 SurvivalGuideImplementation.SearchGUI searchGUI =
                         (SurvivalGuideImplementation.SearchGUI) lastEntry.getContent();
                 searchGUI.showResults(1);
+            } else if (lastEntry.isMenu()) {
+                ((SimpleMenu) lastEntry.getContent()).open(player);
             }
 
             entries.add(lastEntry);

@@ -34,7 +34,7 @@ public class SearchMenu extends PageableMenu<IndustrialRevivalItem> {
         });
     }
 
-    public SearchMenu(String title, String searchTerm, Player player, int currentPage) {
+    public SearchMenu(Component title, String searchTerm, Player player, int currentPage) {
         super(title, player, currentPage, searchItems(player, searchTerm), new HashMap<>());
         this.searchTerm = searchTerm;
         drawer.addExplain("i", "Item");
@@ -48,8 +48,8 @@ public class SearchMenu extends PageableMenu<IndustrialRevivalItem> {
         GuideUtil.addToHistory(PlayerProfile.getProfile(player).getGuideHistory(), this);
     }
 
-    public static String getTitle(String searchTerm) {
-        return "Searching: " + searchTerm;
+    public static Component getTitle(String searchTerm) {
+        return Component.text("Searching: " + searchTerm);
     }
 
     public static List<IndustrialRevivalItem> searchItems(Player player, String searchTerm) {
@@ -66,5 +66,10 @@ public class SearchMenu extends PageableMenu<IndustrialRevivalItem> {
         }
 
         return items;
+    }
+
+    @Override
+    public PageableMenu<IndustrialRevivalItem> newMenu(PageableMenu<IndustrialRevivalItem> menu, int newPage) {
+        return new SearchMenu(menu.getTitle(), searchTerm, menu.getPlayer(), newPage);
     }
 }

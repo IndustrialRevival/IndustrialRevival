@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
+import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.implementation.guide.SurvivalGuideImplementation;
 
 @Getter
@@ -14,6 +15,10 @@ class GuideEntry<T> {
 
     @Setter
     private int page;
+
+    public boolean isMenu() {
+        return content instanceof SimpleMenu;
+    }
 
     public boolean isGroup() {
         return content instanceof ItemGroup;
