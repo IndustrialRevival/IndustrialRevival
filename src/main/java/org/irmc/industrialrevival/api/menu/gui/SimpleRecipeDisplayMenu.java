@@ -2,11 +2,11 @@ package org.irmc.industrialrevival.api.menu.gui;
 
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.event.ClickEvent;
-import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.menu.MatrixMenuDrawer;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
@@ -15,18 +15,19 @@ import org.irmc.industrialrevival.api.player.PlayerProfile;
 import org.irmc.industrialrevival.api.recipes.RecipeContent;
 import org.irmc.industrialrevival.api.recipes.RecipeContents;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
-import org.irmc.industrialrevival.implementation.IndustrialRevival;
-import org.irmc.industrialrevival.utils.Constants;
+import org.irmc.industrialrevival.utils.DataUtil;
 import org.irmc.industrialrevival.utils.GuideUtil;
-import org.irmc.industrialrevival.utils.JavaUtil;
+import org.irmc.industrialrevival.utils.KeyUtil;
 import org.irmc.industrialrevival.utils.MenuUtil;
+import org.irmc.pigeonlib.items.CustomItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Getter
 public class SimpleRecipeDisplayMenu extends PageableMenu<RecipeContent> {
+    public static final NamespacedKey PAGE_KEY = KeyUtil.customKey("current_page");
     public SimpleRecipeDisplayMenu(Player player, IndustrialRevivalItem item) {
         this(item.getItemName(), player, 1, RecipeContents.getRecipeContents(item.getId()));
     }
@@ -40,11 +41,19 @@ public class SimpleRecipeDisplayMenu extends PageableMenu<RecipeContent> {
         GuideUtil.addToHistory(PlayerProfile.getProfile(p).getGuideHistory(), this);
     }
 
+    @Override
+    public void open(Player... players) {
+        if (!getItems().isEmpty()) {
+            super.open(players);
+        }
+    }
+
     public void displayRecipeTypes() {
         var slots = getDrawer().getCharPositions('t');
         for (int index = 0; index < slots.length; index++) {
-            // 这个icon要apply page信息
-            if (!insertFirstEmpty(getRecipeTypeAt(index).getIcon(), slots)) {
+            var item = new CustomItemStack(getRecipeTypeAt(index).getIcon());
+            item.setPDCData(PAGE_KEY, PersistentDataType.INTEGER, index);
+            if (!insertFirstEmpty(item.getBukkit(), slots)) {
                 break;
             }
         }
@@ -61,11 +70,12 @@ public class SimpleRecipeDisplayMenu extends PageableMenu<RecipeContent> {
 
     public void displayOutput() {
         var slots = getDrawer().getCharPositions('o');
-        insertFirstEmpty(getDisplayItem(getOutput()), slots);
+        insertFirstEmpty(getDisplayItem0(getOutput()), slots);
     }
 
     public RecipeContent getRecipeContentAt(int index) {
-        return getItems().get(index + getCurrentPage() - 1);
+        var offset = getCurrentPage() * 2 >= getItems().size() ? 0 : getCurrentPage() - 1;
+        return getItems().get(index + offset);
     }
 
     public RecipeContent getRecipeContent() {
@@ -93,14 +103,20 @@ public class SimpleRecipeDisplayMenu extends PageableMenu<RecipeContent> {
     }
 
     @Override
-    public MatrixMenuDrawer newDrawer() {
-        return new MatrixMenuDrawer(54)
+    public @NotNull MatrixMenuDrawer newDrawer() {
+        this.drawer = new MatrixMenuDrawer(54)
                 .addLine("BTBBBBBSB")
                 .addLine("BBtttttBB")
                 .addLine("b  iii  w")
                 .addLine("   iii o ")
                 .addLine("   iii   ")
-                .addLine("BPBBBBBNB")
+                .addLine("BPBBBBBNB");
+        return drawer;
+    }
+
+    @Override
+    public @NotNull MatrixMenuDrawer explainDrawer(@NotNull MatrixMenuDrawer matrixMenuDrawer) {
+        return matrixMenuDrawer
                 .addExplain("B", "Background", MenuUtil.BACKGROUND, ClickHandler.DEFAULT)
                 .addExplain("T", "Settings", GuideUtil.getSettingsButton(getPlayer()), GuideUtil::openSettings)
                 .addExplain("S", "Search", GuideUtil.getSearchButton(getPlayer()), GuideUtil::openSearch)
@@ -123,8 +139,16 @@ public class SimpleRecipeDisplayMenu extends PageableMenu<RecipeContent> {
     }
 
     public boolean pageJumper(Player player, ItemStack itemStack, int slot, SimpleMenu menu, ClickType clickType) {
-        // 从 itemstack 获取 page
-        getByPage();
+        return pageJumper(player, itemStack);
+    }
+
+    public boolean pageJumper(Player player, ItemStack itemStack) {
+        int page = DataUtil.getPDC(itemStack, PAGE_KEY, PersistentDataType.INTEGER);
+        var menu = getByPage(page);
+        if (menu != null) {
+            menu.open(player);
+        }
+
         return false;
     }
 

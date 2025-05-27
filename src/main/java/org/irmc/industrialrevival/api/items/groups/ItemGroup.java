@@ -302,6 +302,6 @@ public abstract class ItemGroup implements Displayable<ItemGroup> {
 
     @Override
     public ItemStack getDisplayItem(ItemGroup itemGroup) {
-        return PageableMenu.getDisplayItem(itemGroup);
+        return PageableMenu.getDisplayItem0(itemGroup);
     }
 }

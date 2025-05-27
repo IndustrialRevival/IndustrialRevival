@@ -1,34 +1,28 @@
 package org.irmc.industrialrevival.api.menu.gui;
 
-import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
-import org.irmc.industrialrevival.api.menu.handlers.ClickHandler;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
 import org.irmc.industrialrevival.core.services.IRRegistry;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.GuideUtil;
 import org.irmc.pigeonlib.chat.ChatInput;
-import org.irmc.pigeonlib.items.CustomItemStack;
-import org.irmc.pigeonlib.items.ItemUtils;
+import org.w3c.dom.Text;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 
 public class SearchMenu extends PageableMenu<IndustrialRevivalItem> {
     private final String searchTerm;
 
-    public SearchMenu(Player player, Consumer<SearchMenu> call) {
-        super();
-        this.searchTerm = null;
+    public static void openSearch(Player player, Consumer<SearchMenu> call) {
+        player.closeInventory();
+        player.sendMessage(Component.text("搜索: ", TextColor.color(0xb0f05f)));
         ChatInput.waitForPlayer(IndustrialRevival.getInstance(), player, s -> {
             call.accept(new SearchMenu(getTitle(s), s, player, 1));
         });
@@ -40,7 +34,7 @@ public class SearchMenu extends PageableMenu<IndustrialRevivalItem> {
         drawer.addExplain("i", "Item");
         List<IndustrialRevivalItem> cropped = crop(currentPage);
         for (var item : cropped) {
-            if (!insertFirstEmpty(getDisplayItem(item), drawer.getCharPositions('i'))) {
+            if (!insertFirstEmpty(getDisplayItem0(item), drawer.getCharPositions('i'))) {
                 break;
             }
         }
@@ -49,7 +43,7 @@ public class SearchMenu extends PageableMenu<IndustrialRevivalItem> {
     }
 
     public static Component getTitle(String searchTerm) {
-        return Component.text("Searching: " + searchTerm);
+        return Component.text("正在搜索: " + searchTerm, TextColor.color(0xa0f05f));
     }
 
     public static List<IndustrialRevivalItem> searchItems(Player player, String searchTerm) {
@@ -71,5 +65,9 @@ public class SearchMenu extends PageableMenu<IndustrialRevivalItem> {
     @Override
     public PageableMenu<IndustrialRevivalItem> newMenu(PageableMenu<IndustrialRevivalItem> menu, int newPage) {
         return new SearchMenu(menu.getTitle(), searchTerm, menu.getPlayer(), newPage);
+    }
+
+    public ItemStack getDisplayItem(IndustrialRevivalItem item) {
+        return PageableMenu.getDisplayItem0(item);
     }
 }

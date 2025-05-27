@@ -27,7 +27,7 @@ public class Element implements Compound {
     private final @NotNull NamespacedKey key;
 
     public Element(ElementType elementType) {
-        this(elementType, new NamespacedKey(Element.ELEMENT_NAMESPACE, elementType.name()));
+        this(elementType, new NamespacedKey(Element.ELEMENT_NAMESPACE, elementType.name().toLowerCase()));
     }
 
     public double getMolarMass() {

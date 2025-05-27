@@ -1,10 +1,10 @@
 package org.irmc.industrialrevival.api.menu.gui;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Warning;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.menu.MatrixMenuDrawer;
 import org.irmc.industrialrevival.api.menu.handlers.ClickHandler;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
@@ -32,7 +32,7 @@ public class SettingsMenu extends PageableMenu<PlayerSettings<?>> {
             .addExplain("N", "Next Page", getNextPageButton(), getNextPageClickHandler());
 
     public SettingsMenu(Player p) {
-        this(Component.text("Lookup Settings"), p, 1, new ArrayList<>(PlayerProfile.getProfile(p).getGuideSettings().getSettings().values()), new HashMap<>());
+        this(Component.text("设置", TextColor.color(0x4abfa0)), p, 1, new ArrayList<>(PlayerProfile.getProfile(p).getGuideSettings().getSettings().values()), new HashMap<>());
     }
 
     public SettingsMenu(Component title, Player p, int currentPage, List<PlayerSettings<?>> settings, Map<Integer, PageableMenu<PlayerSettings<?>>> pages) {
@@ -57,14 +57,14 @@ public class SettingsMenu extends PageableMenu<PlayerSettings<?>> {
 
         List<PlayerSettings<?>> cropped = crop(currentPage);
         for (var item : cropped) {
-            if (!insertFirstEmpty(getDisplayItem(p, item), clickHandler, drawer.getCharPositions('i'))) {
+            if (!insertFirstEmpty(getDisplayItem0(p, item), clickHandler, drawer.getCharPositions('i'))) {
                 break;
             }
         }
         GuideUtil.addToHistory(PlayerProfile.getProfile(p).getGuideHistory(), this);
     }
 
-    @Warning(reason = "Not implemented, use getDisplayItem(Player, PlayerSettings) instead.")
+    @Warning(reason = "Not implemented, use getDisplayItem0(Player, PlayerSettings) instead.")
     @Override
     public ItemStack getDisplayItem(PlayerSettings<?> item) {
         return null;

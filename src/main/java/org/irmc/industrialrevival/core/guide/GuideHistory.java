@@ -7,6 +7,8 @@ import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.implementation.guide.SurvivalGuideImplementation;
+import org.irmc.industrialrevival.utils.Debug;
+import org.irmc.industrialrevival.utils.GuideUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +52,7 @@ public class GuideHistory {
     }
 
     public void goBack() {
+        Debug.log(entries);
         Player player = Bukkit.getPlayer(playerName);
         if (player == null) {
             return;
@@ -63,6 +66,8 @@ public class GuideHistory {
 
         int index = entries.size() - 2;
         if (index < 0) {
+            entries.clear();
+            GuideUtil.openMainMenu(player);
             return;
         }
 
@@ -85,7 +90,7 @@ public class GuideHistory {
                 ((SimpleMenu) lastEntry.getContent()).open(player);
             }
 
-            entries.add(lastEntry);
+            entries.remove(lastEntry);
         }
     }
 }

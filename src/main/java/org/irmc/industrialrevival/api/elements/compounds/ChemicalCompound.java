@@ -79,7 +79,7 @@ public class ChemicalCompound {
     }
 
     public String asKey() {
-        return name.replaceAll("\\(", "-").replaceAll("\\)", "");
+        return name.replaceAll("\\(", "-").replaceAll("\\)", ".").toLowerCase();
     }
 
     public double getMolarMass() {

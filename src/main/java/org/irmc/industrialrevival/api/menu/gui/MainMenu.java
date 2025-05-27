@@ -1,9 +1,11 @@
 package org.irmc.industrialrevival.api.menu.gui;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
-import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
 import org.irmc.industrialrevival.api.menu.handlers.ClickHandler;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
@@ -18,7 +20,7 @@ import java.util.Map;
 
 public class MainMenu extends PageableMenu<ItemGroup> {
     public MainMenu(Player player) {
-        this(Component.text("Main Menu"), player, 1, getDisplayableItemGroups(player), new HashMap<>());
+        this(Component.text("工业复兴指南书", TextColor.color(0xFFD700)), player, 1, getDisplayableItemGroups(player), new HashMap<>());
     }
 
     public MainMenu(Component title, Player player, int currentPage, List<ItemGroup> items, Map<Integer, PageableMenu<ItemGroup>> pages) {
@@ -26,7 +28,7 @@ public class MainMenu extends PageableMenu<ItemGroup> {
         drawer.addExplain("i", "Item group");
 
         ClickHandler clickHandler = (p, i, s, m, t) -> {
-            var n = NamespacedKey.fromString(DataUtil.getPDC(i.getItemMeta(), PageableMenu.GROUP_KEY));
+            var n = NamespacedKey.fromString(DataUtil.getPDC(i.getItemMeta(), PageableMenu.GROUP_KEY, PersistentDataType.STRING));
             if (n != null) {
                 var group = IRRegistry.getInstance().getItemGroups().get(n);
                 if (group != null) {
@@ -61,5 +63,9 @@ public class MainMenu extends PageableMenu<ItemGroup> {
         }
 
         return itemGroups;
+    }
+
+    public ItemStack getDisplayItem(ItemGroup group) {
+        return PageableMenu.getDisplayItem0(group);
     }
 }

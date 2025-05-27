@@ -27,7 +27,7 @@ public class Chemical implements Compound {
     private final @NotNull NamespacedKey key;
 
     public Chemical(@NotNull ChemicalCompound compound) {
-        this(compound, new NamespacedKey(Compound.CHEMICAL_NAMESPACE, compound.getName()));
+        this(compound, new NamespacedKey(Compound.CHEMICAL_NAMESPACE, compound.asKey()));
     }
 
     @Override

@@ -5,6 +5,7 @@ import lombok.experimental.UtilityClass;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
@@ -211,8 +212,20 @@ public class DataUtil {
      * @return The value associated with the key, or null if the key does not exist.
      */
     @Nullable
-    public static String getPDC(PersistentDataHolder holder, NamespacedKey key) {
-        return holder.getPersistentDataContainer().get(key, PersistentDataType.STRING);
+    public static <T> T getPDC(PersistentDataHolder holder, NamespacedKey key, PersistentDataType<?, T> type) {
+        return holder.getPersistentDataContainer().get(key, type);
+    }
+
+    /**
+     * Retrieves the value associated with the specified key from the PersistentDataContainer (PDC).
+     *
+     * @param itemStack The ItemStack to retrieve the data from.
+     * @param key    The key to retrieve the value for.
+     * @return The value associated with the key, or null if the key does not exist.
+     */
+    @Nullable
+    public static <T> T getPDC(ItemStack itemStack, NamespacedKey key, PersistentDataType<?, T> type) {
+        return getPDC(itemStack.getItemMeta(), key, type);
     }
 
     /**

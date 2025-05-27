@@ -37,16 +37,16 @@ public class GuideUtil {
     public static ItemStack getSettingsButton(Player player) {
         return new CustomItemStack(
                 Material.COMPASS,
-                "Settings",
-                "nothing"
+                "&b设置",
+                "&a点击打开"
         ).getBukkit();
     }
 
     public static ItemStack getWikiButton(String s) {
         return new CustomItemStack(
                 Material.KNOWLEDGE_BOOK,
-                "Wiki",
-                "nothing"
+                "&bWiki",
+                "&a点击打开"
         )
                 .setPDCData(WIKI_KEY, PersistentDataType.STRING, s)
                 .getBukkit();
@@ -66,7 +66,7 @@ public class GuideUtil {
      * @return false
      */
     public static boolean openWiki(Player player, ItemStack itemStack) {
-        String url = Constants.Misc.WIKI_URL + DataUtil.getPDC(itemStack.getItemMeta(), WIKI_KEY);
+        String url = Constants.Misc.WIKI_URL + DataUtil.getPDC(itemStack.getItemMeta(), WIKI_KEY, PersistentDataType.STRING);
         ClickEvent clickEvent = ClickEvent.openUrl(url);
         Component text = IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(player, "misc.wiki_page");
         text = text.clickEvent(clickEvent);
@@ -96,8 +96,8 @@ public class GuideUtil {
     public static ItemStack getSearchButton(Player player) {
         return new CustomItemStack(
                 Material.HOPPER,
-                "Search items...",
-                "nothing"
+                "&b搜索...",
+                "&8点击搜索物品"
         ).getBukkit();
     }
 
@@ -111,8 +111,9 @@ public class GuideUtil {
     public static ItemStack getBackButton(Player player) {
         return new CustomItemStack(
                 Material.ENCHANTED_BOOK,
-                "Back",
-                "nothing"
+                "&7返回",
+                "&7左键: 返回上一页",
+                "&7Shift+左键: 返回主菜单"
         ).getBukkit();
     }
 
@@ -139,7 +140,7 @@ public class GuideUtil {
      * @return false
      */
     public static boolean openSearch(Player player) {
-        new SearchMenu(player, menu -> menu.open(player));
+        SearchMenu.openSearch(player, menu -> menu.open(player));
         return false;
     }
 
@@ -180,7 +181,10 @@ public class GuideUtil {
     }
 
     public static void openSimpleRecipeDisplayMenu(Player player, ItemStack itemStack, IndustrialRevivalItem ir) {
-        new SimpleRecipeDisplayMenu(player, ir).open(player);
+        var menu = new SimpleRecipeDisplayMenu(player, ir);
+        if (!menu.getItems().isEmpty()) {
+            menu.open(player);
+        }
     }
 
     public static void openVanillaRecipeDisplayMenu(Player player, ItemStack itemStack) {

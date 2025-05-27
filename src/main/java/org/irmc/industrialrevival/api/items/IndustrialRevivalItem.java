@@ -884,7 +884,7 @@ public class IndustrialRevivalItem implements Keyed, Displayable<IndustrialReviv
 
     @Override
     public ItemStack getDisplayItem(IndustrialRevivalItem item) {
-        return PageableMenu.getDisplayItem(item);
+        return PageableMenu.getDisplayItem0(item);
     }
 
     public enum ItemState {
