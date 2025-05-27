@@ -32,11 +32,11 @@ public class SettingsMenu extends PageableMenu<PlayerSettings<?>> {
             .addExplain("N", "Next Page", getNextPageButton(), getNextPageClickHandler());
 
     public SettingsMenu(Player p) {
-        this(Component.text("设置", TextColor.color(0x4abfa0)), p, 1, new ArrayList<>(PlayerProfile.getProfile(p).getGuideSettings().getSettings().values()), new HashMap<>());
+        this(Component.text("设置", TextColor.color(0x4abfa0)), p, PlayerProfile.getProfile(p), 1, new ArrayList<>(PlayerProfile.getProfile(p).getGuideSettings().getSettings().values()), new HashMap<>());
     }
 
-    public SettingsMenu(Component title, Player p, int currentPage, List<PlayerSettings<?>> settings, Map<Integer, PageableMenu<PlayerSettings<?>>> pages) {
-        super(title, p, currentPage, settings, pages);
+    public SettingsMenu(Component title, Player p, PlayerProfile playerProfile, int currentPage, List<PlayerSettings<?>> settings, Map<Integer, PageableMenu<PlayerSettings<?>>> pages) {
+        super(title, p, playerProfile, currentPage, settings, pages);
         drawer = customDrawer;
 
         ClickHandler clickHandler = (p2 ,i, s, m, t) -> {
@@ -57,11 +57,11 @@ public class SettingsMenu extends PageableMenu<PlayerSettings<?>> {
 
         List<PlayerSettings<?>> cropped = crop(currentPage);
         for (var item : cropped) {
-            if (!insertFirstEmpty(getDisplayItem0(p, item), clickHandler, drawer.getCharPositions('i'))) {
+            if (!insertFirstEmpty(getDisplayItem0(p, playerProfile, item), clickHandler, drawer.getCharPositions('i'))) {
                 break;
             }
         }
-        GuideUtil.addToHistory(PlayerProfile.getProfile(p).getGuideHistory(), this);
+        GuideUtil.addToHistory(playerProfile.getGuideHistory(), this);
     }
 
     @Warning(reason = "Not implemented, use getDisplayItem0(Player, PlayerSettings) instead.")
@@ -72,6 +72,6 @@ public class SettingsMenu extends PageableMenu<PlayerSettings<?>> {
 
     @Override
     public PageableMenu<PlayerSettings<?>> newMenu(PageableMenu<PlayerSettings<?>> menu, int newPage) {
-        return new SettingsMenu(getTitle(), getPlayer(), newPage, menu.getItems(), menu.getPages());
+        return new SettingsMenu(menu.getTitle(), menu.getPlayer(), menu.getPlayerProfile(), newPage, menu.getItems(), menu.getPages());
     }
 }

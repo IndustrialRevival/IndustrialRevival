@@ -29,16 +29,16 @@ import java.util.List;
 public class SimpleRecipeDisplayMenu extends PageableMenu<RecipeContent> {
     public static final NamespacedKey PAGE_KEY = KeyUtil.customKey("current_page");
     public SimpleRecipeDisplayMenu(Player player, IndustrialRevivalItem item) {
-        this(item.getItemName(), player, 1, RecipeContents.getRecipeContents(item.getId()));
+        this(item.getItemName(), player, PlayerProfile.getProfile(player), 1, RecipeContents.getRecipeContents(item.getId()));
     }
-    public SimpleRecipeDisplayMenu(Component title, Player p, int currentPage, List<RecipeContent> contents) {
-        super(title, p, currentPage, contents, new HashMap<>());
+    public SimpleRecipeDisplayMenu(Component title, Player p, PlayerProfile playerProfile, int currentPage, List<RecipeContent> contents) {
+        super(title, p, playerProfile, currentPage, contents, new HashMap<>());
 
         displayRecipeTypes();
         displayIngredients();
         displayOutput();
 
-        GuideUtil.addToHistory(PlayerProfile.getProfile(p).getGuideHistory(), this);
+        GuideUtil.addToHistory(playerProfile.getGuideHistory(), this);
     }
 
     @Override
@@ -154,6 +154,6 @@ public class SimpleRecipeDisplayMenu extends PageableMenu<RecipeContent> {
 
     @Override
     public PageableMenu<RecipeContent> newMenu(PageableMenu<RecipeContent> menu, int newPage) {
-        return new SimpleRecipeDisplayMenu(getTitle(), getPlayer(), newPage, getItems());
+        return new SimpleRecipeDisplayMenu(menu.getTitle(), menu.getPlayer(), menu.getPlayerProfile(), newPage, menu.getItems());
     }
 }

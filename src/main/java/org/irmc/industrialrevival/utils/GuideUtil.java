@@ -121,7 +121,7 @@ public class GuideUtil {
      * Compatible with {@link ClickHandler}
      */
     public static boolean backHistory(Player player, ItemStack itemStack, int slot, SimpleMenu menu, ClickType clickType) {
-        return backHistory(player);
+        return backHistory(player, PlayerProfile.getProfile(player));
     }
 
     /**
@@ -129,8 +129,8 @@ public class GuideUtil {
      * @param player The player
      * @return false
      */
-    public static boolean backHistory(Player player) {
-        PlayerProfile.getProfile(player).getGuideHistory().goBack();
+    public static boolean backHistory(Player player, PlayerProfile profile) {
+        profile.getGuideHistory().goBack();
         return false;
     }
 

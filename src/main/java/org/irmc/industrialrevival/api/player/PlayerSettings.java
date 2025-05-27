@@ -73,13 +73,14 @@ public class PlayerSettings<T> implements ClickHandler, Cloneable {
      */
     @Override
     public boolean onClick(@NotNull Player player, @Nullable ItemStack clickedItem, @Range(from = 0, to = 53) int clickedSlot, @NotNull SimpleMenu clickedMenu, @NotNull ClickType clickType) {
+        var profile = PlayerProfile.getProfile(player);
         if (value instanceof Boolean b) {
-            PlayerProfile.getProfile(player).getGuideSettings().setGuideSettings(this, (T) (Boolean)!b);
+            profile.getGuideSettings().setGuideSettings(this, (T) (Boolean)!b);
         }
 
         if (value instanceof GuideMode gm) {
             if (player.isOp()) {
-                PlayerProfile.getProfile(player).getGuideSettings().setGuideSettings(this, (T) gm.next());
+                profile.getGuideSettings().setGuideSettings(this, (T) gm.next());
             }
         }
 

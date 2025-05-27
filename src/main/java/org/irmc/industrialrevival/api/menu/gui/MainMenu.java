@@ -20,11 +20,11 @@ import java.util.Map;
 
 public class MainMenu extends PageableMenu<ItemGroup> {
     public MainMenu(Player player) {
-        this(Component.text("工业复兴指南书", TextColor.color(0xFFD700)), player, 1, getDisplayableItemGroups(player), new HashMap<>());
+        this(Component.text("工业复兴指南书", TextColor.color(0xFFD700)), player, PlayerProfile.getProfile(player), 1, getDisplayableItemGroups(player), new HashMap<>());
     }
 
-    public MainMenu(Component title, Player player, int currentPage, List<ItemGroup> items, Map<Integer, PageableMenu<ItemGroup>> pages) {
-        super(title, player, currentPage, items, pages);
+    public MainMenu(Component title, Player player, PlayerProfile playerProfile, int currentPage, List<ItemGroup> items, Map<Integer, PageableMenu<ItemGroup>> pages) {
+        super(title, player, playerProfile, currentPage, items, pages);
         drawer.addExplain("i", "Item group");
 
         ClickHandler clickHandler = (p, i, s, m, t) -> {
@@ -46,12 +46,12 @@ public class MainMenu extends PageableMenu<ItemGroup> {
         }
 
 
-        GuideUtil.addToHistory(PlayerProfile.getProfile(player).getGuideHistory(), this);
+        GuideUtil.addToHistory(playerProfile.getGuideHistory(), this);
     }
 
     @Override
     public PageableMenu<ItemGroup> newMenu(PageableMenu<ItemGroup> menu, int newPage) {
-        return new MainMenu(menu.getTitle(), menu.getPlayer(), newPage, menu.getItems(), menu.getPages());
+        return new MainMenu(menu.getTitle(), menu.getPlayer(), menu.getPlayerProfile(), newPage, menu.getItems(), menu.getPages());
     }
 
     public static List<ItemGroup> getDisplayableItemGroups(Player player) {

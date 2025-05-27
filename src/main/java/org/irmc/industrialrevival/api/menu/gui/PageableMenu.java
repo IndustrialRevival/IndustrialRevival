@@ -29,14 +29,16 @@ import java.util.Map;
 public abstract class PageableMenu<T> extends SimpleMenu implements Pageable {
     protected MatrixMenuDrawer drawer;
     private final Player player;
+    private final PlayerProfile playerProfile;
     private final int currentPage;
     private final List<T> items;
     private final Map<Integer, PageableMenu<T>> pages;
 
-    public PageableMenu(Component title, Player player, int currentPage, List<T> items, Map<Integer, PageableMenu<T>> pages) {
+    public PageableMenu(Component title, Player player, PlayerProfile playerProfile, int currentPage, List<T> items, Map<Integer, PageableMenu<T>> pages) {
         super(title);
 
         this.player = player;
+        this.playerProfile = playerProfile;
         this.currentPage = currentPage;
         this.items = items;
         this.pages = pages;
@@ -50,6 +52,7 @@ public abstract class PageableMenu<T> extends SimpleMenu implements Pageable {
         super(menu.getTitle());
 
         this.player = menu.player;
+        this.playerProfile = menu.playerProfile;
         this.currentPage = menu.currentPage;
         this.items = menu.items;
         this.pages = menu.pages;
@@ -86,14 +89,14 @@ public abstract class PageableMenu<T> extends SimpleMenu implements Pageable {
 
     public ClickHandler getPreviousPageClickHandler() {
         return (player, _, _, _, _) -> {
-            previousPage(player, PlayerProfile.getProfile(player), currentPage);
+            previousPage(player, playerProfile, currentPage);
             return false;
         };
     }
 
     public ClickHandler getNextPageClickHandler() {
         return (player, _, _, _, _) -> {
-            nextPage(player, PlayerProfile.getProfile(player), currentPage);
+            nextPage(player, playerProfile, currentPage);
             return false;
         };
     }
@@ -174,8 +177,8 @@ public abstract class PageableMenu<T> extends SimpleMenu implements Pageable {
                 .getBukkit();
     }
 
-    public static <K> ItemStack getDisplayItem0(Player player, PlayerSettings<K> clazz) {
-        return clazz.getIcon().apply(PlayerProfile.getProfile(player).getGuideSettings(clazz));
+    public static <K> ItemStack getDisplayItem0(Player player, PlayerProfile profile, PlayerSettings<K> clazz) {
+        return clazz.getIcon().apply(profile.getGuideSettings(clazz));
     }
 
     public MatrixMenuDrawer getDrawer() {

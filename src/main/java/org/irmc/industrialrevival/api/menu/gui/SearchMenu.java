@@ -24,12 +24,12 @@ public class SearchMenu extends PageableMenu<IndustrialRevivalItem> {
         player.closeInventory();
         player.sendMessage(Component.text("搜索: ", TextColor.color(0xb0f05f)));
         ChatInput.waitForPlayer(IndustrialRevival.getInstance(), player, s -> {
-            call.accept(new SearchMenu(getTitle(s), s, player, 1));
+            call.accept(new SearchMenu(getTitle(s), s, player, PlayerProfile.getProfile(player), 1));
         });
     }
 
-    public SearchMenu(Component title, String searchTerm, Player player, int currentPage) {
-        super(title, player, currentPage, searchItems(player, searchTerm), new HashMap<>());
+    public SearchMenu(Component title, String searchTerm, Player player, PlayerProfile playerProfile, int currentPage) {
+        super(title, player, playerProfile, currentPage, searchItems(player, searchTerm), new HashMap<>());
         this.searchTerm = searchTerm;
         drawer.addExplain("i", "Item");
         List<IndustrialRevivalItem> cropped = crop(currentPage);
@@ -39,7 +39,7 @@ public class SearchMenu extends PageableMenu<IndustrialRevivalItem> {
             }
         }
 
-        GuideUtil.addToHistory(PlayerProfile.getProfile(player).getGuideHistory(), this);
+        GuideUtil.addToHistory(playerProfile.getGuideHistory(), this);
     }
 
     public static Component getTitle(String searchTerm) {
@@ -64,7 +64,7 @@ public class SearchMenu extends PageableMenu<IndustrialRevivalItem> {
 
     @Override
     public PageableMenu<IndustrialRevivalItem> newMenu(PageableMenu<IndustrialRevivalItem> menu, int newPage) {
-        return new SearchMenu(menu.getTitle(), searchTerm, menu.getPlayer(), newPage);
+        return new SearchMenu(menu.getTitle(), searchTerm, menu.getPlayer(), menu.getPlayerProfile(), newPage);
     }
 
     public ItemStack getDisplayItem(IndustrialRevivalItem item) {
