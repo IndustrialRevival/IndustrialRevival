@@ -32,6 +32,14 @@ public class GuideHistory {
         entries.add(GuideEntry.warp(menu));
     }
 
+    public void removeLast() {
+        if (entries.isEmpty()) {
+            return;
+        }
+
+        entries.removeLast();
+    }
+
     @Deprecated
     public void addItemGroup(ItemGroup itemGroup, int page) {
         GuideEntry<ItemGroup> entry = new GuideEntry<>(itemGroup);
@@ -51,8 +59,17 @@ public class GuideHistory {
         entries.add(entry);
     }
 
+    public void goBackMainMenu() {
+        Player player = Bukkit.getPlayer(playerName);
+        if (player == null) {
+            return;
+        }
+
+        entries.clear();
+        GuideUtil.openMainMenu(player);
+    }
+
     public void goBack() {
-        Debug.log(entries);
         Player player = Bukkit.getPlayer(playerName);
         if (player == null) {
             return;

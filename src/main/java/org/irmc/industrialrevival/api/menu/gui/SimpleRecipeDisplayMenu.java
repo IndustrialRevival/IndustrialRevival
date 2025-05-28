@@ -21,6 +21,7 @@ import org.irmc.industrialrevival.utils.KeyUtil;
 import org.irmc.industrialrevival.utils.MenuUtil;
 import org.irmc.pigeonlib.items.CustomItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,12 +32,18 @@ public class SimpleRecipeDisplayMenu extends PageableMenu<RecipeContent> {
     public SimpleRecipeDisplayMenu(Player player, IndustrialRevivalItem item) {
         this(item.getItemName(), player, PlayerProfile.getProfile(player), 1, RecipeContents.getRecipeContents(item.getId()));
     }
+
     public SimpleRecipeDisplayMenu(Component title, Player p, PlayerProfile playerProfile, int currentPage, List<RecipeContent> contents) {
         super(title, p, playerProfile, currentPage, contents, new HashMap<>());
+
+        if (contents.isEmpty()) {
+            return;
+        }
 
         displayRecipeTypes();
         displayIngredients();
         displayOutput();
+        displayWiki();
 
         GuideUtil.addToHistory(playerProfile.getGuideHistory(), this);
     }
@@ -51,7 +58,15 @@ public class SimpleRecipeDisplayMenu extends PageableMenu<RecipeContent> {
     public void displayRecipeTypes() {
         var slots = getDrawer().getCharPositions('t');
         for (int index = 0; index < slots.length; index++) {
-            var item = new CustomItemStack(getRecipeTypeAt(index).getIcon());
+            var recipeType = getRecipeTypeAt(index);
+            if (recipeType == null) {
+                if (!insertFirstEmpty(MenuUtil.BACKGROUND.clone(), slots)) {
+                    break;
+                }
+                continue;
+            }
+
+            var item = new CustomItemStack(recipeType.getIcon());
             item.setPDCData(PAGE_KEY, PersistentDataType.INTEGER, index);
             if (!insertFirstEmpty(item.getBukkit(), slots)) {
                 break;
@@ -73,17 +88,36 @@ public class SimpleRecipeDisplayMenu extends PageableMenu<RecipeContent> {
         insertFirstEmpty(getDisplayItem0(getOutput()), slots);
     }
 
+    public void displayWiki() {
+        var item = getWikiButton();
+        if (item != null) {
+            insertFirstEmpty(item, getDrawer().getCharPositions('w'));
+        }
+    }
+
+    @Nullable
     public RecipeContent getRecipeContentAt(int index) {
         var offset = getCurrentPage() * 2 >= getItems().size() ? 0 : getCurrentPage() - 1;
-        return getItems().get(index + offset);
+        var f = index + offset;
+        if (f >= getItems().size()) {
+            return null;
+        }
+
+        return getItems().get(f);
     }
 
     public RecipeContent getRecipeContent() {
         return getItems().get(getCurrentPage() - 1);
     }
 
+    @Nullable
     public RecipeType getRecipeTypeAt(int index) {
-        return getRecipeContentAt(index).recipeType();
+        var e = getRecipeContentAt(index);
+        if (e != null) {
+            return e.recipeType();
+        } else {
+            return null;
+        }
     }
 
     public ItemStack[] getIngredients() {
@@ -104,10 +138,9 @@ public class SimpleRecipeDisplayMenu extends PageableMenu<RecipeContent> {
 
     @Override
     public @NotNull MatrixMenuDrawer newDrawer() {
-        this.drawer = new MatrixMenuDrawer(54)
-                .addLine("BTBBBBBSB")
-                .addLine("BBtttttBB")
-                .addLine("b  iii  w")
+        this.drawer = new MatrixMenuDrawer(45)
+                .addLine("BbtttttSB")
+                .addLine("   iii  w")
                 .addLine("   iii o ")
                 .addLine("   iii   ")
                 .addLine("BPBBBBBNB");
@@ -123,7 +156,7 @@ public class SimpleRecipeDisplayMenu extends PageableMenu<RecipeContent> {
                 .addExplain("b", "Back", GuideUtil.getBackButton(getPlayer()), GuideUtil::backHistory)
                 .addExplain("P", "Previous Page", getPreviousPageButton(), getPreviousPageClickHandler())
                 .addExplain("N", "Next Page", getNextPageButton(), getNextPageClickHandler())
-                .addExplain("w", "Wiki", getWikiButton(), GuideUtil::openWiki)
+                .addExplain("w", "Wiki", GuideUtil::openWiki)
                 .addExplain("t", "Recipe Type", this::pageJumper)
                 .addExplain("i", "Ingredients", GuideUtil::lookup)
                 .addExplain("o", "Output", GuideUtil::lookup);

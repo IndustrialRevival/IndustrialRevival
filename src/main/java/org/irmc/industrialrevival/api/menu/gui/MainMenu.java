@@ -7,12 +7,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
+import org.irmc.industrialrevival.api.menu.MatrixMenuDrawer;
 import org.irmc.industrialrevival.api.menu.handlers.ClickHandler;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
 import org.irmc.industrialrevival.core.services.IRRegistry;
 import org.irmc.industrialrevival.utils.DataUtil;
 import org.irmc.industrialrevival.utils.GuideUtil;
+import org.irmc.industrialrevival.utils.MenuUtil;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +23,7 @@ import java.util.Map;
 
 public class MainMenu extends PageableMenu<ItemGroup> {
     public MainMenu(Player player) {
-        this(Component.text("工业复兴指南书", TextColor.color(0xFFD700)), player, PlayerProfile.getProfile(player), 1, getDisplayableItemGroups(player), new HashMap<>());
+        this(Component.text("工业复兴指南书", TextColor.color(0xFF5700)), player, PlayerProfile.getProfile(player), 1, getDisplayableItemGroups(player), new HashMap<>());
     }
 
     public MainMenu(Component title, Player player, PlayerProfile playerProfile, int currentPage, List<ItemGroup> items, Map<Integer, PageableMenu<ItemGroup>> pages) {
@@ -67,5 +70,29 @@ public class MainMenu extends PageableMenu<ItemGroup> {
 
     public ItemStack getDisplayItem(ItemGroup group) {
         return PageableMenu.getDisplayItem0(group);
+    }
+
+    @Nonnull
+    public MatrixMenuDrawer newDrawer() {
+        this.drawer = new MatrixMenuDrawer(54)
+                .addLine("BTBBBBBSB")
+                .addLine("iiiiiiiii")
+                .addLine("iiiiiiiii")
+                .addLine("iiiiiiiii")
+                .addLine("iiiiiiiii")
+                .addLine("BPBBBBBNB");
+
+        return drawer;
+    }
+
+    @Nonnull
+    public MatrixMenuDrawer explainDrawer(MatrixMenuDrawer matrixMenuDrawer) {
+        return matrixMenuDrawer
+                .addExplain("B", "Background", MenuUtil.BACKGROUND, ClickHandler.DEFAULT)
+                .addExplain("T", "Settings", GuideUtil.getSettingsButton(getPlayer()), GuideUtil::openSettings)
+                .addExplain("S", "Search", GuideUtil.getSearchButton(getPlayer()), GuideUtil::openSearch)
+                .addExplain("b", "Back", GuideUtil.getBackButton(getPlayer()), GuideUtil::backHistory)
+                .addExplain("P", "Previous Page", getPreviousPageButton(), getPreviousPageClickHandler())
+                .addExplain("N", "Next Page", getNextPageButton(), getNextPageClickHandler());
     }
 }

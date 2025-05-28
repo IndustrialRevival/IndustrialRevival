@@ -485,9 +485,9 @@ public class MenuUtil {
     public static ItemStack getPreviousButton(Player player, int page, int maxPage) {
         return new CustomItemStack(
                 Material.ARROW,
-                "Previous Page",
-                "Click to go to the previous page",
-                "&7Page " + page + " / " + maxPage
+                "&a上一页",
+                "&b点击打开上一页",
+                "&7页: " + page + " / " + maxPage
         ).getBukkit();
     }
 
@@ -502,9 +502,9 @@ public class MenuUtil {
     public static ItemStack getNextButton(Player player, int page, int maxPage) {
         return new CustomItemStack(
                 Material.SPECTRAL_ARROW,
-                "Next Page",
-                "Click to go to the next page",
-                "&7Page " + page + " / " + maxPage
+                "&a下一页",
+                "&b点击打开下一页",
+                "&7页: " + page + " / " + maxPage
         ).getBukkit();
     }
 }

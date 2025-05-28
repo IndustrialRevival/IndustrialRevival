@@ -137,7 +137,20 @@ public abstract class PageableMenu<T> extends SimpleMenu implements Pageable {
 
     public abstract ItemStack getDisplayItem(T item);
 
+
     public static ItemStack getDisplayItem0(IndustrialRevivalItem item) {
+        var icon = item.getIcon();
+        var meta = icon.getItemMeta();
+        if (meta == null) {
+            return null;
+        }
+
+        return new CustomItemStack(icon)
+                .setPDCData(ITEM_KEY, PersistentDataType.STRING, item.getKey().toString())
+                .getBukkit();
+    }
+
+    public static ItemStack getDisplayItemInSearch0(IndustrialRevivalItem item) {
         var icon = item.getIcon();
         var meta = icon.getItemMeta();
         if (meta == null) {
@@ -159,7 +172,7 @@ public abstract class PageableMenu<T> extends SimpleMenu implements Pageable {
                 lore.add(Component.text().append(Component.text(" - ", TextColor.color(0x7f7f7f))).append(group.getIcon().displayName()).build());
             }
         }
-        lore.add(Component.text("Click to lookup", TextColor.color(0x4abfa0)));
+        lore.add(Component.text("点击打开", TextColor.color(0x4abfa0)));
 
         return new CustomItemStack(icon)
                 .lore(lore)
@@ -172,7 +185,7 @@ public abstract class PageableMenu<T> extends SimpleMenu implements Pageable {
 
     public static ItemStack getDisplayItem0(ItemGroup group) {
         return new CustomItemStack(group.getIcon())
-                .lore(List.of(Component.text("Click to lookup", TextColor.color(0x4abfa0))))
+                .lore(List.of(Component.text("点击打开", TextColor.color(0x4abfa0))))
                 .setPDCData(GROUP_KEY, PersistentDataType.STRING, group.getKey().toString())
                 .getBukkit();
     }

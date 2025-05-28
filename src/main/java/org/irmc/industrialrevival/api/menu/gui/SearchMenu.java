@@ -5,13 +5,17 @@ import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+import org.irmc.industrialrevival.api.menu.MatrixMenuDrawer;
+import org.irmc.industrialrevival.api.menu.handlers.ClickHandler;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
 import org.irmc.industrialrevival.core.services.IRRegistry;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.GuideUtil;
+import org.irmc.industrialrevival.utils.MenuUtil;
 import org.irmc.pigeonlib.chat.ChatInput;
 import org.w3c.dom.Text;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +38,7 @@ public class SearchMenu extends PageableMenu<IndustrialRevivalItem> {
         drawer.addExplain("i", "Item");
         List<IndustrialRevivalItem> cropped = crop(currentPage);
         for (var item : cropped) {
-            if (!insertFirstEmpty(getDisplayItem0(item), drawer.getCharPositions('i'))) {
+            if (!insertFirstEmpty(getDisplayItemInSearch0(item), drawer.getCharPositions('i'))) {
                 break;
             }
         }
@@ -69,5 +73,29 @@ public class SearchMenu extends PageableMenu<IndustrialRevivalItem> {
 
     public ItemStack getDisplayItem(IndustrialRevivalItem item) {
         return PageableMenu.getDisplayItem0(item);
+    }
+
+    @Nonnull
+    public MatrixMenuDrawer newDrawer() {
+        this.drawer = new MatrixMenuDrawer(54)
+                .addLine("BbBBBBBSB")
+                .addLine("iiiiiiiii")
+                .addLine("iiiiiiiii")
+                .addLine("iiiiiiiii")
+                .addLine("iiiiiiiii")
+                .addLine("BPBBBBBNB");
+
+        return drawer;
+    }
+
+    @Nonnull
+    public MatrixMenuDrawer explainDrawer(MatrixMenuDrawer matrixMenuDrawer) {
+        return matrixMenuDrawer
+                .addExplain("B", "Background", MenuUtil.BACKGROUND, ClickHandler.DEFAULT)
+                .addExplain("T", "Settings", GuideUtil.getSettingsButton(getPlayer()), GuideUtil::openSettings)
+                .addExplain("S", "Search", GuideUtil.getSearchButton(getPlayer()), GuideUtil::openSearch)
+                .addExplain("b", "Back", GuideUtil.getBackButton(getPlayer()), GuideUtil::backHistory)
+                .addExplain("P", "Previous Page", getPreviousPageButton(), getPreviousPageClickHandler())
+                .addExplain("N", "Next Page", getNextPageButton(), getNextPageClickHandler());
     }
 }

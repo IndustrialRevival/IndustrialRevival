@@ -30,6 +30,10 @@ public class GuideUtil {
         new MainMenu(player).open(player);
     }
 
+    public static void removeLastHistory(PlayerProfile profile) {
+        profile.getGuideHistory().removeLast();
+    }
+
     public static void addToHistory(GuideHistory guideHistory, SimpleMenu simpleMenu) {
         guideHistory.addMenu(simpleMenu);
     }
@@ -93,6 +97,17 @@ public class GuideUtil {
         return false;
     }
 
+    /**
+     * Opens the settings menu
+     * @param player The player
+     * @param page The page
+     * @return false
+     */
+    public static boolean openSettings(Player player, int page) {
+        new SettingsMenu(player, page).open(player);
+        return false;
+    }
+
     public static ItemStack getSearchButton(Player player) {
         return new CustomItemStack(
                 Material.HOPPER,
@@ -121,7 +136,7 @@ public class GuideUtil {
      * Compatible with {@link ClickHandler}
      */
     public static boolean backHistory(Player player, ItemStack itemStack, int slot, SimpleMenu menu, ClickType clickType) {
-        return backHistory(player, PlayerProfile.getProfile(player));
+        return backHistory(player, PlayerProfile.getProfile(player), clickType);
     }
 
     /**
@@ -129,8 +144,12 @@ public class GuideUtil {
      * @param player The player
      * @return false
      */
-    public static boolean backHistory(Player player, PlayerProfile profile) {
-        profile.getGuideHistory().goBack();
+    public static boolean backHistory(Player player, PlayerProfile profile, ClickType clickType) {
+        if (clickType.isShiftClick()) {
+            profile.getGuideHistory().goBackMainMenu();
+        } else {
+            profile.getGuideHistory().goBack();
+        }
         return false;
     }
 
