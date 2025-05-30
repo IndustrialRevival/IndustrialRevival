@@ -30,6 +30,14 @@ public class BlockDropMethod implements ProduceMethod {
         this.itemToDrop = itemToDrop.getIcon();
     }
 
+    public static BlockDropMethod of(Material blockType, int dropAmount, double chance, ItemStack itemToDrop) {
+        return new BlockDropMethod(blockType, dropAmount, chance, itemToDrop);
+    }
+
+    public static BlockDropMethod of(Material blockType, int dropAmount, double chance, DropFromBlockItem itemToDrop) {
+        return new BlockDropMethod(blockType, dropAmount, chance, itemToDrop);
+    }
+
     @Override
     public RecipeType getRecipeType() {
         return RecipeType.BLOCK_DROP;

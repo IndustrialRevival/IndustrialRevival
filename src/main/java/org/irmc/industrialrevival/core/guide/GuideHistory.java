@@ -5,7 +5,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.items.groups.ItemGroup;
+import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.implementation.guide.SurvivalGuideImplementation;
+import org.irmc.industrialrevival.utils.Debug;
+import org.irmc.industrialrevival.utils.GuideUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,20 +28,45 @@ public class GuideHistory {
         entries.add(entry);
     }
 
+    public void addMenu(SimpleMenu menu) {
+        entries.add(GuideEntry.warp(menu));
+    }
+
+    public void removeLast() {
+        if (entries.isEmpty()) {
+            return;
+        }
+
+        entries.removeLast();
+    }
+
+    @Deprecated
     public void addItemGroup(ItemGroup itemGroup, int page) {
         GuideEntry<ItemGroup> entry = new GuideEntry<>(itemGroup);
         entry.setPage(page);
         entries.add(entry);
     }
 
+    @Deprecated
     public void addItem(IndustrialRevivalItem item) {
         GuideEntry<IndustrialRevivalItem> entry = new GuideEntry<>(item);
         entries.add(entry);
     }
 
+    @Deprecated
     public void addSearchGUI(SurvivalGuideImplementation.SearchGUI searchGUI) {
         GuideEntry<SurvivalGuideImplementation.SearchGUI> entry = new GuideEntry<>(searchGUI);
         entries.add(entry);
+    }
+
+    public void goBackMainMenu() {
+        Player player = Bukkit.getPlayer(playerName);
+        if (player == null) {
+            return;
+        }
+
+        entries.clear();
+        GuideUtil.openMainMenu(player);
     }
 
     public void goBack() {
@@ -55,6 +83,8 @@ public class GuideHistory {
 
         int index = entries.size() - 2;
         if (index < 0) {
+            entries.clear();
+            GuideUtil.openMainMenu(player);
             return;
         }
 
@@ -73,9 +103,11 @@ public class GuideHistory {
                 SurvivalGuideImplementation.SearchGUI searchGUI =
                         (SurvivalGuideImplementation.SearchGUI) lastEntry.getContent();
                 searchGUI.showResults(1);
+            } else if (lastEntry.isMenu()) {
+                ((SimpleMenu) lastEntry.getContent()).open(player);
             }
 
-            entries.add(lastEntry);
+            entries.remove(lastEntry);
         }
     }
 }

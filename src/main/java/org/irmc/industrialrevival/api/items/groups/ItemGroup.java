@@ -8,7 +8,10 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
+import org.irmc.industrialrevival.api.menu.Displayable;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
+import org.irmc.industrialrevival.api.menu.gui.GroupMenu;
+import org.irmc.industrialrevival.api.menu.gui.PageableMenu;
 import org.irmc.industrialrevival.api.menu.handlers.ClickHandler;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
 import org.irmc.industrialrevival.core.guide.GuideHistory;
@@ -18,11 +21,13 @@ import org.irmc.industrialrevival.implementation.guide.SurvivalGuideImplementati
 import org.irmc.industrialrevival.utils.CleanedItemGetter;
 import org.irmc.industrialrevival.utils.Constants;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * An ItemGroup is a collection of items that can be displayed in a guide menu.
@@ -34,7 +39,7 @@ import java.util.List;
  * @see SubItemGroup
  * @see TreeItemGroup
  */
-public abstract class ItemGroup {
+public abstract class ItemGroup implements Displayable<ItemGroup> {
     @Getter
     private final NamespacedKey key;
     @Getter
@@ -49,6 +54,38 @@ public abstract class ItemGroup {
     @Getter
     private boolean onlyVisibleByAdmins = false;
 
+    @Getter
+    private final Function<Player, GroupMenu> menuGenerator;
+
+    /**
+     * Creates a new ItemGroup with the given key and icon.
+     *
+     * @param key  the key of the item group
+     * @param icon the icon of the item group
+     */
+    protected ItemGroup(@NotNull Function<Player, GroupMenu> menuGenerator, @NotNull NamespacedKey key, @NotNull ItemStack icon) {
+        this(menuGenerator, key, icon, 3);
+    }
+
+    /**
+     * Creates a new ItemGroup with the given key, icon, and tier.
+     *
+     * @param key  the key of the item group
+     * @param icon the icon of the item group
+     * @param tier the tier of the item group, default is 3
+     * @apiNote the lower the tier is, the higher the priority of the item group is
+     */
+    protected ItemGroup(@Nullable Function<Player, GroupMenu> menuGenerator, @NotNull NamespacedKey key, @NotNull ItemStack icon, int tier) {
+        if (menuGenerator == null) {
+            this.menuGenerator = p -> new GroupMenu(p, this);
+        } else {
+            this.menuGenerator = menuGenerator;
+        }
+        this.key = key;
+        this.icon = icon;
+        this.tier = tier;
+    }
+
     /**
      * Creates a new ItemGroup with the given key and icon.
      *
@@ -56,9 +93,7 @@ public abstract class ItemGroup {
      * @param icon the icon of the item group
      */
     protected ItemGroup(@NotNull NamespacedKey key, @NotNull ItemStack icon) {
-        this.key = key;
-        this.icon = icon;
-        this.tier = 3;
+        this(key, icon, 3);
     }
 
     /**
@@ -70,9 +105,7 @@ public abstract class ItemGroup {
      * @apiNote the lower the tier is, the higher the priority of the item group is
      */
     protected ItemGroup(@NotNull NamespacedKey key, @NotNull ItemStack icon, int tier) {
-        this.key = key;
-        this.icon = icon;
-        this.tier = tier;
+        this(null, key, icon, tier);
     }
 
     /**
@@ -265,5 +298,10 @@ public abstract class ItemGroup {
         if (locked) {
             throw new IllegalStateException("the item group is locked");
         }
+    }
+
+    @Override
+    public ItemStack getDisplayItem(ItemGroup itemGroup) {
+        return PageableMenu.getDisplayItem0(itemGroup);
     }
 }

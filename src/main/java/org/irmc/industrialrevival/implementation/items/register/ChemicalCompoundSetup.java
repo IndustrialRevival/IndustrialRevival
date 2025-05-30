@@ -20,7 +20,7 @@ public class ChemicalCompoundSetup {
     public static void setup() {
         ChemicalCompounds.onLoad(() -> {
             IndustrialRevival.getInstance().getFoliaLibImpl().runAsync(_ -> {
-                ChemicalCompound.ALL_CHEMICALS.forEach(chemicalCompound -> {
+                ChemicalCompound.ALL_CHEMICALS.values().forEach(chemicalCompound -> {
                     var item = new Solution()
                             .addon(IndustrialRevival.getInstance())
                             .id("CHEMICAL_COMPOUND_" + chemicalCompound.asKey())
@@ -30,17 +30,17 @@ public class ChemicalCompoundSetup {
                                             Component.translatable("chemistry.solution.bottle")))
                             ))
                             .cast(Solution.class);
-                    // Rewrite this
+                    // todo: Rewrite this
                     item.registerReactable();
                     item.register();
                     item.bind(chemicalCompound);
-                    // Rewrite this
+                    // todo: Rewrite this
                     solutions.put(chemicalCompound.getName(), item);
                 });
 
                 IRRegistry.getInstance().getChemicalFormulas().values().forEach(formula ->
                         formula.getOutput().keySet().forEach(compound ->
-                                solutions.get(compound.getName()).recipe(new ChemicalMethod(formula))
+                                solutions.get(compound.getName()).recipe(ChemicalMethod.of(formula))
                         )
                 );
             });

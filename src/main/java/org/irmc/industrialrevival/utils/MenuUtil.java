@@ -4,6 +4,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import lombok.experimental.UtilityClass;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -470,5 +471,40 @@ public class MenuUtil {
         itemStack.setItemMeta(meta);
         itemStack.setLore(List.of(lore));
         return itemStack;
+    }
+
+
+    /**
+     * Gets a previous page button for the specified page.
+     * @param player  The player to get the button for.
+     * @param page    The page to get the button for.
+     * @param maxPage The maximum page.
+     * @return The previous page button.
+     */
+    @NotNull
+    public static ItemStack getPreviousButton(Player player, int page, int maxPage) {
+        return new CustomItemStack(
+                Material.ARROW,
+                "&a上一页",
+                "&b点击打开上一页",
+                "&7页: " + page + " / " + maxPage
+        ).getBukkit();
+    }
+
+    /**
+     * Gets a next page button for the specified page.
+     * @param player   The player to get the button for.
+     * @param page     The page to get the button for.
+     * @param maxPage  The maximum page.
+     * @return The next page button.
+     */
+    @NotNull
+    public static ItemStack getNextButton(Player player, int page, int maxPage) {
+        return new CustomItemStack(
+                Material.SPECTRAL_ARROW,
+                "&a下一页",
+                "&b点击打开下一页",
+                "&7页: " + page + " / " + maxPage
+        ).getBukkit();
     }
 }

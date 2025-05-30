@@ -254,4 +254,28 @@ public class SimpleMenu implements IRInventoryHolder {
         this.outsideClickHandler = outsideClickHandler;
     }
 
+    public boolean insertFirstEmpty(ItemStack itemStack, int[] slots) {
+        for (int slot : slots) {
+            var e = getItem(slot);
+            if (e == null || e.getType() == Material.AIR) {
+                setItem(slot, itemStack);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean insertFirstEmpty(ItemStack itemStack, ClickHandler clickHandler, int[] slots) {
+        for (int slot : slots) {
+            var e = getItem(slot);
+            if (e == null || e.getType() == Material.AIR) {
+                setItem(slot, itemStack, clickHandler);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }

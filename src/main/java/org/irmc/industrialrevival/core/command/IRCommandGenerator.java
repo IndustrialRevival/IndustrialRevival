@@ -28,6 +28,7 @@ import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.guide.CheatGuideImplementation;
 import org.irmc.industrialrevival.utils.Constants;
 import org.irmc.industrialrevival.utils.DataUtil;
+import org.irmc.industrialrevival.utils.GuideUtil;
 import org.irmc.pigeonlib.items.ItemUtils;
 import org.irmc.pigeonlib.language.MessageReplacement;
 
@@ -221,7 +222,7 @@ public class IRCommandGenerator {
                             String object = (String) args.get("object");
                             if ("ALL".equals(object)) {
                                 Map<ChemicalCompound, Double> masses = new HashMap<>();
-                                for (var compound : new HashSet<>(ChemicalCompound.ALL_CHEMICALS)) {
+                                for (var compound : ChemicalCompound.ALL_CHEMICALS.values()) {
                                     masses.put(compound, mass);
                                 }
 
@@ -237,6 +238,11 @@ public class IRCommandGenerator {
 
                                 holder.mixCompounds(loc, compound, mass);
                             }
+                        }))
+                .withSubcommand(new CommandAPICommand("test")
+                        .withPermission(Constants.Permissions.COMMAND_INFO)
+                        .executesPlayer((player, args) -> {
+                            GuideUtil.openMainMenu(player);
                         }));
 
         instance.register(plugin);

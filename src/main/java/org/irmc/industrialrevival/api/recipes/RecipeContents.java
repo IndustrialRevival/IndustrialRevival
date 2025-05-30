@@ -4,6 +4,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
 import lombok.experimental.UtilityClass;
 import org.bukkit.NamespacedKey;
+import org.irmc.industrialrevival.utils.Debug;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 
@@ -17,7 +18,15 @@ public class RecipeContents {
     private static final Map<NamespacedKey, List<RecipeContent>> recipeContents = new HashMap<>();
 
     public static void addRecipeContent(NamespacedKey itemId, RecipeContent content) {
-        recipeContents.computeIfAbsent(itemId, k -> new ArrayList<>()).add(content);
+        Debug.log(itemId.toString() + ": " + content);
+        var e = recipeContents.get(itemId);
+        if (e != null) {
+            e.add(content);
+        } else {
+            List<RecipeContent> list = new ArrayList<>();
+            list.add(content);
+            recipeContents.put(itemId, list);
+        }
     }
 
     @NotNull

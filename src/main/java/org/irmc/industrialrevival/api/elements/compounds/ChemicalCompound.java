@@ -27,7 +27,7 @@ import java.util.Set;
  */
 @Data
 public class ChemicalCompound {
-    public static final Set<ChemicalCompound> ALL_CHEMICALS = new HashSet<>();
+    public static final Map<String, ChemicalCompound> ALL_CHEMICALS = new HashMap<>();
     @NotNull
     public final String name;
     @NotNull
@@ -58,7 +58,7 @@ public class ChemicalCompound {
         this.name = name;
         this.compounds = compounds;
         if (register) {
-            ALL_CHEMICALS.add(this);
+            ALL_CHEMICALS.put(name, this);
         }
     }
 
@@ -74,16 +74,12 @@ public class ChemicalCompound {
         if (name == null) {
             return null;
         }
-        for (ChemicalCompound chemical : ALL_CHEMICALS) {
-            if (chemical.name.equals(name)) {
-                return chemical;
-            }
-        }
-        return null;
+
+        return ALL_CHEMICALS.get(name);
     }
 
     public String asKey() {
-        return name.replaceAll("\\(", "-").replaceAll("\\)", "");
+        return name.replaceAll("\\(", "-").replaceAll("\\)", ".").toLowerCase();
     }
 
     public double getMolarMass() {

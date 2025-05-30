@@ -8,6 +8,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.irmc.industrialrevival.api.objects.enums.GuideMode;
 import org.irmc.industrialrevival.core.guide.GuideHistory;
 import org.irmc.industrialrevival.core.guide.GuideSettings;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
@@ -38,6 +39,10 @@ public class PlayerProfile {
     @Getter
     private final GuideSettings guideSettings;
 
+    public <T> T getGuideSettings(PlayerSettings<T> clazz) {
+        return getGuideSettings().getPlayerSettings(clazz).get();
+    }
+
     private final Map<NamespacedKey, Boolean> researchStatus;
 
     protected PlayerProfile(
@@ -50,6 +55,11 @@ public class PlayerProfile {
         this.guideHistory = new GuideHistory(playerName);
         this.guideSettings = Objects.requireNonNullElse(guideSettings, GuideSettings.DEFAULT_SETTINGS);
         this.researchStatus = researchStatus;
+    }
+
+    @Nullable
+    public static PlayerProfile getProfile(Player player) {
+        return getProfile(player.getName());
     }
 
     @Nullable

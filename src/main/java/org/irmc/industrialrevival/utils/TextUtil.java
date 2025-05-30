@@ -5,6 +5,7 @@ import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Color;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
+import org.jetbrains.annotations.Contract;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -381,5 +382,26 @@ public class TextUtil {
         }
 
         return result;
+    }
+
+    public static String getBooleanText(boolean bool) {
+        return bool ? COLOR_POSITIVE + "Yes" : COLOR_NEGATIVE + "No";
+    }
+
+    @Contract("null -> null; !null -> !null")
+    public static String upperFirstLetterOnly(String name) {
+        if (name == null) {
+            return null;
+        }
+
+        if (name.isEmpty()) {
+            return name;
+        }
+
+        if (name.length() == 1) {
+            return name.toUpperCase();
+        }
+
+        return name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
     }
 }
