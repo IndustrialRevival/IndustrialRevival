@@ -1,8 +1,8 @@
 package org.irmc.industrialrevival.core.data;
 
-import io.github.linsminecraftstudio.mxlib.database.serialization.annotations.Column;
-import io.github.linsminecraftstudio.mxlib.database.serialization.annotations.PrimaryKey;
-import io.github.linsminecraftstudio.mxlib.database.serialization.annotations.Table;
+import io.github.lijinhong11.mdatabase.serialization.annotations.Column;
+import io.github.lijinhong11.mdatabase.serialization.annotations.PrimaryKey;
+import io.github.lijinhong11.mdatabase.serialization.annotations.Table;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;

@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Deprecated
 public class SurvivalGuideImplementation implements IRGuideImplementation {
     public static final SurvivalGuideImplementation INSTANCE = new SurvivalGuideImplementation();
 

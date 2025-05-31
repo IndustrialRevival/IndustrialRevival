@@ -16,6 +16,7 @@ import org.irmc.industrialrevival.core.listeners.MultiblockTicker;
 import org.irmc.industrialrevival.core.listeners.NotPlaceableListener;
 import org.irmc.industrialrevival.core.listeners.PlayerJoinListener;
 import org.irmc.industrialrevival.core.listeners.RespondTimingListener;
+import org.irmc.industrialrevival.core.listeners.TranslateUpdater;
 import org.irmc.industrialrevival.core.listeners.UnusableItemListener;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 
@@ -45,6 +46,7 @@ public class ListenerManager {
         listeners.add(new RespondTimingListener());
         listeners.add(new UnusableItemListener());
         listeners.add(new MultiblockTicker());
+        //listeners.add(new TranslateUpdater());
     }
 
     public void setupAll() {

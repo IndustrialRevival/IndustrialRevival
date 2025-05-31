@@ -9,6 +9,7 @@ import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.Constants;
 import org.irmc.pigeonlib.items.ItemUtils;
 
+@Deprecated
 public class CheatGuideImplementation extends SurvivalGuideImplementation {
     public static final CheatGuideImplementation INSTANCE = new CheatGuideImplementation();
 
