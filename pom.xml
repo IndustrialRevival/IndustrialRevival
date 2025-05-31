@@ -147,7 +147,7 @@
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>23.0.0</version>
+            <version>26.0.2</version>
             <scope>provided</scope>
         </dependency>
 
@@ -185,9 +185,9 @@
 
         <!-- Database -->
         <dependency>
-            <groupId>io.github.linsminecraftstudio.mxlib</groupId>
-            <artifactId>mx-database</artifactId>
-            <version>1.0.9</version>
+            <groupId>io.github.lijinhong11</groupId>
+            <artifactId>MDatabase</artifactId>
+            <version>1.0.1</version>
             <scope>compile</scope>
         </dependency>
 
