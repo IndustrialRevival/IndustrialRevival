@@ -14,6 +14,8 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 import org.irmc.industrialrevival.api.IndustrialRevivalAddon;
 import org.irmc.industrialrevival.api.items.attributes.BlockDropItem;
@@ -34,6 +36,7 @@ import org.irmc.industrialrevival.api.recipes.RecipeContents;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.api.recipes.methods.CraftMethod;
 import org.irmc.industrialrevival.api.recipes.methods.ProduceMethod;
+import org.irmc.industrialrevival.core.translation.ItemTranslator;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.implementation.items.IndustrialRevivalItemSetup;
 import org.irmc.industrialrevival.utils.Constants;
@@ -225,8 +228,16 @@ public class IndustrialRevivalItem implements Keyed, Displayable<IndustrialReviv
      */
     @NotNull
     public IndustrialRevivalItem setIcon(@NotNull ItemStack icon) {
+        applyKeys(icon);
         this.icon = icon;
         return this;
+    }
+
+    public void applyKeys(ItemStack icon) {
+        ItemMeta meta = icon.getItemMeta();
+        meta.getPersistentDataContainer().set(ItemTranslator.TRANSLATE_KEY, PersistentDataType.STRING, getId().toString().replaceFirst(":", "-"));
+        meta.getPersistentDataContainer().set(Constants.ItemStackKeys.ITEM_ID_KEY, PersistentDataType.STRING, getId().toString());
+        icon.setItemMeta(meta);
     }
 
     /**

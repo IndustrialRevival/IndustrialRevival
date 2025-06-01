@@ -1,11 +1,11 @@
 package org.irmc.industrialrevival.core.data;
 
 import com.google.common.base.Strings;
-import io.github.linsminecraftstudio.mxlib.database.DatabaseConnection;
-import io.github.linsminecraftstudio.mxlib.database.DatabaseParameters;
-import io.github.linsminecraftstudio.mxlib.database.enums.DatabaseType;
-import io.github.linsminecraftstudio.mxlib.database.impl.SQLConnections;
-import io.github.linsminecraftstudio.mxlib.database.sql.conditions.Conditions;
+import io.github.lijinhong11.mdatabase.DatabaseConnection;
+import io.github.lijinhong11.mdatabase.DatabaseParameters;
+import io.github.lijinhong11.mdatabase.enums.DatabaseType;
+import io.github.lijinhong11.mdatabase.impl.SQLConnections;
+import io.github.lijinhong11.mdatabase.sql.conditions.Conditions;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;

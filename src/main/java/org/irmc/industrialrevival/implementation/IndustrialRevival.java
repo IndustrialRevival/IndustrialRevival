@@ -31,6 +31,7 @@ import org.irmc.industrialrevival.core.services.ProfilerService;
 import org.irmc.industrialrevival.core.task.AnitEnderDragonTask;
 import org.irmc.industrialrevival.core.task.ArmorCheckTask;
 import org.irmc.industrialrevival.core.task.PostSetupTask;
+import org.irmc.industrialrevival.core.translation.ItemTranslator;
 import org.irmc.industrialrevival.core.world.populators.ElementOreGenerator;
 import org.irmc.industrialrevival.implementation.groups.IRItemGroups;
 import org.irmc.industrialrevival.implementation.items.IndustrialRevivalItemSetup;
@@ -63,6 +64,7 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     private @Getter PlatformScheduler foliaLibImpl;
     private @Getter ItemSettings itemSettings;
     private @Getter ElementOreGenerator elementOreGenerator;
+    private @Getter ProtocolManager protocolManager;
 
     public static void runSync(@Nonnull Runnable runnable) {
         getInstance().getFoliaLibImpl().runNextTick(_ -> runnable.run());
@@ -179,20 +181,8 @@ public final class IndustrialRevival extends JavaPlugin implements IndustrialRev
     }
 
     private void setupProtocolLib() {
-        ProtocolManager manager = ProtocolLibrary.getProtocolManager();
-
-        manager.addPacketListener(
-                new PacketAdapter(
-                        this,
-                        ListenerPriority.HIGHEST,
-                        PacketType.Play.Client.PICK_ITEM
-                ) {
-                    @Override
-                    public void onPacketReceiving(PacketEvent event) {
-
-                    }
-                }
-        );
+        this.protocolManager = ProtocolLibrary.getProtocolManager();
+        ItemTranslator.setup();
     }
 
     @Override

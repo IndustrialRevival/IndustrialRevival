@@ -43,3 +43,8 @@ misc:
   wiki_page_button: "<yellow>获取对应 Wiki 页面</yellow>"
 
 item:
+  industrialrevival-empty:
+    name: "测试名称"
+    lore:
+      - "测试lore"
+      - "测试lore2"
