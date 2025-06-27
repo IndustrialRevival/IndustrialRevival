@@ -21,7 +21,7 @@ public class KeyUtil {
      * @return A {@link NamespacedKey} with the plugin's namespace and the provided key.
      */
     public static NamespacedKey customKey(String key) {
-        return new NamespacedKey(IndustrialRevival.getInstance(), key.toLowerCase());
+        return new NamespacedKey(IRDock.getPlugin(), key.toLowerCase());
     }
 
     public static NamespacedKey appendOnKey(NamespacedKey key, String append) {

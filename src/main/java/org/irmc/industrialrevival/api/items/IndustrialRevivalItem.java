@@ -138,7 +138,7 @@ public class IndustrialRevivalItem implements Keyed, Displayable<IndustrialReviv
             return getById(NamespacedKey.fromString(id));
         }
 
-        for (IndustrialRevivalItem item : IndustrialRevival.getInstance().getRegistry().getItems().values()) {
+        for (IndustrialRevivalItem item : IRDock.getPlugin().getRegistry().getItems().values()) {
             if (item.getId().getKey().equals(id)) {
                 return item;
             }
@@ -155,7 +155,7 @@ public class IndustrialRevivalItem implements Keyed, Displayable<IndustrialReviv
      */
     @Nullable
     public static IndustrialRevivalItem getById(@NotNull NamespacedKey id) {
-        return IndustrialRevival.getInstance().getRegistry().getItems().get(id);
+        return IRDock.getPlugin().getRegistry().getItems().get(id);
     }
 
     /**
@@ -445,7 +445,7 @@ public class IndustrialRevivalItem implements Keyed, Displayable<IndustrialReviv
         }
 
         if (saveToConfig) {
-            IndustrialRevival.getInstance().getItemSettings().disableItem(getId());
+            IRDock.getPlugin().getItemSettings().disableItem(getId());
         }
         return this;
     }
@@ -581,7 +581,7 @@ public class IndustrialRevivalItem implements Keyed, Displayable<IndustrialReviv
         Preconditions.checkArgument(addon != null, "Losing addon reference! Please set it before registering the item.");
         checkRegistered();
 
-        if (!IndustrialRevival.getInstance().isEnabled()) {
+        if (!IRDock.getPlugin().isEnabled()) {
             throw new UnsupportedOperationException("Cannot register item before IndustrialRevival is enabled");
         }
 
@@ -622,7 +622,7 @@ public class IndustrialRevivalItem implements Keyed, Displayable<IndustrialReviv
             return null;
         }
 
-        IndustrialRevival.getInstance().getRegistry().registerItem(this);
+        IRDock.getPlugin().getRegistry().registerItem(this);
         this.state = this.state == ItemState.UNREGISTERED ? ItemState.ENABLED : this.state;
 
         return this;
@@ -702,14 +702,14 @@ public class IndustrialRevivalItem implements Keyed, Displayable<IndustrialReviv
     @OverridingMethodsMustInvokeSuper
     protected void postRegister() {
         if (this instanceof MultiBlock mb) {
-            IndustrialRevival.getInstance().getRegistry().registerMultiBlock(mb);
+            IRDock.getPlugin().getRegistry().registerMultiBlock(mb);
         }
         if (this instanceof MobDropItem mdi) {
-            IndustrialRevival.getInstance().getRegistry().registerMobDrop(mdi);
+            IRDock.getPlugin().getRegistry().registerMobDrop(mdi);
         }
 
         if (this instanceof BlockDropItem bdi) {
-            IndustrialRevival.getInstance().getRegistry().registerBlockDrop(bdi);
+            IRDock.getPlugin().getRegistry().registerBlockDrop(bdi);
         }
 
         if (this instanceof VanillaSmeltingItem vsi) {
@@ -779,7 +779,7 @@ public class IndustrialRevivalItem implements Keyed, Displayable<IndustrialReviv
      */
     @NotNull
     protected ConfigurationSection getItemSetting() {
-        return IndustrialRevival.getInstance().getItemSettings().getSetting(getId());
+        return IRDock.getPlugin().getItemSettings().getSetting(getId());
     }
 
     public IndustrialRevivalItem setAddon(@NotNull IndustrialRevivalAddon addon) {
@@ -866,7 +866,7 @@ public class IndustrialRevivalItem implements Keyed, Displayable<IndustrialReviv
     }
 
     public final boolean isRegistered() {
-        return IndustrialRevival.getInstance().getRegistry().getItems().containsKey(getId());
+        return IRDock.getPlugin().getRegistry().getItems().containsKey(getId());
     }
 
     @Override

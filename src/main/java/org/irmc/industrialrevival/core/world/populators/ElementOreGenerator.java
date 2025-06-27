@@ -33,7 +33,7 @@ public class ElementOreGenerator extends APopulator {
             block.setType(Material.YELLOW_TERRACOTTA);
         }
         Location location = block.getLocation();
-        IndustrialRevival.getInstance().getDataManager().handleBlockPlacing(location, new NamespacedKey(IndustrialRevival.getInstance(), elementType.name().toLowerCase()));
+        IRDock.getPlugin().getDataManager().handleBlockPlacing(location, new NamespacedKey(IRDock.getPlugin(), elementType.name().toLowerCase()));
         Debug.debug("Generated " + elementType.name() + " ore at " + location);
     }
 
@@ -49,6 +49,6 @@ public class ElementOreGenerator extends APopulator {
 
     @Override
     public @NotNull IndustrialRevivalAddon getAddon() {
-        return IndustrialRevival.getInstance();
+        return IRDock.getPlugin();
     }
 }

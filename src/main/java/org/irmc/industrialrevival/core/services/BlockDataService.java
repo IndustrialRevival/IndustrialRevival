@@ -27,7 +27,7 @@ public class BlockDataService {
 
     private void loadData() {
         List<BlockRecord> records =
-                IndustrialRevival.getInstance().getDataManager().getAllBlockRecords();
+                IRDock.getPlugin().getDataManager().getAllBlockRecords();
         Debug.log("List<BlockRecord> records: " + records.size());
         for (BlockRecord record : records) {
             Location loc = record.getLocation();
@@ -43,7 +43,7 @@ public class BlockDataService {
     public void handleBlockPlacing(Location loc, NamespacedKey machineId) {
         Debug.log("handleBlockPlacing");
         YamlConfiguration configuration = new YamlConfiguration();
-        MachineMenuPreset preset = IndustrialRevival.getInstance().getRegistry().getMenuPresets().get(machineId);
+        MachineMenuPreset preset = IRDock.getPlugin().getRegistry().getMenuPresets().get(machineId);
 
         MachineMenu menu = null;
         if (preset != null) {
@@ -65,7 +65,7 @@ public class BlockDataService {
         for (IRBlockData data : blockDataMap.values()) {
             BlockRecord blockRecord = BlockRecord.warp(data);
 
-            IndustrialRevival.getInstance().getDataManager().saveBlockRecord(blockRecord);
+            IRDock.getPlugin().getDataManager().saveBlockRecord(blockRecord);
         }
         blockDataMap.clear();
     }

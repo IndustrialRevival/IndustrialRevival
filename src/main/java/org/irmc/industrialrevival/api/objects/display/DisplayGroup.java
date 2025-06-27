@@ -50,7 +50,7 @@ public class DisplayGroup {
 
         display.teleport(center.clone().add(offset.getX(), offset.getY(), offset.getZ()));
         // When add display to a display group, set metadata to the display to identify its addons
-        display.setMetadata(DISPLAY_GROUP_METADATA_KEY, new FixedMetadataValue(IndustrialRevival.getInstance(), addon.getPlugin().getName()));
+        display.setMetadata(DISPLAY_GROUP_METADATA_KEY, new FixedMetadataValue(IRDock.getPlugin(), addon.getPlugin().getName()));
         return this;
     }
 
@@ -67,7 +67,7 @@ public class DisplayGroup {
         }
 
         // When add display to a display group, set metadata to the display to identify its addons
-        display.setMetadata(DISPLAY_GROUP_METADATA_KEY, new FixedMetadataValue(IndustrialRevival.getInstance(), addon.getPlugin().getName()));
+        display.setMetadata(DISPLAY_GROUP_METADATA_KEY, new FixedMetadataValue(IRDock.getPlugin(), addon.getPlugin().getName()));
         return this;
     }
 
@@ -89,7 +89,7 @@ public class DisplayGroup {
             return this;
         }
         // When add display to a display group, set metadata to the display to identify its addons
-        display.setMetadata(DISPLAY_GROUP_METADATA_KEY, new FixedMetadataValue(IndustrialRevival.getInstance(), addon.getPlugin().getName()));
+        display.setMetadata(DISPLAY_GROUP_METADATA_KEY, new FixedMetadataValue(IRDock.getPlugin(), addon.getPlugin().getName()));
         return add(display);
     }
 

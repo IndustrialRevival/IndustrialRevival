@@ -28,7 +28,7 @@ public class DropListener implements Listener {
         Location location = entity.getLocation();
         World world = location.getWorld();
         List<MobDropMethod> drops =
-                IndustrialRevival.getInstance().getRegistry().getMobDrops().get(entity.getType());
+                IRDock.getPlugin().getRegistry().getMobDrops().get(entity.getType());
 
         if (drops != null) {
             SecureRandom random = new SecureRandom(entity.getUniqueId().toString().getBytes());
@@ -41,7 +41,7 @@ public class DropListener implements Listener {
                     if (irItem != null && irItem.isDisabledInWorld(entity.getWorld())) {
                         Player killer = entity.getKiller();
                         if (killer != null) {
-                            IndustrialRevival.getInstance().getLanguageManager()
+                            IRDock.getPlugin().getLanguageManager()
                                     .sendMessage(killer, "dropping_banned_item");
                         }
                         continue;
@@ -76,7 +76,7 @@ public class DropListener implements Listener {
             }
         }
 
-        List<BlockDropMethod> methods = IndustrialRevival.getInstance().getRegistry().getBlockDrops().get(material);
+        List<BlockDropMethod> methods = IRDock.getPlugin().getRegistry().getBlockDrops().get(material);
         if (methods == null) {
             return;
         }
@@ -89,7 +89,7 @@ public class DropListener implements Listener {
                 // banned item should not method
                 IndustrialRevivalItem irItem = IndustrialRevivalItem.getByItem(item);
                 if (irItem != null && irItem.isDisabledInWorld(world)) {
-                    IndustrialRevival.getInstance().getLanguageManager()
+                    IRDock.getPlugin().getLanguageManager()
                             .sendMessage(breaker, "dropping_banned_item");
                     continue;
                 }

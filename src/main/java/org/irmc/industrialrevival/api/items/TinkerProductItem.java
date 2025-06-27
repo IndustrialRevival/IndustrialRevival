@@ -36,7 +36,7 @@ public class TinkerProductItem extends IndustrialRevivalItem implements TinkerPr
         if (this.meltedType == null) {
             throw new IllegalArgumentException("MeltedType must be set for TinkerProductItem");
         }
-        IndustrialRevival.getInstance().getRegistry().registerTinkerItem(getMeltedType(), this);
+        IRDock.getPlugin().getRegistry().registerTinkerItem(getMeltedType(), this);
     }
 
     @Override

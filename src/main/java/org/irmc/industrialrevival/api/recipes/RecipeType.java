@@ -10,7 +10,7 @@ import org.irmc.industrialrevival.api.items.IndustrialRevivalItem;
 import org.irmc.industrialrevival.api.menu.SimpleMenu;
 import org.irmc.industrialrevival.api.objects.CustomItemStack;
 import org.irmc.industrialrevival.api.recipes.methods.CraftMethod;
-import org.irmc.industrialrevival.implementation.IndustrialRevival;
+import org.irmc.industrialrevival.dock.IRDock;
 import org.irmc.industrialrevival.utils.Constants;
 import org.irmc.industrialrevival.utils.KeyUtil;
 import org.irmc.pigeonlib.pdc.PersistentDataAPI;
@@ -52,120 +52,120 @@ public class RecipeType {
 
     static {
         GRINDSTONE = new RecipeType(
-                IndustrialRevival.getInstance(),
+                IRDock.getPlugin(),
                 RECIPE_TYPE_GRINDSTONE,
                 new CustomItemStack(
                         Material.DISPENSER,
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(RECIPE_TYPE_GRINDSTONE),
-                        IndustrialRevival.getInstance()
+                        IRDock.getPlugin().getLanguageManager().getRecipeTypeName(RECIPE_TYPE_GRINDSTONE),
+                        IRDock.getPlugin()
                                 .getLanguageManager()
                                 .getRecipeTypeLore(RECIPE_TYPE_GRINDSTONE)));
 
         VANILLA_SMELTING = new RecipeType(
-                IndustrialRevival.getInstance(),
+                IRDock.getPlugin(),
                 RECIPE_TYPE_VANILLA_SMELTING,
                 new CustomItemStack(
                         Material.FURNACE,
-                        IndustrialRevival.getInstance()
+                        IRDock.getPlugin()
                                 .getLanguageManager()
                                 .getRecipeTypeName(RECIPE_TYPE_VANILLA_SMELTING),
-                        IndustrialRevival.getInstance()
+                        IRDock.getPlugin()
                                 .getLanguageManager()
                                 .getRecipeTypeLore(RECIPE_TYPE_VANILLA_SMELTING)));
 
         MINE = new RecipeType(
-                IndustrialRevival.getInstance(),
+                IRDock.getPlugin(),
                 RECIPE_TYPE_MINE,
                 new CustomItemStack(
                         Material.IRON_PICKAXE,
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(RECIPE_TYPE_MINE),
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(RECIPE_TYPE_MINE)));
+                        IRDock.getPlugin().getLanguageManager().getRecipeTypeName(RECIPE_TYPE_MINE),
+                        IRDock.getPlugin().getLanguageManager().getRecipeTypeLore(RECIPE_TYPE_MINE)));
 
         KILL_MOB = new RecipeType(
-                IndustrialRevival.getInstance(),
+                IRDock.getPlugin(),
                 RECIPE_TYPE_KILL_MOB,
                 new CustomItemStack(
                         Material.DIAMOND_SWORD,
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(RECIPE_TYPE_KILL_MOB),
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(RECIPE_TYPE_KILL_MOB)));
+                        IRDock.getPlugin().getLanguageManager().getRecipeTypeName(RECIPE_TYPE_KILL_MOB),
+                        IRDock.getPlugin().getLanguageManager().getRecipeTypeLore(RECIPE_TYPE_KILL_MOB)));
 
         INTERACT = new RecipeType(
-                IndustrialRevival.getInstance(),
+                IRDock.getPlugin(),
                 RECIPE_TYPE_INTERACT,
                 new CustomItemStack(
                         Material.STICK,
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(RECIPE_TYPE_INTERACT),
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(RECIPE_TYPE_INTERACT)));
+                        IRDock.getPlugin().getLanguageManager().getRecipeTypeName(RECIPE_TYPE_INTERACT),
+                        IRDock.getPlugin().getLanguageManager().getRecipeTypeLore(RECIPE_TYPE_INTERACT)));
 
         WAIT = new RecipeType(
-                IndustrialRevival.getInstance(),
+                IRDock.getPlugin(),
                 RECIPE_TYPE_WAIT,
                 new CustomItemStack(
                         Material.CLOCK,
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(RECIPE_TYPE_WAIT),
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(RECIPE_TYPE_WAIT)));
+                        IRDock.getPlugin().getLanguageManager().getRecipeTypeName(RECIPE_TYPE_WAIT),
+                        IRDock.getPlugin().getLanguageManager().getRecipeTypeLore(RECIPE_TYPE_WAIT)));
 
-        NULL = new RecipeType(IndustrialRevival.getInstance(), RECIPE_TYPE_NULL, new CustomItemStack(Material.AIR));
+        NULL = new RecipeType(IRDock.getPlugin(), RECIPE_TYPE_NULL, new CustomItemStack(Material.AIR));
 
         VANILLA_CRAFTING = new RecipeType(
-                IndustrialRevival.getInstance(),
+                IRDock.getPlugin(),
                 RECIPE_TYPE_VANILLA_CRAFTING,
                 new CustomItemStack(
                         Material.CRAFTING_TABLE,
-                        IndustrialRevival.getInstance()
+                        IRDock.getPlugin()
                                 .getLanguageManager()
                                 .getRecipeTypeName(RECIPE_TYPE_VANILLA_CRAFTING),
-                        IndustrialRevival.getInstance()
+                        IRDock.getPlugin()
                                 .getLanguageManager()
                                 .getRecipeTypeLore(RECIPE_TYPE_VANILLA_CRAFTING)));
 
         SMELTING = new RecipeType(
-                IndustrialRevival.getInstance(),
+                IRDock.getPlugin(),
                 RECIPE_TYPE_SMELTING,
                 new CustomItemStack(
                         Material.FURNACE,
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(RECIPE_TYPE_SMELTING),
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(RECIPE_TYPE_SMELTING)));
+                        IRDock.getPlugin().getLanguageManager().getRecipeTypeName(RECIPE_TYPE_SMELTING),
+                        IRDock.getPlugin().getLanguageManager().getRecipeTypeLore(RECIPE_TYPE_SMELTING)));
 
         CRAFTING = new RecipeType(
-                IndustrialRevival.getInstance(),
+                IRDock.getPlugin(),
                 RECIPE_TYPE_CRAFTING,
                 new CustomItemStack(
                         Material.CRAFTING_TABLE,
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeName(RECIPE_TYPE_CRAFTING),
-                        IndustrialRevival.getInstance().getLanguageManager().getRecipeTypeLore(RECIPE_TYPE_CRAFTING)));
+                        IRDock.getPlugin().getLanguageManager().getRecipeTypeName(RECIPE_TYPE_CRAFTING),
+                        IRDock.getPlugin().getLanguageManager().getRecipeTypeLore(RECIPE_TYPE_CRAFTING)));
         ELECTROLYSIS = new RecipeType(
-                IndustrialRevival.getInstance(),
+                IRDock.getPlugin(),
                 RECIPE_TYPE_ELECTROLYSIS,
                 new CustomItemStack(
                         Material.CAULDRON,
-                        IndustrialRevival.getInstance()
+                        IRDock.getPlugin()
                                 .getLanguageManager()
                                 .getRecipeTypeName(RECIPE_TYPE_ELECTROLYSIS),
-                        IndustrialRevival.getInstance()
+                        IRDock.getPlugin()
                                 .getLanguageManager()
                                 .getRecipeTypeLore(RECIPE_TYPE_ELECTROLYSIS)));
         MULTIBLOCK = new RecipeType(
-                IndustrialRevival.getInstance(),
+                IRDock.getPlugin(),
                 RECIPE_TYPE_MULTIBLOCK,
                 new CustomItemStack(
                         Material.IRON_BLOCK,
-                        IndustrialRevival.getInstance()
+                        IRDock.getPlugin()
                                 .getLanguageManager()
                                 .getRecipeTypeName(RECIPE_TYPE_MULTIBLOCK),
-                        IndustrialRevival.getInstance()
+                        IRDock.getPlugin()
                                 .getLanguageManager()
                                 .getRecipeTypeLore(RECIPE_TYPE_MULTIBLOCK)));
 
         BLOCK_DROP = new RecipeType(
-                IndustrialRevival.getInstance(),
+                IRDock.getPlugin(),
                 RECIPE_TYPE_BLOCK_DROP,
                 new CustomItemStack(
                         Material.IRON_PICKAXE,
-                        IndustrialRevival.getInstance()
+                        IRDock.getPlugin()
                                 .getLanguageManager()
                                 .getRecipeTypeName(RECIPE_TYPE_BLOCK_DROP),
-                        IndustrialRevival.getInstance()
+                        IRDock.getPlugin()
                                 .getLanguageManager()
                                 .getRecipeTypeLore(RECIPE_TYPE_BLOCK_DROP)));
     }
@@ -282,14 +282,14 @@ public class RecipeType {
     }
 
     public void registerRecipe(ItemStack[] input, ItemStack output) {
-        IndustrialRevival.getInstance().getRegistry().registerCraftable(this, output);
+        IRDock.getPlugin().getRegistry().registerCraftable(this, output);
         if (registerRecipeConsumer != null) {
             registerRecipeConsumer.accept(input, output);
         }
     }
 
     public void unregisterRecipe(ItemStack[] input, ItemStack output) {
-        IndustrialRevival.getInstance().getRegistry().unregisterProduceable(this, output);
+        IRDock.getPlugin().getRegistry().unregisterProduceable(this, output);
         if (unregisterRecipeConsumer != null) {
             unregisterRecipeConsumer.accept(input, output);
         }

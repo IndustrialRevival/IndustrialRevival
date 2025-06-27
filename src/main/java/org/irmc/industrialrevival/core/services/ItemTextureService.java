@@ -25,7 +25,7 @@ public class ItemTextureService {
         customModelDataMap = new HashMap<>();
         blockModelMap = new HashMap<>();
 
-        setup(IndustrialRevival.getInstance()
+        setup(IRDock.getPlugin()
                 .getBlockDataService()
                 .getBlockDataMap()
                 .values());

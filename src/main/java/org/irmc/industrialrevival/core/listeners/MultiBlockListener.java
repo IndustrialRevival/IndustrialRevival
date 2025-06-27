@@ -27,7 +27,7 @@ public class MultiBlockListener implements Listener {
         Set<MultiBlock> matched = new HashSet<>();
         Location location = block.getLocation();
         Material material = block.getType();
-        IndustrialRevival.getInstance().getRegistry().getMultiBlocks().forEach((id, multiBlock) -> {
+        IRDock.getPlugin().getRegistry().getMultiBlocks().forEach((id, multiBlock) -> {
             Structure structure = multiBlock.getStructure();
             StructurePiece piece = structure.getCenterPiece();
             if (piece instanceof MaterialStructurePiece msp) {
@@ -51,10 +51,10 @@ public class MultiBlockListener implements Listener {
 
         event.setCancelled(true);
         if (matched.size() > 1) {
-            IndustrialRevival.getInstance().getLogger().warning(MessageFormat.format("Matched {0} multi-blocks, it may cause unexpected behavior", matched.size()));
-            IndustrialRevival.getInstance().getLogger().warning("Conflicting multi-block: ");
+            IRDock.getPlugin().getLogger().warning(MessageFormat.format("Matched {0} multi-blocks, it may cause unexpected behavior", matched.size()));
+            IRDock.getPlugin().getLogger().warning("Conflicting multi-block: ");
             for (MultiBlock multiBlock : matched) {
-                IndustrialRevival.getInstance().getLogger().warning(MessageFormat.format("From Addon: {0} - MultiBlock ID: {1}", multiBlock.getAddon().getPlugin().getName(), multiBlock.getId()));
+                IRDock.getPlugin().getLogger().warning(MessageFormat.format("From Addon: {0} - MultiBlock ID: {1}", multiBlock.getAddon().getPlugin().getName(), multiBlock.getId()));
             }
         }
 

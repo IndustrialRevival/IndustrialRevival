@@ -49,7 +49,7 @@ public class DataUtil {
      */
     @Nullable
     public static IRBlockData getBlockData(Location location) {
-        return IndustrialRevival.getInstance().getBlockDataService().getBlockData(location);
+        return IRDock.getPlugin().getBlockDataService().getBlockData(location);
     }
 
     /**
@@ -93,7 +93,7 @@ public class DataUtil {
      * @param blockData The IRBlockData to associate with the block.
      */
     public static void setBlockData(Location location, IRBlockData blockData) {
-        IndustrialRevival.getInstance().getBlockDataService().getBlockDataMap().put(location, blockData);
+        IRDock.getPlugin().getBlockDataService().getBlockDataMap().put(location, blockData);
     }
 
     /**
@@ -115,8 +115,8 @@ public class DataUtil {
     @CanIgnoreReturnValue
     @Nullable
     public static IRBlockData removeBlockData(Location location) {
-        IndustrialRevival.getInstance().getDataManager().handleBlockBreaking(location);
-        return IndustrialRevival.getInstance().getBlockDataService().handleBlockBreaking(location);
+        IRDock.getPlugin().getDataManager().handleBlockBreaking(location);
+        return IRDock.getPlugin().getBlockDataService().handleBlockBreaking(location);
     }
 
     /**
@@ -179,7 +179,7 @@ public class DataUtil {
      */
     @Nullable
     public static MachineMenuPreset getMachineMenuPresetById(NamespacedKey id) {
-        return IndustrialRevival.getInstance().getRegistry().getMenuPresets().get(id);
+        return IRDock.getPlugin().getRegistry().getMenuPresets().get(id);
     }
 
     /**

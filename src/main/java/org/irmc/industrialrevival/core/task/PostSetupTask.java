@@ -35,7 +35,7 @@ public class PostSetupTask implements Consumer<WrappedTask> {
             try {
                 task.run();
             } catch (Exception e) {
-                IndustrialRevival.getInstance().getLogger().warning("Failed to run post setup task: " + task);
+                IRDock.getPlugin().getLogger().warning("Failed to run post setup task: " + task);
                 e.printStackTrace();
             }
         }

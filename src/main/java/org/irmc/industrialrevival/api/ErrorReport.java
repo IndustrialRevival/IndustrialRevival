@@ -148,8 +148,8 @@ public class ErrorReport<T extends Throwable> {
         count.incrementAndGet();
 
         try (PrintStream stream = new PrintStream(file, StandardCharsets.UTF_8)) {
-            Stream<String> plugins = Arrays.stream(IndustrialRevival.getInstance().getServer().getPluginManager().getPlugins()).map(plugin -> (plugin.isEnabled() ? " + " : " - ") + plugin.getName() + " v" + plugin.getDescription().getVersion());
-            Stream<String> addons = IndustrialRevival.getInstance().getAddons().stream().map(plugin -> (plugin.isEnabled() ? " + " : " - ") + plugin.getName() + " v" + plugin.getDescription().getVersion());
+            Stream<String> plugins = Arrays.stream(IRDock.getPlugin().getServer().getPluginManager().getPlugins()).map(plugin -> (plugin.isEnabled() ? " + " : " - ") + plugin.getName() + " v" + plugin.getDescription().getVersion());
+            Stream<String> addons = IRDock.getPlugin().getAddons().stream().map(plugin -> (plugin.isEnabled() ? " + " : " - ") + plugin.getName() + " v" + plugin.getDescription().getVersion());
             List<String> pluginsList = plugins.toList();
             List<String> addonsList = addons.toList();
             int pluginsSize = pluginsList.size();
@@ -165,7 +165,7 @@ public class ErrorReport<T extends Throwable> {
                     "Paper or its fork",
                     Bukkit.getVersion(),
                     Bukkit.getBukkitVersion(),
-                    IndustrialRevival.getInstance().getVersion(),
+                    IRDock.getPlugin().getVersion(),
                     addon.getName(),
                     addon.getVersion(),
                     pluginsSize,
@@ -199,7 +199,7 @@ public class ErrorReport<T extends Throwable> {
                             Level.SEVERE,
                             x,
                             () -> "An Error occurred while saving an Error-Report for IndustrialRevival "
-                                    + IndustrialRevival.getInstance().getVersion());
+                                    + IRDock.getPlugin().getVersion());
         }
     }
 }

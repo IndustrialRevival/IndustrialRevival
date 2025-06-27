@@ -76,7 +76,7 @@ public class Constants {
          */
         public static final ItemStack GUIDE_BOOK_ITEM = new CustomItemStack(
                 Material.ENCHANTED_BOOK,
-                IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(null, "guide.book_item_name"))
+                IRDock.getPlugin().getLanguageManager().getMsgComponent(null, "guide.book_item_name"))
                 .setCustomModel(19999)
                 .setPDCData(ItemStackKeys.GUIDE_ITEM_KEY, PersistentDataType.STRING, GuideMode.SURVIVAL.name())
                 .getBukkit();
@@ -86,7 +86,7 @@ public class Constants {
          */
         public static final ItemStack CHEAT_GUIDE_BOOK_ITEM = new CustomItemStack(
                 Material.ENCHANTED_BOOK,
-                IndustrialRevival.getInstance()
+                IRDock.getPlugin()
                         .getLanguageManager()
                         .getMsgComponent(null, "guide.cheat_book_item_name"))
                 .setCustomModel(20000)
@@ -103,8 +103,8 @@ public class Constants {
          */
         public static final Function<Player, ItemStack> BACK_BUTTON = p -> new CustomItemStack(
                 Material.ENCHANTED_BOOK,
-                IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Keys.GUIDE_BACK_KEY),
-                IndustrialRevival.getInstance().getLanguageManager().getMsgComponentList(p, "guide.back_lore"))
+                IRDock.getPlugin().getLanguageManager().getMsgComponent(p, Keys.GUIDE_BACK_KEY),
+                IRDock.getPlugin().getLanguageManager().getMsgComponentList(p, "guide.back_lore"))
                 .setCustomModel(19990)
                 .getBukkit();
 
@@ -113,7 +113,7 @@ public class Constants {
          */
         public static final Function<Player, ItemStack> SETTING_BUTTON = p -> new CustomItemStack(
                 Material.REPEATER,
-                IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Keys.GUIDE_SETTINGS_KEY))
+                IRDock.getPlugin().getLanguageManager().getMsgComponent(p, Keys.GUIDE_SETTINGS_KEY))
                 .setCustomModel(19990)
                 .getBukkit();
 
@@ -122,7 +122,7 @@ public class Constants {
          */
         public static final Function<Player, ItemStack> BOOKMARK_BUTTON = p -> new CustomItemStack(
                 Material.WRITABLE_BOOK,
-                IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Keys.GUIDE_BOOKMARKS_KEY))
+                IRDock.getPlugin().getLanguageManager().getMsgComponent(p, Keys.GUIDE_BOOKMARKS_KEY))
                 .setCustomModel(19991)
                 .getBukkit();
 
@@ -131,7 +131,7 @@ public class Constants {
          */
         public static final Function<Player, ItemStack> ADD_TO_BOOKMARK_BUTTON = p -> new CustomItemStack(
                 Material.PAPER,
-                IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, "guide.add_to_bookmarks"))
+                IRDock.getPlugin().getLanguageManager().getMsgComponent(p, "guide.add_to_bookmarks"))
                 .setCustomModel(19992)
                 .getBukkit();
 
@@ -140,7 +140,7 @@ public class Constants {
          */
         public static final Function<Player, ItemStack> SEARCH_BUTTON = p -> new CustomItemStack(
                 Material.COMPASS,
-                IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Keys.GUIDE_SEARCH_KEY))
+                IRDock.getPlugin().getLanguageManager().getMsgComponent(p, Keys.GUIDE_SEARCH_KEY))
                 .setCustomModel(19993)
                 .getBukkit();
 
@@ -149,7 +149,7 @@ public class Constants {
          */
         public static final Function<Player, ItemStack> PREVIOUS_BUTTON = p -> new CustomItemStack(
                 Material.LIME_STAINED_GLASS_PANE,
-                IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Keys.GUIDE_PREVIOUS_KEY))
+                IRDock.getPlugin().getLanguageManager().getMsgComponent(p, Keys.GUIDE_PREVIOUS_KEY))
                 .setCustomModel(19994)
                 .getBukkit();
 
@@ -158,7 +158,7 @@ public class Constants {
          */
         public static final Function<Player, ItemStack> NEXT_BUTTON = p -> new CustomItemStack(
                 Material.LIME_STAINED_GLASS_PANE,
-                IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Keys.GUIDE_NEXT_KEY))
+                IRDock.getPlugin().getLanguageManager().getMsgComponent(p, Keys.GUIDE_NEXT_KEY))
                 .setCustomModel(19995)
                 .getBukkit();
 
@@ -167,7 +167,7 @@ public class Constants {
          */
         public static final Function<Player, ItemStack> PREVIOUS_ONE_BUTTON = p -> new CustomItemStack(
                 Material.LIME_STAINED_GLASS_PANE,
-                IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Keys.GUIDE_PREVIOUS_ONE_KEY))
+                IRDock.getPlugin().getLanguageManager().getMsgComponent(p, Keys.GUIDE_PREVIOUS_ONE_KEY))
                 .setCustomModel(19996)
                 .getBukkit();
 
@@ -176,7 +176,7 @@ public class Constants {
          */
         public static final Function<Player, ItemStack> WIKI_PAGE_BUTTON = p -> new CustomItemStack(
                 Material.BOOK,
-                IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, "guide.wiki_page_button"))
+                IRDock.getPlugin().getLanguageManager().getMsgComponent(p, "guide.wiki_page_button"))
                 .setCustomModel(19998)
                 .getBukkit();
 
@@ -185,7 +185,7 @@ public class Constants {
          */
         public static final Function<Player, ItemStack> NEXT_ONE_BUTTON = p -> new CustomItemStack(
                 Material.LIME_STAINED_GLASS_PANE,
-                IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, Keys.GUIDE_NEXT_ONE_KEY))
+                IRDock.getPlugin().getLanguageManager().getMsgComponent(p, Keys.GUIDE_NEXT_ONE_KEY))
                 .setCustomModel(19997)
                 .getBukkit();
 
@@ -194,7 +194,7 @@ public class Constants {
          */
         public static final Function<Player, ItemStack> HISTORY_BUTTON = p -> new CustomItemStack(
                 Material.CLOCK,
-                IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, "guide.history_button"))
+                IRDock.getPlugin().getLanguageManager().getMsgComponent(p, "guide.history_button"))
                 .setCustomModel(19997)
                 .getBukkit();
 
@@ -203,7 +203,7 @@ public class Constants {
          */
         public static final Function<Player, ItemStack> LANGUAGE_BUTTON = p -> new CustomItemStack(
                 Material.BOOK,
-                IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, "guide.language_button"))
+                IRDock.getPlugin().getLanguageManager().getMsgComponent(p, "guide.language_button"))
                 .setCustomModel(19998)
                 .getBukkit();
 
@@ -212,7 +212,7 @@ public class Constants {
          */
         public static final BiFunction<Player, IRGuideImplementation, ItemStack> GUIDE_MODE_SWITCH_BUTTON = (p, impl) -> new CustomItemStack(
                 Material.COMPASS,
-                IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(p, impl.getGuideMode() == GuideMode.SURVIVAL ? "guide.guide_mode_survival_button" : "guide.guide_mode_cheat_button"))
+                IRDock.getPlugin().getLanguageManager().getMsgComponent(p, impl.getGuideMode() == GuideMode.SURVIVAL ? "guide.guide_mode_survival_button" : "guide.guide_mode_cheat_button"))
                 .setCustomModel(19993)
                 .getBukkit();
     }
@@ -264,24 +264,24 @@ public class Constants {
         /**
          * The folder for storing IndustrialRevival-related data.
          */
-        public static final File STORAGE_FOLDER = new File(IndustrialRevival.getInstance().getDataFolder().getParentFile().getParentFile(), "irstorage");
+        public static final File STORAGE_FOLDER = new File(IRDock.getPlugin().getDataFolder().getParentFile().getParentFile(), "irstorage");
 
         /**
          * The folder for storing error reports.
          */
-        public static final File ERROR_REPORTS_FOLDER = new File(IndustrialRevival.getInstance().getDataFolder(), "error-reports");
+        public static final File ERROR_REPORTS_FOLDER = new File(IRDock.getPlugin().getDataFolder(), "error-reports");
 
         /**
          * The folder for storing language files.
          */
-        public static final File LANGUAGES_FOLDER = new File(IndustrialRevival.getInstance().getDataFolder(), "languages");
+        public static final File LANGUAGES_FOLDER = new File(IRDock.getPlugin().getDataFolder(), "languages");
         //</editor-fold>
 
         //<editor-fold desc="Files">
         /**
          * The file for storing item settings.
          */
-        public static final File ITEM_SETTINGS_FILE = new File(IndustrialRevival.getInstance().getDataFolder(), "items-settings.yml");
+        public static final File ITEM_SETTINGS_FILE = new File(IRDock.getPlugin().getDataFolder(), "items-settings.yml");
 
         /**
          * The file for storing all the block / player data for SQLite

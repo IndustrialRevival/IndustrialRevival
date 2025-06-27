@@ -192,7 +192,7 @@ public class TextUtil {
     public static String colorPseudorandomString(@Nonnull String string) {
         List<Color> colorList = new ArrayList<>();
         double r = 1;
-        Random random = new Random(string.hashCode() / 2 + IndustrialRevival.getInstance().getServer().getName().hashCode() / 2);
+        Random random = new Random(string.hashCode() / 2 + IRDock.getPlugin().getServer().getName().hashCode() / 2);
         while (1 / r >= random.nextDouble() && r * r <= string.length()) {
             int red = (int) ((random.nextDouble() * 8 + 8) * 15 + random.nextDouble() * 12 + 4);
             int green = (int) ((random.nextDouble() * 8 + 8) * 15 + random.nextDouble() * 12 + 4);

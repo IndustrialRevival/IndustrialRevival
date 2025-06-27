@@ -99,7 +99,7 @@ public interface ChemReactable extends ItemAttribute, Keyed, ComplexDataContaine
      * Registers the item as a reactable.
      */
     default void registerReactable() {
-        IndustrialRevival.getInstance().getRegistry().registerChemicalReactable(this);
+        IRDock.getPlugin().getRegistry().registerChemicalReactable(this);
     }
 
     /**
@@ -118,6 +118,6 @@ public interface ChemReactable extends ItemAttribute, Keyed, ComplexDataContaine
      * @param compound the chemical compound to bind to.
      */
     default void bind(@NotNull ChemicalCompound compound) {
-        IndustrialRevival.getInstance().getRegistry().bindChemicalCompound(this, compound);
+        IRDock.getPlugin().getRegistry().bindChemicalCompound(this, compound);
     }
 }

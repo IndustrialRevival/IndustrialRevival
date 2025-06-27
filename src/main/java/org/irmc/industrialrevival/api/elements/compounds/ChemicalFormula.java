@@ -167,7 +167,7 @@ public class ChemicalFormula {
     }
 
     public ChemicalFormula register() {
-        IndustrialRevival.getInstance().getRegistry().registerChemicalFormula(this);
+        IRDock.getPlugin().getRegistry().registerChemicalFormula(this);
         return this;
     }
 

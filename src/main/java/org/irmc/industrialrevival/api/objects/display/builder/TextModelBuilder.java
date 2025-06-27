@@ -148,7 +148,7 @@ public class TextModelBuilder extends AbstractModelBuilder implements Cloneable 
 
     public @NotNull TextDisplay buildAt(@NotNull Location location) {
         try {
-            return Bukkit.getScheduler().callSyncMethod(IndustrialRevival.getInstance(), () ->
+            return Bukkit.getScheduler().callSyncMethod(IRDock.getPlugin(), () ->
                     location.getWorld().spawn(location, TextDisplay.class, display -> {
                         //<editor-fold> desc="args"
                         ifPresent(this.text, () -> display.text(this.text));

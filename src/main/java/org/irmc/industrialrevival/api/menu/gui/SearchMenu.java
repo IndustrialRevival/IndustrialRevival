@@ -27,7 +27,7 @@ public class SearchMenu extends PageableMenu<IndustrialRevivalItem> {
     public static void openSearch(Player player, Consumer<SearchMenu> call) {
         player.closeInventory();
         player.sendMessage(Component.text("搜索: ", TextColor.color(0xb0f05f)));
-        ChatInput.waitForPlayer(IndustrialRevival.getInstance(), player, s -> {
+        ChatInput.waitForPlayer(IRDock.getPlugin(), player, s -> {
             call.accept(new SearchMenu(getTitle(s), s, player, PlayerProfile.getProfile(player), 1));
         });
     }

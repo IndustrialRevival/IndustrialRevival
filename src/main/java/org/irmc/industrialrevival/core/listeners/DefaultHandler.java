@@ -76,9 +76,9 @@ public class DefaultHandler implements Listener {
             return;
         }
 
-        //IndustrialRevival.getInstance().getItemTextureService().blockBreaking(event);
-        IndustrialRevival.getInstance().getBlockDataService().handleBlockBreaking(event.getOriginalEvent().getBlock().getLocation());
-        IndustrialRevival.getInstance().getDataManager().handleBlockBreaking(event.getOriginalEvent().getBlock().getLocation());
+        //IRDock.getPlugin().getItemTextureService().blockBreaking(event);
+        IRDock.getPlugin().getBlockDataService().handleBlockBreaking(event.getOriginalEvent().getBlock().getLocation());
+        IRDock.getPlugin().getDataManager().handleBlockBreaking(event.getOriginalEvent().getBlock().getLocation());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -101,8 +101,8 @@ public class DefaultHandler implements Listener {
         NamespacedKey id = event.getIritem().getId();
 
         Debug.log("onIRBlockPlace - 2");
-        //IndustrialRevival.getInstance().getItemTextureService().blockPlacing(event);
-        IndustrialRevival.getInstance().getBlockDataService().handleBlockPlacing(location, id);
+        //IRDock.getPlugin().getItemTextureService().blockPlacing(event);
+        IRDock.getPlugin().getBlockDataService().handleBlockPlacing(location, id);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

@@ -18,9 +18,9 @@ import java.util.logging.Level;
  */
 @SuppressWarnings({"unused", "deprecation"})
 public class Debug {
-    private static final JavaPlugin PLUGIN = IndustrialRevival.getInstance();
+    private static final JavaPlugin PLUGIN = IRDock.getPlugin();
     private static final String DEBUG_PREFIX = "[Debug] ";
-    private static final boolean DEBUGGING = IndustrialRevival.getInstance().getConfig().getBoolean("debug", false);
+    private static final boolean DEBUGGING = IRDock.getPlugin().getConfig().getBoolean("debug", false);
 
     /**
      * Logs debug information for multiple objects.

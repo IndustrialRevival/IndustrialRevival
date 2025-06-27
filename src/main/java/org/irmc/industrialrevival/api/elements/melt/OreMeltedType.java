@@ -31,8 +31,8 @@ public class OreMeltedType extends MeltedType {
     protected OreMeltedType(@NotNull ElementType elementType) {
         this.elementType = elementType;
         this.identifier = KeyUtil.customKey("ore_melted_type_" + elementType.name().toLowerCase());
-        this.name = IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(null, "ore_melted_type_name." + elementType.name().toLowerCase());
-        this.meltedName = IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(null, "ore_melted_type_melted_name." + elementType.name().toLowerCase());
+        this.name = IRDock.getPlugin().getLanguageManager().getMsgComponent(null, "ore_melted_type_name." + elementType.name().toLowerCase());
+        this.meltedName = IRDock.getPlugin().getLanguageManager().getMsgComponent(null, "ore_melted_type_melted_name." + elementType.name().toLowerCase());
     }
 
     /**

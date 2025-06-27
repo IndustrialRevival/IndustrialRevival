@@ -432,6 +432,6 @@ public class MeltedTank implements Cloneable, Colorful {
             increment += higher;
         }
         setDirty(false);
-        return new DisplayGroup(IndustrialRevival.getInstance()).addDirectly(displays);
+        return new DisplayGroup(IRDock.getPlugin()).addDirectly(displays);
     }
 }

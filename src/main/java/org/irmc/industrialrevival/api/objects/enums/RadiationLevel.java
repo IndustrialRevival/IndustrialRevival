@@ -22,6 +22,6 @@ public enum RadiationLevel {
     }
 
     public Component getTranslation() {
-        return IndustrialRevival.getInstance().getLanguageManager().getMsgComponent(null, translationKey);
+        return IRDock.getPlugin().getLanguageManager().getMsgComponent(null, translationKey);
     }
 }

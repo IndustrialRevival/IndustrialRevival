@@ -64,7 +64,7 @@ public class PlayerProfile {
 
     @Nullable
     public static PlayerProfile getProfile(String playerName) {
-        return IndustrialRevival.getInstance().getRegistry().getPlayerProfiles().get(playerName);
+        return IRDock.getPlugin().getRegistry().getPlayerProfiles().get(playerName);
     }
 
     /*
@@ -79,14 +79,14 @@ public class PlayerProfile {
         }
 
         if (player.getExpToLevel() < research.getRequiredExpLevel()) {
-            IndustrialRevival.getInstance().getLanguageManager().sendMessage(player, "research.not_enough_exp");
+            IRDock.getPlugin().getLanguageManager().sendMessage(player, "research.not_enough_exp");
             return;
         }
 
         player.giveExpLevels(-research.getRequiredExpLevel());
         researchStatus.put(key, true);
 
-        IndustrialRevival.getInstance()
+        IRDock.getPlugin()
                 .getLanguageManager()
                 .sendMessage(player, "research.success", new MessageReplacement("%name%", research.getName()));
     }
@@ -95,8 +95,8 @@ public class PlayerProfile {
     @NotNull
     @CanIgnoreReturnValue
     public static PlayerProfile getOrRequestProfile(String name) {
-        if (IndustrialRevival.getInstance().getRegistry().getPlayerProfiles().containsKey(name)) {
-            return IndustrialRevival.getInstance()
+        if (IRDock.getPlugin().getRegistry().getPlayerProfiles().containsKey(name)) {
+            return IRDock.getPlugin()
                     .getRegistry()
                     .getPlayerProfiles()
                     .get(name);
@@ -107,11 +107,11 @@ public class PlayerProfile {
         UUID playerUUID = player.getUniqueId();
 
         GuideSettings guideSettings = GuideSettings.DEFAULT_SETTINGS;
-        //IndustrialRevival.getInstance().getDataManager().getGuideSettings(name);
+        //IRDock.getPlugin().getDataManager().getGuideSettings(name);
 
         Map<NamespacedKey, Boolean> researchStatus = new HashMap<>();
         ConfigurationSection researchStatusYml = new YamlConfiguration();
-        //IndustrialRevival.getInstance().getDataManager().getResearchStatus(name);
+        //IRDock.getPlugin().getDataManager().getResearchStatus(name);
 
         researchStatusYml.getKeys(false).forEach(entry -> {
             NamespacedKey key = NamespacedKey.fromString(entry);
@@ -120,7 +120,7 @@ public class PlayerProfile {
         });
 
         PlayerProfile profile = new PlayerProfile(name, playerUUID, guideSettings, researchStatus);
-        IndustrialRevival.getInstance().getRegistry().getPlayerProfiles().put(name, profile);
+        IRDock.getPlugin().getRegistry().getPlayerProfiles().put(name, profile);
 
         return profile;
     }

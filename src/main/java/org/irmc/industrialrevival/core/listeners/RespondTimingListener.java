@@ -8,6 +8,6 @@ import org.irmc.industrialrevival.implementation.IndustrialRevival;
 public class RespondTimingListener implements Listener {
     @EventHandler
     public void onTickDone(TickDoneEvent event) {
-        IndustrialRevival.getInstance().getProfilerService().respondToTimingView(IndustrialRevival.getInstance().getProfilerService().pullTimingViewRequest());
+        IRDock.getPlugin().getProfilerService().respondToTimingView(IRDock.getPlugin().getProfilerService().pullTimingViewRequest());
     }
 }

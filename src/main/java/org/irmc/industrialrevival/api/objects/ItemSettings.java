@@ -30,7 +30,7 @@ public class ItemSettings {
 
     public void disableItem(NamespacedKey id) {
         List<String> disabledItems = itemCfg.getStringList("disabled_items");
-        IndustrialRevival.getInstance().getRegistry().getItems().get(id.toString()).setDisabled(true, true);
+        IRDock.getPlugin().getRegistry().getItems().get(id.toString()).setDisabled(true, true);
         disabledItems.add(id.toString());
         itemCfg.set("disabled_items", disabledItems);
     }

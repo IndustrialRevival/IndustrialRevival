@@ -37,12 +37,12 @@ public class Smeltery implements Cloneable {
 
     public Smeltery() {
         this.tank = new MeltedTank();
-        this.recipes = IndustrialRevival.getInstance().getRegistry().getMeltMethods().stream().toList();
+        this.recipes = IRDock.getPlugin().getRegistry().getMeltMethods().stream().toList();
     }
 
     public Smeltery(MeltedTank tank) {
         this.tank = tank;
-        this.recipes = IndustrialRevival.getInstance().getRegistry().getMeltMethods().stream().toList();
+        this.recipes = IRDock.getPlugin().getRegistry().getMeltMethods().stream().toList();
     }
 
     public Smeltery(MeltedTank tank, List<MeltMethod> recipes) {

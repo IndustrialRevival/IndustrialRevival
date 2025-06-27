@@ -228,7 +228,7 @@ public abstract class ItemGroup implements Displayable<ItemGroup> {
             this.items.add(item);
         } else {
             // not allowed item
-            IndustrialRevival.getInstance().getLogger().warning(MessageFormat.format(
+            IRDock.getPlugin().getLogger().warning(MessageFormat.format(
                     "Item {0} (From addon {1}) is not allowed to be added to group {2} (From addon {3})",
                     item.getItemName(),
                     item.getAddon().getPlugin().getName(),
@@ -249,7 +249,7 @@ public abstract class ItemGroup implements Displayable<ItemGroup> {
 
         locked = true;
 
-        IndustrialRevival.getInstance().getRegistry().registerItemGroup(this);
+        IRDock.getPlugin().getRegistry().registerItemGroup(this);
 
         resort();
     }
@@ -260,7 +260,7 @@ public abstract class ItemGroup implements Displayable<ItemGroup> {
      * @return true if the item group is registered, false otherwise
      */
     public final boolean isRegistered() {
-        return IndustrialRevival.getInstance().getRegistry().getItemGroups().containsKey(key);
+        return IRDock.getPlugin().getRegistry().getItemGroups().containsKey(key);
     }
 
     /**
@@ -288,7 +288,7 @@ public abstract class ItemGroup implements Displayable<ItemGroup> {
      * Resorts the item groups. An internal method
      */
     void resort() {
-        IndustrialRevival.getInstance().getRegistry().resortItemGroups();
+        IRDock.getPlugin().getRegistry().resortItemGroups();
     }
 
     /**

@@ -22,8 +22,8 @@ import org.irmc.industrialrevival.utils.KeyUtil;
 public class ItemTranslator {
     public static final NamespacedKey TRANSLATE_KEY = KeyUtil.customKey("ir_translate_key");
     public static void setup() {
-        IndustrialRevival.getInstance().getProtocolManager().addPacketListener(new PacketAdapter(
-                IndustrialRevival.getInstance(),
+        IRDock.getPlugin().getProtocolManager().addPacketListener(new PacketAdapter(
+                IRDock.getPlugin(),
                 ListenerPriority.NORMAL,
                 PacketType.Play.Server.WINDOW_ITEMS
         ) {
@@ -66,8 +66,8 @@ public class ItemTranslator {
         final ItemStack clone = itemStack.clone();
         final String translate_key = DataUtil.getPDC(clone.getItemMeta(), TRANSLATE_KEY, PersistentDataType.STRING);
         final ItemMeta meta = clone.getItemMeta();
-        meta.displayName(IndustrialRevival.getInstance().getLanguageManager().getItemName(translate_key));
-        meta.lore(IndustrialRevival.getInstance().getLanguageManager().getItemLore(translate_key));
+        meta.displayName(IRDock.getPlugin().getLanguageManager().getItemName(translate_key));
+        meta.lore(IRDock.getPlugin().getLanguageManager().getItemLore(translate_key));
         clone.setItemMeta(meta);
         return clone;
     }

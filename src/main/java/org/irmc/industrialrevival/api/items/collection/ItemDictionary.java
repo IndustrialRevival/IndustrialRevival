@@ -28,7 +28,7 @@ public abstract class ItemDictionary implements Keyed {
      * @param key the key of the dictionary
      */
     public ItemDictionary(@NotNull NamespacedKey key) {
-        IndustrialRevival.getInstance().getRegistry().registerDictionary(this);
+        IRDock.getPlugin().getRegistry().registerDictionary(this);
 
         this.key = key;
     }

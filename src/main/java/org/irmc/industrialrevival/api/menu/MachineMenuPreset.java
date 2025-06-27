@@ -59,13 +59,13 @@ public class MachineMenuPreset extends SimpleMenu {
     }
 
     public void register() {
-        if (IndustrialRevival.getInstance().getRegistry().getMenuPresets().containsKey(this.id)) {
+        if (IRDock.getPlugin().getRegistry().getMenuPresets().containsKey(this.id)) {
             throw new IllegalStateException("Already registered menu preset with id " + this.id);
         }
 
         this.locked = true;
 
-        IndustrialRevival.getInstance().getRegistry().getMenuPresets().put(this.id, this);
+        IRDock.getPlugin().getRegistry().getMenuPresets().put(this.id, this);
     }
 
     public void setItem(@Range(from = 0, to = 53) int slot, @Nullable ItemStack itemStack) {

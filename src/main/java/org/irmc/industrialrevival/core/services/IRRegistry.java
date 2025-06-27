@@ -25,7 +25,6 @@ import org.irmc.industrialrevival.api.menu.MachineMenuPreset;
 import org.irmc.industrialrevival.api.multiblock.MultiBlock;
 import org.irmc.industrialrevival.api.objects.display.DisplayGroup;
 import org.irmc.industrialrevival.api.objects.exceptions.FormulaConflictException;
-import org.irmc.industrialrevival.api.objects.exceptions.IdConflictException;
 import org.irmc.industrialrevival.api.player.PlayerProfile;
 import org.irmc.industrialrevival.api.recipes.RecipeType;
 import org.irmc.industrialrevival.api.recipes.methods.BlockDropMethod;
@@ -85,10 +84,6 @@ public final class IRRegistry {
         produceMethods = new HashSet<>();
         tinkerMap = new HashMap<>();
         chemicalFormulas = new HashMap<>();
-    }
-
-    public static IRRegistry getInstance() {
-        return IndustrialRevival.getInstance().getRegistry();
     }
 
     public void registerMultiBlock(MultiBlock multiBlock) {
@@ -171,7 +166,7 @@ public final class IRRegistry {
     public void registerBlockDrop(@NotNull BlockDropItem blockDropItem) {
         Preconditions.checkArgument(blockDropItem != null, "Item cannot be null");
 
-        BlockDropMethod[] methods = blockDropItem.getDropMethods();
+        Set<BlockDropMethod> methods = blockDropItem.getDropMethods();
         for (BlockDropMethod method : methods) {
             List<BlockDropMethod> methodDrops = blockDrops.getOrDefault(method.getBlockType(), new ArrayList<>());
             methodDrops.add(method);
@@ -248,7 +243,7 @@ public final class IRRegistry {
         if (!(blockDropItem instanceof BlockDropItem bdi)) {
             throw new IllegalArgumentException("Item must implement BlockDropItem interface");
         }
-        BlockDropMethod[] methods = bdi.getDropMethods();
+        Set<BlockDropMethod> methods = bdi.getDropMethods();
         for (BlockDropMethod method : methods) {
             List<BlockDropMethod> methodDrops = blockDrops.get(method.getBlockType());
             if (methodDrops == null) {

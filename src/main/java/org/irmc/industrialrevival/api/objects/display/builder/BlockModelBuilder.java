@@ -134,7 +134,7 @@ public class BlockModelBuilder extends AbstractModelBuilder implements Cloneable
 
     public @NotNull BlockDisplay buildAt(@NotNull Location location) {
         try {
-            return Bukkit.getScheduler().callSyncMethod(IndustrialRevival.getInstance(), () ->
+            return Bukkit.getScheduler().callSyncMethod(IRDock.getPlugin(), () ->
                     location.getWorld().spawn(location, BlockDisplay.class, display -> {
                         ifPresent(this.blockData, () -> display.setBlock(this.blockData));
                         ifPresent(this.interpolationDuration, () -> display.setInterpolationDuration(this.interpolationDuration));

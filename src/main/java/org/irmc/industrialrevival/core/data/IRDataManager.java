@@ -11,6 +11,7 @@ import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.irmc.industrialrevival.dock.IRDock;
 import org.irmc.industrialrevival.implementation.IndustrialRevival;
 import org.irmc.industrialrevival.utils.Constants;
 import org.jetbrains.annotations.NotNull;
@@ -21,9 +22,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+//todo: move to implementation
 public class IRDataManager {
     private final DatabaseConnection connection;
-    private final Logger LOGGER = IndustrialRevival.getInstance().getLogger();
+    private final Logger LOGGER = IRDock.getPlugin().getLogger();
 
     public IRDataManager(IndustrialRevival plugin) {
         ConfigurationSection section = plugin.getConfig().getConfigurationSection("storage");
@@ -70,7 +72,7 @@ public class IRDataManager {
                     =========================
                     """, e);
 
-            Bukkit.getPluginManager().disablePlugin(IndustrialRevival.getInstance());
+            Bukkit.getPluginManager().disablePlugin(IRDock.getPlugin());
         }
     }
 

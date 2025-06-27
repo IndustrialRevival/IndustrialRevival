@@ -57,7 +57,7 @@ public class IRBlockData {
         return new IRBlockData(
                 record.getMachineId(),
                 loc,
-                IndustrialRevival.getInstance().getDataManager().getBlockData(loc),
+                IRDock.getPlugin().getDataManager().getBlockData(loc),
                 new MachineMenu(loc, IRRegistry.getInstance().getMenuPresets().get(record.getMachineId()))
         );
     }

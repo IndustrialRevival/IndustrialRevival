@@ -5,6 +5,7 @@ import org.irmc.industrialrevival.api.items.attributes.BlockDropItem;
 import org.irmc.industrialrevival.api.recipes.methods.BlockDropMethod;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,8 +14,8 @@ public class DropFromBlockItem extends IndustrialRevivalItem implements BlockDro
     private final Set<BlockDropMethod> blockDropMethods = new HashSet<>();
 
     @Override
-    public BlockDropMethod[] getDropMethods() {
-        return blockDropMethods.toArray(new BlockDropMethod[0]);
+    public Set<BlockDropMethod> getDropMethods() {
+        return Collections.unmodifiableSet(blockDropMethods);
     }
 
     public DropFromBlockItem addDropMethod(@NotNull BlockDropMethod blockDropMethod) {

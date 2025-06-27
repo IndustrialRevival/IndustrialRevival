@@ -131,7 +131,7 @@ public class ItemModelBuilder extends AbstractModelBuilder implements Cloneable 
 
     public @NotNull ItemDisplay buildAt(@NotNull Location location) {
         try {
-            return Bukkit.getScheduler().callSyncMethod(IndustrialRevival.getInstance(), () ->
+            return Bukkit.getScheduler().callSyncMethod(IRDock.getPlugin(), () ->
                     location.getWorld().spawn(location, ItemDisplay.class, display -> {
                         //<editor-fold> desc="args"
                         ifPresent(this.itemStack, () -> display.setItemStack(this.itemStack));

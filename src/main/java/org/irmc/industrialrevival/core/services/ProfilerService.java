@@ -36,7 +36,7 @@ public class ProfilerService {
     public final Map<ProfiledBlock, Long> profilingData = new ConcurrentHashMap<>();
     public final Map<Location, Long> startTimes = new ConcurrentHashMap<>();
     @Getter
-    private final TickerTask task = new TickerTask(IndustrialRevival.getInstance().getConfig().getInt("options.armor-check-interval", 20));
+    private final TickerTask task = new TickerTask(IRDock.getPlugin().getConfig().getInt("options.armor-check-interval", 20));
     @Getter
     public PerformanceSummary summary = new PerformanceSummary(getProfilingData(), new HashMap<>(), new HashMap<>(), new HashMap<>(), 0);
 

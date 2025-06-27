@@ -216,10 +216,10 @@ public class DisplayBuilder {
         }
 
         if (displays.isEmpty()) {
-            return new DisplayGroup(IndustrialRevival.getInstance());
+            return new DisplayGroup(IRDock.getPlugin());
         }
 
-        DisplayGroup displayGroup = new DisplayGroup(IndustrialRevival.getInstance());
+        DisplayGroup displayGroup = new DisplayGroup(IRDock.getPlugin());
         displayGroup.center(center);
         for (Pair<Display, Vector> display : displays) {
             displayGroup.add(display.getFirst(), display.getSecond());
